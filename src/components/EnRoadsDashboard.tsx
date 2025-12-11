@@ -79,7 +79,7 @@ export default function EnRoadsDashboard() {
       }
     }
     
-    graphView.renderSync(true);
+    graphView.updateData(true);
   };
 
   // Update temperature display
