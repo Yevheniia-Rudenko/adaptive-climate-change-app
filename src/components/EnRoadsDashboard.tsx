@@ -126,6 +126,19 @@ export default function EnRoadsDashboard() {
       return;
     }
 
+    // Set canvas dimensions explicitly
+    const canvas = emissionsCanvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    
+    // Set display size (CSS pixels)
+    canvas.style.width = rect.width + 'px';
+    canvas.style.height = '280px';
+    
+    // Set actual size in memory (scaled for retina)
+    canvas.width = rect.width * dpr;
+    canvas.height = 280 * dpr;
+
     const viewModel = createGraphViewModel(graphSpec);
     
     const style = {
@@ -145,10 +158,14 @@ export default function EnRoadsDashboard() {
       getDefaultLineWidth: () => 3
     };
 
-    const options = { style };
+    const options = { 
+      style,
+      responsive: true,
+      animations: true
+    };
     
     emissionsGraphViewRef.current = new GraphView(
-      emissionsCanvasRef.current,
+      canvas,
       viewModel,
       options,
       true
@@ -198,9 +215,11 @@ export default function EnRoadsDashboard() {
         const initialValue = 0.02 - (20 / 70) * 0.07;
         renewablesInputRef.current.set(initialValue);
 
-        // Initialize graph
-        initEmissionsGraph();
-        updateTemperatureDisplay();
+        // Initialize graph with a small delay to ensure DOM is ready
+        setTimeout(() => {
+          initEmissionsGraph();
+          updateTemperatureDisplay();
+        }, 100);
 
         // Set up output change handler
         modelContextRef.current.onOutputsChanged = () => {
@@ -257,7 +276,12 @@ export default function EnRoadsDashboard() {
               <button className="enroads-graph-menu">⋮</button>
             </div>
             <div className="enroads-graph-content">
-              <canvas ref={emissionsCanvasRef} className="enroads-graph-canvas"></canvas>
+              <canvas 
+                ref={emissionsCanvasRef} 
+                className="enroads-graph-canvas"
+                width={800}
+                height={280}
+              ></canvas>
               <div className="enroads-graph-legend">
                 <div className="enroads-legend-item">
                   <div className="enroads-legend-color" style={{ background: '#000' }}></div>

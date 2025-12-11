@@ -46,14 +46,13 @@
   grid-template-columns: 2fr 1fr;
   gap: 20px;
   padding: 30px;
-  max-height: 450px;
+  min-height: 450px;
 }
 
 /* Graph Section */
 .enroads-graph-section {
   background: white;
-  height: 100%;
-  overflow: hidden;
+  min-height: 400px;
 }
 
 .enroads-graph-container {
@@ -62,6 +61,7 @@
   border-radius: 8px;
   border: 1px solid #e0e0e0;
   height: 100%;
+  min-height: 400px;
   display: flex;
   flex-direction: column;
 }
@@ -97,16 +97,17 @@
 .enroads-graph-content {
   position: relative;
   flex: 1;
-  min-height: 0;
+  min-height: 280px;
   display: flex;
   flex-direction: column;
 }
 
 .enroads-graph-canvas {
   width: 100%;
-  height: 280px;
-  max-height: 280px;
+  height: 280px !important;
+  min-height: 280px;
   border-radius: 8px;
+  display: block;
 }
 
 .enroads-graph-legend {
@@ -135,14 +136,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 40px 20px;
   border-radius: 8px;
   border: 1px solid #e0e0e0;
-  height: 100%;
+  min-height: 400px;
 }
 
 .enroads-temperature-display {
   text-align: center;
+  width: 100%;
 }
 
 .enroads-temperature-value {
