@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+    <script>
+      hljs.highlightAll()
+    </script>
+
+    <style>
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        text-rendering: optimizeLegibility;
+        line-height: 1;
+        margin-top: 0;
+        color: #222;
+      }
+
+      blockquote + figcaption cite {
+        display: block;
+        font-size: inherit;
+        text-align: right;
+      }
+
+      body {
+        word-wrap: break-word;
+      }
+
+      pre code {
+        word-wrap: normal;
+      }
+
+      body {
+        -webkit-hyphens: auto;
+        -ms-hyphens: auto;
+        hyphens: auto;
+        color: #444;
+      }
+
+      h1 {
+        font-size: 2em;
+        /* 2*16 = 32 */
+      }
+
+      h2 {
+        font-size: 1.5em;
+        /* 1.5*16 = 24 */
+      }
+
+      h3 {
+        font-size: 1.17em;
+        /* 1.17*16 = 18.72 */
+      }
+
+      h4 {
+        font-size: 1em;
+        /* 1*16 = 16 */
+      }
+
+      h5 {
+        font-size: 0.83em;
+        /* 0.83*16 = 13.28 */
+      }
+
+      h6 {
+        font-size: 0.75em;
+        /* 0.75*16 = 12 */
+      }
+
+      h1 {
+        margin: 2.42424rem 0 1.454544rem;
+      }
+
+      h2 {
+        margin: 2.0202rem 0 1.21212rem;
+      }
+
+      h3 {
+        margin: 1.61616rem 0 1rem;
+      }
+
+      h4 {
+        margin: 1.21212rem 0 1;
+      }
+
+      h5 {
+        margin: 0.80808rem 0;
+      }
+
+      h6 {
+        margin: 0.70707rem 0;
+      }
+
+      p {
+        margin: 1rem auto;
+      }
+
+      hr {
+        margin-top: 30px;
+        color: #ccc;
+      }
+
+      small {
+        font-size: 65%;
+      }
+
+      input,
+      abbr,
+      acronym,
+      blockquote,
+      code,
+      kbd,
+      q,
+      samp,
+      var {
+        -webkit-hyphens: none;
+        -ms-hyphens: none;
+        hyphens: none;
+      }
+
+      pre {
+        white-space: pre;
+        background-color: #fafafa;
+        margin-bottom: 24px;
+      }
+
+      p + pre {
+        margin-top: -10px;
+      }
+
+      pre code {
+        white-space: -moz-pre-wrap;
+        white-space: pre-wrap;
+        background-color: #22272e;
+        border-radius: 8px;
+        font-size: 0.8em;
+      }
+
+      code {
+        white-space: pre;
+        font-family: SF Mono, Consolas, Dejavu Sans Mono, Menlo, monospace;
+      }
+
+      abbr {
+        -webkit-font-variant: small-caps;
+        -moz-font-variant: small-caps;
+        -ms-font-variant: small-caps;
+        font-variant: small-caps;
+        font-weight: 600;
+        text-transform: lowercase;
+        color: gray;
+      }
+
+      abbr[title]:hover {
+        cursor: help;
+      }
+
+      /* FROM http://purecss.io/layouts/side-menu/  adapted to remove pure classes*/
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial,
+          sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+        color: #444;
+      }
+
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: auto;
+      }
+
+      pre code {
+        border: none;
+        box-shadow: none;
+      }
+
+      code {
+        display: inline-block;
+        color: #777;
+      }
+
+      table {
+        border-spacing: 0;
+        margin-bottom: 1.5rem;
+      }
+
+      table th,
+      table td {
+        padding: 0.3em 0.7em;
+      }
+
+      table th {
+        background-color: #f4f4f4;
+        border-bottom: 1px solid #bbb;
+      }
+
+      table td {
+        border: 1px solid #f5f5f5;
+      }
+
+      /* This is the parent `<div>` that contains the menu and the content area. */
+
+      #layout {
+        position: relative;
+        padding-left: 0;
+      }
+
+      /* The content `<div>` is where all your content goes. */
+
+      .content {
+        margin: 20px auto;
+        padding: 0 1em;
+        max-width: 120ex;
+        line-height: 1.4em;
+      }
+
+      a,
+      a * {
+        text-decoration: none;
+        color: #2483cc;
+      }
+
+      a:visited {
+        text-decoration: none;
+        color: #2483cc;
+      }
+
+      /* Hides the menu at `48em`, but modify this based on your app's needs. */
+
+      /* @media (min-width: 48em) {
+        .header,
+        .content {
+          padding-left: 2em;
+          padding-right: 2em;
+        }
+
+        #layout {
+          padding-left: 250px;
+          left: 0;
+        }
+      } */
+
+      /* Heading anchors and permalinks */
+      h1[id],
+      h2[id],
+      h3[id],
+      h4[id],
+      h5[id],
+      h6[id] {
+        position: relative;
+      }
+      .heading-anchor-permalink {
+        /* Position the permalink to the left of the title */
+        position: absolute;
+        right: 100%;
+        /* Add some spacing as padding to not lose the hover */
+        padding-right: 0.6rem;
+        /* Make it only visible on heading hover, see below */
+        opacity: 0;
+      }
+      h1[id]:hover .heading-anchor-permalink,
+      h2[id]:hover .heading-anchor-permalink,
+      h3[id]:hover .heading-anchor-permalink,
+      h4[id]:hover .heading-anchor-permalink,
+      h5[id]:hover .heading-anchor-permalink,
+      h6[id]:hover .heading-anchor-permalink {
+        opacity: 0.5;
+      }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+  </head>
+
+  <body>
+    <div id="layout">
+      <article id="main" class="content">
+        <p><a href="../index.html">@climateinteractive/en-roads-core</a> / GraphSpec</p>
+<h1 id="interface%3A-graphspec">Interface: GraphSpec <a class="heading-anchor-permalink" href="#interface%3A-graphspec">#</a></h1>
+<p>Describes a graph that plots one or more model output variables.</p>
+<h2 id="properties">Properties <a class="heading-anchor-permalink" href="#properties">#</a></h2>
+<h3 id="id">id <a class="heading-anchor-permalink" href="#id">#</a></h3>
+<p><code>Readonly</code> <strong>id</strong>: <a href="../types/GraphId.html"><code>GraphId</code></a></p>
+<p>The graph ID.</p>
+<hr>
+<h3 id="kind">kind <a class="heading-anchor-permalink" href="#kind">#</a></h3>
+<p><code>Readonly</code> <strong>kind</strong>: <a href="../types/GraphKind.html"><code>GraphKind</code></a></p>
+<p>The graph kind.</p>
+<hr>
+<h3 id="titlekey">titleKey <a class="heading-anchor-permalink" href="#titlekey">#</a></h3>
+<p><code>Readonly</code> <strong>titleKey</strong>: <a href="../types/StringKey.html"><code>StringKey</code></a></p>
+<p>The key for the graph title string.</p>
+<hr>
+<h3 id="minititlekey">miniTitleKey <a class="heading-anchor-permalink" href="#minititlekey">#</a></h3>
+<p><code>Optional</code> <code>Readonly</code> <strong>miniTitleKey</strong>: <a href="../types/StringKey.html"><code>StringKey</code></a></p>
+<p>The key for the graph title as it appears in the miniature graph view (if undefined, use <code>titleKey</code>).</p>
+<hr>
+<h3 id="menutitlekey">menuTitleKey <a class="heading-anchor-permalink" href="#menutitlekey">#</a></h3>
+<p><code>Optional</code> <code>Readonly</code> <strong>menuTitleKey</strong>: <a href="../types/StringKey.html"><code>StringKey</code></a></p>
+<p>The key for the graph title as it appears in the menu (if undefined, use <code>titleKey</code>).</p>
+<hr>
+<h3 id="subtitlekey">subtitleKey <a class="heading-anchor-permalink" href="#subtitlekey">#</a></h3>
+<p><code>Optional</code> <code>Readonly</code> <strong>subtitleKey</strong>: <a href="../types/StringKey.html"><code>StringKey</code></a></p>
+<p>The key for the optional graph subtitle string.</p>
+<hr>
+<h3 id="groupingkey">groupingKey <a class="heading-anchor-permalink" href="#groupingkey">#</a></h3>
+<p><code>Optional</code> <code>Readonly</code> <strong>groupingKey</strong>: <a href="../types/StringKey.html"><code>StringKey</code></a></p>
+<p>The key for the parent grouping in the menu.</p>
+<hr>
+<h3 id="descriptionkey">descriptionKey <a class="heading-anchor-permalink" href="#descriptionkey">#</a></h3>
+<p><code>Optional</code> <code>Readonly</code> <strong>descriptionKey</strong>: <a href="../types/StringKey.html"><code>StringKey</code></a></p>
+<p>The key for the graph description string.</p>
+<hr>
+<h3 id="simulationmodes">simulationModes <a class="heading-anchor-permalink" href="#simulationmodes">#</a></h3>
+<p><code>Optional</code> <code>Readonly</code> <strong>simulationModes</strong>: readonly <a href="../types/SimulationModeId.html"><code>SimulationModeId</code></a>[]</p>
+<p>The set of simulation modes in which this graph appears.</p>
+<hr>
+<h3 id="side">side <a class="heading-anchor-permalink" href="#side">#</a></h3>
+<p><code>Optional</code> <code>Readonly</code> <strong>side</strong>: <a href="../types/GraphSide.html"><code>GraphSide</code></a></p>
+<p>Whether the graph is shown on the left or right side of the main interface.</p>
+<hr>
+<h3 id="unitsystem">unitSystem <a class="heading-anchor-permalink" href="#unitsystem">#</a></h3>
+<p><code>Optional</code> <code>Readonly</code> <strong>unitSystem</strong>: <a href="../types/UnitSystem.html"><code>UnitSystem</code></a></p>
+<p>The unit system for this graph (if undefined, assume metric or international units).</p>
+<hr>
+<h3 id="alternates">alternates <a class="heading-anchor-permalink" href="#alternates">#</a></h3>
+<p><code>Optional</code> <code>Readonly</code> <strong>alternates</strong>: readonly <a href="GraphAlternateSpec.html"><code>GraphAlternateSpec</code></a>[]</p>
+<p>Alternate versions of this graph (e.g. in a different unit system).</p>
+<hr>
+<h3 id="xmin">xMin <a class="heading-anchor-permalink" href="#xmin">#</a></h3>
+<p><code>Optional</code> <code>Readonly</code> <strong>xMin</strong>: <code>number</code></p>
+<p>The minimum x-axis value.</p>
+<hr>
+<h3 id="xmax">xMax <a class="heading-anchor-permalink" href="#xmax">#</a></h3>
+<p><code>Optional</code> <code>Readonly</code> <strong>xMax</strong>: <code>number</code></p>
+<p>The maximum x-axis value.</p>
+<hr>
+<h3 id="xaxislabelkey">xAxisLabelKey <a class="heading-anchor-permalink" href="#xaxislabelkey">#</a></h3>
+<p><code>Optional</code> <code>Readonly</code> <strong>xAxisLabelKey</strong>: <a href="../types/StringKey.html"><code>StringKey</code></a></p>
+<p>The key for the x-axis label string.</p>
+<hr>
+<h3 id="ymin">yMin <a class="heading-anchor-permalink" href="#ymin">#</a></h3>
+<p><code>Optional</code> <code>Readonly</code> <strong>yMin</strong>: <code>number</code></p>
+<p>The minimum y-axis value.</p>
+<hr>
+<h3 id="ymax">yMax <a class="heading-anchor-permalink" href="#ymax">#</a></h3>
+<p><code>Optional</code> <code>Readonly</code> <strong>yMax</strong>: <code>number</code></p>
+<p>The maximum y-axis value.</p>
+<hr>
+<h3 id="ysoftmin">ySoftMin <a class="heading-anchor-permalink" href="#ysoftmin">#</a></h3>
+<p><code>Optional</code> <code>Readonly</code> <strong>ySoftMin</strong>: <code>number</code></p>
+<p>The “soft” minimum y-axis value. If defined, the y-axis minimum will not rise above
+this value, but will decrease as needed if any y values are below this value.</p>
+<hr>
+<h3 id="ysoftmax">ySoftMax <a class="heading-anchor-permalink" href="#ysoftmax">#</a></h3>
+<p><code>Optional</code> <code>Readonly</code> <strong>ySoftMax</strong>: <code>number</code></p>
+<p>The “soft” maximum y-axis value. If defined, the y-axis maximum will not fall below
+this value, but will increase as needed if any y values are above this value.</p>
+<hr>
+<h3 id="yaxislabelkey">yAxisLabelKey <a class="heading-anchor-permalink" href="#yaxislabelkey">#</a></h3>
+<p><code>Optional</code> <code>Readonly</code> <strong>yAxisLabelKey</strong>: <a href="../types/StringKey.html"><code>StringKey</code></a></p>
+<p>The key for the y-axis label string.</p>
+<hr>
+<h3 id="yformat">yFormat <a class="heading-anchor-permalink" href="#yformat">#</a></h3>
+<p><code>Optional</code> <code>Readonly</code> <strong>yFormat</strong>: <a href="../types/FormatString.html"><code>FormatString</code></a></p>
+<p>The string used to format y-axis values.</p>
+<hr>
+<h3 id="datasets">datasets <a class="heading-anchor-permalink" href="#datasets">#</a></h3>
+<p><code>Readonly</code> <strong>datasets</strong>: readonly <a href="GraphDatasetSpec.html"><code>GraphDatasetSpec</code></a>[]</p>
+<p>The datasets to plot in this graph.</p>
+<hr>
+<h3 id="legenditems">legendItems <a class="heading-anchor-permalink" href="#legenditems">#</a></h3>
+<p><code>Readonly</code> <strong>legendItems</strong>: readonly <a href="GraphLegendItemSpec.html"><code>GraphLegendItemSpec</code></a>[]</p>
+<p>The items to display in the legend for this graph.</p>
+<hr>
+<h3 id="datatable">dataTable <a class="heading-anchor-permalink" href="#datatable">#</a></h3>
+<p><code>Optional</code> <code>Readonly</code> <strong>dataTable</strong>: <a href="DataTableSpec.html"><code>DataTableSpec</code></a></p>
+<p>The spec for the data table that should be shown in place of the graph.</p>
+
+      </article>
+    </div>
+  </body>
+</html>

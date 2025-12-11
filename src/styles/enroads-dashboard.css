@@ -1,0 +1,293 @@
+/* En-ROADS Dashboard Styles */
+
+.enroads-container {
+  max-width: 1200px;
+  width: 100%;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.enroads-loading,
+.enroads-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  padding: 40px;
+  text-align: center;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #66b3ff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.enroads-error {
+  color: #dc2626;
+}
+
+/* Dashboard Layout */
+.enroads-dashboard {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  padding: 30px;
+  max-height: 450px;
+}
+
+/* Graph Section */
+.enroads-graph-section {
+  background: white;
+  height: 100%;
+  overflow: hidden;
+}
+
+.enroads-graph-container {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.enroads-graph-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.enroads-graph-icon {
+  font-size: 12px;
+  color: #666;
+}
+
+.enroads-graph-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  flex: 1;
+}
+
+.enroads-graph-menu {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #666;
+  cursor: pointer;
+  padding: 0 5px;
+}
+
+.enroads-graph-content {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.enroads-graph-canvas {
+  width: 100%;
+  height: 280px;
+  max-height: 280px;
+  border-radius: 8px;
+}
+
+.enroads-graph-legend {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  font-size: 14px;
+}
+
+.enroads-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.enroads-legend-color {
+  width: 40px;
+  height: 3px;
+  border-radius: 2px;
+}
+
+/* Temperature Section */
+.enroads-temperature-section {
+  background: #f9f9f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  height: 100%;
+}
+
+.enroads-temperature-display {
+  text-align: center;
+}
+
+.enroads-temperature-value {
+  font-size: 64px;
+  font-weight: 700;
+  color: #66b3ff;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.enroads-temperature-value-f {
+  font-size: 20px;
+  font-weight: 600;
+  color: #66b3ff;
+  margin-bottom: 15px;
+}
+
+.enroads-temperature-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  line-height: 1.3;
+}
+
+/* Slider Section */
+.enroads-slider-section {
+  padding: 0 30px 30px 30px;
+  max-height: 150px;
+}
+
+.enroads-slider-container {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.enroads-slider-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.enroads-slider-icon {
+  font-size: 12px;
+  color: #666;
+}
+
+.enroads-slider-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  flex: 1;
+}
+
+.enroads-slider-menu {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #666;
+  cursor: pointer;
+  padding: 0 5px;
+}
+
+.enroads-slider-controls {
+  margin-bottom: 5px;
+}
+
+.enroads-slider {
+  width: 100%;
+  height: 8px;
+  border-radius: 5px;
+  background: linear-gradient(to right, #ddd 0%, #66b3ff 100%);
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.enroads-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #333;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.enroads-slider::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #333;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.enroads-slider-status {
+  text-align: center;
+  font-size: 14px;
+  color: #555;
+  margin-top: 5px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .enroads-dashboard {
+    grid-template-columns: 1fr;
+  }
+  
+  .enroads-temperature-value {
+    font-size: 60px;
+  }
+  
+  .enroads-temperature-value-f {
+    font-size: 20px;
+  }
+  
+  .enroads-temperature-label {
+    font-size: 14px;
+  }
+  
+  .enroads-graph-canvas {
+    height: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .enroads-dashboard {
+    padding: 20px;
+    gap: 15px;
+  }
+  
+  .enroads-slider-section {
+    padding: 0 20px 20px 20px;
+  }
+  
+  .enroads-temperature-value {
+    font-size: 48px;
+  }
+  
+  .enroads-temperature-value-f {
+    font-size: 18px;
+  }
+}

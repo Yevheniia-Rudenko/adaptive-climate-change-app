@@ -1,0 +1,51 @@
+{
+  "name": "@climateinteractive/sim-ui-graph",
+  "version": "1.7.0",
+  "files": [
+    "dist/**",
+    "docs/**"
+  ],
+  "type": "module",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "dependencies": {
+    "@climateinteractive/sim-core": "file:../sim-core",
+    "chart.js": "^2.9.4",
+    "chartjs-plugin-annotation": "0.5.7",
+    "chartjs-plugin-datalabels": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/chart.js": "^2.9.34",
+    "@types/chartjs-plugin-annotation": "^0.5.2"
+  },
+  "author": "Climate Interactive",
+  "license": "SEE LICENSE IN LICENSE",
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com/climateinteractive/sim-common.git",
+    "directory": "packages/sim-ui-graph"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "scripts": {
+    "clean": "rm -rf dist docs",
+    "lint": "eslint src --ext .ts --max-warnings 0",
+    "prettier:check": "prettier --check .",
+    "prettier:fix": "prettier --write .",
+    "precommit": "../../scripts/precommit",
+    "type-check": "tsc --noEmit",
+    "test": "echo No tests yet",
+    "test:ci": "echo No tests yet",
+    "build": "tsup",
+    "watch": "tsup --watch",
+    "docs": "../../scripts/gen-docs.mjs",
+    "ci:build": "run-s clean lint prettier:check type-check test:ci build docs"
+  }
+}

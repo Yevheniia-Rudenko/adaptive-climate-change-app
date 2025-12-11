@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+    <script>
+      hljs.highlightAll()
+    </script>
+
+    <style>
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        text-rendering: optimizeLegibility;
+        line-height: 1;
+        margin-top: 0;
+        color: #222;
+      }
+
+      blockquote + figcaption cite {
+        display: block;
+        font-size: inherit;
+        text-align: right;
+      }
+
+      body {
+        word-wrap: break-word;
+      }
+
+      pre code {
+        word-wrap: normal;
+      }
+
+      body {
+        -webkit-hyphens: auto;
+        -ms-hyphens: auto;
+        hyphens: auto;
+        color: #444;
+      }
+
+      h1 {
+        font-size: 2em;
+        /* 2*16 = 32 */
+      }
+
+      h2 {
+        font-size: 1.5em;
+        /* 1.5*16 = 24 */
+      }
+
+      h3 {
+        font-size: 1.17em;
+        /* 1.17*16 = 18.72 */
+      }
+
+      h4 {
+        font-size: 1em;
+        /* 1*16 = 16 */
+      }
+
+      h5 {
+        font-size: 0.83em;
+        /* 0.83*16 = 13.28 */
+      }
+
+      h6 {
+        font-size: 0.75em;
+        /* 0.75*16 = 12 */
+      }
+
+      h1 {
+        margin: 2.42424rem 0 1.454544rem;
+      }
+
+      h2 {
+        margin: 2.0202rem 0 1.21212rem;
+      }
+
+      h3 {
+        margin: 1.61616rem 0 1rem;
+      }
+
+      h4 {
+        margin: 1.21212rem 0 1;
+      }
+
+      h5 {
+        margin: 0.80808rem 0;
+      }
+
+      h6 {
+        margin: 0.70707rem 0;
+      }
+
+      p {
+        margin: 1rem auto;
+      }
+
+      hr {
+        margin-top: 30px;
+        color: #ccc;
+      }
+
+      small {
+        font-size: 65%;
+      }
+
+      input,
+      abbr,
+      acronym,
+      blockquote,
+      code,
+      kbd,
+      q,
+      samp,
+      var {
+        -webkit-hyphens: none;
+        -ms-hyphens: none;
+        hyphens: none;
+      }
+
+      pre {
+        white-space: pre;
+        background-color: #fafafa;
+        margin-bottom: 24px;
+      }
+
+      p + pre {
+        margin-top: -10px;
+      }
+
+      pre code {
+        white-space: -moz-pre-wrap;
+        white-space: pre-wrap;
+        background-color: #22272e;
+        border-radius: 8px;
+        font-size: 0.8em;
+      }
+
+      code {
+        white-space: pre;
+        font-family: SF Mono, Consolas, Dejavu Sans Mono, Menlo, monospace;
+      }
+
+      abbr {
+        -webkit-font-variant: small-caps;
+        -moz-font-variant: small-caps;
+        -ms-font-variant: small-caps;
+        font-variant: small-caps;
+        font-weight: 600;
+        text-transform: lowercase;
+        color: gray;
+      }
+
+      abbr[title]:hover {
+        cursor: help;
+      }
+
+      /* FROM http://purecss.io/layouts/side-menu/  adapted to remove pure classes*/
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial,
+          sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+        color: #444;
+      }
+
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: auto;
+      }
+
+      pre code {
+        border: none;
+        box-shadow: none;
+      }
+
+      code {
+        display: inline-block;
+        color: #777;
+      }
+
+      table {
+        border-spacing: 0;
+        margin-bottom: 1.5rem;
+      }
+
+      table th,
+      table td {
+        padding: 0.3em 0.7em;
+      }
+
+      table th {
+        background-color: #f4f4f4;
+        border-bottom: 1px solid #bbb;
+      }
+
+      table td {
+        border: 1px solid #f5f5f5;
+      }
+
+      /* This is the parent `<div>` that contains the menu and the content area. */
+
+      #layout {
+        position: relative;
+        padding-left: 0;
+      }
+
+      /* The content `<div>` is where all your content goes. */
+
+      .content {
+        margin: 20px auto;
+        padding: 0 1em;
+        max-width: 120ex;
+        line-height: 1.4em;
+      }
+
+      a,
+      a * {
+        text-decoration: none;
+        color: #2483cc;
+      }
+
+      a:visited {
+        text-decoration: none;
+        color: #2483cc;
+      }
+
+      /* Hides the menu at `48em`, but modify this based on your app's needs. */
+
+      /* @media (min-width: 48em) {
+        .header,
+        .content {
+          padding-left: 2em;
+          padding-right: 2em;
+        }
+
+        #layout {
+          padding-left: 250px;
+          left: 0;
+        }
+      } */
+
+      /* Heading anchors and permalinks */
+      h1[id],
+      h2[id],
+      h3[id],
+      h4[id],
+      h5[id],
+      h6[id] {
+        position: relative;
+      }
+      .heading-anchor-permalink {
+        /* Position the permalink to the left of the title */
+        position: absolute;
+        right: 100%;
+        /* Add some spacing as padding to not lose the hover */
+        padding-right: 0.6rem;
+        /* Make it only visible on heading hover, see below */
+        opacity: 0;
+      }
+      h1[id]:hover .heading-anchor-permalink,
+      h2[id]:hover .heading-anchor-permalink,
+      h3[id]:hover .heading-anchor-permalink,
+      h4[id]:hover .heading-anchor-permalink,
+      h5[id]:hover .heading-anchor-permalink,
+      h6[id]:hover .heading-anchor-permalink {
+        opacity: 0.5;
+      }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+  </head>
+
+  <body>
+    <div id="layout">
+      <article id="main" class="content">
+        <h1 id="%40climateinteractive%2Fen-roads-core">@climateinteractive/en-roads-core <a class="heading-anchor-permalink" href="#%40climateinteractive%2Fen-roads-core">#</a></h1>
+<p>This package is the primary entry point to the En-ROADS SDK for most users.
+It includes two main classes:</p>
+<ul>
+<li>the <a href="classes/Model.html">Model</a> class, which simplifies the process of running the model when inputs
+change and refreshing the user interface when outputs are updated</li>
+<li>the <a href="classes/Config.html">Config</a> class, which provides “specs” that describe how model inputs
+and outputs can be displayed in a user interface</li>
+</ul>
+<p>See the <code>en-roads-sample-web</code> and <code>en-roads-sample-node</code> apps included with
+the En-ROADS SDK for detailed usage examples.</p>
+<hr>
+<h2 id="en-roads-model-api">En-ROADS Model API <a class="heading-anchor-permalink" href="#en-roads-model-api">#</a></h2>
+<h3 id="high-level-model">High-level Model <a class="heading-anchor-permalink" href="#high-level-model">#</a></h3>
+<ul>
+<li>Functions:
+<ul>
+<li><a href="functions/createAsyncModel.html">createAsyncModel</a>: Use this to create a <a href="classes/Model.html">Model</a> that schedules and runs the Wasm model asynchronously on a worker thread.</li>
+</ul>
+</li>
+<li>Types:
+<ul>
+<li><a href="classes/Model.html">Model</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="model-inputs">Model inputs <a class="heading-anchor-permalink" href="#model-inputs">#</a></h3>
+<ul>
+<li>Functions:
+<ul>
+<li><a href="functions/createModelInput.html">createModelInput</a>: Use the <a href="types/InputSpec.html">InputSpec</a> objects provided by the <a href="classes/Config.html">Config</a> to create <a href="types/Input.html">Input</a> instances that can be used with the <a href="classes/Model.html">Model</a> or <a href="interfaces/ModelRunner.html">ModelRunner</a> types.</li>
+</ul>
+</li>
+<li>Types:
+<ul>
+<li><a href="types/Input.html">Input</a>
+<ul>
+<li><a href="interfaces/SliderInput.html">SliderInput</a></li>
+<li><a href="interfaces/SwitchInput.html">SwitchInput</a></li>
+</ul>
+</li>
+<li><a href="interfaces/InputCallbacks.html">InputCallbacks</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="model-outputs">Model outputs <a class="heading-anchor-permalink" href="#model-outputs">#</a></h3>
+<ul>
+<li>Functions:
+<ul>
+<li><a href="functions/createDefaultOutputs.html">createDefaultOutputs</a>: Use this to create an <a href="classes/Outputs.html">Outputs</a> instance that is initialized to hold output data produced by a <a href="#advanced-low-level-modelrunner">ModelRunner</a> (most applications won’t need to use this).</li>
+</ul>
+</li>
+<li>Types:
+<ul>
+<li><a href="classes/Outputs.html">Outputs</a>
+<ul>
+<li><a href="classes/Series.html">Series</a></li>
+<li><a href="interfaces/Point.html">Point</a></li>
+</ul>
+</li>
+<li><a href="interfaces/SocialCostOutputs.html">SocialCostOutputs</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="advanced%3A-low-level-modelrunner">Advanced: Low-level ModelRunner <a class="heading-anchor-permalink" href="#advanced%3A-low-level-modelrunner">#</a></h3>
+<ul>
+<li>Notes:
+<ul>
+<li>The low-level <a href="interfaces/ModelRunner.html">ModelRunner</a> interface is used in the implementation of the high-level <a href="classes/Model.html">Model</a> class.
+Most applications don’t need to interact with it directly, but it is exposed as a public API for advanced use cases.</li>
+</ul>
+</li>
+<li>Functions:
+<ul>
+<li><a href="functions/createAsyncModelRunner.html">createAsyncModelRunner</a>: Use this to create a <a href="interfaces/ModelRunner.html">ModelRunner</a> that runs the Wasm model asynchronously on a worker thread.</li>
+<li><a href="functions/createAsyncModelRunner.html">createDefaultModelRunner</a>: Use this to create a <a href="interfaces/ModelRunner.html">ModelRunner</a> that runs the Wasm model synchronously on the main JavaScript thread (this is not recommended, but may be useful in advanced use cases).</li>
+</ul>
+</li>
+<li>Types:
+<ul>
+<li><a href="interfaces/ModelRunner.html">ModelRunner</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="en-roads-ui-configuration-api">En-ROADS UI Configuration API <a class="heading-anchor-permalink" href="#en-roads-ui-configuration-api">#</a></h2>
+<h3 id="core-config-entry-point">Core Config entry point <a class="heading-anchor-permalink" href="#core-config-entry-point">#</a></h3>
+<ul>
+<li>Functions:
+<ul>
+<li><a href="functions/getDefaultConfig.html">getDefaultConfig</a>: Use this to get the default <a href="classes/Config.html">Config</a> instance that provides access to all “spec” types that can be used to create a user interface around the En-ROADS model.</li>
+</ul>
+</li>
+<li>Types:
+<ul>
+<li><a href="classes/Config.html">Config</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="input-specs">Input specs <a class="heading-anchor-permalink" href="#input-specs">#</a></h3>
+<ul>
+<li>Related properties:
+<ul>
+<li><a href="classes/Config.html#inputs">Config#inputs</a>: Use the <code>inputs</code> map to access the <a href="types/InputSpec.html">InputSpec</a> instances, which correspond to the input variables that are exposed by the En-ROADS model.</li>
+</ul>
+</li>
+<li>Types:
+<ul>
+<li><a href="types/InputSpec.html">InputSpec</a>
+<ul>
+<li><a href="interfaces/SliderSpec.html">SliderSpec</a></li>
+<li><a href="interfaces/SwitchSpec.html">SwitchSpec</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="policy-input-specs">Policy input specs <a class="heading-anchor-permalink" href="#policy-input-specs">#</a></h3>
+<ul>
+<li>Related properties:
+<ul>
+<li><a href="classes/Config.html#policygroups">Config#policyGroups</a>: Use the <code>policyGroups</code> map to access the <a href="interfaces/PolicyGroupSpec.html">PolicyGroupSpec</a> instances, which describe a set of model inputs in a particular policy area.</li>
+</ul>
+</li>
+<li>Types:
+<ul>
+<li><a href="interfaces/PolicyGroupSpec.html">PolicyGroupSpec</a>: Describes a group of policy inputs as displayed in an “Advanced” view.</li>
+</ul>
+</li>
+</ul>
+<h3 id="assumption-input-specs">Assumption input specs <a class="heading-anchor-permalink" href="#assumption-input-specs">#</a></h3>
+<ul>
+<li>Related properties:
+<ul>
+<li><a href="classes/Config.html#assumptiongroups">Config#assumptionGroups</a>: Use the <code>assumptionGroups</code> map to access the <a href="interfaces/AssumptionGroupSpec.html">AssumptionGroupSpec</a> instances, which describe a set of model inputs in a particular grouping of assumptions.</li>
+</ul>
+</li>
+<li>Types:
+<ul>
+<li><a href="interfaces/AssumptionGroupSpec.html">AssumptionGroupSpec</a>: Describes a group within the Assumptions view.</li>
+</ul>
+</li>
+</ul>
+<h3 id="graph-specs">Graph specs <a class="heading-anchor-permalink" href="#graph-specs">#</a></h3>
+<ul>
+<li>Related properties:
+<ul>
+<li><a href="classes/Config.html#graphs">Config#graphs</a>: Use the <code>graphs</code> map to access the <a href="interfaces/GraphSpec.html">GraphSpec</a> instances, which correspond to the graphs that are preconfigured to display output variable data from the En-ROADS model.
+(You can also define your own custom <a href="interfaces/GraphSpec.html">GraphSpec</a> instances as long as the referenced variables are exposed by the En-ROADS model.)</li>
+</ul>
+</li>
+<li>Types:
+<ul>
+<li><a href="interfaces/GraphSpec.html">GraphSpec</a>
+<ul>
+<li><a href="interfaces/GraphDatasetSpec.html">GraphDatasetSpec</a></li>
+<li><a href="interfaces/GraphLegendItemSpec.html">GraphLegendItemSpec</a></li>
+<li><a href="interfaces/GraphAlternateSpec.html">GraphAlternateSpec</a></li>
+<li><a href="types/GraphSide.html">GraphSide</a></li>
+<li><a href="types/GraphKind.html">GraphKind</a></li>
+<li><a href="types/UnitSystem.html">UnitSystem</a></li>
+<li><a href="types/HexColor.html">HexColor</a></li>
+<li><a href="types/LineStyle.html">LineStyle</a></li>
+<li><a href="types/LineStyleModifier.html">LineStyleModifier</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="data-table-specs">Data table specs <a class="heading-anchor-permalink" href="#data-table-specs">#</a></h3>
+<ul>
+<li>Related properties:
+<ul>
+<li><a href="interfaces/GraphSpec.html#datatable">GraphSpec#dataTable</a>: There are a small number of special <code>GraphSpec</code> instances that do not describe a normal graph, but instead display a table of raw figures.
+If the <code>dataTable</code> property is defined, you can access the <a href="interfaces/DataTableSpec.html">DataTableSpec</a> that describes the data that appears in the table.</li>
+</ul>
+</li>
+<li>Types:
+<ul>
+<li><a href="interfaces/DataTableSpec.html">DataTableSpec</a>
+<ul>
+<li><a href="interfaces/DataTableRowSpec.html">DataTableRowSpec</a></li>
+<li><a href="types/DataTableValueId.html">DataTableValueId</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="outcome-specs">Outcome specs <a class="heading-anchor-permalink" href="#outcome-specs">#</a></h3>
+<ul>
+<li>Related properties:
+<ul>
+<li><a href="classes/Config.html#outcomes">Config#outcomes</a>: Use the <code>outcomes</code> array to access the <a href="interfaces/OutcomeSpec.html">OutcomeSpec</a> instances, which correspond to the outcomes that are used to display key indicators (such as those in the “Actions &amp; Outcomes” view in En-ROADS).</li>
+</ul>
+</li>
+<li>Types:
+<ul>
+<li><a href="interfaces/OutcomeSpec.html">OutcomeSpec</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="other-common-types">Other common types <a class="heading-anchor-permalink" href="#other-common-types">#</a></h3>
+<ul>
+<li>Identifier types:
+<ul>
+<li><a href="types/InputVarId.html">InputVarId</a></li>
+<li><a href="types/OutputVarId.html">OutputVarId</a></li>
+</ul>
+</li>
+<li>String types:
+<ul>
+<li><a href="types/StringKey.html">StringKey</a></li>
+<li><a href="types/FormatString.html">FormatString</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="license">License <a class="heading-anchor-permalink" href="#license">#</a></h2>
+<p>Copyright © 2020-2024 Climate Interactive / New Venture Fund</p>
+<p>Distribution of this package is subject to the Terms of Service,
+a MOU, Terms of Use, and/or other specific agreements between
+Climate Interactive/NVF and an individual or organization.
+If you do not have a fully executed agreement with
+Climate Interactive/NVF you are not allowed to use this SDK.</p>
+<p>Please contact <a href="mailto:info@climateinteractive.org">info@climateinteractive.org</a> for more information.</p>
+
+      </article>
+    </div>
+  </body>
+</html>
