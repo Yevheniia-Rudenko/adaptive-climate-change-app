@@ -1,0 +1,44 @@
+{
+  "name": "@climateinteractive/en-roads-core",
+  "version": "1.0.0",
+  "files": [
+    "dist/**",
+    "docs/**",
+    "strings/**"
+  ],
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "dependencies": {
+    "@climateinteractive/sim-core": "file:../sim-core",
+    "@sdeverywhere/runtime": "0.2.6",
+    "@sdeverywhere/runtime-async": "0.2.6"
+  },
+  "author": "Climate Interactive",
+  "license": "SEE LICENSE IN LICENSE",
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com/climateinteractive/en-roads-app.git",
+    "directory": "packages/en-roads-core"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "scripts": {
+    "clean": "rm -rf dist docs",
+    "clean-model": "cd ../../model && rm -rf cache app-prep/build",
+    "lint": "eslint src --ext .ts --max-warnings 0",
+    "prettier:check": "prettier --check .",
+    "prettier:fix": "prettier --write .",
+    "precommit": "../../scripts/precommit",
+    "test": "vitest run",
+    "test:dev": "vitest dev",
+    "test:ci": "sim-vitest-ci en_roads_core_$BUILD_VARIANT",
+    "type-check": "tsc --noEmit",
+    "build": "tsup",
+    "docs": "../../scripts/gen-docs.mjs",
+    "package": "../../scripts/pack en-roads-core",
+    "ci:build": "run-s clean lint prettier:check test:ci build docs package",
+    "ci:check": "run-s clean lint prettier:check test:ci build"
+  }
+}

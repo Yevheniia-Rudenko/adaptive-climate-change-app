@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Thermometer, TrendingUp, TrendingDown, Activity } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
+import EnRoadsDashboard from './EnRoadsDashboard';
 
 type Parameter = {
   id: string;
@@ -273,6 +274,11 @@ const moduleConfigs: {
 };
 
 export function InteractiveDashboard({ moduleId }: InteractiveDashboardProps) {
+  // Use EN-ROADS dashboard for module 1
+  if (moduleId === 1) {
+    return <EnRoadsDashboard />;
+  }
+
   const config = moduleConfigs[moduleId];
   const { t } = useLanguage();
   const [params, setParams] = useState<{ [key: string]: number }>(() => {

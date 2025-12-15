@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+    <script>
+      hljs.highlightAll()
+    </script>
+
+    <style>
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        text-rendering: optimizeLegibility;
+        line-height: 1;
+        margin-top: 0;
+        color: #222;
+      }
+
+      blockquote + figcaption cite {
+        display: block;
+        font-size: inherit;
+        text-align: right;
+      }
+
+      body {
+        word-wrap: break-word;
+      }
+
+      pre code {
+        word-wrap: normal;
+      }
+
+      body {
+        -webkit-hyphens: auto;
+        -ms-hyphens: auto;
+        hyphens: auto;
+        color: #444;
+      }
+
+      h1 {
+        font-size: 2em;
+        /* 2*16 = 32 */
+      }
+
+      h2 {
+        font-size: 1.5em;
+        /* 1.5*16 = 24 */
+      }
+
+      h3 {
+        font-size: 1.17em;
+        /* 1.17*16 = 18.72 */
+      }
+
+      h4 {
+        font-size: 1em;
+        /* 1*16 = 16 */
+      }
+
+      h5 {
+        font-size: 0.83em;
+        /* 0.83*16 = 13.28 */
+      }
+
+      h6 {
+        font-size: 0.75em;
+        /* 0.75*16 = 12 */
+      }
+
+      h1 {
+        margin: 2.42424rem 0 1.454544rem;
+      }
+
+      h2 {
+        margin: 2.0202rem 0 1.21212rem;
+      }
+
+      h3 {
+        margin: 1.61616rem 0 1rem;
+      }
+
+      h4 {
+        margin: 1.21212rem 0 1;
+      }
+
+      h5 {
+        margin: 0.80808rem 0;
+      }
+
+      h6 {
+        margin: 0.70707rem 0;
+      }
+
+      p {
+        margin: 1rem auto;
+      }
+
+      hr {
+        margin-top: 30px;
+        color: #ccc;
+      }
+
+      small {
+        font-size: 65%;
+      }
+
+      input,
+      abbr,
+      acronym,
+      blockquote,
+      code,
+      kbd,
+      q,
+      samp,
+      var {
+        -webkit-hyphens: none;
+        -ms-hyphens: none;
+        hyphens: none;
+      }
+
+      pre {
+        white-space: pre;
+        background-color: #fafafa;
+        margin-bottom: 24px;
+      }
+
+      p + pre {
+        margin-top: -10px;
+      }
+
+      pre code {
+        white-space: -moz-pre-wrap;
+        white-space: pre-wrap;
+        background-color: #22272e;
+        border-radius: 8px;
+        font-size: 0.8em;
+      }
+
+      code {
+        white-space: pre;
+        font-family: SF Mono, Consolas, Dejavu Sans Mono, Menlo, monospace;
+      }
+
+      abbr {
+        -webkit-font-variant: small-caps;
+        -moz-font-variant: small-caps;
+        -ms-font-variant: small-caps;
+        font-variant: small-caps;
+        font-weight: 600;
+        text-transform: lowercase;
+        color: gray;
+      }
+
+      abbr[title]:hover {
+        cursor: help;
+      }
+
+      /* FROM http://purecss.io/layouts/side-menu/  adapted to remove pure classes*/
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial,
+          sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+        color: #444;
+      }
+
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: auto;
+      }
+
+      pre code {
+        border: none;
+        box-shadow: none;
+      }
+
+      code {
+        display: inline-block;
+        color: #777;
+      }
+
+      table {
+        border-spacing: 0;
+        margin-bottom: 1.5rem;
+      }
+
+      table th,
+      table td {
+        padding: 0.3em 0.7em;
+      }
+
+      table th {
+        background-color: #f4f4f4;
+        border-bottom: 1px solid #bbb;
+      }
+
+      table td {
+        border: 1px solid #f5f5f5;
+      }
+
+      /* This is the parent `<div>` that contains the menu and the content area. */
+
+      #layout {
+        position: relative;
+        padding-left: 0;
+      }
+
+      /* The content `<div>` is where all your content goes. */
+
+      .content {
+        margin: 20px auto;
+        padding: 0 1em;
+        max-width: 120ex;
+        line-height: 1.4em;
+      }
+
+      a,
+      a * {
+        text-decoration: none;
+        color: #2483cc;
+      }
+
+      a:visited {
+        text-decoration: none;
+        color: #2483cc;
+      }
+
+      /* Hides the menu at `48em`, but modify this based on your app's needs. */
+
+      /* @media (min-width: 48em) {
+        .header,
+        .content {
+          padding-left: 2em;
+          padding-right: 2em;
+        }
+
+        #layout {
+          padding-left: 250px;
+          left: 0;
+        }
+      } */
+
+      /* Heading anchors and permalinks */
+      h1[id],
+      h2[id],
+      h3[id],
+      h4[id],
+      h5[id],
+      h6[id] {
+        position: relative;
+      }
+      .heading-anchor-permalink {
+        /* Position the permalink to the left of the title */
+        position: absolute;
+        right: 100%;
+        /* Add some spacing as padding to not lose the hover */
+        padding-right: 0.6rem;
+        /* Make it only visible on heading hover, see below */
+        opacity: 0;
+      }
+      h1[id]:hover .heading-anchor-permalink,
+      h2[id]:hover .heading-anchor-permalink,
+      h3[id]:hover .heading-anchor-permalink,
+      h4[id]:hover .heading-anchor-permalink,
+      h5[id]:hover .heading-anchor-permalink,
+      h6[id]:hover .heading-anchor-permalink {
+        opacity: 0.5;
+      }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+  </head>
+
+  <body>
+    <div id="layout">
+      <article id="main" class="content">
+        <p><a href="../index.html">@climateinteractive/en-roads-core</a> / ModelRunner</p>
+<h1 id="interface%3A-modelrunner">Interface: ModelRunner <a class="heading-anchor-permalink" href="#interface%3A-modelrunner">#</a></h1>
+<p>Abstraction that allows for running the wasm model on the JS thread
+or asynchronously (e.g. in a Web Worker), depending on the implementation.</p>
+<h2 id="methods">Methods <a class="heading-anchor-permalink" href="#methods">#</a></h2>
+<h3 id="createoutputs">createOutputs <a class="heading-anchor-permalink" href="#createoutputs">#</a></h3>
+<p><strong>createOutputs</strong>(): <a href="../classes/Outputs.html"><code>Outputs</code></a></p>
+<p>Create an <code>Outputs</code> instance that is sized to accommodate the output variable
+data stored by the model.</p>
+<h4 id="returns">Returns <a class="heading-anchor-permalink" href="#returns">#</a></h4>
+<p><a href="../classes/Outputs.html"><code>Outputs</code></a></p>
+<p>A new <code>Outputs</code> instance.</p>
+<hr>
+<h3 id="runmodel">runModel <a class="heading-anchor-permalink" href="#runmodel">#</a></h3>
+<p><strong>runModel</strong>(<code>inputs</code>, <code>outputs</code>, <code>options?</code>): <code>Promise</code>&lt;<a href="../classes/Outputs.html"><code>Outputs</code></a>&gt;</p>
+<p>Run the model.</p>
+<h4 id="parameters">Parameters <a class="heading-anchor-permalink" href="#parameters">#</a></h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Name</th>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>inputs</code></td>
+<td style="text-align:left"><code>number</code>[] | <code>InputValue</code>[]</td>
+<td style="text-align:left">The model input values (must be in the same order as in the spec file).</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>outputs</code></td>
+<td style="text-align:left"><a href="../classes/Outputs.html"><code>Outputs</code></a></td>
+<td style="text-align:left">The structure into which the model outputs will be stored.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>options?</code></td>
+<td style="text-align:left"><code>RunModelOptions</code></td>
+<td style="text-align:left">Additional options that influence the model run.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="returns-2">Returns <a class="heading-anchor-permalink" href="#returns-2">#</a></h4>
+<p><code>Promise</code>&lt;<a href="../classes/Outputs.html"><code>Outputs</code></a>&gt;</p>
+<p>A promise that resolves with the outputs when the model run is complete.</p>
+<hr>
+<h3 id="terminate">terminate <a class="heading-anchor-permalink" href="#terminate">#</a></h3>
+<p><strong>terminate</strong>(): <code>Promise</code>&lt;<code>void</code>&gt;</p>
+<p>Terminate the runner by releasing underlying resources (e.g., the worker thread or
+Wasm module/buffers).</p>
+<h4 id="returns-3">Returns <a class="heading-anchor-permalink" href="#returns-3">#</a></h4>
+<p><code>Promise</code>&lt;<code>void</code>&gt;</p>
+
+      </article>
+    </div>
+  </body>
+</html>
