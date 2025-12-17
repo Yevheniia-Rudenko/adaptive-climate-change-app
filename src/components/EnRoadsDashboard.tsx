@@ -141,6 +141,22 @@ export default function EnRoadsDashboard() {
 
     const viewModel = createGraphViewModel(graphSpec);
     
+    // Override dataset colors and line widths
+    const datasets = viewModel.getDatasets();
+    datasets.forEach((dataset) => {
+      if (dataset.spec.varId === '_co2_equivalent_net_emissions') {
+        // Current scenario - brighter blue with thicker line
+        if (!dataset.spec.externalSourceName) {
+          dataset.spec.color = '#66B5EF'; // RGB(102, 181, 239)
+          dataset.spec.lineWidth = 6;
+        }
+        // Baseline - keep black but make thicker
+        else if (dataset.spec.externalSourceName === 'baseline') {
+          dataset.spec.lineWidth = 6;
+        }
+      }
+    });
+    
     const style = {
       font: {
         family: 'system-ui, -apple-system, sans-serif',
@@ -155,7 +171,7 @@ export default function EnRoadsDashboard() {
       },
       getAxisLabelFontSize: () => 14,
       getTickLabelFontSize: () => 12,
-      getDefaultLineWidth: () => 3
+      getDefaultLineWidth: () => 6
     };
 
     const options = { 
@@ -284,11 +300,11 @@ export default function EnRoadsDashboard() {
               ></canvas>
               <div className="enroads-graph-legend">
                 <div className="enroads-legend-item">
-                  <div className="enroads-legend-color" style={{ background: '#000' }}></div>
+                  <div className="enroads-legend-color" style={{ background: '#000', height: '6px' }}></div>
                   <span>BASELINE</span>
                 </div>
                 <div className="enroads-legend-item">
-                  <div className="enroads-legend-color" style={{ background: '#66b3ff' }}></div>
+                  <div className="enroads-legend-color" style={{ background: '#66B5EF', height: '6px' }}></div>
                   <span>CURRENT SCENARIO</span>
                 </div>
               </div>
