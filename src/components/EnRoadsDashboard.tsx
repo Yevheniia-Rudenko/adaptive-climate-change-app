@@ -143,7 +143,7 @@ export default function EnRoadsDashboard() {
     
     // Override dataset colors and line widths
     const datasets = viewModel.getDatasets();
-    datasets.forEach((dataset) => {
+    datasets.forEach((dataset: any) => {
       if (dataset.spec.varId === '_co2_equivalent_net_emissions') {
         // Current scenario - brighter blue with thicker line
         if (!dataset.spec.externalSourceName) {
