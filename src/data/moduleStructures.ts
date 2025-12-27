@@ -2,9 +2,11 @@ export type ContentBlock =
   | { type: 'text'; title?: string; content: string }
   | { type: 'video'; title?: string; videoUrl: string; description?: string }
   | { type: 'image'; imageUrl: string; alt: string }
-  | { type: 'dashboard'; }
+  | { type: 'dashboard';}
+  | { type: 'third-exercise';}
   | { type: 'reflection'; prompt: string; id: string }
   | { type: 'meditation'; title: string; content: string };
+
 
 export type ModuleStructure = {
   id: number;
@@ -47,6 +49,14 @@ export const moduleStructures: ModuleStructure[] = [
         type: 'reflection',
         prompt: 'After exploring the interactive dashboard, what insights did you gain about how our choices shape climate futures?',
         id: 'insights'
+      },
+      {
+        type:'third-exercise'
+      },
+            {
+        type: 'reflection',
+        prompt: 'What do you notice?',
+        id: 'deforestation'
       }
     ]
   },

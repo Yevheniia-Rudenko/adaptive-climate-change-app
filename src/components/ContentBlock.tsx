@@ -3,6 +3,7 @@ import { ContentBlock as ContentBlockType } from '../data/moduleStructures';
 import { InteractiveDashboard } from './InteractiveDashboard';
 import { useLanguage } from '../contexts/LanguageContext';
 import { TextWithGlossary } from './TextWithGlossary';
+import ThirdExerciseDashboard from './ThirdExerciseDashboard';
 
 type ContentBlockProps = {
   block: ContentBlockType;
@@ -77,6 +78,9 @@ export function ContentBlock({
 
     case 'dashboard':
       return <InteractiveDashboard moduleId={moduleId} />;
+
+    case "third-exercise":
+      return <ThirdExerciseDashboard />;
 
     case 'reflection':
       const reflectionValue = reflection || '';
