@@ -20,6 +20,10 @@ export default function ThirdExerciseDashboard() {
   const deforestationSpecRef = useRef<any>(null);
   const speciesGraphViewRef = useRef<any>(null);
   const coreConfigRef = useRef<any>(null);
+  const clampLowerContextRef = useRef<any>(null);
+  const clampUpperContextRef = useRef<any>(null);
+  const clampLowerValuesRef = useRef<Record<string, number>>({});
+  const clampUpperValuesRef = useRef<Record<string, number>>({});
   const [debugSpecies, setDebugSpecies] = useState<{ name: string; raw: number; floor: number; round: number }[]>([]);
 
   const str = (key: string) => {
@@ -64,7 +68,6 @@ export default function ThirdExerciseDashboard() {
         datasetSpec.externalSourceName
       );
       const newPoints = series?.points || [];
-      datasetViewModel.points = [...newPoints];
       datasetViewModel.visible = true;
 
       let val = 0;
@@ -81,6 +84,25 @@ export default function ThirdExerciseDashboard() {
           }
         }
       } catch {}
+
+      const inputVal = deforestationInputRef.current?.get?.();
+      const key = `${datasetSpec.varId}|${datasetSpec.externalSourceName ?? ''}`;
+      if (typeof inputVal === 'number') {
+        const lowerClamp = clampLowerValuesRef.current[key];
+        const upperClamp = clampUpperValuesRef.current[key];
+        if (inputVal <= -6.8 && typeof lowerClamp === 'number') {
+          val = Math.max(val, lowerClamp);
+        }
+        if (inputVal >= -0.8 && typeof upperClamp === 'number') {
+          val = Math.min(val, upperClamp);
+        }
+      }
+
+      if (graphViewModel.spec.kind === 'h-bar') {
+        datasetViewModel.points = [{ x: 2100, y: val }];
+      } else {
+        datasetViewModel.points = [...newPoints];
+      }
 
       const labelKey = datasetSpec.labelKey || datasetSpec.label || datasetSpec.varId || '';
       const name = str(labelKey);
@@ -199,6 +221,13 @@ export default function ThirdExerciseDashboard() {
           throw new Error('Deforestation input/spec not found');
         }
 
+        clampLowerContextRef.current = modelRef.current.addContext();
+        clampUpperContextRef.current = modelRef.current.addContext();
+        const lowerInput = clampLowerContextRef.current.getInputForId('57');
+        const upperInput = clampUpperContextRef.current.getInputForId('57');
+        lowerInput.set(-6.8);
+        upperInput.set(-0.8);
+
         const defaultVal = deforestationSpecRef.current.defaultValue ?? 0;
         setSliderValue(defaultVal);
         setSliderLabel(str('input_057_label'));
@@ -206,6 +235,25 @@ export default function ThirdExerciseDashboard() {
         deforestationInputRef.current.set(defaultVal);
 
         setTimeout(() => {
+          const graphSpec = coreConfigRef.current.graphs.get('144');
+          if (graphSpec && clampLowerContextRef.current && clampUpperContextRef.current) {
+            const computeMap = (ctx: any) => {
+              const map: Record<string, number> = {};
+              for (const ds of graphSpec.datasets) {
+                const s = ctx.getSeriesForVar(ds.varId, ds.externalSourceName);
+                let v = 0;
+                try {
+                  if (s && typeof s.getValueAtTime === 'function') {
+                    v = s.getValueAtTime(2100);
+                  }
+                } catch {}
+                map[`${ds.varId}|${ds.externalSourceName ?? ''}`] = v;
+              }
+              return map;
+            };
+            clampLowerValuesRef.current = computeMap(clampLowerContextRef.current);
+            clampUpperValuesRef.current = computeMap(clampUpperContextRef.current);
+          }
           initSpeciesGraph();
           updateTemperatureDisplay();
         }, 100);
@@ -248,9 +296,9 @@ export default function ThirdExerciseDashboard() {
     );
   }
 
-  const sliderMin = deforestationSpecRef.current?.minValue ?? -0.02;
-  const sliderMax = deforestationSpecRef.current?.maxValue ?? 0.02;
-  const sliderStep = deforestationSpecRef.current?.step ?? 0.001;
+  const sliderMin = deforestationSpecRef.current?.minValue ?? -10;
+  const sliderMax = deforestationSpecRef.current?.maxValue ?? 1;
+  const sliderStep = deforestationSpecRef.current?.step ?? 0.1;
   const displayC = Math.max(3.2, Math.min(3.3, Math.round(tempC * 10) / 10));
   const displayF = Math.round(((displayC * 9) / 5) * 10) / 10;
 
