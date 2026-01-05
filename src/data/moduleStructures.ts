@@ -2,6 +2,8 @@ export type ContentBlock =
   | { type: 'text'; title?: string; content: string }
   | { type: 'video'; title?: string; videoUrl: string; description?: string }
   | { type: 'image'; imageUrl: string; alt: string }
+  | { type: 'dashboard'; }
+  | { type: '2ndExerciseDashboard'; }
   | { type: 'dashboard';}
   | { type: 'third-exercise';}
   | { type: 'reflection'; prompt: string; id: string }
@@ -51,6 +53,12 @@ export const moduleStructures: ModuleStructure[] = [
         id: 'insights'
       },
       {
+        type: '2ndExerciseDashboard'
+      },
+      {
+        type: 'reflection',
+        prompt: 'What do you notice? What do you wonder? ',
+        id: 'notice-wonder'
         type:'third-exercise'
       },
             {

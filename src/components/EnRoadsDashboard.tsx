@@ -13,10 +13,12 @@ export default function EnRoadsDashboard() {
   const [tempF, setTempF] = useState(5.7);
   
   const emissionsCanvasRef = useRef<HTMLCanvasElement>(null);
+  const temperatureCanvasRef = useRef<HTMLCanvasElement>(null);
   const modelRef = useRef<any>(null);
   const modelContextRef = useRef<any>(null);
   const renewablesInputRef = useRef<any>(null);
   const emissionsGraphViewRef = useRef<any>(null);
+  const temperatureGraphViewRef = useRef<any>(null);
   const coreConfigRef = useRef<any>(null);
 
   // Helper function to get localized string
@@ -69,12 +71,21 @@ export default function EnRoadsDashboard() {
         datasetSpec.externalSourceName
       );
       
+      console.log('Updating dataset:', datasetSpec.varId, 'external:', datasetSpec.externalSourceName, 'points:', series?.points?.length);
+      
       const newPoints = series?.points || [];
       datasetViewModel.points = [...newPoints];
       
+      // For emissions graph, show net emissions
       if (datasetSpec.varId === '_co2_equivalent_net_emissions') {
         datasetViewModel.visible = true;
-      } else {
+      } 
+      // For temperature graph, show temperature datasets
+      else if (datasetSpec.varId === '_temperature_relative_to_1850_1900') {
+        datasetViewModel.visible = true;
+      }
+      // Hide other datasets
+      else {
         datasetViewModel.visible = false;
       }
     }
@@ -92,6 +103,7 @@ export default function EnRoadsDashboard() {
       const tempCelsius = tempSeries.getValueAtTime(2100);
       const tempFahrenheit = tempCelsius * 9/5;
       
+      console.log('Temperature updated:', tempCelsius.toFixed(2), '°C');
       setTempC(tempCelsius);
       setTempF(tempFahrenheit);
     } else {
@@ -102,6 +114,7 @@ export default function EnRoadsDashboard() {
         const tempCelsius = 1.5 + (emissions2100 / 69.6) * 1.8;
         const tempFahrenheit = tempCelsius * 9/5;
         
+        console.log('Temperature updated (from emissions):', tempCelsius.toFixed(2), '°C');
         setTempC(tempCelsius);
         setTempF(tempFahrenheit);
       }
@@ -110,8 +123,12 @@ export default function EnRoadsDashboard() {
 
   // Update all graphs
   const updateAllGraphs = () => {
+    console.log('updateAllGraphs called');
     if (emissionsGraphViewRef.current) {
       updateGraphData(emissionsGraphViewRef.current);
+    }
+    if (temperatureGraphViewRef.current) {
+      updateGraphData(temperatureGraphViewRef.current);
     }
     updateTemperatureDisplay();
   };
@@ -143,7 +160,7 @@ export default function EnRoadsDashboard() {
     
     // Override dataset colors and line widths
     const datasets = viewModel.getDatasets();
-    datasets.forEach((dataset) => {
+    datasets.forEach((dataset: any) => {
       if (dataset.spec.varId === '_co2_equivalent_net_emissions') {
         // Current scenario - brighter blue with thicker line
         if (!dataset.spec.externalSourceName) {
@@ -190,6 +207,72 @@ export default function EnRoadsDashboard() {
     updateGraphData(emissionsGraphViewRef.current);
   };
 
+  // Initialize temperature graph
+  const initTemperatureGraph = () => {
+    if (!temperatureCanvasRef.current || !coreConfigRef.current) return;
+
+    const graphSpec = coreConfigRef.current.graphs.get('86');
+    if (!graphSpec) {
+      console.error('Temperature graph not found');
+      return;
+    }
+
+    const canvas = temperatureCanvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    
+    canvas.style.width = rect.width + 'px';
+    canvas.style.height = '280px';
+    canvas.width = rect.width * dpr;
+    canvas.height = 280 * dpr;
+
+    const viewModel = createGraphViewModel(graphSpec);
+    
+    const datasets = viewModel.getDatasets();
+    datasets.forEach((dataset: any) => {
+      if (dataset.spec.varId === '_temperature_relative_to_1850_1900') {
+        if (!dataset.spec.externalSourceName) {
+          dataset.spec.color = '#EF4444';
+          dataset.spec.lineWidth = 6;
+        } else if (dataset.spec.externalSourceName === 'baseline') {
+          dataset.spec.lineWidth = 6;
+        }
+      }
+    });
+    
+    const style = {
+      font: {
+        family: 'system-ui, -apple-system, sans-serif',
+        style: 'normal',
+        color: '#1f2937'
+      },
+      xAxis: {
+        tickMaxCount: 6
+      },
+      yAxis: {
+        tickMaxCount: 6
+      },
+      getAxisLabelFontSize: () => 14,
+      getTickLabelFontSize: () => 12,
+      getDefaultLineWidth: () => 6
+    };
+
+    const options = { 
+      style,
+      responsive: true,
+      animations: true
+    };
+    
+    temperatureGraphViewRef.current = new GraphView(
+      canvas,
+      viewModel,
+      options,
+      true
+    );
+    
+    updateGraphData(temperatureGraphViewRef.current);
+  };
+
   // Handle slider change
   const handleSliderChange = (e: ChangeEvent<HTMLInputElement>) => {
     const sliderPos = parseFloat(e.target.value);
@@ -227,13 +310,14 @@ export default function EnRoadsDashboard() {
           throw new Error('Renewables input not found');
         }
 
-        // Set initial value
-        const initialValue = 0.02 - (20 / 70) * 0.07;
-        renewablesInputRef.current.set(initialValue);
+        // Set initial values - use EN-ROADS baseline defaults
+        const renewablesInitialValue = 0.02 - (20 / 70) * 0.07;
+        renewablesInputRef.current.set(renewablesInitialValue);
 
         // Initialize graph with a small delay to ensure DOM is ready
         setTimeout(() => {
           initEmissionsGraph();
+          initTemperatureGraph();
           updateTemperatureDisplay();
         }, 100);
 
@@ -259,6 +343,9 @@ export default function EnRoadsDashboard() {
       if (emissionsGraphViewRef.current) {
         emissionsGraphViewRef.current = null;
       }
+      if (temperatureGraphViewRef.current) {
+        temperatureGraphViewRef.current = null;
+      }
     };
   }, []);
 
@@ -281,7 +368,7 @@ export default function EnRoadsDashboard() {
 
   return (
     <div className="enroads-container">
-      {/* Main Dashboard */}
+      {/* Renewables Dashboard - Emissions */}
       <div className="enroads-dashboard">
         {/* Graph Section */}
         <div className="enroads-graph-section">
@@ -324,7 +411,7 @@ export default function EnRoadsDashboard() {
         </div>
       </div>
 
-      {/* Slider Section */}
+      {/* Renewables Slider Section */}
       <div className="enroads-slider-section">
         <div className="enroads-slider-container">
           <div className="enroads-slider-header">
