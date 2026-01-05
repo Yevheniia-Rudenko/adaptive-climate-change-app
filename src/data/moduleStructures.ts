@@ -59,9 +59,11 @@ export const moduleStructures: ModuleStructure[] = [
         type: 'reflection',
         prompt: 'What do you notice? What do you wonder? ',
         id: 'notice-wonder'
-        type:'third-exercise'
       },
-            {
+      {
+        type: 'third-exercise'
+      },
+      {
         type: 'reflection',
         prompt: 'What do you notice?',
         id: 'deforestation'
