@@ -1,6 +1,7 @@
 import { Play, BookOpen, Sparkles } from 'lucide-react';
 import { ContentBlock as ContentBlockType } from '../data/moduleStructures';
 import { InteractiveDashboard } from './InteractiveDashboard';
+import SecondExerciseDashboard from './2ndExerciseDashboard';
 import { useLanguage } from '../contexts/LanguageContext';
 import { TextWithGlossary } from './TextWithGlossary';
 
@@ -77,6 +78,9 @@ export function ContentBlock({
 
     case 'dashboard':
       return <InteractiveDashboard moduleId={moduleId} />;
+
+    case '2ndExerciseDashboard':
+      return <SecondExerciseDashboard />;
 
     case 'reflection':
       const reflectionValue = reflection || '';
