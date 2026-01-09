@@ -24,7 +24,7 @@ export function GlossaryTerm({ term, definition }: GlossaryTermProps) {
     <>
       <span
         onClick={handleClick}
-        className="relative inline-flex items-center gap-1 px-1.5 py-0.5 -mx-1 cursor-pointer rounded-md bg-blue-50 text-blue-700 hover:bg-blue-100 hover:text-blue-800 transition-all duration-200 border-b-2 border-blue-300 hover:border-blue-500 hover:shadow-sm"
+        className="relative inline-flex items-center gap-1 px-1.5 py-0.5 -mx-1 cursor-pointer rounded-md bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800/50 hover:text-blue-900 dark:hover:text-blue-100 transition-all duration-200 border-b-2 border-blue-300 dark:border-blue-600 hover:border-blue-500 dark:hover:border-blue-400 hover:shadow-sm"
         role="button"
         tabIndex={0}
         onKeyDown={(e) => {

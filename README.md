@@ -1,10 +1,11 @@
 
-# Adaptive Climate Change App
+  # Adaptive Climate Change App
 
-An interactive web application for learning about climate change adaptation strategies.
+  This is a code bundle for Adaptive Climate Change App. The original project is available at https://www.figma.com/design/LYroMnemDs2Krs4MajiEoo/Adaptive-Climate-Change-App.
 
-## Running the code
+  ## Running the code
 
-Run `npm i` to install the dependencies.
+  Run `npm i` to install the dependencies.
 
-Run `npm run dev` to start the development server.  
+  Run `npm run dev` to start the development server.
+  
