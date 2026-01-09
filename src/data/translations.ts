@@ -7,6 +7,19 @@ export type Translations = {
   yourProgress: string;
   completedModules: string;
   
+  // Header Navigation
+  modules: string;
+  about: string;
+  forEducators: string;
+  glossary: string;
+  resources: string;
+  
+  // Glossary Page
+  searchTerms: string;
+  noTermsFound: string;
+  termsDisplayed: string;
+  exploreTerms: string;
+  
   // Intro Page
   climateEducation: string;
   mainTitle: string;
@@ -64,6 +77,19 @@ export const translations: Record<Language, Translations> = {
     yourProgress: 'Your Progress',
     completedModules: 'modules completed',
     
+    // Header Navigation
+    modules: 'Modules',
+    about: 'About',
+    forEducators: 'For Educators',
+    glossary: 'Glossary',
+    resources: 'Resources',
+    
+    // Glossary Page
+    searchTerms: 'Search Terms',
+    noTermsFound: 'No Terms Found',
+    termsDisplayed: 'Terms Displayed',
+    exploreTerms: 'Explore Terms',
+    
     // Intro Page
     climateEducation: 'Climate Education',
     mainTitle: 'The Systems that Shape Climate Change',
@@ -119,6 +145,19 @@ export const translations: Record<Language, Translations> = {
     progress: 'Progreso',
     yourProgress: 'Tu Progreso',
     completedModules: 'módulos completados',
+    
+    // Header Navigation
+    modules: 'Módulos',
+    about: 'Acerca de',
+    forEducators: 'Para Educadores',
+    glossary: 'Glosario',
+    resources: 'Recursos',
+    
+    // Glossary Page
+    searchTerms: 'Buscar Términos',
+    noTermsFound: 'No Se Encontraron Términos',
+    termsDisplayed: 'Términos Mostrados',
+    exploreTerms: 'Explorar Términos',
     
     // Intro Page
     climateEducation: 'Educación Climática',
@@ -176,6 +215,19 @@ export const translations: Record<Language, Translations> = {
     yourProgress: 'تقدمك',
     completedModules: 'وحدات مكتملة',
     
+    // Header Navigation
+    modules: 'وحدات',
+    about: 'عن',
+    forEducators: 'للمعلمين',
+    glossary: 'مفردات',
+    resources: 'موارد',
+    
+    // Glossary Page
+    searchTerms: 'بحث المصطلحات',
+    noTermsFound: 'لم يتم العثور على أي مصطلحات',
+    termsDisplayed: 'مصطلحات معرضة',
+    exploreTerms: 'استكشاف المصطلحات',
+    
     // Intro Page
     climateEducation: 'التعليم المناخي',
     mainTitle: 'الأنظمة التي تشكل تغير المناخ',
@@ -231,6 +283,19 @@ export const translations: Record<Language, Translations> = {
     progress: 'Fortschritt',
     yourProgress: 'Dein Fortschritt',
     completedModules: 'Module abgeschlossen',
+    
+    // Header Navigation
+    modules: 'Module',
+    about: 'Über',
+    forEducators: 'Für Lehrer',
+    glossary: 'Glossar',
+    resources: 'Ressourcen',
+    
+    // Glossary Page
+    searchTerms: 'Begriffe suchen',
+    noTermsFound: 'Keine Begriffe gefunden',
+    termsDisplayed: 'Angezeigte Begriffe',
+    exploreTerms: 'Begriffe erkunden',
     
     // Intro Page
     climateEducation: 'Klimabildung',
@@ -288,6 +353,19 @@ export const translations: Record<Language, Translations> = {
     yourProgress: 'Ваш прогресс',
     completedModules: 'модулей завершено',
     
+    // Header Navigation
+    modules: 'Модули',
+    about: 'О нас',
+    forEducators: 'Для учителей',
+    glossary: 'Глоссарий',
+    resources: 'Ресурсы',
+    
+    // Glossary Page
+    searchTerms: 'Поиск терминов',
+    noTermsFound: 'Термины не найдены',
+    termsDisplayed: 'Отображаемые термины',
+    exploreTerms: 'Исследовать термины',
+    
     // Intro Page
     climateEducation: 'Климатическое образование',
     mainTitle: 'Системы, которые формируют изменение климата',
@@ -343,6 +421,19 @@ export const translations: Record<Language, Translations> = {
     progress: 'Прогрес',
     yourProgress: 'Ваш прогрес',
     completedModules: 'модулів завершено',
+    
+    // Header Navigation
+    modules: 'Модулі',
+    about: 'Про нас',
+    forEducators: 'Для вчителів',
+    glossary: 'Глосарій',
+    resources: 'Ресурси',
+    
+    // Glossary Page
+    searchTerms: 'Пошук термінів',
+    noTermsFound: 'Терміни не знайдено',
+    termsDisplayed: 'Відображені терміни',
+    exploreTerms: 'Дослідити терміни',
     
     // Intro Page
     climateEducation: 'Кліматична освіта',

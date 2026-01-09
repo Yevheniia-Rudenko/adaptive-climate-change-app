@@ -1,15 +1,12 @@
-import { useState, useEffect } from 'react';
-import { ArrowLeft, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { ModuleStructure } from '../data/moduleStructures';
 import { ContentBlock } from './ContentBlock';
 import { useLanguage } from '../contexts/LanguageContext';
+import { Button } from './ui/button';
 
 type FlexibleModulePageProps = {
   module: ModuleStructure;
   moduleId: number;
-  isCompleted: boolean;
-  savedReflections: { [key: string]: string };
-  onComplete: (moduleId: number, reflections: { [key: string]: string }) => void;
   onNext: () => void;
   onBack: () => void;
 };
@@ -17,124 +14,63 @@ type FlexibleModulePageProps = {
 export function FlexibleModulePage({ 
   module, 
   moduleId, 
-  isCompleted, 
-  savedReflections,
-  onComplete, 
   onNext, 
   onBack 
 }: FlexibleModulePageProps) {
-  const [reflections, setReflections] = useState<{ [key: string]: string }>(savedReflections);
-  const [hasCompletedNow, setHasCompletedNow] = useState(false);
   const { t } = useLanguage();
 
-  useEffect(() => {
-    setReflections(savedReflections);
-  }, [savedReflections, moduleId]);
-
-  const handleReflectionChange = (id: string, value: string) => {
-    setReflections(prev => ({ ...prev, [id]: value }));
-  };
-
-  const handleComplete = () => {
-    // Check if at least one reflection has content
-    const hasAnyReflection = Object.values(reflections).some(r => r.trim().length > 0);
-    
-    if (hasAnyReflection) {
-      onComplete(moduleId, reflections);
-      setHasCompletedNow(true);
-      setTimeout(() => setHasCompletedNow(false), 3000);
-    }
-  };
-
-  const canComplete = Object.values(reflections).some(r => r.trim().length > 0);
-
   return (
-    <div className="min-h-screen py-6 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4 sm:px-6 lg:px-8 font-sora">
       <div className="max-w-4xl mx-auto">
-        <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden">
           {/* Header */}
-          <div className="relative h-48 sm:h-64 overflow-hidden">
+          <div className="relative h-40 sm:h-48 md:h-64 overflow-hidden">
             <img 
               src={module.headerImage}
               alt={module.title}
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-            <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-white/90 text-sm uppercase tracking-wider">
+            <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 md:bottom-6 md:left-6 md:right-6">
+              <div className="flex items-center gap-2 mb-1 sm:mb-2">
+                <span className="text-white/90 text-xs sm:text-sm uppercase tracking-wider">
                   Module {moduleId} of 5
                 </span>
-                {isCompleted && (
-                  <CheckCircle2 className="text-green-400" size={20} />
-                )}
               </div>
-              <h1 className="text-white text-2xl sm:text-4xl">
+              <h1 className="text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl">
                 {module.title}
               </h1>
             </div>
           </div>
 
-          <div className="p-6 sm:p-10">
+          <div className="p-4 sm:p-6 md:p-8 lg:p-10">
             {/* Content Blocks */}
-            {module.sections.map((block, index) => {
-              const reflectionId = block.type === 'reflection' ? block.id : undefined;
-              const reflectionValue = reflectionId ? reflections[reflectionId] : undefined;
-              
-              return (
-                <ContentBlock
-                  key={index}
-                  block={block}
-                  moduleId={moduleId}
-                  reflection={reflectionValue}
-                  onReflectionChange={handleReflectionChange}
-                  isCompleted={isCompleted}
-                />
-              );
-            })}
-
-            {/* Completion Message */}
-            {hasCompletedNow && (
-              <div className="bg-green-50 border-2 border-green-200 rounded-xl p-4 mb-6 flex items-center gap-3">
-                <CheckCircle2 className="text-green-600 flex-shrink-0" size={24} />
-                <p className="text-green-800">
-                  Great work! Your reflections have been saved.
-                </p>
-              </div>
-            )}
+            {module.sections.map((block, index) => (
+              <ContentBlock
+                key={index}
+                block={block}
+                moduleId={moduleId}
+              />
+            ))}
 
             {/* Navigation */}
-            <div className="flex flex-col sm:flex-row gap-3">
-              <button
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+              <Button
                 onClick={onBack}
-                className="flex items-center justify-center gap-2 px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl transition-colors"
+                variant="ghost"
+                className="order-2 sm:order-1"
               >
-                <ArrowLeft size={20} />
+                <ArrowLeft size={18} />
                 <span>{t.back}</span>
-              </button>
+              </Button>
 
-              {!isCompleted && (
-                <button
-                  onClick={handleComplete}
-                  disabled={!canComplete}
-                  className={`flex-1 px-6 py-3 rounded-xl transition-all flex items-center justify-center gap-2 ${
-                    canComplete
-                      ? 'bg-green-600 hover:bg-green-700 text-white shadow-lg'
-                      : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                  }`}
-                >
-                  <CheckCircle2 size={20} />
-                  <span>{t.complete}</span>
-                </button>
-              )}
-
-              <button
+              <Button
                 onClick={onNext}
-                className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white rounded-xl transition-all shadow-lg"
+                className="flex-1 order-1 sm:order-3"
               >
                 <span>{t.next}</span>
-                <ArrowRight size={20} />
-              </button>
+                <ArrowRight size={18} />
+              </Button>
             </div>
           </div>
         </div>

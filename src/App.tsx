@@ -1,133 +1,76 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { IntroPage } from './components/IntroPage';
 import { FlexibleModulePage } from './components/FlexibleModulePage';
-import { EndingPage } from './components/EndingPage';
-import { ProgressBar } from './components/ProgressBar';
+import { AboutPage } from './components/AboutPage';
+import { EducatorsPage } from './components/EducatorsPage';
+import { ResourcesPage } from './components/ResourcesPage';
+import { Header } from './components/Header';
 import { moduleStructures } from './data/moduleStructures';
 import { LanguageProvider } from './contexts/LanguageContext';
-
-export type ModuleProgress = {
-  [key: number]: {
-    completed: boolean;
-    reflections: { [key: string]: string };
-  };
-};
+import { ThemeProvider } from './contexts/ThemeContext';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<'intro' | number | 'ending'>('intro');
-  const [progress, setProgress] = useState<ModuleProgress>(() => {
-    try {
-      const saved = localStorage.getItem('climateModulesProgress');
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        // Migrate old format to new format if needed
-        const migrated: ModuleProgress = {};
-        Object.entries(parsed).forEach(([key, value]: [string, any]) => {
-          if (value && typeof value === 'object') {
-            // Check if old format (has 'reflection' string instead of 'reflections' object)
-            if ('reflection' in value && typeof value.reflection === 'string') {
-              migrated[Number(key)] = {
-                completed: value.completed,
-                reflections: { main: value.reflection }
-              };
-            } else if ('reflections' in value && typeof value.reflections === 'object') {
-              // Already in new format
-              migrated[Number(key)] = value;
-            }
-          }
-        });
-        return migrated;
-      }
-    } catch (error) {
-      // Silent error handling
-    }
-    return {};
-  });
+  const [currentPage, setCurrentPage] = useState<'intro' | number | 'about' | 'educators' | 'resources'>('intro');
 
-  useEffect(() => {
-    try {
-      localStorage.setItem('climateModulesProgress', JSON.stringify(progress));
-    } catch (error) {
-      // Silent error handling
-    }
-  }, [progress]);
-
-  const completedCount = Object.values(progress).filter(p => p.completed).length;
-  const percentComplete = Math.round((completedCount / 5) * 100);
-
-  const handleCompleteModule = (moduleId: number, reflections: { [key: string]: string }) => {
-    setProgress(prev => ({
-      ...prev,
-      [moduleId]: {
-        completed: true,
-        reflections
-      }
-    }));
-  };
-
-  const handleNavigate = (page: 'intro' | number | 'ending') => {
+  const handleNavigate = (page: 'intro' | number | 'about' | 'educators' | 'resources') => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleReset = () => {
-    setProgress({});
-    setCurrentPage('intro');
-  };
-
   return (
-    <LanguageProvider>
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-green-50 to-teal-50">
-        {currentPage !== 'intro' && currentPage !== 'ending' && (
-          <ProgressBar 
-            completedCount={completedCount} 
-            percentComplete={percentComplete}
-            onNavigateHome={() => handleNavigate('intro')}
-          />
-        )}
-        
-        {currentPage === 'intro' && (
-          <IntroPage 
-            onStart={() => handleNavigate(1)}
-            onNavigateToModule={(moduleId) => handleNavigate(moduleId)}
-            completedCount={completedCount}
-            percentComplete={percentComplete}
-          />
-        )}
+    <ThemeProvider>
+      <LanguageProvider>
+        <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors">
+          <Header onNavigate={handleNavigate} currentPage={currentPage} />
+          
+          {currentPage === 'intro' && (
+            <IntroPage 
+              onStart={() => handleNavigate(1)}
+              onNavigateToModule={(moduleId) => handleNavigate(moduleId)}
+            />
+          )}
 
-        {typeof currentPage === 'number' && (
-          <FlexibleModulePage
-            module={moduleStructures[currentPage - 1]}
-            moduleId={currentPage}
-            isCompleted={progress[currentPage]?.completed || false}
-            savedReflections={progress[currentPage]?.reflections || {}}
-            onComplete={handleCompleteModule}
-            onNext={() => {
-              if (currentPage < 5) {
-                handleNavigate(currentPage + 1);
-              } else {
-                handleNavigate('ending');
-              }
-            }}
-            onBack={() => {
-              if (currentPage > 1) {
-                handleNavigate(currentPage - 1);
-              } else {
-                handleNavigate('intro');
-              }
-            }}
-          />
-        )}
+          {typeof currentPage === 'number' && (
+            <FlexibleModulePage
+              module={moduleStructures[currentPage - 1]}
+              moduleId={currentPage}
+              onNext={() => {
+                if (currentPage < 5) {
+                  handleNavigate(currentPage + 1);
+                } else {
+                  handleNavigate('intro');
+                }
+              }}
+              onBack={() => {
+                if (currentPage > 1) {
+                  handleNavigate(currentPage - 1);
+                } else {
+                  handleNavigate('intro');
+                }
+              }}
+            />
+          )}
 
-        {currentPage === 'ending' && (
-          <EndingPage
-            progress={progress}
-            onRestart={handleReset}
-            onBackToHome={() => handleNavigate('intro')}
-          />
-        )}
-      </div>
-    </LanguageProvider>
+          {currentPage === 'about' && (
+            <AboutPage
+              onBackToHome={() => handleNavigate('intro')}
+            />
+          )}
+
+          {currentPage === 'educators' && (
+            <EducatorsPage
+              onBackToHome={() => handleNavigate('intro')}
+            />
+          )}
+
+          {currentPage === 'resources' && (
+            <ResourcesPage
+              onBackToHome={() => handleNavigate('intro')}
+            />
+          )}
+        </div>
+      </LanguageProvider>
+    </ThemeProvider>
   );
 }
 

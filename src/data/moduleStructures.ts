@@ -4,11 +4,9 @@ export type ContentBlock =
   | { type: 'image'; imageUrl: string; alt: string }
   | { type: 'dashboard'; }
   | { type: '2ndExerciseDashboard'; }
-  | { type: 'dashboard';}
-  | { type: 'third-exercise';}
+  | { type: 'third-exercise'; }
   | { type: 'reflection'; prompt: string; id: string }
   | { type: 'meditation'; title: string; content: string };
-
 
 export type ModuleStructure = {
   id: number;

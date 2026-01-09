@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Thermometer, TrendingUp, TrendingDown, Activity } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
-import EnRoadsDashboard from './EnRoadsDashboard';
 
 type Parameter = {
   id: string;
@@ -274,11 +273,6 @@ const moduleConfigs: {
 };
 
 export function InteractiveDashboard({ moduleId }: InteractiveDashboardProps) {
-  // Use EN-ROADS dashboard for module 1
-  if (moduleId === 1) {
-    return <EnRoadsDashboard />;
-  }
-
   const config = moduleConfigs[moduleId];
   const { t } = useLanguage();
   const [params, setParams] = useState<{ [key: string]: number }>(() => {
@@ -302,50 +296,50 @@ export function InteractiveDashboard({ moduleId }: InteractiveDashboardProps) {
   };
 
   return (
-    <div className="bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 rounded-2xl p-6 sm:p-8 mb-8">
-      <div className="flex items-center justify-between mb-6">
+    <div className="bg-purple-50 border-2 border-purple-200 rounded-2xl p-4 sm:p-6 md:p-8 mb-8">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-6">
         <div className="flex items-center gap-3">
-          <Activity className="text-indigo-600" size={28} />
-          <h2 className="text-gray-900">{config.title}</h2>
+          <Activity className="text-primary flex-shrink-0" size={24} />
+          <h2 className="text-gray-900 dark:text-gray-100 text-lg sm:text-xl">{config.title}</h2>
         </div>
         <button
           onClick={resetParams}
-          className="px-4 py-2 text-sm bg-white hover:bg-gray-50 text-gray-700 rounded-lg transition-colors border border-gray-200"
+          className="px-4 py-2 text-sm bg-white dark:bg-gray-700 hover:bg-purple-200 dark:hover:bg-purple-900/50 text-gray-700 dark:text-gray-200 hover:text-purple-900 dark:hover:text-purple-100 rounded-full transition-colors border-2 border-purple-300 dark:border-purple-600 hover:border-purple-500 dark:hover:border-purple-400 w-full sm:w-auto font-sora"
         >
           {t.reset}
         </button>
       </div>
 
       {/* Metrics Display */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6">
         {config.metrics.map((metric, idx) => {
           const value = metric.getValue(params);
           const change = value - metric.baseline;
           const isGood = metric.goodDirection === 'down' ? change < 0 : change > 0;
           
           return (
-            <div key={idx} className="bg-white rounded-xl p-5 shadow-sm">
-              <div className="flex items-start justify-between mb-3">
-                <span className="text-gray-600 text-sm">{metric.label}</span>
+            <div key={idx} className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-5 shadow-sm">
+              <div className="flex items-start justify-between mb-2 sm:mb-3">
+                <span className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm pr-2">{metric.label}</span>
                 {metric.label.includes('Temperature') || metric.label.includes('Warming') ? (
-                  <Thermometer className={isGood ? 'text-green-500' : 'text-red-500'} size={20} />
+                  <Thermometer className={isGood ? 'text-green-500' : 'text-red-500'} size={18} />
                 ) : isGood ? (
-                  <TrendingUp className="text-green-500" size={20} />
+                  <TrendingUp className="text-green-500" size={18} />
                 ) : (
-                  <TrendingDown className="text-red-500" size={20} />
+                  <TrendingDown className="text-red-500" size={18} />
                 )}
               </div>
               <div className="flex items-baseline gap-2">
-                <span className="text-3xl text-gray-900">
+                <span className="text-2xl sm:text-3xl text-gray-900 dark:text-gray-100">
                   {value.toFixed(1)}
                 </span>
-                <span className="text-gray-600">{metric.unit}</span>
+                <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">{metric.unit}</span>
               </div>
               <div className="mt-2 flex items-center gap-2">
-                <div className={`text-sm ${isGood ? 'text-green-600' : 'text-red-600'}`}>
+                <div className={`text-xs sm:text-sm ${isGood ? 'text-green-600' : 'text-red-600'}`}>
                   {change > 0 ? '+' : ''}{change.toFixed(1)} {metric.unit}
                 </div>
-                <span className="text-xs text-gray-500">from baseline</span>
+                <span className="text-xs text-gray-500 dark:text-gray-400">from baseline</span>
               </div>
             </div>
           );
@@ -353,21 +347,21 @@ export function InteractiveDashboard({ moduleId }: InteractiveDashboardProps) {
       </div>
 
       {/* Parameter Controls */}
-      <div className="space-y-5">
+      <div className="space-y-4 sm:space-y-5">
         {config.parameters.map((param) => (
-          <div key={param.id} className="bg-white rounded-xl p-5">
-            <div className="flex items-start justify-between mb-3">
-              <div className="flex-1">
-                <label className="text-gray-900 block mb-1">
+          <div key={param.id} className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-5">
+            <div className="flex flex-col sm:flex-row items-start justify-between mb-3 gap-3">
+              <div className="flex-1 w-full">
+                <label className="text-gray-900 dark:text-gray-100 block mb-1 text-sm sm:text-base">
                   {param.label}
                 </label>
-                <p className="text-sm text-gray-600">{param.description}</p>
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">{param.description}</p>
               </div>
-              <div className="ml-4 text-right">
-                <div className="text-2xl text-indigo-600">
+              <div className="sm:ml-4 text-left sm:text-right w-full sm:w-auto">
+                <div className="text-xl sm:text-2xl text-indigo-600">
                   {params[param.id]}
                 </div>
-                <div className="text-xs text-gray-500">{param.unit}</div>
+                <div className="text-xs text-gray-500 dark:text-gray-400">{param.unit}</div>
               </div>
             </div>
             

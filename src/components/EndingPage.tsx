@@ -61,10 +61,10 @@ export function EndingPage({ progress, onRestart, onBackToHome }: EndingPageProp
             <div className="mb-8">
               <div className="flex items-center gap-2 mb-4">
                 <Heart className="text-red-500" size={24} />
-                <h2 className="text-gray-900">{t.yourReflections}</h2>
+                <h2 className="text-gray-900 dark:text-gray-100">{t.yourReflections}</h2>
               </div>
               
-              <p className="text-gray-700 mb-6">
+              <p className="text-gray-700 dark:text-gray-300 mb-6">
                 Here&apos;s a summary of your journey through the climate systems modules:
               </p>
 
@@ -81,14 +81,14 @@ export function EndingPage({ progress, onRestart, onBackToHome }: EndingPageProp
                         <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-blue-500 to-green-500 rounded-full flex items-center justify-center text-white">
                           {moduleId}
                         </div>
-                        <h3 className="text-gray-900">{moduleNames[moduleId]}</h3>
+                        <h3 className="text-gray-900 dark:text-gray-100">{moduleNames[moduleId]}</h3>
                       </div>
                       <div className="ml-11 space-y-3">
                         {Object.entries(data.reflections).map(([key, value]) => {
                           if (!value || !value.trim()) return null;
                           return (
                             <div key={key}>
-                              <p className="text-gray-700 italic text-sm">
+                              <p className="text-gray-700 dark:text-gray-300 italic text-sm">
                                 &quot;{value}&quot;
                               </p>
                             </div>
@@ -103,8 +103,8 @@ export function EndingPage({ progress, onRestart, onBackToHome }: EndingPageProp
 
             {allCompleted && (
               <div className="bg-yellow-50 border-2 border-yellow-200 rounded-2xl p-6 mb-8">
-                <h3 className="text-gray-900 mb-3">What&apos;s Next?</h3>
-                <ul className="space-y-2 text-gray-700">
+                <h3 className="text-gray-900 dark:text-gray-100 mb-3">What&apos;s Next?</h3>
+                <ul className="space-y-2 text-gray-700 dark:text-gray-300">
                   <li className="flex items-start gap-2">
                     <span className="text-green-600 flex-shrink-0 mt-1">✓</span>
                     <span>Share what you&apos;ve learned with friends and family</span>
@@ -137,7 +137,7 @@ export function EndingPage({ progress, onRestart, onBackToHome }: EndingPageProp
               
               <button
                 onClick={onRestart}
-                className="flex items-center justify-center gap-2 px-6 py-4 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl transition-colors"
+                className="flex items-center justify-center gap-2 px-6 py-4 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-xl transition-colors"
               >
                 <RotateCcw size={20} />
                 <span>{t.restartJourney}</span>

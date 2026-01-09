@@ -46,7 +46,7 @@ export function TermPopup({ isOpen, onClose, term, definition, position }: TermP
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: -20 }}
             transition={{ type: 'spring', duration: 0.3 }}
-            className="fixed z-50 bg-white rounded-2xl shadow-2xl border-2 border-blue-200 max-w-md w-[90vw] sm:w-[85vw] p-5 sm:p-6"
+            className="fixed z-50 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border-2 border-blue-200 dark:border-blue-700 max-w-md w-[90vw] sm:w-[85vw] p-5 sm:p-6"
             style={{
               left: '50%',
               top: '50%',
@@ -61,7 +61,7 @@ export function TermPopup({ isOpen, onClose, term, definition, position }: TermP
               </div>
               <button
                 onClick={onClose}
-                className="text-gray-400 hover:text-gray-600 transition-colors p-1 hover:bg-gray-100 rounded-lg flex-shrink-0"
+                className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg flex-shrink-0"
                 aria-label="Close"
               >
                 <X size={20} />
@@ -70,7 +70,7 @@ export function TermPopup({ isOpen, onClose, term, definition, position }: TermP
 
             {/* Definition */}
             <div className="bg-gradient-to-br from-blue-50 to-green-50 rounded-xl p-4 border border-blue-100">
-              <p className="text-gray-700 leading-relaxed text-left">{definition}</p>
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-left">{definition}</p>
             </div>
 
             {/* Close button */}

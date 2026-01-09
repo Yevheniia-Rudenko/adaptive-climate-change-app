@@ -13,7 +13,7 @@ export function LanguageSwitcher() {
   const { language, setLanguage } = useLanguage();
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 font-sora">
       <Globe className="text-gray-600" size={20} />
       <Select value={language} onValueChange={(value) => setLanguage(value as Language)}>
         <SelectTrigger className="w-[160px] bg-white/80 backdrop-blur-sm border-gray-300">
