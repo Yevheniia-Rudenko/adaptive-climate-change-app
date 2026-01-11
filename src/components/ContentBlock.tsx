@@ -6,6 +6,7 @@ import { TextWithGlossary } from './TextWithGlossary';
 import EnRoadsDashboard from './EnRoadsDashboard';
 import SecondExerciseDashboard from './2ndExerciseDashboard';
 import ThirdExerciseDashboard from './ThirdExerciseDashboard';
+import FourthExerciseDashboard from './FourthExerciseDashboard' ;
 
 type ContentBlockProps = {
   block: ContentBlockType;
@@ -80,6 +81,9 @@ export function ContentBlock({
 
     case 'third-exercise':
       return <ThirdExerciseDashboard />;
+
+    case 'fourth-exercise':
+      return <FourthExerciseDashboard />;
 
     case 'reflection':
       return (

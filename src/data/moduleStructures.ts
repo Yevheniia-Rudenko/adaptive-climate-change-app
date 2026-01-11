@@ -5,6 +5,7 @@ export type ContentBlock =
   | { type: 'dashboard'; }
   | { type: '2ndExerciseDashboard'; }
   | { type: 'third-exercise'; }
+  | {type: 'fourth-exercise'; }
   | { type: 'reflection'; prompt: string; id: string }
   | { type: 'meditation'; title: string; content: string };
 
@@ -65,7 +66,16 @@ export const moduleStructures: ModuleStructure[] = [
         type: 'reflection',
         prompt: 'What do you notice?',
         id: 'deforestation'
-      }
+      },
+      {
+        type: 'fourth-exercise'
+      },
+      {
+        type: 'reflection',
+        prompt: 'What do you notice?',
+        id: 'emissions'
+      },
+
     ]
   },
   {
