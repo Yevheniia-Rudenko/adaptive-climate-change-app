@@ -4,15 +4,16 @@ import { FlexibleModulePage } from './components/FlexibleModulePage';
 import { AboutPage } from './components/AboutPage';
 import { EducatorsPage } from './components/EducatorsPage';
 import { ResourcesPage } from './components/ResourcesPage';
+import { GlossaryPage } from './components/GlossaryPage';
 import { Header } from './components/Header';
 import { moduleStructures } from './data/moduleStructures';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<'intro' | number | 'about' | 'educators' | 'resources'>('intro');
+  const [currentPage, setCurrentPage] = useState<'intro' | number | 'about' | 'educators' | 'resources' | 'glossary'>('intro');
 
-  const handleNavigate = (page: 'intro' | number | 'about' | 'educators' | 'resources') => {
+  const handleNavigate = (page: 'intro' | number | 'about' | 'educators' | 'resources' | 'glossary') => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -65,6 +66,12 @@ function App() {
 
           {currentPage === 'resources' && (
             <ResourcesPage
+              onBackToHome={() => handleNavigate('intro')}
+            />
+          )}
+
+          {currentPage === 'glossary' && (
+            <GlossaryPage
               onBackToHome={() => handleNavigate('intro')}
             />
           )}

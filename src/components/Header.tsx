@@ -7,8 +7,8 @@ import systemsAwarenessLabLogo from '../assets/systemsAwarenessLabLogo.png';
 import dayOfClimateLogo from '../assets/day_of_climate.png';
 
 type HeaderProps = {
-  onNavigate?: (page: 'intro' | number | 'ending' | 'about' | 'educators' | 'resources') => void;
-  currentPage?: 'intro' | number | 'about' | 'educators' | 'resources';
+  onNavigate?: (page: 'intro' | number | 'ending' | 'about' | 'educators' | 'resources' | 'glossary') => void;
+  currentPage?: 'intro' | number | 'about' | 'educators' | 'resources' | 'glossary';
 };
 
 export function Header({ onNavigate, currentPage }: HeaderProps) {
@@ -49,7 +49,7 @@ export function Header({ onNavigate, currentPage }: HeaderProps) {
     { id: 5, label: t.module5 },
   ];
 
-  const handleNavigate = (page: 'intro' | number | 'ending' | 'about' | 'educators' | 'resources') => {
+  const handleNavigate = (page: 'intro' | number | 'ending' | 'about' | 'educators' | 'resources' | 'glossary') => {
     onNavigate?.(page);
     setMobileMenuOpen(false);
     setModulesDropdownOpen(false);
@@ -138,6 +138,17 @@ export function Header({ onNavigate, currentPage }: HeaderProps) {
             </button>
 
             <button
+              onClick={() => handleNavigate('glossary')}
+              className={`px-3 py-2 rounded-md transition-colors ${
+                currentPage === 'glossary' 
+                  ? 'bg-primary/10 dark:bg-primary/20 text-primary'
+                  : 'hover:bg-muted'
+              }`}
+            >
+              {t.glossary}
+            </button>
+
+            <button
               onClick={() => handleNavigate('resources')}
               className={`px-3 py-2 rounded-md transition-colors ${
                 currentPage === 'resources' 
@@ -222,6 +233,17 @@ export function Header({ onNavigate, currentPage }: HeaderProps) {
                 }`}
               >
                 {t.forEducators}
+              </button>
+
+              <button
+                onClick={() => handleNavigate('glossary')}
+                className={`px-4 py-2 text-left rounded-md transition-colors ${
+                  currentPage === 'glossary' 
+                    ? 'bg-primary/10 dark:bg-primary/20 text-primary'
+                    : 'hover:bg-muted'
+                }`}
+              >
+                {t.glossary}
               </button>
 
               <button
