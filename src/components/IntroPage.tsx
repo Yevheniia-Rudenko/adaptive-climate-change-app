@@ -152,7 +152,7 @@ export function IntroPage({ onStart, onNavigateToModule }: IntroPageProps) {
                         className="absolute inset-0 cursor-pointer"
                         style={{ backfaceVisibility: 'hidden' }}
                       >
-                        <div className="overflow-hidden rounded-3xl border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-2xl transition-shadow duration-300 h-full flex flex-col">
+                        <div className="overflow-hidden rounded-3xl border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-2xl transition-shadow duration-300 h-full flex flex-col" style={{ backgroundColor: '#66BB6A' }}>
                           {/* Image Area */}
                           <div 
                             className="h-48 sm:h-56 w-full flex items-center justify-center relative flex-shrink-0 p-4"
