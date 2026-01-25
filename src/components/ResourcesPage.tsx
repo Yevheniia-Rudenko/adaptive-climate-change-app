@@ -5,6 +5,7 @@ import { BookOpen, FileText, Wrench, PlayCircle, Globe, Users, ExternalLink, Arr
 type ResourcesPageProps = {
   onBackToHome: () => void;
   onNavigateToGlossary?: () => void;
+  onNavigateToCategory?: (categoryId: string) => void;
 };
 
 type ResourceCategory = {
@@ -14,7 +15,7 @@ type ResourceCategory = {
   icon: React.ComponentType<{ className?: string; size?: number }>;
 };
 
-export function ResourcesPage({ onBackToHome, onNavigateToGlossary }: ResourcesPageProps) {
+export function ResourcesPage({ onBackToHome, onNavigateToGlossary, onNavigateToCategory }: ResourcesPageProps) {
   const { t } = useLanguage();
 
   const categories: ResourceCategory[] = [
@@ -73,8 +74,9 @@ export function ResourcesPage({ onBackToHome, onNavigateToGlossary }: ResourcesP
       onNavigateToGlossary();
       return;
     }
-    // TODO: Navigate to category detail page or expand content
-    console.log(`Exploring category: ${categoryId}`);
+    if (onNavigateToCategory) {
+      onNavigateToCategory(categoryId);
+    }
   };
 
   return (

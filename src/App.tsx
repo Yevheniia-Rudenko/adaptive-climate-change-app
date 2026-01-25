@@ -5,15 +5,17 @@ import { AboutPage } from './components/AboutPage';
 import { EducatorsPage } from './components/EducatorsPage';
 import { ResourcesPage } from './components/ResourcesPage';
 import { GlossaryPage } from './components/GlossaryPage';
+import { ResourceCategoryPage } from './components/ResourceCategoryPage';
 import { Header } from './components/Header';
 import { moduleStructures } from './data/moduleStructures';
+import { resourceCategoriesData } from './data/resourceCategories';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<'intro' | number | 'about' | 'educators' | 'resources' | 'glossary' | 'ending'>('intro');
+  const [currentPage, setCurrentPage] = useState<'intro' | number | 'about' | 'educators' | 'resources' | 'glossary' | 'ending' | `resources/${string}`>('intro');
 
-  const handleNavigate = (page: 'intro' | number | 'about' | 'educators' | 'resources' | 'glossary' | 'ending') => {
+  const handleNavigate = (page: 'intro' | number | 'about' | 'educators' | 'resources' | 'glossary' | 'ending' | `resources/${string}`) => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -68,6 +70,7 @@ function App() {
             <ResourcesPage
               onBackToHome={() => handleNavigate('intro')}
               onNavigateToGlossary={() => handleNavigate('glossary')}
+              onNavigateToCategory={(categoryId) => handleNavigate(`resources/${categoryId}`)}
             />
           )}
 
@@ -76,6 +79,20 @@ function App() {
               onBackToHome={() => handleNavigate('intro')}
             />
           )}
+
+          {typeof currentPage === 'string' && currentPage.startsWith('resources/') && (() => {
+            const categoryId = currentPage.replace('resources/', '');
+            const categoryData = resourceCategoriesData[categoryId];
+            if (categoryData) {
+              return (
+                <ResourceCategoryPage
+                  category={categoryData}
+                  onBackToResources={() => handleNavigate('resources')}
+                />
+              );
+            }
+            return null;
+          })()}
         </div>
       </LanguageProvider>
     </ThemeProvider>

@@ -7,8 +7,8 @@ import systemsAwarenessLabLogo from '../assets/systemsAwarenessLabLogo.png';
 import dayOfClimateLogo from '../assets/day_of_climate.png';
 
 type HeaderProps = {
-  onNavigate?: (page: 'intro' | number | 'ending' | 'about' | 'educators' | 'resources' | 'glossary') => void;
-  currentPage?: 'intro' | number | 'about' | 'educators' | 'resources' | 'glossary' | 'ending';
+  onNavigate?: (page: 'intro' | number | 'ending' | 'about' | 'educators' | 'resources' | 'glossary' | `resources/${string}`) => void;
+  currentPage?: 'intro' | number | 'about' | 'educators' | 'resources' | 'glossary' | 'ending' | `resources/${string}`;
 };
 
 export function Header({ onNavigate, currentPage }: HeaderProps) {
@@ -49,7 +49,7 @@ export function Header({ onNavigate, currentPage }: HeaderProps) {
     { id: 5, label: t.module5 },
   ];
 
-  const handleNavigate = (page: 'intro' | number | 'ending' | 'about' | 'educators' | 'resources' | 'glossary') => {
+  const handleNavigate = (page: 'intro' | number | 'ending' | 'about' | 'educators' | 'resources' | 'glossary' | `resources/${string}`) => {
     onNavigate?.(page);
     setMobileMenuOpen(false);
     setModulesDropdownOpen(false);
