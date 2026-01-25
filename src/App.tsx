@@ -7,6 +7,7 @@ import { ResourcesPage } from './components/ResourcesPage';
 import { GlossaryPage } from './components/GlossaryPage';
 import { ResourceCategoryPage } from './components/ResourceCategoryPage';
 import { Header } from './components/Header';
+import { Footer } from './components/Footer';
 import { moduleStructures } from './data/moduleStructures';
 import { resourceCategoriesData } from './data/resourceCategories';
 import { LanguageProvider } from './contexts/LanguageContext';
@@ -93,6 +94,8 @@ function App() {
             }
             return null;
           })()}
+
+          <Footer />
         </div>
       </LanguageProvider>
     </ThemeProvider>
