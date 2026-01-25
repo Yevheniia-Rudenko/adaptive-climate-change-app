@@ -1,22 +1,85 @@
-import { ArrowRight, BookOpen, Sprout } from 'lucide-react';
+import { ArrowRight, BookOpen, Droplets, Map, Network, Rocket, Sparkles, Sprout } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { Button } from './ui/button';
 import { motion } from 'motion/react';
+import { useState } from 'react';
+import module1Icon from '../assets/module1.png';
+import module2Icon from '../assets/module2.png';
+import module3Icon from '../assets/module3.png';
+import module4Icon from '../assets/module4.png';
+import module5Icon from '../assets/module5.png';
+import resourcesIcon from '../assets/resources.png';
 
 type IntroPageProps = {
   onStart: () => void;
-  onNavigateToModule: (moduleId: number) => void;
+  onNavigateToModule: (moduleId: number | 'resources') => void;
 };
 
 export function IntroPage({ onStart, onNavigateToModule }: IntroPageProps) {
   const { t } = useLanguage();
+  const [flippedCard, setFlippedCard] = useState<number | null>(null);
 
-  const modules = [
-    t.module1,
-    t.module2,
-    t.module3,
-    t.module4,
-    t.module5
+  const moduleCards = [
+    {
+      id: 1,
+      label: t.module1,
+      Icon: Sparkles,
+      iconImage: module1Icon,
+      gradient: 'from-emerald-500 via-teal-400 to-sky-400',
+      gradientStyle: 'linear-gradient(135deg, #526c63 0%, #14b8a6 45%, #4b6e7d 100%)',
+      chips: ['Climate futures', 'Feelings'],
+      backText: 'Explore different climate scenarios and understand how our choices today shape tomorrow. Connect your emotions and actions to potential futures.',
+    },
+    {
+      id: 2,
+      label: t.module2,
+      Icon: Droplets,
+      iconImage: module2Icon,
+      gradient: 'from-cyan-500 via-sky-400 to-blue-500',
+      gradientStyle: 'linear-gradient(135deg, #06b6d4 0%, #38bdf8 50%, #4d6a99 100%)',
+      chips: ['Flows', 'Balance'],
+      backText: 'Learn how resources accumulate and deplete over time. Understand the balance between inflows and outflows in climate systems.',
+    },
+    {
+      id: 3,
+      label: t.module3,
+      Icon: Map,
+      iconImage: module3Icon,
+      gradient: 'from-amber-400 via-orange-400 to-pink-500',
+      gradientStyle: 'linear-gradient(135deg, #f59e0b 0%, #fb923c 45%, #7e6270 100%)',
+      chips: ['Pathways', 'Scenarios'],
+      backText: 'Navigate through various climate pathways and scenarios. Discover the multiple routes we can take toward sustainability.',
+    },
+    {
+      id: 4,
+      label: t.module4,
+      Icon: Network,
+      iconImage: module4Icon,
+      gradient: 'from-lime-400 via-green-500 to-emerald-600',
+      gradientStyle: 'linear-gradient(135deg, #a3e635 0%, #22c55e 45%, #059669 100%)',
+      chips: ['Systems', 'Ripple effects'],
+      backText: 'See how climate solutions interconnect in complex systems. Understand the ripple effects of interventions across multiple domains.',
+    },
+    {
+      id: 5,
+      label: t.module5,
+      Icon: Rocket,
+      iconImage: module5Icon,
+      gradient: 'from-purple-500 via-indigo-500 to-blue-600',
+      gradientStyle: 'linear-gradient(135deg, #a855f7 0%, #6366f1 50%, #2563eb 100%)',
+      chips: ['Leverage', 'Momentum'],
+      backText: 'Identify high-leverage points for climate action. Learn where to apply effort for maximum impact and lasting change.',
+    },
+    {
+      id: 6,
+      label: t.module6,
+      Icon: BookOpen,
+      iconImage: resourcesIcon,
+      gradient: 'from-rose-500 via-pink-500 to-purple-500',
+      gradientStyle: 'linear-gradient(135deg, #f43f5e 0%, #ec4899 50%, #a855f7 100%)',
+      chips: ['Resources', 'Learn More'],
+      backText: 'Access additional learning materials, research papers, and tools to deepen your understanding of climate systems.',
+    },
   ];
 
   return (
@@ -64,30 +127,92 @@ export function IntroPage({ onStart, onNavigateToModule }: IntroPageProps) {
                 <BookOpen className="text-purple-600 dark:text-purple-400 flex-shrink-0" size={20} />
                 <h2 className="text-gray-900 dark:text-gray-100">{t.whatYouLearn}</h2>
               </div>
-              <div className="grid gap-3">
-                {modules.map((module, index) => {
-                  const moduleId = index + 1;
-                  
-                  return (
-                    <motion.button
-                      key={index}
-                      onClick={() => onNavigateToModule(moduleId)}
-                      className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-gray-700 rounded-xl hover:bg-purple-50 dark:hover:bg-purple-900/30 hover:shadow-md transition-all cursor-pointer text-left group"
-                      whileHover={{ scale: 1.02, x: 4 }}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3, delay: index * 0.1 }}
+              <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 auto-rows-fr max-w-3xl mx-auto">
+                {moduleCards.map(({ id, label, Icon, iconImage, gradient, gradientStyle, chips, backText }, index) => (
+                  <motion.div
+                    key={id}
+                    className="h-full"
+                    style={{ perspective: '1000px' }}
+                    onMouseEnter={() => setFlippedCard(id)}
+                    onMouseLeave={() => setFlippedCard(null)}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: index * 0.08 }}
+                  >
+                    <div
+                      className="relative w-full h-full transition-transform duration-900"
+                      style={{
+                        transformStyle: 'preserve-3d',
+                        transform: flippedCard === id ? 'rotateY(180deg)' : 'rotateY(0deg)',
+                        minHeight: '320px'
+                      }}
                     >
-                      <div className="flex-shrink-0 w-10 h-10 bg-purple-600 dark:bg-purple-500 rounded-full flex items-center justify-center text-white font-gugi group-hover:scale-110 transition-transform">
-                        {moduleId}
+                      {/* Front of card */}
+                      <div
+                        className="absolute inset-0 cursor-pointer"
+                        style={{ backfaceVisibility: 'hidden' }}
+                      >
+                        <div className="overflow-hidden rounded-3xl border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-2xl transition-shadow duration-300 h-full flex flex-col">
+                          {/* Image Area */}
+                          <div 
+                            className="h-48 sm:h-56 w-full flex items-center justify-center relative flex-shrink-0 p-4"
+                            style={{ background: iconImage ? '#ffffff' : gradientStyle }}
+                          >
+                            {/* Module Number Badge */}
+                            {id !== 6 && (
+                              <div className="absolute top-0 left-0 px-4 py-1.5 shadow-lg z-10" style={{ borderRadius: '50px', backgroundColor: '#ffffff' }}>
+                                <span className="text-lg font-bold text-black tracking-wide">Module {id}</span>
+                              </div>
+                            )}
+
+                            {iconImage ? (
+                              <img 
+                                src={iconImage} 
+                                alt={label} 
+                                className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300 mt-6"
+                              />
+                            ) : (
+                              <Icon size={56} strokeWidth={1.5} className="text-white/90" />
+                            )}
+                          </div>
+
+                          {/* Title Bar */}
+                          <div className="px-8 py-8 min-h-28 flex items-center justify-center flex-grow" style={{ backgroundColor: '#66BB6A' }}>
+                            <h3 className="text-base sm:text-lg leading-snug line-clamp-3 w-full text-center" style={{ color: '#ffffff', fontWeight: '900' }}>
+                              {label}
+                            </h3>
+                          </div>
+                        </div>
                       </div>
-                      <span className="text-gray-800 dark:text-gray-200 flex-1 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
-                        {module}
-                      </span>
-                      <ArrowRight className="text-gray-400 dark:text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all flex-shrink-0" size={20} />
-                    </motion.button>
-                  );
-                })}
+
+                      {/* Back of card */}
+                      <div
+                        className="absolute inset-0 cursor-pointer"
+                        style={{ 
+                          backfaceVisibility: 'hidden',
+                          transform: 'rotateY(180deg)'
+                        }}
+                        onClick={() => onNavigateToModule(id === 6 ? 'resources' : id)}
+                      >
+                        <div 
+                          className="overflow-hidden rounded-3xl border border-gray-200 dark:border-gray-700 shadow-md h-full flex flex-col"
+                          style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}
+                        >
+                          <div className="h-full flex flex-col items-center justify-center p-6 text-white">
+                            <Icon size={48} strokeWidth={1.5} className="mb-4 opacity-80" />
+                            <p className="text-center text-sm leading-relaxed mb-4">
+                              {backText}
+                            </p>
+                            <div className="mt-auto pt-4 flex items-center gap-2 text-sm font-semibold">
+                              <span>Explore Module</span>
+                              <ArrowRight size={16} />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
               </div>
             </div>
 
