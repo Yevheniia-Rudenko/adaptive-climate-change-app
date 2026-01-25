@@ -11,9 +11,9 @@ import { LanguageProvider } from './contexts/LanguageContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<'intro' | number | 'about' | 'educators' | 'resources' | 'glossary'>('intro');
+  const [currentPage, setCurrentPage] = useState<'intro' | number | 'about' | 'educators' | 'resources' | 'glossary' | 'ending'>('intro');
 
-  const handleNavigate = (page: 'intro' | number | 'about' | 'educators' | 'resources' | 'glossary') => {
+  const handleNavigate = (page: 'intro' | number | 'about' | 'educators' | 'resources' | 'glossary' | 'ending') => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -67,6 +67,7 @@ function App() {
           {currentPage === 'resources' && (
             <ResourcesPage
               onBackToHome={() => handleNavigate('intro')}
+              onNavigateToGlossary={() => handleNavigate('glossary')}
             />
           )}
 

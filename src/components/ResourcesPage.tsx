@@ -1,79 +1,85 @@
 import { useLanguage } from '../contexts/LanguageContext';
 import { Button } from './ui/button';
-import { ExternalLink, BookOpen, Video, Globe, FileText } from 'lucide-react';
+import { BookOpen, FileText, Wrench, PlayCircle, Globe, Users, ExternalLink, ArrowRight, BookText } from 'lucide-react';
 
 type ResourcesPageProps = {
   onBackToHome: () => void;
+  onNavigateToGlossary?: () => void;
 };
 
-export function ResourcesPage({ onBackToHome }: ResourcesPageProps) {
+type ResourceCategory = {
+  id: string;
+  title: string;
+  description: string;
+  icon: React.ComponentType<{ className?: string; size?: number }>;
+};
+
+export function ResourcesPage({ onBackToHome, onNavigateToGlossary }: ResourcesPageProps) {
   const { t } = useLanguage();
 
-  const resources = [
+  const categories: ResourceCategory[] = [
     {
-      category: 'Climate Science',
+      id: 'climate-basics',
+      title: 'Climate Basics',
+      description: 'Foundational knowledge about climate science and Earth systems.',
       icon: BookOpen,
-      items: [
-        {
-          title: 'IPCC Reports',
-          description: 'Comprehensive assessment reports on climate change from the Intergovernmental Panel on Climate Change',
-          url: 'https://www.ipcc.ch/reports/'
-        },
-        {
-          title: 'NASA Climate',
-          description: 'Scientific data and information about Earth\'s changing climate',
-          url: 'https://climate.nasa.gov/'
-        }
-      ]
     },
     {
-      category: 'Interactive Tools',
-      icon: Globe,
-      items: [
-        {
-          title: 'En-ROADS Climate Simulator',
-          description: 'Interactive tool to explore climate solutions and their impacts',
-          url: 'https://en-roads.climateinteractive.org/'
-        },
-        {
-          title: 'Climate Action Tracker',
-          description: 'Independent analysis tracking climate action and commitments',
-          url: 'https://climateactiontracker.org/'
-        }
-      ]
-    },
-    {
-      category: 'Educational Videos',
-      icon: Video,
-      items: [
-        {
-          title: 'Systems Thinking and Climate',
-          description: 'Introduction to systems thinking approaches for climate solutions',
-          url: 'https://www.climateinteractive.org/programs/world-climate/'
-        }
-      ]
-    },
-    {
-      category: 'Reports & Publications',
+      id: 'articles-publications',
+      title: 'Articles & Publications',
+      description: 'Research papers, reports, and in-depth reading materials.',
       icon: FileText,
-      items: [
-        {
-          title: 'Project Drawdown',
-          description: 'Comprehensive review of climate solutions and their potential impact',
-          url: 'https://drawdown.org/'
-        },
-        {
-          title: 'UNEP Emissions Gap Report',
-          description: 'Annual assessment of global emissions and climate commitments',
-          url: 'https://www.unep.org/emissions-gap-report-2023'
-        }
-      ]
-    }
+    },
+    {
+      id: 'tools-frameworks',
+      title: 'Tools & Frameworks',
+      description: 'Interactive simulators and analytical tools for climate exploration.',
+      icon: Wrench,
+    },
+    {
+      id: 'videos-podcasts',
+      title: 'Videos & Podcasts',
+      description: 'Engaging multimedia content to learn about climate solutions.',
+      icon: PlayCircle,
+    },
+    {
+      id: 'case-studies',
+      title: 'Case Studies & Real-World Examples',
+      description: 'Practical examples of climate action and their outcomes.',
+      icon: Globe,
+    },
+    {
+      id: 'action-participation',
+      title: 'Action & Participation',
+      description: 'Opportunities to get involved and make a difference.',
+      icon: Users,
+    },
+    {
+      id: 'glossary',
+      title: 'Glossary',
+      description: 'Key terms and definitions for climate and systems thinking concepts.',
+      icon: BookText,
+    },
+    {
+      id: 'external-links',
+      title: 'External Links',
+      description: 'Curated links to trusted climate organizations and resources.',
+      icon: ExternalLink,
+    },
   ];
+
+  const handleExplore = (categoryId: string) => {
+    if (categoryId === 'glossary' && onNavigateToGlossary) {
+      onNavigateToGlossary();
+      return;
+    }
+    // TODO: Navigate to category detail page or expand content
+    console.log(`Exploring category: ${categoryId}`);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-6 font-sora">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <Button
           onClick={onBackToHome}
           variant="outline"
@@ -84,51 +90,52 @@ export function ResourcesPage({ onBackToHome }: ResourcesPageProps) {
 
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 sm:p-8 md:p-12">
           <h1 className="text-green-600 mb-3 sm:mb-4">{t.resources}</h1>
-          <p className="text-gray-600 mb-6 sm:mb-8 text-sm sm:text-base">
+          <p className="text-gray-600 dark:text-gray-300 mb-8 sm:mb-10 text-sm sm:text-base max-w-2xl">
             Explore additional resources to deepen your understanding of climate systems 
-            and climate action.
+            and climate action. Select a category to discover curated materials.
           </p>
 
-          <div className="space-y-6 sm:space-y-8">
-            {resources.map((category) => {
+          {/* Category Cards Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            {categories.map((category) => {
               const Icon = category.icon;
               return (
-                <div key={category.category} className="border-b border-gray-200 pb-6 sm:pb-8 last:border-b-0">
-                  <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-                    <Icon className="text-green-600 flex-shrink-0" size={20} />
-                    <h2 className="text-green-700 text-base sm:text-lg">{category.category}</h2>
+                <div
+                  key={category.id}
+                  className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-5 sm:p-6 shadow-sm hover:shadow-md hover:border-green-300 dark:hover:border-green-600 border border-gray-200 dark:border-gray-600 transition-all duration-200 flex flex-col"
+                >
+                  {/* Icon */}
+                  <div className="w-12 h-12 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-4">
+                    <Icon className="text-green-600 dark:text-green-400" size={24} />
                   </div>
 
-                  <div className="space-y-3 sm:space-y-4">
-                    {category.items.map((item) => (
-                      <a
-                        key={item.title}
-                        href={item.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block p-3 sm:p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group"
-                      >
-                        <div className="flex items-start justify-between gap-3 sm:gap-4">
-                          <div className="flex-1 min-w-0">
-                            <h3 className="text-gray-900 dark:text-gray-100 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors mb-1 text-sm sm:text-base">
-                              {item.title}
-                            </h3>
-                            <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm">{item.description}</p>
-                          </div>
-                          <ExternalLink className="text-gray-400 dark:text-gray-500 group-hover:text-green-600 dark:group-hover:text-green-400 flex-shrink-0" size={18} />
-                        </div>
-                      </a>
-                    ))}
-                  </div>
+                  {/* Title */}
+                  <h3 className="text-gray-900 dark:text-gray-100 font-semibold text-base sm:text-lg mb-2">
+                    {category.title}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 flex-grow">
+                    {category.description}
+                  </p>
+
+                  {/* Explore Button */}
+                  <Button
+                    onClick={() => handleExplore(category.id)}
+                    variant="outline"
+                    className="w-full mt-auto group hover:bg-green-50 dark:hover:bg-green-900/20 hover:border-green-500 hover:text-green-700 dark:hover:text-green-400"
+                  >
+                    <span>Explore</span>
+                    <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                  </Button>
                 </div>
               );
             })}
           </div>
 
-          <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-gray-200 dark:border-gray-700">
-            <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-              <strong>Note:</strong> External links will open in a new tab. We are not responsible 
-              for the content on external websites.
+          <div className="mt-8 sm:mt-10 pt-6 sm:pt-8 border-t border-gray-200 dark:border-gray-700">
+            <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 text-center">
+              More categories and resources are being added regularly. Check back for updates!
             </p>
           </div>
         </div>

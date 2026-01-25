@@ -8,7 +8,7 @@ import dayOfClimateLogo from '../assets/day_of_climate.png';
 
 type HeaderProps = {
   onNavigate?: (page: 'intro' | number | 'ending' | 'about' | 'educators' | 'resources' | 'glossary') => void;
-  currentPage?: 'intro' | number | 'about' | 'educators' | 'resources' | 'glossary';
+  currentPage?: 'intro' | number | 'about' | 'educators' | 'resources' | 'glossary' | 'ending';
 };
 
 export function Header({ onNavigate, currentPage }: HeaderProps) {
