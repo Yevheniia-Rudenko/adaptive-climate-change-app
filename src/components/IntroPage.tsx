@@ -178,7 +178,7 @@ export function IntroPage({ onStart, onNavigateToModule }: IntroPageProps) {
 
                           {/* Title Bar */}
                           <div className="px-8 py-8 min-h-28 flex items-center justify-center flex-grow" style={{ backgroundColor: '#66BB6A' }}>
-                            <h3 className="text-base sm:text-lg leading-snug line-clamp-3 w-full text-center" style={{ color: '#ffffff', fontWeight: '900' }}>
+                            <h3 className="text-xl sm:text-2xl md:text-2xl leading-snug line-clamp-3 w-full text-center" style={{ color: '#ffffff', fontWeight: '900' }}>
                               {label}
                             </h3>
                           </div>
