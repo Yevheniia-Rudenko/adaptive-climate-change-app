@@ -53,6 +53,7 @@ export type Translations = {
   yourReflections: string;
   restartJourney: string;
   backHome: string;
+  backToResources: string;
   
   // Dashboard
   temperature: string;
@@ -123,6 +124,7 @@ export const translations: Record<Language, Translations> = {
     yourReflections: 'Your Reflections',
     restartJourney: 'Restart Journey',
     backHome: 'Back to Home',
+    backToResources: 'Back to Resources',
     
     // Dashboard
     temperature: 'Temperature',
@@ -192,6 +194,7 @@ export const translations: Record<Language, Translations> = {
     yourReflections: 'Tus Reflexiones',
     restartJourney: 'Reiniciar Viaje',
     backHome: 'Volver al Inicio',
+    backToResources: 'Volver a Recursos',
     
     // Dashboard
     temperature: 'Temperatura',
@@ -261,6 +264,7 @@ export const translations: Record<Language, Translations> = {
     yourReflections: 'تأملاتك',
     restartJourney: 'إعادة بدء الرحلة',
     backHome: 'العودة إلى الصفحة الرئيسية',
+    backToResources: 'العودة إلى الموارد',
     
     // Dashboard
     temperature: 'درجة الحرارة',
@@ -330,6 +334,7 @@ export const translations: Record<Language, Translations> = {
     yourReflections: 'Deine Reflexionen',
     restartJourney: 'Reise Neu Starten',
     backHome: 'Zurück zur Startseite',
+    backToResources: 'Zurück zu Ressourcen',
     
     // Dashboard
     temperature: 'Temperatur',
@@ -399,6 +404,7 @@ export const translations: Record<Language, Translations> = {
     yourReflections: 'Ваши размышления',
     restartJourney: 'Начать заново',
     backHome: 'На главную',
+    backToResources: 'Назад к ресурсам',
     
     // Dashboard
     temperature: 'Температура',
@@ -468,6 +474,7 @@ export const translations: Record<Language, Translations> = {
     yourReflections: 'Ваші роздуми',
     restartJourney: 'Почати заново',
     backHome: 'На головну',
+    backToResources: 'Назад до ресурсів',
     
     // Dashboard
     temperature: 'Температура',
