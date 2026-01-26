@@ -152,7 +152,7 @@ export function IntroPage({ onStart, onNavigateToModule }: IntroPageProps) {
                         className="absolute inset-0 cursor-pointer"
                         style={{ backfaceVisibility: 'hidden' }}
                       >
-                        <div className="overflow-hidden rounded-3xl border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-2xl transition-shadow duration-300 h-full flex flex-col" style={{ backgroundColor: '#66BB6A' }}>
+                        <div className="overflow-hidden rounded-3xl border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-2xl transition-shadow duration-300 h-full flex flex-col" style={{ backgroundColor: '#2D6A4F' }}>
                           {/* Image Area */}
                           <div 
                             className="h-48 sm:h-56 w-full flex items-center justify-center relative flex-shrink-0 p-4"
@@ -177,7 +177,7 @@ export function IntroPage({ onStart, onNavigateToModule }: IntroPageProps) {
                           </div>
 
                           {/* Title Bar */}
-                          <div className="px-8 py-8 min-h-28 flex items-center justify-center flex-grow" style={{ backgroundColor: '#66BB6A' }}>
+                          <div className="px-8 py-8 min-h-28 flex items-center justify-center flex-grow" style={{ backgroundColor: '#2D6A4F' }}>
                             <h3 className="text-xl sm:text-2xl md:text-2xl leading-snug line-clamp-3 w-full text-center" style={{ color: '#ffffff', fontWeight: '900' }}>
                               {label}
                             </h3>
