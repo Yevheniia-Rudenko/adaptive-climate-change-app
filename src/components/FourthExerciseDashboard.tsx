@@ -7,6 +7,7 @@ import '../styles/enroads-dashboard.css';
 export default function FourthExerciseDashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isModelReady, setIsModelReady] = useState(false);
   const [sliderValue, setSliderValue] = useState<number | null>(null);
   const [sliderLabel, setSliderLabel] = useState<string>('Carbon Price');
   const [sliderText, setSliderText] = useState<string>('status quo');
@@ -85,7 +86,11 @@ export default function FourthExerciseDashboard() {
     }
 
     const canvas = deathsCanvasRef.current;
-    const rect = canvas.getBoundingClientRect();
+    const rect =
+      canvas.getBoundingClientRect().width > 0
+        ? canvas.getBoundingClientRect()
+        : canvas.parentElement?.getBoundingClientRect();
+    if (!rect || rect.width === 0) return;
     const dpr = window.devicePixelRatio || 1;
 
     canvas.style.width = rect.width + 'px';
@@ -225,11 +230,7 @@ export default function FourthExerciseDashboard() {
         // Emissions performance standard start year: 2100
         setInput('46', 2100);
 
-        requestAnimationFrame(() => {
-          initDeathsGraph();
-          updateAllGraphs();
-        });
-
+        setIsModelReady(true);
         setIsLoading(false);
       } catch (err) {
         console.error('Failed to initialize fourth exercise dashboard:', err);
@@ -249,6 +250,31 @@ export default function FourthExerciseDashboard() {
       }
     };
   }, []);
+
+  useEffect(() => {
+    if (isLoading || !isModelReady) return;
+
+    let cancelled = false;
+    const tryInit = (attempt: number) => {
+      if (cancelled) return;
+      if (deathsGraphViewRef.current) return;
+
+      initDeathsGraph();
+      if (deathsGraphViewRef.current) {
+        updateAllGraphs();
+        return;
+      }
+
+      if (attempt < 10) {
+        requestAnimationFrame(() => tryInit(attempt + 1));
+      }
+    };
+
+    requestAnimationFrame(() => tryInit(0));
+    return () => {
+      cancelled = true;
+    };
+  }, [isLoading, isModelReady]);
 
   if (isLoading) {
     return (
