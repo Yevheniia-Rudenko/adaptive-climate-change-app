@@ -1,4 +1,4 @@
-import { HexColor, GraphDatasetSpec, Point, GraphSpec, StringKey } from '@climateinteractive/sim-core';
+import { HexColor, GraphDatasetSpec, GraphSpec, Point, StringKey } from '@climateinteractive/sim-core';
 
 /** The font style for a graph. */
 interface GraphFontStyle {
