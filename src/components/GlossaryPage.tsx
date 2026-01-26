@@ -1,7 +1,7 @@
 import { useLanguage } from '../contexts/LanguageContext';
 import { Button } from './ui/button';
 import { Search } from 'lucide-react';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef } from 'react';
 import { glossary } from '../data/glossary';
 
 type GlossaryPageProps = {
@@ -11,6 +11,7 @@ type GlossaryPageProps = {
 export function GlossaryPage({ onBackToHome }: GlossaryPageProps) {
   const { t, language } = useLanguage();
   const [searchTerm, setSearchTerm] = useState('');
+  const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
   const entries = useMemo(() => glossary[language] || glossary.en, [language]);
   
@@ -23,6 +24,39 @@ export function GlossaryPage({ onBackToHome }: GlossaryPageProps) {
       entry.definition.toLowerCase().includes(searchLower)
     );
   }, [entries, searchTerm]);
+
+  // Group terms by first letter
+  const groupedTerms = useMemo(() => {
+    const groups: { [key: string]: typeof filteredTerms } = {};
+    filteredTerms.forEach(entry => {
+      const firstLetter = entry.term.charAt(0).toUpperCase();
+      if (!groups[firstLetter]) {
+        groups[firstLetter] = [];
+      }
+      groups[firstLetter].push(entry);
+    });
+    return groups;
+  }, [filteredTerms]);
+
+  // Get available letters from all entries (not filtered)
+  const allLetters = useMemo(() => {
+    const letters = new Set<string>();
+    entries.forEach(entry => {
+      letters.add(entry.term.charAt(0).toUpperCase());
+    });
+    return Array.from(letters).sort();
+  }, [entries]);
+
+  // Get letters that have results in current filter
+  const availableLetters = useMemo(() => {
+    return new Set(Object.keys(groupedTerms));
+  }, [groupedTerms]);
+
+  const scrollToLetter = (letter: string) => {
+    if (sectionRefs.current[letter]) {
+      sectionRefs.current[letter]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-6 font-sora">
@@ -55,13 +89,52 @@ export function GlossaryPage({ onBackToHome }: GlossaryPageProps) {
               />
             </div>
 
-            {/* Terms List */}
-            <div className="space-y-4 sm:space-y-6">
+            {/* Alphabet Navigation */}
+            <div className="flex flex-wrap gap-1 sm:gap-2 mb-6 sm:mb-8 p-3 sm:p-4 bg-gray-100 dark:bg-gray-700/50 rounded-xl">
+              {allLetters.map((letter) => {
+                const isAvailable = availableLetters.has(letter);
+                return (
+                  <button
+                    key={letter}
+                    onClick={() => isAvailable && scrollToLetter(letter)}
+                    disabled={!isAvailable}
+                    className={`w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-lg text-sm sm:text-base font-medium transition-all duration-200 ${
+                      isAvailable
+                        ? 'bg-white dark:bg-gray-600 text-green-600 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-900/30 hover:text-green-700 dark:hover:text-green-300 shadow-sm cursor-pointer'
+                        : 'text-gray-400 dark:text-gray-500 cursor-not-allowed'
+                    }`}
+                  >
+                    {letter}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Terms List - Grouped by Letter */}
+            <div className="space-y-8 sm:space-y-10">
               {filteredTerms.length > 0 ? (
-                filteredTerms.map((entry) => (
-                  <div key={entry.term} className="border-b border-gray-200 dark:border-gray-700 pb-4 sm:pb-6 last:border-b-0">
-                    <h3 className="text-green-700 mb-2 text-base sm:text-lg">{entry.term}</h3>
-                    <p className="text-gray-700 dark:text-gray-300 text-sm sm:text-base">{entry.definition}</p>
+                Object.keys(groupedTerms).sort().map((letter) => (
+                  <div 
+                    key={letter} 
+                    ref={(el) => { sectionRefs.current[letter] = el; }}
+                    className="scroll-mt-4"
+                  >
+                    {/* Letter Header */}
+                    <div className="sticky top-0 z-10 bg-white dark:bg-gray-800 py-2 mb-4">
+                      <h2 className="text-2xl sm:text-3xl font-bold text-green-600 dark:text-green-400 border-b-2 border-green-200 dark:border-green-800 pb-2">
+                        {letter}
+                      </h2>
+                    </div>
+                    
+                    {/* Terms for this letter */}
+                    <div className="space-y-4 sm:space-y-6">
+                      {groupedTerms[letter].map((entry) => (
+                        <div key={entry.term} className="border-b border-gray-200 dark:border-gray-700 pb-4 sm:pb-6 last:border-b-0">
+                          <h3 className="text-green-700 dark:text-green-500 mb-2 text-base sm:text-lg font-medium">{entry.term}</h3>
+                          <p className="text-gray-700 dark:text-gray-300 text-sm sm:text-base">{entry.definition}</p>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 ))
               ) : (
