@@ -24,7 +24,7 @@ function App() {
   return (
     <ThemeProvider>
       <LanguageProvider>
-        <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors">
+        <div className="min-h-screen transition-colors">
           <Header onNavigate={handleNavigate} currentPage={currentPage} />
           
           {currentPage === 'intro' && (
