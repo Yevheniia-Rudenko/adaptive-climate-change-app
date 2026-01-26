@@ -240,11 +240,14 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
                   </div>
                 </div>
 
+
                 <CalloutBox type="note" title="Flexible Design">
                   The curriculum is modular—use all 5 modules sequentially or select specific modules 
                   that fit your teaching needs and available time.
                 </CalloutBox>
+                <div className="mb-8" />
               </section>
+              <div className="mb-14 sm:mb-16" />
 
               {/* Section 2: How to Use This Curriculum */}
               <section 
@@ -297,12 +300,17 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
                     </ul>
                   </CollapsibleSection>
                 </div>
+                <div className="mb-8" />
+              
+              <div className="mb-14 sm:mb-16" />
 
                 <CalloutBox type="tip" title="Facilitator Tip">
                   Before your first session, work through one complete module as a student would. 
                   This helps you anticipate questions and identify good discussion points.
                 </CalloutBox>
+                <div className="mb-8" />
               </section>
+              <div className="mb-14 sm:mb-16" />
 
               {/* Section 3: Learning Objectives */}
               <section 
@@ -359,7 +367,9 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
                     </div>
                   </div>
                 </div>
+               <div className="mb-8" />
               </section>
+              <div className="mb-14 sm:mb-16" />
 
               {/* Section 4: Lesson Flow & Facilitation */}
               <section 
@@ -410,28 +420,32 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
                 <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">Sample Discussion Prompts</h3>
                 <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 mb-4">
                   <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 text-sm">
-                    <li>"What surprised you most about the simulation results?"</li>
-                    <li>"How do the solutions we explored connect to each other?"</li>
-                    <li>"What trade-offs did you notice between different approaches?"</li>
-                    <li>"How might this apply to our local community?"</li>
-                    <li>"What questions do you still have?"</li>
+                    <li>What surprised you most about the simulation results?</li>
+                    <li>How do the solutions we explored connect to each other?</li>
+                    <li>What trade-offs did you notice between different approaches?</li>
+                    <li>How might this apply to our local community?</li>
+                    <li>What questions do you still have?</li>
                   </ul>
                 </div>
 
                 <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">Reflection Questions</h3>
                 <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
                   <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 text-sm">
-                    <li>"What is one thing you learned today that changed how you think about climate?"</li>
-                    <li>"What action could you take this week based on what you learned?"</li>
-                    <li>"What would you want to explore further?"</li>
+                    <li>What is one thing you learned today that changed how you think about climate?</li>
+                    <li>What action could you take this week based on what you learned?</li>
+                    <li>What would you want to explore further?</li>
                   </ul>
                 </div>
-
+                <div className="mb-8" />
+              
+              <div className="mb-14 sm:mb-16" />
                 <CalloutBox type="tip" title="Facilitator Tip">
                   Allow students to share reflections in pairs before whole-group discussion. 
                   This increases participation and helps students articulate their thoughts.
                 </CalloutBox>
+                <div className="mb-8" />
               </section>
+              <div className="mb-14 sm:mb-16" />
 
               {/* Section 5: Classroom & Workshop Formats */}
               <section 
@@ -489,7 +503,9 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
                   Don't rush through simulations. Students need time to experiment, observe results, 
                   and discuss findings. It's better to cover less content deeply than to rush through everything.
                 </CalloutBox>
+                <div className="mb-8" />
               </section>
+              <div className="mb-14 sm:mb-16" />
 
               {/* Section 6: En-ROADS & Systems Tools */}
               <section 
@@ -556,7 +572,9 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
                   Start with the simplified version in this curriculum. Once students are comfortable, 
                   introduce the full En-ROADS model for advanced exploration or independent projects.
                 </CalloutBox>
+                <div className="mb-8" />
               </section>
+              <div className="mb-14 sm:mb-16" />
 
               {/* Section 7: Downloadable Materials */}
               <section 
@@ -606,12 +624,16 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
                     </Button>
                   </div>
                 </div>
-
+                <div className="mb-8" />
+              
+              <div className="mb-14 sm:mb-16" />
                 <CalloutBox type="note" title="More Resources Coming">
                   We're actively developing additional materials. Check back regularly for updates, 
                   or contact us if you have specific resource needs.
                 </CalloutBox>
+                <div className="mb-8" />
               </section>
+              <div className="mb-14 sm:mb-16" />
 
               {/* Section 8: Adaptations for Learners */}
               <section 
@@ -677,7 +699,9 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
                     </div>
                   </CollapsibleSection>
                 </div>
+                <div className="mb-8" />
               </section>
+              <div className="mb-14 sm:mb-16" />
 
               {/* Section 9: Teacher Professional Development */}
               <section 
@@ -743,7 +767,10 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
                   The best way to prepare educators is to let them experience the curriculum as learners first. 
                   This builds empathy for student experiences and surfaces potential challenges.
                 </CalloutBox>
+                <div className="mb-8" />
               </section>
+              <div className="mb-14 sm:mb-16" />
+
 
               {/* Section 10: FAQs & Troubleshooting */}
               <section 
