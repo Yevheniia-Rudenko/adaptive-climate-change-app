@@ -35,6 +35,7 @@ export type Translations = {
   module3: string;
   module4: string;
   module5: string;
+  module6: string;
   
   // Module Page
   back: string;
@@ -106,6 +107,7 @@ export const translations: Record<Language, Translations> = {
     module3: 'Roadmap to Possible Futures',
     module4: 'Systems View of Climate Solutions',
     module5: 'Lever of Change',
+    module6: 'Resources',
     
     // Module Page
     back: 'Back',
@@ -176,6 +178,7 @@ export const translations: Record<Language, Translations> = {
     module3: 'Hoja de Ruta hacia Futuros Posibles',
     module4: 'Vista de Sistemas de Soluciones Climáticas',
     module5: 'Palanca de Cambio',
+    module6: 'Recursos',
     
     // Module Page
     back: 'Atrás',
@@ -246,6 +249,7 @@ export const translations: Record<Language, Translations> = {
     module3: 'خريطة الطريق إلى المستقبلات المحتملة',
     module4: 'رؤية الأنظمة للحلول المناخية',
     module5: 'رافعة التغيير',
+    module6: 'الموارد',
     
     // Module Page
     back: 'رجوع',
@@ -316,6 +320,7 @@ export const translations: Record<Language, Translations> = {
     module3: 'Fahrplan zu möglichen Zukünften',
     module4: 'Systemansicht der Klimalösungen',
     module5: 'Hebel der Veränderung',
+    module6: 'Ressourcen',
     
     // Module Page
     back: 'Zurück',
@@ -386,6 +391,7 @@ export const translations: Record<Language, Translations> = {
     module3: 'Дорожная карта к возможному будущему',
     module4: 'Системный взгляд на климатические решения',
     module5: 'Рычаги изменений',
+    module6: 'Ресурсы',
     
     // Module Page
     back: 'Назад',
@@ -456,6 +462,7 @@ export const translations: Record<Language, Translations> = {
     module3: 'Дорожня карта до можливого майбутнього',
     module4: 'Системний погляд на кліматичні рішення',
     module5: 'Важелі змін',
+    module6: 'Ресурси',
     
     // Module Page
     back: 'Назад',
