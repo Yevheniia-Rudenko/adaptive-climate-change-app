@@ -1,12 +1,7 @@
+import { Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import { Button } from './ui/button';
 import { BookOpen, FileText, Wrench, PlayCircle, Globe, Users, ExternalLink, ArrowRight, BookText } from 'lucide-react';
-
-type ResourcesPageProps = {
-  onBackToHome: () => void;
-  onNavigateToGlossary?: () => void;
-  onNavigateToCategory?: (categoryId: string) => void;
-};
 
 type ResourceCategory = {
   id: string;
@@ -15,8 +10,9 @@ type ResourceCategory = {
   icon: React.ComponentType<{ className?: string; size?: number }>;
 };
 
-export function ResourcesPage({ onBackToHome, onNavigateToGlossary, onNavigateToCategory }: ResourcesPageProps) {
+export function ResourcesPage() {
   const { t } = useLanguage();
+  const navigate = useNavigate();
 
   const categories: ResourceCategory[] = [
     {
@@ -70,30 +66,29 @@ export function ResourcesPage({ onBackToHome, onNavigateToGlossary, onNavigateTo
   ];
 
   const handleExplore = (categoryId: string) => {
-    if (categoryId === 'glossary' && onNavigateToGlossary) {
-      onNavigateToGlossary();
+    if (categoryId === 'glossary') {
+      navigate('/glossary');
       return;
     }
-    if (onNavigateToCategory) {
-      onNavigateToCategory(categoryId);
-    }
+    navigate(`/resources/${categoryId}`);
   };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-6 font-sora">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        <Button
-          onClick={onBackToHome}
-          variant="outline"
-          className="mb-4 sm:mb-6"
-        >
-          ← {t.backHome}
-        </Button>
+        <Link to="/">
+          <Button
+            variant="outline"
+            className="mb-4 sm:mb-6"
+          >
+            ← {t.backHome}
+          </Button>
+        </Link>
 
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 sm:p-8 md:p-12">
           <h1 className="text-green-600 mb-3 sm:mb-4">{t.resources}</h1>
           <p className="text-gray-600 dark:text-gray-300 mb-8 sm:mb-10 text-sm sm:text-base max-w-2xl">
-            Explore additional resources to deepen your understanding of climate systems 
+            Explore additional resources to deepen your understanding of climate systems
             and climate action. Select a category to discover curated materials.
           </p>
 

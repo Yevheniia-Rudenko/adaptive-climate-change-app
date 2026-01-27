@@ -1,19 +1,20 @@
+import { Link } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import { Button } from './ui/button';
-import { 
-  BookOpen, 
-  Users, 
-  Target, 
-  Download, 
-  Clock, 
-  GraduationCap, 
-  Lightbulb, 
-  MessageSquare, 
-  Calendar, 
-  Settings, 
-  FileText, 
-  Accessibility, 
-  Award, 
+import {
+  BookOpen,
+  Users,
+  Target,
+  Download,
+  Clock,
+  GraduationCap,
+  Lightbulb,
+  MessageSquare,
+  Calendar,
+  Settings,
+  FileText,
+  Accessibility,
+  Award,
   HelpCircle,
   ChevronDown,
   ChevronRight,
@@ -25,10 +26,6 @@ import {
 } from 'lucide-react';
 import { useState, useRef } from 'react';
 
-type EducatorsPageProps = {
-  onBackToHome: () => void;
-};
-
 // Section type definition
 type Section = {
   id: string;
@@ -37,17 +34,17 @@ type Section = {
 };
 
 // Collapsible component
-function CollapsibleSection({ 
-  title, 
-  children, 
-  defaultOpen = false 
-}: { 
-  title: string; 
-  children: React.ReactNode; 
+function CollapsibleSection({
+  title,
+  children,
+  defaultOpen = false
+}: {
+  title: string;
+  children: React.ReactNode;
   defaultOpen?: boolean;
 }) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
-  
+
   return (
     <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
       <button
@@ -71,13 +68,13 @@ function CollapsibleSection({
 }
 
 // Callout box component
-function CalloutBox({ 
-  type, 
-  title, 
-  children 
-}: { 
-  type: 'tip' | 'pitfall' | 'note'; 
-  title: string; 
+function CalloutBox({
+  type,
+  title,
+  children
+}: {
+  type: 'tip' | 'pitfall' | 'note';
+  title: string;
   children: React.ReactNode;
 }) {
   const styles = {
@@ -100,9 +97,9 @@ function CalloutBox({
       titleColor: 'text-blue-800 dark:text-blue-300'
     }
   };
-  
+
   const style = styles[type];
-  
+
   return (
     <div className={`${style.bg} ${style.border} border rounded-lg p-4 my-4`}>
       <div className="flex items-center gap-2 mb-2">
@@ -116,7 +113,7 @@ function CalloutBox({
   );
 }
 
-export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
+export function EducatorsPage() {
   const { t } = useLanguage();
   const [activeSection, setActiveSection] = useState('overview');
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
@@ -144,13 +141,14 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-6 font-sora">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        <Button
-          onClick={onBackToHome}
-          variant="outline"
-          className="mb-4 sm:mb-6"
-        >
-          ← {t.backHome}
-        </Button>
+        <Link to="/">
+          <Button
+            variant="outline"
+            className="mb-4 sm:mb-6"
+          >
+            ← {t.backHome}
+          </Button>
+        </Link>
 
         <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
           {/* Left Navigation Sidebar */}
@@ -166,11 +164,10 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
                     <button
                       key={section.id}
                       onClick={() => scrollToSection(section.id)}
-                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left text-sm transition-all duration-200 ${
-                        activeSection === section.id
+                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left text-sm transition-all duration-200 ${activeSection === section.id
                           ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 font-medium'
                           : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700/50 hover:text-gray-900 dark:hover:text-gray-200'
-                      }`}
+                        }`}
                     >
                       <Icon size={18} />
                       <span>{section.title}</span>
@@ -188,13 +185,13 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
               <div className="mb-8 sm:mb-10 pb-6 border-b border-gray-200 dark:border-gray-700">
                 <h1 className="text-green-600 text-2xl sm:text-3xl font-bold mb-3">Educator Guide</h1>
                 <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base max-w-3xl">
-                  Welcome! This guide supports you in teaching and facilitating the climate systems curriculum. 
+                  Welcome! This guide supports you in teaching and facilitating the climate systems curriculum.
                   Here you'll find everything you need to effectively use this platform in your classroom or workshop settings.
                 </p>
               </div>
 
               {/* Section 1: Overview */}
-              <section 
+              <section
                 ref={(el) => { sectionRefs.current['overview'] = el; }}
                 className="mb-10 sm:mb-12 scroll-mt-6"
               >
@@ -206,9 +203,9 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
                     Overview (At a Glance)
                   </h2>
                 </div>
-                
+
                 <p className="text-gray-600 dark:text-gray-300 mb-6">
-                  This curriculum is designed to help students aged 14-18 develop systems thinking skills 
+                  This curriculum is designed to help students aged 14-18 develop systems thinking skills
                   and understand climate change through interactive modules and simulations.
                 </p>
 
@@ -242,7 +239,7 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
 
 
                 <CalloutBox type="note" title="Flexible Design">
-                  The curriculum is modular—use all 5 modules sequentially or select specific modules 
+                  The curriculum is modular—use all 5 modules sequentially or select specific modules
                   that fit your teaching needs and available time.
                 </CalloutBox>
                 <div className="mb-8" />
@@ -250,7 +247,7 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
               <div className="mb-14 sm:mb-16" />
 
               {/* Section 2: How to Use This Curriculum */}
-              <section 
+              <section
                 ref={(el) => { sectionRefs.current['how-to-use'] = el; }}
                 className="mb-10 sm:mb-12 scroll-mt-6"
               >
@@ -301,11 +298,11 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
                   </CollapsibleSection>
                 </div>
                 <div className="mb-8" />
-              
-              <div className="mb-14 sm:mb-16" />
+
+                <div className="mb-14 sm:mb-16" />
 
                 <CalloutBox type="tip" title="Facilitator Tip">
-                  Before your first session, work through one complete module as a student would. 
+                  Before your first session, work through one complete module as a student would.
                   This helps you anticipate questions and identify good discussion points.
                 </CalloutBox>
                 <div className="mb-8" />
@@ -313,7 +310,7 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
               <div className="mb-14 sm:mb-16" />
 
               {/* Section 3: Learning Objectives */}
-              <section 
+              <section
                 ref={(el) => { sectionRefs.current['learning-objectives'] = el; }}
                 className="mb-10 sm:mb-12 scroll-mt-6"
               >
@@ -367,12 +364,12 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
                     </div>
                   </div>
                 </div>
-               <div className="mb-8" />
+                <div className="mb-8" />
               </section>
               <div className="mb-14 sm:mb-16" />
 
               {/* Section 4: Lesson Flow & Facilitation */}
-              <section 
+              <section
                 ref={(el) => { sectionRefs.current['lesson-flow'] = el; }}
                 className="mb-10 sm:mb-12 scroll-mt-6"
               >
@@ -386,7 +383,7 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
                 </div>
 
                 <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">Suggested Lesson Structure</h3>
-                
+
                 <div className="space-y-4 mb-6">
                   <div className="flex gap-4 items-start">
                     <div className="w-16 text-center flex-shrink-0">
@@ -437,10 +434,10 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
                   </ul>
                 </div>
                 <div className="mb-8" />
-              
-              <div className="mb-14 sm:mb-16" />
+
+                <div className="mb-14 sm:mb-16" />
                 <CalloutBox type="tip" title="Facilitator Tip">
-                  Allow students to share reflections in pairs before whole-group discussion. 
+                  Allow students to share reflections in pairs before whole-group discussion.
                   This increases participation and helps students articulate their thoughts.
                 </CalloutBox>
                 <div className="mb-8" />
@@ -448,7 +445,7 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
               <div className="mb-14 sm:mb-16" />
 
               {/* Section 5: Classroom & Workshop Formats */}
-              <section 
+              <section
                 ref={(el) => { sectionRefs.current['formats'] = el; }}
                 className="mb-10 sm:mb-12 scroll-mt-6"
               >
@@ -500,7 +497,7 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
                 </div>
 
                 <CalloutBox type="pitfall" title="Common Pitfall">
-                  Don't rush through simulations. Students need time to experiment, observe results, 
+                  Don't rush through simulations. Students need time to experiment, observe results,
                   and discuss findings. It's better to cover less content deeply than to rush through everything.
                 </CalloutBox>
                 <div className="mb-8" />
@@ -508,7 +505,7 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
               <div className="mb-14 sm:mb-16" />
 
               {/* Section 6: En-ROADS & Systems Tools */}
-              <section 
+              <section
                 ref={(el) => { sectionRefs.current['enroads'] = el; }}
                 className="mb-10 sm:mb-12 scroll-mt-6"
               >
@@ -523,8 +520,8 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
 
                 <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">About En-ROADS</h3>
                 <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm">
-                  En-ROADS is a free, online climate simulation developed by Climate Interactive and MIT Sloan. 
-                  It allows users to explore how different policies and actions affect global temperature, 
+                  En-ROADS is a free, online climate simulation developed by Climate Interactive and MIT Sloan.
+                  It allows users to explore how different policies and actions affect global temperature,
                   energy systems, and emissions over time.
                 </p>
 
@@ -558,9 +555,9 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
                   </ul>
                 </div>
 
-                <a 
-                  href="https://www.climateinteractive.org/en-roads/" 
-                  target="_blank" 
+                <a
+                  href="https://www.climateinteractive.org/en-roads/"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors text-sm font-medium"
                 >
@@ -569,7 +566,7 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
                 </a>
 
                 <CalloutBox type="tip" title="Facilitator Tip">
-                  Start with the simplified version in this curriculum. Once students are comfortable, 
+                  Start with the simplified version in this curriculum. Once students are comfortable,
                   introduce the full En-ROADS model for advanced exploration or independent projects.
                 </CalloutBox>
                 <div className="mb-8" />
@@ -577,7 +574,7 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
               <div className="mb-14 sm:mb-16" />
 
               {/* Section 7: Downloadable Materials */}
-              <section 
+              <section
                 ref={(el) => { sectionRefs.current['downloads'] = el; }}
                 className="mb-10 sm:mb-12 scroll-mt-6"
               >
@@ -591,7 +588,7 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
                 </div>
 
                 <p className="text-gray-600 dark:text-gray-300 mb-6 text-sm">
-                  Download these resources to support your teaching. All materials are free to use 
+                  Download these resources to support your teaching. All materials are free to use
                   for educational purposes.
                 </p>
 
@@ -625,10 +622,10 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
                   </div>
                 </div>
                 <div className="mb-8" />
-              
-              <div className="mb-14 sm:mb-16" />
+
+                <div className="mb-14 sm:mb-16" />
                 <CalloutBox type="note" title="More Resources Coming">
-                  We're actively developing additional materials. Check back regularly for updates, 
+                  We're actively developing additional materials. Check back regularly for updates,
                   or contact us if you have specific resource needs.
                 </CalloutBox>
                 <div className="mb-8" />
@@ -636,7 +633,7 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
               <div className="mb-14 sm:mb-16" />
 
               {/* Section 8: Adaptations for Learners */}
-              <section 
+              <section
                 ref={(el) => { sectionRefs.current['adaptations'] = el; }}
                 className="mb-10 sm:mb-12 scroll-mt-6"
               >
@@ -704,7 +701,7 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
               <div className="mb-14 sm:mb-16" />
 
               {/* Section 9: Teacher Professional Development */}
-              <section 
+              <section
                 ref={(el) => { sectionRefs.current['professional-dev'] = el; }}
                 className="mb-10 sm:mb-12 scroll-mt-6"
               >
@@ -723,7 +720,7 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
 
                 <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-5 mb-4">
                   <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">Suggested PD Session (2-3 hours)</h3>
-                  
+
                   <div className="space-y-4 text-sm">
                     <div className="flex gap-3">
                       <div className="w-20 flex-shrink-0 text-gray-500 dark:text-gray-400">30 min</div>
@@ -764,7 +761,7 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
                 </div>
 
                 <CalloutBox type="tip" title="Facilitator Tip">
-                  The best way to prepare educators is to let them experience the curriculum as learners first. 
+                  The best way to prepare educators is to let them experience the curriculum as learners first.
                   This builds empathy for student experiences and surfaces potential challenges.
                 </CalloutBox>
                 <div className="mb-8" />
@@ -773,7 +770,7 @@ export function EducatorsPage({ onBackToHome }: EducatorsPageProps) {
 
 
               {/* Section 10: FAQs & Troubleshooting */}
-              <section 
+              <section
                 ref={(el) => { sectionRefs.current['faqs'] = el; }}
                 className="mb-10 sm:mb-12 scroll-mt-6"
               >
