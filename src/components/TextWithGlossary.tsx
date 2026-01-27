@@ -11,9 +11,20 @@ type TextWithGlossaryProps = {
 export function TextWithGlossary({ text, className }: TextWithGlossaryProps) {
   const { language } = useLanguage();
   const entries = glossary[language];
-  
+
+  // Helper to process bold text within strings
+  const formatText = (inputText: string, keyPrefix: string) => {
+    const parts = inputText.split(/(\*\*.*?\*\*)/g);
+    return parts.map((part, index) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return <strong key={`${keyPrefix}-${index}`} className="font-bold text-gray-900 dark:text-gray-100">{part.slice(2, -2)}</strong>;
+      }
+      return part;
+    });
+  };
+
   if (!entries || entries.length === 0) {
-    return <p className={className}>{text}</p>;
+    return <p className={className}>{formatText(text, 'simple')}</p>;
   }
 
   const pattern = createTermPattern(entries);
@@ -24,24 +35,25 @@ export function TextWithGlossary({ text, className }: TextWithGlossaryProps) {
 
   // Reset regex lastIndex
   pattern.lastIndex = 0;
-  
+
   while ((match = pattern.exec(text)) !== null) {
     const matchStart = match.index;
     const matchEnd = pattern.lastIndex;
-    
+
     const matchedText = match[0];
     const entry = findDefinition(matchedText, entries);
-    
+
     if (entry) {
       // Add text before the match
       if (matchStart > lastIndex) {
+        const prefix = `text-${keyCounter++}`;
         parts.push(
-          <span key={`text-${keyCounter++}`}>
-            {text.substring(lastIndex, matchStart)}
+          <span key={prefix}>
+            {formatText(text.substring(lastIndex, matchStart), prefix)}
           </span>
         );
       }
-      
+
       // Add the glossary term
       parts.push(
         <GlossaryTerm
@@ -50,23 +62,24 @@ export function TextWithGlossary({ text, className }: TextWithGlossaryProps) {
           definition={entry.definition}
         />
       );
-      
+
       lastIndex = matchEnd;
     }
   }
-  
+
   // Add remaining text after the last match
   if (lastIndex < text.length) {
+    const prefix = `text-${keyCounter++}`;
     parts.push(
-      <span key={`text-${keyCounter++}`}>
-        {text.substring(lastIndex)}
+      <span key={prefix}>
+        {formatText(text.substring(lastIndex), prefix)}
       </span>
     );
   }
-  
+
   return (
     <p className={className}>
-      {parts.length > 0 ? parts : text}
+      {parts.length > 0 ? parts : formatText(text, 'fallback')}
     </p>
   );
 }
