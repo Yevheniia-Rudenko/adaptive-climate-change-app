@@ -3,6 +3,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { Button } from './ui/button';
 import { motion } from 'motion/react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import module1Icon from '../assets/module1.png';
 import module2Icon from '../assets/module2.png';
 import module3Icon from '../assets/module3.png';
@@ -10,14 +11,22 @@ import module4Icon from '../assets/module4.png';
 import module5Icon from '../assets/module5.png';
 import resourcesIcon from '../assets/resources.png';
 
-type IntroPageProps = {
-  onStart: () => void;
-  onNavigateToModule: (moduleId: number | 'resources') => void;
-};
-
-export function IntroPage({ onStart, onNavigateToModule }: IntroPageProps) {
+export function IntroPage() {
   const { t } = useLanguage();
+  const navigate = useNavigate();
   const [flippedCard, setFlippedCard] = useState<number | null>(null);
+
+  const onStart = () => {
+    navigate('/module/1');
+  };
+
+  const onNavigateToModule = (moduleId: number | 'resources') => {
+    if (moduleId === 'resources') {
+      navigate('/resources');
+    } else {
+      navigate(`/module/${moduleId}`);
+    }
+  };
 
   const moduleCards = [
     {
@@ -85,7 +94,7 @@ export function IntroPage({ onStart, onNavigateToModule }: IntroPageProps) {
   return (
     <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 pt-20 font-sora bg-gray-50 dark:bg-gray-900">
       <div className="max-w-4xl w-full">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -93,7 +102,7 @@ export function IntroPage({ onStart, onNavigateToModule }: IntroPageProps) {
         >
           {/* Hero Image */}
           <div className="relative h-48 sm:h-64 md:h-80 overflow-hidden">
-            <img 
+            <img
               src="https://images.unsplash.com/photo-1642714388464-9d350c8cff39?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlYXJ0aCUyMGNsaW1hdGUlMjBjaGFuZ2V8ZW58MXx8fHwxNzY1MTc1MDY5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
               alt="Earth and climate"
               className="w-full h-full object-cover"
@@ -154,7 +163,7 @@ export function IntroPage({ onStart, onNavigateToModule }: IntroPageProps) {
                       >
                         <div className="overflow-hidden rounded-3xl border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-2xl transition-shadow duration-300 h-full flex flex-col" style={{ backgroundColor: '#2D6A4F' }}>
                           {/* Image Area */}
-                          <div 
+                          <div
                             className="h-48 sm:h-56 w-full flex items-center justify-center relative flex-shrink-0 p-4"
                             style={{ background: iconImage ? '#ffffff' : gradientStyle }}
                           >
@@ -166,9 +175,9 @@ export function IntroPage({ onStart, onNavigateToModule }: IntroPageProps) {
                             )}
 
                             {iconImage ? (
-                              <img 
-                                src={iconImage} 
-                                alt={label} 
+                              <img
+                                src={iconImage}
+                                alt={label}
                                 className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300 mt-6"
                               />
                             ) : (
@@ -188,13 +197,13 @@ export function IntroPage({ onStart, onNavigateToModule }: IntroPageProps) {
                       {/* Back of card */}
                       <div
                         className="absolute inset-0 cursor-pointer"
-                        style={{ 
+                        style={{
                           backfaceVisibility: 'hidden',
                           transform: 'rotateY(180deg)'
                         }}
                         onClick={() => onNavigateToModule(id === 6 ? 'resources' : id)}
                       >
-                        <div 
+                        <div
                           className="overflow-hidden rounded-3xl border border-gray-200 dark:border-gray-700 shadow-md h-full flex flex-col"
                           style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}
                         >

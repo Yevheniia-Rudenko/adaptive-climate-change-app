@@ -21,11 +21,11 @@ export function LanguageSwitcher() {
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="en">{languageNames.en}</SelectItem>
-          <SelectItem value="es">{languageNames.es}</SelectItem>
+          {/* <SelectItem value="es">{languageNames.es}</SelectItem>
           <SelectItem value="ar">{languageNames.ar}</SelectItem>
           <SelectItem value="de">{languageNames.de}</SelectItem>
           <SelectItem value="ru">{languageNames.ru}</SelectItem>
-          <SelectItem value="uk">{languageNames.uk}</SelectItem>
+          <SelectItem value="uk">{languageNames.uk}</SelectItem> */}
         </SelectContent>
       </Select>
     </div>
