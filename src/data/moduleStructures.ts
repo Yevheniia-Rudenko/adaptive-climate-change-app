@@ -16,11 +16,13 @@ export type ContentBlock =
   | { type: 'image'; imageUrl: string; alt: string; title?: string }
   | { type: 'flip-cards'; title?: string; cards: FlipCardData[] }
   | { type: 'dashboard'; }
+  | { type: 'exercise1-dashboard'; }
   | { type: '2ndExerciseDashboard'; }
   | { type: 'third-exercise'; }
   | { type: 'fourth-exercise'; }
   | { type: 'reflection'; prompt: string; id: string }
-  | { type: 'poll'; question: string; options: string[]; id: string }
+  | { type: 'poll'; question: string; options: string[]; id: string; singleSelect?: boolean }
+  | { type: 'numeric-prediction'; question: string; id: string; unit?: string }
   | { type: 'meditation'; title: string; content: string };
 
 export type ModuleStructure = {
@@ -77,6 +79,26 @@ export const moduleStructures: ModuleStructure[] = [
         type: 'audio',
         title: 'Listen to the audio recording',
         audioUrl: 'https://www.youtube.com/embed/XB6JoCWTjto',
+        transcript: `Take a comfortable seat.
+Let your feet rest on the floor.
+Gently close your eyes, or soften your gaze.
+Take a slow breath in through your nose…
+and a long breath out through your mouth.
+As you breathe, notice what comes up when you think about climate change.
+You might feel worry, sadness, anger, or confusion.
+You might also feel care, connection, or hope.
+Whatever you feel is okay.
+You don’t need to fix these emotions.
+Just notice them—like clouds passing through the sky.
+Now ask yourself quietly:
+How can I stay connected to what I care about without letting it overwhelm me?
+As you breathe in, imagine drawing in steadiness.
+As you breathe out, imagine releasing what’s too heavy to carry alone.
+Remember:
+You are allowed to care and to rest.
+You are allowed to learn and to be human.
+Take one more slow breath.
+When you’re ready, gently return to the room.`
       },
       {
         type: 'image',
@@ -107,37 +129,139 @@ export const moduleStructures: ModuleStructure[] = [
         transcript: "When scientists talk about global temperature increase, they are comparing today’s average Earth temperature to what it was before the Industrial Revolution, around eighteen fifty—before cars, factories, and power plants burned large amounts of fossil fuels.\n\nRight now, Earth has already warmed by about one point two degrees Celsius, or two point two degrees Fahrenheit. That may not sound like much, but even small changes in Earth’s average temperature can cause big changes in weather and ecosystems—just like how a small change in body temperature can make a human very sick.\n\nThe Paris Climate Agreement set two key temperature goals. The main goal is to keep global warming well below two degrees Celsius. The safer goal, which countries are encouraged to aim for, is limiting warming to one point five degrees Celsius.\n\nAt one point five degrees, there are fewer deadly heat waves, less sea level rise, and a lower risk of extreme weather. At two degrees or more, storms and floods become much stronger, many coral reefs die, and more people face extreme heat and food and water shortages.\n\nSo while both levels of warming are dangerous, limiting warming to one point five degrees is much safer than reaching two degrees."
       },
       {
-        type: 'dashboard'
+        type: 'text',
+        title: 'Let’s try some solutions.',
+        content: `While many climate lessons tell you **what’s wrong**, En‑ROADS lets you **experiment with solutions**.
+
+Instead of just hearing: “Climate change is bad and complicated,” you get to:
+
+• Test ideas yourself
+• See **cause and effect** immediately
+• Discover which solutions matter most
+
+You’re not memorizing facts—you’re **thinking like a decision‑maker.**
+
+So, let’s try it out! 
+
+We’ll introduce you to En-Roads a few elements at a time. Later, we’ll play with the full model.`
+      },
+      {
+        type: 'text',
+        title: '',
+        content: `**Exercise 1 — Afforestation**
+
+**Plant a Trillion Trees!**`
+      },
+      {
+        type: 'exercise1-dashboard'
       },
       {
         type: 'reflection',
-        prompt: 'After exploring the interactive dashboard, what insights did you gain about how our choices shape climate futures?',
-        id: 'insights'
+        prompt: 'What do you notice? What do you wonder?\n\nWhat assumptions did I have that were challenged? What surprised me?',
+        id: 'exercise-1-reflection'
+      },
+      {
+        type: 'text',
+        title: '**Exercise 2 — Renewables**',
+        content: "Summarize renewable energy positions and policies - what if we could just make renewable energy cheaper?  No change in lifestyle."
+      },
+      {
+        type: 'poll',
+        id: 'renewables-effectiveness-poll',
+        question: 'How effective do you think this solution is?',
+        options: ['Highly Effective', 'Moderately Effective', 'Slightly Effective', 'Not Effective'],
+        singleSelect: true
+      },
+      {
+        type: 'reflection',
+        prompt: 'What do you think the temperature change will be in this scenario?',
+        id: 'renewables-temp-prediction'
       },
       {
         type: '2ndExerciseDashboard'
       },
       {
         type: 'reflection',
-        prompt: 'What do you notice? What do you wonder? ',
-        id: 'notice-wonder'
+        prompt: 'What do you notice? What do you wonder?',
+        id: 'renewables-reflection'
       },
+
+
+      {
+        type: 'text',
+        title: '**Exercise 3 — Fossil Fuel Taxes**',
+        content: 'Summarize the divestment position'
+      },
+      {
+        type: 'poll',
+        id: 'fossil-fuel-impact-poll',
+        question: 'How impactful do you think this solution will be?',
+        options: ['Very impactful', 'Moderately', 'Not very impactful'],
+        singleSelect: true
+      },
+
       {
         type: 'third-exercise'
       },
       {
+        type: 'numeric-prediction',
+        question: 'What do you think the global temperature increase by 2100 would be if we implemented this scenario?',
+        id: 'fossil-fuel-temp-prediction',
+        unit: '°C'
+      },
+      {
         type: 'reflection',
-        prompt: 'What do you notice?',
-        id: 'deforestation'
+        prompt: 'What surprises you? What do you notice?',
+        id: 'fossil-fuel-reflection'
+      },
+      {
+        type: 'text',
+        title: '**Exercise 4 — Carbon Price**',
+        content: 'Summarize the carbon price position.'
+      },
+      {
+        type: 'poll',
+        id: 'carbon-price-impact-poll',
+        question: 'How impactful do you think this solution will be?',
+        options: ['Very impactful', 'Moderately', 'Not very impactful'],
+        singleSelect: true
+      },
+      {
+        type: 'numeric-prediction',
+        question: 'What do you think the global temperature increase by 2100 would be if we implemented this scenario?',
+        id: 'carbon-price-temp-prediction',
+        unit: '°C'
       },
       {
         type: 'fourth-exercise'
       },
       {
         type: 'reflection',
-        prompt: 'What do you notice?',
-        id: 'emissions'
+        prompt: 'What do you notice? What do you wonder?',
+        id: 'carbon-price-reflection'
       },
+      {
+        type: 'text',
+        title: '**Summary Moment**',
+        content: 'Repeat your last change - look at all of the different sliders. Scroll up and see comparisons.'
+      },
+      {
+        type: 'reflection',
+        prompt: 'Consolidate: Summarize what you notice across the different scenarios.',
+        id: 'module-1-final-summary'
+      },
+
+      {
+        type: 'text',
+        title: '**Discussion & Creative Tension**',
+        content: 'Sometimes change takes time. We can hold both today’s reality and a vision for the future.'
+      },
+      {
+        type: 'video',
+        title: 'Meditation: Hope as an Active Muscle',
+        videoUrl: 'https://www.youtube.com/embed/placeholder',
+        description: 'Name what is, thinking aspirational, hope as an active muscle.'
+      }
     ]
   },
   {

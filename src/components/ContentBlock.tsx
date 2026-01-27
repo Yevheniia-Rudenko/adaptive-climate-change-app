@@ -8,6 +8,7 @@ import EnRoadsDashboard from './EnRoadsDashboard';
 import SecondExerciseDashboard from './2ndExerciseDashboard';
 import ThirdExerciseDashboard from './ThirdExerciseDashboard';
 import FourthExerciseDashboard from './FourthExerciseDashboard';
+import Exercise1Dashboard from './Exercise1Dashboard';
 import { FlipCard } from './FlipCard';
 
 
@@ -16,14 +17,23 @@ function PollBlock({ block }: { block: Extract<ContentBlockType, { type: 'poll' 
   const [otherText, setOtherText] = useState('');
 
   const toggleOption = (option: string) => {
-    setSelectedOptions(prev => {
-      if (prev.includes(option)) {
-        return prev.filter(o => o !== option);
-      } else {
-        return [...prev, option];
-      }
-    });
+    if (block.singleSelect) {
+      // Single select: always replace selection with new option
+      setSelectedOptions([option]);
+    } else {
+      // Multi select (default): toggle functionality
+      setSelectedOptions(prev => {
+        if (prev.includes(option)) {
+          return prev.filter(o => o !== option);
+        } else {
+          return [...prev, option];
+        }
+      });
+    }
   };
+
+  const isRadio = block.singleSelect;
+  const inputType = isRadio ? 'radio' : 'checkbox';
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700 mb-8 font-sora">
@@ -35,13 +45,20 @@ function PollBlock({ block }: { block: Extract<ContentBlockType, { type: 'poll' 
             : 'border-gray-200 dark:border-gray-700 hover:border-blue-200'
             }`}>
             <input
-              type="checkbox"
+              type={inputType}
               name={`poll-${block.id}`}
               value={option}
               checked={selectedOptions.includes(option)}
               onChange={() => toggleOption(option)}
-              className="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500 rounded"
+              className="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500 rounded-full"
             />
+            {/* Note: 'rounded-full' makes checkmarks look like radios if using default styles, 
+                but distinct 'type' attribute handles semantic behavior. 
+                Tailwind forms plugin might need standard 'rounded' for checkbox vs 'rounded-full' for radio.
+                Safest to use specific classes or just let browser default styles apply via type. 
+                Currently kept 'rounded-full' for both to be safe or maybe standard 'rounded' for checkbox? 
+                Let's stick to 'rounded' for check, 'rounded-full' for radio if possible, or just generic.
+                The existing code used 'rounded'. I'll try to pick based on type. */}
             <span className="text-gray-700 dark:text-gray-300 font-medium" style={{ marginLeft: '3rem' }}>{option}</span>
           </label>
         ))}
@@ -51,7 +68,7 @@ function PollBlock({ block }: { block: Extract<ContentBlockType, { type: 'poll' 
           }`}>
           <label className="flex items-center cursor-pointer">
             <input
-              type="checkbox"
+              type={inputType}
               name={`poll-${block.id}`}
               value="Other"
               checked={selectedOptions.includes('Other')}
@@ -211,6 +228,9 @@ export function ContentBlock({
     case 'dashboard':
       return moduleId === 1 ? <EnRoadsDashboard /> : <InteractiveDashboard moduleId={moduleId} />;
 
+    case 'exercise1-dashboard':
+      return <Exercise1Dashboard />;
+
     case '2ndExerciseDashboard':
       return <SecondExerciseDashboard />;
 
@@ -224,7 +244,7 @@ export function ContentBlock({
       return (
         <div className="bg-gradient-to-br from-blue-50 to-green-50 dark:from-blue-900/20 dark:to-green-900/20 rounded-2xl p-4 sm:p-6 md:p-8 mb-6 sm:mb-8 font-sora">
           <h3 className="text-gray-900 dark:text-gray-100 mb-2 sm:mb-3 text-base sm:text-lg font-bold">{t.reflection}</h3>
-          <p className="text-gray-700 dark:text-gray-300 mb-3 sm:mb-4 leading-relaxed text-sm sm:text-base">
+          <p className="text-gray-700 dark:text-gray-300 mb-3 sm:mb-4 leading-relaxed text-sm sm:text-base whitespace-pre-line">
             {block.prompt}
           </p>
           <textarea
@@ -275,6 +295,22 @@ export function ContentBlock({
 
     case 'poll':
       return <PollBlock block={block} />;
+
+    case 'numeric-prediction':
+      return (
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700 mb-8 font-sora">
+          <h3 className="text-gray-900 dark:text-gray-100 text-lg font-bold mb-4">{block.question}</h3>
+          <div className="flex items-center gap-3">
+            <input
+              type="number"
+              step="0.1"
+              placeholder="0.0"
+              className="w-32 p-3 text-2xl font-bold text-center border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:border-blue-500 focus:outline-none bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-300"
+            />
+            {block.unit && <span className="text-xl font-bold text-gray-500">{block.unit}</span>}
+          </div>
+        </div>
+      );
 
     default:
       return null;
