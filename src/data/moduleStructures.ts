@@ -1,12 +1,26 @@
+import plutchikWheel from '../assets/Plutchik-Model-600.png';
+import globalTempAudio from '../assets/GlobalTemperature.mp3';
+
+
+export type FlipCardData = {
+  frontTitle: string;
+  frontDescription?: string;
+  backTitle?: string;
+  backDescription: string;
+};
+
 export type ContentBlock =
   | { type: 'text'; title?: string; content: string }
   | { type: 'video'; title?: string; videoUrl: string; description?: string }
-  | { type: 'image'; imageUrl: string; alt: string }
+  | { type: 'audio'; title?: string; audioUrl: string; description?: string; transcript?: string }
+  | { type: 'image'; imageUrl: string; alt: string; title?: string }
+  | { type: 'flip-cards'; title?: string; cards: FlipCardData[] }
   | { type: 'dashboard'; }
   | { type: '2ndExerciseDashboard'; }
   | { type: 'third-exercise'; }
-  | {type: 'fourth-exercise'; }
+  | { type: 'fourth-exercise'; }
   | { type: 'reflection'; prompt: string; id: string }
+  | { type: 'poll'; question: string; options: string[]; id: string }
   | { type: 'meditation'; title: string; content: string };
 
 export type ModuleStructure = {
@@ -24,24 +38,73 @@ export const moduleStructures: ModuleStructure[] = [
     sections: [
       {
         type: 'text',
-        title: 'Understanding the Concept',
+        title: '**Page Introduction**',
         content: "Climate change isn't just about science and data—it's deeply personal. Understanding how climate futures affect you, your community, and the world helps build meaningful connections to the issue. This module explores how we emotionally and intellectually relate to different possible futures, and why these connections matter for taking action."
       },
       {
-        type: 'image',
-        imageUrl: "https://images.unsplash.com/photo-1761486533154-cec2262c4d53?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmdXR1cmUlMjBjaXR5JTIwc3VzdGFpbmFibGV8ZW58MXx8fHwxNzY1MTc1MDY4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-        alt: "Sustainable future city"
+        type: 'flip-cards',
+        title: '**Key Concepts**',
+        cards: [
+          {
+            frontTitle: 'Climate Change',
+            frontDescription: 'A global shift',
+            backTitle: 'Definition',
+            backDescription: 'Long-term shifts in temperatures and weather patterns, primarily due to human activities like burning fossil fuels.'
+          },
+          {
+            frontTitle: 'Emotions & Awareness',
+            frontDescription: 'Personal perspective',
+            backDescription: 'Acknowledging that climate change evokes strong feelings—from anxiety to hope—and that these emotions are valid drivers of action.'
+          },
+          {
+            frontTitle: 'Systems Thinking & Sensing',
+            frontDescription: 'The inner and outer dimensions',
+            backDescription: 'Moving beyond linear cause-and-effect to see the complex web of relationships, recognizing both external systems and our internal models.'
+          },
+          {
+            frontTitle: 'My Relation to Systems',
+            frontDescription: 'How am I relating?',
+            backDescription: 'Reflecting on your role within the larger system. Are you an observer, a participant, or a shaper of the future?'
+          }
+        ]
       },
       {
-        type: 'video',
-        title: 'Watch & Learn',
-        videoUrl: 'https://www.youtube.com/embed/dcSeYYcaCLo',
-        description: 'Explore different climate future scenarios'
+        type: 'text',
+        title: '**Reflection / Engagement**',
+        content: "Emotional Landscape: Climate change brings up many emotions, feelings and opinions based on our experience and context."
+      },
+      {
+        type: 'audio',
+        title: 'Listen to the audio recording',
+        audioUrl: 'https://www.youtube.com/embed/XB6JoCWTjto',
+      },
+      {
+        type: 'image',
+        title: 'Wheel of Emotions',
+        imageUrl: plutchikWheel,
+        alt: "Plutchik's Wheel of Emotions"
       },
       {
         type: 'reflection',
-        prompt: 'How do you feel when you think about climate futures? What emotions come up—hope, anxiety, motivation, or something else?',
-        id: 'emotions'
+        prompt: 'What emotions do you feel when you think about climate change?',
+        id: 'emotions-initial'
+      },
+      {
+        type: 'poll',
+        id: 'impacts-poll',
+        question: 'When you think about the possible impacts of climate change, what do you care about most?',
+        options: ['Flooding', 'Fires', 'Species loss', 'Extreme Heat']
+      },
+      {
+        type: 'text',
+        title: '**What Is En‑ROADS?**',
+        content: "En‑ROADS is an interactive climate simulation made by Climate Interactive based on real scientific research. Think of it like a real‑life “what if?” simulator for the Earth’s future.\n\n**It lets you explore questions like:**\n• What happens if we use more renewable energy?\n• What if cars and buildings become more efficient?\n• What if countries put a price on pollution?\n\n**You move sliders that represent real-world choices—energy, transportation, food, forests, and technology—and the simulator instantly shows how those choices affect:**\n• Global temperature\n• Sea level rise\n• Air pollution\n• Energy use\n• Economic outcomes"
+      },
+      {
+        type: 'audio',
+        title: 'What does global temperature increase mean?',
+        audioUrl: globalTempAudio,
+        transcript: "When scientists talk about global temperature increase, they are comparing today’s average Earth temperature to what it was before the Industrial Revolution, around eighteen fifty—before cars, factories, and power plants burned large amounts of fossil fuels.\n\nRight now, Earth has already warmed by about one point two degrees Celsius, or two point two degrees Fahrenheit. That may not sound like much, but even small changes in Earth’s average temperature can cause big changes in weather and ecosystems—just like how a small change in body temperature can make a human very sick.\n\nThe Paris Climate Agreement set two key temperature goals. The main goal is to keep global warming well below two degrees Celsius. The safer goal, which countries are encouraged to aim for, is limiting warming to one point five degrees Celsius.\n\nAt one point five degrees, there are fewer deadly heat waves, less sea level rise, and a lower risk of extreme weather. At two degrees or more, storms and floods become much stronger, many coral reefs die, and more people face extreme heat and food and water shortages.\n\nSo while both levels of warming are dangerous, limiting warming to one point five degrees is much safer than reaching two degrees."
       },
       {
         type: 'dashboard'
@@ -75,7 +138,6 @@ export const moduleStructures: ModuleStructure[] = [
         prompt: 'What do you notice?',
         id: 'emissions'
       },
-
     ]
   },
   {
