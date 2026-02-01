@@ -3264,3 +3264,29 @@ html {
   }
 }
 
+
+/* Custom styles for bullet point indentation */
+.whitespace-pre-line {
+  white-space: pre-line;
+}
+
+/* Add indentation for lines starting with bullet points */
+p.leading-relaxed {
+  text-indent: 0;
+}
+
+p.leading-relaxed:has-text("•") {
+  padding-left: 2rem;
+  text-indent: -2rem;
+}
+
+/* Better approach: use a custom class for bullet lists */
+.bullet-list {
+  padding-left: 3rem;
+}
+
+.bullet-list-item {
+  text-indent: -2rem;
+  padding-left: 2rem;
+  margin-bottom: 0.5rem;
+}

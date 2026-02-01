@@ -63,6 +63,17 @@ export const imageAttributions: ImageAttribution[] = [
         license: 'Public Domain',
         filePath: 'src/assets/Plutchik-Model-600.png',
     },
+    {
+        name: 'Climate Change Weather GIF',
+        description: 'Animated GIF showing temperature changes and climate impact',
+        source: 'GIPHY',
+        sourceUrl: 'https://giphy.com/gifs/IntoAction-environment-heatwave-hot-outside-L2r4woXTLCrkOYK2IT',
+        author: 'INTO ACTION',
+        authorUrl: 'https://intoaction.com/',
+        license: 'GIPHY Content License',
+        licenseUrl: 'https://support.giphy.com/hc/en-us/articles/360020027752-GIPHY-Content-License',
+        filePath: 'src/assets/Climate Change Weather GIF by INTO ACTION.gif',
+    },
 ];
 
 export interface Contributor {

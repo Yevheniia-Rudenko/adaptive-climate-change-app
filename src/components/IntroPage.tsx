@@ -124,10 +124,13 @@ export function IntroPage() {
           <div className="p-4 sm:p-6 md:p-8 lg:p-10">
             <div className="mb-6 sm:mb-8">
               <p className="text-gray-700 dark:text-gray-300 text-base sm:text-lg leading-relaxed mb-4">
-                {t.introP1}
+                {t.introP1_1}
+              </p>
+              <p className="text-gray-700 dark:text-gray-300 text-base sm:text-lg leading-relaxed mb-4">
+                {t.introP1_2}
               </p>
               <p className="text-gray-700 dark:text-gray-300 text-base sm:text-lg leading-relaxed">
-                {t.introP2}
+                {t.introP1_3}
               </p>
             </div>
 

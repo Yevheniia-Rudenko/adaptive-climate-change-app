@@ -37,7 +37,7 @@ function PollBlock({ block }: { block: Extract<ContentBlockType, { type: 'poll' 
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700 mb-8 font-sora">
-      <h3 className="text-gray-900 dark:text-gray-100 text-lg font-bold mb-4">{block.question}</h3>
+      <h3 className="text-gray-900 dark:text-gray-100 text-sm sm:text-base md:text-lg font-bold mb-4">{block.question}</h3>
       <div className="space-y-3">
         {block.options.map((option) => (
           <label key={option} className={`flex items-center p-3 rounded-xl border-2 cursor-pointer transition-all ${selectedOptions.includes(option)
@@ -59,7 +59,7 @@ function PollBlock({ block }: { block: Extract<ContentBlockType, { type: 'poll' 
                 Currently kept 'rounded-full' for both to be safe or maybe standard 'rounded' for checkbox? 
                 Let's stick to 'rounded' for check, 'rounded-full' for radio if possible, or just generic.
                 The existing code used 'rounded'. I'll try to pick based on type. */}
-            <span className="text-gray-700 dark:text-gray-300 font-medium" style={{ marginLeft: '3rem' }}>{option}</span>
+            <span className="text-gray-700 dark:text-gray-300 text-sm sm:text-base" style={{ marginLeft: '3rem' }}>{option}</span>
           </label>
         ))}
         <div className={`flex flex-col p-3 rounded-xl border-2 transition-all ${selectedOptions.includes('Other')
@@ -75,7 +75,7 @@ function PollBlock({ block }: { block: Extract<ContentBlockType, { type: 'poll' 
               onChange={() => toggleOption('Other')}
               className="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500 rounded"
             />
-            <span className="text-gray-700 dark:text-gray-300 font-medium" style={{ marginLeft: '3rem' }}>Other</span>
+            <span className="text-gray-700 dark:text-gray-300 text-sm sm:text-base" style={{ marginLeft: '3rem' }}>Other</span>
           </label>
           {selectedOptions.includes('Other') && (
             <input
@@ -123,7 +123,7 @@ export function ContentBlock({
         <div className="mb-6 sm:mb-8 font-sora">
           {block.title && (
             <div className="flex items-center gap-2 mb-3 sm:mb-4">
-              <BookOpen className="text-blue-600 dark:text-blue-400 flex-shrink-0" size={20} />
+              {!block.hideIcon && <BookOpen className="text-blue-600 dark:text-blue-400 flex-shrink-0" size={20} />}
               <h2 className="text-gray-900 dark:text-gray-100 text-base sm:text-lg md:text-xl font-bold">{formatTitle(block.title)}</h2>
             </div>
           )}
@@ -215,7 +215,7 @@ export function ContentBlock({
               <h3 className="text-gray-900 dark:text-gray-100 text-base sm:text-lg font-bold">{formatTitle(block.title)}</h3>
             </div>
           )}
-          <div className="rounded-xl sm:rounded-2xl overflow-hidden shadow-lg">
+          <div className="rounded-xl sm:rounded-2xl overflow-hidden shadow-lg" style={block.width ? { maxWidth: block.width, margin: '0 auto' } : undefined}>
             <img
               src={block.imageUrl}
               alt={block.alt}
@@ -295,6 +295,26 @@ export function ContentBlock({
 
     case 'poll':
       return <PollBlock block={block} />;
+
+    case 'html-embed':
+      return (
+        <div className="mb-6 sm:mb-8 font-sora">
+          {block.title && (
+            <div className="flex items-center gap-2 mb-3 sm:mb-4">
+              <BookOpen className="text-blue-600 dark:text-blue-400 flex-shrink-0" size={20} />
+              <h3 className="text-gray-900 dark:text-gray-100 text-base sm:text-lg font-bold">{formatTitle(block.title)}</h3>
+            </div>
+          )}
+          <div className="rounded-xl sm:rounded-2xl overflow-hidden shadow-lg bg-white dark:bg-gray-800">
+            <iframe
+              src={block.htmlFile}
+              title={block.title || 'Interactive Content'}
+              className="w-full h-96 border-0"
+              sandbox="allow-scripts allow-same-origin"
+            />
+          </div>
+        </div>
+      );
 
     case 'numeric-prediction':
       return (

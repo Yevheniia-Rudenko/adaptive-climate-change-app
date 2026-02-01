@@ -12,14 +12,45 @@ export function TextWithGlossary({ text, className }: TextWithGlossaryProps) {
   const { language } = useLanguage();
   const entries = glossary[language];
 
-  // Helper to process bold text within strings
+  // Helper to process bold text, italic text, and links within strings
   const formatText = (inputText: string, keyPrefix: string) => {
-    const parts = inputText.split(/(\*\*.*?\*\*)/g);
-    return parts.map((part, index) => {
-      if (part.startsWith('**') && part.endsWith('**')) {
-        return <strong key={`${keyPrefix}-${index}`} className="font-bold text-gray-900 dark:text-gray-100">{part.slice(2, -2)}</strong>;
+    // First, split by links [text](url)
+    const linkPattern = /(\[([^\]]+)\]\(([^)]+)\))/g;
+    const linkParts = inputText.split(linkPattern);
+
+    return linkParts.map((part, linkIndex) => {
+      // Check if this is a link match (every 4th element starting from index 1)
+      if (linkIndex % 4 === 1) {
+        const linkText = linkParts[linkIndex + 1];
+        const linkUrl = linkParts[linkIndex + 2];
+        return (
+          <a
+            key={`${keyPrefix}-link-${linkIndex}`}
+            href={linkUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 dark:text-blue-400 hover:underline"
+          >
+            {linkText}
+          </a>
+        );
       }
-      return part;
+
+      // Skip the captured groups (text and url parts)
+      if (linkIndex % 4 === 2 || linkIndex % 4 === 3) {
+        return null;
+      }
+
+      // Process bold and italic in non-link text
+      const boldItalicParts = part.split(/(\*\*.*?\*\*|\*.*?\*)/g);
+      return boldItalicParts.map((subPart, subIndex) => {
+        if (subPart.startsWith('**') && subPart.endsWith('**')) {
+          return <strong key={`${keyPrefix}-${linkIndex}-${subIndex}`} className="font-bold text-gray-900 dark:text-gray-100">{subPart.slice(2, -2)}</strong>;
+        } else if (subPart.startsWith('*') && subPart.endsWith('*') && !subPart.startsWith('**')) {
+          return <em key={`${keyPrefix}-${linkIndex}-${subIndex}`} className="italic text-gray-700 dark:text-gray-300">{subPart.slice(1, -1)}</em>;
+        }
+        return subPart;
+      });
     });
   };
 
