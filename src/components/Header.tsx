@@ -69,7 +69,7 @@ export function Header() {
             className="flex items-center gap-3 sm:gap-4 hover:opacity-80 transition-opacity"
             aria-label="Home"
           >
-            <div className="flex items-center gap-2 sm:gap-3">
+            <div className="flex items-center gap-4 sm:gap-6">
               <img
                 src={dayOfClimateLogo}
                 alt="Day of Climate"
@@ -78,7 +78,7 @@ export function Header() {
               <img
                 src={systemsAwarenessLabLogo}
                 alt="Systems Awareness Lab"
-                className="h-7 sm:h-10 w-auto"
+                className="h-6 sm:h-8 w-auto"
               />
             </div>
           </button>

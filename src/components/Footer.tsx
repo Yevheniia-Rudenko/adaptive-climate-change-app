@@ -1,4 +1,5 @@
-import { Globe, Mail, Youtube, Linkedin, Accessibility } from 'lucide-react';
+import { Globe, Mail, Youtube, Linkedin, Accessibility, Heart } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 type FooterLink = {
   label: string;
@@ -76,7 +77,7 @@ export function Footer() {
     <footer style={{ backgroundColor: '#2D6A4F' }} className="border-t border-[#245840] transition-colors min-h-[220px]">
       {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-12">
           {footerSections.map((section) => (
             <div key={section.title} className="mb-4">
               <h3 className="text-2xl font-bold text-white mb-4">
@@ -101,6 +102,26 @@ export function Footer() {
               </ul>
             </div>
           ))}
+
+          {/* Contributors Section */}
+          <div className="mb-4">
+            <h3 className="text-2xl font-bold text-white mb-4">
+              About This App
+            </h3>
+            <ul className="space-y-3">
+              <li>
+                <Link
+                  to="/contributors"
+                  className="group flex items-center gap-3 text-white hover:opacity-80 transition-colors duration-200"
+                >
+                  <span className="flex-shrink-0 text-white transition-colors duration-200">
+                    <Heart size={18} />
+                  </span>
+                  <span className="text-sm font-medium">Contributors & Credits</span>
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
 

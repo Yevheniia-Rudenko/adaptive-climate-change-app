@@ -1,5 +1,9 @@
 import plutchikWheel from '../assets/Plutchik-Model-600.png';
 import globalTempAudio from '../assets/GlobalTemperature.mp3';
+import climateInteractiveLogo from '../assets/ci-logo.svg';
+import enroadsScreenshot from '../assets/En-Roads-Screenshot 2026-01-30.png';
+import enroadsTemp from '../assets/En-Roads-Temp.png';
+import climateChangeGif from '../assets/Climate Change Weather GIF by INTO ACTION.gif';
 
 
 export type FlipCardData = {
@@ -10,16 +14,17 @@ export type FlipCardData = {
 };
 
 export type ContentBlock =
-  | { type: 'text'; title?: string; content: string }
+  | { type: 'text'; title?: string; content: string; hideIcon?: boolean }
   | { type: 'video'; title?: string; videoUrl: string; description?: string }
   | { type: 'audio'; title?: string; audioUrl: string; description?: string; transcript?: string }
-  | { type: 'image'; imageUrl: string; alt: string; title?: string }
+  | { type: 'image'; imageUrl: string; alt: string; title?: string; width?: string }
   | { type: 'flip-cards'; title?: string; cards: FlipCardData[] }
   | { type: 'dashboard'; }
   | { type: 'exercise1-dashboard'; }
   | { type: '2ndExerciseDashboard'; }
   | { type: 'third-exercise'; }
   | { type: 'fourth-exercise'; }
+  | { type: 'html-embed'; htmlFile: string; title?: string }
   | { type: 'reflection'; prompt: string; id: string }
   | { type: 'poll'; question: string; options: string[]; id: string; singleSelect?: boolean }
   | { type: 'numeric-prediction'; question: string; id: string; unit?: string }
@@ -40,12 +45,16 @@ export const moduleStructures: ModuleStructure[] = [
     sections: [
       {
         type: 'text',
-        title: '**Page Introduction**',
-        content: "Climate change isn't just about science and data—it's deeply personal. Understanding how climate futures affect you, your community, and the world helps build meaningful connections to the issue. This module explores how we emotionally and intellectually relate to different possible futures, and why these connections matter for taking action."
+        title: '**About this Module**',
+        content: "Climate change isn't just about science and data—it's deeply personal.\n\n Understanding how climate futures affect you, your community, and the world helps build meaningful connections to the issue. This module explores how we emotionally and intellectually relate to different possible futures, and why these connections matter for taking action."
+      },
+      {
+        type: 'text',
+        title: '**Key Concepts**',
+        content: ''
       },
       {
         type: 'flip-cards',
-        title: '**Key Concepts**',
         cards: [
           {
             frontTitle: 'Climate Change',
@@ -72,8 +81,8 @@ export const moduleStructures: ModuleStructure[] = [
       },
       {
         type: 'text',
-        title: '**Reflection / Engagement**',
-        content: "Emotional Landscape: Climate change brings up many emotions, feelings and opinions based on our experience and context."
+        title: '**Reflection**',
+        content: "**Emotional Landscape**\n\nClimate change brings up many emotions, feelings and opinions based on our experience and context."
       },
       {
         type: 'audio',
@@ -112,25 +121,71 @@ When you’re ready, gently return to the room.`
         id: 'emotions-initial'
       },
       {
+        type: 'text',
+        title: '**Understanding Climate Drivers and Impacts**',
+        content: "Think about the possible impacts of climate change–whether those occurring right now or those in the future."
+      },
+      {
         type: 'poll',
         id: 'impacts-poll',
-        question: 'When you think about the possible impacts of climate change, what do you care about most?',
+        question: 'What do you care about most?ы',
         options: ['Flooding', 'Fires', 'Species loss', 'Extreme Heat']
       },
       {
         type: 'text',
-        title: '**What Is En‑ROADS?**',
-        content: "En‑ROADS is an interactive climate simulation made by Climate Interactive based on real scientific research. Think of it like a real‑life “what if?” simulator for the Earth’s future.\n\n**It lets you explore questions like:**\n• What happens if we use more renewable energy?\n• What if cars and buildings become more efficient?\n• What if countries put a price on pollution?\n\n**You move sliders that represent real-world choices—energy, transportation, food, forests, and technology—and the simulator instantly shows how those choices affect:**\n• Global temperature\n• Sea level rise\n• Air pollution\n• Energy use\n• Economic outcomes"
+        title: '**What If?**',
+        content: "We will begin to explore some of the primary drivers that are causing climate change and the impact that different policies and actions could have in shaping our collective future.\n\nA powerful tool for exploring this is En-ROADS, an interactive climate simulation made by Climate Interactive based on real scientific research. Think of it like a real‑life \"what if?\" simulator for the Earth's future."
+      },
+      {
+        type: 'image',
+        imageUrl: climateInteractiveLogo,
+        alt: 'Climate Interactive Logo',
+        width: '40%'
+      },
+      {
+        type: 'image',
+        imageUrl: enroadsScreenshot,
+        alt: 'En-ROADS Screenshot'
+      },
+      {
+        type: 'text',
+        content: "**En-ROADS lets you explore questions like:**\n\n• What happens if we use more renewable energy?\n• What if cars and buildings become more efficient?\n• What if countries put a price on pollution?\n\nYou move sliders that represent real-world global policy choices—energy, transportation, food, forests, and technology—and the simulator instantly shows how those choices affect:\n\n• Global temperature\n• Sea level rise\n• Air pollution\n• Energy use\n• Economic outcomes"
+      },
+      {
+        type: 'text',
+        title: '**What does global temperature matter?**',
+        content: '',
+        hideIcon: true
+      },
+      {
+        type: 'image',
+        imageUrl: climateChangeGif,
+        alt: 'Climate Change Weather Animation',
+        width: '33%'
       },
       {
         type: 'audio',
-        title: 'What does global temperature increase mean?',
+        title: '**What does global temperature increase mean?**',
         audioUrl: globalTempAudio,
         transcript: "When scientists talk about global temperature increase, they are comparing today’s average Earth temperature to what it was before the Industrial Revolution, around eighteen fifty—before cars, factories, and power plants burned large amounts of fossil fuels.\n\nRight now, Earth has already warmed by about one point two degrees Celsius, or two point two degrees Fahrenheit. That may not sound like much, but even small changes in Earth’s average temperature can cause big changes in weather and ecosystems—just like how a small change in body temperature can make a human very sick.\n\nThe Paris Climate Agreement set two key temperature goals. The main goal is to keep global warming well below two degrees Celsius. The safer goal, which countries are encouraged to aim for, is limiting warming to one point five degrees Celsius.\n\nAt one point five degrees, there are fewer deadly heat waves, less sea level rise, and a lower risk of extreme weather. At two degrees or more, storms and floods become much stronger, many coral reefs die, and more people face extreme heat and food and water shortages.\n\nSo while both levels of warming are dangerous, limiting warming to one point five degrees is much safer than reaching two degrees."
       },
       {
         type: 'text',
-        title: 'Let’s try some solutions.',
+        content: "In En-ROADS, their current projection if global policies and collective behavior remain the same as present, the global temperature increase by 2100 will be 3.3 degrees Celsius or 5.9 degrees Fahrenheit."
+      },
+      {
+        type: 'image',
+        imageUrl: enroadsTemp,
+        alt: 'En-ROADS Temperature Projection',
+        width: '40%'
+      },
+      {
+        type: 'text',
+        content: "That far exceeds the 1.5 degree Celsius goal. So what can we do?"
+      },
+      {
+        type: 'text',
+        title: '**Let’s try some solutions.**',
         content: `While many climate lessons tell you **what’s wrong**, En‑ROADS lets you **experiment with solutions**.
 
 Instead of just hearing: “Climate change is bad and complicated,” you get to:

@@ -6,29 +6,30 @@ export type Translations = {
   progress: string;
   yourProgress: string;
   completedModules: string;
-  
+
   // Header Navigation
   modules: string;
   about: string;
   forEducators: string;
   glossary: string;
   resources: string;
-  
+
   // Glossary Page
   searchTerms: string;
   noTermsFound: string;
   termsDisplayed: string;
   exploreTerms: string;
-  
+
   // Intro Page
   climateEducation: string;
   mainTitle: string;
-  introP1: string;
-  introP2: string;
+  introP1_1: string;
+  introP1_2: string;
+  introP1_3: string;
   whatYouLearn: string;
   startJourney: string;
   continueJourney: string;
-  
+
   // Modules
   module1: string;
   module2: string;
@@ -36,7 +37,7 @@ export type Translations = {
   module4: string;
   module5: string;
   module6: string;
-  
+
   // Module Page
   back: string;
   next: string;
@@ -46,7 +47,7 @@ export type Translations = {
   typeYourThoughts: string;
   watchLearn: string;
   interactiveDashboard: string;
-  
+
   // Ending Page
   congratulations: string;
   journeyComplete: string;
@@ -55,7 +56,7 @@ export type Translations = {
   restartJourney: string;
   backHome: string;
   backToResources: string;
-  
+
   // Dashboard
   temperature: string;
   seaLevel: string;
@@ -66,7 +67,7 @@ export type Translations = {
   gasUse: string;
   deforestation: string;
   reset: string;
-  
+
   // Glossary
   gotIt: string;
 };
@@ -78,29 +79,30 @@ export const translations: Record<Language, Translations> = {
     progress: 'Progress',
     yourProgress: 'Your Progress',
     completedModules: 'modules completed',
-    
+
     // Header Navigation
     modules: 'Modules',
     about: 'About',
     forEducators: 'For Educators',
     glossary: 'Glossary',
     resources: 'Resources',
-    
+
     // Glossary Page
     searchTerms: 'Search Terms',
     noTermsFound: 'No Terms Found',
     termsDisplayed: 'Terms Displayed',
     exploreTerms: 'Explore Terms',
-    
+
     // Intro Page
-    climateEducation: 'Climate Education',
+    climateEducation: 'Climate Awareness',
     mainTitle: 'The Systems that Shape Climate Change',
-    introP1: 'Welcome to an interactive learning journey designed for young changemakers like you. Climate change isn\'t just about science—it\'s about understanding the systems that shape our world and discovering where you can make a difference.',
-    introP2: 'Through 5 interactive modules, you\'ll explore how climate systems work, what futures are possible, and where you have the power to create change. Each module includes learning materials, videos, and space for your personal reflections.',
+    introP1_1: 'Welcome to an interactive learning journey designed for young changemakers like you.',
+    introP1_2: 'Climate change is shaped by many interconnected systems —social, economic, technological, and ecological. It is both global and local, and even personal.',
+    introP1_3: 'This interactive curriculum helps you explore how these systems work, understand the drivers of climate change, identify where there are opportunities to intervene within these complex systems, and how you can create change.',
     whatYouLearn: 'What You\'ll Learn',
     startJourney: 'Start Your Journey',
     continueJourney: 'Continue Learning',
-    
+
     // Modules
     module1: 'Relating to Climate Futures',
     module2: 'Stock and Flow',
@@ -108,7 +110,7 @@ export const translations: Record<Language, Translations> = {
     module4: 'Systems View of Climate Solutions',
     module5: 'Lever of Change',
     module6: 'Resources',
-    
+
     // Module Page
     back: 'Back',
     next: 'Next',
@@ -118,7 +120,7 @@ export const translations: Record<Language, Translations> = {
     typeYourThoughts: 'Type your thoughts here...',
     watchLearn: 'Watch & Learn',
     interactiveDashboard: 'Interactive Dashboard',
-    
+
     // Ending Page
     congratulations: 'Congratulations!',
     journeyComplete: 'You\'ve completed your climate systems learning journey!',
@@ -127,7 +129,7 @@ export const translations: Record<Language, Translations> = {
     restartJourney: 'Restart Journey',
     backHome: 'Back to Home',
     backToResources: 'Back to Resources',
-    
+
     // Dashboard
     temperature: 'Temperature',
     seaLevel: 'Sea Level',
@@ -138,31 +140,31 @@ export const translations: Record<Language, Translations> = {
     gasUse: 'Gas Use',
     deforestation: 'Deforestation',
     reset: 'Reset',
-    
+
     // Glossary
     gotIt: 'Got it'
   },
-  
+
   // es: {
   //   // Navigation
   //   backToHome: 'Volver al Inicio',
   //   progress: 'Progreso',
   //   yourProgress: 'Tu Progreso',
   //   completedModules: 'módulos completados',
-    
+
   //   // Header Navigation
   //   modules: 'Módulos',
   //   about: 'Acerca de',
   //   forEducators: 'Para Educadores',
   //   glossary: 'Glosario',
   //   resources: 'Recursos',
-    
+
   //   // Glossary Page
   //   searchTerms: 'Buscar Términos',
   //   noTermsFound: 'No Se Encontraron Términos',
   //   termsDisplayed: 'Términos Mostrados',
   //   exploreTerms: 'Explorar Términos',
-    
+
   //   // Intro Page
   //   climateEducation: 'Educación Climática',
   //   mainTitle: 'Los Sistemas que Dan Forma al Cambio Climático',
@@ -171,7 +173,7 @@ export const translations: Record<Language, Translations> = {
   //   whatYouLearn: 'Lo Que Aprenderás',
   //   startJourney: 'Comienza Tu Viaje',
   //   continueJourney: 'Continuar Aprendiendo',
-    
+
   //   // Modules
   //   module1: 'Relacionándose con los Futuros Climáticos',
   //   module2: 'Existencias y Flujo',
@@ -179,7 +181,7 @@ export const translations: Record<Language, Translations> = {
   //   module4: 'Vista de Sistemas de Soluciones Climáticas',
   //   module5: 'Palanca de Cambio',
   //   module6: 'Recursos',
-    
+
   //   // Module Page
   //   back: 'Atrás',
   //   next: 'Siguiente',
@@ -189,7 +191,7 @@ export const translations: Record<Language, Translations> = {
   //   typeYourThoughts: 'Escribe tus pensamientos aquí...',
   //   watchLearn: 'Ver y Aprender',
   //   interactiveDashboard: 'Panel Interactivo',
-    
+
   //   // Ending Page
   //   congratulations: '¡Felicitaciones!',
   //   journeyComplete: '¡Has completado tu viaje de aprendizaje sobre sistemas climáticos!',
@@ -198,7 +200,7 @@ export const translations: Record<Language, Translations> = {
   //   restartJourney: 'Reiniciar Viaje',
   //   backHome: 'Volver al Inicio',
   //   backToResources: 'Volver a Recursos',
-    
+
   //   // Dashboard
   //   temperature: 'Temperatura',
   //   seaLevel: 'Nivel del Mar',
@@ -209,31 +211,31 @@ export const translations: Record<Language, Translations> = {
   //   gasUse: 'Uso de Gas',
   //   deforestation: 'Deforestación',
   //   reset: 'Restablecer',
-    
+
   //   // Glossary
   //   gotIt: 'Entendido'
   // },
-  
+
   // ar: {
   //   // Navigation
   //   backToHome: 'العودة إلى الصفحة الرئيسية',
   //   progress: 'التقدم',
   //   yourProgress: 'تقدمك',
   //   completedModules: 'وحدات مكتملة',
-    
+
   //   // Header Navigation
   //   modules: 'وحدات',
   //   about: 'عن',
   //   forEducators: 'للمعلمين',
   //   glossary: 'مفردات',
   //   resources: 'موارد',
-    
+
   //   // Glossary Page
   //   searchTerms: 'بحث المصطلحات',
   //   noTermsFound: 'لم يتم العثور على أي مصطلحات',
   //   termsDisplayed: 'مصطلحات معرضة',
   //   exploreTerms: 'استكشاف المصطلحات',
-    
+
   //   // Intro Page
   //   climateEducation: 'التعليم المناخي',
   //   mainTitle: 'الأنظمة التي تشكل تغير المناخ',
@@ -242,7 +244,7 @@ export const translations: Record<Language, Translations> = {
   //   whatYouLearn: 'ما ستتعلمه',
   //   startJourney: 'ابدأ رحلتك',
   //   continueJourney: 'متابعة التعلم',
-    
+
   //   // Modules
   //   module1: 'الارتباط بالمستقبلات المناخية',
   //   module2: 'المخزون والتدفق',
@@ -250,7 +252,7 @@ export const translations: Record<Language, Translations> = {
   //   module4: 'رؤية الأنظمة للحلول المناخية',
   //   module5: 'رافعة التغيير',
   //   module6: 'الموارد',
-    
+
   //   // Module Page
   //   back: 'رجوع',
   //   next: 'التالي',
@@ -260,7 +262,7 @@ export const translations: Record<Language, Translations> = {
   //   typeYourThoughts: 'اكتب أفكارك هنا...',
   //   watchLearn: 'شاهد وتعلم',
   //   interactiveDashboard: 'لوحة تفاعلية',
-    
+
   //   // Ending Page
   //   congratulations: 'تهانينا!',
   //   journeyComplete: 'لقد أكملت رحلة تعلم الأنظمة المناخية!',
@@ -269,7 +271,7 @@ export const translations: Record<Language, Translations> = {
   //   restartJourney: 'إعادة بدء الرحلة',
   //   backHome: 'العودة إلى الصفحة الرئيسية',
   //   backToResources: 'العودة إلى الموارد',
-    
+
   //   // Dashboard
   //   temperature: 'درجة الحرارة',
   //   seaLevel: 'مستوى سطح البحر',
@@ -280,31 +282,31 @@ export const translations: Record<Language, Translations> = {
   //   gasUse: 'استخدام الغاز',
   //   deforestation: 'إزالة الغابات',
   //   reset: 'إعادة تعيين',
-    
+
   //   // Glossary
   //   gotIt: 'فهمت'
   // },
-  
+
   // de: {
   //   // Navigation
   //   backToHome: 'Zurück zur Startseite',
   //   progress: 'Fortschritt',
   //   yourProgress: 'Dein Fortschritt',
   //   completedModules: 'Module abgeschlossen',
-    
+
   //   // Header Navigation
   //   modules: 'Module',
   //   about: 'Über',
   //   forEducators: 'Für Lehrer',
   //   glossary: 'Glossar',
   //   resources: 'Ressourcen',
-    
+
   //   // Glossary Page
   //   searchTerms: 'Begriffe suchen',
   //   noTermsFound: 'Keine Begriffe gefunden',
   //   termsDisplayed: 'Angezeigte Begriffe',
   //   exploreTerms: 'Begriffe erkunden',
-    
+
   //   // Intro Page
   //   climateEducation: 'Klimabildung',
   //   mainTitle: 'Die Systeme, die den Klimawandel prägen',
@@ -313,7 +315,7 @@ export const translations: Record<Language, Translations> = {
   //   whatYouLearn: 'Was Du Lernen Wirst',
   //   startJourney: 'Beginne Deine Reise',
   //   continueJourney: 'Weiter Lernen',
-    
+
   //   // Modules
   //   module1: 'Bezug zu Klimazukünften',
   //   module2: 'Bestand und Fluss',
@@ -321,7 +323,7 @@ export const translations: Record<Language, Translations> = {
   //   module4: 'Systemansicht der Klimalösungen',
   //   module5: 'Hebel der Veränderung',
   //   module6: 'Ressourcen',
-    
+
   //   // Module Page
   //   back: 'Zurück',
   //   next: 'Weiter',
@@ -331,7 +333,7 @@ export const translations: Record<Language, Translations> = {
   //   typeYourThoughts: 'Schreibe deine Gedanken hier...',
   //   watchLearn: 'Ansehen & Lernen',
   //   interactiveDashboard: 'Interaktives Dashboard',
-    
+
   //   // Ending Page
   //   congratulations: 'Glückwunsch!',
   //   journeyComplete: 'Du hast deine Lernreise zu Klimasystemen abgeschlossen!',
@@ -340,7 +342,7 @@ export const translations: Record<Language, Translations> = {
   //   restartJourney: 'Reise Neu Starten',
   //   backHome: 'Zurück zur Startseite',
   //   backToResources: 'Zurück zu Ressourcen',
-    
+
   //   // Dashboard
   //   temperature: 'Temperatur',
   //   seaLevel: 'Meeresspiegel',
@@ -351,31 +353,31 @@ export const translations: Record<Language, Translations> = {
   //   gasUse: 'Gasverbrauch',
   //   deforestation: 'Entwaldung',
   //   reset: 'Zurücksetzen',
-    
+
   //   // Glossary
   //   gotIt: 'Verstanden'
   // },
-  
+
   // ru: {
   //   // Navigation
   //   backToHome: 'На главную',
   //   progress: 'Прогресс',
   //   yourProgress: 'Ваш прогресс',
   //   completedModules: 'модулей завершено',
-    
+
   //   // Header Navigation
   //   modules: 'Модули',
   //   about: 'О нас',
   //   forEducators: 'Для учителей',
   //   glossary: 'Глоссарий',
   //   resources: 'Ресурсы',
-    
+
   //   // Glossary Page
   //   searchTerms: 'Поиск терминов',
   //   noTermsFound: 'Термины не найдены',
   //   termsDisplayed: 'Отображаемые термины',
   //   exploreTerms: 'Исследовать термины',
-    
+
   //   // Intro Page
   //   climateEducation: 'Климатическое образование',
   //   mainTitle: 'Системы, которые формируют изменение климата',
@@ -384,7 +386,7 @@ export const translations: Record<Language, Translations> = {
   //   whatYouLearn: 'Что Вы Изучите',
   //   startJourney: 'Начать путешествие',
   //   continueJourney: 'Продолжить обучение',
-    
+
   //   // Modules
   //   module1: 'Отношение к климатическому будущему',
   //   module2: 'Запасы и потоки',
@@ -392,7 +394,7 @@ export const translations: Record<Language, Translations> = {
   //   module4: 'Системный взгляд на климатические решения',
   //   module5: 'Рычаги изменений',
   //   module6: 'Ресурсы',
-    
+
   //   // Module Page
   //   back: 'Назад',
   //   next: 'Далее',
@@ -402,7 +404,7 @@ export const translations: Record<Language, Translations> = {
   //   typeYourThoughts: 'Напишите свои мысли здесь...',
   //   watchLearn: 'Смотреть и учиться',
   //   interactiveDashboard: 'Интерактивная панель',
-    
+
   //   // Ending Page
   //   congratulations: 'Поздравляем!',
   //   journeyComplete: 'Вы завершили свое обучающее путешествие по климатическим системам!',
@@ -411,7 +413,7 @@ export const translations: Record<Language, Translations> = {
   //   restartJourney: 'Начать заново',
   //   backHome: 'На главную',
   //   backToResources: 'Назад к ресурсам',
-    
+
   //   // Dashboard
   //   temperature: 'Температура',
   //   seaLevel: 'Уровень моря',
@@ -422,31 +424,31 @@ export const translations: Record<Language, Translations> = {
   //   gasUse: 'Использование газа',
   //   deforestation: 'Вырубка лесов',
   //   reset: 'Сбросить',
-    
+
   //   // Glossary
   //   gotIt: 'Понял'
   // },
-  
+
   // uk: {
   //   // Navigation
   //   backToHome: 'На головну',
   //   progress: 'Прогрес',
   //   yourProgress: 'Ваш прогрес',
   //   completedModules: 'модулів завершено',
-    
+
   //   // Header Navigation
   //   modules: 'Модулі',
   //   about: 'Про нас',
   //   forEducators: 'Для вчителів',
   //   glossary: 'Глосарій',
   //   resources: 'Ресурси',
-    
+
   //   // Glossary Page
   //   searchTerms: 'Пошук термінів',
   //   noTermsFound: 'Термины не знайдено',
   //   termsDisplayed: 'Відображені терміни',
   //   exploreTerms: 'Дослідити терміни',
-    
+
   //   // Intro Page
   //   climateEducation: 'Кліматична освіта',
   //   mainTitle: 'Системи, які формують зміну клімату',
@@ -455,7 +457,7 @@ export const translations: Record<Language, Translations> = {
   //   whatYouLearn: 'Що Ви Вивчите',
   //   startJourney: 'Розпочати подорож',
   //   continueJourney: 'Продовжити навчання',
-    
+
   //   // Modules
   //   module1: 'Ставлення до кліматичного майбутнього',
   //   module2: 'Запасы та потоки',
@@ -463,7 +465,7 @@ export const translations: Record<Language, Translations> = {
   //   module4: 'Системний погляд на кліматичні рішення',
   //   module5: 'Важелі змін',
   //   module6: 'Ресурси',
-    
+
   //   // Module Page
   //   back: 'Назад',
   //   next: 'Далі',
@@ -473,7 +475,7 @@ export const translations: Record<Language, Translations> = {
   //   typeYourThoughts: 'Напишіть свої думки тут...',
   //   watchLearn: 'Дивитися та вчитися',
   //   interactiveDashboard: 'Інтерактивна панель',
-    
+
   //   // Ending Page
   //   congratulations: 'Вітаємо!',
   //   journeyComplete: 'Ви завершили свою навчальну подорож по кліматичних системах!',
@@ -482,7 +484,7 @@ export const translations: Record<Language, Translations> = {
   //   restartJourney: 'Почати заново',
   //   backHome: 'На головну',
   //   backToResources: 'Назад до ресурсів',
-    
+
   //   // Dashboard
   //   temperature: 'Температура',
   //   seaLevel: 'Рівень моря',
@@ -493,7 +495,7 @@ export const translations: Record<Language, Translations> = {
   //   gasUse: 'Використання газу',
   //   deforestation: 'Вирубка лісів',
   //   reset: 'Скинути',
-    
+
   //   // Glossary
   //   gotIt: 'Зрозуміло'
   // }
