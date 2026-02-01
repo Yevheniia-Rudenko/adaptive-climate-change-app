@@ -3250,3 +3250,17 @@ html {
   transform: rotateY(180deg);
 }
 
+/* Added manually for Header logos */
+.h-6 {
+  height: 1.5rem;
+}
+.h-8 {
+  height: 2rem;
+}
+
+@media (min-width: 640px) {
+  .sm\:h-8 {
+    height: 2rem;
+  }
+}
+

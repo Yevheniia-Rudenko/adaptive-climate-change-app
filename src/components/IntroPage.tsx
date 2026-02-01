@@ -10,6 +10,7 @@ import module3Icon from '../assets/module3.png';
 import module4Icon from '../assets/module4.png';
 import module5Icon from '../assets/module5.png';
 import resourcesIcon from '../assets/resources.png';
+import earthImage from '../assets/earth_img.jpg';
 
 export function IntroPage() {
   const { t } = useLanguage();
@@ -103,8 +104,8 @@ export function IntroPage() {
           {/* Hero Image */}
           <div className="relative h-48 sm:h-64 md:h-80 overflow-hidden">
             <img
-              src="https://images.unsplash.com/photo-1642714388464-9d350c8cff39?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlYXJ0aCUyMGNsaW1hdGUlMjBjaGFuZ2V8ZW58MXx8fHwxNzY1MTc1MDY5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-              alt="Earth and climate"
+              src={earthImage}
+              alt="Earth from space"
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
