@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <link
@@ -146,7 +146,12 @@
 
       code {
         white-space: pre;
-        font-family: SF Mono, Consolas, Dejavu Sans Mono, Menlo, monospace;
+        font-family:
+          SF Mono,
+          Consolas,
+          Dejavu Sans Mono,
+          Menlo,
+          monospace;
       }
 
       abbr {
@@ -166,8 +171,9 @@
       /* FROM http://purecss.io/layouts/side-menu/  adapted to remove pure classes*/
 
       body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial,
-          sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
+          'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
         color: #444;
       }
 
@@ -285,7 +291,7 @@
       <article id="main" class="content">
         <p><a href="../index.html">@climateinteractive/en-roads-core</a> / ModelRunner</p>
 <h1 id="interface%3A-modelrunner">Interface: ModelRunner <a class="heading-anchor-permalink" href="#interface%3A-modelrunner">#</a></h1>
-<p>Abstraction that allows for running the wasm model on the JS thread
+<p>Abstraction that allows for running a generated model on the JS thread
 or asynchronously (e.g. in a Web Worker), depending on the implementation.</p>
 <h2 id="methods">Methods <a class="heading-anchor-permalink" href="#methods">#</a></h2>
 <h3 id="createoutputs">createOutputs <a class="heading-anchor-permalink" href="#createoutputs">#</a></h3>

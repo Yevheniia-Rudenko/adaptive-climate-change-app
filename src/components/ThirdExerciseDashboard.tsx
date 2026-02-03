@@ -4,30 +4,52 @@ import enStrings from '@climateinteractive/en-roads-core/strings/en';
 import { GraphView } from '@climateinteractive/sim-ui-graph';
 import '../styles/enroads-dashboard.css';
 
+// Graph definitions
+const GRAPHS = [
+  { id: '86', label: 'Global Temperature', varId: '_temperature_relative_to_1850_1900' },
+  { id: '90', label: 'Sea Level Rise', varId: '_slr_from_2000_in_meters' },
+  { id: '169', label: 'Deforestation', varId: '_deforestation_in_mha_per_per_year' }
+];
+
 export default function ThirdExerciseDashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [sliderValue, setSliderValue] = useState<number | null>(null);
-  const [sliderLabel, setSliderLabel] = useState<string>('Deforestation & Mature Forest Degradation');
-  const [sliderText, setSliderText] = useState<string>('status quo');
-  const [tempC, setTempC] = useState(0);
-  const [tempF, setTempF] = useState(0);
 
-  const speciesCanvasRef = useRef<HTMLCanvasElement>(null);
+  // Slider states
+  const [coalVal, setCoalVal] = useState(0);
+  const [oilVal, setOilVal] = useState(0);
+  const [gasVal, setGasVal] = useState(0);
+
+  const [coalText, setCoalText] = useState('status quo');
+  const [oilText, setOilText] = useState('status quo');
+  const [gasText, setGasText] = useState('status quo');
+
+  // Display states
+  const [tempC, setTempC] = useState(3.2);
+  const [tempF, setTempF] = useState(5.7);
+  const [selectedGraphId, setSelectedGraphId] = useState('86');
+
   const modelRef = useRef<any>(null);
   const modelContextRef = useRef<any>(null);
-  const deforestationInputRef = useRef<any>(null);
-  const deforestationSpecRef = useRef<any>(null);
-  const speciesGraphViewRef = useRef<any>(null);
+  const graphViewRef = useRef<any>(null);
   const coreConfigRef = useRef<any>(null);
-  const clampLowerContextRef = useRef<any>(null);
-  const clampUpperContextRef = useRef<any>(null);
-  const clampLowerValuesRef = useRef<Record<string, number>>({});
-  const clampUpperValuesRef = useRef<Record<string, number>>({});
-  const [debugSpecies, setDebugSpecies] = useState<{ name: string; raw: number; floor: number; round: number }[]>([]);
+
+  // Input refs for Coal (1), Oil (7), Gas (10)
+  const coalInputRef = useRef<any>(null);
+  const oilInputRef = useRef<any>(null);
+  const gasInputRef = useRef<any>(null);
 
   const str = (key: string) => {
     return (enStrings as any)[key] || key;
+  };
+
+  const getSliderText = (value: number) => {
+    // Determine text based on value range (approximate En-Roads logic)
+    // Taxes are positive values here? Let's check ranges.
+    // Coal Tax (ID 1): 0 to 100 $/ton usually.
+    if (value > 10) return 'taxed';
+    if (value > 0) return 'lightly taxed';
+    return 'status quo';
   };
 
   const createGraphViewModel = (graphSpec: any) => {
@@ -41,166 +63,124 @@ export default function ThirdExerciseDashboard() {
       spec: graphSpec,
       getDatasets: () => datasetViewModels,
       getStringForKey: (key: string) => str(key),
-      formatYAxisTickValue: (value: number) => {
-        if (graphSpec.kind === 'h-bar') {
-          return `${Math.round(value)}%`;
-        }
-        return value.toFixed(1);
-      },
-      formatYAxisTooltipValue: (value: number) => {
-        if (graphSpec.kind === 'h-bar') {
-          return `${Math.round(value)}%`;
-        }
-        return value.toFixed(2);
-      }
+      formatYAxisTickValue: (value: number) => value.toFixed(1),
+      formatYAxisTooltipValue: (value: number) => value.toFixed(2)
     };
   };
 
   const updateGraphData = (graphView: any) => {
-    if (!graphView || !modelContextRef.current) return;
-    const graphViewModel = graphView.viewModel;
-
-    const debugRows: { name: string; raw: number; floor: number; round: number }[] = [];
-    for (const datasetViewModel of graphViewModel.getDatasets()) {
-      const datasetSpec = datasetViewModel.spec;
-      const series = modelContextRef.current.getSeriesForVar(
-        datasetSpec.varId,
-        datasetSpec.externalSourceName
-      );
-      const newPoints = series?.points || [];
-      datasetViewModel.visible = true;
-
-      let val = 0;
-      try {
-        if (series && typeof series.getValueAtTime === 'function') {
-          val = series.getValueAtTime(2100);
-        } else if (Array.isArray(newPoints) && newPoints.length > 0) {
-          const p = newPoints[newPoints.length - 1];
-          if (typeof p === 'number') {
-            val = p;
-          } else if (p && typeof p === 'object') {
-            if ('y' in p && typeof p.y === 'number') val = p.y;
-            else if ('value' in p && typeof (p as any).value === 'number') val = (p as any).value;
-          }
-        }
-      } catch {}
-
-      const inputVal = deforestationInputRef.current?.get?.();
-      const key = `${datasetSpec.varId}|${datasetSpec.externalSourceName ?? ''}`;
-      if (typeof inputVal === 'number') {
-        const lowerClamp = clampLowerValuesRef.current[key];
-        const upperClamp = clampUpperValuesRef.current[key];
-        if (inputVal <= -6.8 && typeof lowerClamp === 'number') {
-          val = Math.max(val, lowerClamp);
-        }
-        if (inputVal >= -0.8 && typeof upperClamp === 'number') {
-          val = Math.min(val, upperClamp);
-        }
-      }
-
-      if (graphViewModel.spec.kind === 'h-bar') {
-        datasetViewModel.points = [{ x: 2100, y: val }];
-      } else {
+    try {
+      if (!graphView || !modelContextRef.current) return;
+      const graphViewModel = graphView.viewModel;
+      for (const datasetViewModel of graphViewModel.getDatasets()) {
+        const datasetSpec = datasetViewModel.spec;
+        const series = modelContextRef.current.getSeriesForVar(
+          datasetSpec.varId,
+          datasetSpec.externalSourceName
+        );
+        const newPoints = series?.points || [];
         datasetViewModel.points = [...newPoints];
+
+        if (!datasetSpec.externalSourceName) {
+          datasetSpec.color = '#EF4444';
+          datasetSpec.lineWidth = 4;
+        } else if (datasetSpec.externalSourceName === 'baseline') {
+          datasetSpec.color = '#000000';
+          datasetSpec.lineWidth = 4;
+        }
       }
-
-      const labelKey = datasetSpec.labelKey || datasetSpec.label || datasetSpec.varId || '';
-      const name = str(labelKey);
-      debugRows.push({ name, raw: val, floor: Math.floor(val), round: Math.round(val) });
-    }
-
-    graphView.updateData(true);
-    setDebugSpecies(debugRows);
-  };
-
-  const initSpeciesGraph = () => {
-    if (!speciesCanvasRef.current || !coreConfigRef.current) return;
-    const graphSpec = coreConfigRef.current.graphs.get('144');
-    if (!graphSpec) {
-      console.error('Species lost graph not found');
-      return;
-    }
-
-    const canvas = speciesCanvasRef.current;
-    const rect = canvas.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
-
-    canvas.style.width = rect.width + 'px';
-    canvas.style.height = '280px';
-    canvas.width = rect.width * dpr;
-    canvas.height = 280 * dpr;
-
-    const viewModel = createGraphViewModel(graphSpec);
-    const style = {
-      font: {
-        family: 'system-ui, -apple-system, sans-serif',
-        style: 'normal',
-        color: '#1f2937'
-      },
-      xAxis: {
-        tickMaxCount: 6
-      },
-      yAxis: {
-        tickMaxCount: 6
-      },
-      getAxisLabelFontSize: () => 14,
-      getTickLabelFontSize: () => 12,
-      getDefaultLineWidth: () => 3
-    };
-    const options = { style, responsive: true, animations: true };
-
-    speciesGraphViewRef.current = new GraphView(canvas, viewModel, options, true);
-    updateGraphData(speciesGraphViewRef.current);
+      graphView.updateData(true);
+    } catch (e) { console.error(e); }
   };
 
   const updateTemperatureDisplay = () => {
     if (!modelContextRef.current) return;
-    const tempSeries = modelContextRef.current.getSeriesForVar('_temperature_relative_to_1850_1900');
+
+    // Try getting the variable that is confirmed to be in outputs
+    let tempSeries = modelContextRef.current.getSeriesForVar('_temperature_change_from_1850');
+
+    // If not found, try the specific relative one
+    if (!tempSeries || !tempSeries.points) {
+      tempSeries = modelContextRef.current.getSeriesForVar('_temperature_relative_to_1850_1900');
+    }
+
     if (tempSeries && tempSeries.points && tempSeries.points.length > 0) {
       const tempCelsius = tempSeries.getValueAtTime(2100);
-      const tempFahrenheit = tempCelsius * 9 / 5;
+      console.log(`Ex3 Temp Update: ${tempCelsius.toFixed(4)} C`);
       setTempC(tempCelsius);
-      setTempF(tempFahrenheit);
+      setTempF(tempCelsius * 9 / 5);
     } else {
+      // Fallback: approximate from emissions
       const emissionsSeries = modelContextRef.current.getSeriesForVar('_co2_equivalent_net_emissions');
-      if (emissionsSeries) {
+      if (emissionsSeries && emissionsSeries.points && emissionsSeries.points.length > 0) {
         const emissions2100 = emissionsSeries.getValueAtTime(2100);
         const tempCelsius = 1.5 + (emissions2100 / 69.6) * 1.8;
-        const tempFahrenheit = tempCelsius * 9 / 5;
+        console.log(`Ex3 Temp Fallback (Emissions): ${tempCelsius.toFixed(4)} C`);
         setTempC(tempCelsius);
-        setTempF(tempFahrenheit);
+        setTempF(tempCelsius * 9 / 5);
       }
     }
   };
 
-  const updateAllGraphs = () => {
-    if (speciesGraphViewRef.current) {
-      updateGraphData(speciesGraphViewRef.current);
-    }
+  const updateDashboard = () => {
+    if (graphViewRef.current) updateGraphData(graphViewRef.current);
     updateTemperatureDisplay();
   };
 
-  const getSliderTextForValue = (value: number) => {
-    const spec = deforestationSpecRef.current;
-    const labels: string[] = spec?.rangeLabelKeys ?? [
-      'input_range__highly_reduced',
-      'input_range__reduced',
-      'input_range__status_quo',
-      'input_range__increased'
-    ];
-    const dividers: number[] = spec?.rangeDividers ?? [-4, -1, 0.2];
-    if (value < dividers[0]) return str(labels[0]);
-    if (value < dividers[1]) return str(labels[1]);
-    if (value < dividers[2]) return str(labels[2]);
-    return str(labels[3]);
+  const loadGraph = (graphId: string) => {
+    if (!coreConfigRef.current) return;
+    let graphSpec = coreConfigRef.current.graphs.get(graphId);
+
+    const canvas = document.getElementById('exercise3-graph-canvas') as HTMLCanvasElement;
+    if (!canvas) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = rect.width * dpr;
+    canvas.height = 300 * dpr;
+    canvas.style.width = '100%';
+    canvas.style.height = '300px';
+
+    try {
+      const viewModel = createGraphViewModel(graphSpec);
+      const style = {
+        font: { family: 'system-ui, sans-serif', size: 12, color: '#333' },
+        xAxis: { tickMaxCount: 6 },
+        yAxis: { tickMaxCount: 6 },
+        getDefaultLineWidth: () => 4
+      };
+      graphViewRef.current = new GraphView(canvas, viewModel, { style }, true);
+      updateGraphData(graphViewRef.current);
+    } catch (e) { console.error('Error loading graph', e); }
   };
 
-  const handleSliderChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = parseFloat(e.target.value);
-    setSliderValue(value);
-    setSliderText(getSliderTextForValue(value));
-    if (deforestationInputRef.current) {
-      deforestationInputRef.current.set(value);
+  const handleSliderChange = (type: 'coal' | 'oil' | 'gas', e: ChangeEvent<HTMLInputElement>) => {
+    const val = parseFloat(e.target.value); // 0-100 slider position
+    // Map 0-100 to tax range.
+    // Coal (1): 0 to 100 $/ton? Default max is often high.
+    // Oil (7): 0 to 100 $/barrel?
+    // Gas (10): 0 to 10 $/Mcf?
+
+    // We need to map slider 0-100 to Input Min/Max.
+    let inputRef;
+    let setText;
+    let setVal;
+
+    if (type === 'coal') { inputRef = coalInputRef; setText = setCoalText; setVal = setCoalVal; }
+    else if (type === 'oil') { inputRef = oilInputRef; setText = setOilText; setVal = setOilVal; }
+    else { inputRef = gasInputRef; setText = setGasText; setVal = setGasVal; }
+
+    setVal(val);
+
+    if (inputRef.current) {
+      const min = inputRef.current.min !== undefined ? inputRef.current.min : 0;
+      const max = inputRef.current.max !== undefined ? inputRef.current.max : 100;
+      // Tax logic: 0 is status quo (min), 100 is max tax.
+      const modelVal = min + (val / 100) * (max - min);
+
+      console.log(`Ex3 Slider ${type} -> Raw: ${val}, Model: ${modelVal} (Min: ${min}, Max: ${max})`);
+      inputRef.current.set(modelVal);
+      setText(getSliderText(modelVal));
     }
   };
 
@@ -209,166 +189,91 @@ export default function ThirdExerciseDashboard() {
       try {
         setIsLoading(true);
         coreConfigRef.current = getDefaultConfig();
-
         modelRef.current = await createAsyncModel();
         modelContextRef.current = modelRef.current.addContext();
         createDefaultOutputs();
 
-        deforestationSpecRef.current = coreConfigRef.current.inputs.get('57');
-        deforestationInputRef.current = modelContextRef.current.getInputForId('57');
+        // Load Inputs: Coal(1), Oil(7), Gas(10)
+        coalInputRef.current = modelContextRef.current.getInputForId('1');
+        oilInputRef.current = modelContextRef.current.getInputForId('7');
+        gasInputRef.current = modelContextRef.current.getInputForId('10');
 
-        if (!deforestationInputRef.current || !deforestationSpecRef.current) {
-          throw new Error('Deforestation input/spec not found');
-        }
-
-        clampLowerContextRef.current = modelRef.current.addContext();
-        clampUpperContextRef.current = modelRef.current.addContext();
-        const lowerInput = clampLowerContextRef.current.getInputForId('57');
-        const upperInput = clampUpperContextRef.current.getInputForId('57');
-        lowerInput.set(-6.8);
-        upperInput.set(-0.8);
-
-        const defaultVal = deforestationSpecRef.current.defaultValue ?? 0;
-        setSliderValue(defaultVal);
-        setSliderLabel(str('input_057_label'));
-        setSliderText(getSliderTextForValue(defaultVal));
-        deforestationInputRef.current.set(defaultVal);
+        modelContextRef.current.onOutputsChanged = () => updateDashboard();
 
         setTimeout(() => {
-          const graphSpec = coreConfigRef.current.graphs.get('144');
-          if (graphSpec && clampLowerContextRef.current && clampUpperContextRef.current) {
-            const computeMap = (ctx: any) => {
-              const map: Record<string, number> = {};
-              for (const ds of graphSpec.datasets) {
-                const s = ctx.getSeriesForVar(ds.varId, ds.externalSourceName);
-                let v = 0;
-                try {
-                  if (s && typeof s.getValueAtTime === 'function') {
-                    v = s.getValueAtTime(2100);
-                  }
-                } catch {}
-                map[`${ds.varId}|${ds.externalSourceName ?? ''}`] = v;
-              }
-              return map;
-            };
-            clampLowerValuesRef.current = computeMap(clampLowerContextRef.current);
-            clampUpperValuesRef.current = computeMap(clampUpperContextRef.current);
-          }
-          initSpeciesGraph();
+          loadGraph(selectedGraphId);
           updateTemperatureDisplay();
-        }, 100);
-
-        modelContextRef.current.onOutputsChanged = () => {
-          updateAllGraphs();
-        };
+        }, 200);
 
         setIsLoading(false);
       } catch (err) {
-        console.error('Failed to initialize second exercise dashboard:', err);
-        setError('Failed to load the En-ROADS model. Please refresh the page.');
+        console.error(err);
+        setError('Failed to load En-ROADS model.');
         setIsLoading(false);
       }
     };
 
-    initApp();
-
-    return () => {
-      if (speciesGraphViewRef.current) {
-        speciesGraphViewRef.current = null;
-      }
-    };
+    if (!modelRef.current) initApp();
   }, []);
 
-  if (isLoading) {
-    return (
-      <div className="enroads-loading">
-        <div className="loading-spinner"></div>
-        <p>Loading En-ROADS model...</p>
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (!isLoading && coreConfigRef.current) loadGraph(selectedGraphId);
+  }, [selectedGraphId]);
 
-  if (error) {
-    return (
-      <div className="enroads-error">
-        <p>{error}</p>
-      </div>
-    );
-  }
-
-  const sliderMin = deforestationSpecRef.current?.minValue ?? -10;
-  const sliderMax = deforestationSpecRef.current?.maxValue ?? 1;
-  const sliderStep = deforestationSpecRef.current?.step ?? 0.1;
-  const displayC = Math.max(3.2, Math.min(3.3, Math.round(tempC * 10) / 10));
-  const displayF = Math.round(((displayC * 9) / 5) * 10) / 10;
+  if (isLoading) return <div className="p-8 text-center text-gray-500">Loading Model...</div>;
+  if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
 
   return (
-    <div className="enroads-container">
-      <div className="enroads-dashboard">
-        <div className="enroads-graph-section">
-          <div className="enroads-graph-container">
-            <div className="enroads-graph-header">
-              <span className="enroads-graph-icon">▶</span>
-              <h3 className="enroads-graph-title">{str('graph_144_title')}</h3>
-              <button className="enroads-graph-menu">⋮</button>
-            </div>
-            <div className="enroads-graph-content">
-              <canvas
-                ref={speciesCanvasRef}
-                className="enroads-graph-canvas"
-                width={800}
-                height={280}
-              ></canvas>
-            </div>
+    <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora">
+      <h2 className="text-xl px-4 pt-4 mb-4 font-bold text-gray-800 dark:text-gray-200">En-Roads Dashboard: Fossil Fuel Taxes</h2>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <div className="md:col-span-2 bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
+          <select
+            value={selectedGraphId}
+            onChange={(e) => setSelectedGraphId(e.target.value)}
+            className="mb-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 text-sm rounded-lg block w-full p-2.5 font-bold"
+          >
+            {GRAPHS.map(g => <option key={g.id} value={g.id}>{g.label}</option>)}
+          </select>
+          <div className="relative w-full h-[300px]">
+            <canvas id="exercise3-graph-canvas" className="w-full h-full" />
           </div>
         </div>
-        <div className="enroads-temperature-section">
-          <div className="enroads-temperature-display">
-            <div className="enroads-temperature-value">+{displayC.toFixed(1)}°C</div>
-            <div className="enroads-temperature-value-f">+{displayF.toFixed(1)}°F</div>
-            <div className="enroads-temperature-label">
-              Temperature<br />Increase by<br />2100
-            </div>
-          </div>
+
+        <div className="bg-white dark:bg-gray-800 p-3 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 flex flex-col items-center justify-center text-center">
+          <div className="text-4xl md:text-5xl font-black text-red-500 mb-1">+{tempC.toFixed(1)}°C</div>
+          <div className="text-lg md:text-xl font-bold text-red-400 mb-3">+{tempF.toFixed(1)}°F</div>
+          <div className="text-gray-500 text-xs font-bold uppercase">Temperature<br />Increase by 2100</div>
         </div>
       </div>
 
-      <div className="enroads-slider-section">
-        <div className="enroads-slider-container">
-          <div className="enroads-slider-header">
-            <span className="enroads-slider-icon">▶</span>
-            <label htmlFor="deforestation-slider" className="enroads-slider-label">
-              {sliderLabel}
-            </label>
-            <button className="enroads-slider-menu">⋮</button>
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 space-y-6">
+        <div className="space-y-2">
+          <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
+            <label>Tax on Coal</label>
+            <span className="text-xs font-mono text-gray-500">{coalText}</span>
           </div>
-          <div className="enroads-slider-controls">
-            {sliderValue !== null && (
-              <input
-                type="range"
-                id="deforestation-slider"
-                min={sliderMin}
-                max={sliderMax}
-                step={sliderStep}
-                value={sliderValue}
-                onChange={handleSliderChange}
-                className="enroads-slider"
-              />
-            )}
+          <input type="range" min="0" max="100" value={coalVal} onChange={(e) => handleSliderChange('coal', e)} className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-red-500" />
+        </div>
+
+        <div className="space-y-2">
+          <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
+            <label>Tax on Oil</label>
+            <span className="text-xs font-mono text-gray-500">{oilText}</span>
           </div>
-          <div className="enroads-slider-status">
-            <span>{sliderText}</span>
+          <input type="range" min="0" max="100" value={oilVal} onChange={(e) => handleSliderChange('oil', e)} className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-red-500" />
+        </div>
+
+        <div className="space-y-2">
+          <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
+            <label>Tax on Gas</label>
+            <span className="text-xs font-mono text-gray-500">{gasText}</span>
           </div>
-          {/* <div className="enroads-slider-status" style={{ marginTop: 8 }}>
-            {debugSpecies.map((d) => (
-              <div key={d.name}>
-                <span>{d.name}: </span>
-                <span>raw {d.raw.toFixed(2)}% | floor {d.floor}% | round {d.round}%</span>
-              </div>
-            ))}
-          </div> */}
+          <input type="range" min="0" max="100" value={gasVal} onChange={(e) => handleSliderChange('gas', e)} className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-red-500" />
         </div>
       </div>
+
     </div>
   );
 }

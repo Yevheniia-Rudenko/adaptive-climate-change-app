@@ -4,61 +4,57 @@ import enStrings from '@climateinteractive/en-roads-core/strings/en';
 import { GraphView } from '@climateinteractive/sim-ui-graph';
 import '../styles/enroads-dashboard.css';
 
+// Graph definitions
+const GRAPHS = [
+  { id: '86', label: 'Global Temperature', varId: '_temperature_relative_to_1850_1900' },
+  { id: '62', label: 'CO2 Emissions', varId: '_co2_equivalent_net_emissions' },
+  { id: '90', label: 'Sea Level Rise', varId: '_slr_from_2000_in_meters' },
+  { id: '169', label: 'Deforestation', varId: '_deforestation_in_mha_per_year' },
+  { id: '275', label: 'Deaths from Extreme Heat', varId: '_excess_deaths_from_extreme_heat_per_100k_people' }
+];
+
 export default function SecondExerciseDashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [coalSliderValue, setCoalSliderValue] = useState(20);
-  const [coalSliderText, setCoalSliderText] = useState('status quo');
-  const [oilSliderValue, setOilSliderValue] = useState(20);
-  const [oilSliderText, setOilSliderText] = useState('status quo');
-  const [gasSliderValue, setGasSliderValue] = useState(20);
-  const [gasSliderText, setGasSliderText] = useState('status quo');
+
+  // Slider states
+  const [renewablesVal, setRenewablesVal] = useState(0); // 0-100 range for slider UI
+  const [renewablesText, setRenewablesText] = useState('status quo');
+
+  // Display states
   const [tempC, setTempC] = useState(3.2);
   const [tempF, setTempF] = useState(5.7);
-  const [seaLevelRise, setSeaLevelRise] = useState(0.5);
-  
-  const seaLevelCanvasRef = useRef<HTMLCanvasElement>(null);
+  const [selectedGraphId, setSelectedGraphId] = useState('86'); // Default to Global Temperature
+
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const modelRef = useRef<any>(null);
   const modelContextRef = useRef<any>(null);
-  const coalTaxInputRef = useRef<any>(null);
-  const oilTaxInputRef = useRef<any>(null);
-  const gasTaxInputRef = useRef<any>(null);
-  const seaLevelGraphViewRef = useRef<any>(null);
+  const graphViewRef = useRef<any>(null);
   const coreConfigRef = useRef<any>(null);
+
+  // Input refs
+  const renewablesInputRef = useRef<any>(null); // ID 16 (Renewables Subsidy/Tax)
 
   // Helper function to get localized string
   const str = (key: string) => {
     return (enStrings as any)[key] || key;
   };
 
-  // Get slider text based on value - EN-ROADS exact thresholds
-  const getSliderText = (value: number, type: 'coal' | 'oil' | 'gas' = 'coal') => {
-    if (type === 'coal') {
-      // Coal: 100 to -15
-      if (value >= 30) return 'very highly taxed';
-      if (value >= 15) return 'highly taxed';
-      if (value >= 5) return 'taxed';
-      if (value >= -5) return 'status quo';
-      return 'subsidized';  // -6 to -15
-    } else if (type === 'oil') {
-      // Oil: 85 to -15
-      if (value >= 25) return 'very highly taxed';
-      if (value >= 12) return 'highly taxed';
-      if (value >= 5) return 'taxed';
-      if (value >= -5) return 'status quo';
-      return 'subsidized';  // -6 to -15
-    } else {
-      // Gas: 5 to -0.7
-      if (value >= 1.4) return 'very highly taxed';    // 5 to 1.4
-      if (value >= 0.7) return 'highly taxed';         // 1.3 to 0.7
-      if (value >= 0.2) return 'taxed';                // 0.6 to 0.2
-      if (value >= -0.2) return 'status quo';          // 0.1 to -0.2
-      return 'subsidized';                             // -0.3 to -0.7
-    }
+  // Generalized slider status text
+  const getSliderText = (value: number) => {
+    // ID 16: Negative is subsidy (cheaper), Positive is tax (more expensive)
+    if (value <= -0.01) return 'subsidized';
+    if (value >= 0.01) return 'taxed';
+    return 'status quo';
   };
 
-  // Create graph view model
   const createGraphViewModel = (graphSpec: any) => {
+    // Create a default spec if we are using a custom graph ID (like 1 or 2 for simple vars)
+    // or try to find it in core config.
+    // But '1' and '2' might not be valid graph IDs in En-Roads config.
+    // We might need to construct a simple graph spec if it doesn't exist.
+    // For now, let's try to look up generic graphs or construct them.
+
     const datasetViewModels = graphSpec.datasets.map((datasetSpec: any) => ({
       spec: datasetSpec,
       visible: true,
@@ -71,7 +67,8 @@ export default function SecondExerciseDashboard() {
       getStringForKey: (key: string) => str(key),
       formatYAxisTickValue: (value: number) => {
         const stringValue = value.toFixed(1);
-        if (graphSpec.kind === 'h-bar' && graphSpec.id !== '142') {
+        const title = graphSpec.title || '';
+        if (graphSpec.kind === 'h-bar' || title.includes('Percent') || title.includes('Species')) {
           return `${stringValue}%`;
         }
         return stringValue;
@@ -80,446 +77,303 @@ export default function SecondExerciseDashboard() {
     };
   };
 
-  // Update graph data from model
   const updateGraphData = (graphView: any) => {
-    if (!graphView || !modelContextRef.current) return;
+    try {
+      if (!graphView || !modelContextRef.current) return;
 
-    const graphViewModel = graphView.viewModel;
-    for (const datasetViewModel of graphViewModel.getDatasets()) {
-      const datasetSpec = datasetViewModel.spec;
-      const series = modelContextRef.current.getSeriesForVar(
-        datasetSpec.varId,
-        datasetSpec.externalSourceName
-      );
-      
-      console.log('Updating dataset:', datasetSpec.varId, 'external:', datasetSpec.externalSourceName, 'points:', series?.points?.length);
-      
-      const newPoints = series?.points || [];
-      datasetViewModel.points = [...newPoints];
-      
-      // For sea level rise graph, show sea level datasets
-      if (datasetSpec.varId === '_slr_from_2000_in_meters') {
-        datasetViewModel.visible = true;
-        console.log('Sea level dataset visible, points:', newPoints.length);
+      const graphViewModel = graphView.viewModel;
+      for (const datasetViewModel of graphViewModel.getDatasets()) {
+        const datasetSpec = datasetViewModel.spec;
+        const series = modelContextRef.current.getSeriesForVar(
+          datasetSpec.varId,
+          datasetSpec.externalSourceName
+        );
+
+        const newPoints = series?.points || [];
+        datasetViewModel.points = [...newPoints];
+
+        if (!datasetSpec.externalSourceName) {
+          datasetSpec.color = '#3B82F6'; // Current scenario blue
+          datasetSpec.lineWidth = 4;
+        } else if (datasetSpec.externalSourceName === 'baseline') {
+          datasetSpec.color = '#000000';
+          datasetSpec.lineWidth = 4;
+        }
       }
-      // Hide other datasets
-      else {
-        datasetViewModel.visible = false;
-      }
+
+      graphView.updateData(true);
+    } catch (e) {
+      console.error('Error in updateGraphData:', e);
     }
-    
-    graphView.updateData(true);
   };
 
-  // Update temperature display
   const updateTemperatureDisplay = () => {
     if (!modelContextRef.current) return;
 
-    const tempSeries = modelContextRef.current.getSeriesForVar('_temperature_relative_to_1850_1900');
-    
+    // Try getting the variable that is confirmed to be in outputs
+    let tempSeries = modelContextRef.current.getSeriesForVar('_temperature_change_from_1850');
+
+    // If not found, try the specific relative one
+    if (!tempSeries || !tempSeries.points) {
+      tempSeries = modelContextRef.current.getSeriesForVar('_temperature_relative_to_1850_1900');
+    }
+
     if (tempSeries && tempSeries.points && tempSeries.points.length > 0) {
       const tempCelsius = tempSeries.getValueAtTime(2100);
-      const tempFahrenheit = tempCelsius * 9/5;
-      
-      console.log('Temperature updated:', tempCelsius.toFixed(2), '°C');
+      console.log(`Temp Update (Main Var): ${tempCelsius.toFixed(4)} C`);
+      const tempFahrenheit = tempCelsius * 9 / 5;
       setTempC(tempCelsius);
       setTempF(tempFahrenheit);
     } else {
       // Fallback: approximate from emissions
       const emissionsSeries = modelContextRef.current.getSeriesForVar('_co2_equivalent_net_emissions');
-      if (emissionsSeries) {
+      if (emissionsSeries && emissionsSeries.points && emissionsSeries.points.length > 0) {
         const emissions2100 = emissionsSeries.getValueAtTime(2100);
         const tempCelsius = 1.5 + (emissions2100 / 69.6) * 1.8;
-        const tempFahrenheit = tempCelsius * 9/5;
-        
-        console.log('Temperature updated (from emissions):', tempCelsius.toFixed(2), '°C');
+        const tempFahrenheit = tempCelsius * 9 / 5;
         setTempC(tempCelsius);
         setTempF(tempFahrenheit);
       }
     }
   };
 
-  // Update sea level rise display
-  const updateSeaLevelDisplay = () => {
-    if (!modelContextRef.current) return;
-
-    const seaLevelSeries = modelContextRef.current.getSeriesForVar('_slr_from_2000_in_meters');
-    
-    if (seaLevelSeries && seaLevelSeries.points && seaLevelSeries.points.length > 0) {
-      const seaLevel = seaLevelSeries.getValueAtTime(2100);
-      console.log('Sea level updated:', seaLevel.toFixed(3), 'm');
-      setSeaLevelRise(seaLevel);
-    }
-  };
-
-  // Update all graphs
-  const updateAllGraphs = () => {
-    console.log('updateAllGraphs called');
-    if (seaLevelGraphViewRef.current) {
-      console.log('Updating sea level graph');
-      updateGraphData(seaLevelGraphViewRef.current);
-    } else {
-      console.warn('Sea level graph ref is null');
-    }
+  const updateDashboard = () => {
+    if (graphViewRef.current) updateGraphData(graphViewRef.current);
     updateTemperatureDisplay();
-    updateSeaLevelDisplay();
   };
 
-  // Initialize sea level rise graph
-  const initSeaLevelGraph = () => {
-    if (!seaLevelCanvasRef.current || !coreConfigRef.current) return;
+  const loadGraph = (graphId: string) => {
+    if (!coreConfigRef.current) return;
 
-    const graphSpec = coreConfigRef.current.graphs.get('90');
+    let graphSpec = coreConfigRef.current.graphs.get(graphId);
+
+    // Fallback: If graph spec not found (e.g. for custom IDs), construct a minimal one
     if (!graphSpec) {
-      console.error('Sea level rise graph not found');
+      console.log(`Graph ID ${graphId} not found in core config, constructing custom spec...`);
+      const graphDef = GRAPHS.find(g => g.id === graphId);
+      if (graphDef) {
+        graphSpec = {
+          id: graphId,
+          title: graphDef.label,
+          kind: 'line',
+          datasets: [
+            { varId: graphDef.varId, externalSourceName: 'baseline', label: 'Baseline' },
+            { varId: graphDef.varId, label: 'Current' }
+          ]
+        };
+      } else {
+        console.error(`Graph config for ${graphId} not found`);
+        return;
+      }
+    }
+
+    console.log(`Loading graph ${graphId}:`, graphSpec);
+
+    const canvas = document.getElementById('exercise2-graph-canvas') as HTMLCanvasElement;
+    if (!canvas) {
+      console.error('Canvas element not found for Exercise 2');
+      return;
+    }
+    const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+
+    // Ensure consistent size
+    canvas.width = rect.width * dpr;
+    canvas.height = 300 * dpr;
+    canvas.style.width = '100%';
+    canvas.style.height = '300px';
+
+    let viewModel;
+    try {
+      viewModel = createGraphViewModel(graphSpec);
+    } catch (e) {
+      console.error('Error creating graph view model:', e);
       return;
     }
 
-    const canvas = seaLevelCanvasRef.current;
-    const rect = canvas.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
-    
-    canvas.style.width = rect.width + 'px';
-    canvas.style.height = '280px';
-    canvas.width = rect.width * dpr;
-    canvas.height = 280 * dpr;
-
-    const viewModel = createGraphViewModel(graphSpec);
-    
-    const datasets = viewModel.getDatasets();
-    datasets.forEach((dataset: any) => {
-      if (dataset.spec.varId === '_slr_from_2000_in_meters') {
-        if (!dataset.spec.externalSourceName) {
-          dataset.spec.color = '#3B82F6';
-          dataset.spec.lineWidth = 6;
-        } else if (dataset.spec.externalSourceName === 'baseline') {
-          dataset.spec.lineWidth = 6;
-        }
-      }
-    });
-    
     const style = {
       font: {
         family: 'system-ui, -apple-system, sans-serif',
         style: 'normal',
         color: '#1f2937'
       },
-      xAxis: {
-        tickMaxCount: 6
-      },
-      yAxis: {
-        tickMaxCount: 6
-      },
+      xAxis: { tickMaxCount: 6 },
+      yAxis: { tickMaxCount: 6 },
       getAxisLabelFontSize: () => 14,
       getTickLabelFontSize: () => 12,
-      getDefaultLineWidth: () => 6
+      getDefaultLineWidth: () => 4,
+      plotBackgroundColor: '#ffffff'
     };
 
-    const options = { 
-      style,
-      responsive: true,
-      animations: true
-    };
-    
-    seaLevelGraphViewRef.current = new GraphView(
-      canvas,
-      viewModel,
-      options,
-      true
-    );
-    
-    updateGraphData(seaLevelGraphViewRef.current);
-  };
+    const options = { style, responsive: true, animations: true };
 
-  // Handle coal tax slider change
-  const handleCoalTaxSliderChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const sliderPos = parseFloat(e.target.value);
-    // Convert slider position (0-70) to tax value (100 to -15 $/ton) - EN-ROADS range
-    const value = 100 - (sliderPos / 70) * 115;
-    
-    setCoalSliderValue(sliderPos);
-    setCoalSliderText(getSliderText(value, 'coal'));
-    
-    if (coalTaxInputRef.current) {
-      coalTaxInputRef.current.set(value);
+    try {
+      graphViewRef.current = new GraphView(canvas, viewModel, options, true);
+      updateGraphData(graphViewRef.current);
+    } catch (e) {
+      console.error('CRITICAL ERROR instantiating GraphView:', e);
+      setError('Failed to initialize graph visualization.');
     }
   };
 
-  // Handle oil tax slider change
-  const handleOilTaxSliderChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleRenewablesChange = (e: ChangeEvent<HTMLInputElement>) => {
     const sliderPos = parseFloat(e.target.value);
-    // Convert slider position (0-70) to tax value (85 to -15 $/barrel) - EN-ROADS range
-    const value = 85 - (sliderPos / 70) * 100;
-    
-    setOilSliderValue(sliderPos);
-    setOilSliderText(getSliderText(value, 'oil'));
-    
-    if (oilTaxInputRef.current) {
-      oilTaxInputRef.current.set(value);
+    setRenewablesVal(sliderPos);
+
+    if (renewablesInputRef.current) {
+      // ID 16: Negative = Subsidy (Cheaper). Positive = Tax.
+      // We map 0-100 Slider to 0.0 (Status Quo) to -0.07 (Max Subsidy)
+      // Adjust this range as needed based on Min (likely -0.08 or so).
+      const min = renewablesInputRef.current.min !== undefined ? renewablesInputRef.current.min : -0.08;
+
+      // Let's assume user wants "Make cheaper" -> Subsidy.
+      // Slider 0 = Status Quo (0.00)
+      // Slider 100 = Max Subsidy (min value)
+
+      const val = 0 + (sliderPos / 100) * (min - 0);
+
+      console.log(`Setting Renewables (16) to: ${val}`);
+      renewablesInputRef.current.set(val);
+
+      setRenewablesText(getSliderText(val));
     }
   };
 
-  // Handle gas tax slider change
-  const handleGasTaxSliderChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const sliderPos = parseFloat(e.target.value);
-    // Convert slider position (0-70) to tax value (5 to -0.7 $/MCF) - EN-ROADS range
-    const value = 5 - (sliderPos / 70) * 5.7;
-    
-    setGasSliderValue(sliderPos);
-    setGasSliderText(getSliderText(value, 'gas'));
-    
-    if (gasTaxInputRef.current) {
-      gasTaxInputRef.current.set(value);
-    }
-  };
-
-  // Initialize the application
+  // Initialize
   useEffect(() => {
     const initApp = async () => {
       try {
-        console.log('Loading En-ROADS model for 2nd exercise...');
         setIsLoading(true);
-
-        // Load the core configuration
         coreConfigRef.current = getDefaultConfig();
-
-        // Initialize the En-ROADS model
         modelRef.current = await createAsyncModel();
         modelContextRef.current = modelRef.current.addContext();
-        
-        // Create outputs object
         createDefaultOutputs();
 
-        // Get coal tax input (optional - won't break if not found)
-        coalTaxInputRef.current = modelContextRef.current.getInputForId('1');
-        if (!coalTaxInputRef.current) {
-          console.log('Coal tax input not found with ID "1", trying numeric ID 1');
-          coalTaxInputRef.current = modelContextRef.current.getInputForId(1);
-        }
-        if (coalTaxInputRef.current) {
-          console.log('✓ Coal tax input loaded successfully');
-          console.log('Coal tax input object:', coalTaxInputRef.current);
-          console.log('Coal tax current value:', coalTaxInputRef.current.get());
-          console.log('Coal tax min/max:', coalTaxInputRef.current.min, coalTaxInputRef.current.max);
-        } else {
-          console.warn('✗ Coal tax input not available in this EN-ROADS version');
+        // Load Inputs
+        // Renewables: 16 (Not 25)
+        renewablesInputRef.current = modelContextRef.current.getInputForId('16');
+        console.log('Renewables input:', renewablesInputRef.current);
+
+        if (renewablesInputRef.current) {
+          const current = renewablesInputRef.current.get();
+          // For initialization, verify where we are. Default is likely ~0.
+          // We map current model value back to slider 0-100?
+          // If current is 0, slider is 0.
+          // If current is -0.08, slider is 100.
+
+          const min = renewablesInputRef.current.min !== undefined ? renewablesInputRef.current.min : -0.08;
+
+          // Inverse logic: val = (pos/100) * min  -> pos = (val / min) * 100
+          // (Assuming min is negative)
+
+          if (min < 0) {
+            const calculatedPos = (current / min) * 100;
+            setRenewablesVal(Math.max(0, Math.min(100, calculatedPos)));
+          } else {
+            setRenewablesVal(0);
+          }
+
+          setRenewablesText(getSliderText(current));
         }
 
-        // Get oil tax input (optional - won't break if not found)
-        oilTaxInputRef.current = modelContextRef.current.getInputForId('7');
-        if (!oilTaxInputRef.current) {
-          console.log('Oil tax input not found with ID "7", trying numeric ID 7');
-          oilTaxInputRef.current = modelContextRef.current.getInputForId(7);
-        }
-        if (oilTaxInputRef.current) {
-          console.log('✓ Oil tax input loaded successfully');
-        } else {
-          console.warn('✗ Oil tax input not available in this EN-ROADS version');
-        }
-
-        // Get gas tax input (optional - won't break if not found)
-        gasTaxInputRef.current = modelContextRef.current.getInputForId('10');
-        if (!gasTaxInputRef.current) {
-          console.log('Gas tax input not found with ID "10", trying numeric ID 10');
-          gasTaxInputRef.current = modelContextRef.current.getInputForId(10);
-        }
-        if (gasTaxInputRef.current) {
-          console.log('✓ Gas tax input loaded successfully');
-        } else {
-          console.warn('✗ Gas tax input not available in this EN-ROADS version');
-        }
-
-        if (coalTaxInputRef.current) {
-          coalTaxInputRef.current.set(0); // 0 $/ton = status quo
-          const coalSliderPos = ((100 - 0) / 115) * 70;
-          setCoalSliderValue(coalSliderPos);
-          setCoalSliderText(getSliderText(0, 'coal'));
-          console.log('Coal tax set to status quo: 0 $/ton');
-        }
-        if (oilTaxInputRef.current) {
-          oilTaxInputRef.current.set(0); // 0 $/barrel = status quo
-          const oilSliderPos = ((85 - 0) / 100) * 70; // Use correct oil range
-          setOilSliderValue(oilSliderPos);
-          setOilSliderText(getSliderText(0, 'oil'));
-          console.log('Oil tax set to baseline: 0 $/barrel');
-        }
-        if (gasTaxInputRef.current) {
-          gasTaxInputRef.current.set(0); // 0 $/MCF = status quo
-          const gasSliderPos = ((5 - 0) / 5.7) * 70; // Use correct formula
-          setGasSliderValue(gasSliderPos);
-          setGasSliderText(getSliderText(0, 'gas'));
-          console.log('Gas tax set to baseline: 0 $/MCF');
-        }
-
-        // Initialize graph with a small delay to ensure DOM is ready
-        setTimeout(() => {
-          initSeaLevelGraph();
-          updateTemperatureDisplay();
-          updateSeaLevelDisplay();
-        }, 100);
-
-        // Set up output change handler
         modelContextRef.current.onOutputsChanged = () => {
-          console.log('Model outputs changed, updating graphs...');
-          updateAllGraphs();
+          updateDashboard();
         };
 
-        console.log('2nd Exercise Dashboard initialized successfully');
+        setTimeout(() => {
+          // toggle initial graph
+          loadGraph(selectedGraphId);
+          updateTemperatureDisplay();
+        }, 200);
+
         setIsLoading(false);
       } catch (err) {
-        console.error('Failed to initialize dashboard:', err);
-        setError('Failed to load the En-ROADS model. Please refresh the page.');
+        console.error(err);
+        setError('Failed to load En-ROADS model.');
         setIsLoading(false);
       }
     };
 
-    initApp();
+    if (!modelRef.current) {
+      initApp();
+    }
 
-    // Cleanup
-    return () => {
-      if (seaLevelGraphViewRef.current) {
-        seaLevelGraphViewRef.current = null;
-      }
-    };
+    return () => { };
   }, []);
 
-  if (isLoading) {
-    return (
-      <div className="enroads-loading">
-        <div className="loading-spinner"></div>
-        <p>Loading En-ROADS model...</p>
-      </div>
-    );
-  }
+  // Effect to reload graph when selectedGraphId changes
+  useEffect(() => {
+    if (!isLoading && !error && coreConfigRef.current && modelRef.current) {
+      // Need to dispose old graph?
+      // Just re-call loadGraph, it will overwrite the chart on canvas
+      loadGraph(selectedGraphId);
+    }
+  }, [selectedGraphId, isLoading, error]);
 
-  if (error) {
-    return (
-      <div className="enroads-error">
-        <p>{error}</p>
-      </div>
-    );
-  }
+  if (isLoading) return <div className="p-8 text-center text-gray-500">Loading Model...</div>;
+  if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
 
   return (
-    <div className="enroads-container">
-      {/* Tax Dashboard - Sea Level Rise */}
-      <div className="enroads-dashboard">
-        {/* Sea Level Rise Graph */}
-        <div className="enroads-graph-section">
-          <div className="enroads-graph-container">
-            <div className="enroads-graph-header">
-              <span className="enroads-graph-icon">▶</span>
-              <h3 className="enroads-graph-title">Sea Level Rise</h3>
-              <button className="enroads-graph-menu">⋮</button>
+    <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora">
+      <h2 className="text-xl px-4 pt-4 mb-4 font-bold text-gray-800 dark:text-gray-200">En-Roads Dashboard: Renewables</h2>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        {/* Graph Area */}
+        <div className="md:col-span-2 bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
+          <div className="flex justify-between items-center mb-4">
+            <select
+              value={selectedGraphId}
+              onChange={(e) => setSelectedGraphId(e.target.value)}
+              className="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 font-bold"
+            >
+              {GRAPHS.map(g => (
+                <option key={g.id} value={g.id}>{g.label}</option>
+              ))}
+            </select>
+          </div>
+          <div className="relative w-full h-[300px]">
+            <canvas id="exercise2-graph-canvas" className="w-full h-full" />
+          </div>
+          <div className="flex gap-4 justify-center mt-4 text-xs font-semibold uppercase tracking-wider">
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-1 bg-black"></div>
+              <span className="text-gray-600 dark:text-gray-400">Baseline</span>
             </div>
-            <div className="enroads-graph-content">
-              <canvas 
-                ref={seaLevelCanvasRef} 
-                className="enroads-graph-canvas"
-                width={800}
-                height={280}
-              ></canvas>
-              <div className="enroads-graph-legend">
-                <div className="enroads-legend-item">
-                  <div className="enroads-legend-color" style={{ background: '#000', height: '6px' }}></div>
-                  <span>BASELINE</span>
-                </div>
-                <div className="enroads-legend-item">
-                  <div className="enroads-legend-color" style={{ background: '#3B82F6', height: '6px' }}></div>
-                  <span>CURRENT SCENARIO</span>
-                </div>
-              </div>
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-1 bg-blue-500"></div>
+              <span className="text-gray-600 dark:text-gray-400">Current Scenario</span>
             </div>
           </div>
         </div>
 
         {/* Temperature Display */}
-        <div className="enroads-temperature-section">
-          <div className="enroads-temperature-display">
-            <div className="enroads-temperature-value">+{tempC.toFixed(1)}°C</div>
-            <div className="enroads-temperature-value-f">+{tempF.toFixed(1)}°F</div>
-            <div className="enroads-temperature-label">
-              Temperature<br />Increase by<br />2100
-            </div>
+        <div className="bg-white dark:bg-gray-800 p-3 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 flex flex-col items-center justify-center text-center">
+          <div className="text-4xl md:text-5xl font-black text-blue-500 mb-1">
+            +{tempC.toFixed(1)}°C
+          </div>
+          <div className="text-lg md:text-xl font-bold text-blue-400 mb-3">
+            +{tempF.toFixed(1)}°F
+          </div>
+          <div className="text-gray-500 dark:text-gray-400 font-semibold uppercase tracking-wider text-xs">
+            Temperature<br />Increase by<br />2100
           </div>
         </div>
       </div>
 
-      {/* Tax Sliders Section */}
-      <div className="enroads-slider-section" style={{ marginBottom: '260px', paddingBottom: '150px' }}>
-        <div className="enroads-slider-container">
-          <div className="enroads-slider-header">
-            <span className="enroads-slider-icon">▶</span>
-            <label htmlFor="coal-tax-slider" className="enroads-slider-label">
-              Tax on Coal
-            </label>
-            <button className="enroads-slider-menu">⋮</button>
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-8">
+        <div className="space-y-4">
+          <div className="flex justify-between items-center">
+            <label className="font-bold text-gray-700 dark:text-gray-200">Renewables</label>
+            <span className="text-sm font-mono text-gray-500">{renewablesText}</span>
           </div>
-          <div className="enroads-slider-controls">
-            <input
-              type="range"
-              id="coal-tax-slider"
-              min="0"
-              max="70"
-              step="1"
-              value={coalSliderValue}
-              onChange={handleCoalTaxSliderChange}
-              className="enroads-slider"
-            />
-          </div>
-          <div className="enroads-slider-status">
-            <span>{coalSliderText}</span>
-          </div>
-        </div>
-
-        <div className="enroads-slider-container">
-          <div className="enroads-slider-header">
-            <span className="enroads-slider-icon">▶</span>
-            <label htmlFor="oil-tax-slider" className="enroads-slider-label">
-              Tax on Oil
-            </label>
-            <button className="enroads-slider-menu">⋮</button>
-          </div>
-          <div className="enroads-slider-controls">
-            <input
-              type="range"
-              id="oil-tax-slider"
-              min="0"
-              max="70"
-              step="1"
-              value={oilSliderValue}
-              onChange={handleOilTaxSliderChange}
-              className="enroads-slider"
-            />
-          </div>
-          <div className="enroads-slider-status">
-            <span>{oilSliderText}</span>
-          </div>
-        </div>
-
-        <div className="enroads-slider-container">
-          <div className="enroads-slider-header">
-            <span className="enroads-slider-icon">▶</span>
-            <label htmlFor="gas-tax-slider" className="enroads-slider-label">
-              Tax on Gas
-            </label>
-            <button className="enroads-slider-menu">⋮</button>
-          </div>
-          <div className="enroads-slider-controls">
-            <input
-              type="range"
-              id="gas-tax-slider"
-              min="0"
-              max="70"
-              step="1"
-              value={gasSliderValue}
-              onChange={handleGasTaxSliderChange}
-              className="enroads-slider"
-            />
-          </div>
-          <div className="enroads-slider-status">
-            <span>{gasSliderText}</span>
-          </div>
+          <input
+            type="range"
+            min="0"
+            max="100"
+            value={renewablesVal}
+            onChange={handleRenewablesChange}
+            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 accent-blue-500"
+          />
         </div>
       </div>
     </div>
