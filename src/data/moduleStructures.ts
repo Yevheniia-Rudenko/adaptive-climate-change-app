@@ -11,7 +11,7 @@ import coalPlantImg from '../assets/coal_plant_cut.png';
 import carbonPricingImg from '../assets/carbon_pricing_meeting.jpg';
 import carbonPriceAudio from '../assets/CarbonPrice.mp3';
 import FourthExerciseDashboard from '../components/FourthExerciseDashboard';
-import waterImg from '../assets/Water.jpg';
+import waterImg from '../assets/water.jpg';
 
 
 
