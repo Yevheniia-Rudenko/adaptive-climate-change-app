@@ -6,22 +6,25 @@ import '../styles/enroads-dashboard.css';
 
 // Graph definitions
 const GRAPHS = [
-  { id: '86', label: 'Global Temperature', varId: '_temperature_relative_to_1850_1900' },
+  { id: '86', label: 'Global Temperature by 2100', varId: '_temperature_relative_to_1850_1900' },
   { id: '90', label: 'Sea Level Rise', varId: '_slr_from_2000_in_meters' },
-  { id: '169', label: 'Deforestation', varId: '_deforestation_in_mha_per_per_year' }
+  { id: '275', label: 'Deaths from Extreme Heat', varId: '_excess_deaths_from_extreme_heat_per_100k_people' },
+  { id: '279', label: 'Species loss - Extinction', varId: '_percent_endemic_species_at_high_risk_of_extinction' },
+  { id: '183', label: 'Crop Yield', varId: '_crop_yield_per_hectare_kg_per_year_per_ha' },
+  { id: '112', label: 'Air Pollution', varId: '_pm2_5_emissions_from_energy_mt_per_year' }
 ];
 
 export default function FourthExerciseDashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Slider state
-  const [carbonPriceVal, setCarbonPriceVal] = useState(0);
-  const [carbonPriceText, setCarbonPriceText] = useState('status quo');
+  // Carbon Price Slider state
+  const [carbonPriceVal, setCarbonPriceVal] = useState(0); // 0-100 range for slider
+  const [carbonPriceText, setCarbonPriceText] = useState('$0 / ton CO2');
 
   // Display states
-  const [tempC, setTempC] = useState(3.2);
-  const [tempF, setTempF] = useState(5.7);
+  const [tempC, setTempC] = useState(3.3); // Baseline approx
+  const [tempF, setTempF] = useState(5.9);
   const [selectedGraphId, setSelectedGraphId] = useState('86');
 
   const modelRef = useRef<any>(null);
@@ -29,19 +32,11 @@ export default function FourthExerciseDashboard() {
   const graphViewRef = useRef<any>(null);
   const coreConfigRef = useRef<any>(null);
 
-  // Input refs
+  // Input ref for Carbon Price (ID 48 usually, check if fails)
   const carbonPriceInputRef = useRef<any>(null);
 
   const str = (key: string) => {
     return (enStrings as any)[key] || key;
-  };
-
-  const getSliderText = (value: number) => {
-    // Carbon Price (ID 39) usually goes from 0 to something high (e.g. $250/ton)
-    if (value > 50) return 'very high price';
-    if (value > 10) return 'medium price';
-    if (value > 0) return 'low price';
-    return 'status quo';
   };
 
   const createGraphViewModel = (graphSpec: any) => {
@@ -74,10 +69,10 @@ export default function FourthExerciseDashboard() {
         datasetViewModel.points = [...newPoints];
 
         if (!datasetSpec.externalSourceName) {
-          datasetSpec.color = '#EF4444';
+          datasetSpec.color = '#EF4444'; // Red for Current Scenario
           datasetSpec.lineWidth = 4;
         } else if (datasetSpec.externalSourceName === 'baseline') {
-          datasetSpec.color = '#000000';
+          datasetSpec.color = '#000000'; // Black for Baseline
           datasetSpec.lineWidth = 4;
         }
       }
@@ -88,10 +83,7 @@ export default function FourthExerciseDashboard() {
   const updateTemperatureDisplay = () => {
     if (!modelContextRef.current) return;
 
-    // Try getting the variable that is confirmed to be in outputs
     let tempSeries = modelContextRef.current.getSeriesForVar('_temperature_change_from_1850');
-
-    // If not found, try the specific relative one
     if (!tempSeries || !tempSeries.points) {
       tempSeries = modelContextRef.current.getSeriesForVar('_temperature_relative_to_1850_1900');
     }
@@ -100,15 +92,6 @@ export default function FourthExerciseDashboard() {
       const tempCelsius = tempSeries.getValueAtTime(2100);
       setTempC(tempCelsius);
       setTempF(tempCelsius * 9 / 5);
-    } else {
-      // Fallback: approximate from emissions
-      const emissionsSeries = modelContextRef.current.getSeriesForVar('_co2_equivalent_net_emissions');
-      if (emissionsSeries && emissionsSeries.points && emissionsSeries.points.length > 0) {
-        const emissions2100 = emissionsSeries.getValueAtTime(2100);
-        const tempCelsius = 1.5 + (emissions2100 / 69.6) * 1.8;
-        setTempC(tempCelsius);
-        setTempF(tempCelsius * 9 / 5);
-      }
     }
   };
 
@@ -149,13 +132,19 @@ export default function FourthExerciseDashboard() {
     setCarbonPriceVal(val);
 
     if (carbonPriceInputRef.current) {
+      // Map 0-100 slider to Carbon Price range (e.g., $0 to $250/ton seems reasonable for En-Roads max)
+      // Default max often around $100-$250. Let's assume $250 as a generic 'high' carbon price.
       const min = carbonPriceInputRef.current.min !== undefined ? carbonPriceInputRef.current.min : 0;
-      const max = carbonPriceInputRef.current.max !== undefined ? carbonPriceInputRef.current.max : 100; // Likely closer to 250 or 1000 for carbon price?
+      const max = carbonPriceInputRef.current.max !== undefined ? carbonPriceInputRef.current.max : 250;
 
       const modelVal = min + (val / 100) * (max - min);
 
+      console.log(`Ex4 Slider Change: ${val}% -> $${modelVal}`);
+
       carbonPriceInputRef.current.set(modelVal);
-      setCarbonPriceText(getSliderText(modelVal));
+      setCarbonPriceText(`$${Math.round(modelVal)} / ton CO2`);
+    } else {
+      console.warn("Ex4 Warning: Slider moved but input ref is missing");
     }
   };
 
@@ -168,8 +157,15 @@ export default function FourthExerciseDashboard() {
         modelContextRef.current = modelRef.current.addContext();
         createDefaultOutputs();
 
-        // Load Input: Carbon Price (39)
-        carbonPriceInputRef.current = modelContextRef.current.getInputForId('39');
+        // Carbon Price Input ID: 48
+        carbonPriceInputRef.current = modelContextRef.current.getInputForId('48');
+        console.log("Ex4: Carbon Price Input (ID 48):", carbonPriceInputRef.current);
+
+        if (!carbonPriceInputRef.current) {
+          console.error("Ex4 Error: Carbon Price input (ID 48) NOT found.");
+        } else {
+          console.log("Ex4: Carbon Price Input Min/Max:", carbonPriceInputRef.current.min, carbonPriceInputRef.current.max);
+        }
 
         modelContextRef.current.onOutputsChanged = () => updateDashboard();
 
@@ -198,9 +194,9 @@ export default function FourthExerciseDashboard() {
 
   return (
     <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora">
-      <h2 className="text-xl px-4 pt-4 mb-4 font-bold text-gray-800 dark:text-gray-200">En-Roads Dashboard: Carbon Price</h2>
+      <h2 className="text-xl px-4 pt-4 mb-4 font-bold text-gray-800 dark:text-gray-200">Make a Model: Carbon Price</h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         <div className="md:col-span-2 bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
           <select
             value={selectedGraphId}
@@ -214,22 +210,30 @@ export default function FourthExerciseDashboard() {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 flex flex-col items-center justify-center text-center">
-          <div className="text-5xl md:text-6xl font-black text-red-500 mb-2">+{tempC.toFixed(1)}°C</div>
-          <div className="text-xl md:text-2xl font-bold text-red-400 mb-6">+{tempF.toFixed(1)}°F</div>
-          <div className="text-gray-500 text-sm font-bold uppercase">Temperature<br />Increase by 2100</div>
+        <div className="bg-white dark:bg-gray-800 p-3 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 flex flex-col items-center justify-center text-center">
+          <div className="text-4xl md:text-5xl font-black text-red-500 mb-1">+{tempC.toFixed(1)}°C</div>
+          <div className="text-lg md:text-xl font-bold text-red-400 mb-3">+{tempF.toFixed(1)}°F</div>
+          <div className="text-gray-500 text-xs font-bold uppercase">Global Temperature<br />by 2100</div>
         </div>
       </div>
 
       <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 space-y-6">
         <div className="space-y-2">
           <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
-            <label>Carbon Price ($)</label>
+            <label>Carbon Price</label>
             <span className="text-xs font-mono text-gray-500">{carbonPriceText}</span>
           </div>
-          <input type="range" min="0" max="100" value={carbonPriceVal} onChange={handleSliderChange} className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-red-500" />
+          <input
+            type="range"
+            min="0"
+            max="100"
+            value={carbonPriceVal}
+            onChange={handleSliderChange}
+            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-green-500"
+          />
         </div>
       </div>
+
     </div>
   );
 }

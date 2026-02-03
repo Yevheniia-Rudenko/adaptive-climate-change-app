@@ -6,12 +6,13 @@ import '../styles/enroads-dashboard.css';
 
 // Graph definitions
 const GRAPHS = [
+    { id: '62', label: 'CO2 Net Emissions', varId: '_co2_equivalent_net_emissions' },
+    { id: '169', label: 'Deforestation', varId: '_deforestation_in_mha_per_year' },
     { id: '90', label: 'Sea Level Rise', varId: '_slr_from_2000_in_meters' },
-    { id: '169', label: 'Deforestation', varId: '_deforestation_in_mha_per_year' }, // Variable ID is a guess, will need to be flexible or check from graph spec
-    { id: '275', label: 'Deaths from Extreme Heat', varId: '_excess_deaths_from_extreme_heat_per_100k_people' }, // Variable ID guess
-    { id: '279', label: 'Species loss - Extinction', varId: '_percent_endemic_species_at_high_risk_of_extinction' }, // Variable ID guess
-    { id: '183', label: 'Crop Yield', varId: '_crop_yield_per_hectare_kg_per_year_per_ha' }, // Variable ID guess
-    { id: '112', label: 'Air Pollution', varId: '_pm2_5_emissions_from_energy_mt_per_year' } // Variable ID guess
+    { id: '275', label: 'Deaths from Extreme Heat', varId: '_excess_deaths_from_extreme_heat_per_100k_people' },
+    { id: '279', label: 'Species loss - Extinction', varId: '_percent_endemic_species_at_high_risk_of_extinction' },
+    { id: '183', label: 'Crop Yield', varId: '_crop_yield_per_hectare_kg_per_year_per_ha' },
+    { id: '112', label: 'Air Pollution', varId: '_pm2_5_emissions_from_energy_mt_per_year' }
 ];
 
 export default function Exercise1Dashboard() {
@@ -27,7 +28,7 @@ export default function Exercise1Dashboard() {
     // Display states
     const [tempC, setTempC] = useState(3.2);
     const [tempF, setTempF] = useState(5.7);
-    const [selectedGraphId, setSelectedGraphId] = useState('90'); // Default to Sea Level Rise
+    const [selectedGraphId, setSelectedGraphId] = useState('62'); // Default to CO2 Net Emissions
 
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const modelRef = useRef<any>(null);
@@ -367,7 +368,7 @@ export default function Exercise1Dashboard() {
             <h2 className="text-xl px-4 pt-4 mb-4 font-bold text-gray-800 dark:text-gray-200">En-Roads Dashboard (Restored)</h2>
 
             {/* Top Section: Graph + Temp */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
                 {/* Graph Area */}
                 <div className="md:col-span-2 bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
                     <div className="flex justify-between items-center mb-4">
@@ -397,14 +398,14 @@ export default function Exercise1Dashboard() {
                 </div>
 
                 {/* Temperature Display */}
-                <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 flex flex-col items-center justify-center text-center">
-                    <div className="text-5xl md:text-6xl font-black text-blue-500 mb-2">
+                <div className="bg-white dark:bg-gray-800 p-3 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 flex flex-col items-center justify-center text-center">
+                    <div className="text-4xl md:text-5xl font-black text-blue-500 mb-1">
                         +{tempC.toFixed(1)}°C
                     </div>
-                    <div className="text-xl md:text-2xl font-bold text-blue-400 mb-6">
+                    <div className="text-lg md:text-xl font-bold text-blue-400 mb-3">
                         +{tempF.toFixed(1)}°F
                     </div>
-                    <div className="text-gray-500 dark:text-gray-400 font-semibold uppercase tracking-wider text-sm">
+                    <div className="text-gray-500 dark:text-gray-400 font-semibold uppercase tracking-wider text-xs">
                         Temperature<br />Increase by<br />2100
                     </div>
                 </div>
@@ -413,10 +414,7 @@ export default function Exercise1Dashboard() {
             <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-8">
                 <div className="space-y-4">
                     <div className="flex justify-between items-center">
-                        <div className="flex items-center gap-2">
-                            <span className="text-blue-500">▶</span>
-                            <label className="font-bold text-gray-700 dark:text-gray-200">Carbon-dioxide removal - nature based</label>
-                        </div>
+                        <label className="font-bold text-gray-700 dark:text-gray-200">Carbon-dioxide removal - nature based</label>
                         <span className="text-sm font-mono text-gray-500">{natureBasedText}</span>
                     </div>
                     <input
@@ -431,10 +429,7 @@ export default function Exercise1Dashboard() {
 
                 <div className="space-y-4">
                     <div className="flex justify-between items-center">
-                        <div className="flex items-center gap-2">
-                            <span className="text-blue-500">▶</span>
-                            <label className="font-bold text-gray-700 dark:text-gray-200">Deforestation</label>
-                        </div>
+                        <label className="font-bold text-gray-700 dark:text-gray-200">Deforestation</label>
                         <span className="text-sm font-mono text-gray-500">{deforestationText}</span>
                     </div>
                     <input

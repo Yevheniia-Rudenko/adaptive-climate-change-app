@@ -41,6 +41,14 @@ export const glossary: GlossaryData = {
       definition: 'Energy sources formed from ancient plant and animal remains, including coal, oil, and natural gas. Burning fossil fuels releases carbon dioxide that has been stored underground for millions of years.'
     },
     {
+      term: 'drivers',
+      variants: ['driver'],
+      definition: 'The main causes or forces that are pushing something to happen. In the context of climate change, drivers are the key activities or systems—like burning fossil fuels, deforestation, and certain industrial processes—that release large amounts of greenhouse gases and speed up global warming. In other words, drivers are the big things behind the scenes that set major changes in motion.'
+    },
+    {
+      term: 'nature-based solution to carbon dioxide removal',
+      variants: ['nature-based solutions', 'nature-based carbon removal', 'afforestation', 'reforestation'],
+      definition: 'Encourage the expansion of forests (afforestation), the restoration of former or degraded forests (reforestation), the implementation of agricultural practices that capture carbon, and the production of biochar. These nature-based methods can remove carbon dioxide from the atmosphere and store it in plants and soils. However, this carbon may be released again if the land is altered, whether through deliberate actions like farming or accidental events like wildfires.'
       term: 'CO₂ Emissions',
       variants: ['CO₂ Emissions'],
       definition: 'Combined amount of CO₂ annually released into the atmosphere from all sources such as electricity production, industrial processes, transportation, deforestation, etc. This is most often measured in gigatons (10^9 tons) per year.'
@@ -56,7 +64,7 @@ export const glossary: GlossaryData = {
       definition: 'When we talk about “drivers,” we mean the main causes or forces that are pushing something to happen. In the context of climate change, drivers are the key activities or systems—like burning fossil fuels, deforestation, and certain industrial processes—that release large amounts of greenhouse gases and speed up global warming. In other words, drivers are the big things behind the scenes that set major changes in motion.'
     }
   ],
-  
+
   es: [
     {
       term: 'dióxido de carbono',
@@ -89,7 +97,7 @@ export const glossary: GlossaryData = {
       definition: 'Fuentes de energía formadas a partir de restos antiguos de plantas y animales, incluidos el carbón, el petróleo y el gas natural. Quemar combustibles fósiles libera dióxido de carbono que ha estado almacenado bajo tierra durante millones de años.'
     }
   ],
-  
+
   ar: [
     {
       term: 'ثاني أكسيد الكربون',
@@ -122,7 +130,7 @@ export const glossary: GlossaryData = {
       definition: 'مصادر الطاقة المتكونة من بقايا النباتات والحيوانات القديمة، بما في ذلك الفحم والنفط والغاز الطبيعي. حرق الوقود الأحفوري يطلق ثاني أكسيد الكربون الذي كان مخزناً تحت الأرض لملايين السنين.'
     }
   ],
-  
+
   de: [
     {
       term: 'Kohlendioxid',
@@ -155,7 +163,7 @@ export const glossary: GlossaryData = {
       definition: 'Energiequellen, die aus den Überresten alter Pflanzen und Tiere gebildet werden, einschließlich Kohle, Öl und Erdgas. Die Verbrennung fossiler Brennstoffe setzt Kohlendioxid frei, das seit Millionen von Jahren unter der Erde gespeichert war.'
     }
   ],
-  
+
   ru: [
     {
       term: 'углекислый газ',
@@ -188,7 +196,7 @@ export const glossary: GlossaryData = {
       definition: 'Источники энергии, образованные из древних остатков растений и животных, включая уголь, нефть и природный газ. Сжигание ископаемого топлива высвобождает углекислый газ, который хранился под землей миллионы лет.'
     }
   ],
-  
+
   uk: [
     {
       term: 'вуглекислий газ',
@@ -226,29 +234,29 @@ export const glossary: GlossaryData = {
 // Helper function to create a regex pattern for finding terms
 export function createTermPattern(entries: GlossaryEntry[]): RegExp {
   const allTerms: string[] = [];
-  
+
   entries.forEach(entry => {
     allTerms.push(entry.term);
     if (entry.variants) {
       allTerms.push(...entry.variants);
     }
   });
-  
+
   // Sort by length (longest first) to match longer terms before shorter ones
   allTerms.sort((a, b) => b.length - a.length);
-  
+
   // Escape special regex characters and create pattern
-  const escapedTerms = allTerms.map(term => 
+  const escapedTerms = allTerms.map(term =>
     term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
   );
-  
+
   return new RegExp(`\\b(${escapedTerms.join('|')})\\b`, 'gi');
 }
 
 // Helper function to find definition for a matched term
 export function findDefinition(matchedTerm: string, entries: GlossaryEntry[]): GlossaryEntry | undefined {
   const lowerMatched = matchedTerm.toLowerCase();
-  
+
   return entries.find(entry => {
     if (entry.term.toLowerCase() === lowerMatched) return true;
     if (entry.variants) {

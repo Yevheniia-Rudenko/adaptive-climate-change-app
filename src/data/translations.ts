@@ -70,6 +70,9 @@ export type Translations = {
 
   // Glossary
   gotIt: string;
+  genericError: string;
+  transcript: string;
+  guidedReflection: string;
 };
 
 export const translations: Record<Language, Translations> = {
@@ -142,7 +145,10 @@ export const translations: Record<Language, Translations> = {
     reset: 'Reset',
 
     // Glossary
-    gotIt: 'Got it'
+    gotIt: 'Got it',
+    genericError: 'Something went wrong',
+    transcript: 'Transcript',
+    guidedReflection: 'Guided Reflection'
   },
 
   // es: {
