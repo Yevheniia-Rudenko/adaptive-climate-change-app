@@ -1,25 +1,22 @@
 import { useLanguage } from '../contexts/LanguageContext';
 import { Button } from './ui/button';
+import { Link } from 'react-router-dom';
 import { Search } from 'lucide-react';
 import { useState, useMemo, useRef } from 'react';
 import { glossary } from '../data/glossary';
 
-type GlossaryPageProps = {
-  onBackToHome: () => void;
-};
-
-export function GlossaryPage({ onBackToHome }: GlossaryPageProps) {
+export function GlossaryPage() {
   const { t, language } = useLanguage();
   const [searchTerm, setSearchTerm] = useState('');
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
   const entries = useMemo(() => glossary[language] || glossary.en, [language]);
-  
+
   const filteredTerms = useMemo(() => {
     if (searchTerm.trim() === '') return entries;
-    
+
     const searchLower = searchTerm.toLowerCase();
-    return entries.filter(entry => 
+    return entries.filter(entry =>
       entry.term.toLowerCase().includes(searchLower) ||
       entry.definition.toLowerCase().includes(searchLower)
     );
@@ -61,13 +58,14 @@ export function GlossaryPage({ onBackToHome }: GlossaryPageProps) {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-6 font-sora">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        <Button
-          onClick={onBackToHome}
-          variant="outline"
-          className="mb-4 sm:mb-6"
-        >
-          ← {t.backHome}
-        </Button>
+        <Link to="/">
+          <Button
+            variant="outline"
+            className="mb-4 sm:mb-6"
+          >
+            ← {t.backHome}
+          </Button>
+        </Link>
 
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 sm:p-8 md:p-12">
           <h1 className="text-green-600 mb-6 sm:mb-8">{t.glossary}</h1>
@@ -103,6 +101,10 @@ export function GlossaryPage({ onBackToHome }: GlossaryPageProps) {
                         ? 'bg-white dark:bg-gray-600 text-green-600 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-900/30 hover:text-green-700 dark:hover:text-green-300 shadow-sm cursor-pointer'
                         : 'text-gray-400 dark:text-gray-500 cursor-not-allowed'
                     }`}
+                    className={`w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-lg text-sm sm:text-base font-medium transition-all duration-200 ${isAvailable
+                        ? 'bg-white dark:bg-gray-600 text-green-600 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-900/30 hover:text-green-700 dark:hover:text-green-300 shadow-sm cursor-pointer'
+                        : 'text-gray-400 dark:text-gray-500 cursor-not-allowed'
+                      }`}
                   >
                     {letter}
                   </button>
@@ -116,6 +118,8 @@ export function GlossaryPage({ onBackToHome }: GlossaryPageProps) {
                 Object.keys(groupedTerms).sort().map((letter) => (
                   <div 
                     key={letter} 
+                  <div
+                    key={letter}
                     ref={(el) => { sectionRefs.current[letter] = el; }}
                     className="scroll-mt-4"
                   >
@@ -126,6 +130,7 @@ export function GlossaryPage({ onBackToHome }: GlossaryPageProps) {
                       </h2>
                     </div>
                     
+
                     {/* Terms for this letter */}
                     <div className="space-y-4 sm:space-y-6">
                       {groupedTerms[letter].map((entry) => (

@@ -1,4 +1,5 @@
 import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { ModuleStructure } from '../data/moduleStructures';
 import { ContentBlock } from './ContentBlock';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -7,17 +8,30 @@ import { Button } from './ui/button';
 type FlexibleModulePageProps = {
   module: ModuleStructure;
   moduleId: number;
-  onNext: () => void;
-  onBack: () => void;
 };
 
-export function FlexibleModulePage({ 
-  module, 
-  moduleId, 
-  onNext, 
-  onBack 
+export function FlexibleModulePage({
+  module,
+  moduleId
 }: FlexibleModulePageProps) {
   const { t } = useLanguage();
+  const navigate = useNavigate();
+
+  const handleNext = () => {
+    if (moduleId < 5) {
+      navigate(`/module/${moduleId + 1}`);
+    } else {
+      navigate('/');
+    }
+  };
+
+  const handleBack = () => {
+    if (moduleId > 1) {
+      navigate(`/module/${moduleId - 1}`);
+    } else {
+      navigate('/');
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4 sm:px-6 lg:px-8 font-sora">
@@ -25,7 +39,7 @@ export function FlexibleModulePage({
         <div className="bg-white dark:bg-gray-800 rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden">
           {/* Header */}
           <div className="relative h-40 sm:h-48 md:h-64 overflow-hidden">
-            <img 
+            <img
               src={module.headerImage}
               alt={module.title}
               className="w-full h-full object-cover"
@@ -56,7 +70,7 @@ export function FlexibleModulePage({
             {/* Navigation */}
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
               <Button
-                onClick={onBack}
+                onClick={handleBack}
                 variant="ghost"
                 className="order-2 sm:order-1"
               >
@@ -65,7 +79,7 @@ export function FlexibleModulePage({
               </Button>
 
               <Button
-                onClick={onNext}
+                onClick={handleNext}
                 className="flex-1 order-1 sm:order-3"
               >
                 <span>{t.next}</span>
