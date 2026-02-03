@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import { Button } from './ui/button';
 import { ArrowLeft, ExternalLink, Video, FileText, Clock } from 'lucide-react';
@@ -25,24 +26,24 @@ export type ResourceCategoryData = {
 
 type ResourceCategoryPageProps = {
   category: ResourceCategoryData;
-  onBackToResources: () => void;
 };
 
-export function ResourceCategoryPage({ category, onBackToResources }: ResourceCategoryPageProps) {
+export function ResourceCategoryPage({ category }: ResourceCategoryPageProps) {
   const { t } = useLanguage();
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-6 font-sora">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* Back Navigation */}
-        <Button
-          onClick={onBackToResources}
-          variant="ghost"
-          className="mb-4 sm:mb-6 text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 -ml-2"
-        >
-          <ArrowLeft size={18} className="mr-2" />
-          {t.backToResources || 'Back to Resources'}
-        </Button>
+        <Link to="/resources">
+          <Button
+            variant="ghost"
+            className="mb-4 sm:mb-6 text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 -ml-2"
+          >
+            <ArrowLeft size={18} className="mr-2" />
+            {t.backToResources || 'Back to Resources'}
+          </Button>
+        </Link>
 
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 sm:p-8 md:p-12">
           {/* Page Header */}
@@ -83,11 +84,10 @@ export function ResourceCategoryPage({ category, onBackToResources }: ResourceCa
                           {/* Badges */}
                           <div className="flex flex-wrap items-center gap-2">
                             {/* Type Badge */}
-                            <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${
-                              item.type === 'video'
+                            <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${item.type === 'video'
                                 ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300'
                                 : 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
-                            }`}>
+                              }`}>
                               {item.type === 'video' ? (
                                 <Video size={12} />
                               ) : (

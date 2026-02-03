@@ -1,12 +1,33 @@
+import plutchikWheel from '../assets/Plutchik-Model-600.png';
+import globalTempAudio from '../assets/GlobalTemperature.mp3';
+import climateInteractiveLogo from '../assets/ci-logo.svg';
+import enroadsScreenshot from '../assets/En-Roads-Screenshot 2026-01-30.png';
+import enroadsTemp from '../assets/En-Roads-Temp.png';
+import climateChangeGif from '../assets/Climate Change Weather GIF by INTO ACTION.gif';
+
+
+export type FlipCardData = {
+  frontTitle: string;
+  frontDescription?: string;
+  backTitle?: string;
+  backDescription: string;
+};
+
 export type ContentBlock =
-  | { type: 'text'; title?: string; content: string }
+  | { type: 'text'; title?: string; content: string; hideIcon?: boolean }
   | { type: 'video'; title?: string; videoUrl: string; description?: string }
-  | { type: 'image'; imageUrl: string; alt: string }
+  | { type: 'audio'; title?: string; audioUrl: string; description?: string; transcript?: string }
+  | { type: 'image'; imageUrl: string; alt: string; title?: string; width?: string }
+  | { type: 'flip-cards'; title?: string; cards: FlipCardData[] }
   | { type: 'dashboard'; }
+  | { type: 'exercise1-dashboard'; }
   | { type: '2ndExerciseDashboard'; }
   | { type: 'third-exercise'; }
-  | {type: 'fourth-exercise'; }
+  | { type: 'fourth-exercise'; }
+  | { type: 'html-embed'; htmlFile: string; title?: string }
   | { type: 'reflection'; prompt: string; id: string }
+  | { type: 'poll'; question: string; options: string[]; id: string; singleSelect?: boolean }
+  | { type: 'numeric-prediction'; question: string; id: string; unit?: string }
   | { type: 'meditation'; title: string; content: string };
 
 export type ModuleStructure = {
@@ -24,58 +45,278 @@ export const moduleStructures: ModuleStructure[] = [
     sections: [
       {
         type: 'text',
-        title: 'Understanding the Concept',
-        content: "Climate change isn't just about science and data—it's deeply personal. Understanding how climate futures affect you, your community, and the world helps build meaningful connections to the issue. This module explores how we emotionally and intellectually relate to different possible futures, and why these connections matter for taking action."
+        title: '**About this Module**',
+        content: "Climate change isn't just about science and data—it's deeply personal.\n\n Understanding how climate futures affect you, your community, and the world helps build meaningful connections to the issue. This module explores how we emotionally and intellectually relate to different possible futures, and why these connections matter for taking action."
+      },
+      {
+        type: 'text',
+        title: '**Key Concepts**',
+        content: ''
+      },
+      {
+        type: 'flip-cards',
+        cards: [
+          {
+            frontTitle: 'Climate Change',
+            frontDescription: 'A global shift',
+            backTitle: 'Definition',
+            backDescription: 'Long-term shifts in temperatures and weather patterns, primarily due to human activities like burning fossil fuels.'
+          },
+          {
+            frontTitle: 'Emotions & Awareness',
+            frontDescription: 'Personal perspective',
+            backDescription: 'Acknowledging that climate change evokes strong feelings—from anxiety to hope—and that these emotions are valid drivers of action.'
+          },
+          {
+            frontTitle: 'Systems Thinking & Sensing',
+            frontDescription: 'The inner and outer dimensions',
+            backDescription: 'Moving beyond linear cause-and-effect to see the complex web of relationships, recognizing both external systems and our internal models.'
+          },
+          {
+            frontTitle: 'My Relation to Systems',
+            frontDescription: 'How am I relating?',
+            backDescription: 'Reflecting on your role within the larger system. Are you an observer, a participant, or a shaper of the future?'
+          }
+        ]
+      },
+      {
+        type: 'text',
+        title: '**Reflection**',
+        content: "**Emotional Landscape**\n\nClimate change brings up many emotions, feelings and opinions based on our experience and context."
+      },
+      {
+        type: 'audio',
+        title: 'Listen to the audio recording',
+        audioUrl: 'https://www.youtube.com/embed/XB6JoCWTjto',
+        transcript: `Take a comfortable seat.
+Let your feet rest on the floor.
+Gently close your eyes, or soften your gaze.
+Take a slow breath in through your nose…
+and a long breath out through your mouth.
+As you breathe, notice what comes up when you think about climate change.
+You might feel worry, sadness, anger, or confusion.
+You might also feel care, connection, or hope.
+Whatever you feel is okay.
+You don’t need to fix these emotions.
+Just notice them—like clouds passing through the sky.
+Now ask yourself quietly:
+How can I stay connected to what I care about without letting it overwhelm me?
+As you breathe in, imagine drawing in steadiness.
+As you breathe out, imagine releasing what’s too heavy to carry alone.
+Remember:
+You are allowed to care and to rest.
+You are allowed to learn and to be human.
+Take one more slow breath.
+When you’re ready, gently return to the room.`
       },
       {
         type: 'image',
-        imageUrl: "https://images.unsplash.com/photo-1761486533154-cec2262c4d53?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmdXR1cmUlMjBjaXR5JTIwc3VzdGFpbmFibGV8ZW58MXx8fHwxNzY1MTc1MDY4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-        alt: "Sustainable future city"
-      },
-      {
-        type: 'video',
-        title: 'Watch & Learn',
-        videoUrl: 'https://www.youtube.com/embed/dcSeYYcaCLo',
-        description: 'Explore different climate future scenarios'
+        title: 'Wheel of Emotions',
+        imageUrl: plutchikWheel,
+        alt: "Plutchik's Wheel of Emotions"
       },
       {
         type: 'reflection',
-        prompt: 'How do you feel when you think about climate futures? What emotions come up—hope, anxiety, motivation, or something else?',
-        id: 'emotions'
+        prompt: 'What emotions do you feel when you think about climate change?',
+        id: 'emotions-initial'
       },
       {
-        type: 'dashboard'
+        type: 'text',
+        title: '**Understanding Climate Drivers and Impacts**',
+        content: "Think about the possible impacts of climate change–whether those occurring right now or those in the future."
+      },
+      {
+        type: 'poll',
+        id: 'impacts-poll',
+        question: 'What do you care about most?ы',
+        options: ['Flooding', 'Fires', 'Species loss', 'Extreme Heat']
+      },
+      {
+        type: 'text',
+        title: '**What If?**',
+        content: "We will begin to explore some of the primary drivers that are causing climate change and the impact that different policies and actions could have in shaping our collective future.\n\nA powerful tool for exploring this is En-ROADS, an interactive climate simulation made by Climate Interactive based on real scientific research. Think of it like a real‑life \"what if?\" simulator for the Earth's future."
+      },
+      {
+        type: 'image',
+        imageUrl: climateInteractiveLogo,
+        alt: 'Climate Interactive Logo',
+        width: '40%'
+      },
+      {
+        type: 'image',
+        imageUrl: enroadsScreenshot,
+        alt: 'En-ROADS Screenshot'
+      },
+      {
+        type: 'text',
+        content: "**En-ROADS lets you explore questions like:**\n\n• What happens if we use more renewable energy?\n• What if cars and buildings become more efficient?\n• What if countries put a price on pollution?\n\nYou move sliders that represent real-world global policy choices—energy, transportation, food, forests, and technology—and the simulator instantly shows how those choices affect:\n\n• Global temperature\n• Sea level rise\n• Air pollution\n• Energy use\n• Economic outcomes"
+      },
+      {
+        type: 'text',
+        title: '**What does global temperature matter?**',
+        content: '',
+        hideIcon: true
+      },
+      {
+        type: 'image',
+        imageUrl: climateChangeGif,
+        alt: 'Climate Change Weather Animation',
+        width: '33%'
+      },
+      {
+        type: 'audio',
+        title: '**What does global temperature increase mean?**',
+        audioUrl: globalTempAudio,
+        transcript: "When scientists talk about global temperature increase, they are comparing today’s average Earth temperature to what it was before the Industrial Revolution, around eighteen fifty—before cars, factories, and power plants burned large amounts of fossil fuels.\n\nRight now, Earth has already warmed by about one point two degrees Celsius, or two point two degrees Fahrenheit. That may not sound like much, but even small changes in Earth’s average temperature can cause big changes in weather and ecosystems—just like how a small change in body temperature can make a human very sick.\n\nThe Paris Climate Agreement set two key temperature goals. The main goal is to keep global warming well below two degrees Celsius. The safer goal, which countries are encouraged to aim for, is limiting warming to one point five degrees Celsius.\n\nAt one point five degrees, there are fewer deadly heat waves, less sea level rise, and a lower risk of extreme weather. At two degrees or more, storms and floods become much stronger, many coral reefs die, and more people face extreme heat and food and water shortages.\n\nSo while both levels of warming are dangerous, limiting warming to one point five degrees is much safer than reaching two degrees."
+      },
+      {
+        type: 'text',
+        content: "In En-ROADS, their current projection if global policies and collective behavior remain the same as present, the global temperature increase by 2100 will be 3.3 degrees Celsius or 5.9 degrees Fahrenheit."
+      },
+      {
+        type: 'image',
+        imageUrl: enroadsTemp,
+        alt: 'En-ROADS Temperature Projection',
+        width: '40%'
+      },
+      {
+        type: 'text',
+        content: "That far exceeds the 1.5 degree Celsius goal. So what can we do?"
+      },
+      {
+        type: 'text',
+        title: '**Let’s try some solutions.**',
+        content: `While many climate lessons tell you **what’s wrong**, En‑ROADS lets you **experiment with solutions**.
+
+Instead of just hearing: “Climate change is bad and complicated,” you get to:
+
+• Test ideas yourself
+• See **cause and effect** immediately
+• Discover which solutions matter most
+
+You’re not memorizing facts—you’re **thinking like a decision‑maker.**
+
+So, let’s try it out! 
+
+We’ll introduce you to En-Roads a few elements at a time. Later, we’ll play with the full model.`
+      },
+      {
+        type: 'text',
+        title: '',
+        content: `**Exercise 1 — Afforestation**
+
+**Plant a Trillion Trees!**`
+      },
+      {
+        type: 'exercise1-dashboard'
       },
       {
         type: 'reflection',
-        prompt: 'After exploring the interactive dashboard, what insights did you gain about how our choices shape climate futures?',
-        id: 'insights'
+        prompt: 'What do you notice? What do you wonder?\n\nWhat assumptions did I have that were challenged? What surprised me?',
+        id: 'exercise-1-reflection'
+      },
+      {
+        type: 'text',
+        title: '**Exercise 2 — Renewables**',
+        content: "Summarize renewable energy positions and policies - what if we could just make renewable energy cheaper?  No change in lifestyle."
+      },
+      {
+        type: 'poll',
+        id: 'renewables-effectiveness-poll',
+        question: 'How effective do you think this solution is?',
+        options: ['Highly Effective', 'Moderately Effective', 'Slightly Effective', 'Not Effective'],
+        singleSelect: true
+      },
+      {
+        type: 'reflection',
+        prompt: 'What do you think the temperature change will be in this scenario?',
+        id: 'renewables-temp-prediction'
       },
       {
         type: '2ndExerciseDashboard'
       },
       {
         type: 'reflection',
-        prompt: 'What do you notice? What do you wonder? ',
-        id: 'notice-wonder'
+        prompt: 'What do you notice? What do you wonder?',
+        id: 'renewables-reflection'
       },
+
+
+      {
+        type: 'text',
+        title: '**Exercise 3 — Fossil Fuel Taxes**',
+        content: 'Summarize the divestment position'
+      },
+      {
+        type: 'poll',
+        id: 'fossil-fuel-impact-poll',
+        question: 'How impactful do you think this solution will be?',
+        options: ['Very impactful', 'Moderately', 'Not very impactful'],
+        singleSelect: true
+      },
+
       {
         type: 'third-exercise'
       },
       {
+        type: 'numeric-prediction',
+        question: 'What do you think the global temperature increase by 2100 would be if we implemented this scenario?',
+        id: 'fossil-fuel-temp-prediction',
+        unit: '°C'
+      },
+      {
         type: 'reflection',
-        prompt: 'What do you notice?',
-        id: 'deforestation'
+        prompt: 'What surprises you? What do you notice?',
+        id: 'fossil-fuel-reflection'
+      },
+      {
+        type: 'text',
+        title: '**Exercise 4 — Carbon Price**',
+        content: 'Summarize the carbon price position.'
+      },
+      {
+        type: 'poll',
+        id: 'carbon-price-impact-poll',
+        question: 'How impactful do you think this solution will be?',
+        options: ['Very impactful', 'Moderately', 'Not very impactful'],
+        singleSelect: true
+      },
+      {
+        type: 'numeric-prediction',
+        question: 'What do you think the global temperature increase by 2100 would be if we implemented this scenario?',
+        id: 'carbon-price-temp-prediction',
+        unit: '°C'
       },
       {
         type: 'fourth-exercise'
       },
       {
         type: 'reflection',
-        prompt: 'What do you notice?',
-        id: 'emissions'
+        prompt: 'What do you notice? What do you wonder?',
+        id: 'carbon-price-reflection'
+      },
+      {
+        type: 'text',
+        title: '**Summary Moment**',
+        content: 'Repeat your last change - look at all of the different sliders. Scroll up and see comparisons.'
+      },
+      {
+        type: 'reflection',
+        prompt: 'Consolidate: Summarize what you notice across the different scenarios.',
+        id: 'module-1-final-summary'
       },
 
+      {
+        type: 'text',
+        title: '**Discussion & Creative Tension**',
+        content: 'Sometimes change takes time. We can hold both today’s reality and a vision for the future.'
+      },
+      {
+        type: 'video',
+        title: 'Meditation: Hope as an Active Muscle',
+        videoUrl: 'https://www.youtube.com/embed/placeholder',
+        description: 'Name what is, thinking aspirational, hope as an active muscle.'
+      }
     ]
   },
   {
