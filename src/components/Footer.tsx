@@ -63,13 +63,13 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer style={{ backgroundColor: '#2D6A4F' }} className="border-t border-[#245840] transition-colors min-h-[220px]">
+    <footer style={{ backgroundColor: '#ffffff' }} className="border-t border-[#245840] transition-colors min-h-[220px]">
       {/* Main Footer Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-36 pb-20">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-16">
           {footerSections.map((section) => (
             <div key={section.title} className="mb-4">
-              <h3 className="text-2xl font-bold text-white mb-4">
+              <h3 className="text-2xl font-bold text-black mb-4">
                 {section.title}
               </h3>
               <ul className="space-y-3">
@@ -79,9 +79,9 @@ export function Footer() {
                       href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex items-center gap-3 text-white hover:opacity-80 transition-colors duration-200"
+                      className="group flex items-center gap-3 text-black hover:opacity-80 transition-colors duration-200"
                     >
-                      <span className="flex-shrink-0 text-white transition-colors duration-200">
+                      <span className="flex-shrink-0 text-black transition-colors duration-200">
                         {link.icon}
                       </span>
                       <span className="text-sm font-medium">{link.label}</span>
