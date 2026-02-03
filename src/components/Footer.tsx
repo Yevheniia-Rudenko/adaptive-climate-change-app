@@ -43,28 +43,18 @@ const footerSections: FooterSection[] = [
     ],
   },
   {
-    title: 'Climate Interactive',
+    title: 'Day of Climate',
     links: [
-      {
-        label: 'Website',
-        href: 'https://www.climateinteractive.org',
-        icon: <Globe size={18} />,
-      },
-      {
-        label: 'Email',
-        href: 'mailto:support@climateinteractive.org',
-        icon: <Mail size={18} />,
-      },
-      {
-        label: 'YouTube',
-        href: 'https://www.youtube.com/channel/UCqIrcmlomSKTJxYC2d0bOKw',
-        icon: <Youtube size={18} />,
-      },
-      {
-        label: 'LinkedIn',
-        href: 'https://www.linkedin.com/company/climate-interactive',
-        icon: <Linkedin size={18} />,
-      },
+        {
+          label: 'Website',
+          href: 'https://dayofclimate.mit.edu',
+          icon: <Globe size={18} />,
+        },
+        {
+          label: 'Email',
+          href: 'mailto:day-of-climate-rfp@mit.edu',
+          icon: <Mail size={18} />,
+        },
     ],
   },
 ];
