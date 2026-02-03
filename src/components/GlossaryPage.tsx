@@ -123,7 +123,6 @@ export function GlossaryPage() {
                         {letter}
                       </h2>
                     </div>
-                    
 
                     {/* Terms for this letter */}
                     <div className="space-y-4 sm:space-y-6">
