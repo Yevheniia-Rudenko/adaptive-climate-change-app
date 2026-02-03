@@ -11,34 +11,49 @@ export type GlossaryData = Record<Language, GlossaryEntry[]>;
 export const glossary: GlossaryData = {
   en: [
     {
-      term: 'carbon dioxide',
+      term: 'Carbon Dioxide',
       variants: ['CO₂', 'CO2'],
       definition: 'A greenhouse gas released when we burn fossil fuels like coal, oil, and gas. It traps heat in Earth\'s atmosphere, causing global warming. CO₂ stays in the atmosphere for hundreds of years.'
     },
     {
-      term: 'emissions',
+      term: 'Emissions',
       variants: ['emission'],
       definition: 'The release of greenhouse gases (like carbon dioxide and methane) into the atmosphere, primarily from burning fossil fuels, deforestation, and industrial processes. Reducing emissions is key to fighting climate change.'
     },
     {
-      term: 'greenhouse gas',
+      term: 'Greenhouse Gas',
       variants: ['greenhouse gases'],
       definition: 'Gases in the atmosphere that trap heat from the sun, warming the planet. The main greenhouse gases are carbon dioxide, methane, and nitrous oxide. While some greenhouse gases are natural, human activities have increased their concentration dramatically.'
     },
     {
-      term: 'renewable energy',
+      term: 'Renewable Energy',
       variants: ['renewables'],
       definition: 'Energy from sources that naturally replenish themselves, like solar, wind, hydro, and geothermal power. Unlike fossil fuels, renewable energy doesn\'t produce greenhouse gas emissions and won\'t run out.'
     },
     {
-      term: 'climate system',
+      term: 'Climate System',
       variants: ['climate systems'],
       definition: 'The complex interactions between the atmosphere, oceans, ice, land, and living things that determine Earth\'s climate. Understanding these systems helps us see how changes in one area affect the whole planet.'
     },
     {
-      term: 'fossil fuels',
+      term: 'Fossil Fuels',
       variants: ['fossil fuel'],
       definition: 'Energy sources formed from ancient plant and animal remains, including coal, oil, and natural gas. Burning fossil fuels releases carbon dioxide that has been stored underground for millions of years.'
+    },
+    {
+      term: 'CO₂ Emissions',
+      variants: ['CO₂ Emissions'],
+      definition: 'Combined amount of CO₂ annually released into the atmosphere from all sources such as electricity production, industrial processes, transportation, deforestation, etc. This is most often measured in gigatons (10^9 tons) per year.'
+    },
+    {
+      term: 'CO₂ Concentration',
+      variants: ['CO₂ Concentration'],
+      definition: 'Measure of carbon dioxide molecules present in a specific volume of air, commonly expressed in parts per million (ppm). It serves as a key indicator of climate change, with rising levels trapping more heat in the atmosphere. Since we started burning fossil fuels the CO2 concentration has increased more than 50% from 280 pmm to around 428 pmm today.'
+    },
+    {
+      term: 'Drivers',
+      variants: ['Drivers'],
+      definition: 'When we talk about “drivers,” we mean the main causes or forces that are pushing something to happen. In the context of climate change, drivers are the key activities or systems—like burning fossil fuels, deforestation, and certain industrial processes—that release large amounts of greenhouse gases and speed up global warming. In other words, drivers are the big things behind the scenes that set major changes in motion.'
     }
   ],
   
