@@ -56,8 +56,8 @@ export function GlossaryPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-6 font-sora">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 pt-20 font-sora bg-gray-50 dark:bg-gray-900">
+      <div className="max-w-4xl w-full">
         <Link to="/">
           <Button
             variant="outline"
@@ -96,10 +96,11 @@ export function GlossaryPage() {
                     key={letter}
                     onClick={() => isAvailable && scrollToLetter(letter)}
                     disabled={!isAvailable}
-                    className={`w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-lg text-sm sm:text-base font-medium transition-all duration-200 ${isAvailable
+                    className={`w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-lg text-sm sm:text-base font-medium transition-all duration-200 ${
+                      isAvailable
                         ? 'bg-white dark:bg-gray-600 text-green-600 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-900/30 hover:text-green-700 dark:hover:text-green-300 shadow-sm cursor-pointer'
                         : 'text-gray-400 dark:text-gray-500 cursor-not-allowed'
-                      }`}
+                    }`}
                   >
                     {letter}
                   </button>
