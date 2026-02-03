@@ -64,6 +64,9 @@ export function TextWithGlossary({ text, className }: TextWithGlossaryProps) {
   let match;
   let keyCounter = 0;
 
+  // Track which terms have already been highlighted (first occurrence only)
+  const highlightedTerms = new Set<string>();
+
   // Reset regex lastIndex
   pattern.lastIndex = 0;
 
@@ -75,6 +78,10 @@ export function TextWithGlossary({ text, className }: TextWithGlossaryProps) {
     const entry = findDefinition(matchedText, entries);
 
     if (entry) {
+      // Normalize term for tracking (lowercase to handle case variations)
+      const normalizedTerm = matchedText.toLowerCase();
+      const isFirstOccurrence = !highlightedTerms.has(normalizedTerm);
+
       // Add text before the match
       if (matchStart > lastIndex) {
         const prefix = `text-${keyCounter++}`;
@@ -85,14 +92,25 @@ export function TextWithGlossary({ text, className }: TextWithGlossaryProps) {
         );
       }
 
-      // Add the glossary term
-      parts.push(
-        <GlossaryTerm
-          key={`term-${keyCounter++}`}
-          term={matchedText}
-          definition={entry.definition}
-        />
-      );
+      if (isFirstOccurrence) {
+        // First occurrence: highlight as glossary term
+        highlightedTerms.add(normalizedTerm);
+        parts.push(
+          <GlossaryTerm
+            key={`term-${keyCounter++}`}
+            term={matchedText}
+            definition={entry.definition}
+          />
+        );
+      } else {
+        // Subsequent occurrence: render as plain formatted text
+        const prefix = `plain-${keyCounter++}`;
+        parts.push(
+          <span key={prefix}>
+            {formatText(matchedText, prefix)}
+          </span>
+        );
+      }
 
       lastIndex = matchEnd;
     }

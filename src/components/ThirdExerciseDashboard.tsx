@@ -227,7 +227,7 @@ export default function ThirdExerciseDashboard() {
     <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora">
       <h2 className="text-xl px-4 pt-4 mb-4 font-bold text-gray-800 dark:text-gray-200">En-Roads Dashboard: Fossil Fuel Taxes</h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         <div className="md:col-span-2 bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
           <select
             value={selectedGraphId}
@@ -241,10 +241,10 @@ export default function ThirdExerciseDashboard() {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 flex flex-col items-center justify-center text-center">
-          <div className="text-5xl md:text-6xl font-black text-red-500 mb-2">+{tempC.toFixed(1)}°C</div>
-          <div className="text-xl md:text-2xl font-bold text-red-400 mb-6">+{tempF.toFixed(1)}°F</div>
-          <div className="text-gray-500 text-sm font-bold uppercase">Temperature<br />Increase by 2100</div>
+        <div className="bg-white dark:bg-gray-800 p-3 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 flex flex-col items-center justify-center text-center">
+          <div className="text-4xl md:text-5xl font-black text-red-500 mb-1">+{tempC.toFixed(1)}°C</div>
+          <div className="text-lg md:text-xl font-bold text-red-400 mb-3">+{tempF.toFixed(1)}°F</div>
+          <div className="text-gray-500 text-xs font-bold uppercase">Temperature<br />Increase by 2100</div>
         </div>
       </div>
 

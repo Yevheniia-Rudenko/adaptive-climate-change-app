@@ -317,7 +317,7 @@ export default function SecondExerciseDashboard() {
     <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora">
       <h2 className="text-xl px-4 pt-4 mb-4 font-bold text-gray-800 dark:text-gray-200">En-Roads Dashboard: Renewables</h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         {/* Graph Area */}
         <div className="md:col-span-2 bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
           <div className="flex justify-between items-center mb-4">
@@ -347,14 +347,14 @@ export default function SecondExerciseDashboard() {
         </div>
 
         {/* Temperature Display */}
-        <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 flex flex-col items-center justify-center text-center">
-          <div className="text-5xl md:text-6xl font-black text-blue-500 mb-2">
+        <div className="bg-white dark:bg-gray-800 p-3 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 flex flex-col items-center justify-center text-center">
+          <div className="text-4xl md:text-5xl font-black text-blue-500 mb-1">
             +{tempC.toFixed(1)}°C
           </div>
-          <div className="text-xl md:text-2xl font-bold text-blue-400 mb-6">
+          <div className="text-lg md:text-xl font-bold text-blue-400 mb-3">
             +{tempF.toFixed(1)}°F
           </div>
-          <div className="text-gray-500 dark:text-gray-400 font-semibold uppercase tracking-wider text-sm">
+          <div className="text-gray-500 dark:text-gray-400 font-semibold uppercase tracking-wider text-xs">
             Temperature<br />Increase by<br />2100
           </div>
         </div>
@@ -363,10 +363,7 @@ export default function SecondExerciseDashboard() {
       <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-8">
         <div className="space-y-4">
           <div className="flex justify-between items-center">
-            <div className="flex items-center gap-2">
-              <span className="text-blue-500">▶</span>
-              <label className="font-bold text-gray-700 dark:text-gray-200">Renewables</label>
-            </div>
+            <label className="font-bold text-gray-700 dark:text-gray-200">Renewables</label>
             <span className="text-sm font-mono text-gray-500">{renewablesText}</span>
           </div>
           <input

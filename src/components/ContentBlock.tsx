@@ -328,9 +328,9 @@ export function ContentBlock({
               type="number"
               step="0.1"
               placeholder="0.0"
-              className="w-32 p-3 text-2xl font-bold text-center border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:border-blue-500 focus:outline-none bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-300"
+              className="w-24 p-2 text-xl font-bold text-center border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:border-blue-500 focus:outline-none bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-300"
             />
-            {block.unit && <span className="text-xl font-bold text-gray-500">{block.unit}</span>}
+            {block.unit && <span className="text-lg font-bold text-gray-500">{block.unit}</span>}
           </div>
           <SendButton onClick={() => console.log('Prediction submitted')} />
         </div>
