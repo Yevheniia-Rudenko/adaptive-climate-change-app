@@ -96,10 +96,11 @@ export function GlossaryPage() {
                     key={letter}
                     onClick={() => isAvailable && scrollToLetter(letter)}
                     disabled={!isAvailable}
-                    className={`w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-lg text-sm sm:text-base font-medium transition-all duration-200 ${isAvailable
+                    className={`w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-lg text-sm sm:text-base font-medium transition-all duration-200 ${
+                      isAvailable
                         ? 'bg-white dark:bg-gray-600 text-green-600 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-900/30 hover:text-green-700 dark:hover:text-green-300 shadow-sm cursor-pointer'
                         : 'text-gray-400 dark:text-gray-500 cursor-not-allowed'
-                      }`}
+                    }`}
                   >
                     {letter}
                   </button>
