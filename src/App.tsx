@@ -7,6 +7,7 @@ import { ResourcesPage } from './components/ResourcesPage';
 import { GlossaryPage } from './components/GlossaryPage';
 import { ResourceCategoryPage } from './components/ResourceCategoryPage';
 import { ContributorsPage } from './components/ContributorsPage';
+import { PrivacyPolicyPage } from './components/PrivacyPolicyPage';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { moduleStructures } from './data/moduleStructures';
@@ -30,6 +31,7 @@ function App() {
               <Route path="/resources/:categoryId" element={<ResourceCategoryPageWrapper />} />
               <Route path="/glossary" element={<GlossaryPage />} />
               <Route path="/contributors" element={<ContributorsPage />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
               <Route path="/module/:moduleId" element={<FlexibleModulePageWrapper />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>

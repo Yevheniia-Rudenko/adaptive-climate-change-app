@@ -13,6 +13,8 @@ import carbonPriceAudio from '../assets/CarbonPrice.mp3';
 import FourthExerciseDashboard from '../components/FourthExerciseDashboard';
 import waterImg from '../assets/water.jpg';
 import openingMeditationAudio from '../assets/Module1-OpeningMeditation.m4a';
+import hopeMeditationAudio from '../assets/Module1-HopeMeditation.m4a';
+import coalOilGasAudio from '../assets/Coal-Oil-Gas.mp3';
 
 
 
@@ -38,7 +40,8 @@ export type ContentBlock =
   | { type: 'reflection'; prompt: string; id: string }
   | { type: 'poll'; question: string; options: string[]; id: string; singleSelect?: boolean }
   | { type: 'numeric-prediction'; question: string; id: string; unit?: string }
-  | { type: 'meditation'; title: string; content: string };
+  | { type: 'meditation'; title: string; content: string }
+  | { type: 'module-feedback'; title: string; description: string; id: string };
 
 export type BlockWrapper = {
   type: 'block';
@@ -442,7 +445,7 @@ Renewable energy also connects to other technologies. We can produce clean hydro
           {
             type: 'audio',
             title: 'Can we stop using oil, coal and gas?',
-            audioUrl: '/assets/FossilFuels.mp3', // Placeholder - file needs to be added
+            audioUrl: coalOilGasAudio,
             transcript: `When people talk about divesting from oil, gas, and coal, they’re talking about moving money away from companies that extract or sell fossil fuels. Advocates believe this is one of the ways we can send a strong message about the future we want to build.
 
 They argue that when schools, cities, banks, or other institutions pull their investments out of fossil fuel companies, it reduces financial support for industries that contribute the most to carbon pollution.
@@ -556,20 +559,40 @@ Advocates say carbon pricing creates a clear signal: if you pollute more, you pa
       },
       {
         type: 'block',
-        colorTheme: 'amber',
+        colorTheme: 'teal',
         content: [
           {
             type: 'text',
-            title: 'The Practice of Hope',
+            title: '**The Practice of Hope**',
             content: "Change takes time. We started this module exploring the complex emotions that we may have about climate change.  We explored different possible solutions and impacts.\n\nHow are we feeling now? \n\nWe can hold both today’s reality and a vision for the future."
           },
           {
-            type: 'video',
+            type: 'audio',
             title: 'Meditation: Hope as an Active Muscle',
-            videoUrl: 'https://www.youtube.com/embed/placeholder',
-            description: 'Short guided audio / video meditation - name what is, thinking aspirational, hope as an active muscle'
+            audioUrl: hopeMeditationAudio,
+            transcript: `I invite you to take a moment to pause and to reflect on your experience over these past few minutes.
+
+You might close your eyes, notice your breathing. Inviting into awareness of how you feel at this moment.
+
+As you reflect on the last exercises, notice any emotions that were evoked. Confronting the realities of climate change can be daunting. We can learn to be with the difficulty that arises through reflection and through community and connection.
+
+We also need to have a vision of what is possible, a vision of our future that we can contribute positively towards.
+
+Hope is a muscle, one we can grow with practice.
+
+As you continue to breath, reflect, What is your vision of a better future? What gives you hope? Where can you notice the feeling of hope in your body, your mind or heart?
+
+Throughout these exercises, we invite you to pause and reconnect with that sense of possibility, that sense of hope, as together we build our muscles and nurture a better world.
+
+Thank you for practicing.`
           }
         ]
+      },
+      {
+        type: 'module-feedback',
+        title: 'Congratulations on completing Module 1: Relating to Climate Futures!',
+        description: "Before you begin the next, we'd love your feedback on this learning experience.",
+        id: 'module-1-feedback'
       }
     ]
   },

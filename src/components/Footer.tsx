@@ -1,4 +1,4 @@
-import { Globe, Mail, Youtube, Linkedin, Accessibility, Heart } from 'lucide-react';
+import { Globe, Mail, Youtube, Linkedin, Accessibility, Heart, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 type FooterLink = {
@@ -46,16 +46,16 @@ const footerSections: FooterSection[] = [
   {
     title: 'Day of Climate',
     links: [
-        {
-          label: 'Website',
-          href: 'https://dayofclimate.mit.edu',
-          icon: <Globe size={18} />,
-        },
-        {
-          label: 'Email',
-          href: 'mailto:day-of-climate-rfp@mit.edu',
-          icon: <Mail size={18} />,
-        },
+      {
+        label: 'Website',
+        href: 'https://dayofclimate.mit.edu',
+        icon: <Globe size={18} />,
+      },
+      {
+        label: 'Email',
+        href: 'mailto:day-of-climate-rfp@mit.edu',
+        icon: <Mail size={18} />,
+      },
     ],
   },
 ];
@@ -108,6 +108,17 @@ export function Footer() {
                     <Heart size={18} />
                   </span>
                   <span className="text-sm font-medium">Contributors & Credits</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/privacy-policy"
+                  className="group flex items-center gap-3 text-white hover:opacity-80 transition-colors duration-200"
+                >
+                  <span className="flex-shrink-0 text-white transition-colors duration-200">
+                    <Shield size={18} />
+                  </span>
+                  <span className="text-sm font-medium">Privacy Policy</span>
                 </Link>
               </li>
             </ul>
