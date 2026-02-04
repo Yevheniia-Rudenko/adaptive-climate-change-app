@@ -113,9 +113,9 @@ export function Footer() {
               <li>
                 <Link
                   to="/privacy-policy"
-                  className="group flex items-center gap-3 text-white hover:opacity-80 transition-colors duration-200"
+                  className="group flex items-center gap-3 text-black hover:opacity-80 transition-colors duration-200"
                 >
-                  <span className="flex-shrink-0 text-white transition-colors duration-200">
+                  <span className="flex-shrink-0 text-black transition-colors duration-200">
                     <Shield size={18} />
                   </span>
                   <span className="text-sm font-medium">Privacy Policy</span>
