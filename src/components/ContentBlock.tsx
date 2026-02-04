@@ -10,7 +10,7 @@ import ThirdExerciseDashboard from './ThirdExerciseDashboard';
 import FourthExerciseDashboard from './FourthExerciseDashboard';
 import Exercise1Dashboard from './Exercise1Dashboard';
 import { FlipCard } from './FlipCard';
-import { SendButton } from './SendButton';
+import { SubmitButton } from './SubmitButton';
 
 
 function PollBlock({ block }: { block: Extract<ContentBlockType, { type: 'poll' }> }) {
@@ -91,7 +91,7 @@ function PollBlock({ block }: { block: Extract<ContentBlockType, { type: 'poll' 
           )}
         </div>
       </div>
-      <SendButton onClick={() => console.log('Poll data:', { selectedOptions, otherText })} />
+      <SubmitButton onClick={() => console.log('Poll data:', { selectedOptions, otherText })} />
     </div>
   );
 }
@@ -256,7 +256,7 @@ export function ContentBlock({
           <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-2">
             Take a moment to reflect on your emotions and thoughts.
           </p>
-          <SendButton onClick={() => console.log('Reflection submitted')} />
+          <SubmitButton onClick={() => console.log('Reflection submitted')} />
         </div>
       );
 
@@ -332,7 +332,7 @@ export function ContentBlock({
             />
             {block.unit && <span className="text-lg font-bold text-gray-500">{block.unit}</span>}
           </div>
-          <SendButton onClick={() => console.log('Prediction submitted')} />
+          <SubmitButton onClick={() => console.log('Prediction submitted')} />
         </div>
       );
 
