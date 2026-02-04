@@ -149,9 +149,9 @@ export function ContentBlock({
             <p className="text-gray-600 dark:text-gray-400 mb-3 sm:mb-4 text-sm sm:text-base">{block.description}</p>
           )}
           <div className="relative rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 shadow-md border border-gray-200 dark:border-gray-700 p-4">
-            {block.audioUrl.endsWith('.mp3') ? (
+            {block.audioUrl.endsWith('.mp3') || block.audioUrl.endsWith('.m4a') ? (
               <audio controls className="w-full">
-                <source src={block.audioUrl} type="audio/mpeg" />
+                <source src={block.audioUrl} type={block.audioUrl.endsWith('.mp3') ? 'audio/mpeg' : 'audio/mp4'} />
                 Your browser does not support the audio element.
               </audio>
             ) : (
