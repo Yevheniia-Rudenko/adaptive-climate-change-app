@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Adaptive Climate Change App</title>
+  <script>
+    // GitHub Pages SPA redirect solution
+    // When GitHub Pages serves this 404.html, we capture the path and redirect to index.html
+    // with the path stored in sessionStorage to be restored by index.html
+    sessionStorage.setItem('redirect', location.pathname + location.search + location.hash);
+    location.replace(location.origin + '/adaptive-climate-change-app/');
+  </script>
+</head>
+<body>
+  <!-- This page is only shown briefly during redirect -->
+</body>
+</html>
