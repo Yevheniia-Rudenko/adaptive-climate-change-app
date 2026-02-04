@@ -131,7 +131,7 @@ export default function FourthExerciseDashboard() {
     const val = parseFloat(e.target.value); // 0-100 slider position
     setCarbonPriceVal(val);
 
-    if (carbonPriceInputRef.current) {
+    if (carbonPriceInputRef.current && modelRef.current) {
       // Map 0-100 slider to Carbon Price range (e.g., $0 to $250/ton seems reasonable for En-Roads max)
       // Default max often around $100-$250. Let's assume $250 as a generic 'high' carbon price.
       const min = carbonPriceInputRef.current.min !== undefined ? carbonPriceInputRef.current.min : 0;
@@ -143,6 +143,9 @@ export default function FourthExerciseDashboard() {
 
       carbonPriceInputRef.current.set(modelVal);
       setCarbonPriceText(`$${Math.round(modelVal)} / ton CO2`);
+
+      // Model updates automatically via onOutputsChanged callback
+      setTimeout(() => updateDashboard(), 100);
     } else {
       console.warn("Ex4 Warning: Slider moved but input ref is missing");
     }
@@ -157,12 +160,36 @@ export default function FourthExerciseDashboard() {
         modelContextRef.current = modelRef.current.addContext();
         createDefaultOutputs();
 
-        // Carbon Price Input ID: 48
-        carbonPriceInputRef.current = modelContextRef.current.getInputForId('48');
-        console.log("Ex4: Carbon Price Input (ID 48):", carbonPriceInputRef.current);
+        // Debug: List all inputs to find Carbon Price
+        console.log("Ex4 DEBUG: Listing all inputs with 'price' or 'carbon'...");
+        for (let i = 0; i < 200; i++) {
+          const input = modelContextRef.current.getInputForId(String(i));
+          if (input && input.varId) {
+            const varId = input.varId.toLowerCase();
+            if (varId.includes('carbon') || varId.includes('price')) {
+              console.log(`Ex4 DEBUG: Input ID ${i} -> varId: ${input.varId}, min: ${input.min}, max: ${input.max}`);
+            }
+          }
+        }
 
-        if (!carbonPriceInputRef.current) {
-          console.error("Ex4 Error: Carbon Price input (ID 48) NOT found.");
+        // Try to find Carbon Price input by checking varId
+        let foundCarbonPrice = false;
+        for (let i = 0; i < 200; i++) {
+          const testInput = modelContextRef.current.getInputForId(String(i));
+          if (testInput && testInput.varId) {
+            const varId = testInput.varId.toLowerCase();
+            // Look for price-related varIds
+            if (varId.includes('_price') || varId === '_carbon_price' || varId.includes('carbon_tax')) {
+              console.log(`Ex4: Found Carbon Price at ID ${i}: ${testInput.varId}`);
+              carbonPriceInputRef.current = testInput;
+              foundCarbonPrice = true;
+              break;
+            }
+          }
+        }
+
+        if (!foundCarbonPrice) {
+          console.error("Ex4 Error: Carbon Price input NOT found in IDs 0-200.");
         } else {
           console.log("Ex4: Carbon Price Input Min/Max:", carbonPriceInputRef.current.min, carbonPriceInputRef.current.max);
         }
