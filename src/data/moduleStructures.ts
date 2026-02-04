@@ -179,7 +179,7 @@ Thank you for practicing with me.
           {
             type: 'poll',
             id: 'impacts-poll',
-            question: 'What do you care about most?ы',
+            question: 'What do you care about most?',
             options: ['Flooding', 'Fires', 'Species loss', 'Extreme Heat']
           },
           {
@@ -204,7 +204,7 @@ Thank you for practicing with me.
           },
           {
             type: 'text',
-            title: '**What does global temperature matter?**',
+            title: '**Why does global temperature matter?**',
             content: '',
             hideIcon: true
           },
@@ -222,7 +222,7 @@ Thank you for practicing with me.
           },
           {
             type: 'text',
-            content: "In En-ROADS, their current projection if global policies and collective behavior remain the same as present, the global temperature increase by 2100 will be 3.3 degrees Celsius or 5.9 degrees Fahrenheit."
+            content: "In En-ROADS, the current projection if global policies and collective behavior remain the same as present, the global temperature increase by 2100 will be 3.3 degrees Celsius or 5.9 degrees Fahrenheit."
           },
           {
             type: 'image',
@@ -255,7 +255,7 @@ You're not memorizing facts—you're **thinking like a decision‑maker.**
 
 So, let's try it out! 
 
-We'll introduce you to En-Roads a few elements at a time. Later, we'll play with the full model.`
+We'll introduce you to En-ROADS a few elements at a time. Later, we'll play with the full model.`
           },
           {
             type: 'text',
@@ -276,7 +276,7 @@ Some organizations and groups are advocating just that. They advocate that plant
 
 Trees absorb CO₂ as they grow and store that carbon in their trunks, branches, roots, and surrounding soil. This process is known as **carbon sequestration**.
 
-To plant a trillion trees, that would cover 550 million hectares–or over 2 million square miles–of unforested land with forest. To visualise, imagine half the area of the entire United States of America.
+Planting a trillion trees would cover 550 million hectares–or over 2 million square miles–of unforested land with forest. To visualize, imagine half the area of the entire United States of America.
 
 So, let's try this solution out! Let's plant more trees–a nature-based solution to carbon dioxide removal.`
           },
@@ -381,7 +381,7 @@ Renewable energy also connects to other technologies. We can produce clean hydro
           },
           {
             type: 'text',
-            content: 'Should we try it out? What if the world encouraged building solar panels, geothermal, and wind turbines through tax-subsidies?'
+            content: 'Should we try it out? What if the world encouraged building solar panels, geothermal, and wind turbines through tax subsidies?'
           },
           {
             type: 'text',
@@ -580,7 +580,7 @@ We also need to have a vision of what is possible, a vision of our future that w
 
 Hope is a muscle, one we can grow with practice.
 
-As you continue to breath, reflect, What is your vision of a better future? What gives you hope? Where can you notice the feeling of hope in your body, your mind or heart?
+As you continue to breathe, reflect, What is your vision of a better future? What gives you hope? Where can you notice the feeling of hope in your body, your mind or heart?
 
 Throughout these exercises, we invite you to pause and reconnect with that sense of possibility, that sense of hope, as together we build our muscles and nurture a better world.
 
