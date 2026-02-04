@@ -12,6 +12,7 @@ import carbonPricingImg from '../assets/carbon_pricing_meeting.jpg';
 import carbonPriceAudio from '../assets/CarbonPrice.mp3';
 import FourthExerciseDashboard from '../components/FourthExerciseDashboard';
 import waterImg from '../assets/water.jpg';
+import openingMeditationAudio from '../assets/Module1-OpeningMeditation.m4a';
 
 
 
@@ -124,7 +125,7 @@ export const moduleStructures: ModuleStructure[] = [
           {
             type: 'audio',
             title: 'Listen to the audio recording',
-            audioUrl: 'https://www.youtube.com/embed/XB6JoCWTjto',
+            audioUrl: openingMeditationAudio,
             transcript: `Take a comfortable seat.
 Let your feet rest on the floor.
 Gently close your eyes, or soften your gaze.
