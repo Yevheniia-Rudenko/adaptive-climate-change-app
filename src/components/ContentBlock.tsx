@@ -253,9 +253,6 @@ export function ContentBlock({
             placeholder={t.typeYourThoughts}
             className="w-full p-3 sm:p-4 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none min-h-[100px] sm:min-h-[120px] resize-y bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm sm:text-base"
           />
-          <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-2">
-            Take a moment to reflect on your emotions and thoughts.
-          </p>
           <SubmitButton onClick={() => console.log('Reflection submitted')} />
         </div>
       );
