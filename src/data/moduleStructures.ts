@@ -82,22 +82,37 @@ export const moduleStructures: ModuleStructure[] = [
                 frontTitle: 'Climate Change',
                 frontDescription: 'A global shift',
                 backTitle: 'Definition',
-                backDescription: 'Long-term shifts in temperatures and weather patterns, primarily due to human activities like burning fossil fuels.'
+                backDescription: 'Long-term shifts in temperatures and weather patterns, primarily due to human activities like burning fossil fuels and cutting down forests and other habitats.'
               },
               {
-                frontTitle: 'Emotions & Awareness',
-                frontDescription: 'Personal perspective',
-                backDescription: 'Acknowledging that climate change evokes strong feelings—from anxiety to hope—and that these emotions are valid drivers of action.'
+                frontTitle: 'Systems',
+                frontDescription: 'Connected parts',
+                backTitle: 'Definition',
+                backDescription: 'A system is a group of connected parts that interact with one another and together create outcomes that none of the parts could produce on their own.'
               },
               {
-                frontTitle: 'Systems Thinking & Sensing',
-                frontDescription: 'The inner and outer dimensions',
-                backDescription: 'Moving beyond linear cause-and-effect to see the complex web of relationships, recognizing both external systems and our internal models.'
+                frontTitle: 'Systems Thinking',
+                frontDescription: 'Understanding connections',
+                backTitle: 'Definition',
+                backDescription: 'Systems thinking is the practice of looking at how different parts of a situation or system connect and influence each other so you can understand the bigger picture and why certain outcomes happen.'
               },
               {
-                frontTitle: 'My Relation to Systems',
-                frontDescription: 'How am I relating?',
-                backDescription: 'Reflecting on your role within the larger system. Are you an observer, a participant, or a shaper of the future?'
+                frontTitle: 'Systems Sensing',
+                frontDescription: 'Paying close attention',
+                backTitle: 'Definition',
+                backDescription: 'Systems sensing is the skill of paying close attention using all our senses, emotions and lived experience - to what\'s happening in a system, like a school, a community, or even the climate - and noticing patterns, emotions, relationships, and changes so you can better understand how everything is connected.'
+              },
+              {
+                frontTitle: 'Emotions',
+                frontDescription: 'Feelings you experience',
+                backTitle: 'Definition',
+                backDescription: 'Emotions are the feelings you experience in response to what\'s happening around you or inside you. They can range from joy and excitement to stress, anger, or confusion. Emotions show up in your body, your thoughts, and your behaviors, and they help you understand your experiences and needs.'
+              },
+              {
+                frontTitle: 'Awareness',
+                frontDescription: 'Noticing and understanding',
+                backTitle: 'Definition',
+                backDescription: 'Awareness means being able to notice and understand what you\'re feeling, thinking, or experiencing in the moment. It\'s the skill of paying attention to your emotions without judging them and recognizing how they affect your choices, your relationships, and your overall well-being.'
               }
             ]
           },
