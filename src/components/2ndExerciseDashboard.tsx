@@ -317,9 +317,9 @@ export default function SecondExerciseDashboard() {
     <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora">
       <h2 className="text-xl px-4 pt-4 mb-4 font-bold text-gray-800 dark:text-gray-200">En-Roads Dashboard: Renewables</h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-4 gap-4 mb-4">
         {/* Graph Area */}
-        <div className="md:col-span-2 bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
+        <div className="col-span-3 bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
           <div className="flex justify-between items-center mb-4">
             <select
               value={selectedGraphId}
@@ -355,7 +355,7 @@ export default function SecondExerciseDashboard() {
             +{tempF.toFixed(1)}°F
           </div>
           <div className="text-gray-500 dark:text-gray-400 font-semibold uppercase tracking-wider text-xs">
-            Temperature<br />Increase by<br />2100
+            Global Temperature<br />by 2100
           </div>
         </div>
       </div>

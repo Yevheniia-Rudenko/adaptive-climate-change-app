@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Play, BookOpen, Sparkles, Layers, Headphones, ChevronDown, ChevronUp } from 'lucide-react';
+import { Play, BookOpen, Sparkles, Layers, Headphones, ChevronDown, ChevronUp, Star } from 'lucide-react';
 import { ContentBlock as ContentBlockType } from '../data/moduleStructures';
 import { InteractiveDashboard } from './InteractiveDashboard';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -8,7 +8,6 @@ import EnRoadsDashboard from './EnRoadsDashboard';
 import SecondExerciseDashboard from './2ndExerciseDashboard';
 import ThirdExerciseDashboard from './ThirdExerciseDashboard';
 import FourthExerciseDashboard from './FourthExerciseDashboard';
-import Exercise1Dashboard from './Exercise1Dashboard';
 import { FlipCard } from './FlipCard';
 import { SubmitButton } from './SubmitButton';
 
@@ -96,6 +95,71 @@ function PollBlock({ block }: { block: Extract<ContentBlockType, { type: 'poll' 
   );
 }
 
+function ModuleFeedbackBlock({ block }: { block: Extract<ContentBlockType, { type: 'module-feedback' }> }) {
+  const [rating, setRating] = useState(0);
+  const [hoverRating, setHoverRating] = useState(0);
+  const [feedback, setFeedback] = useState('');
+
+  return (
+    <div className="bg-gradient-to-br from-green-50 to-teal-50 dark:from-green-900/20 dark:to-teal-900/20 rounded-2xl p-6 sm:p-8 shadow-lg border-2 border-green-200 dark:border-green-700 mb-8 font-sora">
+      <h2 className="text-gray-900 dark:text-gray-100 text-xl sm:text-2xl font-bold mb-3">
+        {block.title}
+      </h2>
+      <p className="text-gray-700 dark:text-gray-300 mb-6 text-sm sm:text-base">
+        {block.description}
+      </p>
+
+      {/* Star Rating */}
+      <div className="mb-6">
+        <p className="text-gray-900 dark:text-gray-100 font-semibold mb-3 text-sm sm:text-base">
+          Please rate below:
+        </p>
+        <div className="flex gap-2 items-center">
+          {[1, 2, 3, 4, 5].map((star) => (
+            <button
+              key={star}
+              type="button"
+              onClick={() => setRating(star)}
+              onMouseEnter={() => setHoverRating(star)}
+              onMouseLeave={() => setHoverRating(0)}
+              className="transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded"
+              aria-label={`Rate ${star} star${star > 1 ? 's' : ''}`}
+            >
+              <Star
+                size={36}
+                fill={star <= (hoverRating || rating) ? '#facc15' : 'none'}
+                stroke={star <= (hoverRating || rating) ? '#facc15' : 'currentColor'}
+                className="transition-colors text-gray-300 dark:text-gray-600"
+              />
+            </button>
+          ))}
+          {rating > 0 && (
+            <span className="ml-3 text-gray-600 dark:text-gray-400 text-sm font-medium">
+              {rating === 5 ? 'Excellent' : rating === 4 ? 'Very Good' : rating === 3 ? 'Good' : rating === 2 ? 'Poor' : 'Terrible'}
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Feedback Text */}
+      <div className="mb-4">
+        <label htmlFor={`feedback-${block.id}`} className="block text-gray-900 dark:text-gray-100 font-semibold mb-2 text-sm sm:text-base">
+          Any feedback?
+        </label>
+        <textarea
+          id={`feedback-${block.id}`}
+          value={feedback}
+          onChange={(e) => setFeedback(e.target.value)}
+          placeholder="Share your thoughts about this module..."
+          className="w-full p-3 sm:p-4 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:border-green-500 dark:focus:border-green-400 focus:outline-none min-h-[100px] sm:min-h-[120px] resize-y bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm sm:text-base placeholder-gray-400"
+        />
+      </div>
+
+      <SubmitButton onClick={() => console.log('Feedback submitted:', { rating, feedback })} />
+    </div>
+  );
+}
+
 type ContentBlockProps = {
   block: ContentBlockType;
   moduleId: number;
@@ -149,9 +213,9 @@ export function ContentBlock({
             <p className="text-gray-600 dark:text-gray-400 mb-3 sm:mb-4 text-sm sm:text-base">{block.description}</p>
           )}
           <div className="relative rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 shadow-md border border-gray-200 dark:border-gray-700 p-4">
-            {block.audioUrl.endsWith('.mp3') ? (
+            {block.audioUrl.endsWith('.mp3') || block.audioUrl.endsWith('.m4a') ? (
               <audio controls className="w-full">
-                <source src={block.audioUrl} type="audio/mpeg" />
+                <source src={block.audioUrl} type={block.audioUrl.endsWith('.mp3') ? 'audio/mpeg' : 'audio/mp4'} />
                 Your browser does not support the audio element.
               </audio>
             ) : (
@@ -231,7 +295,7 @@ export function ContentBlock({
       return moduleId === 1 ? <EnRoadsDashboard /> : <InteractiveDashboard moduleId={moduleId} />;
 
     case 'exercise1-dashboard':
-      return <Exercise1Dashboard />;
+      return <EnRoadsDashboard />;
 
     case '2ndExerciseDashboard':
       return <SecondExerciseDashboard />;
@@ -332,6 +396,9 @@ export function ContentBlock({
           <SubmitButton onClick={() => console.log('Prediction submitted')} />
         </div>
       );
+
+    case 'module-feedback':
+      return <ModuleFeedbackBlock block={block} />;
 
     default:
       return null;

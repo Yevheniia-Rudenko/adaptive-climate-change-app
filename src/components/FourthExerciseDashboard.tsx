@@ -4,12 +4,12 @@ import enStrings from '@climateinteractive/en-roads-core/strings/en';
 import { GraphView } from '@climateinteractive/sim-ui-graph';
 import '../styles/enroads-dashboard.css';
 
-// Graph definitions
+// Graph definitions with correct En-ROADS IDs
 const GRAPHS = [
   { id: '86', label: 'Global Temperature by 2100', varId: '_temperature_relative_to_1850_1900' },
   { id: '90', label: 'Sea Level Rise', varId: '_slr_from_2000_in_meters' },
   { id: '275', label: 'Deaths from Extreme Heat', varId: '_excess_deaths_from_extreme_heat_per_100k_people' },
-  { id: '279', label: 'Species loss - Extinction', varId: '_percent_endemic_species_at_high_risk_of_extinction' },
+  { id: '279', label: 'Species Loss - Extinction', varId: '_percent_endemic_species_at_high_risk_of_extinction' },
   { id: '183', label: 'Crop Yield', varId: '_crop_yield_per_hectare_kg_per_year_per_ha' },
   { id: '112', label: 'Air Pollution', varId: '_pm2_5_emissions_from_energy_mt_per_year' }
 ];
@@ -131,7 +131,7 @@ export default function FourthExerciseDashboard() {
     const val = parseFloat(e.target.value); // 0-100 slider position
     setCarbonPriceVal(val);
 
-    if (carbonPriceInputRef.current) {
+    if (carbonPriceInputRef.current && modelRef.current) {
       // Map 0-100 slider to Carbon Price range (e.g., $0 to $250/ton seems reasonable for En-Roads max)
       // Default max often around $100-$250. Let's assume $250 as a generic 'high' carbon price.
       const min = carbonPriceInputRef.current.min !== undefined ? carbonPriceInputRef.current.min : 0;
@@ -143,6 +143,9 @@ export default function FourthExerciseDashboard() {
 
       carbonPriceInputRef.current.set(modelVal);
       setCarbonPriceText(`$${Math.round(modelVal)} / ton CO2`);
+
+      // Model updates automatically via onOutputsChanged callback
+      setTimeout(() => updateDashboard(), 100);
     } else {
       console.warn("Ex4 Warning: Slider moved but input ref is missing");
     }
@@ -157,12 +160,36 @@ export default function FourthExerciseDashboard() {
         modelContextRef.current = modelRef.current.addContext();
         createDefaultOutputs();
 
-        // Carbon Price Input ID: 48
-        carbonPriceInputRef.current = modelContextRef.current.getInputForId('48');
-        console.log("Ex4: Carbon Price Input (ID 48):", carbonPriceInputRef.current);
+        // Debug: List all inputs to find Carbon Price
+        console.log("Ex4 DEBUG: Listing all inputs with 'price' or 'carbon'...");
+        for (let i = 0; i < 200; i++) {
+          const input = modelContextRef.current.getInputForId(String(i));
+          if (input && input.varId) {
+            const varId = input.varId.toLowerCase();
+            if (varId.includes('carbon') || varId.includes('price')) {
+              console.log(`Ex4 DEBUG: Input ID ${i} -> varId: ${input.varId}, min: ${input.min}, max: ${input.max}`);
+            }
+          }
+        }
 
-        if (!carbonPriceInputRef.current) {
-          console.error("Ex4 Error: Carbon Price input (ID 48) NOT found.");
+        // Try to find Carbon Price input by checking varId
+        let foundCarbonPrice = false;
+        for (let i = 0; i < 200; i++) {
+          const testInput = modelContextRef.current.getInputForId(String(i));
+          if (testInput && testInput.varId) {
+            const varId = testInput.varId.toLowerCase();
+            // Look for price-related varIds
+            if (varId.includes('_price') || varId === '_carbon_price' || varId.includes('carbon_tax')) {
+              console.log(`Ex4: Found Carbon Price at ID ${i}: ${testInput.varId}`);
+              carbonPriceInputRef.current = testInput;
+              foundCarbonPrice = true;
+              break;
+            }
+          }
+        }
+
+        if (!foundCarbonPrice) {
+          console.error("Ex4 Error: Carbon Price input NOT found in IDs 0-200.");
         } else {
           console.log("Ex4: Carbon Price Input Min/Max:", carbonPriceInputRef.current.min, carbonPriceInputRef.current.max);
         }
@@ -196,8 +223,8 @@ export default function FourthExerciseDashboard() {
     <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora">
       <h2 className="text-xl px-4 pt-4 mb-4 font-bold text-gray-800 dark:text-gray-200">Make a Model: Carbon Price</h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <div className="md:col-span-2 bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
+      <div className="grid grid-cols-4 gap-4 mb-4">
+        <div className="col-span-3 bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
           <select
             value={selectedGraphId}
             onChange={(e) => setSelectedGraphId(e.target.value)}
