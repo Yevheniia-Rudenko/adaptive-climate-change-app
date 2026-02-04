@@ -4,12 +4,12 @@ import enStrings from '@climateinteractive/en-roads-core/strings/en';
 import { GraphView } from '@climateinteractive/sim-ui-graph';
 import '../styles/enroads-dashboard.css';
 
-// Graph definitions
+// Graph definitions with correct En-ROADS IDs
 const GRAPHS = [
   { id: '86', label: 'Global Temperature by 2100', varId: '_temperature_relative_to_1850_1900' },
   { id: '90', label: 'Sea Level Rise', varId: '_slr_from_2000_in_meters' },
   { id: '275', label: 'Deaths from Extreme Heat', varId: '_excess_deaths_from_extreme_heat_per_100k_people' },
-  { id: '279', label: 'Species loss - Extinction', varId: '_percent_endemic_species_at_high_risk_of_extinction' },
+  { id: '279', label: 'Species Loss - Extinction', varId: '_percent_endemic_species_at_high_risk_of_extinction' },
   { id: '183', label: 'Crop Yield', varId: '_crop_yield_per_hectare_kg_per_year_per_ha' },
   { id: '112', label: 'Air Pollution', varId: '_pm2_5_emissions_from_energy_mt_per_year' }
 ];

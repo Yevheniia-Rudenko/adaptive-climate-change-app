@@ -8,7 +8,6 @@ import EnRoadsDashboard from './EnRoadsDashboard';
 import SecondExerciseDashboard from './2ndExerciseDashboard';
 import ThirdExerciseDashboard from './ThirdExerciseDashboard';
 import FourthExerciseDashboard from './FourthExerciseDashboard';
-import Exercise1Dashboard from './Exercise1Dashboard';
 import { FlipCard } from './FlipCard';
 import { SubmitButton } from './SubmitButton';
 
@@ -231,7 +230,7 @@ export function ContentBlock({
       return moduleId === 1 ? <EnRoadsDashboard /> : <InteractiveDashboard moduleId={moduleId} />;
 
     case 'exercise1-dashboard':
-      return <Exercise1Dashboard />;
+      return <EnRoadsDashboard />;
 
     case '2ndExerciseDashboard':
       return <SecondExerciseDashboard />;
