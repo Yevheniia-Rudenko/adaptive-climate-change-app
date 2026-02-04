@@ -135,17 +135,21 @@ As you breathe, notice what comes up when you think about climate change.
 You might feel worry, sadness, anger, or confusion.
 You might also feel care, connection, or hope.
 Whatever you feel is okay.
-You don't need to fix these emotions.
+You don’t need to fix these emotions.
 Just notice them—like clouds passing through the sky.
 Now ask yourself quietly:
 How can I stay connected to what I care about without letting it overwhelm me?
 As you breathe in, imagine drawing in steadiness.
-As you breathe out, imagine releasing what's too heavy to carry alone.
+As you breathe out, imagine releasing what’s too heavy to carry alone.
+As you breathe in, imagine drawing in community.
+As you breathe out, imagine releasing despair.
 Remember:
 You are allowed to care and to rest.
 You are allowed to learn and to be human.
 Take one more slow breath.
-When you're ready, gently return to the room.`
+When you’re ready, gently return to the room.
+Thank you for practicing with me. 
+`
           },
           {
             type: 'image',
