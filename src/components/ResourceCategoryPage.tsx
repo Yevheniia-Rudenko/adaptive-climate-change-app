@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import { Button } from './ui/button';
-import { ArrowLeft, ExternalLink, Video, FileText, Clock } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Video, FileText, Clock, Globe, Wrench, BookOpen, Headphones, ClipboardList } from 'lucide-react';
 
 // Types for resource data
 export type ResourceItem = {
   title: string;
   description: string;
-  type: 'video' | 'article';
+  type: 'video' | 'Article' | 'Website' | 'Tool' | 'Case Study' | 'Podcast' | 'Report' ;
   duration: string;
   url: string;
 };
@@ -84,16 +84,37 @@ export function ResourceCategoryPage({ category }: ResourceCategoryPageProps) {
                           {/* Badges */}
                           <div className="flex flex-wrap items-center gap-2">
                             {/* Type Badge */}
-                            <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${item.type === 'video'
+                            <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${
+                              item.type === 'video'
                                 ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300'
+                                : item.type === 'Podcast'
+                                ? 'bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300'
+                                : item.type === 'Tool'
+                                ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
+                                : item.type === 'Website'
+                                ? 'bg-cyan-100 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-300'
+                                : item.type === 'Case Study'
+                                ? 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300'
+                                : item.type === 'Report'
+                                ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300'
                                 : 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
                               }`}>
                               {item.type === 'video' ? (
                                 <Video size={12} />
+                              ) : item.type === 'Podcast' ? (
+                                <Headphones size={12} />
+                              ) : item.type === 'Tool' ? (
+                                <Wrench size={12} />
+                              ) : item.type === 'Website' ? (
+                                <Globe size={12} />
+                              ) : item.type === 'Case Study' ? (
+                                <BookOpen size={12} />
+                              ) : item.type === 'Report' ? (
+                                <ClipboardList size={12} />
                               ) : (
                                 <FileText size={12} />
                               )}
-                              {item.type === 'video' ? 'Video' : 'Article'}
+                              {item.type === 'video' ? 'Video' : item.type}
                             </span>
 
                             {/* Duration Badge */}
