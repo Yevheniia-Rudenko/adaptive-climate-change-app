@@ -10,13 +10,19 @@ import ThirdExerciseDashboard from './ThirdExerciseDashboard';
 import FourthExerciseDashboard from './FourthExerciseDashboard';
 import { FlipCard } from './FlipCard';
 import { SubmitButton } from './SubmitButton';
+import { postInput } from '../api/postInput';
 
 
-function PollBlock({ block }: { block: Extract<ContentBlockType, { type: 'poll' }> }) {
+function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { type: 'poll' }>; moduleId: number }) {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [otherText, setOtherText] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const toggleOption = (option: string) => {
+    setSubmitError(null);
+    setIsSubmitted(false);
     if (block.singleSelect) {
       // Single select: always replace selection with new option
       setSelectedOptions([option]);
@@ -34,6 +40,38 @@ function PollBlock({ block }: { block: Extract<ContentBlockType, { type: 'poll' 
 
   const isRadio = block.singleSelect;
   const inputType = isRadio ? 'radio' : 'checkbox';
+
+  const handleSubmit = async () => {
+    if (isSubmitting) return;
+    const input = JSON.stringify({
+      type: block.type,
+      question: block.question,
+      response: {
+        selectedOptions,
+        otherText,
+      },
+    });
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+    setIsSubmitted(false);
+    try {
+      await postInput({
+        input,
+        module_id: String(moduleId),
+        section_id: block.id,
+      });
+      setSelectedOptions([]);
+      setOtherText('');
+      setIsSubmitted(true);
+    } catch (e) {
+      setSubmitError(e instanceof Error ? e.message : 'Failed to submit');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const canSubmit = selectedOptions.length > 0 && (!selectedOptions.includes('Other') || otherText.trim() !== '');
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700 mb-8 font-sora">
@@ -81,7 +119,11 @@ function PollBlock({ block }: { block: Extract<ContentBlockType, { type: 'poll' 
             <input
               type="text"
               value={otherText}
-              onChange={(e) => setOtherText(e.target.value)}
+              onChange={(e) => {
+                setOtherText(e.target.value);
+                setSubmitError(null);
+                setIsSubmitted(false);
+              }}
               placeholder="Please specify..."
               className="mt-3 p-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
               style={{ marginLeft: '4.25rem' }}
@@ -90,15 +132,54 @@ function PollBlock({ block }: { block: Extract<ContentBlockType, { type: 'poll' 
           )}
         </div>
       </div>
-      <SubmitButton onClick={() => console.log('Poll data:', { selectedOptions, otherText })} />
+      <SubmitButton onClick={handleSubmit} disabled={!canSubmit || isSubmitting} />
+      {isSubmitting && <div className="mt-2 text-sm text-gray-500">Submitting…</div>}
+      {submitError && <div className="mt-2 text-sm text-red-600">{submitError}</div>}
+      {isSubmitted && !submitError && <div className="mt-2 text-sm text-green-600">Submitted.</div>}
     </div>
   );
 }
 
-function ModuleFeedbackBlock({ block }: { block: Extract<ContentBlockType, { type: 'module-feedback' }> }) {
+function ModuleFeedbackBlock({ block, moduleId }: { block: Extract<ContentBlockType, { type: 'module-feedback' }>; moduleId: number }) {
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [feedback, setFeedback] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleSubmit = async () => {
+    if (isSubmitting) return;
+    const input = JSON.stringify({
+      type: block.type,
+      title: block.title,
+      response: {
+        rating,
+        feedback,
+      },
+    });
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+    setIsSubmitted(false);
+    try {
+      await postInput({
+        input,
+        module_id: String(moduleId),
+        section_id: block.id,
+      });
+      setRating(0);
+      setHoverRating(0);
+      setFeedback('');
+      setIsSubmitted(true);
+    } catch (e) {
+      setSubmitError(e instanceof Error ? e.message : 'Failed to submit');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const canSubmit = rating > 0;
 
   return (
     <div className="bg-gradient-to-br from-green-50 to-teal-50 dark:from-green-900/20 dark:to-teal-900/20 rounded-2xl p-6 sm:p-8 shadow-lg border-2 border-green-200 dark:border-green-700 mb-8 font-sora">
@@ -119,7 +200,11 @@ function ModuleFeedbackBlock({ block }: { block: Extract<ContentBlockType, { typ
             <button
               key={star}
               type="button"
-              onClick={() => setRating(star)}
+              onClick={() => {
+                setRating(star);
+                setSubmitError(null);
+                setIsSubmitted(false);
+              }}
               onMouseEnter={() => setHoverRating(star)}
               onMouseLeave={() => setHoverRating(0)}
               className="transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded"
@@ -149,13 +234,147 @@ function ModuleFeedbackBlock({ block }: { block: Extract<ContentBlockType, { typ
         <textarea
           id={`feedback-${block.id}`}
           value={feedback}
-          onChange={(e) => setFeedback(e.target.value)}
+          onChange={(e) => {
+            setFeedback(e.target.value);
+            setSubmitError(null);
+            setIsSubmitted(false);
+          }}
           placeholder="Share your thoughts about this module..."
           className="w-full p-3 sm:p-4 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:border-green-500 dark:focus:border-green-400 focus:outline-none min-h-[100px] sm:min-h-[120px] resize-y bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm sm:text-base placeholder-gray-400"
         />
       </div>
 
-      <SubmitButton onClick={() => console.log('Feedback submitted:', { rating, feedback })} />
+      <SubmitButton onClick={handleSubmit} disabled={!canSubmit || isSubmitting} />
+      {isSubmitting && <div className="mt-2 text-sm text-gray-600">Submitting…</div>}
+      {submitError && <div className="mt-2 text-sm text-red-600">{submitError}</div>}
+      {isSubmitted && !submitError && <div className="mt-2 text-sm text-green-700">Submitted.</div>}
+    </div>
+  );
+}
+
+function ReflectionBlock({ block, moduleId }: { block: Extract<ContentBlockType, { type: 'reflection' }>; moduleId: number }) {
+  const { t } = useLanguage();
+  const [reflectionText, setReflectionText] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleSubmit = async () => {
+    if (isSubmitting) return;
+    const input = JSON.stringify({
+      type: block.type,
+      prompt: block.prompt,
+      response: {
+        text: reflectionText,
+      },
+    });
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+    setIsSubmitted(false);
+    try {
+      await postInput({
+        input,
+        module_id: String(moduleId),
+        section_id: block.id,
+      });
+      setReflectionText('');
+      setIsSubmitted(true);
+    } catch (e) {
+      setSubmitError(e instanceof Error ? e.message : 'Failed to submit');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const canSubmit = reflectionText.trim().length > 0;
+
+  return (
+    <div className="bg-gradient-to-br from-blue-50 to-green-50 dark:from-blue-900/20 dark:to-green-900/20 rounded-2xl p-4 sm:p-6 md:p-8 mb-6 sm:mb-8 font-sora">
+      <h3 className="text-gray-900 dark:text-gray-100 mb-2 sm:mb-3 text-base sm:text-lg font-bold">{t.reflection}</h3>
+      <p className="text-gray-700 dark:text-gray-300 mb-3 sm:mb-4 leading-relaxed text-sm sm:text-base whitespace-pre-line">
+        {block.prompt}
+      </p>
+      <textarea
+        value={reflectionText}
+        onChange={(e) => {
+          setReflectionText(e.target.value);
+          setSubmitError(null);
+          setIsSubmitted(false);
+        }}
+        placeholder={t.typeYourThoughts}
+        className="w-full p-3 sm:p-4 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none min-h-[100px] sm:min-h-[120px] resize-y bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm sm:text-base"
+      />
+      <SubmitButton onClick={handleSubmit} disabled={!canSubmit || isSubmitting} />
+      {isSubmitting && <div className="mt-2 text-sm text-gray-600">Submitting…</div>}
+      {submitError && <div className="mt-2 text-sm text-red-600">{submitError}</div>}
+      {isSubmitted && !submitError && <div className="mt-2 text-sm text-green-700">Submitted.</div>}
+    </div>
+  );
+}
+
+function NumericPredictionBlock({ block, moduleId }: { block: Extract<ContentBlockType, { type: 'numeric-prediction' }>; moduleId: number }) {
+  const [valueText, setValueText] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleSubmit = async () => {
+    if (isSubmitting) return;
+    const valueNumber = valueText.trim() === '' ? null : Number(valueText);
+
+    const input = JSON.stringify({
+      type: block.type,
+      question: block.question,
+      response: {
+        value: Number.isFinite(valueNumber as number) ? valueNumber : null,
+        unit: block.unit,
+        raw: valueText,
+      },
+    });
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+    setIsSubmitted(false);
+    try {
+      await postInput({
+        input,
+        module_id: String(moduleId),
+        section_id: block.id,
+      });
+      setValueText('');
+      setIsSubmitted(true);
+    } catch (e) {
+      setSubmitError(e instanceof Error ? e.message : 'Failed to submit');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const canSubmit = valueText.trim() !== '' && Number.isFinite(Number(valueText));
+
+  return (
+    <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700 mb-8 font-sora">
+      <h3 className="text-gray-900 dark:text-gray-100 text-lg font-bold mb-4">{block.question}</h3>
+      <div className="flex items-center gap-3">
+        <input
+          type="number"
+          step="0.1"
+          value={valueText}
+          onChange={(e) => {
+            setValueText(e.target.value);
+            setSubmitError(null);
+            setIsSubmitted(false);
+          }}
+          placeholder="0.0"
+          className="w-24 p-2 text-xl font-bold text-center border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:border-blue-500 focus:outline-none bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-300"
+        />
+        {block.unit && <span className="text-lg font-bold text-gray-500">{block.unit}</span>}
+      </div>
+      <SubmitButton onClick={handleSubmit} disabled={!canSubmit || isSubmitting} />
+      {isSubmitting && <div className="mt-2 text-sm text-gray-600">Submitting…</div>}
+      {submitError && <div className="mt-2 text-sm text-red-600">{submitError}</div>}
+      {isSubmitted && !submitError && <div className="mt-2 text-sm text-green-700">Submitted.</div>}
     </div>
   );
 }
@@ -307,19 +526,7 @@ export function ContentBlock({
       return <FourthExerciseDashboard />;
 
     case 'reflection':
-      return (
-        <div className="bg-gradient-to-br from-blue-50 to-green-50 dark:from-blue-900/20 dark:to-green-900/20 rounded-2xl p-4 sm:p-6 md:p-8 mb-6 sm:mb-8 font-sora">
-          <h3 className="text-gray-900 dark:text-gray-100 mb-2 sm:mb-3 text-base sm:text-lg font-bold">{t.reflection}</h3>
-          <p className="text-gray-700 dark:text-gray-300 mb-3 sm:mb-4 leading-relaxed text-sm sm:text-base whitespace-pre-line">
-            {block.prompt}
-          </p>
-          <textarea
-            placeholder={t.typeYourThoughts}
-            className="w-full p-3 sm:p-4 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none min-h-[100px] sm:min-h-[120px] resize-y bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm sm:text-base"
-          />
-          <SubmitButton onClick={() => console.log('Reflection submitted')} />
-        </div>
-      );
+      return <ReflectionBlock block={block} moduleId={moduleId} />;
 
     case 'meditation':
       return (
@@ -358,7 +565,7 @@ export function ContentBlock({
       );
 
     case 'poll':
-      return <PollBlock block={block} />;
+      return <PollBlock block={block} moduleId={moduleId} />;
 
     case 'html-embed':
       return (
@@ -381,24 +588,10 @@ export function ContentBlock({
       );
 
     case 'numeric-prediction':
-      return (
-        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700 mb-8 font-sora">
-          <h3 className="text-gray-900 dark:text-gray-100 text-lg font-bold mb-4">{block.question}</h3>
-          <div className="flex items-center gap-3">
-            <input
-              type="number"
-              step="0.1"
-              placeholder="0.0"
-              className="w-24 p-2 text-xl font-bold text-center border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:border-blue-500 focus:outline-none bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-300"
-            />
-            {block.unit && <span className="text-lg font-bold text-gray-500">{block.unit}</span>}
-          </div>
-          <SubmitButton onClick={() => console.log('Prediction submitted')} />
-        </div>
-      );
+      return <NumericPredictionBlock block={block} moduleId={moduleId} />;
 
     case 'module-feedback':
-      return <ModuleFeedbackBlock block={block} />;
+      return <ModuleFeedbackBlock block={block} moduleId={moduleId} />;
 
     default:
       return null;
