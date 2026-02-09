@@ -57,6 +57,13 @@ export default defineConfig({
   server: {
     port: 3000,
     open: true,
+    proxy: {
+      '/api': {
+        target: 'https://adaptive-climate-change-backend.up.railway.app',
+        changeOrigin: true,
+        secure: true,
+      },
+    },
   },
   preview: {
     port: 3000,
