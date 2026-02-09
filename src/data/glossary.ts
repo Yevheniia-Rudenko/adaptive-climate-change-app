@@ -11,37 +11,58 @@ export type GlossaryData = Record<Language, GlossaryEntry[]>;
 export const glossary: GlossaryData = {
   en: [
     {
-      term: 'carbon dioxide',
+      term: 'Carbon Dioxide',
       variants: ['CO₂', 'CO2'],
       definition: 'A greenhouse gas released when we burn fossil fuels like coal, oil, and gas. It traps heat in Earth\'s atmosphere, causing global warming. CO₂ stays in the atmosphere for hundreds of years.'
     },
     {
-      term: 'emissions',
+      term: 'Emissions',
       variants: ['emission'],
       definition: 'The release of greenhouse gases (like carbon dioxide and methane) into the atmosphere, primarily from burning fossil fuels, deforestation, and industrial processes. Reducing emissions is key to fighting climate change.'
     },
     {
-      term: 'greenhouse gas',
+      term: 'Greenhouse Gas',
       variants: ['greenhouse gases'],
       definition: 'Gases in the atmosphere that trap heat from the sun, warming the planet. The main greenhouse gases are carbon dioxide, methane, and nitrous oxide. While some greenhouse gases are natural, human activities have increased their concentration dramatically.'
     },
     {
-      term: 'renewable energy',
+      term: 'Renewable Energy',
       variants: ['renewables'],
       definition: 'Energy from sources that naturally replenish themselves, like solar, wind, hydro, and geothermal power. Unlike fossil fuels, renewable energy doesn\'t produce greenhouse gas emissions and won\'t run out.'
     },
     {
-      term: 'climate system',
+      term: 'Climate System',
       variants: ['climate systems'],
       definition: 'The complex interactions between the atmosphere, oceans, ice, land, and living things that determine Earth\'s climate. Understanding these systems helps us see how changes in one area affect the whole planet.'
     },
     {
-      term: 'fossil fuels',
+      term: 'Fossil Fuels',
       variants: ['fossil fuel'],
       definition: 'Energy sources formed from ancient plant and animal remains, including coal, oil, and natural gas. Burning fossil fuels releases carbon dioxide that has been stored underground for millions of years.'
+    },
+    {
+      term: 'drivers',
+      variants: ['driver'],
+      definition: 'The main causes or forces that are pushing something to happen. In the context of climate change, drivers are the key activities or systems—like burning fossil fuels, deforestation, and certain industrial processes—that release large amounts of greenhouse gases and speed up global warming. In other words, drivers are the big things behind the scenes that set major changes in motion.'
+    },
+    {
+      term: 'nature-based solution to carbon dioxide removal',
+      variants: ['nature-based solutions', 'nature-based carbon removal', 'afforestation', 'reforestation'],
+      definition: 'Encourage the expansion of forests (afforestation), the restoration of former or degraded forests (reforestation), the implementation of agricultural practices that capture carbon, and the production of biochar. These nature-based methods can remove carbon dioxide from the atmosphere and store it in plants and soils. However, this carbon may be released again if the land is altered, whether through deliberate actions like farming or accidental events like wildfires.'
+    },
+    {
+      term: 'CO₂ Emissions',
+      variants: ['CO₂ Emissions'],
+      definition: 'Combined amount of CO₂ annually released into the atmosphere from all sources such as electricity production, industrial processes, transportation, deforestation, etc. This is most often measured in gigatons (10^9 tons) per year.'
+    },
+    {
+      term: 'CO₂ Concentration',
+      variants: ['CO₂ Concentration'],
+      definition: 'Measure of carbon dioxide molecules present in a specific volume of air, commonly expressed in parts per million (ppm). It serves as a key indicator of climate change, with rising levels trapping more heat in the atmosphere. Since we started burning fossil fuels the CO2 concentration has increased more than 50% from 280 pmm to around 428 pmm today.'
     }
+
   ],
-  
+
   es: [
     {
       term: 'dióxido de carbono',
@@ -74,7 +95,7 @@ export const glossary: GlossaryData = {
       definition: 'Fuentes de energía formadas a partir de restos antiguos de plantas y animales, incluidos el carbón, el petróleo y el gas natural. Quemar combustibles fósiles libera dióxido de carbono que ha estado almacenado bajo tierra durante millones de años.'
     }
   ],
-  
+
   ar: [
     {
       term: 'ثاني أكسيد الكربون',
@@ -107,7 +128,7 @@ export const glossary: GlossaryData = {
       definition: 'مصادر الطاقة المتكونة من بقايا النباتات والحيوانات القديمة، بما في ذلك الفحم والنفط والغاز الطبيعي. حرق الوقود الأحفوري يطلق ثاني أكسيد الكربون الذي كان مخزناً تحت الأرض لملايين السنين.'
     }
   ],
-  
+
   de: [
     {
       term: 'Kohlendioxid',
@@ -140,7 +161,7 @@ export const glossary: GlossaryData = {
       definition: 'Energiequellen, die aus den Überresten alter Pflanzen und Tiere gebildet werden, einschließlich Kohle, Öl und Erdgas. Die Verbrennung fossiler Brennstoffe setzt Kohlendioxid frei, das seit Millionen von Jahren unter der Erde gespeichert war.'
     }
   ],
-  
+
   ru: [
     {
       term: 'углекислый газ',
@@ -173,7 +194,7 @@ export const glossary: GlossaryData = {
       definition: 'Источники энергии, образованные из древних остатков растений и животных, включая уголь, нефть и природный газ. Сжигание ископаемого топлива высвобождает углекислый газ, который хранился под землей миллионы лет.'
     }
   ],
-  
+
   uk: [
     {
       term: 'вуглекислий газ',
@@ -211,29 +232,29 @@ export const glossary: GlossaryData = {
 // Helper function to create a regex pattern for finding terms
 export function createTermPattern(entries: GlossaryEntry[]): RegExp {
   const allTerms: string[] = [];
-  
+
   entries.forEach(entry => {
     allTerms.push(entry.term);
     if (entry.variants) {
       allTerms.push(...entry.variants);
     }
   });
-  
+
   // Sort by length (longest first) to match longer terms before shorter ones
   allTerms.sort((a, b) => b.length - a.length);
-  
+
   // Escape special regex characters and create pattern
-  const escapedTerms = allTerms.map(term => 
+  const escapedTerms = allTerms.map(term =>
     term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
   );
-  
+
   return new RegExp(`\\b(${escapedTerms.join('|')})\\b`, 'gi');
 }
 
 // Helper function to find definition for a matched term
 export function findDefinition(matchedTerm: string, entries: GlossaryEntry[]): GlossaryEntry | undefined {
   const lowerMatched = matchedTerm.toLowerCase();
-  
+
   return entries.find(entry => {
     if (entry.term.toLowerCase() === lowerMatched) return true;
     if (entry.variants) {

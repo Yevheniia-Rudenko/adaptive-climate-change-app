@@ -1,23 +1,27 @@
 import { useState, useRef, useEffect } from 'react';
 import { Menu, X, ChevronDown } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
-import { LanguageSwitcher } from './LanguageSwitcher';
+// import { LanguageSwitcher } from './LanguageSwitcher';
 import { ThemeToggle } from './ThemeToggle';
 import systemsAwarenessLabLogo from '../assets/systemsAwarenessLabLogo.png';
 import dayOfClimateLogo from '../assets/day_of_climate.png';
 
-type HeaderProps = {
-  onNavigate?: (page: 'intro' | number | 'ending' | 'about' | 'educators' | 'resources' | 'glossary') => void;
-  currentPage?: 'intro' | number | 'about' | 'educators' | 'resources' | 'glossary';
-};
-
-export function Header({ onNavigate, currentPage }: HeaderProps) {
+export function Header() {
   const { t, language } = useLanguage();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [modulesDropdownOpen, setModulesDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const isRTL = language === 'ar';
+  const pathname = location.pathname;
+
+  // Helper to check if a module page is active
+  const isModuleActive = pathname.startsWith('/module/');
+  // Helper to check if a specific module is active
+  const isSpecificModuleActive = (id: number) => pathname === `/module/${id}`;
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -49,8 +53,8 @@ export function Header({ onNavigate, currentPage }: HeaderProps) {
     { id: 5, label: t.module5 },
   ];
 
-  const handleNavigate = (page: 'intro' | number | 'ending' | 'about' | 'educators' | 'resources' | 'glossary') => {
-    onNavigate?.(page);
+  const handleNavigate = (path: string) => {
+    navigate(path);
     setMobileMenuOpen(false);
     setModulesDropdownOpen(false);
   };
@@ -61,20 +65,20 @@ export function Header({ onNavigate, currentPage }: HeaderProps) {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <button
-            onClick={() => handleNavigate('intro')}
+            onClick={() => handleNavigate('/')}
             className="flex items-center gap-3 sm:gap-4 hover:opacity-80 transition-opacity"
             aria-label="Home"
           >
-            <div className="flex items-center gap-2 sm:gap-3">
-              <img 
-                src={dayOfClimateLogo} 
-                alt="Day of Climate" 
+            <div className="flex items-center gap-4 sm:gap-6">
+              <img
+                src={dayOfClimateLogo}
+                alt="Day of Climate"
                 className="h-10 sm:h-12 w-auto"
               />
-              <img 
-                src={systemsAwarenessLabLogo} 
-                alt="Systems Awareness Lab" 
-                className="h-7 sm:h-10 w-auto"
+              <img
+                src={systemsAwarenessLabLogo}
+                alt="Systems Awareness Lab"
+                className="h-6 sm:h-8 w-auto"
               />
             </div>
           </button>
@@ -85,11 +89,10 @@ export function Header({ onNavigate, currentPage }: HeaderProps) {
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setModulesDropdownOpen(!modulesDropdownOpen)}
-                className={`flex items-center gap-1 px-3 py-2 rounded-md transition-colors ${
-                  typeof currentPage === 'number'
-                    ? 'bg-primary/10 dark:bg-primary/20 text-primary'
-                    : 'hover:bg-muted'
-                }`}
+                className={`flex items-center gap-1 px-3 py-2 rounded-md transition-colors ${isModuleActive
+                  ? 'bg-primary/10 dark:bg-primary/20 text-primary'
+                  : 'hover:bg-muted'
+                  }`}
               >
                 <span>{t.modules}</span>
                 <ChevronDown size={16} className={`transition-transform ${modulesDropdownOpen ? 'rotate-180' : ''}`} />
@@ -100,12 +103,11 @@ export function Header({ onNavigate, currentPage }: HeaderProps) {
                   {modules.map((module) => (
                     <button
                       key={module.id}
-                      onClick={() => handleNavigate(module.id)}
-                      className={`w-full text-left px-4 py-2 transition-colors ${
-                        currentPage === module.id
-                          ? 'bg-primary/15 dark:bg-primary/25 text-primary'
-                          : 'text-foreground hover:bg-muted'
-                      }`}
+                      onClick={() => handleNavigate(`/module/${module.id}`)}
+                      className={`w-full text-left px-4 py-2 transition-colors ${isSpecificModuleActive(module.id)
+                        ? 'bg-primary/15 dark:bg-primary/25 text-primary'
+                        : 'text-foreground hover:bg-muted'
+                        }`}
                     >
                       <div className="text-sm text-gray-500 dark:text-gray-400">{t.modules} {module.id}</div>
                       <div className="font-medium">{module.label}</div>
@@ -116,50 +118,46 @@ export function Header({ onNavigate, currentPage }: HeaderProps) {
             </div>
 
             <button
-              onClick={() => handleNavigate('about')}
-              className={`px-3 py-2 rounded-md transition-colors ${
-                currentPage === 'about' 
-                  ? 'bg-primary/10 dark:bg-primary/20 text-primary'
-                  : 'hover:bg-muted'
-              }`}
+              onClick={() => handleNavigate('/about')}
+              className={`px-3 py-2 rounded-md transition-colors ${pathname === '/about'
+                ? 'bg-primary/10 dark:bg-primary/20 text-primary'
+                : 'hover:bg-muted'
+                }`}
             >
               {t.about}
             </button>
 
             <button
-              onClick={() => handleNavigate('educators')}
-              className={`px-3 py-2 rounded-md transition-colors ${
-                currentPage === 'educators' 
-                  ? 'bg-primary/10 dark:bg-primary/20 text-primary'
-                  : 'hover:bg-muted'
-              }`}
+              onClick={() => handleNavigate('/educators')}
+              className={`px-3 py-2 rounded-md transition-colors ${pathname === '/educators'
+                ? 'bg-primary/10 dark:bg-primary/20 text-primary'
+                : 'hover:bg-muted'
+                }`}
             >
               {t.forEducators}
             </button>
 
             <button
-              onClick={() => handleNavigate('glossary')}
-              className={`px-3 py-2 rounded-md transition-colors ${
-                currentPage === 'glossary' 
-                  ? 'bg-primary/10 dark:bg-primary/20 text-primary'
-                  : 'hover:bg-muted'
-              }`}
-            >
-              {t.glossary}
-            </button>
-
-            <button
-              onClick={() => handleNavigate('resources')}
-              className={`px-3 py-2 rounded-md transition-colors ${
-                currentPage === 'resources' 
-                  ? 'bg-primary/10 dark:bg-primary/20 text-primary'
-                  : 'hover:bg-muted'
-              }`}
+              onClick={() => handleNavigate('/resources')}
+              className={`px-3 py-2 rounded-md transition-colors ${pathname.startsWith('/resources')
+                ? 'bg-primary/10 dark:bg-primary/20 text-primary'
+                : 'hover:bg-muted'
+                }`}
             >
               {t.resources}
             </button>
 
-            <LanguageSwitcher />
+            <button
+              onClick={() => handleNavigate('/glossary')}
+              className={`px-3 py-2 rounded-md transition-colors ${pathname === '/glossary'
+                ? 'bg-primary/10 dark:bg-primary/20 text-primary'
+                : 'hover:bg-muted'
+                }`}
+            >
+              {t.glossary}
+            </button>
+
+            {/* <LanguageSwitcher /> */}
             <ThemeToggle />
           </nav>
 
@@ -183,11 +181,10 @@ export function Header({ onNavigate, currentPage }: HeaderProps) {
               <div className="border-b border-gray-100 dark:border-gray-700 pb-2 mb-2">
                 <button
                   onClick={() => setModulesDropdownOpen(!modulesDropdownOpen)}
-                  className={`w-full flex items-center justify-between px-4 py-2 rounded-md transition-colors ${
-                    typeof currentPage === 'number'
-                      ? 'bg-primary/10 dark:bg-primary/20 text-primary'
-                      : 'hover:bg-muted'
-                  }`}
+                  className={`w-full flex items-center justify-between px-4 py-2 rounded-md transition-colors ${isModuleActive
+                    ? 'bg-primary/10 dark:bg-primary/20 text-primary'
+                    : 'hover:bg-muted'
+                    }`}
                 >
                   <span>{t.modules}</span>
                   <ChevronDown size={16} className={`transition-transform ${modulesDropdownOpen ? 'rotate-180' : ''}`} />
@@ -198,12 +195,11 @@ export function Header({ onNavigate, currentPage }: HeaderProps) {
                     {modules.map((module) => (
                       <button
                         key={module.id}
-                        onClick={() => handleNavigate(module.id)}
-                        className={`w-full text-left px-4 py-2 rounded-md transition-colors ${
-                          currentPage === module.id
-                            ? 'bg-primary/15 dark:bg-primary/25 text-primary'
-                            : 'text-foreground hover:bg-muted'
-                        }`}
+                        onClick={() => handleNavigate(`/module/${module.id}`)}
+                        className={`w-full text-left px-4 py-2 rounded-md transition-colors ${isSpecificModuleActive(module.id)
+                          ? 'bg-primary/15 dark:bg-primary/25 text-primary'
+                          : 'text-foreground hover:bg-muted'
+                          }`}
                       >
                         <div className="text-sm text-gray-500 dark:text-gray-400">{t.modules} {module.id}</div>
                         <div className="font-medium">{module.label}</div>
@@ -214,52 +210,48 @@ export function Header({ onNavigate, currentPage }: HeaderProps) {
               </div>
 
               <button
-                onClick={() => handleNavigate('about')}
-                className={`px-4 py-2 text-left rounded-md transition-colors ${
-                  currentPage === 'about' 
-                    ? 'bg-primary/10 dark:bg-primary/20 text-primary'
-                    : 'hover:bg-muted'
-                }`}
+                onClick={() => handleNavigate('/about')}
+                className={`px-4 py-2 text-left rounded-md transition-colors ${pathname === '/about'
+                  ? 'bg-primary/10 dark:bg-primary/20 text-primary'
+                  : 'hover:bg-muted'
+                  }`}
               >
                 {t.about}
               </button>
 
               <button
-                onClick={() => handleNavigate('educators')}
-                className={`px-4 py-2 text-left rounded-md transition-colors ${
-                  currentPage === 'educators' 
-                    ? 'bg-primary/10 dark:bg-primary/20 text-primary'
-                    : 'hover:bg-muted'
-                }`}
+                onClick={() => handleNavigate('/educators')}
+                className={`px-4 py-2 text-left rounded-md transition-colors ${pathname === '/educators'
+                  ? 'bg-primary/10 dark:bg-primary/20 text-primary'
+                  : 'hover:bg-muted'
+                  }`}
               >
                 {t.forEducators}
               </button>
 
               <button
-                onClick={() => handleNavigate('glossary')}
-                className={`px-4 py-2 text-left rounded-md transition-colors ${
-                  currentPage === 'glossary' 
-                    ? 'bg-primary/10 dark:bg-primary/20 text-primary'
-                    : 'hover:bg-muted'
-                }`}
-              >
-                {t.glossary}
-              </button>
-
-              <button
-                onClick={() => handleNavigate('resources')}
-                className={`px-4 py-2 text-left rounded-md transition-colors ${
-                  currentPage === 'resources' 
-                    ? 'bg-primary/10 dark:bg-primary/20 text-primary'
-                    : 'hover:bg-muted'
-                }`}
+                onClick={() => handleNavigate('/resources')}
+                className={`px-4 py-2 text-left rounded-md transition-colors ${pathname.startsWith('/resources')
+                  ? 'bg-primary/10 dark:bg-primary/20 text-primary'
+                  : 'hover:bg-muted'
+                  }`}
               >
                 {t.resources}
               </button>
 
+              <button
+                onClick={() => handleNavigate('/glossary')}
+                className={`px-4 py-2 text-left rounded-md transition-colors ${pathname === '/glossary'
+                  ? 'bg-primary/10 dark:bg-primary/20 text-primary'
+                  : 'hover:bg-muted'
+                  }`}
+              >
+                {t.glossary}
+              </button>
+
               {/* Language Switcher in Mobile Menu */}
               <div className="px-4 py-2 mt-2 border-t border-gray-100 dark:border-gray-700 pt-4 flex items-center gap-3">
-                <LanguageSwitcher />
+                {/* <LanguageSwitcher /> */}
                 <ThemeToggle />
               </div>
             </nav>

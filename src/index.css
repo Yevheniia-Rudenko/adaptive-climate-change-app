@@ -857,6 +857,14 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .col-span-3 {
+    grid-column: span 3 / span 3;
+  }
+
   .flex-col {
     flex-direction: column;
   }
@@ -3226,4 +3234,67 @@ html {
     opacity: var(--tw-exit-opacity, 1);
     transform: translate3d(var(--tw-exit-translate-x, 0), var(--tw-exit-translate-y, 0), 0) scale3d(var(--tw-exit-scale, 1), var(--tw-exit-scale, 1), var(--tw-exit-scale, 1)) rotate(var(--tw-exit-rotate, 0));
   }
+}
+
+
+/* Added manually for FlipCard component */
+.h-64 {
+  height: 16rem;
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* Added manually for Header logos */
+.h-6 {
+  height: 1.5rem;
+}
+.h-8 {
+  height: 2rem;
+}
+
+@media (min-width: 640px) {
+  .sm\:h-8 {
+    height: 2rem;
+  }
+}
+
+
+/* Custom styles for bullet point indentation */
+.whitespace-pre-line {
+  white-space: pre-line;
+}
+
+/* Add indentation for lines starting with bullet points */
+p.leading-relaxed {
+  text-indent: 0;
+}
+
+p.leading-relaxed:has-text("•") {
+  padding-left: 2rem;
+  text-indent: -2rem;
+}
+
+/* Better approach: use a custom class for bullet lists */
+.bullet-list {
+  padding-left: 3rem;
+}
+
+.bullet-list-item {
+  text-indent: -2rem;
+  padding-left: 2rem;
+  margin-bottom: 0.5rem;
 }
