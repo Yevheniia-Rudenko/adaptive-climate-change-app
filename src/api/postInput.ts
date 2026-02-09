@@ -33,8 +33,7 @@ export async function postInput(request: PostInputRequest): Promise<PostInputRes
   } catch (e) {
     const message = e instanceof Error ? e.message : String(e);
     throw new Error(
-      `POST ${url} failed before reaching the server: ${message}. ` +
-      `This is usually a CORS/network issue (backend must allow this site’s Origin).`
+      `POST ${url} failed before reaching the server: ${message}. `
     );
   }
 
