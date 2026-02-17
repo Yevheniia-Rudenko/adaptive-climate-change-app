@@ -123,7 +123,7 @@ export const moduleStructures: ModuleStructure[] = [
           {
             type: 'text',
             title: '**Reflection**',
-            content: "**Emotional Landscape**\n\nClimate change brings up many emotions, feelings and opinions based on our experience and context."
+            content: "Climate change brings up many emotions, feelings and opinions based on our experience and context.\n\nHow do we get in touch with this emotional landscape?"
           },
           {
             type: 'audio',
@@ -138,27 +138,33 @@ As you breathe, notice what comes up when you think about climate change.
 You might feel worry, sadness, anger, or confusion.
 You might also feel care, connection, or hope.
 Whatever you feel is okay.
-You don’t need to fix these emotions.
+You don't need to fix these emotions.
 Just notice them—like clouds passing through the sky.
 Now ask yourself quietly:
 How can I stay connected to what I care about without letting it overwhelm me?
 As you breathe in, imagine drawing in steadiness.
-As you breathe out, imagine releasing what’s too heavy to carry alone.
+As you breathe out, imagine releasing what's too heavy to carry alone.
 As you breathe in, imagine drawing in community.
 As you breathe out, imagine releasing despair.
 Remember:
 You are allowed to care and to rest.
 You are allowed to learn and to be human.
 Take one more slow breath.
-When you’re ready, gently return to the room.
+When you're ready, gently return to the room.
 Thank you for practicing with me. 
 `
+          },
+          {
+            type: 'text',
+            title: '**Learning to Name Our Emotions**',
+            content: "The Wheel of Emotions, created by psychologist Robert Plutchik, is a tool that can help you make sense of what you're feeling.\n\nThink of it like a map of emotions: it shows eight basic feelings—such as joy, fear, anger, and surprise—and how they shift, grow stronger, or blend into other emotions.\n\nWhen you're having a tough day, feeling stressed, or even just noticing a mood change, the wheel can help you put a name to what's going on inside. The more clearly you can identify your emotions, the easier it becomes to communicate with others, make thoughtful decisions, and understand yourself better.\n\nUsing this tool is a simple way to build emotional awareness and strengthen your overall well‑being.\n\nTake a look at the Wheel of Emotions and identify any emotions that you connect with when you think about climate change."
           },
           {
             type: 'image',
             title: 'Wheel of Emotions',
             imageUrl: plutchikWheel,
-            alt: "Plutchik's Wheel of Emotions"
+            alt: "Plutchik's Wheel of Emotions",
+            width: '70%'
           },
           {
             type: 'reflection',
@@ -554,8 +560,19 @@ Advocates say carbon pricing creates a clear signal: if you pollute more, you pa
       },
       {
         type: 'reflection',
-        prompt: 'What do you notice? What do you wonder?',
+        prompt: 'Pause and reflect on these graphs. What do you notice? What do you wonder?',
         id: 'carbon-price-reflection'
+      },
+      {
+        type: 'text',
+        title: '**Let\'s Reflect**',
+        content: 'Think back through these four exercises. What did you notice across these different scenarios? What do you notice? What do you wonder?',
+        hideIcon: true
+      },
+      {
+        type: 'reflection',
+        prompt: 'What was disappointing?\n\nWhat gave you the most hope?\n\nAny patterns or trends?',
+        id: 'exercises-comparison-reflection'
       },
       {
         type: 'block',

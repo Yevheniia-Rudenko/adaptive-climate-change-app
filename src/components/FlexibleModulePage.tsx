@@ -1,5 +1,6 @@
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import { ModuleStructure } from '../data/moduleStructures';
 import { ContentBlock } from './ContentBlock';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -16,6 +17,61 @@ export function FlexibleModulePage({
 }: FlexibleModulePageProps) {
   const { t } = useLanguage();
   const navigate = useNavigate();
+  const [currentBlock, setCurrentBlock] = useState(1);
+
+  // Organize Module 1 sections into 8 blocks
+  const getBlockSections = () => {
+    if (moduleId !== 1) {
+      return [module.sections]; // Other modules show all sections
+    }
+
+    // Module 1: Split into 8 blocks
+    // Sections breakdown:
+    // 0: teal block (About + Key Concepts + Reflection + Learning to Name Emotions)
+    // 1: green block (Understanding Climate Drivers)
+    // 2: amber block (Exercise 1)
+    // 3: purple block (Exercise 2) 
+    // 4: amber block (Exercise 3)
+    // 5-16: loose sections (Exercise 4: title, image, text, audio, poll, predictions, dashboard, 2 reflections)
+    // 17: teal block (Practice of Hope)
+    // 18: module feedback (Congratulations)
+    const blockGroups = [
+      module.sections.slice(0, 1),   // Block 1: About Module + Emotions (index 0: teal block)
+      module.sections.slice(1, 2),   // Block 2: Understanding Climate Drivers (index 1: green block)
+      module.sections.slice(2, 3),   // Block 3: Exercise 1 (index 2: amber block)
+      module.sections.slice(3, 4),   // Block 4: Exercise 2 (index 3: purple block)
+      [module.sections[4]],          // Block 5: Exercise 3 (index 4: amber block)
+      module.sections.slice(5, 17),  // Block 6: Exercise 4 (indices 5-16: all Exercise 4 content)
+      [module.sections[17]],         // Block 7: Practice of Hope (index 17: teal block)
+      [module.sections[18]],         // Block 8: Module Feedback (index 18: congratulations)
+    ];
+
+    return blockGroups;
+  };
+
+  const blockSections = getBlockSections();
+  const totalBlocks = moduleId === 1 ? 8 : 1;
+  const currentSections = moduleId === 1 ? blockSections[currentBlock - 1] : module.sections;
+
+  const handleBlockNext = () => {
+    if (currentBlock < totalBlocks) {
+      setCurrentBlock(currentBlock + 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      // Last block, go to next module
+      handleNext();
+    }
+  };
+
+  const handleBlockBack = () => {
+    if (currentBlock > 1) {
+      setCurrentBlock(currentBlock - 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      // First block, go back to previous module/home
+      handleBack();
+    }
+  };
 
   const handleNext = () => {
     if (moduleId < 5) {
@@ -58,8 +114,28 @@ export function FlexibleModulePage({
           </div>
 
           <div className="p-4 sm:p-6 md:p-8 lg:p-10">
+            {/* Block Progress Indicator for Module 1 */}
+            {moduleId === 1 && (
+              <div className="mb-6 flex items-center justify-center gap-2">
+                {Array.from({ length: totalBlocks }).map((_, index) => (
+                  <div
+                    key={index}
+                    className={`h-2 rounded-full transition-all ${index + 1 === currentBlock
+                      ? 'w-8 bg-blue-600'
+                      : index + 1 < currentBlock
+                        ? 'w-2 bg-blue-400'
+                        : 'w-2 bg-gray-300'
+                      }`}
+                  />
+                ))}
+                <span className="ml-2 text-sm text-gray-500">
+                  {currentBlock} / {totalBlocks}
+                </span>
+              </div>
+            )}
+
             {/* Content Blocks */}
-            {module.sections.map((section, index) => {
+            {currentSections.map((section, index) => {
               if (section.type === 'block') {
                 // Color theme mapping
                 const colorThemes = {
@@ -105,7 +181,7 @@ export function FlexibleModulePage({
             {/* Navigation */}
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
               <Button
-                onClick={handleBack}
+                onClick={handleBlockBack}
                 variant="ghost"
                 className="order-2 sm:order-1"
               >
@@ -114,10 +190,14 @@ export function FlexibleModulePage({
               </Button>
 
               <Button
-                onClick={handleNext}
+                onClick={handleBlockNext}
                 className="flex-1 order-1 sm:order-3"
               >
-                <span>{t.next}</span>
+                <span>
+                  {moduleId === 1 && currentBlock === totalBlocks
+                    ? 'Continue to Module 2'
+                    : t.next}
+                </span>
                 <ArrowRight size={18} />
               </Button>
             </div>
