@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Play, BookOpen, Sparkles, Layers, Headphones, ChevronDown, ChevronUp, Star } from 'lucide-react';
+import { Play, BookOpen, Sparkles, Layers, Headphones, ChevronDown, ChevronUp, Star, Download } from 'lucide-react';
 import { ContentBlock as ContentBlockType } from '../data/moduleStructures';
 import { InteractiveDashboard } from './InteractiveDashboard';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -11,9 +11,12 @@ import FourthExerciseDashboard from './FourthExerciseDashboard';
 import { FlipCard } from './FlipCard';
 import { SubmitButton } from './SubmitButton';
 import { postInput } from '../api/postInput';
+import { useSession } from '../contexts/SessionContext';
+import { exportResponses, downloadBlob } from '../api/exportResponses';
 
 
 function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { type: 'poll' }>; moduleId: number }) {
+  const { sessionId } = useSession();
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [otherText, setOtherText] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -60,6 +63,7 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
         input,
         module_id: String(moduleId),
         section_id: block.id,
+        session_id: sessionId,
       });
       setSelectedOptions([]);
       setOtherText('');
@@ -141,6 +145,7 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
 }
 
 function ModuleFeedbackBlock({ block, moduleId }: { block: Extract<ContentBlockType, { type: 'module-feedback' }>; moduleId: number }) {
+  const { sessionId } = useSession();
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [feedback, setFeedback] = useState('');
@@ -167,6 +172,7 @@ function ModuleFeedbackBlock({ block, moduleId }: { block: Extract<ContentBlockT
         input,
         module_id: String(moduleId),
         section_id: block.id,
+        session_id: sessionId,
       });
       setRating(0);
       setHoverRating(0);
@@ -248,12 +254,35 @@ function ModuleFeedbackBlock({ block, moduleId }: { block: Extract<ContentBlockT
       {isSubmitting && <div className="mt-2 text-sm text-gray-600">Submitting…</div>}
       {submitError && <div className="mt-2 text-sm text-red-600">{submitError}</div>}
       {isSubmitted && !submitError && <div className="mt-2 text-sm text-green-700">Submitted.</div>}
+
+      {/* Export Button */}
+      <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+        <button
+          onClick={async () => {
+            try {
+              const blob = await exportResponses(sessionId);
+              const timestamp = new Date().toISOString().split('T')[0];
+              downloadBlob(blob, `module-${moduleId}-responses-${timestamp}.json`);
+            } catch (e) {
+              console.error('Export failed:', e);
+            }
+          }}
+          className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium text-sm"
+        >
+          <Download size={18} />
+          <span>Export Your Responses</span>
+        </button>
+        <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+          Download all your responses from this module as a JSON file.
+        </p>
+      </div>
     </div>
   );
 }
 
 function ReflectionBlock({ block, moduleId }: { block: Extract<ContentBlockType, { type: 'reflection' }>; moduleId: number }) {
   const { t } = useLanguage();
+  const { sessionId } = useSession();
   const [reflectionText, setReflectionText] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -277,6 +306,7 @@ function ReflectionBlock({ block, moduleId }: { block: Extract<ContentBlockType,
         input,
         module_id: String(moduleId),
         section_id: block.id,
+        session_id: sessionId,
       });
       setReflectionText('');
       setIsSubmitted(true);
@@ -314,6 +344,7 @@ function ReflectionBlock({ block, moduleId }: { block: Extract<ContentBlockType,
 }
 
 function NumericPredictionBlock({ block, moduleId }: { block: Extract<ContentBlockType, { type: 'numeric-prediction' }>; moduleId: number }) {
+  const { sessionId } = useSession();
   const [valueText, setValueText] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -341,6 +372,7 @@ function NumericPredictionBlock({ block, moduleId }: { block: Extract<ContentBlo
         input,
         module_id: String(moduleId),
         section_id: block.id,
+        session_id: sessionId,
       });
       setValueText('');
       setIsSubmitted(true);

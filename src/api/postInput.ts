@@ -3,6 +3,7 @@ export type PostInputRequest = {
   module_id: string;
   section_id: string;
   timestamp?: string;
+  session_id?: string;  // Optional: links all responses in a module session
 };
 
 export type PostInputResponse = {
