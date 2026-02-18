@@ -1,6 +1,6 @@
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ModuleStructure } from '../data/moduleStructures';
 import { ContentBlock } from './ContentBlock';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -53,10 +53,14 @@ export function FlexibleModulePage({
   const totalBlocks = moduleId === 1 ? 8 : 1;
   const currentSections = moduleId === 1 ? blockSections[currentBlock - 1] : module.sections;
 
+  // Scroll to top whenever the block changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentBlock]);
+
   const handleBlockNext = () => {
     if (currentBlock < totalBlocks) {
       setCurrentBlock(currentBlock + 1);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       // Last block, go to next module
       handleNext();
@@ -66,7 +70,6 @@ export function FlexibleModulePage({
   const handleBlockBack = () => {
     if (currentBlock > 1) {
       setCurrentBlock(currentBlock - 1);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       // First block, go back to previous module/home
       handleBack();
@@ -114,25 +117,78 @@ export function FlexibleModulePage({
           </div>
 
           <div className="p-4 sm:p-6 md:p-8 lg:p-10">
-            {/* Block Progress Indicator for Module 1 */}
-            {moduleId === 1 && (
-              <div className="mb-6 flex items-center justify-center gap-2">
-                {Array.from({ length: totalBlocks }).map((_, index) => (
-                  <div
-                    key={index}
-                    className={`h-2 rounded-full transition-all ${index + 1 === currentBlock
-                      ? 'w-8 bg-blue-600'
-                      : index + 1 < currentBlock
-                        ? 'w-2 bg-blue-400'
-                        : 'w-2 bg-gray-300'
-                      }`}
-                  />
-                ))}
-                <span className="ml-2 text-sm text-gray-500">
-                  {currentBlock} / {totalBlocks}
-                </span>
-              </div>
-            )}
+            {/* Block Progress Bar for Module 1 - Fun & Visual */}
+            {moduleId === 1 && (() => {
+              const stepEmojis = ['🌱', '🌿', '🌍', '🌊', '☀️', '🌈', '⭐', '🎉'];
+              const stepLabels = ['Start', 'Climate', 'Exercise 1', 'Exercise 2', 'Exercise 3', 'Exercise 4', 'Hope', 'Done!'];
+              const pct = Math.round((currentBlock / totalBlocks) * 100);
+              return (
+                <div className="mb-8 select-none">
+                  {/* Step circles inside a pill container */}
+                  <div className="mb-4 flex justify-center">
+                    <div className="relative inline-flex items-center gap-2 px-3 py-1 rounded-2xl bg-gray-50 dark:bg-gray-800/60 border-2 border-gray-200 dark:border-gray-700 shadow-sm">
+                      {/* Connecting line behind circles */}
+                      <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2 h-1 rounded-full bg-gray-200 dark:bg-gray-600 z-0" />
+                      {/* Filled portion of connecting line */}
+                      <div
+                        className="absolute left-4 top-1/2 -translate-y-1/2 h-1 rounded-full z-0 transition-all duration-700"
+                        style={{
+                          width: `calc(${((currentBlock - 1) / (totalBlocks - 1)) * 100}% - 1rem)`,
+                          background: 'linear-gradient(90deg, #a78bfa, #60a5fa, #34d399, #fbbf24)'
+                        }}
+                      />
+                      {stepEmojis.map((emoji, i) => {
+                        const stepNum = i + 1;
+                        const isDone = stepNum < currentBlock;
+                        const isCurrent = stepNum === currentBlock;
+                        return (
+                          <div key={i} className="relative z-10 inline-flex flex-col items-center gap-0.5">
+                            <div
+                              className={`
+                              flex items-center justify-center rounded-full font-bold transition-all duration-500
+                              ${isCurrent
+                                  ? 'w-10 h-10 text-xl border-4 border-yellow-400 bg-white shadow-lg shadow-yellow-300/60 scale-110 animate-pulse'
+                                  : isDone
+                                    ? 'w-8 h-8 text-base border-2 border-green-400 bg-white shadow-sm'
+                                    : 'w-8 h-8 text-base border-2 border-gray-200 bg-white opacity-60'
+                                }
+                              `}
+                            >
+                              {isDone ? '✅' : emoji}
+                            </div>
+                            <span className={`text-[9px] font-semibold hidden sm:block transition-all duration-300 whitespace-nowrap ${isCurrent ? 'text-yellow-600' : isDone ? 'text-green-600' : 'text-gray-400'}`}>
+                              {stepLabels[i]}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Rainbow gradient bar */}
+                  <div className="relative w-full bg-gray-100 dark:bg-gray-700 rounded-full h-4 overflow-hidden shadow-inner">
+                    <div
+                      className="h-full rounded-full transition-all duration-700 ease-out"
+                      style={{
+                        width: `${pct}%`,
+                        background: 'linear-gradient(90deg, #a78bfa, #60a5fa, #34d399, #fbbf24, #f87171)',
+                        boxShadow: '0 0 10px rgba(167,139,250,0.5)'
+                      }}
+                    />
+                    {/* Shine overlay */}
+                    <div className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 60%)' }} />
+                  </div>
+
+                  {/* Label */}
+                  <div className="flex items-center justify-between mt-2 text-sm">
+                    <span className="font-semibold text-purple-600 dark:text-purple-400">
+                      🚀 Step {currentBlock} of {totalBlocks}
+                    </span>
+                    <span className="font-bold text-green-600 dark:text-green-400">{pct}% complete!</span>
+                  </div>
+                </div>
+              );
+            })()}
 
             {/* Content Blocks */}
             {currentSections.map((section, index) => {
