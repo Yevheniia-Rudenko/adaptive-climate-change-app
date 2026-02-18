@@ -1,4 +1,13 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
 import { IntroPage } from './components/IntroPage';
 import { FlexibleModulePage } from './components/FlexibleModulePage';
 import { AboutPage } from './components/AboutPage';
@@ -21,6 +30,7 @@ function App() {
       <LanguageProvider>
         <BrowserRouter basename="/adaptive-climate-change-app">
           <div className="min-h-screen transition-colors">
+            <ScrollToTop />
             <Header />
 
             <Routes>
