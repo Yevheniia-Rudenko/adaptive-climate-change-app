@@ -4,7 +4,11 @@ import { useEffect } from 'react';
 function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => {
-    window.scrollTo(0, 0);
+    // Use requestAnimationFrame to ensure this runs after React's render cycle
+    // and after the browser has attempted its own scroll restoration
+    window.requestAnimationFrame(() => {
+      window.scrollTo(0, 0);
+    });
   }, [pathname]);
   return null;
 }
@@ -64,7 +68,8 @@ function FlexibleModulePageWrapper() {
 
   if (!module) return <Navigate to="/" replace />;
 
-  return <FlexibleModulePage module={module} moduleId={id} />;
+  // Add a key ensuring the component fully remounts when the ID changes
+  return <FlexibleModulePage key={id} module={module} moduleId={id} />;
 }
 
 function ResourceCategoryPageWrapper() {
