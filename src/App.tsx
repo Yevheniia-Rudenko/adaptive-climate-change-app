@@ -27,13 +27,23 @@ import { moduleStructures } from './data/moduleStructures';
 import { resourceCategoriesData } from './data/resourceCategories';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { ThemeProvider } from './contexts/ThemeContext';
+import backgroundImage from './assets/background.jpeg';
 
 function App() {
   return (
     <ThemeProvider>
       <LanguageProvider>
         <BrowserRouter basename="/adaptive-climate-change-app">
-          <div className="min-h-screen transition-colors">
+          <div 
+            className="min-h-screen transition-colors"
+            style={{
+              backgroundImage: `url(${backgroundImage})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundAttachment: 'fixed',
+              backgroundRepeat: 'no-repeat',
+            }}
+          >
             <ScrollToTop />
             <Header />
 
