@@ -11,6 +11,7 @@ import module4Icon from '../assets/module4.png';
 import module5Icon from '../assets/module5.png';
 import resourcesIcon from '../assets/resources.png';
 import earthImage from '../assets/earth_img.jpg';
+import backgroundImage from '../assets/background.jpeg';
 
 export function IntroPage() {
   const { t } = useLanguage();
@@ -93,7 +94,16 @@ export function IntroPage() {
   ];
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 pt-20 font-sora bg-gray-50 dark:bg-gray-900">
+    <div 
+      className="min-h-screen flex items-center justify-center p-4 sm:p-6 pt-20 font-sora"
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
       <div className="max-w-4xl w-full">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
