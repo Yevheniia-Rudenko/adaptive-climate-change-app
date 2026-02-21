@@ -170,25 +170,35 @@ export function IntroPage() {
                         <div className="overflow-hidden rounded-3xl border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-2xl transition-shadow duration-300 h-full flex flex-col" style={{ backgroundColor: '#4A6652' }}>
                           {/* Image Area */}
                           <div
-                            className="h-48 sm:h-56 w-full flex items-center justify-center relative flex-shrink-0 p-4"
+                            className="h-40 sm:h-48 w-full relative overflow-hidden flex-shrink-0"
                             style={{ background: iconImage ? '#ffffff' : gradientStyle }}
                           >
                             {/* Module Number Badge */}
                             {id !== 6 && (
-                              <div className="absolute top-0 left-0 px-4 py-1.5 shadow-lg z-10" style={{ borderRadius: '50px', backgroundColor: '#ffffff' }}>
-                                <span className="text-lg font-bold text-black tracking-wide">Module {id}</span>
+                              <div className="absolute top-0 left-0 px-4 py-1.5 shadow-lg z-10" style={{ borderRadius: '50px', backgroundColor: '#4A6652' }}>
+                                <span className="text-lg font-bold text-white tracking-wide">Module {id}</span>
                               </div>
                             )}
 
-                            {iconImage ? (
-                              <img
-                                src={iconImage}
-                                alt={label}
-                                className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300 mt-6"
-                              />
-                            ) : (
-                              <Icon size={56} strokeWidth={1.5} className="text-white/90" />
-                            )}
+                            {/* Absolute Image Container */}
+                            <div className="absolute inset-0 flex items-center justify-center p-4 sm:p-6">
+                              {iconImage ? (
+                                <img
+                                  src={iconImage}
+                                  alt={label}
+                                  style={{ 
+                                    width: 'auto', 
+                                    height: 'auto', 
+                                    maxWidth: '100%', 
+                                    maxHeight: '100%', 
+                                    objectFit: 'contain' 
+                                  }}
+                                  className="group-hover:scale-105 transition-transform duration-300"
+                                />
+                              ) : (
+                                <Icon size={56} strokeWidth={1.5} className="text-white/90" />
+                              )}
+                            </div>
                           </div>
 
                           {/* Title Bar */}
