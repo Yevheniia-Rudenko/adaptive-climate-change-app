@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
-// import { LanguageSwitcher } from './LanguageSwitcher';
+import { LanguageSwitcher } from './LanguageSwitcher';
 import { ThemeToggle } from './ThemeToggle';
 import systemsAwarenessLabLogo from '../assets/systemsAwarenessLabLogo.png';
 import dayOfClimateLogo from '../assets/day_of_climate.png';
@@ -85,7 +85,7 @@ export function Header() {
           </button>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-2 text-foreground">
+          <nav className="hidden md:flex items-center gap-10text-foreground">
             {/* Modules Dropdown */}
             <div className="relative" ref={dropdownRef}>
               <button
@@ -157,6 +157,7 @@ export function Header() {
             </button>
 
             {/* <LanguageSwitcher /> */}
+            <LanguageSwitcher />
             <ThemeToggle />
           </nav>
 
