@@ -93,7 +93,7 @@ export function FlexibleModulePage({
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4 sm:px-6 lg:px-8 font-sora">
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 font-sora">
       <div className="max-w-4xl mx-auto">
         <div className="bg-white dark:bg-gray-800 rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden">
           {/* Header */}
