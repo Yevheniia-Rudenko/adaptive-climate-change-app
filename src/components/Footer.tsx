@@ -66,10 +66,11 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer style={{ backgroundColor: '#2D6A4F' }} className="border-t border-[#245840] transition-colors min-h-[220px]">
-      {/* Main Footer Content */}
-      <div style={{ paddingTop: '1rem', paddingBottom: '1rem' }} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div style={{ display: 'flex', flexDirection: 'row', gap: '3rem', justifyContent: 'space-between' }}>
+    <div className="flex justify-center px-4 sm:px-6 pb-4 sm:pb-6">
+      <footer style={{ backgroundColor: '#2D6A4F' }} className="max-w-4xl w-full rounded-2xl transition-colors shadow-lg">
+        {/* Main Footer Content */}
+        <div className="p-6 sm:p-8">
+          <div style={{ display: 'flex', flexDirection: 'row', gap: '2rem', justifyContent: 'space-between' }}>
           {footerSections.map((section) => (
             <div key={section.title} style={{ flex: 1 }}>
               {section.title === 'MIT Systems Awareness Lab' ? (
@@ -143,5 +144,6 @@ export function Footer() {
       </div>
 
     </footer>
+    </div>
   );
 }
