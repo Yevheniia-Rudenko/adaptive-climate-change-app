@@ -60,9 +60,10 @@ export function Header() {
   };
 
   return (
-    <header className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm shadow-sm sticky top-0 z-50 font-sora transition-colors">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+    <div className="flex justify-center px-4 sm:px-6 pt-4 sm:pt-6 sticky top-0 z-50">
+      <header className="max-w-4xl w-full bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm shadow-lg rounded-2xl font-sora transition-colors">
+        <div className="px-4 sm:px-6">
+          <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <button
             onClick={() => handleNavigate('/')}
@@ -78,21 +79,19 @@ export function Header() {
               <img
                 src={systemsAwarenessLabLogo}
                 alt="Systems Awareness Lab"
-                className="h-6 sm:h-8 w-auto"
+                className="h-6 sm:h-3 w-3"
               />
             </div>
           </button>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-6 text-foreground">
+          <nav className="hidden md:flex items-center gap-2 text-foreground">
             {/* Modules Dropdown */}
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setModulesDropdownOpen(!modulesDropdownOpen)}
-                className={`flex items-center gap-1 px-3 py-2 rounded-md transition-colors ${isModuleActive
-                  ? 'bg-primary/10 dark:bg-primary/20 text-primary'
-                  : 'hover:bg-muted'
-                  }`}
+                className="flex items-center gap-1 px-4 py-2 rounded-full text-white transition-colors"
+                style={{ backgroundColor: '#2F8237' }}
               >
                 <span>{t.modules}</span>
                 <ChevronDown size={16} className={`transition-transform ${modulesDropdownOpen ? 'rotate-180' : ''}`} />
@@ -119,9 +118,9 @@ export function Header() {
 
             <button
               onClick={() => handleNavigate('/about')}
-              className={`px-3 py-2 rounded-md transition-colors ${pathname === '/about'
-                ? 'bg-primary/10 dark:bg-primary/20 text-primary'
-                : 'hover:bg-muted'
+              className={`px-3 py-2 rounded-full transition-all duration-200 font-bold ${pathname === '/about'
+                ? 'bg-[#2D6A4F] text-white'
+                : 'text-white hover:bg-[#2D6A4F]/80 hover:scale-105'
                 }`}
             >
               {t.about}
@@ -129,9 +128,9 @@ export function Header() {
 
             <button
               onClick={() => handleNavigate('/educators')}
-              className={`px-3 py-2 rounded-md transition-colors ${pathname === '/educators'
-                ? 'bg-primary/10 dark:bg-primary/20 text-primary'
-                : 'hover:bg-muted'
+              className={`px-3 py-2 rounded-full transition-all duration-200 font-bold ${pathname === '/educators'
+                ? 'bg-[#2D6A4F] text-white'
+                : 'text-white hover:bg-[#2D6A4F]/80 hover:scale-105'
                 }`}
             >
               {t.forEducators}
@@ -139,9 +138,9 @@ export function Header() {
 
             <button
               onClick={() => handleNavigate('/resources')}
-              className={`px-3 py-2 rounded-md transition-colors ${pathname.startsWith('/resources')
-                ? 'bg-primary/10 dark:bg-primary/20 text-primary'
-                : 'hover:bg-muted'
+              className={`px-3 py-2 rounded-full transition-all duration-200 font-bold ${pathname.startsWith('/resources')
+                ? 'bg-[#2D6A4F] text-white'
+                : 'text-white hover:bg-[#2D6A4F]/80 hover:scale-105'
                 }`}
             >
               {t.resources}
@@ -149,9 +148,9 @@ export function Header() {
 
             <button
               onClick={() => handleNavigate('/glossary')}
-              className={`px-3 py-2 rounded-md transition-colors ${pathname === '/glossary'
-                ? 'bg-primary/10 dark:bg-primary/20 text-primary'
-                : 'hover:bg-muted'
+              className={`px-3 py-2 rounded-full transition-all duration-200 font-bold ${pathname === '/glossary'
+                ? 'bg-[#2D6A4F] text-white'
+                : 'text-white hover:bg-[#2D6A4F]/80 hover:scale-105'
                 }`}
             >
               {t.glossary}
@@ -259,5 +258,6 @@ export function Header() {
         )}
       </div>
     </header>
+    </div>
   );
 }

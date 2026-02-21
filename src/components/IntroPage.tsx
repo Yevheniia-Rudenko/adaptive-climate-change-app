@@ -11,7 +11,6 @@ import module4Icon from '../assets/module4.png';
 import module5Icon from '../assets/module5.png';
 import resourcesIcon from '../assets/resources.png';
 import earthImage from '../assets/earth_img.jpg';
-import backgroundImage from '../assets/background.jpeg';
 
 export function IntroPage() {
   const { t } = useLanguage();
@@ -96,13 +95,6 @@ export function IntroPage() {
   return (
     <div 
       className="min-h-screen flex items-center justify-center p-4 sm:p-6 pt-20 font-sora"
-      style={{
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed',
-        backgroundRepeat: 'no-repeat',
-      }}
     >
       <div className="max-w-4xl w-full">
         <motion.div
@@ -175,9 +167,8 @@ export function IntroPage() {
                         className="absolute inset-0 cursor-pointer"
                         style={{ backfaceVisibility: 'hidden' }}
                       >
-                        <div className="overflow-hidden rounded-3xl border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-2xl transition-shadow duration-300 h-full flex flex-col" style={{ backgroundColor: '#2D6A4F' }}>
-                          
-                          {/* Image Area - BULLETPROOF FIX */}
+                        <div className="overflow-hidden rounded-3xl border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-2xl transition-shadow duration-300 h-full flex flex-col" style={{ backgroundColor: '#4A6652' }}>
+                          {/* Image Area */}
                           <div
                             className="h-40 sm:h-48 w-full relative overflow-hidden flex-shrink-0"
                             style={{ background: iconImage ? '#ffffff' : gradientStyle }}
@@ -211,7 +202,7 @@ export function IntroPage() {
                           </div>
 
                           {/* Title Bar */}
-                          <div className="px-8 py-8 min-h-28 flex items-center justify-center flex-grow" style={{ backgroundColor: '#2D6A4F' }}>
+                          <div className="px-8 py-8 min-h-28 flex items-center justify-center flex-grow" style={{ backgroundColor: '#4A6652' }}>
                             <h3 className="text-xl sm:text-2xl md:text-2xl leading-snug line-clamp-3 w-full text-center" style={{ color: '#ffffff', fontWeight: '900' }}>
                               {label}
                             </h3>

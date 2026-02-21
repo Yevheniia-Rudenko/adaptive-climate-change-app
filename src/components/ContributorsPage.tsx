@@ -7,7 +7,7 @@ export function ContributorsPage() {
     const { t } = useLanguage();
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 pt-20 font-sora bg-gray-50 dark:bg-gray-900">
+        <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 pt-20 font-sora">
             <div className="max-w-4xl w-full">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
