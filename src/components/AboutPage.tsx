@@ -3,6 +3,9 @@ import { Button } from './ui/button';
 import { Link } from 'react-router-dom';
 import aboutDayOfClimate from '../assets/about_dayofclimate.jpeg';
 import aboutSystemsLab from '../assets/about_systemslab.jpeg';
+import tibyanPhoto from '../assets/team_photos/tibyan.jpg';
+import yevheniaPhoto from '../assets/team_photos/yevhenia.jpg';
+import karimPhoto from '../assets/team_photos/karim.jpg';
 
 export function AboutPage() {
   const { t } = useLanguage();
@@ -59,6 +62,14 @@ export function AboutPage() {
             <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
               The pK-12 Initiative's Day of Climate at MIT equips learners and educators with hands-on educational materials and tools to better understand climate change, its impacts, and potential solutions. Uniting the broader MIT community toward actionable, concrete solutions, the program provides elementary, middle, and high school-age learners and educators with free, high-quality, and accessible climate curriculum that can be used in and out of the classroom, year-round.
             </p>
+            <a 
+              href="https://dayofclimate.mit.edu" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-block mt-4 text-black-600 hover:text-green-700 font-semibold underline"
+            >
+              Visit Day of Climate →
+            </a>
           </div>
 
           {/*SPACER*/}
@@ -67,7 +78,7 @@ export function AboutPage() {
           {/* About Systems Awareness Lab Section */}
           <div>
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-green-600 mb-3">
-              About Systems Awareness Lab
+              About MIT Systems Awareness Lab
             </h2>
             <img 
               src={aboutSystemsLab} 
@@ -77,19 +88,71 @@ export function AboutPage() {
             <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
               A global research network advancing the study of ongoing systems change efforts in education. The MIT Systems Awareness Lab is a community of researchers and practitioners dedicated to the rigorous, scientific study of long-term, transformative, and ongoing "systems change in the making."
             </p>
+            <a 
+              href="https://systemsawareness.mit.edu" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-block mt-4 text-black-600 hover:text-green-700 font-semibold underline"
+            >
+              Visit Systems Awareness Lab →
+            </a>
+          </div>
+
+          {/*SPACER*/}
+          <div className="h-6 sm:h-16 w-full block"></div>
+
+          {/* Meet Our Team Section */}
+          <div>
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-green-600 mb-4">
+              Meet Our Team
+            </h2>
+            <div className="flex flex-row gap-4">
+              {/* Team Member Card - Tibyan */}
+              <div className="flex-1 bg-gray-50 dark:bg-gray-700 rounded-lg p-3 shadow-md hover:shadow-lg transition-shadow text-center">
+                <img 
+                  src={tibyanPhoto} 
+                  alt="Tibyan Bilal" 
+                  className="w-full aspect-square rounded-lg mb-3 object-cover"
+                />
+                <h3 className="text-sm sm:text-base font-bold text-gray-800 dark:text-gray-100">Tibyan Bilal</h3>
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Web Developer</p>
+              </div>
+
+              {/* Team Member Card - Yevheniia */}
+              <div className="flex-1 bg-gray-50 dark:bg-gray-700 rounded-lg p-3 shadow-md hover:shadow-lg transition-shadow text-center">
+                <img 
+                  src={yevheniaPhoto} 
+                  alt="Yevheniia Rudenk" 
+                  className="w-full aspect-square rounded-lg mb-3 object-cover"
+                />
+                <h3 className="text-sm sm:text-base font-bold text-gray-800 dark:text-gray-100">Yevheniia Rudenk</h3>
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Web Developer</p>
+              </div>
+
+              {/* Team Member Card - Karim */}
+              <div className="flex-1 bg-gray-50 dark:bg-gray-700 rounded-lg p-3 shadow-md hover:shadow-lg transition-shadow text-center">
+                <img 
+                  src={karimPhoto} 
+                  alt="Karim Makie" 
+                  className="w-full aspect-square rounded-lg mb-3 object-cover"
+                />
+                <h3 className="text-sm sm:text-base font-bold text-gray-800 dark:text-gray-100">Karim Makie</h3>
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Web Developer</p>
+              </div>
+            </div>
           </div>
 
           {/*SPACER*/}
           <div className="h-6 sm:h-16 w-full block"></div>
 
           {/* Contributors Link */}
-          <div className="flex justify-start pt-8 border-t border-gray-100 dark:border-gray-700">
+          <div className="flex justify-start">
             <Link to="/contributors">
               <Button 
                 variant="outline"
                 className="text-gray-800 dark:text-gray-200 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 text-lg sm:text-xl font-semibold px-8 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all"
               >
-                View Our Contributors →
+                View Our Contributors & Credits →
               </Button>
             </Link>
           </div>
