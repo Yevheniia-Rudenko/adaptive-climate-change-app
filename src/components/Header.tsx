@@ -119,8 +119,8 @@ export function Header() {
             <button
               onClick={() => handleNavigate('/about')}
               className={`px-3 py-2 rounded-full transition-all duration-200 font-bold ${pathname === '/about'
-                ? 'bg-[#2D6A4F] text-white'
-                : 'text-white hover:bg-[#2D6A4F]/80 hover:scale-105'
+                ? 'text-green-500'
+                : 'text-white hover:text-green-500 hover:scale-105'
                 }`}
             >
               {t.about}
@@ -129,8 +129,8 @@ export function Header() {
             <button
               onClick={() => handleNavigate('/educators')}
               className={`px-3 py-2 rounded-full transition-all duration-200 font-bold ${pathname === '/educators'
-                ? 'bg-[#2D6A4F] text-white'
-                : 'text-white hover:bg-[#2D6A4F]/80 hover:scale-105'
+                ? 'text-green-500'
+                : 'text-white hover:text-green-500 hover:scale-105'
                 }`}
             >
               {t.forEducators}
@@ -139,8 +139,8 @@ export function Header() {
             <button
               onClick={() => handleNavigate('/resources')}
               className={`px-3 py-2 rounded-full transition-all duration-200 font-bold ${pathname.startsWith('/resources')
-                ? 'bg-[#2D6A4F] text-white'
-                : 'text-white hover:bg-[#2D6A4F]/80 hover:scale-105'
+                ? 'text-green-500'
+                : 'text-white hover:text-green-500 hover:scale-105'
                 }`}
             >
               {t.resources}
@@ -149,8 +149,8 @@ export function Header() {
             <button
               onClick={() => handleNavigate('/glossary')}
               className={`px-3 py-2 rounded-full transition-all duration-200 font-bold ${pathname === '/glossary'
-                ? 'bg-[#2D6A4F] text-white'
-                : 'text-white hover:bg-[#2D6A4F]/80 hover:scale-105'
+                ? 'text-green-500'
+                : 'text-white hover:text-green-500 hover:scale-105'
                 }`}
             >
               {t.glossary}
