@@ -22,7 +22,7 @@ export function LanguageSwitcher() {
           className="p-2 rounded-full hover:bg-white/20 transition-colors"
           aria-label="Select language"
         >
-          <Globe className="text-white" size={20} />
+           <Globe className="text-black" size={20} />
         </button>
       </PopoverTrigger>
       <PopoverContent className="w-40 p-2" align="end">
