@@ -61,7 +61,7 @@ export function Header() {
 
   return (
     <div className="flex justify-center px-4 sm:px-6 pt-4 sm:pt-6 sticky top-0 z-50">
-      <header className="max-w-4xl w-full bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm shadow-lg rounded-2xl font-sora transition-colors">
+      <header className="max-w-4xl w-full bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm shadow-lg rounded-2xl font-sora transition-colors border-2 border-gray-700 dark:border-gray-300">
         <div className="px-4 sm:px-6">
           <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -120,7 +120,7 @@ export function Header() {
               onClick={() => handleNavigate('/about')}
               className={`px-3 py-2 rounded-full transition-all duration-200 font-bold ${pathname === '/about'
                 ? 'text-green-500'
-                : 'text-white hover:text-green-500 hover:scale-105'
+                : 'text-black hover:text-green-500 hover:scale-105'
                 }`}
             >
               {t.about}
@@ -130,7 +130,7 @@ export function Header() {
               onClick={() => handleNavigate('/educators')}
               className={`px-3 py-2 rounded-full transition-all duration-200 font-bold ${pathname === '/educators'
                 ? 'text-green-500'
-                : 'text-white hover:text-green-500 hover:scale-105'
+                : 'text-black hover:text-green-500 hover:scale-105'
                 }`}
             >
               {t.forEducators}
@@ -140,7 +140,7 @@ export function Header() {
               onClick={() => handleNavigate('/resources')}
               className={`px-3 py-2 rounded-full transition-all duration-200 font-bold ${pathname.startsWith('/resources')
                 ? 'text-green-500'
-                : 'text-white hover:text-green-500 hover:scale-105'
+                : 'text-black hover:text-green-500 hover:scale-105'
                 }`}
             >
               {t.resources}
@@ -150,7 +150,7 @@ export function Header() {
               onClick={() => handleNavigate('/glossary')}
               className={`px-3 py-2 rounded-full transition-all duration-200 font-bold ${pathname === '/glossary'
                 ? 'text-green-500'
-                : 'text-white hover:text-green-500 hover:scale-105'
+                : 'text-black hover:text-green-500 hover:scale-105'
                 }`}
             >
               {t.glossary}
