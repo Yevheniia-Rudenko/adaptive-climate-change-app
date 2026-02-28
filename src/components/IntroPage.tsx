@@ -175,7 +175,7 @@ export function IntroPage() {
                           >
                             {/* Module Number Badge */}
                             {id !== 6 && (
-                              <div className="absolute top-0 left-0 px-4 py-1.5 shadow-lg z-10" style={{ borderRadius: '50px', backgroundColor: '#4A6652' }}>
+                              <div className="absolute top-0 left-0 px-4 py-1.5 shadow-lg z-10" style={{ borderRadius: '50px', backgroundColor: '#2F8237' }}>
                                 <span className="text-lg font-bold text-white tracking-wide">Module {id}</span>
                               </div>
                             )}
