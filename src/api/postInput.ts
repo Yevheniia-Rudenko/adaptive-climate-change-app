@@ -1,21 +1,16 @@
+import { getApiBaseUrl } from './apiBaseUrl';
+
 export type PostInputRequest = {
   input: string;
   module_id: string;
   section_id: string;
   timestamp?: string;
+  session_id?: string;
 };
 
 export type PostInputResponse = {
   success: boolean;
 };
-
-function getApiBaseUrl(): string {
-  const env = (import.meta as any).env as { VITE_API_BASE_URL?: string; DEV?: boolean } | undefined;
-  const baseUrl = env?.VITE_API_BASE_URL;
-  if (baseUrl !== undefined) return baseUrl.replace(/\/$/, '');
-  if (env?.DEV) return '';
-  return 'https://adaptive-climate-change-backend.up.railway.app';
-}
 
 export async function postInput(request: PostInputRequest): Promise<PostInputResponse> {
   const apiBaseUrl = getApiBaseUrl();

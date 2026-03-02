@@ -11,9 +11,12 @@ import FourthExerciseDashboard from './FourthExerciseDashboard';
 import { FlipCard } from './FlipCard';
 import { SubmitButton } from './SubmitButton';
 import { postInput } from '../api/postInput';
+import { downloadInputsPdf } from '../api/getInputsPdf';
+import { useSession } from '../contexts/SessionContext';
 
 
 function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { type: 'poll' }>; moduleId: number }) {
+  const { sessionId } = useSession();
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [otherText, setOtherText] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -60,6 +63,7 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
         input,
         module_id: String(moduleId),
         section_id: block.id,
+        session_id: sessionId,
       });
       setSelectedOptions([]);
       setOtherText('');
@@ -141,12 +145,15 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
 }
 
 function ModuleFeedbackBlock({ block, moduleId }: { block: Extract<ContentBlockType, { type: 'module-feedback' }>; moduleId: number }) {
+  const { sessionId } = useSession();
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [feedback, setFeedback] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
+  const [exportError, setExportError] = useState<string | null>(null);
 
   const handleSubmit = async () => {
     if (isSubmitting) return;
@@ -167,6 +174,7 @@ function ModuleFeedbackBlock({ block, moduleId }: { block: Extract<ContentBlockT
         input,
         module_id: String(moduleId),
         section_id: block.id,
+        session_id: sessionId,
       });
       setRating(0);
       setHoverRating(0);
@@ -176,6 +184,19 @@ function ModuleFeedbackBlock({ block, moduleId }: { block: Extract<ContentBlockT
       setSubmitError(e instanceof Error ? e.message : 'Failed to submit');
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleExport = async () => {
+    if (isExporting) return;
+    setIsExporting(true);
+    setExportError(null);
+    try {
+      await downloadInputsPdf(sessionId);
+    } catch (e) {
+      setExportError(e instanceof Error ? e.message : 'Failed to export');
+    } finally {
+      setIsExporting(false);
     }
   };
 
@@ -248,11 +269,30 @@ function ModuleFeedbackBlock({ block, moduleId }: { block: Extract<ContentBlockT
       {isSubmitting && <div className="mt-2 text-sm text-gray-600">Submitting…</div>}
       {submitError && <div className="mt-2 text-sm text-red-600">{submitError}</div>}
       {isSubmitted && !submitError && <div className="mt-2 text-sm text-green-700">Submitted.</div>}
+      <div className="mt-8 pt-6 border-t border-green-200/60 dark:border-green-700/60">
+        <h3 className="text-gray-900 dark:text-gray-100 font-bold text-base sm:text-lg">
+          Export responses
+        </h3>
+        <p className="text-gray-700 dark:text-gray-300 mt-2 text-sm sm:text-base">
+          Download a PDF containing the responses from this session.
+        </p>
+        <div className="flex mt-6" style={{ justifyContent: 'flex-end' }}>
+          <button
+            onClick={handleExport}
+            disabled={isExporting}
+            className="px-4 py-2 bg-white hover:bg-purple-50 disabled:bg-gray-200 disabled:cursor-not-allowed text-purple-600 border-2 border-purple-600 text-sm font-medium rounded-lg transition-colors duration-200 shadow-sm hover:shadow-md"
+          >
+            {isExporting ? 'Generating PDF…' : 'Export responses'}
+          </button>
+        </div>
+        {exportError && <div className="mt-2 text-sm text-red-600">{exportError}</div>}
+      </div>
     </div>
   );
 }
 
 function ReflectionBlock({ block, moduleId }: { block: Extract<ContentBlockType, { type: 'reflection' }>; moduleId: number }) {
+  const { sessionId } = useSession();
   const { t } = useLanguage();
   const [reflectionText, setReflectionText] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -277,6 +317,7 @@ function ReflectionBlock({ block, moduleId }: { block: Extract<ContentBlockType,
         input,
         module_id: String(moduleId),
         section_id: block.id,
+        session_id: sessionId,
       });
       setReflectionText('');
       setIsSubmitted(true);
@@ -314,6 +355,7 @@ function ReflectionBlock({ block, moduleId }: { block: Extract<ContentBlockType,
 }
 
 function NumericPredictionBlock({ block, moduleId }: { block: Extract<ContentBlockType, { type: 'numeric-prediction' }>; moduleId: number }) {
+  const { sessionId } = useSession();
   const [valueText, setValueText] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -341,6 +383,7 @@ function NumericPredictionBlock({ block, moduleId }: { block: Extract<ContentBlo
         input,
         module_id: String(moduleId),
         section_id: block.id,
+        session_id: sessionId,
       });
       setValueText('');
       setIsSubmitted(true);
