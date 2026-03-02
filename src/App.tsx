@@ -27,6 +27,7 @@ import { moduleStructures } from './data/moduleStructures';
 import { resourceCategoriesData } from './data/resourceCategories';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { SessionProvider } from './contexts/SessionContext';
 import backgroundImage from './assets/background.jpeg';
 
 function App() {
@@ -79,7 +80,11 @@ function FlexibleModulePageWrapper() {
   if (!module) return <Navigate to="/" replace />;
 
   // Add a key ensuring the component fully remounts when the ID changes
-  return <FlexibleModulePage key={id} module={module} moduleId={id} />;
+  return (
+    <SessionProvider moduleId={id}>
+      <FlexibleModulePage key={id} module={module} moduleId={id} />
+    </SessionProvider>
+  );
 }
 
 function ResourceCategoryPageWrapper() {
