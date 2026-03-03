@@ -545,34 +545,37 @@ function MemesWall() {
     const [flipped, setFlipped] = useState<number | null>(null);
 
     return (
-        <div className="grid grid-cols-2 gap-3">
-            {MEMES.map((m, i) => (
-                <button
-                    key={i}
-                    onClick={() => setFlipped(flipped === i ? null : i)}
-                    className="text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-lg active:scale-[0.98]"
-                    style={{ borderRadius: 16, overflow: 'hidden', border: '1px solid #e5e7eb', background: 'white' }}
-                >
-                    {flipped === i ? (
-                        /* Fact side — full white card */
-                        <div className="flex flex-col justify-between p-4" style={{ minHeight: 220 }}>
-                            <div className="text-[10px] font-bold text-indigo-500 uppercase tracking-widest">🔬 Real fact</div>
-                            <p className="text-xs text-gray-700 leading-relaxed my-3">{m.fact}</p>
-                            <div className="text-[10px] text-gray-400">tap to flip back ↩</div>
-                        </div>
-                    ) : (
-                        /* Image only — text already on the image */
-                        <div style={{ aspectRatio: '1 / 1', overflow: 'hidden', background: '#f3f4f6' }}>
-                            <img
-                                src={m.img}
-                                alt={m.meme}
-                                draggable={false}
-                                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                            />
-                        </div>
-                    )}
-                </button>
-            ))}
+        <div style={{ padding: '0 10%' }}>
+            <div className="grid grid-cols-2 gap-3">
+
+                {MEMES.map((m, i) => (
+                    <button
+                        key={i}
+                        onClick={() => setFlipped(flipped === i ? null : i)}
+                        className="text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-lg active:scale-[0.98]"
+                        style={{ borderRadius: 16, overflow: 'hidden', border: '1px solid #e5e7eb', background: 'white' }}
+                    >
+                        {flipped === i ? (
+                            /* Fact side — full white card */
+                            <div className="flex flex-col justify-between p-4" style={{ minHeight: 220 }}>
+                                <div className="text-[10px] font-bold text-indigo-500 uppercase tracking-widest">🔬 Real fact</div>
+                                <p className="text-xs text-gray-700 leading-relaxed my-3">{m.fact}</p>
+                                <div className="text-[10px] text-gray-400">tap to flip back ↩</div>
+                            </div>
+                        ) : (
+                            /* Image only — text already on the image */
+                            <div style={{ aspectRatio: '1 / 1', overflow: 'hidden', background: '#f3f4f6' }}>
+                                <img
+                                    src={m.img}
+                                    alt={m.meme}
+                                    draggable={false}
+                                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                                />
+                            </div>
+                        )}
+                    </button>
+                ))}
+            </div>
         </div>
     );
 }
