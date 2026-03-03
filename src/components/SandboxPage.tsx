@@ -719,93 +719,94 @@ const SECTION_STYLES: Record<string, { accent: string; iconBg: string; iconColor
 
 export function SandboxPage() {
     return (
-        <div className="min-h-screen" style={{ background: 'linear-gradient(180deg, #0d1117 0%, #111827 320px, #f8fafc 320px)' }}>
+        <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 font-sora">
+            <div className="max-w-4xl mx-auto">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden">
 
-            {/* ── Hero ──────────────────────────────────────────────────────── */}
-            <div className="max-w-2xl mx-auto px-4 pt-12 pb-16 text-center">
-                <div
-                    className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-1 rounded-full mb-5"
-                    style={{ background: 'rgba(255,255,255,0.08)', color: '#86efac', border: '1px solid rgba(134,239,172,0.25)' }}
-                >
-                    🧪 Sandbox — UI explorations
-                </div>
-                <h1 className="text-4xl font-black text-white tracking-tight leading-tight mb-3">
-                    Our Changing Planet
-                </h1>
-                <p className="text-sm max-w-sm mx-auto" style={{ color: '#94a3b8' }}>
-                    Drag sliders, answer questions, take a pledge — and discover the real impact.
-                </p>
-
-                {/* Decorative dots row */}
-                <div className="flex justify-center gap-1.5 mt-6">
-                    {['#22c55e', '#86efac', '#bbf7d0', '#86efac', '#22c55e'].map((c, i) => (
-                        <div key={i} className="rounded-full" style={{ width: 5, height: 5, background: c, opacity: 0.6 + i * 0.08 }} />
-                    ))}
-                </div>
-            </div>
-
-            {/* ── Content ───────────────────────────────────────────────────── */}
-            <div className="max-w-2xl mx-auto px-4 pb-20" style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-
-                {/* 1 — Progress Indicators */}
-                <SectionCard style={SECTION_STYLES.progress}>
-                    <SectionHeader num={1} emoji="📊" title="Progress Indicators" subtitle="8 блоков в модуле — как показывать продвижение? Нажимай Prev / Next и выбирай вариант." accent={SECTION_STYLES.progress.accent} iconBg={SECTION_STYLES.progress.iconBg} iconColor={SECTION_STYLES.progress.iconColor} />
-                    <div className="mt-5"><ProgressShowcase /></div>
-                </SectionCard>
-
-                {/* 2 — Before & After */}
-                <SectionCard style={SECTION_STYLES.photos}>
-                    <SectionHeader num={2} emoji="📸" title="Before & After" subtitle="Drag the slider to compare — same place, different times." accent={SECTION_STYLES.photos.accent} iconBg={SECTION_STYLES.photos.iconBg} iconColor={SECTION_STYLES.photos.iconColor} />
-                    <div className="space-y-5 mt-5">
-                        {SLIDERS.map((s) => (
-                            <div key={s.id}>
-                                <BeforeAfterSlider
-                                    beforeImage={s.beforeImage}
-                                    afterImage={s.afterImage}
-                                    beforeLabel={s.beforeLabel}
-                                    afterLabel={s.afterLabel}
-                                    caption={s.caption}
-                                />
-                                <p className="text-[11px] text-center text-gray-400 mt-1.5 font-medium">{s.title}</p>
+                    {/* Header */}
+                    <div className="relative h-32 sm:h-40 overflow-hidden"
+                        style={{ background: 'linear-gradient(135deg, #0d1117 0%, #1a3a2a 100%)' }}>
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                        <div className="absolute bottom-4 left-6 right-6">
+                            <div
+                                className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-1 rounded-full mb-2"
+                                style={{ background: 'rgba(255,255,255,0.08)', color: '#86efac', border: '1px solid rgba(134,239,172,0.25)' }}
+                            >
+                                🧪 Sandbox — UI explorations
                             </div>
-                        ))}
+                            <h1 className="text-white text-xl sm:text-2xl font-black tracking-tight">
+                                Our Changing Planet
+                            </h1>
+                        </div>
                     </div>
-                </SectionCard>
 
-                {/* 3 — True or Myth */}
-                <SectionCard style={SECTION_STYLES.quiz}>
-                    <SectionHeader num={3} emoji="🧠" title="True or Myth?" subtitle="Tap TRUE or MYTH — then find out what's really going on." accent={SECTION_STYLES.quiz.accent} iconBg={SECTION_STYLES.quiz.iconBg} iconColor={SECTION_STYLES.quiz.iconColor} />
-                    <div className="mt-4"><TrueOrMyth /></div>
-                </SectionCard>
+                    {/* Content */}
+                    <div className="p-4 sm:p-6 md:p-8 lg:p-10">
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
 
-                {/* 4 — Pledge */}
-                <SectionCard style={SECTION_STYLES.pledge}>
-                    <SectionHeader num={4} emoji="✊" title="Take a Pledge" subtitle="One action. Just one. You've got this." accent={SECTION_STYLES.pledge.accent} iconBg={SECTION_STYLES.pledge.iconBg} iconColor={SECTION_STYLES.pledge.iconColor} />
-                    <div className="mt-4"><PledgeWall /></div>
-                </SectionCard>
+                            {/* 1 — Progress Indicators */}
+                            <SectionCard style={SECTION_STYLES.progress}>
+                                <SectionHeader num={1} emoji="📊" title="Progress Indicators" subtitle="8 блоков в модуле — как показывать продвижение? Нажимай Prev / Next и выбирай вариант." accent={SECTION_STYLES.progress.accent} iconBg={SECTION_STYLES.progress.iconBg} iconColor={SECTION_STYLES.progress.iconColor} />
+                                <div className="mt-5"><ProgressShowcase /></div>
+                            </SectionCard>
 
-                {/* 5 — Quotes */}
-                <SectionCard style={SECTION_STYLES.quotes}>
-                    <SectionHeader num={5} emoji="💬" title="Voices for the Planet" subtitle="What scientists, activists, and leaders say about climate change." accent={SECTION_STYLES.quotes.accent} iconBg={SECTION_STYLES.quotes.iconBg} iconColor={SECTION_STYLES.quotes.iconColor} />
-                    <div className="mt-4"><QuoteCarousel /></div>
-                </SectionCard>
+                            {/* 2 — Before & After */}
+                            <SectionCard style={SECTION_STYLES.photos}>
+                                <SectionHeader num={2} emoji="📸" title="Before &amp; After" subtitle="Drag the slider to compare — same place, different times." accent={SECTION_STYLES.photos.accent} iconBg={SECTION_STYLES.photos.iconBg} iconColor={SECTION_STYLES.photos.iconColor} />
+                                <div className="space-y-5 mt-5">
+                                    {SLIDERS.map((s) => (
+                                        <div key={s.id}>
+                                            <BeforeAfterSlider
+                                                beforeImage={s.beforeImage}
+                                                afterImage={s.afterImage}
+                                                beforeLabel={s.beforeLabel}
+                                                afterLabel={s.afterLabel}
+                                                caption={s.caption}
+                                            />
+                                            <p className="text-[11px] text-center text-gray-400 mt-1.5 font-medium">{s.title}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </SectionCard>
 
-                {/* 6 — Audio */}
-                <SectionCard style={SECTION_STYLES.audio}>
-                    <SectionHeader num={6} emoji="🎵" title="Sounds of Nature" subtitle="Listen to what we're protecting. Press play." accent={SECTION_STYLES.audio.accent} iconBg={SECTION_STYLES.audio.iconBg} iconColor={SECTION_STYLES.audio.iconColor} />
-                    <div className="mt-4"><AudioPlayer /></div>
-                </SectionCard>
+                            {/* 3 — True or Myth */}
+                            <SectionCard style={SECTION_STYLES.quiz}>
+                                <SectionHeader num={3} emoji="🧠" title="True or Myth?" subtitle="Tap TRUE or MYTH — then find out what's really going on." accent={SECTION_STYLES.quiz.accent} iconBg={SECTION_STYLES.quiz.iconBg} iconColor={SECTION_STYLES.quiz.iconColor} />
+                                <div className="mt-4"><TrueOrMyth /></div>
+                            </SectionCard>
 
-                {/* 7 — Memes */}
-                <SectionCard style={SECTION_STYLES.memes}>
-                    <SectionHeader num={7} emoji="💀" title="No Cap: Climate Memes" subtitle="Tap a card to reveal the real fact behind the meme." accent={SECTION_STYLES.memes.accent} iconBg={SECTION_STYLES.memes.iconBg} iconColor={SECTION_STYLES.memes.iconColor} />
-                    <div className="mt-4"><MemesWall /></div>
-                </SectionCard>
+                            {/* 4 — Pledge */}
+                            <SectionCard style={SECTION_STYLES.pledge}>
+                                <SectionHeader num={4} emoji="✊" title="Take a Pledge" subtitle="One action. Just one. You've got this." accent={SECTION_STYLES.pledge.accent} iconBg={SECTION_STYLES.pledge.iconBg} iconColor={SECTION_STYLES.pledge.iconColor} />
+                                <div className="mt-4"><PledgeWall /></div>
+                            </SectionCard>
 
+                            {/* 5 — Quotes */}
+                            <SectionCard style={SECTION_STYLES.quotes}>
+                                <SectionHeader num={5} emoji="💬" title="Voices for the Planet" subtitle="What scientists, activists, and leaders say about climate change." accent={SECTION_STYLES.quotes.accent} iconBg={SECTION_STYLES.quotes.iconBg} iconColor={SECTION_STYLES.quotes.iconColor} />
+                                <div className="mt-4"><QuoteCarousel /></div>
+                            </SectionCard>
+
+                            {/* 6 — Audio */}
+                            <SectionCard style={SECTION_STYLES.audio}>
+                                <SectionHeader num={6} emoji="🎵" title="Sounds of Nature" subtitle="Listen to what we're protecting. Press play." accent={SECTION_STYLES.audio.accent} iconBg={SECTION_STYLES.audio.iconBg} iconColor={SECTION_STYLES.audio.iconColor} />
+                                <div className="mt-4"><AudioPlayer /></div>
+                            </SectionCard>
+
+                            {/* 7 — Memes */}
+                            <SectionCard style={SECTION_STYLES.memes}>
+                                <SectionHeader num={7} emoji="💀" title="No Cap: Climate Memes" subtitle="Tap a card to reveal the real fact behind the meme." accent={SECTION_STYLES.memes.accent} iconBg={SECTION_STYLES.memes.iconBg} iconColor={SECTION_STYLES.memes.iconColor} />
+                                <div className="mt-4"><MemesWall /></div>
+                            </SectionCard>
+
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );
 }
+
 
 function SectionCard({
     children,
