@@ -19,6 +19,7 @@ import module2Water from '../assets/module2/water.jpg';
 import stockFlowExample from '../assets/module2/stock-vs-flow-example1.jpg';
 import co2Removal1 from '../assets/module2/co2removal_1.jpg';
 import co2Removal2 from '../assets/module2/co2removal_2.jpg';
+import netZeroImg from '../assets/module2/Net zero = emissions in \u2013 removals out = 0.png';
 
 
 
@@ -851,6 +852,60 @@ Thank you for practicing.`
         type: 'text',
         title: 'This helps explain why climate change is so hard:',
         content: "To stop the CO₂ level from rising, the inflows and outflows have to balance.\n\nUnderstanding \"stock and flow\" helps you see that climate change isn't just about using fewer fossil fuels—it's about changing the whole system so we stop overfilling the atmospheric \"bathtub.\"\n\n**It's not just about one good action.**\n\n**It's about how all our collective actions affect the total amount over time.**"
+      },
+      {
+        type: 'text',
+        title: '🌍 The Vision of "Net‑Zero Emissions"',
+        content: "**What does Net-Zero Emissions mean?**\n\nThink of net‑zero emissions like balancing a scale.\n\nIt doesn't mean we produce zero carbon emissions ever again.\n\nIt means:\n\n**We don't add extra carbon dioxide to the atmosphere overall.**\n\nIn other words, any CO₂ we do emit gets balanced out by CO₂ we remove from the atmosphere."
+      },
+      {
+        type: 'text',
+        title: '🛁 Back to our Bathtub Metaphor',
+        content: "Remember, imagine the atmosphere is a big bathtub (your CO₂ \"stock\").\n\n- The water coming in = **CO₂ emissions**\n- The water draining out = **CO₂ removals**\n\n**Net zero** is when water flows in at the same rate it flows out, so the water level stops rising.\n\nThat means CO₂ concentration in the atmosphere levels out instead of increasing."
+      },
+      {
+        type: 'text',
+        title: '🧩 How We Get to Net Zero',
+        content: "To reach net zero, we need two big things working together:\n\n**1️⃣ Cut emissions as much as possible**\n\nThis means:\n- More renewable energy\n- Energy efficiency\n- Cleaner transportation\n- Better buildings\n- Switching away from fossil fuels\n\n*Reducing what's coming into the tub.*\n\n**2️⃣ Increase CO₂ removals**\n\nThis means:\n- Protecting forests\n- Re‑growing forests (reforestation)\n- Healthier soils\n- Technology that pulls CO₂ out of the air\n\n*Speeding up the drain.*"
+      },
+      {
+        type: 'text',
+        title: '🏁 Why Net Zero Matters',
+        content: ''
+      },
+      {
+        type: 'image',
+        imageUrl: netZeroImg,
+        alt: 'Net zero = emissions in – removals out = 0'
+      },
+      {
+        type: 'text',
+        content: "Scientists say we need to reach global net zero around 2050 to help limit warming to 1.5°C.\n\nWhy? Because the CO₂ already in the atmosphere keeps the Earth warming—so we have to stop adding more.\n\nNet zero is basically humanity saying: **\"We're done increasing the CO₂ level in the atmosphere.\"**\n\nIt's not perfection. It's balance.\n\nAnd it's one of the most important goals for keeping future climate change manageable."
+      },
+      {
+        type: 'text',
+        title: '💭 Let\'s Reflect',
+        content: 'Take a moment to think about what you\'ve learned in this module.'
+      },
+      {
+        type: 'reflection',
+        prompt: 'What needs to happen for global temperatures to actually start going down?',
+        id: 'module2-temp-going-down'
+      },
+      {
+        type: 'reflection',
+        prompt: 'Do you think temperatures will start dropping as soon as our emissions stop rising (when they peak)? Why or why not?',
+        id: 'module2-peak-emissions'
+      },
+      {
+        type: 'reflection',
+        prompt: 'When we reach net zero emissions, will Earth\'s temperature return to what it was before the Industrial Revolution (late 1700s - mid‑1800s)? If not, what do you think will happen instead?',
+        id: 'module2-net-zero-temp'
+      },
+      {
+        type: 'reflection',
+        prompt: 'What did this lesson help you understand about stocks and flows? How does that idea connect to climate change?',
+        id: 'module2-stocks-flows-understanding'
       },
 
     ]
