@@ -644,13 +644,18 @@ Thank you for practicing.`
           {
             type: 'text',
             title: '',
-            content: "So imagine you’ve got a bathtub.The water already in the tub is the stock. The water coming in from the faucet is a flow. The water draining out is another flow. The size of the stock (how much water is in the tub) depends on the flows (how fast water enters or leaves). So if the faucet is running faster than the drain? ➡️ The tub fills up.If the drain is faster than the faucet? ➡️ The tub empties.  If they’re equal? ➡️ The water level stays the same."
+            content: "So imagine you've got a bathtub.\n\nThe water already in the tub is the **stock**.\n\nThe water coming in from the faucet is a **flow**. The water draining out is another **flow**.\n\nThe size of the stock (how much water is in the tub) depends on the flows (how fast water enters or leaves).\n\nSo if the faucet is running faster than the drain?\n\n➡️ The tub fills up.\n\nIf the drain is faster than the faucet?\n\n➡️ The tub empties.\n\nIf they're equal?\n\n➡️ The water level stays the same."
           },
 {
             type: 'video',
             title: 'What is Stock and Flow?',
             videoUrl: 'https://www.youtube.com/embed/nRlYGDBGcRA',
             description: 'Learn about climate stocks and flows'
+          },
+          {
+            type: 'text',
+            title: '**Key Concepts**',
+            content: ''
           },
           {
             type: 'flip-cards',
@@ -878,7 +883,7 @@ Thank you for practicing.`
           {
             type: 'video',
             title: 'Think Like A Bathtub – COP26',
-            videoUrl: 'https://www.youtube.com/embed/FwGPBVm0hCA',
+            videoUrl: 'https://www.youtube.com/embed/7WAMnt8thGs',
             description: 'Understanding climate change through the bathtub analogy'
           },
           {
