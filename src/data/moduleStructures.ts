@@ -15,6 +15,8 @@ import waterImg from '../assets/water.jpg';
 import openingMeditationAudio from '../assets/Module1-OpeningMeditation.m4a';
 import hopeMeditationAudio from '../assets/Module1-HopeMeditation.m4a';
 import coalOilGasAudio from '../assets/Coal-Oil-Gas.mp3';
+import module2Water from '../assets/module2/water.jpg';
+import stockFlowExample from '../assets/module2/stock-vs-flow-example1.jpg';
 
 
 
@@ -36,6 +38,7 @@ export type ContentBlock =
   | { type: '2ndExerciseDashboard'; }
   | { type: 'third-exercise'; }
   | { type: 'fourth-exercise'; }
+  | { type: 'module2-exercise'; }
   | { type: 'html-embed'; htmlFile: string; title?: string }
   | { type: 'reflection'; prompt: string; id: string }
   | { type: 'poll'; question: string; options: string[]; id: string; singleSelect?: boolean }
@@ -616,37 +619,150 @@ Thank you for practicing.`
   {
     id: 2,
     title: "Stock and Flow",
-    headerImage: "https://images.unsplash.com/photo-1752770645022-cdd45e86500d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3YXRlciUyMGZsb3clMjBuYXR1cmV8ZW58MXx8fHwxNzY1MTc0ODg4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    headerImage: module2Water,
     sections: [
       {
         type: 'text',
-        title: 'Understanding Stocks and Flows',
-        content: "Imagine Earth's climate as a bathtub. Carbon dioxide is the water flowing in (emissions) and flowing out (absorption by forests and oceans). Right now, we're adding water faster than the drain can handle—the tub is overflowing. Understanding 'stocks' (accumulated CO₂) and 'flows' (rates of emission and absorption) helps us see why reducing emissions alone isn't enough—we need to balance the whole system."
+        title: 'About this Module',
+        content: "Some things build up slowly — and that changes everything. "
+      },
+     {
+        type: 'image',
+        imageUrl: stockFlowExample,
+        alt: "Stock vs flow example"
+      },
+      {
+        type: 'text',
+        title: '',
+        content: "So imagine you’ve got a bathtub.The water already in the tub is the stock. The water coming in from the faucet is a flow. The water draining out is another flow. The size of the stock (how much water is in the tub) depends on the flows (how fast water enters or leaves). So if the faucet is running faster than the drain? ➡️ The tub fills up.If the drain is faster than the faucet? ➡️ The tub empties.  If they’re equal? ➡️ The water level stays the same."
       },
       {
         type: 'video',
-        title: 'The Bathtub Analogy',
-        videoUrl: 'https://www.youtube.com/embed/7siNvegeu0Y',
+        title: 'What is Stock and Flow?',
+        videoUrl: 'https://www.youtube.com/embed/nRlYGDBGcRA',
         description: 'Learn about climate stocks and flows'
       },
+          {
+            type: 'flip-cards',
+            cards: [
+              {
+                frontTitle: 'Stock',
+                frontDescription: 'What accumulates over time',
+                backTitle: 'Definition',
+                backDescription: 'A stock is anything in a system that can build up or decrease over time, like a “container” that holds a quantity—such as water in a reservoir, money in a savings account, or carbon in the atmosphere.'
+              },
+              {
+                frontTitle: 'In-flow',
+                frontDescription: 'What increases the stock',
+                backTitle: 'Definition',
+                backDescription: 'An in‑flow is anything that adds to a stock—like water flowing into a bathtub, new money going into a bank account, or carbon being released into the atmosphere.'
+              },
+              {
+                frontTitle: 'Out-flow',
+                frontDescription: 'What decreases the stock',
+                backTitle: 'Definition',
+                backDescription: 'An out‑flow is anything that takes away from a stock—like water draining from a bathtub, money being spent from a bank account, or carbon being removed from the atmosphere.'
+              }
+            ]
+          },
       {
-        type: 'dashboard'
+        type: 'text',
+        title: '🛁 Draw Your Own Stock & Flow',
+        content: "To explore how \"Stock and Flow\" works, let's start with a personal example."
       },
       {
-        type: 'reflection',
-        prompt: 'Think about the "bathtub" analogy. How does visualizing climate change as stocks and flows change how you understand the problem?',
-        id: 'understanding'
+        type: 'text',
+        title: '**Step One**',
+        content: "Draw a Stock and Flow diagram like in the image below."
       },
       {
         type: 'image',
-        imageUrl: "https://images.unsplash.com/photo-1752770645022-cdd45e86500d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3YXRlciUyMGZsb3clMjBuYXR1cmV8ZW58MXx8fHwxNzY1MTc0ODg4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-        alt: "Water flow in nature"
+        imageUrl: stockFlowExample,
+        alt: 'Stock and Flow diagram example'
+      },
+      {
+        type: 'text',
+        title: '**Step Two**',
+        content: "Pick a stock that you care about. Think about something quantifiable—meaning something that could be counted or measured. Some \"stock\" examples could be:\n\n- \"My free time\"\n- \"My level of well-being\"\n- \"My money\"\n- \"My level of motivation in my academics\"\n- \"The level of trust I have in my relationships\"\n- \"The level of hope I have in a positive future\""
+      },
+      {
+        type: 'text',
+        title: '**Step Three**',
+        content: "Draw the in-flows to your chosen stock. What is adding to or filling up your stock? Try to identify at least three in-flows to your stock."
+      },
+      {
+        type: 'text',
+        title: '**Step Four**',
+        content: "Draw the out-flows. What depletes or diminishes your stock? Remember, these in- and out-flows describe factors that change your stock over time. Try to identify at least 3 out-flows from your stock."
+      },
+      {
+        type: 'text',
+        title: '**Step Five**',
+        content: "Share your Stock and Flow with a partner or in a small group."
       },
       {
         type: 'reflection',
-        prompt: 'What actions do you think could help balance the "flows" in our climate system?',
+        prompt: 'What was happening in your Stock and Flow model? What did you notice or wonder about your chosen stock when exploring it using this model? ',
+        id: 'understanding'
+      },
+      {
+        type: 'reflection',
+        prompt: 'Did anything surprise you?',
         id: 'actions'
-      }
+      },
+      {
+        type: 'text',
+        title: '🌍 Why This Matters for Climate Change',
+        content: "The idea of \"stock and flow\" might feel super obvious when we talk about something simple—like water filling up a bathtub. But when we try to use the same idea to understand climate change, things can get a little more complicated.\n\nStill, the stock‑and‑flow model is really helpful for understanding the basic forces driving climate change.\n\nFirst, we'll look at what's causing climate change today by running a few simulations in En‑ROADS.\n\nAfter that, we'll connect what we saw in the simulations to the stock‑and‑flow idea so the whole picture makes more sense.\n\nBut before we dive into En‑ROADS, let's make some predictions.\n\nThink about the relationship between CO₂ emissions (what we put into the atmosphere) and CO₂ concentration (how much ends up staying there).\n\nThese are two of the most important pieces of the climate system—so let's see what you already think before we explore the model."
+      },
+      {
+        type: 'text',
+        title: "Let's Make a Prediction",
+        content: "Now let's think about what might happen if we try to reduce global CO₂ emissions.\n\nBefore we run any simulations, make your best predictions for each scenario:"
+      },
+      {
+        type: 'poll',
+        question: '1. If our total CO₂ emissions stop rising and stay flat… What do you think will happen to the amount of CO₂ already in the atmosphere?',
+        options: ['Increase', 'Level out', 'Decrease'],
+        id: 'prediction-flat-emissions',
+        singleSelect: true
+      },
+      {
+        type: 'poll',
+        question: '2. If our total CO₂ emissions drop a lot and become much lower than they are today… What do you think will happen to the CO₂ concentration in the atmosphere?',
+        options: ['Increase', 'Level out', 'Decrease'],
+        id: 'prediction-lower-emissions',
+        singleSelect: true
+      },
+      {
+        type: 'text',
+        title: "Let's Test Your Predictions!",
+        content: "In this next activity, you'll use En‑ROADS to simulate these scenarios.\n\nAs we learned in the last module, a carbon price is one of the more powerful and high-leverage climate policies for quickly lowering our global CO₂ emissions.\n\nSo in this simulation, you'll adjust the carbon price slider to see how changing emissions affects the concentration of CO₂ in the atmosphere."
+      },
+      {
+        type: 'module2-exercise'
+      },
+      {
+        type: 'text',
+        title: '💭 Let\'s Reflect',
+        content: 'Take a moment to think about what you just observed in the simulation.'
+      },
+      {
+        type: 'reflection',
+        prompt: 'What do you notice?',
+        id: 'module2-notice'
+      },
+      {
+        type: 'reflection',
+        prompt: 'Did your expectations match the outcome?',
+        id: 'module2-expectations'
+      },
+      {
+        type: 'reflection',
+        prompt: 'Why do you think this is the result?',
+        id: 'module2-why'
+      },
+
     ]
   },
   {

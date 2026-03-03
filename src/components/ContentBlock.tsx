@@ -8,6 +8,7 @@ import EnRoadsDashboard from './EnRoadsDashboard';
 import SecondExerciseDashboard from './2ndExerciseDashboard';
 import ThirdExerciseDashboard from './ThirdExerciseDashboard';
 import FourthExerciseDashboard from './FourthExerciseDashboard';
+import Module2ExerciseDashboard from './Module2ExerciseDashboard';
 import { FlipCard } from './FlipCard';
 import { SubmitButton } from './SubmitButton';
 import { postInput } from '../api/postInput';
@@ -524,6 +525,9 @@ export function ContentBlock({
 
     case 'fourth-exercise':
       return <FourthExerciseDashboard />;
+
+    case 'module2-exercise':
+      return <Module2ExerciseDashboard />;
 
     case 'reflection':
       return <ReflectionBlock block={block} moduleId={moduleId} />;
