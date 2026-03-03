@@ -924,6 +924,12 @@ Thank you for practicing.`
         audioUrl: hopeStockAudio,
         transcript: `Take a slow breath in…\nand a long breath out.\nLet your mind settle for a moment, like dust floating down in a quiet room.\n\nNow imagine that hope for the climate is a stock—a pool inside you that rises and falls over time.\nIt's normal for it to dip when you hear hard news or think about the future.\nIt's also possible to refill it—drop by drop.\n\nAs you breathe in, imagine a tiny stream flowing into that pool.\nThis stream is made of everything that strengthens your hopefulness:\nyoung people taking action,\nscientists discovering new solutions,\ncommunities planting trees, restoring land, or helping each other after storms,\nleaders and corporations making choices that move the world in the right direction.\n\nLet one of those images come to the front of your mind.\nHold it gently.\n\nWith each inhale, imagine that hopeful stream getting just a little stronger.\nWith each exhale, imagine releasing worry that feels too heavy to carry in this moment.\n\nSay silently to yourself:\n"Hope can grow. I can grow it."\n\nNotice your hope stock filling—slowly, steadily—like water rising in a bathtub when the faucet is turned on.\n\nTake one more full breath in…\nand a soft breath out.\n\nWhen you're ready, bring your attention back to the room, knowing that your hope is something you can refill—again and again.`
       },
+      {
+        type: 'module-feedback',
+        title: 'Congratulations on completing Module 2: Stock and Flow!',
+        description: "Before you begin the next, we'd love your feedback on this learning experience.",
+        id: 'module-2-feedback'
+      }
 
     ]
   },
