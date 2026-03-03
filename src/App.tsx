@@ -20,6 +20,7 @@ import { ResourcesPage } from './components/ResourcesPage';
 import { GlossaryPage } from './components/GlossaryPage';
 import { ResourceCategoryPage } from './components/ResourceCategoryPage';
 import { ContributorsPage } from './components/ContributorsPage';
+import { SandboxPage } from './components/SandboxPage';
 import { PrivacyPolicyPage } from './components/PrivacyPolicyPage';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
@@ -35,7 +36,7 @@ function App() {
     <ThemeProvider>
       <LanguageProvider>
         <BrowserRouter basename="/adaptive-climate-change-app">
-          <div 
+          <div
             className="min-h-screen transition-colors"
             style={{
               backgroundImage: `url(${backgroundImage})`,
@@ -57,6 +58,8 @@ function App() {
               <Route path="/glossary" element={<GlossaryPage />} />
               <Route path="/contributors" element={<ContributorsPage />} />
               <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+              {/* 🧪 TEMPORARY sandbox — delete when done */}
+              <Route path="/sandbox" element={<SandboxPage />} />
               <Route path="/module/:moduleId" element={<FlexibleModulePageWrapper />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
