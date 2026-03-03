@@ -41,6 +41,7 @@ export type ContentBlock =
   | { type: 'third-exercise'; }
   | { type: 'fourth-exercise'; }
   | { type: 'module2-exercise'; }
+  | { type: 'module2-removals'; }
   | { type: 'html-embed'; htmlFile: string; title?: string }
   | { type: 'reflection'; prompt: string; id: string }
   | { type: 'poll'; question: string; options: string[]; id: string; singleSelect?: boolean }
@@ -796,6 +797,40 @@ Thank you for practicing.`
         type: 'text',
         title: '🌳 Why we talk about "net" CO₂ removals',
         content: "Even when CO₂ is removed, some of it can leak back into the atmosphere.\n\nThis can happen because of:\n- Wildfires\n- Logging\n- Farming\n- Land changes\n\nSo instead of just \"CO₂ removals,\" we use the term **net CO₂ removals**, which means:\n\n> **Total CO₂ taken out of the atmosphere**\n> \n> *minus*\n> \n> **Total CO₂ that ends up returning to the atmosphere**\n\nThis gives a more accurate picture of what's really happening."
+      },
+      {
+        type: 'text',
+        title: '🎛️ How this works in the simulation',
+        content: "We can change how much CO₂ is removed from the atmosphere through policies like incentivizing farmers to reforest parts of their farmland, or by investing in technological carbon removal.\n\nThe two new En‑ROADS sliders below let you increase:\n\n- **Nature‑based CO₂ removal** (like reforestation)\n- **Technological CO₂ removal** (like direct air capture)\n\nWhen you adjust these sliders, you'll see a new graph called \"CO₂ Emissions and Removals.\"\n\nIt shows:\n- **Emissions** (what we add)\n- **Removals** (what we take out)\n\nAnd, as before, you'll still see the CO₂ concentration graph so you can watch how the total stock in the atmosphere changes."
+      },
+      {
+        type: 'text',
+        title: '🧠 Let\'s Predict',
+        content: 'Before you start moving the sliders, make your prediction:'
+      },
+      {
+        type: 'poll',
+        question: 'When do you think the CO₂ concentration in the atmosphere will start to go down?',
+        options: [
+          'When CO₂ emissions are greater than CO₂ removals',
+          'When CO₂ emissions are equal to CO₂ removals',
+          'When CO₂ emissions are smaller than CO₂ removals'
+        ],
+        id: 'prediction-co2-removals',
+        singleSelect: true
+      },
+      {
+        type: 'module2-removals'
+      },
+      {
+        type: 'text',
+        title: '💭 Let\'s Reflect',
+        content: 'Take a moment to think about what you just observed in the simulation.'
+      },
+      {
+        type: 'reflection',
+        prompt: 'What do you notice? Did your expectations match the outcome? Why do you think this is the result?',
+        id: 'module2-removals-reflect'
       },
 
     ]
