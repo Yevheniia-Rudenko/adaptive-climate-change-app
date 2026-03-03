@@ -19,39 +19,57 @@ export function FlexibleModulePage({
   const navigate = useNavigate();
   const [currentBlock, setCurrentBlock] = useState(1);
 
-  // Organize Module 1 sections into 8 blocks
+  // Organize sections into paginated blocks
   const getBlockSections = () => {
-    if (moduleId !== 1) {
-      return [module.sections]; // Other modules show all sections
+    // Check if module has block wrappers
+    const hasBlocks = module.sections.some(s => s.type === 'block');
+
+    if (!hasBlocks) {
+      return [module.sections]; // No blocks = single page
     }
 
-    // Module 1: Split into 8 blocks
-    // Sections breakdown:
-    // 0: teal block (About + Key Concepts + Reflection + Learning to Name Emotions)
-    // 1: green block (Understanding Climate Drivers)
-    // 2: amber block (Exercise 1)
-    // 3: purple block (Exercise 2) 
-    // 4: amber block (Exercise 3)
-    // 5-16: loose sections (Exercise 4: title, image, text, audio, poll, predictions, dashboard, 2 reflections)
-    // 17: teal block (Practice of Hope)
-    // 18: module feedback (Congratulations)
-    const blockGroups = [
-      module.sections.slice(0, 1),   // Block 1: About Module + Emotions (index 0: teal block)
-      module.sections.slice(1, 2),   // Block 2: Understanding Climate Drivers (index 1: green block)
-      module.sections.slice(2, 3),   // Block 3: Exercise 1 (index 2: amber block)
-      module.sections.slice(3, 4),   // Block 4: Exercise 2 (index 3: purple block)
-      [module.sections[4]],          // Block 5: Exercise 3 (index 4: amber block)
-      module.sections.slice(5, 17),  // Block 6: Exercise 4 (indices 5-16: all Exercise 4 content)
-      [module.sections[17]],         // Block 7: Practice of Hope (index 17: teal block)
-      [module.sections[18]],         // Block 8: Module Feedback (index 18: congratulations)
-    ];
+    if (moduleId === 1) {
+      // Module 1: Custom grouping (mix of block wrappers and loose sections)
+      const blockGroups = [
+        module.sections.slice(0, 1),   // Block 1: About Module + Emotions
+        module.sections.slice(1, 2),   // Block 2: Understanding Climate Drivers
+        module.sections.slice(2, 3),   // Block 3: Exercise 1
+        module.sections.slice(3, 4),   // Block 4: Exercise 2
+        [module.sections[4]],          // Block 5: Exercise 3
+        module.sections.slice(5, 17),  // Block 6: Exercise 4
+        [module.sections[17]],         // Block 7: Practice of Hope
+        [module.sections[18]],         // Block 8: Module Feedback
+      ];
+      return blockGroups;
+    }
 
-    return blockGroups;
+    // Generic: each top-level section (block or loose) becomes its own page
+    // Group consecutive loose sections together with the next block
+    const pages: (typeof module.sections)[] = [];
+    let looseGroup: typeof module.sections = [];
+
+    for (const section of module.sections) {
+      if (section.type === 'block') {
+        if (looseGroup.length > 0) {
+          pages.push(looseGroup);
+          looseGroup = [];
+        }
+        pages.push([section]);
+      } else {
+        looseGroup.push(section);
+      }
+    }
+    if (looseGroup.length > 0) {
+      pages.push(looseGroup);
+    }
+
+    return pages;
   };
 
   const blockSections = getBlockSections();
-  const totalBlocks = moduleId === 1 ? 8 : 1;
-  const currentSections = moduleId === 1 ? blockSections[currentBlock - 1] : module.sections;
+  const totalBlocks = blockSections.length;
+  const isPaginated = totalBlocks > 1;
+  const currentSections = isPaginated ? blockSections[currentBlock - 1] : module.sections;
 
   // Scroll to top whenever the block changes
   useEffect(() => {
@@ -117,78 +135,36 @@ export function FlexibleModulePage({
           </div>
 
           <div className="p-4 sm:p-6 md:p-8 lg:p-10">
-            {/* Block Progress Bar for Module 1 - Fun & Visual */}
-            {moduleId === 1 && (() => {
-              const stepEmojis = ['🌱', '🌿', '🌍', '🌊', '☀️', '🌈', '⭐', '🎉'];
-              const stepLabels = ['Start', 'Climate', 'Exercise 1', 'Exercise 2', 'Exercise 3', 'Exercise 4', 'Hope', 'Done!'];
-              const pct = Math.round((currentBlock / totalBlocks) * 100);
-              return (
-                <div className="mb-8 select-none">
-                  {/* Step circles inside a pill container */}
-                  <div className="mb-4 flex justify-center">
-                    <div className="relative inline-flex items-center gap-2 px-3 py-1 rounded-2xl bg-gray-50 dark:bg-gray-800/60 border-2 border-gray-200 dark:border-gray-700 shadow-sm">
-                      {/* Connecting line behind circles */}
-                      <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2 h-1 rounded-full bg-gray-200 dark:bg-gray-600 z-0" />
-                      {/* Filled portion of connecting line */}
-                      <div
-                        className="absolute left-4 top-1/2 -translate-y-1/2 h-1 rounded-full z-0 transition-all duration-700"
-                        style={{
-                          width: `calc(${((currentBlock - 1) / (totalBlocks - 1)) * 100}% - 1rem)`,
-                          background: 'linear-gradient(90deg, #a78bfa, #60a5fa, #34d399, #fbbf24)'
-                        }}
-                      />
-                      {stepEmojis.map((emoji, i) => {
-                        const stepNum = i + 1;
-                        const isDone = stepNum < currentBlock;
-                        const isCurrent = stepNum === currentBlock;
-                        return (
-                          <div key={i} className="relative z-10 inline-flex flex-col items-center gap-0.5">
-                            <div
-                              className={`
-                              flex items-center justify-center rounded-full font-bold transition-all duration-500
-                              ${isCurrent
-                                  ? 'w-10 h-10 text-xl border-4 border-yellow-400 bg-white shadow-lg shadow-yellow-300/60 scale-110 animate-pulse'
-                                  : isDone
-                                    ? 'w-8 h-8 text-base border-2 border-green-400 bg-white shadow-sm'
-                                    : 'w-8 h-8 text-base border-2 border-gray-200 bg-white opacity-60'
-                                }
-                              `}
-                            >
-                              {isDone ? '✅' : emoji}
-                            </div>
-                            <span className={`text-[9px] font-semibold hidden sm:block transition-all duration-300 whitespace-nowrap ${isCurrent ? 'text-yellow-600' : isDone ? 'text-green-600' : 'text-gray-400'}`}>
-                              {stepLabels[i]}
-                            </span>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  {/* Rainbow gradient bar */}
-                  <div className="relative w-full bg-gray-100 dark:bg-gray-700 rounded-full h-4 overflow-hidden shadow-inner">
-                    <div
-                      className="h-full rounded-full transition-all duration-700 ease-out"
-                      style={{
-                        width: `${pct}%`,
-                        background: 'linear-gradient(90deg, #a78bfa, #60a5fa, #34d399, #fbbf24, #f87171)',
-                        boxShadow: '0 0 10px rgba(167,139,250,0.5)'
-                      }}
-                    />
-                    {/* Shine overlay */}
-                    <div className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 60%)' }} />
-                  </div>
-
-                  {/* Label */}
-                  <div className="flex items-center justify-between mt-2 text-sm">
-                    <span className="font-semibold text-purple-600 dark:text-purple-400">
-                      🚀 Step {currentBlock} of {totalBlocks}
-                    </span>
-                    <span className="font-bold text-green-600 dark:text-green-400">{pct}% complete!</span>
-                  </div>
+            {/* Progress Bar */}
+            {totalBlocks > 1 && (
+              <div style={{ marginBottom: '2rem' }}>
+                <div style={{
+                  width: '100%',
+                  height: '12px',
+                  backgroundColor: '#d1d5db',
+                  borderRadius: '9999px',
+                  overflow: 'hidden',
+                }}>
+                  <div style={{
+                    height: '100%',
+                    width: `${Math.round((currentBlock / totalBlocks) * 100)}%`,
+                    backgroundColor: '#2563eb',
+                    borderRadius: '9999px',
+                    transition: 'width 0.5s ease-out',
+                  }} />
                 </div>
-              );
-            })()}
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  marginTop: '0.5rem',
+                  fontSize: '0.875rem',
+                  color: '#6b7280',
+                }}>
+                  <span>Step {currentBlock} of {totalBlocks}</span>
+                  <span>{Math.round((currentBlock / totalBlocks) * 100)}%</span>
+                </div>
+              </div>
+            )}
 
             {/* Content Blocks */}
             {currentSections.map((section, index) => {
@@ -250,8 +226,8 @@ export function FlexibleModulePage({
                 className="flex-1 order-1 sm:order-3"
               >
                 <span>
-                  {moduleId === 1 && currentBlock === totalBlocks
-                    ? 'Continue to Module 2'
+                  {isPaginated && currentBlock === totalBlocks
+                    ? moduleId < 5 ? `Continue to Module ${moduleId + 1}` : 'Finish'
                     : t.next}
                 </span>
                 <ArrowRight size={18} />

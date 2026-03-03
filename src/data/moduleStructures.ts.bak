@@ -628,30 +628,26 @@ Thank you for practicing.`
     headerImage: module2Water,
     sections: [
       {
-        type: 'block',
-        colorTheme: 'teal',
-        content: [
-          {
-            type: 'text',
-            title: 'About this Module',
-            content: "Some things build up slowly — and that changes everything. "
-          },
-          {
-            type: 'image',
-            imageUrl: stockFlowExample,
-            alt: "Stock vs flow example"
-          },
-          {
-            type: 'text',
-            title: '',
-            content: "So imagine you’ve got a bathtub.The water already in the tub is the stock. The water coming in from the faucet is a flow. The water draining out is another flow. The size of the stock (how much water is in the tub) depends on the flows (how fast water enters or leaves). So if the faucet is running faster than the drain? ➡️ The tub fills up.If the drain is faster than the faucet? ➡️ The tub empties.  If they’re equal? ➡️ The water level stays the same."
-          },
-{
-            type: 'video',
-            title: 'What is Stock and Flow?',
-            videoUrl: 'https://www.youtube.com/embed/nRlYGDBGcRA',
-            description: 'Learn about climate stocks and flows'
-          },
+        type: 'text',
+        title: 'About this Module',
+        content: "Some things build up slowly — and that changes everything. "
+      },
+     {
+        type: 'image',
+        imageUrl: stockFlowExample,
+        alt: "Stock vs flow example"
+      },
+      {
+        type: 'text',
+        title: '',
+        content: "So imagine you’ve got a bathtub.The water already in the tub is the stock. The water coming in from the faucet is a flow. The water draining out is another flow. The size of the stock (how much water is in the tub) depends on the flows (how fast water enters or leaves). So if the faucet is running faster than the drain? ➡️ The tub fills up.If the drain is faster than the faucet? ➡️ The tub empties.  If they’re equal? ➡️ The water level stays the same."
+      },
+      {
+        type: 'video',
+        title: 'What is Stock and Flow?',
+        videoUrl: 'https://www.youtube.com/embed/nRlYGDBGcRA',
+        description: 'Learn about climate stocks and flows'
+      },
           {
             type: 'flip-cards',
             cards: [
@@ -675,315 +671,264 @@ Thank you for practicing.`
               }
             ]
           },
-          {
-            type: 'text',
-            title: '🛁 Draw Your Own Stock & Flow',
-            content: "To explore how \"Stock and Flow\" works, let's start with a personal example."
-          },
-          {
-            type: 'text',
-            title: '**Step One**',
-            content: "Draw a Stock and Flow diagram like in the image below."
-          },
-          {
-            type: 'image',
-            imageUrl: stockFlowExample,
-            alt: 'Stock and Flow diagram example'
-          },
-          {
-            type: 'text',
-            title: '**Step Two**',
-            content: "Pick a stock that you care about. Think about something quantifiable—meaning something that could be counted or measured. Some \"stock\" examples could be:\n\n- \"My free time\"\n- \"My level of well-being\"\n- \"My money\"\n- \"My level of motivation in my academics\"\n- \"The level of trust I have in my relationships\"\n- \"The level of hope I have in a positive future\""
-          },
-          {
-            type: 'text',
-            title: '**Step Three**',
-            content: "Draw the in-flows to your chosen stock. What is adding to or filling up your stock? Try to identify at least three in-flows to your stock."
-          },
-          {
-            type: 'text',
-            title: '**Step Four**',
-            content: "Draw the out-flows. What depletes or diminishes your stock? Remember, these in- and out-flows describe factors that change your stock over time. Try to identify at least 3 out-flows from your stock."
-          },
-          {
-            type: 'text',
-            title: '**Step Five**',
-            content: "Share your Stock and Flow with a partner or in a small group."
-          },
-          {
-            type: 'reflection',
-            prompt: 'What was happening in your Stock and Flow model? What did you notice or wonder about your chosen stock when exploring it using this model? ',
-            id: 'understanding'
-          },
-          {
-            type: 'reflection',
-            prompt: 'Did anything surprise you?',
-            id: 'actions'
-          },
-        ]
-      },
-
       {
-        type: 'block',
-        colorTheme: 'amber',
-        content: [
-          {
-            type: 'text',
-            title: '🌍 Why This Matters for Climate Change',
-            content: "The idea of \"stock and flow\" might feel super obvious when we talk about something simple—like water filling up a bathtub. But when we try to use the same idea to understand climate change, things can get a little more complicated.\n\nStill, the stock‑and‑flow model is really helpful for understanding the basic forces driving climate change.\n\nFirst, we'll look at what's causing climate change today by running a few simulations in En‑ROADS.\n\nAfter that, we'll connect what we saw in the simulations to the stock‑and‑flow idea so the whole picture makes more sense.\n\nBut before we dive into En‑ROADS, let's make some predictions.\n\nThink about the relationship between CO₂ emissions (what we put into the atmosphere) and CO₂ concentration (how much ends up staying there).\n\nThese are two of the most important pieces of the climate system—so let's see what you already think before we explore the model."
-          },
-          {
-            type: 'text',
-            title: "Let's Make a Prediction",
-            content: "Now let's think about what might happen if we try to reduce global CO₂ emissions.\n\nBefore we run any simulations, make your best predictions for each scenario:"
-          },
-          {
-            type: 'poll',
-            question: '1. If our total CO₂ emissions stop rising and stay flat… What do you think will happen to the amount of CO₂ already in the atmosphere?',
-            options: ['Increase', 'Level out', 'Decrease'],
-            id: 'prediction-flat-emissions',
-            singleSelect: true
-          },
-          {
-            type: 'poll',
-            question: '2. If our total CO₂ emissions drop a lot and become much lower than they are today… What do you think will happen to the CO₂ concentration in the atmosphere?',
-            options: ['Increase', 'Level out', 'Decrease'],
-            id: 'prediction-lower-emissions',
-            singleSelect: true
-          },
-        ]
+        type: 'text',
+        title: '🛁 Draw Your Own Stock & Flow',
+        content: "To explore how \"Stock and Flow\" works, let's start with a personal example."
       },
       {
-        type: 'block',
-        colorTheme: 'purple',
-        content: [
-          {
-            type: 'text',
-            title: "Let's Test Your Predictions!",
-            content: "In this next activity, you'll use En‑ROADS to simulate these scenarios.\n\nAs we learned in the last module, a carbon price is one of the more powerful and high-leverage climate policies for quickly lowering our global CO₂ emissions.\n\nSo in this simulation, you'll adjust the carbon price slider to see how changing emissions affects the concentration of CO₂ in the atmosphere."
-          },
-          {
-            type: 'module2-exercise'
-          },
-          {
-            type: 'text',
-            title: '💭 Let\'s Reflect',
-            content: 'Take a moment to think about what you just observed in the simulation.'
-          },
-          {
-            type: 'reflection',
-            prompt: 'What do you notice?',
-            id: 'module2-notice'
-          },
-          {
-            type: 'reflection',
-            prompt: 'Did your expectations match the outcome?',
-            id: 'module2-expectations'
-          },
-          {
-            type: 'reflection',
-            prompt: 'Why do you think this is the result?',
-            id: 'module2-why'
-          },
-        ]
+        type: 'text',
+        title: '**Step One**',
+        content: "Draw a Stock and Flow diagram like in the image below."
       },
       {
-        type: 'block',
-        colorTheme: 'pink',
-        content: [
-          {
-            type: 'text',
-            title: 'Understanding CO₂ Removals',
-            content: "Now we're going to add two more sliders to our simulation. These sliders represent different ways we can remove CO₂ from the atmosphere—and we'll see how that changes the total CO₂ concentration over time."
-          },
-          {
-            type: 'text',
-            title: '🌱 What are CO₂ removals?',
-            content: 'CO₂ removals are natural or technological processes that take carbon dioxide out of the air and store it somewhere else.'
-          },
-          {
-            type: 'image',
-            imageUrl: co2Removal1,
-            alt: 'Natural CO₂ removal processes'
-          },
-          {
-            type: 'text',
-            content: '**Natural CO₂ removals include:**\n\n- Trees and plants absorbing CO₂ as they grow\n- Soil storing carbon from dead plant material\n- The ocean absorbing CO₂ from the air (which unfortunately also makes the water more acidic)'
-          },
-          {
-            type: 'image',
-            imageUrl: co2Removal2,
-            alt: 'Technological CO₂ removal processes'
-          },
-          {
-            type: 'text',
-            content: '**Technological CO₂ removals include:**\n\n- **Direct Air Capture (DACCS):** Machines that pull CO₂ from the air and store it deep underground in rock\n- **Enhanced mineralization:** Spreading special kinds of rock on land so they naturally absorb CO₂ faster than normal'
-          },
-          {
-            type: 'text',
-            title: '🌳 Why we talk about "net" CO₂ removals',
-            content: "Even when CO₂ is removed, some of it can leak back into the atmosphere.\n\nThis can happen because of:\n- Wildfires\n- Logging\n- Farming\n- Land changes\n\nSo instead of just \"CO₂ removals,\" we use the term **net CO₂ removals**, which means:\n\n> **Total CO₂ taken out of the atmosphere**\n> \n> *minus*\n> \n> **Total CO₂ that ends up returning to the atmosphere**\n\nThis gives a more accurate picture of what's really happening."
-          },
-        ]
+        type: 'image',
+        imageUrl: stockFlowExample,
+        alt: 'Stock and Flow diagram example'
       },
       {
-        type: 'block',
-        colorTheme: 'teal',
-        content: [
-          {
-            type: 'text',
-            title: '🎛️ How this works in the simulation',
-            content: "We can change how much CO₂ is removed from the atmosphere through policies like incentivizing farmers to reforest parts of their farmland, or by investing in technological carbon removal.\n\nThe two new En‑ROADS sliders below let you increase:\n\n- **Nature‑based CO₂ removal** (like reforestation)\n- **Technological CO₂ removal** (like direct air capture)\n\nWhen you adjust these sliders, you'll see a new graph called \"CO₂ Emissions and Removals.\"\n\nIt shows:\n- **Emissions** (what we add)\n- **Removals** (what we take out)\n\nAnd, as before, you'll still see the CO₂ concentration graph so you can watch how the total stock in the atmosphere changes."
-          },
-          {
-            type: 'text',
-            title: '🧠 Let\'s Predict',
-            content: 'Before you start moving the sliders, make your prediction:'
-          },
-          {
-            type: 'poll',
-            question: 'When do you think the CO₂ concentration in the atmosphere will start to go down?',
-            options: [
-              'When CO₂ emissions are greater than CO₂ removals',
-              'When CO₂ emissions are equal to CO₂ removals',
-              'When CO₂ emissions are smaller than CO₂ removals'
-            ],
-            id: 'prediction-co2-removals',
-            singleSelect: true
-          },
-          {
-            type: 'module2-removals'
-          },
-          {
-            type: 'text',
-            title: '💭 Let\'s Reflect',
-            content: 'Take a moment to think about what you just observed in the simulation.'
-          },
-          {
-            type: 'reflection',
-            prompt: 'What do you notice? Did your expectations match the outcome? Why do you think this is the result?',
-            id: 'module2-removals-reflect'
-          },
-        ]
+        type: 'text',
+        title: '**Step Two**',
+        content: "Pick a stock that you care about. Think about something quantifiable—meaning something that could be counted or measured. Some \"stock\" examples could be:\n\n- \"My free time\"\n- \"My level of well-being\"\n- \"My money\"\n- \"My level of motivation in my academics\"\n- \"The level of trust I have in my relationships\"\n- \"The level of hope I have in a positive future\""
       },
       {
-        type: 'block',
-        colorTheme: 'blue',
-        content: [
-          {
-            type: 'text',
-            title: '🌍 Why This Matters for Climate Change',
-            content: "Think of carbon dioxide (CO₂) the same way."
-          },
-          {
-            type: 'video',
-            title: 'Think Like A Bathtub – COP26',
-            videoUrl: 'https://www.youtube.com/embed/FwGPBVm0hCA',
-            description: 'Understanding climate change through the bathtub analogy'
-          },
-          {
-            type: 'text',
-            content: "The atmosphere is like the bathtub—this is the **stock**.\n\nBurning fossil fuels (cars, factories, etc.) is like the faucet—that's a **flow adding CO₂**.\n\nTrees and oceans absorbing CO₂ is like the drain—that's a **flow removing CO₂**.\n\nRight now, the faucet is on full blast, and the drain is slow, so the \"bathtub\" of CO₂ keeps rising.\n\nEven if we slow down the faucet, the tub will keep filling unless the drain is equally fast."
-          },
-          {
-            type: 'text',
-            title: 'This helps explain why climate change is so hard:',
-            content: "To stop the CO₂ level from rising, the inflows and outflows have to balance.\n\nUnderstanding \"stock and flow\" helps you see that climate change isn't just about using fewer fossil fuels—it's about changing the whole system so we stop overfilling the atmospheric \"bathtub.\"\n\n**It's not just about one good action.**\n\n**It's about how all our collective actions affect the total amount over time.**"
-          },
-        ]
+        type: 'text',
+        title: '**Step Three**',
+        content: "Draw the in-flows to your chosen stock. What is adding to or filling up your stock? Try to identify at least three in-flows to your stock."
       },
       {
-        type: 'block',
-        colorTheme: 'green',
-        content: [
-          {
-            type: 'text',
-            title: '🌍 The Vision of "Net‑Zero Emissions"',
-            content: "**What does Net-Zero Emissions mean?**\n\nThink of net‑zero emissions like balancing a scale.\n\nIt doesn't mean we produce zero carbon emissions ever again.\n\nIt means:\n\n**We don't add extra carbon dioxide to the atmosphere overall.**\n\nIn other words, any CO₂ we do emit gets balanced out by CO₂ we remove from the atmosphere."
-          },
-          {
-            type: 'text',
-            title: '🛁 Back to our Bathtub Metaphor',
-            content: "Remember, imagine the atmosphere is a big bathtub (your CO₂ \"stock\").\n\n- The water coming in = **CO₂ emissions**\n- The water draining out = **CO₂ removals**\n\n**Net zero** is when water flows in at the same rate it flows out, so the water level stops rising.\n\nThat means CO₂ concentration in the atmosphere levels out instead of increasing."
-          },
-          {
-            type: 'text',
-            title: '🧩 How We Get to Net Zero',
-            content: "To reach net zero, we need two big things working together:\n\n**1️⃣ Cut emissions as much as possible**\n\nThis means:\n- More renewable energy\n- Energy efficiency\n- Cleaner transportation\n- Better buildings\n- Switching away from fossil fuels\n\n*Reducing what's coming into the tub.*\n\n**2️⃣ Increase CO₂ removals**\n\nThis means:\n- Protecting forests\n- Re‑growing forests (reforestation)\n- Healthier soils\n- Technology that pulls CO₂ out of the air\n\n*Speeding up the drain.*"
-          },
-          {
-            type: 'text',
-            title: '🏁 Why Net Zero Matters',
-            content: ''
-          },
-          {
-            type: 'image',
-            imageUrl: netZeroImg,
-            alt: 'Net zero = emissions in – removals out = 0'
-          },
-          {
-            type: 'text',
-            content: "Scientists say we need to reach global net zero around 2050 to help limit warming to 1.5°C.\n\nWhy? Because the CO₂ already in the atmosphere keeps the Earth warming—so we have to stop adding more.\n\nNet zero is basically humanity saying: **\"We're done increasing the CO₂ level in the atmosphere.\"**\n\nIt's not perfection. It's balance.\n\nAnd it's one of the most important goals for keeping future climate change manageable."
-          },
-          {
-            type: 'text',
-            title: '💭 Let\'s Reflect',
-            content: 'Take a moment to think about what you\'ve learned in this module.'
-          },
-          {
-            type: 'reflection',
-            prompt: 'What needs to happen for global temperatures to actually start going down?',
-            id: 'module2-temp-going-down'
-          },
-          {
-            type: 'reflection',
-            prompt: 'Do you think temperatures will start dropping as soon as our emissions stop rising (when they peak)? Why or why not?',
-            id: 'module2-peak-emissions'
-          },
-          {
-            type: 'reflection',
-            prompt: 'When we reach net zero emissions, will Earth\'s temperature return to what it was before the Industrial Revolution (late 1700s - mid‑1800s)? If not, what do you think will happen instead?',
-            id: 'module2-net-zero-temp'
-          },
-          {
-            type: 'reflection',
-            prompt: 'What did this lesson help you understand about stocks and flows? How does that idea connect to climate change?',
-            id: 'module2-stocks-flows-understanding'
-          },
-        ]
+        type: 'text',
+        title: '**Step Four**',
+        content: "Draw the out-flows. What depletes or diminishes your stock? Remember, these in- and out-flows describe factors that change your stock over time. Try to identify at least 3 out-flows from your stock."
       },
       {
-        type: 'block',
-        colorTheme: 'amber',
-        content: [
-          {
-            type: 'image',
-            imageUrl: hopeOrientationImg,
-            alt: 'Hope Orientation by Tippett'
-          },
-          {
-            type: 'text',
-            content: 'Listen to this short guided meditation that frames hope as a stock—something we can refill intentionally, even in the face of big global challenges.'
-          },
-          {
-            type: 'audio',
-            title: '🌎 Guided Meditation: Growing Climate Hope',
-            audioUrl: hopeStockAudio,
-            transcript: `Take a slow breath in…\nand a long breath out.\nLet your mind settle for a moment, like dust floating down in a quiet room.\n\nNow imagine that hope for the climate is a stock—a pool inside you that rises and falls over time.\nIt's normal for it to dip when you hear hard news or think about the future.\nIt's also possible to refill it—drop by drop.\n\nAs you breathe in, imagine a tiny stream flowing into that pool.\nThis stream is made of everything that strengthens your hopefulness:\nyoung people taking action,\nscientists discovering new solutions,\ncommunities planting trees, restoring land, or helping each other after storms,\nleaders and corporations making choices that move the world in the right direction.\n\nLet one of those images come to the front of your mind.\nHold it gently.\n\nWith each inhale, imagine that hopeful stream getting just a little stronger.\nWith each exhale, imagine releasing worry that feels too heavy to carry in this moment.\n\nSay silently to yourself:\n"Hope can grow. I can grow it."\n\nNotice your hope stock filling—slowly, steadily—like water rising in a bathtub when the faucet is turned on.\n\nTake one more full breath in…\nand a soft breath out.\n\nWhen you're ready, bring your attention back to the room, knowing that your hope is something you can refill—again and again.`
-          },
-        ]
+        type: 'text',
+        title: '**Step Five**',
+        content: "Share your Stock and Flow with a partner or in a small group."
       },
       {
-        type: 'block',
-        colorTheme: 'purple',
-        content: [
-          {
-            type: 'module-feedback',
-            title: 'Congratulations on completing Module 2: Stock and Flow!',
-            description: "Before you begin the next, we'd love your feedback on this learning experience.",
-            id: 'module-2-feedback'
-          },
-        ]
+        type: 'reflection',
+        prompt: 'What was happening in your Stock and Flow model? What did you notice or wonder about your chosen stock when exploring it using this model? ',
+        id: 'understanding'
+      },
+      {
+        type: 'reflection',
+        prompt: 'Did anything surprise you?',
+        id: 'actions'
+      },
+      {
+        type: 'text',
+        title: '🌍 Why This Matters for Climate Change',
+        content: "The idea of \"stock and flow\" might feel super obvious when we talk about something simple—like water filling up a bathtub. But when we try to use the same idea to understand climate change, things can get a little more complicated.\n\nStill, the stock‑and‑flow model is really helpful for understanding the basic forces driving climate change.\n\nFirst, we'll look at what's causing climate change today by running a few simulations in En‑ROADS.\n\nAfter that, we'll connect what we saw in the simulations to the stock‑and‑flow idea so the whole picture makes more sense.\n\nBut before we dive into En‑ROADS, let's make some predictions.\n\nThink about the relationship between CO₂ emissions (what we put into the atmosphere) and CO₂ concentration (how much ends up staying there).\n\nThese are two of the most important pieces of the climate system—so let's see what you already think before we explore the model."
+      },
+      {
+        type: 'text',
+        title: "Let's Make a Prediction",
+        content: "Now let's think about what might happen if we try to reduce global CO₂ emissions.\n\nBefore we run any simulations, make your best predictions for each scenario:"
+      },
+      {
+        type: 'poll',
+        question: '1. If our total CO₂ emissions stop rising and stay flat… What do you think will happen to the amount of CO₂ already in the atmosphere?',
+        options: ['Increase', 'Level out', 'Decrease'],
+        id: 'prediction-flat-emissions',
+        singleSelect: true
+      },
+      {
+        type: 'poll',
+        question: '2. If our total CO₂ emissions drop a lot and become much lower than they are today… What do you think will happen to the CO₂ concentration in the atmosphere?',
+        options: ['Increase', 'Level out', 'Decrease'],
+        id: 'prediction-lower-emissions',
+        singleSelect: true
+      },
+      {
+        type: 'text',
+        title: "Let's Test Your Predictions!",
+        content: "In this next activity, you'll use En‑ROADS to simulate these scenarios.\n\nAs we learned in the last module, a carbon price is one of the more powerful and high-leverage climate policies for quickly lowering our global CO₂ emissions.\n\nSo in this simulation, you'll adjust the carbon price slider to see how changing emissions affects the concentration of CO₂ in the atmosphere."
+      },
+      {
+        type: 'module2-exercise'
+      },
+      {
+        type: 'text',
+        title: '💭 Let\'s Reflect',
+        content: 'Take a moment to think about what you just observed in the simulation.'
+      },
+      {
+        type: 'reflection',
+        prompt: 'What do you notice?',
+        id: 'module2-notice'
+      },
+      {
+        type: 'reflection',
+        prompt: 'Did your expectations match the outcome?',
+        id: 'module2-expectations'
+      },
+      {
+        type: 'reflection',
+        prompt: 'Why do you think this is the result?',
+        id: 'module2-why'
+      },
+      {
+        type: 'text',
+        title: 'Understanding CO₂ Removals',
+        content: "Now we're going to add two more sliders to our simulation. These sliders represent different ways we can remove CO₂ from the atmosphere—and we'll see how that changes the total CO₂ concentration over time."
+      },
+      {
+        type: 'text',
+        title: '🌱 What are CO₂ removals?',
+        content: 'CO₂ removals are natural or technological processes that take carbon dioxide out of the air and store it somewhere else.'
+      },
+      {
+        type: 'image',
+        imageUrl: co2Removal1,
+        alt: 'Natural CO₂ removal processes'
+      },
+      {
+        type: 'text',
+        content: '**Natural CO₂ removals include:**\n\n- Trees and plants absorbing CO₂ as they grow\n- Soil storing carbon from dead plant material\n- The ocean absorbing CO₂ from the air (which unfortunately also makes the water more acidic)'
+      },
+      {
+        type: 'image',
+        imageUrl: co2Removal2,
+        alt: 'Technological CO₂ removal processes'
+      },
+      {
+        type: 'text',
+        content: '**Technological CO₂ removals include:**\n\n- **Direct Air Capture (DACCS):** Machines that pull CO₂ from the air and store it deep underground in rock\n- **Enhanced mineralization:** Spreading special kinds of rock on land so they naturally absorb CO₂ faster than normal'
+      },
+      {
+        type: 'text',
+        title: '🌳 Why we talk about "net" CO₂ removals',
+        content: "Even when CO₂ is removed, some of it can leak back into the atmosphere.\n\nThis can happen because of:\n- Wildfires\n- Logging\n- Farming\n- Land changes\n\nSo instead of just \"CO₂ removals,\" we use the term **net CO₂ removals**, which means:\n\n> **Total CO₂ taken out of the atmosphere**\n> \n> *minus*\n> \n> **Total CO₂ that ends up returning to the atmosphere**\n\nThis gives a more accurate picture of what's really happening."
+      },
+      {
+        type: 'text',
+        title: '🎛️ How this works in the simulation',
+        content: "We can change how much CO₂ is removed from the atmosphere through policies like incentivizing farmers to reforest parts of their farmland, or by investing in technological carbon removal.\n\nThe two new En‑ROADS sliders below let you increase:\n\n- **Nature‑based CO₂ removal** (like reforestation)\n- **Technological CO₂ removal** (like direct air capture)\n\nWhen you adjust these sliders, you'll see a new graph called \"CO₂ Emissions and Removals.\"\n\nIt shows:\n- **Emissions** (what we add)\n- **Removals** (what we take out)\n\nAnd, as before, you'll still see the CO₂ concentration graph so you can watch how the total stock in the atmosphere changes."
+      },
+      {
+        type: 'text',
+        title: '🧠 Let\'s Predict',
+        content: 'Before you start moving the sliders, make your prediction:'
+      },
+      {
+        type: 'poll',
+        question: 'When do you think the CO₂ concentration in the atmosphere will start to go down?',
+        options: [
+          'When CO₂ emissions are greater than CO₂ removals',
+          'When CO₂ emissions are equal to CO₂ removals',
+          'When CO₂ emissions are smaller than CO₂ removals'
+        ],
+        id: 'prediction-co2-removals',
+        singleSelect: true
+      },
+      {
+        type: 'module2-removals'
+      },
+      {
+        type: 'text',
+        title: '💭 Let\'s Reflect',
+        content: 'Take a moment to think about what you just observed in the simulation.'
+      },
+      {
+        type: 'reflection',
+        prompt: 'What do you notice? Did your expectations match the outcome? Why do you think this is the result?',
+        id: 'module2-removals-reflect'
+      },
+      {
+        type: 'text',
+        title: '🌍 Why This Matters for Climate Change',
+        content: "Think of carbon dioxide (CO₂) the same way."
+      },
+      {
+        type: 'video',
+        title: 'Think Like A Bathtub – COP26',
+        videoUrl: 'https://www.youtube.com/embed/FwGPBVm0hCA',
+        description: 'Understanding climate change through the bathtub analogy'
+      },
+      {
+        type: 'text',
+        content: "The atmosphere is like the bathtub—this is the **stock**.\n\nBurning fossil fuels (cars, factories, etc.) is like the faucet—that's a **flow adding CO₂**.\n\nTrees and oceans absorbing CO₂ is like the drain—that's a **flow removing CO₂**.\n\nRight now, the faucet is on full blast, and the drain is slow, so the \"bathtub\" of CO₂ keeps rising.\n\nEven if we slow down the faucet, the tub will keep filling unless the drain is equally fast."
+      },
+      {
+        type: 'text',
+        title: 'This helps explain why climate change is so hard:',
+        content: "To stop the CO₂ level from rising, the inflows and outflows have to balance.\n\nUnderstanding \"stock and flow\" helps you see that climate change isn't just about using fewer fossil fuels—it's about changing the whole system so we stop overfilling the atmospheric \"bathtub.\"\n\n**It's not just about one good action.**\n\n**It's about how all our collective actions affect the total amount over time.**"
+      },
+      {
+        type: 'text',
+        title: '🌍 The Vision of "Net‑Zero Emissions"',
+        content: "**What does Net-Zero Emissions mean?**\n\nThink of net‑zero emissions like balancing a scale.\n\nIt doesn't mean we produce zero carbon emissions ever again.\n\nIt means:\n\n**We don't add extra carbon dioxide to the atmosphere overall.**\n\nIn other words, any CO₂ we do emit gets balanced out by CO₂ we remove from the atmosphere."
+      },
+      {
+        type: 'text',
+        title: '🛁 Back to our Bathtub Metaphor',
+        content: "Remember, imagine the atmosphere is a big bathtub (your CO₂ \"stock\").\n\n- The water coming in = **CO₂ emissions**\n- The water draining out = **CO₂ removals**\n\n**Net zero** is when water flows in at the same rate it flows out, so the water level stops rising.\n\nThat means CO₂ concentration in the atmosphere levels out instead of increasing."
+      },
+      {
+        type: 'text',
+        title: '🧩 How We Get to Net Zero',
+        content: "To reach net zero, we need two big things working together:\n\n**1️⃣ Cut emissions as much as possible**\n\nThis means:\n- More renewable energy\n- Energy efficiency\n- Cleaner transportation\n- Better buildings\n- Switching away from fossil fuels\n\n*Reducing what's coming into the tub.*\n\n**2️⃣ Increase CO₂ removals**\n\nThis means:\n- Protecting forests\n- Re‑growing forests (reforestation)\n- Healthier soils\n- Technology that pulls CO₂ out of the air\n\n*Speeding up the drain.*"
+      },
+      {
+        type: 'text',
+        title: '🏁 Why Net Zero Matters',
+        content: ''
+      },
+      {
+        type: 'image',
+        imageUrl: netZeroImg,
+        alt: 'Net zero = emissions in – removals out = 0'
+      },
+      {
+        type: 'text',
+        content: "Scientists say we need to reach global net zero around 2050 to help limit warming to 1.5°C.\n\nWhy? Because the CO₂ already in the atmosphere keeps the Earth warming—so we have to stop adding more.\n\nNet zero is basically humanity saying: **\"We're done increasing the CO₂ level in the atmosphere.\"**\n\nIt's not perfection. It's balance.\n\nAnd it's one of the most important goals for keeping future climate change manageable."
+      },
+      {
+        type: 'text',
+        title: '💭 Let\'s Reflect',
+        content: 'Take a moment to think about what you\'ve learned in this module.'
+      },
+      {
+        type: 'reflection',
+        prompt: 'What needs to happen for global temperatures to actually start going down?',
+        id: 'module2-temp-going-down'
+      },
+      {
+        type: 'reflection',
+        prompt: 'Do you think temperatures will start dropping as soon as our emissions stop rising (when they peak)? Why or why not?',
+        id: 'module2-peak-emissions'
+      },
+      {
+        type: 'reflection',
+        prompt: 'When we reach net zero emissions, will Earth\'s temperature return to what it was before the Industrial Revolution (late 1700s - mid‑1800s)? If not, what do you think will happen instead?',
+        id: 'module2-net-zero-temp'
+      },
+      {
+        type: 'reflection',
+        prompt: 'What did this lesson help you understand about stocks and flows? How does that idea connect to climate change?',
+        id: 'module2-stocks-flows-understanding'
+      },
+      {
+        type: 'image',
+        imageUrl: hopeOrientationImg,
+        alt: 'Hope Orientation by Tippett'
+      },
+      {
+        type: 'text',
+        content: 'Listen to this short guided meditation that frames hope as a stock—something we can refill intentionally, even in the face of big global challenges.'
+      },
+      {
+        type: 'audio',
+        title: '🌎 Guided Meditation: Growing Climate Hope',
+        audioUrl: hopeStockAudio,
+        transcript: `Take a slow breath in…\nand a long breath out.\nLet your mind settle for a moment, like dust floating down in a quiet room.\n\nNow imagine that hope for the climate is a stock—a pool inside you that rises and falls over time.\nIt's normal for it to dip when you hear hard news or think about the future.\nIt's also possible to refill it—drop by drop.\n\nAs you breathe in, imagine a tiny stream flowing into that pool.\nThis stream is made of everything that strengthens your hopefulness:\nyoung people taking action,\nscientists discovering new solutions,\ncommunities planting trees, restoring land, or helping each other after storms,\nleaders and corporations making choices that move the world in the right direction.\n\nLet one of those images come to the front of your mind.\nHold it gently.\n\nWith each inhale, imagine that hopeful stream getting just a little stronger.\nWith each exhale, imagine releasing worry that feels too heavy to carry in this moment.\n\nSay silently to yourself:\n"Hope can grow. I can grow it."\n\nNotice your hope stock filling—slowly, steadily—like water rising in a bathtub when the faucet is turned on.\n\nTake one more full breath in…\nand a soft breath out.\n\nWhen you're ready, bring your attention back to the room, knowing that your hope is something you can refill—again and again.`
+      },
+      {
+        type: 'module-feedback',
+        title: 'Congratulations on completing Module 2: Stock and Flow!',
+        description: "Before you begin the next, we'd love your feedback on this learning experience.",
+        id: 'module-2-feedback'
       }
 
     ]
