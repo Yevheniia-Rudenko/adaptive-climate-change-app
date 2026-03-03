@@ -35,14 +35,7 @@ function App() {
       <LanguageProvider>
         <BrowserRouter basename="/adaptive-climate-change-app">
           <div 
-            className="min-h-screen transition-colors"
-            style={{
-              backgroundImage: `url(${backgroundImage})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              backgroundAttachment: 'fixed',
-              backgroundRepeat: 'no-repeat',
-            }}
+            className="min-h-screen transition-colors bg-background"
           >
             <ScrollToTop />
             <Header />
