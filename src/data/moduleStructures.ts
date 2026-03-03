@@ -17,6 +17,8 @@ import hopeMeditationAudio from '../assets/Module1-HopeMeditation.m4a';
 import coalOilGasAudio from '../assets/Coal-Oil-Gas.mp3';
 import module2Water from '../assets/module2/water.jpg';
 import stockFlowExample from '../assets/module2/stock-vs-flow-example1.jpg';
+import co2Removal1 from '../assets/module2/co2removal_1.jpg';
+import co2Removal2 from '../assets/module2/co2removal_2.jpg';
 
 
 
@@ -761,6 +763,39 @@ Thank you for practicing.`
         type: 'reflection',
         prompt: 'Why do you think this is the result?',
         id: 'module2-why'
+      },
+      {
+        type: 'text',
+        title: 'Understanding CO₂ Removals',
+        content: "Now we're going to add two more sliders to our simulation. These sliders represent different ways we can remove CO₂ from the atmosphere—and we'll see how that changes the total CO₂ concentration over time."
+      },
+      {
+        type: 'text',
+        title: '🌱 What are CO₂ removals?',
+        content: 'CO₂ removals are natural or technological processes that take carbon dioxide out of the air and store it somewhere else.'
+      },
+      {
+        type: 'image',
+        imageUrl: co2Removal1,
+        alt: 'Natural CO₂ removal processes'
+      },
+      {
+        type: 'text',
+        content: '**Natural CO₂ removals include:**\n\n- Trees and plants absorbing CO₂ as they grow\n- Soil storing carbon from dead plant material\n- The ocean absorbing CO₂ from the air (which unfortunately also makes the water more acidic)'
+      },
+      {
+        type: 'image',
+        imageUrl: co2Removal2,
+        alt: 'Technological CO₂ removal processes'
+      },
+      {
+        type: 'text',
+        content: '**Technological CO₂ removals include:**\n\n- **Direct Air Capture (DACCS):** Machines that pull CO₂ from the air and store it deep underground in rock\n- **Enhanced mineralization:** Spreading special kinds of rock on land so they naturally absorb CO₂ faster than normal'
+      },
+      {
+        type: 'text',
+        title: '🌳 Why we talk about "net" CO₂ removals',
+        content: "Even when CO₂ is removed, some of it can leak back into the atmosphere.\n\nThis can happen because of:\n- Wildfires\n- Logging\n- Farming\n- Land changes\n\nSo instead of just \"CO₂ removals,\" we use the term **net CO₂ removals**, which means:\n\n> **Total CO₂ taken out of the atmosphere**\n> \n> *minus*\n> \n> **Total CO₂ that ends up returning to the atmosphere**\n\nThis gives a more accurate picture of what's really happening."
       },
 
     ]
