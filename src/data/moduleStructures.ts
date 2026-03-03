@@ -832,6 +832,26 @@ Thank you for practicing.`
         prompt: 'What do you notice? Did your expectations match the outcome? Why do you think this is the result?',
         id: 'module2-removals-reflect'
       },
+      {
+        type: 'text',
+        title: '🌍 Why This Matters for Climate Change',
+        content: "Think of carbon dioxide (CO₂) the same way."
+      },
+      {
+        type: 'video',
+        title: 'Think Like A Bathtub – COP26',
+        videoUrl: 'https://www.youtube.com/embed/FwGPBVm0hCA',
+        description: 'Understanding climate change through the bathtub analogy'
+      },
+      {
+        type: 'text',
+        content: "The atmosphere is like the bathtub—this is the **stock**.\n\nBurning fossil fuels (cars, factories, etc.) is like the faucet—that's a **flow adding CO₂**.\n\nTrees and oceans absorbing CO₂ is like the drain—that's a **flow removing CO₂**.\n\nRight now, the faucet is on full blast, and the drain is slow, so the \"bathtub\" of CO₂ keeps rising.\n\nEven if we slow down the faucet, the tub will keep filling unless the drain is equally fast."
+      },
+      {
+        type: 'text',
+        title: 'This helps explain why climate change is so hard:',
+        content: "To stop the CO₂ level from rising, the inflows and outflows have to balance.\n\nUnderstanding \"stock and flow\" helps you see that climate change isn't just about using fewer fossil fuels—it's about changing the whole system so we stop overfilling the atmospheric \"bathtub.\"\n\n**It's not just about one good action.**\n\n**It's about how all our collective actions affect the total amount over time.**"
+      },
 
     ]
   },
