@@ -20,6 +20,8 @@ import stockFlowExample from '../assets/module2/stock-vs-flow-example1.jpg';
 import co2Removal1 from '../assets/module2/co2removal_1.jpg';
 import co2Removal2 from '../assets/module2/co2removal_2.jpg';
 import netZeroImg from '../assets/module2/Net zero = emissions in \u2013 removals out = 0.png';
+import hopeOrientationImg from '../assets/module2/Hope Orientation-Tippett.png';
+import hopeStockAudio from '../assets/module2/Module2-Hope-as-a-Stock.m4a';
 
 
 
@@ -906,6 +908,21 @@ Thank you for practicing.`
         type: 'reflection',
         prompt: 'What did this lesson help you understand about stocks and flows? How does that idea connect to climate change?',
         id: 'module2-stocks-flows-understanding'
+      },
+      {
+        type: 'image',
+        imageUrl: hopeOrientationImg,
+        alt: 'Hope Orientation by Tippett'
+      },
+      {
+        type: 'text',
+        content: 'Listen to this short guided meditation that frames hope as a stock—something we can refill intentionally, even in the face of big global challenges.'
+      },
+      {
+        type: 'audio',
+        title: '🌎 Guided Meditation: Growing Climate Hope',
+        audioUrl: hopeStockAudio,
+        transcript: `Take a slow breath in…\nand a long breath out.\nLet your mind settle for a moment, like dust floating down in a quiet room.\n\nNow imagine that hope for the climate is a stock—a pool inside you that rises and falls over time.\nIt's normal for it to dip when you hear hard news or think about the future.\nIt's also possible to refill it—drop by drop.\n\nAs you breathe in, imagine a tiny stream flowing into that pool.\nThis stream is made of everything that strengthens your hopefulness:\nyoung people taking action,\nscientists discovering new solutions,\ncommunities planting trees, restoring land, or helping each other after storms,\nleaders and corporations making choices that move the world in the right direction.\n\nLet one of those images come to the front of your mind.\nHold it gently.\n\nWith each inhale, imagine that hopeful stream getting just a little stronger.\nWith each exhale, imagine releasing worry that feels too heavy to carry in this moment.\n\nSay silently to yourself:\n"Hope can grow. I can grow it."\n\nNotice your hope stock filling—slowly, steadily—like water rising in a bathtub when the faucet is turned on.\n\nTake one more full breath in…\nand a soft breath out.\n\nWhen you're ready, bring your attention back to the room, knowing that your hope is something you can refill—again and again.`
       },
 
     ]
