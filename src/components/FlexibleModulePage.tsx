@@ -135,8 +135,8 @@ export function FlexibleModulePage({
           </div>
 
           <div className="p-4 sm:p-6 md:p-8 lg:p-10">
-            {/* Block Progress Bar for Module 1 - Fun & Visual */}
-            {moduleId === 1 && (() => {
+            {/* Block Progress Bar - Fun & Visual */}
+            {isPaginated && (() => {
               const pct = Math.round((currentBlock / totalBlocks) * 100);
               return (
                 <div className="mb-8 select-none">
