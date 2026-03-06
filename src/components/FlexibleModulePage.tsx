@@ -135,36 +135,46 @@ export function FlexibleModulePage({
           </div>
 
           <div className="p-4 sm:p-6 md:p-8 lg:p-10">
-            {/* Progress Bar */}
-            {totalBlocks > 1 && (
-              <div style={{ marginBottom: '2rem' }}>
-                <div style={{
-                  width: '100%',
-                  height: '12px',
-                  backgroundColor: '#d1d5db',
-                  borderRadius: '9999px',
-                  overflow: 'hidden',
-                }}>
-                  <div style={{
-                    height: '100%',
-                    width: `${Math.round((currentBlock / totalBlocks) * 100)}%`,
-                    backgroundColor: '#2563eb',
-                    borderRadius: '9999px',
-                    transition: 'width 0.5s ease-out',
-                  }} />
+            {/* Block Progress Bar for Module 1 - Fun & Visual */}
+            {moduleId === 1 && (() => {
+              const pct = Math.round((currentBlock / totalBlocks) * 100);
+              return (
+                <div className="mb-8 select-none">
+                  {/* Dots row */}
+                  <div className="flex justify-center mb-2">
+                    <div className="flex items-center gap-1.5">
+                      {Array.from({ length: totalBlocks }, (_, i) => {
+                        const stepNum = i + 1;
+                        const isDone = stepNum < currentBlock;
+                        const isCurrent = stepNum === currentBlock;
+                        const size = isCurrent ? 20 : isDone ? 14 : Math.max(8, 12 - (stepNum - currentBlock));
+                        const bg = isCurrent ? '#1a5c27' : isDone ? '#2d7a3a' : 'transparent';
+                        const border = (isCurrent || isDone) ? 'none' : '2px solid #a7d7a9';
+                        const opacity = isCurrent ? 1 : isDone ? 0.85 : Math.max(0.3, 1 - (stepNum - currentBlock) * 0.15);
+                        return (
+                          <div
+                            key={i}
+                            style={{
+                              width: size, height: size, borderRadius: '50%',
+                              background: bg, border, opacity,
+                              transition: 'all 0.4s ease', flexShrink: 0,
+                            }}
+                          />
+                        );
+                      })}
+                    </div>
+                  </div>
+                  {/* Label row */}
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="font-semibold text-purple-600 dark:text-purple-400">
+                      🚀 Step {currentBlock} of {totalBlocks}
+                    </span>
+                    <span className="font-bold text-green-600 dark:text-green-400">{pct}% complete!</span>
+                  </div>
                 </div>
-                <div style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  marginTop: '0.5rem',
-                  fontSize: '0.875rem',
-                  color: '#6b7280',
-                }}>
-                  <span>Step {currentBlock} of {totalBlocks}</span>
-                  <span>{Math.round((currentBlock / totalBlocks) * 100)}%</span>
-                </div>
-              </div>
-            )}
+              );
+            })()}
+
 
             {/* Content Blocks */}
             {currentSections.map((section, index) => {
