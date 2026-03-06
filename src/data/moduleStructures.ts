@@ -633,7 +633,7 @@ Thank you for practicing.`
         content: [
           {
             type: 'text',
-            title: 'About this Module',
+            title: '**About this Module**',
             content: "Some things build up slowly — and that changes everything. "
           },
           {
@@ -644,11 +644,11 @@ Thank you for practicing.`
           {
             type: 'text',
             title: '',
-            content: "So imagine you've got a bathtub.\n\nThe water already in the tub is the **stock**.\n\nThe water coming in from the faucet is a **flow**. The water draining out is another **flow**.\n\nThe size of the stock (how much water is in the tub) depends on the flows (how fast water enters or leaves).\n\nSo if the faucet is running faster than the drain?\n\n➡️ The tub fills up.\n\nIf the drain is faster than the faucet?\n\n➡️ The tub empties.\n\nIf they're equal?\n\n➡️ The water level stays the same."
+            content: "So imagine you've got a **bathtub**.\n\nThe **water already in the tub** is the **stock**.\nThe **water coming in from the faucet** is a **flow**.\nThe **water draining out** is another **flow**.\n\nThe size of the stock (how much water is in the tub) depends on the flows (how fast water enters or leaves).\n\nSo if the faucet is running faster than the drain?\n➡️ The tub fills up.\n\nIf the drain is faster than the faucet?\n➡️ The tub empties.\n\nIf they're equal?\n➡️ The water level stays the same."
           },
 {
             type: 'video',
-            title: 'What is Stock and Flow?',
+            title: '**What is Stock and Flow?**',
             videoUrl: 'https://www.youtube.com/embed/nRlYGDBGcRA',
             description: 'Learn about climate stocks and flows'
           },
@@ -682,13 +682,14 @@ Thank you for practicing.`
           },
           {
             type: 'text',
-            title: '🛁 Draw Your Own Stock & Flow',
+            title: '**🛁 Draw Your Own Stock & Flow**',
             content: "To explore how \"Stock and Flow\" works, let's start with a personal example."
           },
           {
             type: 'text',
             title: '**Step One**',
-            content: "Draw a Stock and Flow diagram like in the image below."
+            content: "Draw a Stock and Flow diagram like in the image below.",
+            hideIcon: true
           },
           {
             type: 'image',
@@ -698,22 +699,31 @@ Thank you for practicing.`
           {
             type: 'text',
             title: '**Step Two**',
-            content: "Pick a stock that you care about. Think about something quantifiable—meaning something that could be counted or measured. Some \"stock\" examples could be:\n\n- \"My free time\"\n- \"My level of well-being\"\n- \"My money\"\n- \"My level of motivation in my academics\"\n- \"The level of trust I have in my relationships\"\n- \"The level of hope I have in a positive future\""
+            content: "Pick a stock that you care about. Think about something quantifiable—meaning something that could be counted or measured. Some \"stock\" examples could be:\n\n- My free time\n- My level of well-being\n- My money\n- My level of motivation in my academics\n- The level of trust I have in my relationships\n- The level of hope I have in a positive future",
+            hideIcon: true
           },
           {
             type: 'text',
             title: '**Step Three**',
-            content: "Draw the in-flows to your chosen stock. What is adding to or filling up your stock? Try to identify at least three in-flows to your stock."
+            content: "Draw the in-flows to your chosen stock. What is adding to or filling up your stock? Try to identify at least three in-flows to your stock.",
+            hideIcon: true
           },
           {
             type: 'text',
             title: '**Step Four**',
-            content: "Draw the out-flows. What depletes or diminishes your stock? Remember, these in- and out-flows describe factors that change your stock over time. Try to identify at least 3 out-flows from your stock."
+            content: "Draw the out-flows. What depletes or diminishes your stock? Remember, these in- and out-flows describe factors that change your stock over time. Try to identify at least 3 out-flows from your stock.",
+            hideIcon: true
           },
           {
             type: 'text',
             title: '**Step Five**',
-            content: "Share your Stock and Flow with a partner or in a small group."
+            content: "Share your Stock and Flow with a partner or in a small group.",
+            hideIcon: true
+          },
+          {
+            type: 'text',
+            title: '**💭Let’s Reflect**',
+            content: "",
           },
           {
             type: 'reflection',
