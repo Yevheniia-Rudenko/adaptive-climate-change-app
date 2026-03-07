@@ -109,7 +109,18 @@ export function ResourcesPage() {
               return (
                 <div
                   key={category.id}
-                  className="bg-white dark:bg-gray-700/50 rounded-xl p-5 sm:p-6 shadow-sm hover:shadow-md hover:border-green-300 dark:hover:border-green-600 border border-gray-200 dark:border-gray-600 transition-all duration-200 flex flex-col"
+                  className="bg-white dark:bg-gray-700/50 rounded-xl p-5 sm:p-6 border border-gray-200 dark:border-gray-600 shadow-sm flex flex-col cursor-pointer"
+                  style={{ transition: 'transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease' }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'scale(1.05)';
+                    e.currentTarget.style.boxShadow = '0 8px 30px rgba(34,197,94,0.25)';
+                    e.currentTarget.style.borderColor = '#ffffff';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'scale(1)';
+                    e.currentTarget.style.boxShadow = '';
+                    e.currentTarget.style.borderColor = '';
+                  }}
                 >
                   {/* Icon / Video */}
                   {category.video ? (
