@@ -744,12 +744,12 @@ Thank you for practicing.`
         content: [
           {
             type: 'text',
-            title: '🌍 Why This Matters for Climate Change',
-            content: "The idea of \"stock and flow\" might feel super obvious when we talk about something simple—like water filling up a bathtub. But when we try to use the same idea to understand climate change, things can get a little more complicated.\n\nStill, the stock‑and‑flow model is really helpful for understanding the basic forces driving climate change.\n\nFirst, we'll look at what's causing climate change today by running a few simulations in En‑ROADS.\n\nAfter that, we'll connect what we saw in the simulations to the stock‑and‑flow idea so the whole picture makes more sense.\n\nBut before we dive into En‑ROADS, let's make some predictions.\n\nThink about the relationship between CO₂ emissions (what we put into the atmosphere) and CO₂ concentration (how much ends up staying there).\n\nThese are two of the most important pieces of the climate system—so let's see what you already think before we explore the model."
+            title: '**🌍 Why This Matters for Climate Change**',
+            content: "The idea of \"stock and flow\" might feel super obvious when we talk about something simple—like water filling up a bathtub. But when we try to use the same idea to understand climate change, things can get a little more complicated.\n\nStill, the stock‑and‑flow model is **really helpful** for understanding the basic forces driving climate change.\n\nFirst, we'll look at what's causing climate change today by running a few simulations in **En‑ROADS**.\n\nAfter that, we'll connect what we saw in the simulations to the stock‑and‑flow idea so the whole picture makes more sense.\n\nBut before we dive into En‑ROADS, let's make some predictions.\n\nThink about the relationship between CO₂ emissions (what we put into the atmosphere) and CO₂ concentration (how much ends up staying there).\n\nThese are two of the most important pieces of the climate system—so let's see what you already think before we explore the model."
           },
           {
             type: 'text',
-            title: "Let's Make a Prediction",
+            title: "**Let's Make a Prediction**",
             content: "Now let's think about what might happen if we try to reduce global CO₂ emissions.\n\nBefore we run any simulations, make your best predictions for each scenario:"
           },
           {
@@ -774,15 +774,15 @@ Thank you for practicing.`
         content: [
           {
             type: 'text',
-            title: "Let's Test Your Predictions!",
-            content: "In this next activity, you'll use En‑ROADS to simulate these scenarios.\n\nAs we learned in the last module, a carbon price is one of the more powerful and high-leverage climate policies for quickly lowering our global CO₂ emissions.\n\nSo in this simulation, you'll adjust the carbon price slider to see how changing emissions affects the concentration of CO₂ in the atmosphere."
+            title: "**Let's Test Your Predictions!**",
+            content: "In this next activity, you'll use **En‑ROADS** to simulate these scenarios.\n\nAs we learned in the last module, a **carbon price** is one of the more powerful and high-leverage climate policies for quickly lowering our global CO₂ emissions.\n\nSo in this simulation, **you'll adjust the carbon price slider** to see how changing emissions affects the concentration of CO₂ in the atmosphere."
           },
           {
             type: 'module2-exercise'
           },
           {
             type: 'text',
-            title: '💭 Let\'s Reflect',
+            title: '**💭 Let\'s Reflect**',
             content: 'Take a moment to think about what you just observed in the simulation.'
           },
           {
@@ -808,13 +808,13 @@ Thank you for practicing.`
         content: [
           {
             type: 'text',
-            title: 'Understanding CO₂ Removals',
-            content: "Now we're going to add two more sliders to our simulation. These sliders represent different ways we can remove CO₂ from the atmosphere—and we'll see how that changes the total CO₂ concentration over time."
+            title: '**Understanding CO₂ Removals**',
+            content: "Now we're going to add **two more sliders** to our simulation. These sliders represent different ways we can **remove CO₂ from the atmosphere**—and we'll see how that changes the total CO₂ concentration over time."
           },
           {
             type: 'text',
-            title: '🌱 What are CO₂ removals?',
-            content: 'CO₂ removals are natural or technological processes that take carbon dioxide out of the air and store it somewhere else.'
+            title: '**🌱 What are CO₂ removals?**',
+            content: '**CO₂ removals** are natural or technological processes that **take carbon dioxide out of the air and store it somewhere else.**'
           },
           {
             type: 'image',
@@ -836,8 +836,8 @@ Thank you for practicing.`
           },
           {
             type: 'text',
-            title: '🌳 Why we talk about "net" CO₂ removals',
-            content: "Even when CO₂ is removed, some of it can leak back into the atmosphere.\n\nThis can happen because of:\n- Wildfires\n- Logging\n- Farming\n- Land changes\n\nSo instead of just \"CO₂ removals,\" we use the term **net CO₂ removals**, which means:\n\n> **Total CO₂ taken out of the atmosphere**\n> \n> *minus*\n> \n> **Total CO₂ that ends up returning to the atmosphere**\n\nThis gives a more accurate picture of what's really happening."
+            title: '**🌳 Why we talk about "net" CO₂ removals**',
+            content: "Even when CO₂ is removed, some of it can **leak back** into the atmosphere.\nThis can happen because of:\n\n- Wildfires\n- Logging\n- Farming\n- Land changes\n\nSo instead of just \"CO₂ removals,\" we use the term **net CO₂ removals**, which means:\n\n **Total CO₂ taken out of the atmosphere** *-* **Total CO₂ that ends up returning to the atmosphere**\n\nThis gives a more accurate picture of what's really happening."
           },
         ]
       },
@@ -847,12 +847,12 @@ Thank you for practicing.`
         content: [
           {
             type: 'text',
-            title: '🎛️ How this works in the simulation',
-            content: "We can change how much CO₂ is removed from the atmosphere through policies like incentivizing farmers to reforest parts of their farmland, or by investing in technological carbon removal.\n\nThe two new En‑ROADS sliders below let you increase:\n\n- **Nature‑based CO₂ removal** (like reforestation)\n- **Technological CO₂ removal** (like direct air capture)\n\nWhen you adjust these sliders, you'll see a new graph called \"CO₂ Emissions and Removals.\"\n\nIt shows:\n- **Emissions** (what we add)\n- **Removals** (what we take out)\n\nAnd, as before, you'll still see the CO₂ concentration graph so you can watch how the total stock in the atmosphere changes."
+            title: '**🎛️ How this works in the simulation**',
+            content: "We can change how much CO₂ is removed from the atmosphere through policies like incentivizing farmers to reforest parts of their farmland, or by investing in technological carbon removal.\n\nThe two new En‑ROADS sliders below let you increase:\n\n- **Nature‑based CO₂ removal** (like reforestation)\n- **Technological CO₂ removal** (like direct air capture)\n\nWhen you adjust these sliders, you'll see a new graph called \"**CO₂ Emissions and Removals.**\"\n\nIt shows:\n- Emissions (what we add)\n- Removals (what we take out)\n\nAnd, as before, you'll still see the **CO₂ concentration graph** so you can watch how the total stock in the atmosphere changes."
           },
           {
             type: 'text',
-            title: '🧠 Let\'s Predict',
+            title: '**🧠 Let\'s Predict**',
             content: 'Before you start moving the sliders, make your prediction:'
           },
           {
@@ -867,11 +867,16 @@ Thank you for practicing.`
             singleSelect: true
           },
           {
+            type: 'text',
+            title: '**⚙️ Make a Model**',
+            content: ''
+          },
+          {
             type: 'module2-removals'
           },
           {
             type: 'text',
-            title: '💭 Let\'s Reflect',
+            title: '**💭 Let\'s Reflect**',
             content: 'Take a moment to think about what you just observed in the simulation.'
           },
           {
@@ -887,8 +892,8 @@ Thank you for practicing.`
         content: [
           {
             type: 'text',
-            title: '🌍 Why This Matters for Climate Change',
-            content: "Think of carbon dioxide (CO₂) the same way."
+            title: '**🌍 Why This Matters for Climate Change**',
+            content: ""
           },
           {
             type: 'video',
@@ -898,12 +903,12 @@ Thank you for practicing.`
           },
           {
             type: 'text',
-            content: "The atmosphere is like the bathtub—this is the **stock**.\n\nBurning fossil fuels (cars, factories, etc.) is like the faucet—that's a **flow adding CO₂**.\n\nTrees and oceans absorbing CO₂ is like the drain—that's a **flow removing CO₂**.\n\nRight now, the faucet is on full blast, and the drain is slow, so the \"bathtub\" of CO₂ keeps rising.\n\nEven if we slow down the faucet, the tub will keep filling unless the drain is equally fast."
+            content: "Think of carbon dioxide (CO₂) the same way.\n-The **atmosphere** is like the bathtub—this is the **stock**.\n-Burning fossil fuels (cars, factories, etc.) is like the faucet—that's a **flow adding CO₂**.\n-Trees and oceans absorbing CO₂ is like the drain—that's a **flow removing CO₂**.\n\nRight now, the **faucet is on full blast**, and the **drain is slow**, so the \"bathtub\" of CO₂ keeps rising.\n\nEven if we slow down the faucet, the tub will **keep filling** unless the drain is equally fast."
           },
           {
             type: 'text',
             title: 'This helps explain why climate change is so hard:',
-            content: "To stop the CO₂ level from rising, the inflows and outflows have to balance.\n\nUnderstanding \"stock and flow\" helps you see that climate change isn't just about using fewer fossil fuels—it's about changing the whole system so we stop overfilling the atmospheric \"bathtub.\"\n\n**It's not just about one good action.**\n\n**It's about how all our collective actions affect the total amount over time.**"
+            content: "To stop the CO₂ level from rising, the inflows and outflows have to balance.\n\nUnderstanding \"stock and flow\" helps you see that climate change isn't just about using fewer fossil fuels—it's about changing the whole system so we stop overfilling the atmospheric \"bathtub.\"\n\nIt's not just about one good action.\n\nIt's about how all our collective actions affect the **total amount** over time."
           },
         ]
       },
