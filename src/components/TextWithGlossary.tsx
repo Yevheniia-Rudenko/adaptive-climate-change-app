@@ -42,13 +42,19 @@ export function TextWithGlossary({ text, className }: TextWithGlossaryProps) {
       }
 
       // Process bold and italic in non-link text
+      // We use a regex that captures both **bold** and *italic*
+      // The regex captures the whole matched string, so we need to inspect it
       const boldItalicParts = part.split(/(\*\*.*?\*\*|\*.*?\*)/g);
+
       return boldItalicParts.map((subPart, subIndex) => {
+        if (!subPart) return null;
+
         if (subPart.startsWith('**') && subPart.endsWith('**')) {
-          return <strong key={`${keyPrefix}-${linkIndex}-${subIndex}`} className="font-bold text-gray-900 dark:text-gray-100">{subPart.slice(2, -2)}</strong>;
-        } else if (subPart.startsWith('*') && subPart.endsWith('*') && !subPart.startsWith('**')) {
-          return <em key={`${keyPrefix}-${linkIndex}-${subIndex}`} className="italic text-gray-700 dark:text-gray-300">{subPart.slice(1, -1)}</em>;
+          return <strong key={`${keyPrefix}-${linkIndex}-${subIndex}`} className="font-bold">{subPart.slice(2, -2)}</strong>;
+        } else if (subPart.startsWith('*') && subPart.endsWith('*') && subPart.length > 1) {
+          return <em key={`${keyPrefix}-${linkIndex}-${subIndex}`} className="italic">{subPart.slice(1, -1)}</em>;
         }
+
         return subPart;
       });
     });

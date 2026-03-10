@@ -15,6 +15,8 @@ import waterImg from '../assets/water.jpg';
 import openingMeditationAudio from '../assets/Module1-OpeningMeditation.m4a';
 import hopeMeditationAudio from '../assets/Module1-HopeMeditation.m4a';
 import coalOilGasAudio from '../assets/Coal-Oil-Gas.mp3';
+import systemsIcebergImg from '../assets/systems_iceberg.jpg';
+import icebergExplainerAudio from '../assets/IcebergExplainer.mp3';
 
 
 
@@ -692,36 +694,261 @@ Thank you for practicing.`
   {
     id: 4,
     title: "Systems View of Climate Solutions",
-    headerImage: "https://images.unsplash.com/photo-1638068109209-002be3ae4950?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZW5ld2FibGUlMjBlbmVyZ3klMjBzb2xhciUyMHdpbmR8ZW58MXx8fHwxNzY1MTY5NTc1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    headerImage: systemsIcebergImg,
     sections: [
+      // ── Submodule 1: Systems Iceberg Introduction ──────────────────────
       {
-        type: 'text',
-        title: 'Interconnected Solutions',
-        content: "Climate solutions aren't isolated fixes—they're interconnected parts of a larger system. Renewable energy affects transportation, which affects urban planning, which affects how we live and work. This systems view shows how solutions in one area can create positive ripple effects across many others. It's about seeing the big picture and understanding leverage points."
+        type: 'block',
+        colorTheme: 'blue',
+        content: [
+          {
+            type: 'text',
+            title: '**About this Module**',
+            content: "To change outcomes, we need to look beneath the surface at systems.\n\nWe need systems thinking to understand climate change because it's not caused by one thing—it's shaped by many interconnected systems like energy, transportation, food, economics, and politics that all influence one another.\n\nSystems thinking helps us see these connections clearly, so we can design climate solutions that are effective, fair, and avoid unintended consequences."
+          },
+          {
+            type: 'text',
+            title: '🌊 The Systems Iceberg',
+            content: "The Systems Iceberg Model is a way of looking at the world that helps us understand *why* things happen—not just *what* happens on the surface."
+          },
+          {
+            type: 'image',
+            imageUrl: systemsIcebergImg,
+            alt: 'Systems Iceberg Model showing Events, Behavioral Patterns, Underlying Structures, Mental Models, and Artifacts',
+            width: '80%'
+          },
+          {
+            type: 'text',
+            content: "It comes from the field of systems dynamics and it's used to help people understand complex issues.\n\nThe big idea is this: 👉 **What we see happening is only the tip of the iceberg.**\n\nMost of the reasons things happen are hidden *below the surface.*\n\nLet's break it down."
+          }
+        ]
+      },
+      // ── Submodule 2: Top of the Iceberg — Events ──────────────────────
+      {
+        type: 'block',
+        colorTheme: 'teal',
+        content: [
+          {
+            type: 'text',
+            title: '❄️ Top of the Iceberg: Events',
+            content: "The top of the iceberg is what you see. These are things that happen right in front of you.\n\n**Examples:**\n• A heat wave\n• A wildfire\n• A spike in energy prices\n• Protests about pollution\n• The latest climate news headline\n\nEvents are important, but they're only the surface. If we pay attention only to events, we can feel overwhelmed and think the world is random or chaotic."
+          },
+          {
+            type: 'reflection',
+            prompt: 'What climate "events" do you notice or see in your life?',
+            id: 'm4-events-reflection'
+          }
+        ]
+      },
+      // ── Submodule 3: Just Below the Surface — Patterns & Trends ───────
+      {
+        type: 'block',
+        colorTheme: 'green',
+        content: [
+          {
+            type: 'text',
+            title: '🔁 Just Below the Surface: Patterns & Trends',
+            content: "If you zoom out in time, events start forming behavioural patterns and trends.\n\n**Examples:**\n• Heat waves happening more often\n• Wildfires getting bigger\n• Energy prices rising faster in certain communities\n• Air pollution affecting the same neighborhoods again and again\n• Consumers buying more single-use plastics every year\n\nPatterns show us:\n\n👉 **This isn't random—something is repeating.**"
+          },
+          {
+            type: 'reflection',
+            prompt: 'What climate "patterns" do you see in your life?',
+            id: 'm4-patterns-reflection'
+          }
+        ]
+      },
+      // ── Submodule 4: Deeper — Underlying Systemic Structures ──────────
+      {
+        type: 'block',
+        colorTheme: 'amber',
+        content: [
+          {
+            type: 'text',
+            title: '⚙️ Deeper: Underlying Systemic Structures',
+            content: "This is where systems thinking gets powerful.\n\nThe underlying structures are the artifacts and mental models that shape patterns and events."
+          },
+          {
+            type: 'text',
+            title: 'Artifacts',
+            content: "First, let's cover the artifacts — these are the often tangible and visible structures that shape our systems like:\n\n• How our energy system is built\n• Which communities live near highways or factories\n• Pricing systems for fossil fuels\n• Transportation options\n• Who makes policy decisions\n• Where money and power flow in a society\n\nThese artifacts create the conditions that make certain outcomes more likely than others.\n\nIf we want to change patterns, we need to understand and redesign these artifacts, not just react to events."
+          },
+          {
+            type: 'reflection',
+            prompt: 'What artifacts related to climate do you see in your life?',
+            id: 'm4-artifacts-reflection'
+          }
+        ]
+      },
+      // ── Submodule 5: Deepest Level — Mental Models ────────────────────
+      {
+        type: 'block',
+        colorTheme: 'purple',
+        content: [
+          {
+            type: 'text',
+            title: '🧠 Deepest Level: Mental Models',
+            content: "**The Ideas and Beliefs That Shape the System**\n\nAt the very bottom of the iceberg are mental models—the beliefs, assumptions, and stories people hold about how the world works.\n\n**Examples:**\n• \"The earth is a resource for humans.\"\n• \"Fossil fuels are necessary for economic growth.\"\n• \"Some communities can handle more pollution than others.\"\n• \"Technology will fix everything.\"\n• \"My actions don't matter.\"\n• \"Climate solutions help everyone equally.\"\n\nThese beliefs shape the choices we make, and those choices shape the structures we build.\n\nChanging mental models is slow and hard—but it's where the most meaningful, lasting change begins."
+          },
+          {
+            type: 'reflection',
+            prompt: 'What mental models do you have about climate change?',
+            id: 'm4-mental-models-reflection'
+          }
+        ]
+      },
+      // ── Submodule 6: Why Think About Climate Systems Using the Iceberg Model ──
+      {
+        type: 'block',
+        colorTheme: 'blue',
+        content: [
+          {
+            type: 'text',
+            title: 'Why Think About Climate Systems Using the Iceberg Model?',
+            content: ''
+          },
+          {
+            type: 'image',
+            imageUrl: systemsIcebergImg,
+            alt: 'Systems Iceberg Model — Events, Behavioral Patterns, Underlying Structures, Mental Models & Artifacts',
+            width: '80%'
+          },
+          {
+            type: 'audio',
+            title: 'Listen: The Iceberg & En-ROADS',
+            audioUrl: icebergExplainerAudio,
+            transcript: `So far, in En‑ROADS, we've been moving sliders that represent policy choices—things like carbon pricing, renewable energy, or reforestation. These sliders are all artifacts of the system: they're the visible actions or rules that shape what people and organizations do.
+
+When we change these policies, they influence behaviors in the system—how much energy we use, which fuels companies choose, how quickly technologies spread.
+
+Those behaviors then lead to the events we've been tracking in the impacts graphs, like global temperature rise, air pollution levels, or emissions curves.
+
+That's the part above the waterline of the iceberg.
+
+But systems thinking asks us to go deeper.
+
+The most important part—and the one we often overlook—is the level of mental models.
+
+These are the beliefs, assumptions, and stories people carry that shape decisions in the first place.
+
+One of the biggest mental models in climate work is:
+"We already have the technology and know-how to fix a huge part of the climate problem… so why haven't we done it yet?"
+
+This question points us to the underlying structures—the things beneath the surface that shape behavior long before policies ever change.
+
+Students can be invited to think about:
+What beliefs keep leaders from acting?
+What assumptions shape our energy system?
+What mindsets or values guide where money flows?
+What stories do people tell about what's possible—or impossible?
+
+These deeper layers help explain why climate progress doesn't always match what science and technology say is achievable.
+
+The iceberg reminds us:
+If we want real change, we can't just react to the events at the top.
+We need to understand—and maybe shift—the beliefs and systems underneath them.`
+          },
+          {
+            type: 'text',
+            title: '**Concept Cards**',
+            content: "Let's review the elements of the systems iceberg.\n\n**The deeper you go, the more power you have to create change.**"
+          },
+          {
+            type: 'flip-cards',
+            cards: [
+              {
+                frontTitle: '🏔️ Events',
+                frontDescription: 'What happened?',
+                backTitle: 'Events',
+                backDescription: 'The visible occurrences we notice day-to-day — a wildfire, a flood, a spike in energy prices. Reacting only to events keeps us at the surface.'
+              },
+              {
+                frontTitle: '📈 Behavioral Patterns',
+                frontDescription: "What's been happening over time?",
+                backTitle: 'Behavioral Patterns',
+                backDescription: 'Trends and recurring behaviors we notice over time — rising temperatures decade after decade, or the same neighborhoods facing repeated flood damage.'
+              },
+              {
+                frontTitle: '⚙️ Artifacts',
+                frontDescription: 'What policies, technologies or rules create these patterns?',
+                backTitle: 'Artifacts',
+                backDescription: 'The tangible structures that shape outcomes — energy infrastructure, zoning laws, pricing systems, who holds decision-making power, where money and resources flow.'
+              },
+              {
+                frontTitle: '🧠 Mental Models',
+                frontDescription: 'What beliefs keep this system in place?',
+                backTitle: 'Mental Models',
+                backDescription: 'The deepest level — the beliefs, assumptions and stories that shaped the structures in the first place. Changing mental models is slow, but it\'s where the most lasting change begins.'
+              }
+            ]
+          }
+        ]
+      },
+      // ── Submodule 7: Draw Your Own Climate Iceberg ────────────────────
+      {
+        type: 'block',
+        colorTheme: 'pink',
+        content: [
+          {
+            type: 'text',
+            title: '✏️ Draw Your Own Climate Iceberg',
+            content: "It's time to now draw your own systems iceberg. You may create your iceberg individually or as a team.\n\nThink about a current issue related to climate change that matters to you.\n\nDraw each of the layers of the iceberg and make notes about what is happening at each level."
+          },
+          {
+            type: 'reflection',
+            prompt: '🏔️ Event\n\nChoose an event related to a climate change issue that is specific, meaningful to you, and that you would like to understand better.',
+            id: 'm4-own-iceberg-event'
+          },
+          {
+            type: 'reflection',
+            prompt: '📈 Behavioral Patterns\n\nWhat\'s been happening over time to shape this event?',
+            id: 'm4-own-iceberg-patterns'
+          },
+          {
+            type: 'reflection',
+            prompt: '⚙️ Artifacts\n\nWhat infrastructure, policies, regulations, technologies, or rules create these patterns?',
+            id: 'm4-own-iceberg-artifacts'
+          },
+          {
+            type: 'reflection',
+            prompt: '🧠 Mental Models\n\nWhat beliefs or assumptions shape people\'s behaviours and keep this system in place?',
+            id: 'm4-own-iceberg-mental-models'
+          }
+        ]
+      },
+      // ── Submodule 8: Let's Reflect ────────────────────────────────────
+      {
+        type: 'block',
+        colorTheme: 'teal',
+        content: [
+          {
+            type: 'text',
+            title: '💭 Let\'s Reflect',
+            content: 'Share your iceberg experience:'
+          },
+          {
+            type: 'reflection',
+            prompt: 'What behaviors and patterns over time are contributing to the event you chose?\n\nWhat underlying structures (mental models and artifacts) are driving those behaviors and patterns?\n\nWhere do you see opportunity or leverage for change?',
+            id: 'm4-final-reflection'
+          }
+        ]
+      },
+      // ── Submodule 9: Why the Systems Iceberg Matters for Climate Change ─
+      {
+        type: 'block',
+        colorTheme: 'green',
+        content: [
+          {
+            type: 'text',
+            title: '🌍 Why the Systems Iceberg Matters for Climate Change',
+            content: "When we look at climate issues only at the \"events\" level (heat waves, storms, fires), we feel:\n\n• Overwhelmed\n• Hopeless\n• Reactive\n\nBut when we look deeper:\n\n• We see patterns\n• We understand underlying structures\n• We change artifacts\n• We question mental models\n\nAnd suddenly, real solutions become possible.\n\nThe iceberg helps us shift from:\n\n❌ *\"This problem is too big.\"*\n\nto\n\n✅ *\"I can understand how the system works—and help change it.\"*"
+          }
+        ]
       },
       {
-        type: 'image',
-        imageUrl: "https://images.unsplash.com/photo-1638068109209-002be3ae4950?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZW5ld2FibGUlMjBlbmVyZ3klMjBzb2xhciUyMHdpbmR8ZW58MXx8fHwxNzY1MTY5NTc1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-        alt: "Renewable energy - solar and wind"
-      },
-      {
-        type: 'dashboard'
-      },
-      {
-        type: 'video',
-        title: 'Systems Thinking',
-        videoUrl: 'https://www.youtube.com/embed/0k2-SzlDGko',
-        description: 'Understanding interconnected climate solutions'
-      },
-      {
-        type: 'reflection',
-        prompt: 'Can you think of a climate solution that connects to other parts of your daily life? How do these connections make you feel about creating change?',
-        id: 'connections'
-      },
-      {
-        type: 'reflection',
-        prompt: 'What synergies or co-benefits did you discover while exploring the systems dashboard?',
-        id: 'synergies'
+        type: 'module-feedback',
+        title: '🎉 Congratulations on completing Module 4: Systems View of Climate!',
+        description: "Before you begin the next, we'd love your feedback on this learning experience.",
+        id: 'module-4-feedback'
       }
     ]
   },
