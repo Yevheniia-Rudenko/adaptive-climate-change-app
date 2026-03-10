@@ -108,7 +108,7 @@ export const translations: Record<Language, Translations> = {
 
     // Modules
     module1: 'Relating to Climate Futures',
-    module2: 'Stock and Flow',
+    module2: 'Stock & Flow',
     module3: 'Roadmap to Possible Futures',
     module4: 'Systems View of Climate Solutions',
     module5: 'Lever of Change',

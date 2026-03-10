@@ -4,11 +4,10 @@ import enStrings from '@climateinteractive/en-roads-core/strings/en';
 import { GraphView } from '@climateinteractive/sim-ui-graph';
 import '../styles/enroads-dashboard.css';
 
-// Three fixed graphs for Module 2 Stock & Flow exercise
+// Two fixed graphs for Module 2 — Temperature is shown via the side card only
 const GRAPH_CONFIGS = [
-  { id: '62', label: 'CO₂ Emissions', canvasId: 'module2-graph-emissions' },
+  { id: '104', label: 'CO₂ Net Emissions', canvasId: 'module2-graph-emissions' },
   { id: '88', label: 'CO₂ Concentration', canvasId: 'module2-graph-concentration' },
-  { id: '86', label: 'Global Temperature by 2100', canvasId: 'module2-graph-temperature' },
 ];
 
 export default function Module2ExerciseDashboard() {
@@ -17,7 +16,7 @@ export default function Module2ExerciseDashboard() {
 
   // Carbon Price slider state
   const [carbonPriceVal, setCarbonPriceVal] = useState(0);
-  const [carbonPriceText, setCarbonPriceText] = useState('$0 / ton CO₂');
+  const [sliderText, setSliderText] = useState('status quo');
 
   // Temperature display
   const [tempC, setTempC] = useState(3.3);
@@ -30,17 +29,28 @@ export default function Module2ExerciseDashboard() {
   // One GraphView ref per graph
   const graphViewRefs = useRef<Record<string, any>>({});
 
-  // Carbon Price input ref
+  // Carbon Price input refs (En-ROADS uses both initial + final targets)
   const carbonPriceInputRef = useRef<any>(null);
+  const carbonPriceFinalRef = useRef<any>(null);
 
   const str = (key: string) => (enStrings as any)[key] || key;
+
+  const getSliderText = (modelVal: number, max: number) => {
+    const pct = max > 0 ? modelVal / max : 0;
+    if (pct <= 0) return 'status quo';
+    if (pct < 0.15) return 'low';
+    if (pct < 0.4) return 'medium';
+    if (pct < 0.7) return 'high';
+    return 'very high';
+  };
 
   const createGraphViewModel = (graphSpec: any) => {
     const datasetViewModels = graphSpec.datasets.map((datasetSpec: any) => ({
       spec: datasetSpec,
       visible: true,
-      points: [],
+      points: []
     }));
+
     return {
       spec: graphSpec,
       getDatasets: () => datasetViewModels,
@@ -51,28 +61,36 @@ export default function Module2ExerciseDashboard() {
   };
 
   const updateGraphData = (graphView: any) => {
-    try {
-      if (!graphView || !modelContextRef.current) return;
-      const graphViewModel = graphView.viewModel;
-      for (const datasetViewModel of graphViewModel.getDatasets()) {
-        const datasetSpec = datasetViewModel.spec;
-        const series = modelContextRef.current.getSeriesForVar(
-          datasetSpec.varId,
-          datasetSpec.externalSourceName
-        );
-        datasetViewModel.points = [...(series?.points || [])];
-        if (!datasetSpec.externalSourceName) {
-          datasetSpec.color = '#EF4444';
-          datasetSpec.lineWidth = 4;
-        } else if (datasetSpec.externalSourceName === 'baseline') {
-          datasetSpec.color = '#000000';
-          datasetSpec.lineWidth = 4;
-        }
+    if (!graphView || !modelContextRef.current) return;
+
+    const graphViewModel = graphView.viewModel;
+    for (const datasetViewModel of graphViewModel.getDatasets()) {
+      const datasetSpec = datasetViewModel.spec;
+      const series = modelContextRef.current.getSeriesForVar(
+        datasetSpec.varId,
+        datasetSpec.externalSourceName
+      );
+
+      const newPoints = series?.points || [];
+      datasetViewModel.points = [...newPoints];
+
+      // Hide scatter/point datasets (single data points that show as stray dots)
+      if (newPoints.length <= 2) {
+        datasetViewModel.visible = false;
+        continue;
       }
-      graphView.updateData(true);
-    } catch (e) {
-      console.error(e);
+
+      // Color coding
+      if (!datasetSpec.externalSourceName) {
+        datasetSpec.color = '#3B82F6'; // Blue for current scenario
+        datasetSpec.lineWidth = 4;
+      } else if (datasetSpec.externalSourceName === 'baseline') {
+        datasetSpec.color = '#000000'; // Black for baseline
+        datasetSpec.lineWidth = 4;
+      }
     }
+
+    graphView.updateData(true);
   };
 
   const updateTemperatureDisplay = () => {
@@ -95,7 +113,7 @@ export default function Module2ExerciseDashboard() {
     updateTemperatureDisplay();
   };
 
-  const loadGraph = (canvasId: string, graphId: string) => {
+  const loadGraph = (canvasId: string, graphId: string, height = 280) => {
     if (!coreConfigRef.current) return;
     const graphSpec = coreConfigRef.current.graphs.get(graphId);
 
@@ -105,19 +123,21 @@ export default function Module2ExerciseDashboard() {
     const rect = canvas.getBoundingClientRect();
     const dpr = window.devicePixelRatio || 1;
     canvas.width = rect.width * dpr;
-    canvas.height = 250 * dpr;
+    canvas.height = height * dpr;
     canvas.style.width = '100%';
-    canvas.style.height = '250px';
+    canvas.style.height = `${height}px`;
 
     try {
       const viewModel = createGraphViewModel(graphSpec);
       const style = {
-        font: { family: 'system-ui, sans-serif', size: 12, color: '#333' },
+        font: { family: 'system-ui, -apple-system, sans-serif', style: 'normal', color: '#1f2937' },
         xAxis: { tickMaxCount: 6 },
         yAxis: { tickMaxCount: 6 },
+        getAxisLabelFontSize: () => 14,
+        getTickLabelFontSize: () => 12,
         getDefaultLineWidth: () => 4,
       };
-      const gv = new GraphView(canvas, viewModel, { style }, true);
+      const gv = new GraphView(canvas, viewModel, { style, responsive: true, animations: true }, true);
       graphViewRefs.current[canvasId] = gv;
       updateGraphData(gv);
     } catch (e) {
@@ -130,12 +150,16 @@ export default function Module2ExerciseDashboard() {
     setCarbonPriceVal(val);
 
     if (carbonPriceInputRef.current && modelRef.current) {
-      const min = carbonPriceInputRef.current.min ?? 0;
-      const max = carbonPriceInputRef.current.max ?? 250;
-      const modelVal = min + (val / 100) * (max - min);
+      // Map 0-100 slider to $0-$250/ton CO₂
+      const modelVal = (val / 100) * 250;
 
+      // En-ROADS sets both initial AND final carbon tax targets together
       carbonPriceInputRef.current.set(modelVal);
-      setCarbonPriceText(`$${Math.round(modelVal)} / ton CO₂`);
+      if (carbonPriceFinalRef.current) {
+        carbonPriceFinalRef.current.set(modelVal);
+      }
+
+      setSliderText(val === 0 ? 'status quo' : getSliderText(modelVal, 250));
       setTimeout(() => updateAllGraphs(), 100);
     }
   };
@@ -149,23 +173,16 @@ export default function Module2ExerciseDashboard() {
         modelContextRef.current = modelRef.current.addContext();
         createDefaultOutputs();
 
-        // Find Carbon Price input
-        for (let i = 0; i < 200; i++) {
-          const testInput = modelContextRef.current.getInputForId(String(i));
-          if (testInput?.varId) {
-            const varId = testInput.varId.toLowerCase();
-            if (varId.includes('_price') || varId === '_carbon_price' || varId.includes('carbon_tax')) {
-              carbonPriceInputRef.current = testInput;
-              break;
-            }
-          }
-        }
+        // Find Carbon Price inputs — En-ROADS uses both initial and final targets
+        // ID 39 = _carbon_tax_initial_target, ID 42 = _carbon_tax_final_target
+        carbonPriceInputRef.current = modelContextRef.current.getInputForId('39');
+        carbonPriceFinalRef.current = modelContextRef.current.getInputForId('42');
 
         modelContextRef.current.onOutputsChanged = () => updateAllGraphs();
 
         setTimeout(() => {
           for (const cfg of GRAPH_CONFIGS) {
-            loadGraph(cfg.canvasId, cfg.id);
+            loadGraph(cfg.canvasId, cfg.id, 250);
           }
           updateTemperatureDisplay();
         }, 200);
@@ -181,7 +198,15 @@ export default function Module2ExerciseDashboard() {
     if (!modelRef.current) initApp();
   }, []);
 
-  if (isLoading) return <div className="p-8 text-center text-gray-500">Loading Model...</div>;
+  if (isLoading) {
+    return (
+      <div className="enroads-loading">
+        <div className="loading-spinner"></div>
+        <p>Loading En-ROADS model...</p>
+      </div>
+    );
+  }
+
   if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
 
   return (
@@ -190,17 +215,17 @@ export default function Module2ExerciseDashboard() {
         Test Your Predictions: Carbon Price Simulation
       </h2>
 
-      {/* Temperature display */}
+      {/* Temperature card */}
       <div className="flex justify-center mb-4">
-        <div className="bg-white dark:bg-gray-800 px-6 py-3 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 text-center">
-          <div className="text-3xl md:text-4xl font-black text-red-500">+{tempC.toFixed(1)}°C</div>
-          <div className="text-lg font-bold text-red-400">+{tempF.toFixed(1)}°F</div>
-          <div className="text-gray-500 text-xs font-bold uppercase mt-1">Global Temperature by 2100</div>
+        <div className="bg-white dark:bg-gray-800 px-8 py-5 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 text-center">
+          <div className="text-4xl md:text-5xl font-black text-green-500 mb-1">+{tempC.toFixed(1)}°C</div>
+          <div className="text-lg md:text-xl font-bold text-green-400 mb-3">+{tempF.toFixed(1)}°F</div>
+          <div className="text-gray-500 text-xs font-bold uppercase">Global Temperature<br />by 2100</div>
         </div>
       </div>
 
-      {/* Three graphs in a grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+      {/* CO₂ Net Emissions + CO₂ Concentration side by side */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         {GRAPH_CONFIGS.map((cfg) => (
           <div
             key={cfg.canvasId}
@@ -210,15 +235,20 @@ export default function Module2ExerciseDashboard() {
             <div className="relative w-full h-[250px]">
               <canvas id={cfg.canvasId} className="w-full h-full" />
             </div>
+            {/* Legend badges */}
+            <div className="flex justify-center gap-3 mt-3">
+              <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
+              <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#00b6f1' }}>CURRENT SCENARIO</span>
+            </div>
           </div>
         ))}
       </div>
 
       {/* Carbon Price slider */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 space-y-2">
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-2">
         <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
           <label>Carbon Price</label>
-          <span className="text-xs font-mono text-gray-500">{carbonPriceText}</span>
+          <span className="text-xs font-mono text-gray-500">{sliderText}</span>
         </div>
         <input
           type="range"
@@ -226,7 +256,10 @@ export default function Module2ExerciseDashboard() {
           max="100"
           value={carbonPriceVal}
           onChange={handleSliderChange}
-          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-green-500"
+          className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-green-500"
+          style={{
+            background: `linear-gradient(to right, #3B82F6 0%, #3B82F6 ${carbonPriceVal}%, #e5e7eb ${carbonPriceVal}%, #e5e7eb 100%)`
+          }}
         />
       </div>
     </div>

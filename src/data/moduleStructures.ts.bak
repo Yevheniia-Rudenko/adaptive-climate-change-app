@@ -624,7 +624,7 @@ Thank you for practicing.`
   },
   {
     id: 2,
-    title: "Stock and Flow",
+    title: "Stock & Flow",
     headerImage: module2Water,
     sections: [
       {
@@ -640,7 +640,7 @@ Thank you for practicing.`
       {
         type: 'text',
         title: '',
-        content: "So imagine you’ve got a bathtub.The water already in the tub is the stock. The water coming in from the faucet is a flow. The water draining out is another flow. The size of the stock (how much water is in the tub) depends on the flows (how fast water enters or leaves). So if the faucet is running faster than the drain? ➡️ The tub fills up.If the drain is faster than the faucet? ➡️ The tub empties.  If they’re equal? ➡️ The water level stays the same."
+        content: "So imagine you’ve got a bathtub. The water already in the tub is the stock. The water coming in from the faucet is a flow. The water draining out is another flow. The size of the stock (how much water is in the tub) depends on the flows (how fast water enters or leaves). So if the faucet is running faster than the drain? ➡️ The tub fills up.If the drain is faster than the faucet? ➡️ The tub empties.  If they’re equal? ➡️ The water level stays the same."
       },
       {
         type: 'video',

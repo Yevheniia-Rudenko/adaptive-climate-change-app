@@ -644,7 +644,7 @@ Thank you for practicing.`
           {
             type: 'text',
             title: '',
-            content: "So imagine you've got a **bathtub**.\n\n- The **water already in the tub** is the **stock**.\n- The **water coming in from the faucet** is a **flow**.\n- The **water draining out** is another **flow**.\n\n The size of the stock (how much water is in the tub) depends on the flows (how fast water enters or leaves).\n\nSo if the faucet is running faster than the drain?\n➡️ The tub fills up.\n\nIf the drain is faster than the faucet?\n➡️ The tub empties.\n\nIf they're equal?\n➡️ The water level stays the same."
+            content: "So imagine you've got a **bathtub**.\n- The **water already in the tub** is the **stock**.\n- The **water coming in from the faucet** is a **flow**.\n- The **water draining out** is another **flow**.\n\nThe size of the stock (how much water is in the tub) depends on the flows (how fast water enters or leaves).\n\nSo if the faucet is running faster than the drain?\n➡️ The tub fills up.\n\nIf the drain is faster than the faucet?\n➡️ The tub empties.\n\nIf they're equal?\n➡️ The water level stays the same."
           },
 {
             type: 'video',
@@ -754,14 +754,14 @@ Thank you for practicing.`
           },
           {
             type: 'poll',
-            question: '**1. If our total CO₂ emissions stop rising and stay flat…**\nWhat do you think will happen to the amount of CO₂ already in the atmosphere?',
+            question: '1. If our total CO₂ emissions stop rising and stay flat… What do you think will happen to the amount of CO₂ already in the atmosphere?',
             options: ['Increase', 'Level out', 'Decrease'],
             id: 'prediction-flat-emissions',
             singleSelect: true
           },
           {
             type: 'poll',
-            question: '**2. If our total CO₂ emissions drop a lot and become much lower than they are today…**\nWhat do you think will happen to the CO₂ concentration in the atmosphere?',
+            question: '2. If our total CO₂ emissions drop a lot and become much lower than they are today… What do you think will happen to the CO₂ concentration in the atmosphere?',
             options: ['Increase', 'Level out', 'Decrease'],
             id: 'prediction-lower-emissions',
             singleSelect: true

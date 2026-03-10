@@ -81,7 +81,15 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700 mb-8 font-sora">
-      <h3 className="text-gray-900 dark:text-gray-100 text-sm sm:text-base md:text-lg font-bold mb-4">{block.question}</h3>
+      <div className="mb-4">
+        {block.question.split('\n').map((line, i) => {
+          const boldMatch = line.match(/^\*\*(.+?)\*\*$/);
+          if (boldMatch) {
+            return <h3 key={i} className="text-gray-900 dark:text-gray-100 text-base sm:text-lg md:text-xl font-bold mb-2">{boldMatch[1]}</h3>;
+          }
+          return <p key={i} className="text-gray-900 dark:text-gray-100 text-sm sm:text-base md:text-lg">{line}</p>;
+        })}
+      </div>
       <div className="space-y-3">
         {block.options.map((option) => (
           <label key={option} className={`flex items-center p-3 rounded-xl border-2 cursor-pointer transition-all ${selectedOptions.includes(option)
