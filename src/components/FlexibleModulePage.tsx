@@ -19,39 +19,44 @@ export function FlexibleModulePage({
   const navigate = useNavigate();
   const [currentBlock, setCurrentBlock] = useState(1);
 
-  // Organize Module 1 sections into 8 blocks
+  // Build per-block navigation groups.
+  // For Module 1 we use the existing hand-crafted grouping.
+  // For any other module whose top-level sections are all 'block' (or 'module-feedback') entries
+  // we treat each section as its own subpage — identical to Module 1's UX.
   const getBlockSections = () => {
-    if (moduleId !== 1) {
-      return [module.sections]; // Other modules show all sections
+    if (moduleId === 1) {
+      // Module 1: Split into 8 blocks (legacy hand-crafted grouping)
+      const blockGroups = [
+        module.sections.slice(0, 1),   // Block 1: About Module + Emotions (index 0: teal block)
+        module.sections.slice(1, 2),   // Block 2: Understanding Climate Drivers (index 1: green block)
+        module.sections.slice(2, 3),   // Block 3: Exercise 1 (index 2: amber block)
+        module.sections.slice(3, 4),   // Block 4: Exercise 2 (index 3: purple block)
+        [module.sections[4]],          // Block 5: Exercise 3 (index 4: amber block)
+        module.sections.slice(5, 17),  // Block 6: Exercise 4 (indices 5-16: all Exercise 4 content)
+        [module.sections[17]],         // Block 7: Practice of Hope (index 17: teal block)
+        [module.sections[18]],         // Block 8: Module Feedback (index 18: congratulations)
+      ];
+      return blockGroups;
     }
 
-    // Module 1: Split into 8 blocks
-    // Sections breakdown:
-    // 0: teal block (About + Key Concepts + Reflection + Learning to Name Emotions)
-    // 1: green block (Understanding Climate Drivers)
-    // 2: amber block (Exercise 1)
-    // 3: purple block (Exercise 2) 
-    // 4: amber block (Exercise 3)
-    // 5-16: loose sections (Exercise 4: title, image, text, audio, poll, predictions, dashboard, 2 reflections)
-    // 17: teal block (Practice of Hope)
-    // 18: module feedback (Congratulations)
-    const blockGroups = [
-      module.sections.slice(0, 1),   // Block 1: About Module + Emotions (index 0: teal block)
-      module.sections.slice(1, 2),   // Block 2: Understanding Climate Drivers (index 1: green block)
-      module.sections.slice(2, 3),   // Block 3: Exercise 1 (index 2: amber block)
-      module.sections.slice(3, 4),   // Block 4: Exercise 2 (index 3: purple block)
-      [module.sections[4]],          // Block 5: Exercise 3 (index 4: amber block)
-      module.sections.slice(5, 17),  // Block 6: Exercise 4 (indices 5-16: all Exercise 4 content)
-      [module.sections[17]],         // Block 7: Practice of Hope (index 17: teal block)
-      [module.sections[18]],         // Block 8: Module Feedback (index 18: congratulations)
-    ];
+    // Generic: if every top-level section is a 'block' or 'module-feedback',
+    // give each its own subpage. Otherwise fall back to showing all at once.
+    const allSectionsAreBlocks = module.sections.every(
+      s => s.type === 'block' || s.type === 'module-feedback'
+    );
+    if (allSectionsAreBlocks && module.sections.length > 1) {
+      return module.sections.map(s => [s]);
+    }
 
-    return blockGroups;
+    return [module.sections]; // fallback: single page
   };
 
   const blockSections = getBlockSections();
-  const totalBlocks = moduleId === 1 ? 8 : 1;
-  const currentSections = moduleId === 1 ? blockSections[currentBlock - 1] : module.sections;
+
+  // isMultiBlock: true when we have more than one navigable subpage
+  const isMultiBlock = blockSections.length > 1;
+  const totalBlocks = isMultiBlock ? blockSections.length : 1;
+  const currentSections = isMultiBlock ? blockSections[currentBlock - 1] : module.sections;
 
   // Scroll to top whenever the block changes
   useEffect(() => {
@@ -117,8 +122,8 @@ export function FlexibleModulePage({
           </div>
 
           <div className="p-4 sm:p-6 md:p-8 lg:p-10">
-            {/* Block Progress Bar for Module 1 - Fun & Visual */}
-            {moduleId === 1 && (() => {
+            {/* Block Progress Bar — shown for all multi-block modules */}
+            {isMultiBlock && (() => {
               const pct = Math.round((currentBlock / totalBlocks) * 100);
               return (
                 <div className="mb-8 select-none">
@@ -218,8 +223,8 @@ export function FlexibleModulePage({
                 className="flex-1 order-1 sm:order-3"
               >
                 <span>
-                  {moduleId === 1 && currentBlock === totalBlocks
-                    ? 'Continue to Module 2'
+                  {isMultiBlock && currentBlock === totalBlocks
+                    ? `Continue to Module ${moduleId + 1}`
                     : t.next}
                 </span>
                 <ArrowRight size={18} />
