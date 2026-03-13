@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { ModuleStructure } from '../data/moduleStructures';
 import { ContentBlock } from './ContentBlock';
 import { useLanguage } from '../contexts/LanguageContext';
+import { GlossaryHighlightProvider } from '../contexts/GlossaryHighlightContext';
 import { Button } from './ui/button';
 
 type FlexibleModulePageProps = {
@@ -19,11 +20,14 @@ export function FlexibleModulePage({
   const navigate = useNavigate();
   const [currentBlock, setCurrentBlock] = useState(1);
 
-  // Organize module sections into blocks for pagination
+  // Build per-block navigation groups.
+  // For Module 1 we use the existing hand-crafted grouping.
+  // For any other module whose top-level sections are all 'block' (or 'module-feedback') entries
+  // we treat each section as its own subpage — identical to Module 1's UX.
   const getBlockSections = () => {
-    // Module 1: Split into 8 specific blocks
     if (moduleId === 1) {
-      return [
+      // Module 1: Split into 8 blocks (legacy hand-crafted grouping)
+      const blockGroups = [
         module.sections.slice(0, 1),   // Block 1: About Module + Emotions (index 0: teal block)
         module.sections.slice(1, 2),   // Block 2: Understanding Climate Drivers (index 1: green block)
         module.sections.slice(2, 3),   // Block 3: Exercise 1 (index 2: amber block)
@@ -33,21 +37,27 @@ export function FlexibleModulePage({
         [module.sections[17]],         // Block 7: Practice of Hope (index 17: teal block)
         [module.sections[18]],         // Block 8: Module Feedback (index 18: congratulations)
       ];
+      return blockGroups;
     }
 
-    // Module 3: Each section is its own block/page
-    if (moduleId === 3) {
-      return module.sections.map(section => [section]);
+    // Generic: if every top-level section is a 'block' or 'module-feedback',
+    // give each its own subpage. Otherwise fall back to showing all at once.
+    const allSectionsAreBlocks = module.sections.every(
+      s => s.type === 'block' || s.type === 'module-feedback'
+    );
+    if (allSectionsAreBlocks && module.sections.length > 1) {
+      return module.sections.map(s => [s]);
     }
 
-    // Default: Show everything on one page
-    return [module.sections];
+    return [module.sections]; // fallback: single page
   };
 
   const blockSections = getBlockSections();
-  const totalBlocks = blockSections.length;
-  const isMultiBlock = totalBlocks > 1;
-  const currentSections = blockSections[currentBlock - 1];
+
+  // isMultiBlock: true when we have more than one navigable subpage
+  const isMultiBlock = blockSections.length > 1;
+  const totalBlocks = isMultiBlock ? blockSections.length : 1;
+  const currentSections = isMultiBlock ? blockSections[currentBlock - 1] : module.sections;
 
   // Scroll to top whenever the block changes
   useEffect(() => {
@@ -113,11 +123,12 @@ export function FlexibleModulePage({
           </div>
 
           <div className="p-4 sm:p-6 md:p-8 lg:p-10">
-            {/* Block Progress Bar - Fun & Visual */}
+            {/* Block Progress Bar — shown for all multi-block modules */}
             {isMultiBlock && (() => {
               const pct = Math.round((currentBlock / totalBlocks) * 100);
               return (
                 <div className="mb-8 select-none">
+                  {/* Dots row */}
                   <div className="flex justify-center mb-2">
                     <div className="flex items-center gap-1.5">
                       {Array.from({ length: totalBlocks }, (_, i) => {
@@ -126,26 +137,22 @@ export function FlexibleModulePage({
                         const isCurrent = stepNum === currentBlock;
                         const size = isCurrent ? 20 : isDone ? 14 : Math.max(8, 12 - (stepNum - currentBlock));
                         const bg = isCurrent ? '#1a5c27' : isDone ? '#2d7a3a' : 'transparent';
-                        const border = isCurrent || isDone ? 'none' : '2px solid #a7d7a9';
+                        const border = (isCurrent || isDone) ? 'none' : '2px solid #a7d7a9';
                         const opacity = isCurrent ? 1 : isDone ? 0.85 : Math.max(0.3, 1 - (stepNum - currentBlock) * 0.15);
                         return (
                           <div
                             key={i}
                             style={{
-                              width: size,
-                              height: size,
-                              borderRadius: '50%',
-                              background: bg,
-                              border,
-                              opacity,
-                              transition: 'all 0.4s ease',
-                              flexShrink: 0
+                              width: size, height: size, borderRadius: '50%',
+                              background: bg, border, opacity,
+                              transition: 'all 0.4s ease', flexShrink: 0,
                             }}
                           />
                         );
                       })}
                     </div>
                   </div>
+                  {/* Label row */}
                   <div className="flex items-center justify-between text-sm">
                     <span className="font-semibold text-purple-600 dark:text-purple-400">
                       🚀 Step {currentBlock} of {totalBlocks}
@@ -156,7 +163,9 @@ export function FlexibleModulePage({
               );
             })()}
 
+
             {/* Content Blocks */}
+            <GlossaryHighlightProvider key={`glossary-${moduleId}-${currentBlock}`}>
             {currentSections.map((section, index) => {
               if (section.type === 'block') {
                 // Color theme mapping
@@ -199,6 +208,7 @@ export function FlexibleModulePage({
                 );
               }
             })}
+            </GlossaryHighlightProvider>
 
             {/* Navigation */}
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
@@ -216,10 +226,8 @@ export function FlexibleModulePage({
                 className="flex-1 order-1 sm:order-3"
               >
                 <span>
-                  {currentBlock === totalBlocks
-                    ? moduleId < 5
-                      ? `Continue to Module ${moduleId + 1}`
-                      : 'Finish'
+                  {isMultiBlock && currentBlock === totalBlocks
+                    ? `Continue to Module ${moduleId + 1}`
                     : t.next}
                 </span>
                 <ArrowRight size={18} />

@@ -11,6 +11,8 @@ import SecondExerciseDashboard from './2ndExerciseDashboard';
 import ThirdExerciseDashboard from './ThirdExerciseDashboard';
 import FourthExerciseDashboard from './FourthExerciseDashboard';
 import Module3CarbonPriceDashboard from './module_3/Module3CarbonPriceDashboard';
+import Module2ExerciseDashboard from './Module2ExerciseDashboard';
+import Module2RemovalsDashboard from './Module2RemovalsDashboard';
 import { FlipCard } from './FlipCard';
 import { SubmitButton } from './SubmitButton';
 import { postInput } from '../api/postInput';
@@ -85,7 +87,15 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700 mb-8 font-sora">
-      <h3 className="text-gray-900 dark:text-gray-100 text-sm sm:text-base md:text-lg font-bold mb-4">{block.question}</h3>
+      <div className="mb-4">
+        {block.question.split('\n').map((line, i) => {
+          const boldMatch = line.match(/^\*\*(.+?)\*\*$/);
+          if (boldMatch) {
+            return <h3 key={i} className="text-gray-900 dark:text-gray-100 text-base sm:text-lg md:text-xl font-bold mb-2">{boldMatch[1]}</h3>;
+          }
+          return <p key={i} className="text-gray-900 dark:text-gray-100 text-sm sm:text-base md:text-lg">{line}</p>;
+        })}
+      </div>
       <div className="space-y-3">
         {block.options.map((option) => (
           <label key={option} className={`flex items-center p-3 rounded-xl border-2 cursor-pointer transition-all ${selectedOptions.includes(option)
@@ -878,6 +888,11 @@ export function ContentBlock({
 
     case 'module3-carbon-price-dashboard':
       return <Module3CarbonPriceDashboard />;
+    case 'module2-exercise':
+      return <Module2ExerciseDashboard />;
+
+    case 'module2-removals':
+      return <Module2RemovalsDashboard />;
 
     case 'reflection':
       return <ReflectionBlock block={block} moduleId={moduleId} />;

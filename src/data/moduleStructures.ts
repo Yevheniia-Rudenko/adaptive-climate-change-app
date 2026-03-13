@@ -24,6 +24,15 @@ import scenario1Img from '../assets/Scenario1.png';
 import scenario2Img from '../assets/Scenario2.png';
 import scenario3Img from '../assets/Scenario3.png';
 import scenario4Img from '../assets/Scenario4.png';
+import module2Water from '../assets/module2/water.jpg';
+import stockFlowExample from '../assets/module2/stock-vs-flow-example1.jpg';
+import co2Removal1 from '../assets/module2/co2removal_1.jpg';
+import co2Removal2 from '../assets/module2/co2removal_2.jpg';
+import netZeroImg from '../assets/module2/Net zero = emissions in \u2013 removals out = 0.png';
+import hopeOrientationImg from '../assets/module2/Hope Orientation-Tippett.png';
+import hopeStockAudio from '../assets/module2/Module2-Hope-as-a-Stock.m4a';
+import systemsIcebergImg from '../assets/systems_iceberg.jpg';
+import icebergExplainerAudio from '../assets/IcebergExplainer.mp3';
 
 
 
@@ -51,6 +60,8 @@ export type ContentBlock =
   | { type: 'third-exercise'; }
   | { type: 'fourth-exercise'; }
   | { type: 'module3-carbon-price-dashboard'; }
+  | { type: 'module2-exercise'; }
+  | { type: 'module2-removals'; }
   | { type: 'html-embed'; htmlFile: string; title?: string }
   | { type: 'reflection'; prompt: string; id: string }
   | { type: 'poll'; question: string; options: string[]; id: string; singleSelect?: boolean }
@@ -637,38 +648,388 @@ Thank you for practicing.`
   },
   {
     id: 2,
-    title: "Stock and Flow",
-    headerImage: "https://images.unsplash.com/photo-1752770645022-cdd45e86500d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3YXRlciUyMGZsb3clMjBuYXR1cmV8ZW58MXx8fHwxNzY1MTc0ODg4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    title: "Stock & Flow",
+    headerImage: module2Water,
     sections: [
       {
-        type: 'text',
-        title: 'Understanding Stocks and Flows',
-        content: "Imagine Earth's climate as a bathtub. Carbon dioxide is the water flowing in (emissions) and flowing out (absorption by forests and oceans). Right now, we're adding water faster than the drain can handle—the tub is overflowing. Understanding 'stocks' (accumulated CO₂) and 'flows' (rates of emission and absorption) helps us see why reducing emissions alone isn't enough—we need to balance the whole system."
+        type: 'block',
+        colorTheme: 'teal',
+        content: [
+          {
+            type: 'text',
+            title: '**About this Module**',
+            content: "Some things build up slowly — and that changes everything. "
+          },
+          {
+            type: 'image',
+            imageUrl: stockFlowExample,
+            alt: "Stock vs flow example"
+          },
+          {
+            type: 'text',
+            title: '',
+            content: "So imagine you've got a **bathtub**.\n\n- The **water already in the tub** is the **stock**.\n- The **water coming in from the faucet** is a **flow**.\n- The **water draining out** is another **flow**.\n\n The size of the stock (how much water is in the tub) depends on the flows (how fast water enters or leaves).\n\nSo if the faucet is running faster than the drain?\n➡️ The tub fills up.\n\nIf the drain is faster than the faucet?\n➡️ The tub empties.\n\nIf they're equal?\n➡️ The water level stays the same."
+          },
+{
+            type: 'video',
+            title: '**What is Stock and Flow?**',
+            videoUrl: 'https://www.youtube.com/embed/nRlYGDBGcRA',
+            description: ''
+          },
+          {
+            type: 'text',
+            title: '**Key Concepts**',
+            content: ''
+          },
+          {
+            type: 'flip-cards',
+            cards: [
+              {
+                frontTitle: 'Stock',
+                frontDescription: 'What accumulates over time',
+                backTitle: 'Definition',
+                backDescription: 'A stock is anything in a system that can build up or decrease over time, like a “container” that holds a quantity—such as water in a reservoir, money in a savings account, or carbon in the atmosphere.'
+              },
+              {
+                frontTitle: 'In-flow',
+                frontDescription: 'What increases the stock',
+                backTitle: 'Definition',
+                backDescription: 'An in‑flow is anything that adds to a stock—like water flowing into a bathtub, new money going into a bank account, or carbon being released into the atmosphere.'
+              },
+              {
+                frontTitle: 'Out-flow',
+                frontDescription: 'What decreases the stock',
+                backTitle: 'Definition',
+                backDescription: 'An out‑flow is anything that takes away from a stock—like water draining from a bathtub, money being spent from a bank account, or carbon being removed from the atmosphere.'
+              }
+            ]
+          },
+          {
+            type: 'text',
+            title: '**🛁 Draw Your Own Stock & Flow**',
+            content: "To explore how \"Stock and Flow\" works, let's start with a personal example."
+          },
+          {
+            type: 'text',
+            title: '**Step One**',
+            content: "Draw a Stock and Flow diagram like in the image below.",
+            hideIcon: true
+          },
+          {
+            type: 'image',
+            imageUrl: stockFlowExample,
+            alt: 'Stock and Flow diagram example'
+          },
+          {
+            type: 'text',
+            title: '**Step Two**',
+            content: "Pick a stock that you care about. Think about something quantifiable—meaning something that could be counted or measured. Some \"stock\" examples could be:\n\n- My free time\n- My level of well-being\n- My money\n- My level of motivation in my academics\n- The level of trust I have in my relationships\n- The level of hope I have in a positive future",
+            hideIcon: true
+          },
+          {
+            type: 'text',
+            title: '**Step Three**',
+            content: "Draw the in-flows to your chosen stock. What is adding to or filling up your stock? Try to identify at least three in-flows to your stock.",
+            hideIcon: true
+          },
+          {
+            type: 'text',
+            title: '**Step Four**',
+            content: "Draw the out-flows. What depletes or diminishes your stock? Remember, these in- and out-flows describe factors that change your stock over time. Try to identify at least 3 out-flows from your stock.",
+            hideIcon: true
+          },
+          {
+            type: 'text',
+            title: '**Step Five**',
+            content: "Share your Stock and Flow with a partner or in a small group.",
+            hideIcon: true
+          },
+          {
+            type: 'text',
+            title: '**💭Let’s Reflect**',
+            content: "",
+          },
+          {
+            type: 'reflection',
+            prompt: 'What was happening in your Stock and Flow model? What did you notice or wonder about your chosen stock when exploring it using this model? ',
+            id: 'understanding'
+          },
+          {
+            type: 'reflection',
+            prompt: 'Did anything surprise you?',
+            id: 'actions'
+          },
+        ]
+      },
+
+      {
+        type: 'block',
+        colorTheme: 'amber',
+        content: [
+          {
+            type: 'text',
+            title: '**🌍 Why This Matters for Climate Change**',
+            content: "The idea of \"stock and flow\" might feel super obvious when we talk about something simple—like water filling up a bathtub. But when we try to use the same idea to understand climate change, things can get a little more complicated.\n\nStill, the stock‑and‑flow model is **really helpful** for understanding the basic forces driving climate change.\n\nFirst, we'll look at what's causing climate change today by running a few simulations in **En‑ROADS**.\n\nAfter that, we'll connect what we saw in the simulations to the stock‑and‑flow idea so the whole picture makes more sense.\n\nBut before we dive into En‑ROADS, let's make some predictions.\n\nThink about the relationship between CO₂ emissions (what we put into the atmosphere) and CO₂ concentration (how much ends up staying there).\n\nThese are two of the most important pieces of the climate system—so let's see what you already think before we explore the model."
+          },
+          {
+            type: 'text',
+            title: "**Let's Make a Prediction**",
+            content: "Now let's think about what might happen if we try to reduce global CO₂ emissions.\n\nBefore we run any simulations, make your best predictions for each scenario:"
+          },
+          {
+            type: 'poll',
+            question: '**1. If our total CO₂ emissions stop rising and stay flat…**\nWhat do you think will happen to the amount of CO₂ already in the atmosphere?',
+            options: ['Increase', 'Level out', 'Decrease'],
+            id: 'prediction-flat-emissions',
+            singleSelect: true
+          },
+          {
+            type: 'poll',
+            question: '**2. If our total CO₂ emissions drop a lot and become much lower than they are today…**\nWhat do you think will happen to the CO₂ concentration in the atmosphere?',
+            options: ['Increase', 'Level out', 'Decrease'],
+            id: 'prediction-lower-emissions',
+            singleSelect: true
+          },
+        ]
       },
       {
-        type: 'video',
-        title: 'The Bathtub Analogy',
-        videoUrl: 'https://www.youtube.com/embed/7siNvegeu0Y',
-        description: 'Learn about climate stocks and flows'
+        type: 'block',
+        colorTheme: 'purple',
+        content: [
+          {
+            type: 'text',
+            title: "**Let's Test Your Predictions!**",
+            content: "In this next activity, you'll use **En‑ROADS** to simulate these scenarios.\n\nAs we learned in the last module, a **carbon price** is one of the more powerful and high-leverage climate policies for quickly lowering our global CO₂ emissions.\n\nSo in this simulation, **you'll adjust the carbon price slider** to see how changing emissions affects the concentration of CO₂ in the atmosphere."
+          },
+          {
+            type: 'module2-exercise'
+          },
+          {
+            type: 'text',
+            title: '**💭 Let\'s Reflect**',
+            content: 'Take a moment to think about what you just observed in the simulation.'
+          },
+          {
+            type: 'reflection',
+            prompt: 'What do you notice?',
+            id: 'module2-notice'
+          },
+          {
+            type: 'reflection',
+            prompt: 'Did your expectations match the outcome?',
+            id: 'module2-expectations'
+          },
+          {
+            type: 'reflection',
+            prompt: 'Why do you think this is the result?',
+            id: 'module2-why'
+          },
+        ]
       },
       {
-        type: 'dashboard'
+        type: 'block',
+        colorTheme: 'pink',
+        content: [
+          {
+            type: 'text',
+            title: '**Understanding CO₂ Removals**',
+            content: "Now we're going to add **two more sliders** to our simulation. These sliders represent different ways we can **remove CO₂ from the atmosphere**—and we'll see how that changes the total CO₂ concentration over time."
+          },
+          {
+            type: 'text',
+            title: '**🌱 What are CO₂ removals?**',
+            content: '**CO₂ removals** are natural or technological processes that **take carbon dioxide out of the air and store it somewhere else.**'
+          },
+          {
+            type: 'image',
+            imageUrl: co2Removal1,
+            alt: 'Natural CO₂ removal processes'
+          },
+          {
+            type: 'text',
+            content: '**Natural CO₂ removals include:**\n\n- Trees and plants absorbing CO₂ as they grow\n- Soil storing carbon from dead plant material\n- The ocean absorbing CO₂ from the air (which unfortunately also makes the water more acidic)'
+          },
+          {
+            type: 'image',
+            imageUrl: co2Removal2,
+            alt: 'Technological CO₂ removal processes'
+          },
+          {
+            type: 'text',
+            content: '**Technological CO₂ removals include:**\n\n- **Direct Air Capture (DACCS):** Machines that pull CO₂ from the air and store it deep underground in rock\n- **Enhanced mineralization:** Spreading special kinds of rock on land so they naturally absorb CO₂ faster than normal'
+          },
+          {
+            type: 'text',
+            title: '**🌳 Why we talk about "net" CO₂ removals**',
+            content: "Even when CO₂ is removed, some of it can **leak back** into the atmosphere.\nThis can happen because of:\n\n- Wildfires\n- Logging\n- Farming\n- Land changes\n\nSo instead of just \"CO₂ removals,\" we use the term **net CO₂ removals**, which means:\n\n **Total CO₂ taken out of the atmosphere** *-* **Total CO₂ that ends up returning to the atmosphere**\n\nThis gives a more accurate picture of what's really happening."
+          },
+        ]
       },
       {
-        type: 'reflection',
-        prompt: 'Think about the "bathtub" analogy. How does visualizing climate change as stocks and flows change how you understand the problem?',
-        id: 'understanding'
+        type: 'block',
+        colorTheme: 'teal',
+        content: [
+          {
+            type: 'text',
+            title: '**🎛️ How this works in the simulation**',
+            content: "We can change how much CO₂ is removed from the atmosphere through policies like incentivizing farmers to reforest parts of their farmland, or by investing in technological carbon removal.\n\nThe two new En‑ROADS sliders below let you increase:\n\n- **Nature‑based CO₂ removal** (like reforestation)\n- **Technological CO₂ removal** (like direct air capture)\n\nWhen you adjust these sliders, you'll see a new graph called \"**CO₂ Emissions and Removals.**\"\n\nIt shows:\n- Emissions (what we add)\n- Removals (what we take out)\n\nAnd, as before, you'll still see the **CO₂ concentration graph** so you can watch how the total stock in the atmosphere changes."
+          },
+          {
+            type: 'text',
+            title: '**🧠 Let\'s Predict**',
+            content: 'Before you start moving the sliders, make your prediction:'
+          },
+          {
+            type: 'poll',
+            question: 'When do you think the CO₂ concentration in the atmosphere will start to go down?',
+            options: [
+              'When CO₂ emissions are greater than CO₂ removals',
+              'When CO₂ emissions are equal to CO₂ removals',
+              'When CO₂ emissions are smaller than CO₂ removals'
+            ],
+            id: 'prediction-co2-removals',
+            singleSelect: true
+          },
+          {
+            type: 'text',
+            title: '**⚙️ Make a Model**',
+            content: ''
+          },
+          {
+            type: 'module2-removals'
+          },
+          {
+            type: 'text',
+            title: '**💭 Let\'s Reflect**',
+            content: 'Take a moment to think about what you just observed in the simulation.'
+          },
+          {
+            type: 'reflection',
+            prompt: 'What do you notice? Did your expectations match the outcome? Why do you think this is the result?',
+            id: 'module2-removals-reflect'
+          },
+        ]
       },
       {
-        type: 'image',
-        imageUrl: "https://images.unsplash.com/photo-1752770645022-cdd45e86500d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3YXRlciUyMGZsb3clMjBuYXR1cmV8ZW58MXx8fHwxNzY1MTc0ODg4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-        alt: "Water flow in nature"
+        type: 'block',
+        colorTheme: 'blue',
+        content: [
+          {
+            type: 'text',
+            title: '**🌍 Why This Matters for Climate Change**',
+            content: ""
+          },
+          {
+            type: 'video',
+            title: 'Think Like A Bathtub – COP26',
+            videoUrl: 'https://www.youtube.com/embed/7WAMnt8thGs',
+            description: 'Understanding climate change through the bathtub analogy'
+          },
+          {
+            type: 'text',
+            content: "Think of carbon dioxide (CO₂) the same way.\n-The **atmosphere** is like the bathtub—this is the **stock**.\n-Burning fossil fuels (cars, factories, etc.) is like the faucet—that's a **flow adding CO₂**.\n-Trees and oceans absorbing CO₂ is like the drain—that's a **flow removing CO₂**.\n\nRight now, the **faucet is on full blast**, and the **drain is slow**, so the \"bathtub\" of CO₂ keeps rising.\n\nEven if we slow down the faucet, the tub will **keep filling** unless the drain is equally fast."
+          },
+          {
+            type: 'text',
+            title: 'This helps explain why climate change is so hard:',
+            content: "To stop the CO₂ level from rising, the inflows and outflows have to balance.\n\nUnderstanding \"stock and flow\" helps you see that climate change isn't just about using fewer fossil fuels—it's about changing the whole system so we stop overfilling the atmospheric \"bathtub.\"\n\nIt's not just about one good action.\n\nIt's about how all our collective actions affect the **total amount** over time."
+          },
+        ]
       },
       {
-        type: 'reflection',
-        prompt: 'What actions do you think could help balance the "flows" in our climate system?',
-        id: 'actions'
+        type: 'block',
+        colorTheme: 'green',
+        content: [
+          {
+            type: 'text',
+            title: '🌍 The Vision of "Net‑Zero Emissions"',
+            content: "**What does Net-Zero Emissions mean?**\n\nThink of net‑zero emissions like balancing a scale.\n\nIt doesn't mean we produce zero carbon emissions ever again.\n\nIt means:\n\n**We don't add extra carbon dioxide to the atmosphere overall.**\n\nIn other words, any CO₂ we do emit gets balanced out by CO₂ we remove from the atmosphere."
+          },
+          {
+            type: 'text',
+            title: '🛁 Back to our Bathtub Metaphor',
+            content: "Remember, imagine the atmosphere is a big bathtub (your CO₂ \"stock\").\n\n- The water coming in = **CO₂ emissions**\n- The water draining out = **CO₂ removals**\n\n**Net zero** is when water flows in at the same rate it flows out, so the water level stops rising.\n\nThat means CO₂ concentration in the atmosphere levels out instead of increasing."
+          },
+          {
+            type: 'text',
+            title: '🧩 How We Get to Net Zero',
+            content: "To reach net zero, we need two big things working together:\n\n**1️⃣ Cut emissions as much as possible**\n\nThis means:\n- More renewable energy\n- Energy efficiency\n- Cleaner transportation\n- Better buildings\n- Switching away from fossil fuels\n\n*Reducing what's coming into the tub.*\n\n**2️⃣ Increase CO₂ removals**\n\nThis means:\n- Protecting forests\n- Re‑growing forests (reforestation)\n- Healthier soils\n- Technology that pulls CO₂ out of the air\n\n*Speeding up the drain.*"
+          },
+          {
+            type: 'text',
+            title: '🏁 Why Net Zero Matters',
+            content: ''
+          },
+          {
+            type: 'image',
+            imageUrl: netZeroImg,
+            alt: 'Net zero = emissions in – removals out = 0'
+          },
+          {
+            type: 'text',
+            content: "Scientists say we need to reach global net zero around 2050 to help limit warming to 1.5°C.\n\nWhy? Because the CO₂ already in the atmosphere keeps the Earth warming—so we have to stop adding more.\n\nNet zero is basically humanity saying: **\"We're done increasing the CO₂ level in the atmosphere.\"**\n\nIt's not perfection. It's balance.\n\nAnd it's one of the most important goals for keeping future climate change manageable."
+          },
+          {
+            type: 'text',
+            title: '💭 Let\'s Reflect',
+            content: 'Take a moment to think about what you\'ve learned in this module.'
+          },
+          {
+            type: 'reflection',
+            prompt: 'What needs to happen for global temperatures to actually start going down?',
+            id: 'module2-temp-going-down'
+          },
+          {
+            type: 'reflection',
+            prompt: 'Do you think temperatures will start dropping as soon as our emissions stop rising (when they peak)? Why or why not?',
+            id: 'module2-peak-emissions'
+          },
+          {
+            type: 'reflection',
+            prompt: 'When we reach net zero emissions, will Earth\'s temperature return to what it was before the Industrial Revolution (late 1700s - mid‑1800s)? If not, what do you think will happen instead?',
+            id: 'module2-net-zero-temp'
+          },
+          {
+            type: 'reflection',
+            prompt: 'What did this lesson help you understand about stocks and flows? How does that idea connect to climate change?',
+            id: 'module2-stocks-flows-understanding'
+          },
+        ]
+      },
+      {
+        type: 'block',
+        colorTheme: 'amber',
+        content: [
+          {
+            type: 'image',
+            imageUrl: hopeOrientationImg,
+            alt: 'Hope Orientation by Tippett'
+          },
+          {
+            type: 'text',
+            content: 'Listen to this short guided meditation that frames hope as a stock—something we can refill intentionally, even in the face of big global challenges.'
+          },
+          {
+            type: 'audio',
+            title: '🌎 Guided Meditation: Growing Climate Hope',
+            audioUrl: hopeStockAudio,
+            transcript: `Take a slow breath in…\nand a long breath out.\nLet your mind settle for a moment, like dust floating down in a quiet room.\n\nNow imagine that hope for the climate is a stock—a pool inside you that rises and falls over time.\nIt's normal for it to dip when you hear hard news or think about the future.\nIt's also possible to refill it—drop by drop.\n\nAs you breathe in, imagine a tiny stream flowing into that pool.\nThis stream is made of everything that strengthens your hopefulness:\nyoung people taking action,\nscientists discovering new solutions,\ncommunities planting trees, restoring land, or helping each other after storms,\nleaders and corporations making choices that move the world in the right direction.\n\nLet one of those images come to the front of your mind.\nHold it gently.\n\nWith each inhale, imagine that hopeful stream getting just a little stronger.\nWith each exhale, imagine releasing worry that feels too heavy to carry in this moment.\n\nSay silently to yourself:\n"Hope can grow. I can grow it."\n\nNotice your hope stock filling—slowly, steadily—like water rising in a bathtub when the faucet is turned on.\n\nTake one more full breath in…\nand a soft breath out.\n\nWhen you're ready, bring your attention back to the room, knowing that your hope is something you can refill—again and again.`
+          },
+        ]
+      },
+      {
+        type: 'block',
+        colorTheme: 'purple',
+        content: [
+          {
+            type: 'module-feedback',
+            title: 'Congratulations on completing Module 2: Stock and Flow!',
+            description: "Before you begin the next, we'd love your feedback on this learning experience.",
+            id: 'module-2-feedback'
+          },
+        ]
       }
+
     ]
   },
   {
@@ -945,6 +1306,278 @@ If a government wants people to support a carbon price, it has to think carefull
         type: 'block',
         colorTheme: 'green',
         content: [
+        type: 'reflection',
+        prompt: 'What role do you see yourself playing in creating a better climate future?',
+        id: 'role'
+      }
+    ]
+  },
+  {
+    id: 4,
+    title: "Systems View of Climate Solutions",
+    headerImage: systemsIcebergImg,
+    sections: [
+      // ── Submodule 1: Systems Iceberg Introduction ──────────────────────
+      {
+        type: 'block',
+        colorTheme: 'blue',
+        content: [
+          {
+            type: 'text',
+            title: '**About this Module**',
+            content: "To change outcomes, we need to look beneath the surface at systems.\n\nWe need systems thinking to understand climate change because it's not caused by one thing—it's shaped by many interconnected systems like energy, transportation, food, economics, and politics that all influence one another.\n\nSystems thinking helps us see these connections clearly, so we can design climate solutions that are effective, fair, and avoid unintended consequences."
+          },
+          {
+            type: 'text',
+            title: '🌊 The Systems Iceberg',
+            content: "The Systems Iceberg Model is a way of looking at the world that helps us understand *why* things happen—not just *what* happens on the surface."
+          },
+          {
+            type: 'image',
+            imageUrl: systemsIcebergImg,
+            alt: 'Systems Iceberg Model showing Events, Behavioral Patterns, Underlying Structures, Mental Models, and Artifacts',
+            width: '80%'
+          },
+          {
+            type: 'text',
+            content: "It comes from the field of systems dynamics and it's used to help people understand complex issues.\n\nThe big idea is this: 👉 **What we see happening is only the tip of the iceberg.**\n\nMost of the reasons things happen are hidden *below the surface.*\n\nLet's break it down."
+          }
+        ]
+      },
+      // ── Submodule 2: Top of the Iceberg — Events ──────────────────────
+      {
+        type: 'block',
+        colorTheme: 'teal',
+        content: [
+          {
+            type: 'text',
+            title: '❄️ Top of the Iceberg: Events',
+            content: "The top of the iceberg is what you see. These are things that happen right in front of you.\n\n**Examples:**\n• A heat wave\n• A wildfire\n• A spike in energy prices\n• Protests about pollution\n• The latest climate news headline\n\nEvents are important, but they're only the surface. If we pay attention only to events, we can feel overwhelmed and think the world is random or chaotic."
+          },
+          {
+            type: 'reflection',
+            prompt: 'What climate "events" do you notice or see in your life?',
+            id: 'm4-events-reflection'
+          }
+        ]
+      },
+      // ── Submodule 3: Just Below the Surface — Patterns & Trends ───────
+      {
+        type: 'block',
+        colorTheme: 'green',
+        content: [
+          {
+            type: 'text',
+            title: '🔁 Just Below the Surface: Patterns & Trends',
+            content: "If you zoom out in time, events start forming behavioural patterns and trends.\n\n**Examples:**\n• Heat waves happening more often\n• Wildfires getting bigger\n• Energy prices rising faster in certain communities\n• Air pollution affecting the same neighborhoods again and again\n• Consumers buying more single-use plastics every year\n\nPatterns show us:\n\n👉 **This isn't random—something is repeating.**"
+          },
+          {
+            type: 'reflection',
+            prompt: 'What climate "patterns" do you see in your life?',
+            id: 'm4-patterns-reflection'
+          }
+        ]
+      },
+      // ── Submodule 4: Deeper — Underlying Systemic Structures ──────────
+      {
+        type: 'block',
+        colorTheme: 'amber',
+        content: [
+          {
+            type: 'text',
+            title: '⚙️ Deeper: Underlying Systemic Structures',
+            content: "This is where systems thinking gets powerful.\n\nThe underlying structures are the artifacts and mental models that shape patterns and events."
+          },
+          {
+            type: 'text',
+            title: 'Artifacts',
+            content: "First, let's cover the artifacts — these are the often tangible and visible structures that shape our systems like:\n\n• How our energy system is built\n• Which communities live near highways or factories\n• Pricing systems for fossil fuels\n• Transportation options\n• Who makes policy decisions\n• Where money and power flow in a society\n\nThese artifacts create the conditions that make certain outcomes more likely than others.\n\nIf we want to change patterns, we need to understand and redesign these artifacts, not just react to events."
+          },
+          {
+            type: 'reflection',
+            prompt: 'What artifacts related to climate do you see in your life?',
+            id: 'm4-artifacts-reflection'
+          }
+        ]
+      },
+      // ── Submodule 5: Deepest Level — Mental Models ────────────────────
+      {
+        type: 'block',
+        colorTheme: 'purple',
+        content: [
+          {
+            type: 'text',
+            title: '🧠 Deepest Level: Mental Models',
+            content: "**The Ideas and Beliefs That Shape the System**\n\nAt the very bottom of the iceberg are mental models—the beliefs, assumptions, and stories people hold about how the world works.\n\n**Examples:**\n• \"The earth is a resource for humans.\"\n• \"Fossil fuels are necessary for economic growth.\"\n• \"Some communities can handle more pollution than others.\"\n• \"Technology will fix everything.\"\n• \"My actions don't matter.\"\n• \"Climate solutions help everyone equally.\"\n\nThese beliefs shape the choices we make, and those choices shape the structures we build.\n\nChanging mental models is slow and hard—but it's where the most meaningful, lasting change begins."
+          },
+          {
+            type: 'reflection',
+            prompt: 'What mental models do you have about climate change?',
+            id: 'm4-mental-models-reflection'
+          }
+        ]
+      },
+      // ── Submodule 6: Why Think About Climate Systems Using the Iceberg Model ──
+      {
+        type: 'block',
+        colorTheme: 'blue',
+        content: [
+          {
+            type: 'text',
+            title: 'Why Think About Climate Systems Using the Iceberg Model?',
+            content: ''
+          },
+          {
+            type: 'image',
+            imageUrl: systemsIcebergImg,
+            alt: 'Systems Iceberg Model — Events, Behavioral Patterns, Underlying Structures, Mental Models & Artifacts',
+            width: '80%'
+          },
+          {
+            type: 'audio',
+            title: 'Listen: The Iceberg & En-ROADS',
+            audioUrl: icebergExplainerAudio,
+            transcript: `So far, in En‑ROADS, we've been moving sliders that represent policy choices—things like carbon pricing, renewable energy, or reforestation. These sliders are all artifacts of the system: they're the visible actions or rules that shape what people and organizations do.
+
+When we change these policies, they influence behaviors in the system—how much energy we use, which fuels companies choose, how quickly technologies spread.
+
+Those behaviors then lead to the events we've been tracking in the impacts graphs, like global temperature rise, air pollution levels, or emissions curves.
+
+That's the part above the waterline of the iceberg.
+
+But systems thinking asks us to go deeper.
+
+The most important part—and the one we often overlook—is the level of mental models.
+
+These are the beliefs, assumptions, and stories people carry that shape decisions in the first place.
+
+One of the biggest mental models in climate work is:
+"We already have the technology and know-how to fix a huge part of the climate problem… so why haven't we done it yet?"
+
+This question points us to the underlying structures—the things beneath the surface that shape behavior long before policies ever change.
+
+Students can be invited to think about:
+What beliefs keep leaders from acting?
+What assumptions shape our energy system?
+What mindsets or values guide where money flows?
+What stories do people tell about what's possible—or impossible?
+
+These deeper layers help explain why climate progress doesn't always match what science and technology say is achievable.
+
+The iceberg reminds us:
+If we want real change, we can't just react to the events at the top.
+We need to understand—and maybe shift—the beliefs and systems underneath them.`
+          },
+          {
+            type: 'text',
+            title: '**Concept Cards**',
+            content: "Let's review the elements of the systems iceberg.\n\n**The deeper you go, the more power you have to create change.**"
+          },
+          {
+            type: 'flip-cards',
+            cards: [
+              {
+                frontTitle: '🏔️ Events',
+                frontDescription: 'What happened?',
+                backTitle: 'Events',
+                backDescription: 'The visible occurrences we notice day-to-day — a wildfire, a flood, a spike in energy prices. Reacting only to events keeps us at the surface.'
+              },
+              {
+                frontTitle: '📈 Behavioral Patterns',
+                frontDescription: "What's been happening over time?",
+                backTitle: 'Behavioral Patterns',
+                backDescription: 'Trends and recurring behaviors we notice over time — rising temperatures decade after decade, or the same neighborhoods facing repeated flood damage.'
+              },
+              {
+                frontTitle: '⚙️ Artifacts',
+                frontDescription: 'What policies, technologies or rules create these patterns?',
+                backTitle: 'Artifacts',
+                backDescription: 'The tangible structures that shape outcomes — energy infrastructure, zoning laws, pricing systems, who holds decision-making power, where money and resources flow.'
+              },
+              {
+                frontTitle: '🧠 Mental Models',
+                frontDescription: 'What beliefs keep this system in place?',
+                backTitle: 'Mental Models',
+                backDescription: 'The deepest level — the beliefs, assumptions and stories that shaped the structures in the first place. Changing mental models is slow, but it\'s where the most lasting change begins.'
+              }
+            ]
+          }
+        ]
+      },
+      // ── Submodule 7: Draw Your Own Climate Iceberg ────────────────────
+      {
+        type: 'block',
+        colorTheme: 'pink',
+        content: [
+          {
+            type: 'text',
+            title: '✏️ Draw Your Own Climate Iceberg',
+            content: "It's time to now draw your own systems iceberg. You may create your iceberg individually or as a team.\n\nThink about a current issue related to climate change that matters to you.\n\nDraw each of the layers of the iceberg and make notes about what is happening at each level."
+          },
+          {
+            type: 'reflection',
+            prompt: '🏔️ Event\n\nChoose an event related to a climate change issue that is specific, meaningful to you, and that you would like to understand better.',
+            id: 'm4-own-iceberg-event'
+          },
+          {
+            type: 'reflection',
+            prompt: '📈 Behavioral Patterns\n\nWhat\'s been happening over time to shape this event?',
+            id: 'm4-own-iceberg-patterns'
+          },
+          {
+            type: 'reflection',
+            prompt: '⚙️ Artifacts\n\nWhat infrastructure, policies, regulations, technologies, or rules create these patterns?',
+            id: 'm4-own-iceberg-artifacts'
+          },
+          {
+            type: 'reflection',
+            prompt: '🧠 Mental Models\n\nWhat beliefs or assumptions shape people\'s behaviours and keep this system in place?',
+            id: 'm4-own-iceberg-mental-models'
+          }
+        ]
+      },
+      // ── Submodule 8: Let's Reflect ────────────────────────────────────
+      {
+        type: 'block',
+        colorTheme: 'teal',
+        content: [
+          {
+            type: 'text',
+            title: '💭 Let\'s Reflect',
+            content: 'Share your iceberg experience:'
+          },
+          {
+            type: 'reflection',
+            prompt: 'What behaviors and patterns over time are contributing to the event you chose?\n\nWhat underlying structures (mental models and artifacts) are driving those behaviors and patterns?\n\nWhere do you see opportunity or leverage for change?',
+            id: 'm4-final-reflection'
+          }
+        ]
+      },
+      // ── Submodule 9: Why the Systems Iceberg Matters for Climate Change ─
+      {
+        type: 'block',
+        colorTheme: 'green',
+        content: [
+          {
+            type: 'text',
+            title: '🌍 Why the Systems Iceberg Matters for Climate Change',
+            content: "When we look at climate issues only at the \"events\" level (heat waves, storms, fires), we feel:\n\n• Overwhelmed\n• Hopeless\n• Reactive\n\nBut when we look deeper:\n\n• We see patterns\n• We understand underlying structures\n• We change artifacts\n• We question mental models\n\nAnd suddenly, real solutions become possible.\n\nThe iceberg helps us shift from:\n\n❌ *\"This problem is too big.\"*\n\nto\n\n✅ *\"I can understand how the system works—and help change it.\"*"
+          }
+        ]
+      },
+      {
+        type: 'module-feedback',
+        title: '🎉 Congratulations on completing Module 4: Systems View of Climate!',
+        description: "Before you begin the next, we'd love your feedback on this learning experience.",
+        id: 'module-4-feedback'
+      }
+    ]
+  },
+  {
+    id: 5,
+    title: "Lever of Change",
+    headerImage: "https://images.unsplash.com/photo-1742729096780-600245031d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsZXZlciUyMG1lY2hhbmlzbSUyMGNoYW5nZXxlbnwxfHx8fDE3NjUxNzUwNjl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    sections: [
       {
         type: 'text',
         title: '**Imagining the Future**',
