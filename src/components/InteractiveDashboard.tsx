@@ -71,7 +71,7 @@ const moduleConfigs: {
     ]
   },
   2: {
-    title: 'Stock and Flow Dynamics',
+    title: 'Stock & Flow Dynamics',
     parameters: [
       {
         id: 'emissions',

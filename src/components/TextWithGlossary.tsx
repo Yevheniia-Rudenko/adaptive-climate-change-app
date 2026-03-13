@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { GlossaryTerm } from './GlossaryTerm';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useGlossaryHighlight } from '../contexts/GlossaryHighlightContext';
 import { glossary, createTermPattern, findDefinition } from '../data/glossary';
 
 type TextWithGlossaryProps = {
@@ -42,13 +43,19 @@ export function TextWithGlossary({ text, className }: TextWithGlossaryProps) {
       }
 
       // Process bold and italic in non-link text
+      // We use a regex that captures both **bold** and *italic*
+      // The regex captures the whole matched string, so we need to inspect it
       const boldItalicParts = part.split(/(\*\*.*?\*\*|\*.*?\*)/g);
+
       return boldItalicParts.map((subPart, subIndex) => {
+        if (!subPart) return null;
+
         if (subPart.startsWith('**') && subPart.endsWith('**')) {
-          return <strong key={`${keyPrefix}-${linkIndex}-${subIndex}`} className="font-bold text-gray-900 dark:text-gray-100">{subPart.slice(2, -2)}</strong>;
-        } else if (subPart.startsWith('*') && subPart.endsWith('*') && !subPart.startsWith('**')) {
-          return <em key={`${keyPrefix}-${linkIndex}-${subIndex}`} className="italic text-gray-700 dark:text-gray-300">{subPart.slice(1, -1)}</em>;
+          return <strong key={`${keyPrefix}-${linkIndex}-${subIndex}`} className="font-bold">{subPart.slice(2, -2)}</strong>;
+        } else if (subPart.startsWith('*') && subPart.endsWith('*') && subPart.length > 1) {
+          return <em key={`${keyPrefix}-${linkIndex}-${subIndex}`} className="italic">{subPart.slice(1, -1)}</em>;
         }
+
         return subPart;
       });
     });
@@ -64,8 +71,9 @@ export function TextWithGlossary({ text, className }: TextWithGlossaryProps) {
   let match;
   let keyCounter = 0;
 
-  // Track which terms have already been highlighted (first occurrence only)
-  const highlightedTerms = new Set<string>();
+  // Use the shared module-level set if a provider exists, otherwise local set
+  const glossaryCtx = useGlossaryHighlight();
+  const highlightedTerms = glossaryCtx?.highlightedTerms ?? new Set<string>();
 
   // Reset regex lastIndex
   pattern.lastIndex = 0;
