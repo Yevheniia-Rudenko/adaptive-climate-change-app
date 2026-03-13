@@ -19,39 +19,35 @@ export function FlexibleModulePage({
   const navigate = useNavigate();
   const [currentBlock, setCurrentBlock] = useState(1);
 
-  // Organize Module 1 sections into 8 blocks
+  // Organize module sections into blocks for pagination
   const getBlockSections = () => {
-    if (moduleId !== 1) {
-      return [module.sections]; // Other modules show all sections
+    // Module 1: Split into 8 specific blocks
+    if (moduleId === 1) {
+      return [
+        module.sections.slice(0, 1),   // Block 1: About Module + Emotions (index 0: teal block)
+        module.sections.slice(1, 2),   // Block 2: Understanding Climate Drivers (index 1: green block)
+        module.sections.slice(2, 3),   // Block 3: Exercise 1 (index 2: amber block)
+        module.sections.slice(3, 4),   // Block 4: Exercise 2 (index 3: purple block)
+        [module.sections[4]],          // Block 5: Exercise 3 (index 4: amber block)
+        module.sections.slice(5, 17),  // Block 6: Exercise 4 (indices 5-16: all Exercise 4 content)
+        [module.sections[17]],         // Block 7: Practice of Hope (index 17: teal block)
+        [module.sections[18]],         // Block 8: Module Feedback (index 18: congratulations)
+      ];
     }
 
-    // Module 1: Split into 8 blocks
-    // Sections breakdown:
-    // 0: teal block (About + Key Concepts + Reflection + Learning to Name Emotions)
-    // 1: green block (Understanding Climate Drivers)
-    // 2: amber block (Exercise 1)
-    // 3: purple block (Exercise 2) 
-    // 4: amber block (Exercise 3)
-    // 5-16: loose sections (Exercise 4: title, image, text, audio, poll, predictions, dashboard, 2 reflections)
-    // 17: teal block (Practice of Hope)
-    // 18: module feedback (Congratulations)
-    const blockGroups = [
-      module.sections.slice(0, 1),   // Block 1: About Module + Emotions (index 0: teal block)
-      module.sections.slice(1, 2),   // Block 2: Understanding Climate Drivers (index 1: green block)
-      module.sections.slice(2, 3),   // Block 3: Exercise 1 (index 2: amber block)
-      module.sections.slice(3, 4),   // Block 4: Exercise 2 (index 3: purple block)
-      [module.sections[4]],          // Block 5: Exercise 3 (index 4: amber block)
-      module.sections.slice(5, 17),  // Block 6: Exercise 4 (indices 5-16: all Exercise 4 content)
-      [module.sections[17]],         // Block 7: Practice of Hope (index 17: teal block)
-      [module.sections[18]],         // Block 8: Module Feedback (index 18: congratulations)
-    ];
+    // Module 3: Each section is its own block/page
+    if (moduleId === 3) {
+      return module.sections.map(section => [section]);
+    }
 
-    return blockGroups;
+    // Default: Show everything on one page
+    return [module.sections];
   };
 
   const blockSections = getBlockSections();
-  const totalBlocks = moduleId === 1 ? 8 : 1;
-  const currentSections = moduleId === 1 ? blockSections[currentBlock - 1] : module.sections;
+  const totalBlocks = blockSections.length;
+  const isMultiBlock = totalBlocks > 1;
+  const currentSections = blockSections[currentBlock - 1];
 
   // Scroll to top whenever the block changes
   useEffect(() => {
@@ -117,70 +113,40 @@ export function FlexibleModulePage({
           </div>
 
           <div className="p-4 sm:p-6 md:p-8 lg:p-10">
-            {/* Block Progress Bar for Module 1 - Fun & Visual */}
-            {moduleId === 1 && (() => {
-              const stepEmojis = ['🌱', '🌿', '🌍', '🌊', '☀️', '🌈', '⭐', '🎉'];
-              const stepLabels = ['Start', 'Climate', 'Exercise 1', 'Exercise 2', 'Exercise 3', 'Exercise 4', 'Hope', 'Done!'];
+            {/* Block Progress Bar - Fun & Visual */}
+            {isMultiBlock && (() => {
               const pct = Math.round((currentBlock / totalBlocks) * 100);
               return (
                 <div className="mb-8 select-none">
-                  {/* Step circles inside a pill container */}
-                  <div className="mb-4 flex justify-center">
-                    <div className="relative inline-flex items-center gap-2 px-3 py-1 rounded-2xl bg-gray-50 dark:bg-gray-800/60 border-2 border-gray-200 dark:border-gray-700 shadow-sm">
-                      {/* Connecting line behind circles */}
-                      <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2 h-1 rounded-full bg-gray-200 dark:bg-gray-600 z-0" />
-                      {/* Filled portion of connecting line */}
-                      <div
-                        className="absolute left-4 top-1/2 -translate-y-1/2 h-1 rounded-full z-0 transition-all duration-700"
-                        style={{
-                          width: `calc(${((currentBlock - 1) / (totalBlocks - 1)) * 100}% - 1rem)`,
-                          background: 'linear-gradient(90deg, #a78bfa, #60a5fa, #34d399, #fbbf24)'
-                        }}
-                      />
-                      {stepEmojis.map((emoji, i) => {
+                  <div className="flex justify-center mb-2">
+                    <div className="flex items-center gap-1.5">
+                      {Array.from({ length: totalBlocks }, (_, i) => {
                         const stepNum = i + 1;
                         const isDone = stepNum < currentBlock;
                         const isCurrent = stepNum === currentBlock;
+                        const size = isCurrent ? 20 : isDone ? 14 : Math.max(8, 12 - (stepNum - currentBlock));
+                        const bg = isCurrent ? '#1a5c27' : isDone ? '#2d7a3a' : 'transparent';
+                        const border = isCurrent || isDone ? 'none' : '2px solid #a7d7a9';
+                        const opacity = isCurrent ? 1 : isDone ? 0.85 : Math.max(0.3, 1 - (stepNum - currentBlock) * 0.15);
                         return (
-                          <div key={i} className="relative z-10 inline-flex flex-col items-center gap-0.5">
-                            <div
-                              className={`
-                              flex items-center justify-center rounded-full font-bold transition-all duration-500
-                              ${isCurrent
-                                  ? 'w-10 h-10 text-xl border-4 border-yellow-400 bg-white shadow-lg shadow-yellow-300/60 scale-110 animate-pulse'
-                                  : isDone
-                                    ? 'w-8 h-8 text-base border-2 border-green-400 bg-white shadow-sm'
-                                    : 'w-8 h-8 text-base border-2 border-gray-200 bg-white opacity-60'
-                                }
-                              `}
-                            >
-                              {isDone ? '✅' : emoji}
-                            </div>
-                            <span className={`text-[9px] font-semibold hidden sm:block transition-all duration-300 whitespace-nowrap ${isCurrent ? 'text-yellow-600' : isDone ? 'text-green-600' : 'text-gray-400'}`}>
-                              {stepLabels[i]}
-                            </span>
-                          </div>
+                          <div
+                            key={i}
+                            style={{
+                              width: size,
+                              height: size,
+                              borderRadius: '50%',
+                              background: bg,
+                              border,
+                              opacity,
+                              transition: 'all 0.4s ease',
+                              flexShrink: 0
+                            }}
+                          />
                         );
                       })}
                     </div>
                   </div>
-
-                  {/* Rainbow gradient bar */}
-                  <div className="relative w-full bg-gray-100 dark:bg-gray-700 rounded-full h-4 overflow-hidden shadow-inner">
-                    <div
-                      className="h-full rounded-full transition-all duration-700 ease-out"
-                      style={{
-                        width: `${pct}%`,
-                        background: 'linear-gradient(90deg, #a78bfa, #60a5fa, #34d399, #fbbf24, #f87171)',
-                        boxShadow: '0 0 10px rgba(167,139,250,0.5)'
-                      }}
-                    />
-                    {/* Shine overlay */}
-                    <div className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 60%)' }} />
-                  </div>
-
-                  {/* Label */}
-                  <div className="flex items-center justify-between mt-2 text-sm">
+                  <div className="flex items-center justify-between text-sm">
                     <span className="font-semibold text-purple-600 dark:text-purple-400">
                       🚀 Step {currentBlock} of {totalBlocks}
                     </span>
@@ -250,8 +216,10 @@ export function FlexibleModulePage({
                 className="flex-1 order-1 sm:order-3"
               >
                 <span>
-                  {moduleId === 1 && currentBlock === totalBlocks
-                    ? 'Continue to Module 2'
+                  {currentBlock === totalBlocks
+                    ? moduleId < 5
+                      ? `Continue to Module ${moduleId + 1}`
+                      : 'Finish'
                     : t.next}
                 </span>
                 <ArrowRight size={18} />

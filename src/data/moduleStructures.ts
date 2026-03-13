@@ -15,6 +15,15 @@ import waterImg from '../assets/water.jpg';
 import openingMeditationAudio from '../assets/Module1-OpeningMeditation.m4a';
 import hopeMeditationAudio from '../assets/Module1-HopeMeditation.m4a';
 import coalOilGasAudio from '../assets/Coal-Oil-Gas.mp3';
+import globalWarmingImg from '../assets/module_3/global-warming.png';
+import puzzleAnimation from '../assets/module_3/assembling_puzzle_animation.json';
+import brainstorming from '../assets/module_3/brainstorming.json';
+import carbonAndEmissionsImg from '../assets/carbon_and_emissions.jpg';
+import carbonEquityAudio from '../assets/Carbon-Equity.mp3';
+import scenario1Img from '../assets/Scenario1.png';
+import scenario2Img from '../assets/Scenario2.png';
+import scenario3Img from '../assets/Scenario3.png';
+import scenario4Img from '../assets/Scenario4.png';
 
 
 
@@ -30,12 +39,18 @@ export type ContentBlock =
   | { type: 'video'; title?: string; videoUrl: string; description?: string }
   | { type: 'audio'; title?: string; audioUrl: string; description?: string; transcript?: string }
   | { type: 'image'; imageUrl: string; alt: string; title?: string; width?: string }
+  | { type: 'image-collage'; title?: string; images: { imageUrl: string; alt: string; caption?: string }[]; width?: string; columns?: 1 | 2 | 3 | 4 }
+  | { type: 'button'; label: string; url: string; variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link'; size?: 'default' | 'sm' | 'lg' | 'icon'; iconName?: string; newTab?: boolean }
+  | { type: 'lottie'; title?: string; animationData?: unknown; animationUrl?: string; loop?: boolean; autoplay?: boolean; speed?: number; width?: string; height?: string }
+  | { type: 'icon'; iconName?: string; iconAsset?: string; size?: number; color?: string; title?: string }
   | { type: 'flip-cards'; title?: string; cards: FlipCardData[] }
+  | { type: 'quote-carousel'; title?: string; quotes: { quote: string; author: string; subtitle?: string }[] }
   | { type: 'dashboard'; }
   | { type: 'exercise1-dashboard'; }
   | { type: '2ndExerciseDashboard'; }
   | { type: 'third-exercise'; }
   | { type: 'fourth-exercise'; }
+  | { type: 'module3-carbon-price-dashboard'; }
   | { type: 'html-embed'; htmlFile: string; title?: string }
   | { type: 'reflection'; prompt: string; id: string }
   | { type: 'poll'; question: string; options: string[]; id: string; singleSelect?: boolean }
@@ -73,6 +88,13 @@ export const moduleStructures: ModuleStructure[] = [
             type: 'text',
             title: '**About this Module**',
             content: "Climate change isn't just about science and data—it's deeply personal.\n\n Understanding how climate futures affect you, your community, and the world helps build meaningful connections to the issue. This module explores how we emotionally and intellectually relate to different possible futures, and why these connections matter for taking action."
+          },
+          {
+            type: 'button',
+            label: 'Open Glossary',
+            url: '/glossary',
+            variant: 'outline',
+            iconName: 'BookOpen'
           },
           {
             type: 'text',
@@ -654,115 +676,356 @@ Thank you for practicing.`
     title: "Roadmap to Possible Futures",
     headerImage: "https://images.unsplash.com/photo-1704466260929-047dca5330a9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwYXRod2F5JTIwZm9yZXN0JTIwbGlnaHR8ZW58MXx8fHwxNzY1MTc1MDY5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
     sections: [
+            {
+        type: 'block',
+        colorTheme: 'amber',
+        content: [
+                      {
+            type: 'text',
+            title: '**About this Module**',
+            content: "So far, we’ve explored several high‑leverage climate solutions—policies and actions that can significantly reduce net emissions and slow the rise in global temperature.\n\n Now we’re going to ask an important question:"
+          },
+                {
+            type: 'lottie',
+            animationData: puzzleAnimation,
+            loop: true,
+            autoplay: true,
+            speed: 0.8,
+            width: '709px',
+            height: '540px',
+          },
+                {
+        type: 'text',
+        title: '**What happens when we combine solutions?**',
+        content: "Some high‑leverage policies—like a carbon price—are extremely effective at lowering emissions. But in a system where everything is connected, every solution has consequences, both good and bad.\n\n In this module, we’ll take a closer look at the ethical, ecological, and economic effects that different climate policies can create."
+      },
+                      {
+        type: 'text',
+        title: '**How do we explore solutions thoughtfully, without ignoring the impacts they might have?**',
+        content: "To help you think like a systems scientist or policymaker, you’ll use the full En‑ROADS simulator to design your own climate policy scenario—one that reduces emissions and considers real‑world trade‑offs."
+      },
+        ]
+      },
+            {
+        type: 'block',
+        colorTheme: 'green',
+        content: [
+                {
+        type: 'image',
+        imageUrl: carbonAndEmissionsImg,
+        alt: 'White and black ship on sea under white clouds',
+        width: '80%'
+      },
+                      {
+            type: 'text',
+            title: '**Group Activity**',
+            content: "In Modules 1 and 2, we saw that putting a price on carbon is one of the fastest and strongest ways to reduce emissions. \n\n But lowering emissions isn’t the only effect of a carbon price."
+          },
+          {type: 'text',
+            content: 'All climate policies create: \n\n• **Positive side‑effects** (sometimes called multisolving)\n   - Example: Improving public health or saving money long-term \n\n• **Unintended negative impacts** \n   -Often hit people with lower incomes the hardest'
+          },
+          {type: 'text',
+            content: 'Trying to reduce or prevent those negative impacts is called **equity work**—making sure solutions are fair to everyone.'
+          },
+                    {
+            type: 'text',
+            title: '**Brainstorm individually or in small groups:**',
+            content: '',
+            hideIcon: true
+          },
+          {
+            type: 'lottie',
+            animationData: brainstorming,
+            loop: true,
+            autoplay: true,
+            speed: 0.8,
+            width: '496px',
+            height: '378px',
+          },
+          {type: 'text',
+          content: '1. **What positive side‑effects could a carbon price create?** \n (Think: health, transportation, jobs, air quality, etc.) \n\n 2.**What potential harms could it cause?** \n How might these harms show up in different communities? \n\n 3.**How could we reduce or prevent those harms?** \n (Hint: government support, rebates, investments, equity policies)',
+          },
+          {
+            type: 'text',
+            title: '**Let\'s Reflect**',
+            content: ''
+          },
+          {
+            type: 'reflection',
+            prompt: 'What could be beneficial effects of a carbon price?',
+            id: 'group-activity-1'
+          },
+          {
+            type: 'reflection',
+            prompt: 'What could be harmful effects?',
+            id: 'group-activity-2'
+          },
+        ]
+      },
+                  {
+        type: 'block',
+        colorTheme: 'green',
+        content: [
+                          {
+        type: 'image',
+        imageUrl: enroadsScreenshot,
+        alt: 'White and black ship on sea under white clouds',
+        width: '100%'
+      },
       {
-        type: 'meditation',
-        title: 'Reflection: Envisioning Futures',
-        content: "Take a moment to close your eyes and imagine two different worlds in 2050. In one, we took bold action on climate. In the other, we continued as usual. How do you feel about each scenario? What do you see, hear, and experience in each future?"
+            type: 'text',
+            title: '**Explore the Scenario in En‑ROADS**',
+            content: "Now you’ll get to experiment with the carbon price slider and see how this policy affects two important side‑effects shown in the graphs:"
+          },
+                      {
+            type: 'text',
+            title: '**1. Air Pollution**',
+            hideIcon: true,
+            content: "Measured as the amount of harmful particles released into the air each year. \n Long‑term exposure to air pollution increases the risk of:\n\n• Asthma\n• Heart disease\n• Stroke\n• Chronic obstructive pulmonary disease (COPD)\n• Lung cancer\n• Dementia\n\n Cleaner air usually means **healthier communities.**"
+          },    
+                                {
+            type: 'text',
+            title: '**2. Average Price of Energy for Consumers**',
+            hideIcon: true,
+            content: 'This graph shows the average cost of energy for everyday people—including:\n\n• Electricity\n• Gas\n• Hydrogen\n\nWhen this line goes up, **energy bills get more expensive** for everyone, which can create equity concerns.'
+          },   
+          {
+            type: 'text',
+            title: '**Let’s Predict**',
+            hideIcon: true,
+            content: 'Before you use the model, take a moment to make your predictions.'
+          },
+          {type: 'reflection',
+            prompt: 'What do you think will happen to the price of energy and the amount of air pollution as the carbon price increases?',
+            id: 'predict-1'
+          },
+                    {
+            type: 'text',
+            title: '**Make a Model**',
+            hideIcon: true,
+            content: ''
+          },
+          { type: 'module3-carbon-price-dashboard' },
+            {
+            type: 'text',
+            title: '**Let\'s Reflect**',
+            content: ''
+          },
+          {
+            type: 'reflection',
+            prompt: 'What did you notice happening in the carbon price model?\n\nDescribe how emissions, air pollution, and energy prices changed as you adjusted the carbon price.',
+            id: 'prediction-reflection-1'
+          },
+          {
+            type: 'reflection',
+            prompt: 'Looking at this through an equity lens, what might this scenario mean for different people?\n\nThink about who benefits and who might face challenges.',
+            id: 'prediction-reflection-2'
+          },
+                    {
+            type: 'reflection',
+            prompt: 'Who do you think would be most affected by this policy? Why?\n\nConsider income levels, communities, industries, or regions.',
+            id: 'prediction-reflection-3'
+          },
+                    {
+            type: 'reflection',
+            prompt: 'Are there groups who might be positively affected—and others who might be negatively affected—by raising the carbon price?\n\nExplain what those effects could look like in real life.',
+            id: 'prediction-reflection-4'
+          },
+        {type: 'audio',
+          audioUrl: carbonEquityAudio,
+          title: 'Understanding Trade-offs',
+          transcript: `By now, we know that a carbon price basically makes it more expensive to release carbon into the atmosphere. So if an energy source gives off more CO₂ for every unit of energy it produces, it becomes more expensive under a carbon price. In this case, energy sources that release less carbon would stay cheaper.
+Among the fossil fuels, coal produces the most CO₂ per unit of energy, and it also creates the worst air pollution. That means when we raise the carbon price, coal gets much more expensive compared to cleaner options. As a result, people and companies would use way less of it.
+And when coal use drops, air pollution drops too—by a lot.
+
+
+This is a really important positive side effect. Less coal leads to cleaner air which leads to fewer breathing problems which enables healthier communities and lower healthcare costs.
+But there’s a trade‑off too.
+You probably noticed in the model that the average price of energy goes up when the carbon price increases. This happens because companies usually pass their higher costs onto customers.
+And here’s why that matters:
+For most households—especially lower‑income households—energy is a basic, non‑optional cost. People can’t just stop using electricity or heating. So when prices rise, poorer communities feel it the most.
+You may have also seen that energy prices peak around 2037. That’s when the carbon price hits its highest level after slowly increasing for about ten years.
+If a government wants people to support a carbon price, it has to think carefully about how to protect the people who would be hurt most by rising energy costs.`
+        },
+        {type: 'text',
+        title: '**❓So here’s the big question:**',
+        hideIcon: true,
+        content: '**What policies could help balance things out?**\nIf a carbon price brings in extra money to the government, how could that money be used to:\n\n• Lower energy bills for low‑income families?\n• Help people transition to clean energy?\n• Make the policy feel fair for everyone?\n\nThat’s your challenge to think about.',
+        },
+        {
+            type: 'text',
+            title: '**Let\'s Reflect**',
+            content: ''
+          },
+        {type: 'reflection',
+          prompt: 'What policies can you think of that could achieve this goal?',
+          id: 'prediction-reflection-5'
+        }
+        ]
+      },
+      {
+        type: 'block',
+        colorTheme: 'green',
+        content: [
+          {
+            type:'text',
+            title: '**Create Your Own Climate Policy Scenario in En‑ROADS**',
+            hideIcon: true,
+            content:''
+          },
+        {
+        type: 'image',
+        imageUrl: enroadsScreenshot,
+        alt: 'White and black ship on sea under white clouds',
+        width: '100%'
       },
       {
         type: 'text',
-        title: 'Multiple Pathways Ahead',
-        content: "The future isn't written yet—there are multiple pathways ahead. Some lead to warming of 3°C or more, with severe impacts. Others lead to 1.5°C, preserving more of what we love. This module maps out different scenarios based on the choices we make today. Understanding these roadmaps helps us see that our actions matter and that change is still possible."
+        title: '**Now it\'s your turn to design a climate future!**',
+        hideIcon: true,
+        content: 'Using the **full En‑ROADS climate policy simulator**, create a scenario that reflects the kind of world you want to help build. As you experiment with the sliders, try to meet these three goals **at the same time:**'
       },
-      {
-        type: 'video',
-        title: 'Climate Pathways Explained',
-        videoUrl: 'https://www.youtube.com/embed/Euw3kdNLReU'
+      { type: 'text',
+        title: '**Your Challenge**',
+        content: '\n**1- Keep global warming below 2°C** \n(You’ll see this on the main En‑ROADS temperature graph.)\n\n **2- Reduce inequality** \n (Think about what policies are fair, who they help, and who might be harmed.) \n\n **3- Balance costs and fairness**\n (Consider energy prices, economic impacts, and how to support communities most affected by the transition.)**'
+          },
+            { type: 'text',
+        title: '**Your Task**',
+        hideIcon: true,
+        content: 'Use the sliders—energy, land use, transportation, carbon removal, and policies—to build a scenario that meets these goals.\n here’s no single “right answer,” but there are trade‑offs you’ll need to think through.'
+          },
+            { type: 'text',
+        title: '**When you’re done**',
+        hideIcon: true,
+        content: 'Click the “Share Your Scenario” button, copy the link, and return back here.'
+          },
+          {
+        type: 'button',
+        label: 'Now go create in En-ROADS!',
+        url: 'https://en-roads.climateinteractive.org/scenario.html?v=25.11.0',
+        variant: 'default',
+        size: 'default',
+        iconName: 'ExternalLink',
+        newTab: false   
+  }
+
+        ]
       },
-      {
-        type: 'dashboard'
-      },
-      {
-        type: 'image',
-        imageUrl: "https://images.unsplash.com/photo-1704466260929-047dca5330a9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwYXRod2F5JTIwZm9yZXN0JTIwbGlnaHR8ZW58MXx8fHwxNzY1MTc1MDY5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-        alt: "A pathway through a forest with light"
-      },
-      {
-        type: 'reflection',
-        prompt: 'Which possible future feels most real to you? What gives you hope or concern about the path we\'re on?',
-        id: 'vision'
-      },
-      {
-        type: 'reflection',
-        prompt: 'What role do you see yourself playing in creating a better climate future?',
-        id: 'role'
-      }
-    ]
-  },
-  {
-    id: 4,
-    title: "Systems View of Climate Solutions",
-    headerImage: "https://images.unsplash.com/photo-1638068109209-002be3ae4950?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZW5ld2FibGUlMjBlbmVyZ3klMjBzb2xhciUyMHdpbmR8ZW58MXx8fHwxNzY1MTY5NTc1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    sections: [
+            {
+        type: 'block',
+        colorTheme: 'green',
+        content: [
       {
         type: 'text',
-        title: 'Interconnected Solutions',
-        content: "Climate solutions aren't isolated fixes—they're interconnected parts of a larger system. Renewable energy affects transportation, which affects urban planning, which affects how we live and work. This systems view shows how solutions in one area can create positive ripple effects across many others. It's about seeing the big picture and understanding leverage points."
+        title: '**👋 Welcome back!**',
+        hideIcon: true,
+        content: 'How was En-ROADS?  We’d love to learn from your experience.'
       },
-      {
-        type: 'image',
-        imageUrl: "https://images.unsplash.com/photo-1638068109209-002be3ae4950?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZW5ld2FibGUlMjBlbmVyZ3klMjBzb2xhciUyMHdpbmR8ZW58MXx8fHwxNzY1MTY5NTc1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-        alt: "Renewable energy - solar and wind"
+      {type: 'text',
+        title: '**Share your scenario**',
+        hideIcon: true,
+        content: ''
       },
+                    {type: 'reflection',
+          prompt: 'Paste your En-ROADS Scenario link here:',
+          id: 'en-roads-scenario-1'
+        },
       {
-        type: 'dashboard'
+            type: 'text',
+            title: '**Let\'s Reflect - Reflect on your scenario:**',
+            content: ''
+          },
+              {type: 'reflection',
+          prompt: '• Which policies did you choose and why? \n • How did your scenario keep warming below 2°C? \n • What choices did you make to reduce inequality or protect vulnerable communities? \n • How did you think about fairness and cost? \n • What surprised you while designing your scenario?',
+          id: 'en-roads-scenario-2'
+        }
+        ]
       },
-      {
-        type: 'video',
-        title: 'Systems Thinking',
-        videoUrl: 'https://www.youtube.com/embed/0k2-SzlDGko',
-        description: 'Understanding interconnected climate solutions'
-      },
-      {
-        type: 'reflection',
-        prompt: 'Can you think of a climate solution that connects to other parts of your daily life? How do these connections make you feel about creating change?',
-        id: 'connections'
-      },
-      {
-        type: 'reflection',
-        prompt: 'What synergies or co-benefits did you discover while exploring the systems dashboard?',
-        id: 'synergies'
-      }
-    ]
-  },
-  {
-    id: 5,
-    title: "Lever of Change",
-    headerImage: "https://images.unsplash.com/photo-1742729096780-600245031d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsZXZlciUyMG1lY2hhbmlzbSUyMGNoYW5nZXxlbnwxfHx8fDE3NjUxNzUwNjl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    sections: [
+                  {
+        type: 'block',
+        colorTheme: 'green',
+        content: [
       {
         type: 'text',
-        title: 'High-Leverage Actions',
-        content: "Not all actions have equal impact. Some changes—like policy shifts, technology innovation, or social movements—act as 'levers' that can move the entire system. These high-leverage interventions create cascading effects. Understanding where to push can help you focus your energy where it matters most, whether that's in your community, your career choices, or your advocacy."
+        title: '**Imagining the Future**',
+        hideIcon: true,
+        content: '🎉 You have just joined the over 492,000+ people around the world who have created climate scenarios using En-ROADS.'
       },
       {
-        type: 'video',
-        title: 'Finding Your Lever',
-        videoUrl: 'https://www.youtube.com/embed/ipVxxxqwBQw'
+        type: 'quote-carousel',
+        title: '**What leaders say about En‑ROADS**',
+        quotes: [
+          {
+            quote: 'En‑ROADS is quite simply a climate crisis game-changer for policymakers and people across the country. Everyone is hearing more and more about the science, but sometimes it takes a demonstration tool like En‑ROADS for people to see first-hand that every one of us needs to be on a war footing and mobilize to fight this crisis head-on. Our goal with World War Zero is to drive at least ten million conversations about the climate crisis: En‑ROADS is the ultimate conversation starter.',
+            author: 'John Kerry',
+            subtitle: 'U.S. Special Presidential Envoy for Climate (2021–2024), U.S. Secretary of State (2013–2017)'
+          },
+                    {
+            quote: 'Amidst a complex and urgent issue, En-ROADS emerges as a beacon of understanding and direction. The simulator connects scientific research with tangible pathways for action, empowering leaders to make informed decisions that shape effective climate strategies. It\'s time to act, and En-ROADS puts the power to act decisively in our hands.',
+            author: 'Sissi Knispel de Acosta',
+            subtitle: 'Executive Secretary, European Climate Research Alliance (ECRA). Brussels, Belgium'
+          },
+                              {
+            quote: 'EN-ROADS lit my brain on fire….in one screen, the model communicates the urgency of the climate change threat, powerfully debunks cherished myths, confirms the importance of current commitments and emphasizes how much more we have to do.',
+            author: 'Roberta Barbieri',
+            subtitle: 'Vice President, Global Sustainability, PepsiCo, United States'
+          }
+        ]
       },
       {
-        type: 'dashboard'
+        type:'text',
+        title: '',
+        hideIcon: true,
+        content: 'There are a number of roadmaps to our possible shared future.'
       },
       {
-        type: 'image',
-        imageUrl: "https://images.unsplash.com/photo-1742729096780-600245031d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsZXZlciUyMG1lY2hhbmlzbSUyMGNoYW5nZXxlbnwxfHx8fDE3NjUxNzUwNjl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-        alt: "Lever mechanism representing change"
+        type: 'image-collage',
+        title: '**Scenario snapshots**',
+        width: '1100px',
+        images: [
+          { imageUrl: scenario1Img, alt: 'Scenario 1', caption: 'Scenario 1' },
+          { imageUrl: scenario2Img, alt: 'Scenario 2', caption: 'Scenario 2' },
+          { imageUrl: scenario3Img, alt: 'Scenario 3', caption: 'Scenario 3' },
+          { imageUrl: scenario4Img, alt: 'Scenario 4', caption: 'Scenario 4' }
+        ]
       },
-      {
-        type: 'reflection',
-        prompt: 'What lever of change feels most accessible to you right now? How does knowing about high-leverage actions affect your sense of agency?',
-        id: 'agency'
+            {
+        type:'text',
+        title: '',
+        hideIcon: true,
+        content: 'Seeing these scenarios of the future, and creating your own, can evoke a lot. \n\n We might begin to think about all the policies, collaborations, and societal changes needed. \n\n We might imagine what these futures look like–and wonder where we or our communities might be doing in that future. \n\n Let’s take a moment to pause and check in with yourselves.'
       },
-      {
-        type: 'meditation',
-        title: 'Creative Tension',
-        content: "There's a gap between where we are now and where we need to be. This gap creates 'creative tension'—a force that can motivate action. Take a moment to sit with this tension. What does it feel like? What does it inspire you to do?"
+                {
+            type: 'image',
+            title: 'Wheel of Emotions',
+            imageUrl: plutchikWheel,
+            alt: "Plutchik's Wheel of Emotions",
+            width: '70%'
+          },
+                {
+        type:'text',
+        title: '',
+        hideIcon: true,
+        content: 'Let’s revisit the emotion wheel. What emotions came up when you were creating your En-ROADS scenario?  It’s okay if there were many or even conflicting emotions. '
       },
-      {
-        type: 'reflection',
-        prompt: 'Reflect on your vision: If you could use one lever to create change in the next year, what would it be and why?',
-        id: 'vision'
+      {type: 'reflection',
+        prompt: 'How are you feeling? What emotions do you feel when you think about these climate futures?',
+        id: 'en-roads-scenario-3'
       }
+        ]
+      },
+                  {
+        type: 'block',
+        colorTheme: 'green',
+        content: [
+           {
+        type: 'module-feedback',
+        title: 'Congratulations on completing Module 3: Roadmaps to Possible Futures!',
+        description: "Before you begin the next, we'd love your feedback on this learning experience.",
+        id: 'module-3-feedback'
+      }
+        ]
+      },
     ]
   }
 ];

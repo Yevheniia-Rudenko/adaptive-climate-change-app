@@ -1,5 +1,7 @@
-import { useState } from 'react';
-import { Play, BookOpen, Sparkles, Layers, Headphones, ChevronDown, ChevronUp, Star } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import * as LucideIcons from 'lucide-react';
+import { Play, BookOpen, Sparkles, Layers, Headphones, ChevronDown, ChevronUp, Star, Quote, ArrowLeft, ArrowRight } from 'lucide-react';
+import Lottie from 'lottie-react';
 import { ContentBlock as ContentBlockType } from '../data/moduleStructures';
 import { InteractiveDashboard } from './InteractiveDashboard';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -8,11 +10,15 @@ import EnRoadsDashboard from './EnRoadsDashboard';
 import SecondExerciseDashboard from './2ndExerciseDashboard';
 import ThirdExerciseDashboard from './ThirdExerciseDashboard';
 import FourthExerciseDashboard from './FourthExerciseDashboard';
+import Module3CarbonPriceDashboard from './module_3/Module3CarbonPriceDashboard';
 import { FlipCard } from './FlipCard';
 import { SubmitButton } from './SubmitButton';
 import { postInput } from '../api/postInput';
 import { downloadInputsPdf } from '../api/getInputsPdf';
 import { useSession } from '../contexts/SessionContext';
+import { Button } from './ui/button';
+import { Carousel, type CarouselApi, CarouselContent, CarouselItem } from './ui/carousel';
+import { Link } from 'react-router-dom';
 
 
 function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { type: 'poll' }>; moduleId: number }) {
@@ -422,6 +428,213 @@ function NumericPredictionBlock({ block, moduleId }: { block: Extract<ContentBlo
   );
 }
 
+function QuoteCarouselBlock({ block }: { block: Extract<ContentBlockType, { type: 'quote-carousel' }> }) {
+  const hasMultiple = block.quotes.length > 1;
+  const [api, setApi] = useState<CarouselApi | null>(null);
+  const [current, setCurrent] = useState(1);
+  const [count, setCount] = useState(block.quotes.length);
+  const [canPrev, setCanPrev] = useState(false);
+  const [canNext, setCanNext] = useState(false);
+
+  useEffect(() => {
+    if (!api) return;
+
+    const update = () => {
+      setCurrent(api.selectedScrollSnap() + 1);
+      setCount(api.scrollSnapList().length);
+      setCanPrev(api.canScrollPrev());
+      setCanNext(api.canScrollNext());
+    };
+
+    update();
+    api.on('select', update);
+    api.on('reInit', update);
+
+    return () => {
+      api.off('select', update);
+      api.off('reInit', update);
+    };
+  }, [api]);
+
+  return (
+    <div className="mb-6 sm:mb-8 font-sora">
+      {block.title && (
+        <div className="flex items-center gap-2 mb-3 sm:mb-4">
+          <Quote className="text-blue-600 dark:text-blue-400 flex-shrink-0" size={20} />
+          <h3 className="text-gray-900 dark:text-gray-100 text-base sm:text-lg font-bold">{formatTitle(block.title)}</h3>
+        </div>
+      )}
+
+      <Carousel setApi={(nextApi) => setApi(nextApi)} opts={{ loop: hasMultiple }} className="w-full">
+        <CarouselContent>
+          {block.quotes.map((q, idx) => (
+            <CarouselItem key={idx} className="w-full">
+              <div className="w-full max-w-full bg-white/80 dark:bg-gray-800/80 backdrop-blur rounded-2xl p-5 sm:p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+                <p
+                  className="text-gray-700 dark:text-gray-300 text-sm sm:text-base md:text-lg leading-relaxed italic"
+                  style={{ whiteSpace: 'normal', overflowWrap: 'anywhere', wordBreak: 'break-word' }}
+                >
+                  “{q.quote}”
+                </p>
+                <div className="mt-4">
+                  <div className="text-gray-900 dark:text-gray-100 text-sm sm:text-base font-semibold">
+                    —{q.author}
+                  </div>
+                  {q.subtitle && (
+                    <div className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm mt-1">
+                      {q.subtitle}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+
+        {hasMultiple && (
+          <div className="mt-3 flex items-center justify-center gap-2">
+            <Button
+              variant="outline"
+              size="icon"
+              disabled={!canPrev}
+              onClick={() => api?.scrollPrev()}
+              className="bg-white/80 dark:bg-gray-900/60"
+              aria-label="Previous quote"
+            >
+              <ArrowLeft size={16} />
+            </Button>
+            <div className="px-2 text-xs text-gray-500 dark:text-gray-400 tabular-nums">
+              {current} / {count}
+            </div>
+            <Button
+              variant="outline"
+              size="icon"
+              disabled={!canNext}
+              onClick={() => api?.scrollNext()}
+              className="bg-white/80 dark:bg-gray-900/60"
+              aria-label="Next quote"
+            >
+              <ArrowRight size={16} />
+            </Button>
+          </div>
+        )}
+      </Carousel>
+    </div>
+  );
+}
+
+function ImageCollageBlock({ block }: { block: Extract<ContentBlockType, { type: 'image-collage' }> }) {
+  const cols = block.columns ?? 2;
+  const gridColsClass =
+    cols === 1
+      ? 'sm:grid-cols-1'
+      : cols === 2
+        ? 'sm:grid-cols-2'
+        : cols === 3
+          ? 'sm:grid-cols-3'
+          : 'sm:grid-cols-4';
+
+  return (
+    <div className="mb-6 sm:mb-8 font-sora">
+      {block.title && (
+        <div className="flex items-center gap-2 mb-3 sm:mb-4">
+          <Layers className="text-blue-600 dark:text-blue-400 flex-shrink-0" size={20} />
+          <h3 className="text-gray-900 dark:text-gray-100 text-base sm:text-lg font-bold">{formatTitle(block.title)}</h3>
+        </div>
+      )}
+
+      <div
+        className={`grid grid-cols-1 ${gridColsClass} gap-3 sm:gap-4`}
+        style={block.width ? { maxWidth: block.width, margin: '0 auto' } : undefined}
+      >
+        {block.images.map((img, idx) => (
+          <div
+            key={`${img.imageUrl}-${idx}`}
+            className="rounded-xl sm:rounded-2xl overflow-hidden shadow-lg border border-gray-100 dark:border-gray-700 bg-white/80 dark:bg-gray-800/80"
+          >
+            <img src={img.imageUrl} alt={img.alt} className="w-full h-auto block" />
+            {img.caption && (
+              <div className="px-3 py-2 text-xs sm:text-sm text-gray-600 dark:text-gray-300">
+                {img.caption}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function LottieBlock({ block }: { block: Extract<ContentBlockType, { type: 'lottie' }> }) {
+  const lottieRef = useRef<any>(null);
+  const [animationData, setAnimationData] = useState<unknown | null>((block.animationData as unknown) ?? null);
+  const [loadError, setLoadError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setLoadError(null);
+    setAnimationData((block.animationData as unknown) ?? null);
+  }, [block.animationData]);
+
+  useEffect(() => {
+    if (block.animationData) return;
+    if (!block.animationUrl) return;
+
+    let cancelled = false;
+    setLoadError(null);
+
+    (async () => {
+      try {
+        const url = block.animationUrl as string;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`Failed to load animation (${res.status})`);
+        const json = await res.json();
+        if (!cancelled) setAnimationData(json);
+      } catch (e) {
+        if (!cancelled) setLoadError(e instanceof Error ? e.message : 'Failed to load animation');
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [block.animationUrl, block.animationData]);
+
+  useEffect(() => {
+    if (typeof block.speed !== 'number') return;
+    if (!lottieRef.current?.setSpeed) return;
+    lottieRef.current.setSpeed(block.speed);
+  }, [block.speed, animationData]);
+
+  const containerStyle = block.width ? { maxWidth: block.width, margin: '0 auto' } : undefined;
+
+  return (
+    <div className="mb-2 font-sora">
+      {block.title && (
+        <div className="flex items-center gap-2 mb-2">
+          <Sparkles className="text-blue-600 dark:text-blue-400 flex-shrink-0" size={20} />
+          <h3 className="text-gray-900 dark:text-gray-100 text-base sm:text-lg font-bold">{formatTitle(block.title)}</h3>
+        </div>
+      )}
+
+      <div className="overflow-hidden" style={containerStyle}>
+        {loadError ? (
+          <div className="text-sm text-red-600">{loadError}</div>
+        ) : !animationData ? (
+          <div className="text-sm text-gray-600 dark:text-gray-400">Loading…</div>
+        ) : (
+          <Lottie
+            lottieRef={lottieRef}
+            animationData={animationData as any}
+            loop={block.loop ?? true}
+            autoplay={block.autoplay ?? true}
+            style={{ width: '100%', height: block.height || undefined }}
+          />
+        )}
+      </div>
+    </div>
+  );
+}
+
 type ContentBlockProps = {
   block: ContentBlockType;
   moduleId: number;
@@ -553,6 +766,101 @@ export function ContentBlock({
         </div>
       );
 
+    case 'image-collage':
+      return <ImageCollageBlock block={block} />;
+
+    case 'button': {
+      const IconComponent = block.iconName ? (LucideIcons as any)[block.iconName] : null;
+      const isHash = block.url.startsWith('#');
+      const isInternal = block.url.startsWith('/');
+
+      if (isHash) {
+        return (
+          <div className="mb-6 sm:mb-8 font-sora">
+            <Button
+              variant={block.variant}
+              size={block.size}
+              onClick={() => {
+                const id = block.url.slice(1);
+                const el = document.getElementById(id);
+                if (el) {
+                  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+                window.history.replaceState(null, '', block.url);
+              }}
+            >
+              {IconComponent ? <IconComponent /> : null}
+              {block.label}
+            </Button>
+          </div>
+        );
+      }
+
+      if (isInternal) {
+        return (
+          <div className="mb-6 sm:mb-8 font-sora">
+            <Button asChild variant={block.variant} size={block.size}>
+              <Link to={block.url}>
+                {IconComponent ? <IconComponent /> : null}
+                {block.label}
+              </Link>
+            </Button>
+          </div>
+        );
+      }
+
+      return (
+        <div className="mb-6 sm:mb-8 font-sora">
+          <Button asChild variant={block.variant} size={block.size}>
+            <a
+              href={block.url}
+              target={block.newTab ? '_blank' : undefined}
+              rel={block.newTab ? 'noopener noreferrer' : undefined}
+            >
+              {IconComponent ? <IconComponent /> : null}
+              {block.label}
+            </a>
+          </Button>
+        </div>
+      );
+    }
+
+    case 'lottie':
+      return <LottieBlock block={block} />;
+
+    case 'icon': {
+      const IconComponent = block.iconName ? (LucideIcons as any)[block.iconName] : null;
+      return (
+        <div className="mb-6 sm:mb-8 font-sora">
+          {block.title && (
+            <div className="flex items-center gap-2 mb-3 sm:mb-4">
+              {IconComponent ? (
+                <IconComponent className="text-blue-600 dark:text-blue-400 flex-shrink-0" size={20} />
+              ) : block.iconAsset ? (
+                <img src={block.iconAsset} alt="" className="w-5 h-5 object-contain flex-shrink-0" />
+              ) : null}
+              <h3 className="text-gray-900 dark:text-gray-100 text-base sm:text-lg font-bold">{formatTitle(block.title)}</h3>
+            </div>
+          )}
+          <div className="flex justify-center py-2">
+            {IconComponent ? (
+              <IconComponent
+                size={block.size || 48}
+                className={block.color || "text-blue-600 dark:text-blue-400"}
+              />
+            ) : block.iconAsset ? (
+              <img
+                src={block.iconAsset}
+                alt={block.title || "Icon"}
+                style={{ width: block.size || 48, height: block.size || 48 }}
+                className="object-contain"
+              />
+            ) : null}
+          </div>
+        </div>
+      );
+    }
+
     case 'dashboard':
       return moduleId === 1 ? <EnRoadsDashboard /> : <InteractiveDashboard moduleId={moduleId} />;
 
@@ -567,6 +875,9 @@ export function ContentBlock({
 
     case 'fourth-exercise':
       return <FourthExerciseDashboard />;
+
+    case 'module3-carbon-price-dashboard':
+      return <Module3CarbonPriceDashboard />;
 
     case 'reflection':
       return <ReflectionBlock block={block} moduleId={moduleId} />;
@@ -632,6 +943,9 @@ export function ContentBlock({
 
     case 'numeric-prediction':
       return <NumericPredictionBlock block={block} moduleId={moduleId} />;
+
+    case 'quote-carousel':
+      return <QuoteCarouselBlock block={block} />;
 
     case 'module-feedback':
       return <ModuleFeedbackBlock block={block} moduleId={moduleId} />;
