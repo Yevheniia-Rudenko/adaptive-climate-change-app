@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { GlossaryTerm } from './GlossaryTerm';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useGlossaryHighlight } from '../contexts/GlossaryHighlightContext';
 import { glossary, createTermPattern, findDefinition } from '../data/glossary';
 
 type TextWithGlossaryProps = {
@@ -70,8 +71,9 @@ export function TextWithGlossary({ text, className }: TextWithGlossaryProps) {
   let match;
   let keyCounter = 0;
 
-  // Track which terms have already been highlighted (first occurrence only)
-  const highlightedTerms = new Set<string>();
+  // Use the shared module-level set if a provider exists, otherwise local set
+  const glossaryCtx = useGlossaryHighlight();
+  const highlightedTerms = glossaryCtx?.highlightedTerms ?? new Set<string>();
 
   // Reset regex lastIndex
   pattern.lastIndex = 0;

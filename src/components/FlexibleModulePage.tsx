@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { ModuleStructure } from '../data/moduleStructures';
 import { ContentBlock } from './ContentBlock';
 import { useLanguage } from '../contexts/LanguageContext';
+import { GlossaryHighlightProvider } from '../contexts/GlossaryHighlightContext';
 import { Button } from './ui/button';
 
 type FlexibleModulePageProps = {
@@ -164,6 +165,7 @@ export function FlexibleModulePage({
 
 
             {/* Content Blocks */}
+            <GlossaryHighlightProvider key={`glossary-${moduleId}-${currentBlock}`}>
             {currentSections.map((section, index) => {
               if (section.type === 'block') {
                 // Color theme mapping
@@ -206,6 +208,7 @@ export function FlexibleModulePage({
                 );
               }
             })}
+            </GlossaryHighlightProvider>
 
             {/* Navigation */}
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
