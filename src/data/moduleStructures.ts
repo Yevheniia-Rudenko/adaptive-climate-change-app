@@ -1306,10 +1306,87 @@ If a government wants people to support a carbon price, it has to think carefull
         type: 'block',
         colorTheme: 'green',
         content: [
-        type: 'reflection',
-        prompt: 'What role do you see yourself playing in creating a better climate future?',
-        id: 'role'
+                {
+        type: 'text',
+        title: '**Imagining the Future**',
+        hideIcon: true,
+        content: '🎉 You have just joined the over 492,000+ people around the world who have created climate scenarios using En-ROADS.'
+      },
+      {
+        type: 'quote-carousel',
+        title: '**What leaders say about En‑ROADS**',
+        quotes: [
+          {
+            quote: 'En‑ROADS is quite simply a climate crisis game-changer for policymakers and people across the country. Everyone is hearing more and more about the science, but sometimes it takes a demonstration tool like En‑ROADS for people to see first-hand that every one of us needs to be on a war footing and mobilize to fight this crisis head-on. Our goal with World War Zero is to drive at least ten million conversations about the climate crisis: En‑ROADS is the ultimate conversation starter.',
+            author: 'John Kerry',
+            subtitle: 'U.S. Special Presidential Envoy for Climate (2021–2024), U.S. Secretary of State (2013–2017)'
+          },
+                    {
+            quote: 'Amidst a complex and urgent issue, En-ROADS emerges as a beacon of understanding and direction. The simulator connects scientific research with tangible pathways for action, empowering leaders to make informed decisions that shape effective climate strategies. It\'s time to act, and En-ROADS puts the power to act decisively in our hands.',
+            author: 'Sissi Knispel de Acosta',
+            subtitle: 'Executive Secretary, European Climate Research Alliance (ECRA). Brussels, Belgium'
+          },
+                              {
+            quote: 'EN-ROADS lit my brain on fire….in one screen, the model communicates the urgency of the climate change threat, powerfully debunks cherished myths, confirms the importance of current commitments and emphasizes how much more we have to do.',
+            author: 'Roberta Barbieri',
+            subtitle: 'Vice President, Global Sustainability, PepsiCo, United States'
+          }
+        ]
+      },
+      {
+        type:'text',
+        title: '',
+        hideIcon: true,
+        content: 'There are a number of roadmaps to our possible shared future.'
+      },
+      {
+        type: 'image-collage',
+        title: '**Scenario snapshots**',
+        width: '1100px',
+        images: [
+          { imageUrl: scenario1Img, alt: 'Scenario 1', caption: 'Scenario 1' },
+          { imageUrl: scenario2Img, alt: 'Scenario 2', caption: 'Scenario 2' },
+          { imageUrl: scenario3Img, alt: 'Scenario 3', caption: 'Scenario 3' },
+          { imageUrl: scenario4Img, alt: 'Scenario 4', caption: 'Scenario 4' }
+        ]
+      },
+            {
+        type:'text',
+        title: '',
+        hideIcon: true,
+        content: 'Seeing these scenarios of the future, and creating your own, can evoke a lot. \n\n We might begin to think about all the policies, collaborations, and societal changes needed. \n\n We might imagine what these futures look like–and wonder where we or our communities might be doing in that future. \n\n Let’s take a moment to pause and check in with yourselves.'
+      },
+                {
+            type: 'image',
+            title: 'Wheel of Emotions',
+            imageUrl: plutchikWheel,
+            alt: "Plutchik's Wheel of Emotions",
+            width: '70%'
+          },
+                {
+        type:'text',
+        title: '',
+        hideIcon: true,
+        content: 'Let’s revisit the emotion wheel. What emotions came up when you were creating your En-ROADS scenario?  It’s okay if there were many or even conflicting emotions. '
+      },
+      {type: 'reflection',
+        prompt: 'How are you feeling? What emotions do you feel when you think about these climate futures?',
+        id: 'en-roads-scenario-3'
+      },
+    ]
+  },
+                  {
+        type: 'block',
+        colorTheme: 'green',
+        content: [
+           {
+        type: 'module-feedback',
+        title: '🎉 Congratulations on completing Module 3: Roadmaps to Possible Futures!',
+        description: "Before you begin the next, we'd love your feedback on this learning experience.",
+        id: 'module-3-feedback'
       }
+        ]
+      },
     ]
   },
   {
@@ -1578,87 +1655,6 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
     title: "Lever of Change",
     headerImage: "https://images.unsplash.com/photo-1742729096780-600245031d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsZXZlciUyMG1lY2hhbmlzbSUyMGNoYW5nZXxlbnwxfHx8fDE3NjUxNzUwNjl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
     sections: [
-      {
-        type: 'text',
-        title: '**Imagining the Future**',
-        hideIcon: true,
-        content: '🎉 You have just joined the over 492,000+ people around the world who have created climate scenarios using En-ROADS.'
-      },
-      {
-        type: 'quote-carousel',
-        title: '**What leaders say about En‑ROADS**',
-        quotes: [
-          {
-            quote: 'En‑ROADS is quite simply a climate crisis game-changer for policymakers and people across the country. Everyone is hearing more and more about the science, but sometimes it takes a demonstration tool like En‑ROADS for people to see first-hand that every one of us needs to be on a war footing and mobilize to fight this crisis head-on. Our goal with World War Zero is to drive at least ten million conversations about the climate crisis: En‑ROADS is the ultimate conversation starter.',
-            author: 'John Kerry',
-            subtitle: 'U.S. Special Presidential Envoy for Climate (2021–2024), U.S. Secretary of State (2013–2017)'
-          },
-                    {
-            quote: 'Amidst a complex and urgent issue, En-ROADS emerges as a beacon of understanding and direction. The simulator connects scientific research with tangible pathways for action, empowering leaders to make informed decisions that shape effective climate strategies. It\'s time to act, and En-ROADS puts the power to act decisively in our hands.',
-            author: 'Sissi Knispel de Acosta',
-            subtitle: 'Executive Secretary, European Climate Research Alliance (ECRA). Brussels, Belgium'
-          },
-                              {
-            quote: 'EN-ROADS lit my brain on fire….in one screen, the model communicates the urgency of the climate change threat, powerfully debunks cherished myths, confirms the importance of current commitments and emphasizes how much more we have to do.',
-            author: 'Roberta Barbieri',
-            subtitle: 'Vice President, Global Sustainability, PepsiCo, United States'
-          }
         ]
       },
-      {
-        type:'text',
-        title: '',
-        hideIcon: true,
-        content: 'There are a number of roadmaps to our possible shared future.'
-      },
-      {
-        type: 'image-collage',
-        title: '**Scenario snapshots**',
-        width: '1100px',
-        images: [
-          { imageUrl: scenario1Img, alt: 'Scenario 1', caption: 'Scenario 1' },
-          { imageUrl: scenario2Img, alt: 'Scenario 2', caption: 'Scenario 2' },
-          { imageUrl: scenario3Img, alt: 'Scenario 3', caption: 'Scenario 3' },
-          { imageUrl: scenario4Img, alt: 'Scenario 4', caption: 'Scenario 4' }
-        ]
-      },
-            {
-        type:'text',
-        title: '',
-        hideIcon: true,
-        content: 'Seeing these scenarios of the future, and creating your own, can evoke a lot. \n\n We might begin to think about all the policies, collaborations, and societal changes needed. \n\n We might imagine what these futures look like–and wonder where we or our communities might be doing in that future. \n\n Let’s take a moment to pause and check in with yourselves.'
-      },
-                {
-            type: 'image',
-            title: 'Wheel of Emotions',
-            imageUrl: plutchikWheel,
-            alt: "Plutchik's Wheel of Emotions",
-            width: '70%'
-          },
-                {
-        type:'text',
-        title: '',
-        hideIcon: true,
-        content: 'Let’s revisit the emotion wheel. What emotions came up when you were creating your En-ROADS scenario?  It’s okay if there were many or even conflicting emotions. '
-      },
-      {type: 'reflection',
-        prompt: 'How are you feeling? What emotions do you feel when you think about these climate futures?',
-        id: 'en-roads-scenario-3'
-      }
-        ]
-      },
-                  {
-        type: 'block',
-        colorTheme: 'green',
-        content: [
-           {
-        type: 'module-feedback',
-        title: 'Congratulations on completing Module 3: Roadmaps to Possible Futures!',
-        description: "Before you begin the next, we'd love your feedback on this learning experience.",
-        id: 'module-3-feedback'
-      }
-        ]
-      },
-    ]
-  }
 ];
