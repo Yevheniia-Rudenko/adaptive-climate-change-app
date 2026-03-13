@@ -2,12 +2,16 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import { Button } from './ui/button';
 import { BookOpen, FileText, Wrench, PlayCircle, Globe, Users, ExternalLink, ArrowRight, BookText } from 'lucide-react';
+import newspaperArticleVideo from '../assets/resources categories/Newspaper Article.mp4';
+import toolVideo from '../assets/resources categories/Tool.mp4';
+import bookmarksVideoPage from '../assets/resources categories/Bookmarks video page.mp4';
 
 type ResourceCategory = {
   id: string;
   title: string;
   description: string;
   icon: React.ComponentType<{ className?: string; size?: number }>;
+  video?: string;
 };
 
 export function ResourcesPage() {
@@ -26,18 +30,21 @@ export function ResourcesPage() {
       title: 'Articles & Publications',
       description: 'Research papers, reports, and in-depth reading materials.',
       icon: FileText,
+      video: newspaperArticleVideo,
     },
     {
       id: 'tools-frameworks',
       title: 'Tools & Frameworks',
       description: 'Interactive simulators and analytical tools for climate exploration.',
       icon: Wrench,
+      video: toolVideo,
     },
     {
       id: 'videos-podcasts',
       title: 'Videos & Podcasts',
       description: 'Engaging multimedia content to learn about climate solutions.',
       icon: PlayCircle,
+      video: bookmarksVideoPage,
     },
     {
       id: 'case-studies',
@@ -86,7 +93,10 @@ export function ResourcesPage() {
         </Link>
 
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 sm:p-8 md:p-12">
-          <h1 className="text-green-600 mb-3 sm:mb-4">{t.resources}</h1>
+          <h1 
+            className="font-bold text-gray-800 dark:text-gray-100 text-center mb-3 sm:mb-4"
+            style={{ fontSize: '3rem', lineHeight: '1.2' }}
+          >{t.resources}</h1>
           <p className="text-gray-600 dark:text-gray-300 mb-8 sm:mb-10 text-sm sm:text-base max-w-2xl">
             Explore additional resources to deepen your understanding of climate systems
             and climate action. Select a category to discover curated materials.
@@ -99,20 +109,44 @@ export function ResourcesPage() {
               return (
                 <div
                   key={category.id}
-                  className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-5 sm:p-6 shadow-sm hover:shadow-md hover:border-green-300 dark:hover:border-green-600 border border-gray-200 dark:border-gray-600 transition-all duration-200 flex flex-col"
+                  className="bg-white dark:bg-gray-700/50 rounded-xl p-5 sm:p-6 border border-gray-200 dark:border-gray-600 shadow-sm flex flex-col cursor-pointer"
+                  style={{ transition: 'transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease' }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'scale(1.05)';
+                    e.currentTarget.style.boxShadow = '0 8px 30px rgba(34,197,94,0.25)';
+                    e.currentTarget.style.borderColor = '#ffffff';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'scale(1)';
+                    e.currentTarget.style.boxShadow = '';
+                    e.currentTarget.style.borderColor = '';
+                  }}
                 >
-                  {/* Icon */}
-                  <div className="w-12 h-12 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-4">
-                    <Icon className="text-green-600 dark:text-green-400" size={24} />
-                  </div>
+                  {/* Icon / Video */}
+                  {category.video ? (
+                    <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-4 mx-auto overflow-hidden">
+                      <video
+                        src={category.video}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                  ) : (
+                    <div className="w-12 h-12 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-4 mx-auto">
+                      <Icon className="text-green-600 dark:text-green-400" size={24} />
+                    </div>
+                  )}
 
                   {/* Title */}
-                  <h3 className="text-gray-900 dark:text-gray-100 font-semibold text-base sm:text-lg mb-2">
+                  <h3 className="text-green-600 dark:text-green-400 font-semibold text-base sm:text-xl text-center mb-2">
                     {category.title}
                   </h3>
 
                   {/* Description */}
-                  <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 flex-grow">
+                  <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 text-center flex-grow">
                     {category.description}
                   </p>
 
