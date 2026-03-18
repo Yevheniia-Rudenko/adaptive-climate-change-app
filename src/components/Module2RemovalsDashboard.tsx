@@ -4,12 +4,24 @@ import enStrings from '@climateinteractive/en-roads-core/strings/en';
 import { GraphView } from '@climateinteractive/sim-ui-graph';
 import '../styles/enroads-dashboard.css';
 
-// Four graphs: CO₂ Emissions & Removals (combined), CO₂ Concentration, Global Temperature
+type GraphConfig = {
+  id: string;
+  label: string;
+  canvasId: string;
+};
+
+// Subsection 5 graphs: combined CO₂ Emissions and Removals, plus CO₂ Concentration
 const GRAPH_CONFIGS = [
   { id: '57', label: 'CO₂ Emissions and Removals', canvasId: 'module2-removals-graph-emissions-removals' },
   { id: '88', label: 'CO₂ Concentration', canvasId: 'module2-removals-graph-concentration' },
-  { id: '86', label: 'Global Temperature by 2100', canvasId: 'module2-removals-graph-temperature' },
-];
+] as const satisfies ReadonlyArray<GraphConfig>;
+
+const CARBON_PRICE_INPUT_ID = '39';
+const CARBON_PRICE_FINAL_INPUT_ID = '42';
+const NATURE_REMOVALS_INPUT_ID = '417';
+const TECHNOLOGICAL_REMOVALS_INPUT_ID = '67';
+const TECHNOLOGICAL_REMOVALS_MODE_SWITCH_ID = '208';
+const NATURE_REMOVALS_MODE_SWITCH_ID = '418';
 
 export default function Module2RemovalsDashboard() {
   const [isLoading, setIsLoading] = useState(true);
@@ -36,10 +48,34 @@ export default function Module2RemovalsDashboard() {
 
   // Input refs
   const carbonPriceInputRef = useRef<any>(null);
+  const carbonPriceFinalRef = useRef<any>(null);
   const natureInputRef = useRef<any>(null); // Afforestation / nature-based removal
   const techInputRef = useRef<any>(null); // Technological removal (DACCS, etc.)
+  const techModeSwitchRef = useRef<any>(null);
+  const natureModeSwitchRef = useRef<any>(null);
 
   const str = (key: string) => (enStrings as any)[key] || key;
+
+  const getInputRangeLabel = (input: any, value: number) => {
+    const rangeLabelKeys: string[] = input?.spec?.rangeLabelKeys ?? [
+      'input_range__status_quo',
+      'input_range__low',
+      'input_range__medium',
+      'input_range__high',
+      'input_range__very_high'
+    ];
+    const rangeDividers: number[] = input?.spec?.rangeDividers ?? [6, 20, 60, 100];
+
+    let idx = rangeDividers.findIndex((d) => value < d);
+    if (idx === -1) idx = rangeLabelKeys.length - 1;
+    return str(rangeLabelKeys[idx] ?? 'input_range__status_quo');
+  };
+
+  const toSliderPos = (value: number, min: number, max: number) => {
+    const denom = max - min;
+    if (denom === 0) return 0;
+    return Math.max(0, Math.min(100, ((value - min) / denom) * 100));
+  };
 
   const createGraphViewModel = (graphSpec: any) => {
     const datasetViewModels = graphSpec.datasets.map((datasetSpec: any) => ({
@@ -60,6 +96,7 @@ export default function Module2RemovalsDashboard() {
     try {
       if (!graphView || !modelContextRef.current) return;
       const graphViewModel = graphView.viewModel;
+      const graphId = graphViewModel?.spec?.id;
       for (const datasetViewModel of graphViewModel.getDatasets()) {
         const datasetSpec = datasetViewModel.spec;
         const series = modelContextRef.current.getSeriesForVar(
@@ -67,10 +104,25 @@ export default function Module2RemovalsDashboard() {
           datasetSpec.externalSourceName
         );
         datasetViewModel.points = [...(series?.points || [])];
+
+        // Graph 57 is a two-line composition graph from SDK (emissions/removals).
+        // Keep semantic colors that match En-ROADS.
+        if (graphId === '57') {
+          if (datasetSpec.varId === '_co2_gross_emissions') {
+            datasetSpec.color = '#cc3b09';
+            datasetSpec.lineWidth = 4;
+          } else if (datasetSpec.varId === '_net_uptake_and_net_sequestration') {
+            datasetSpec.color = '#0063b0';
+            datasetSpec.lineWidth = 4;
+          }
+          continue;
+        }
+
+        // Other graphs in this subsection use baseline/current scenario coloring.
         if (!datasetSpec.externalSourceName) {
-          datasetSpec.color = '#EF4444';
+          datasetSpec.color = '#00b6f1';
           datasetSpec.lineWidth = 4;
-        } else if (datasetSpec.externalSourceName === 'baseline') {
+        } else if (datasetSpec.externalSourceName === 'baseline' || datasetSpec.externalSourceName === 'Ref') {
           datasetSpec.color = '#000000';
           datasetSpec.lineWidth = 4;
         }
@@ -104,6 +156,7 @@ export default function Module2RemovalsDashboard() {
   const loadGraph = (canvasId: string, graphId: string) => {
     if (!coreConfigRef.current) return;
     const graphSpec = coreConfigRef.current.graphs.get(graphId);
+    if (!graphSpec) return;
 
     const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
     if (!canvas) return;
@@ -140,7 +193,10 @@ export default function Module2RemovalsDashboard() {
       const max = carbonPriceInputRef.current.max ?? 250;
       const modelVal = min + (val / 100) * (max - min);
       carbonPriceInputRef.current.set(modelVal);
-      setCarbonPriceText(`$${Math.round(modelVal)} / ton CO₂`);
+      if (carbonPriceFinalRef.current) {
+        carbonPriceFinalRef.current.set(modelVal);
+      }
+      setCarbonPriceText(getInputRangeLabel(carbonPriceInputRef.current, modelVal));
       setTimeout(() => updateAllGraphs(), 100);
     }
   };
@@ -149,15 +205,11 @@ export default function Module2RemovalsDashboard() {
     const val = parseFloat(e.target.value);
     setNatureVal(val);
     if (natureInputRef.current && modelRef.current) {
-      const min = natureInputRef.current.min ?? -5;
-      const max = natureInputRef.current.max ?? 5;
+      const min = natureInputRef.current.min ?? 0;
+      const max = natureInputRef.current.max ?? 100;
       const modelVal = min + (val / 100) * (max - min);
       natureInputRef.current.set(modelVal);
-      if (modelVal > 0.5) setNatureText('high reforestation');
-      else if (modelVal > 0.1) setNatureText('moderate reforestation');
-      else if (modelVal >= -0.1) setNatureText('status quo');
-      else if (modelVal >= -0.5) setNatureText('moderate deforestation');
-      else setNatureText('high deforestation');
+      setNatureText(getInputRangeLabel(natureInputRef.current, modelVal));
       setTimeout(() => updateAllGraphs(), 100);
     }
   };
@@ -170,10 +222,7 @@ export default function Module2RemovalsDashboard() {
       const max = techInputRef.current.max ?? 100;
       const modelVal = min + (val / 100) * (max - min);
       techInputRef.current.set(modelVal);
-      if (val <= 1) setTechText('status quo');
-      else if (val < 33) setTechText('low investment');
-      else if (val < 66) setTechText('medium investment');
-      else setTechText('high investment');
+      setTechText(getInputRangeLabel(techInputRef.current, modelVal));
       setTimeout(() => updateAllGraphs(), 100);
     }
   };
@@ -187,33 +236,21 @@ export default function Module2RemovalsDashboard() {
         modelContextRef.current = modelRef.current.addContext();
         createDefaultOutputs();
 
-        // Find all three inputs by scanning varIds
-        for (let i = 0; i < 200; i++) {
-          const input = modelContextRef.current.getInputForId(String(i));
-          if (!input?.varId) continue;
-          const varId = input.varId.toLowerCase();
+        // Use exact En-ROADS slider IDs so behavior/labels match the reference UI.
+        carbonPriceInputRef.current = modelContextRef.current.getInputForId(CARBON_PRICE_INPUT_ID);
+        carbonPriceFinalRef.current = modelContextRef.current.getInputForId(CARBON_PRICE_FINAL_INPUT_ID);
+        natureInputRef.current = modelContextRef.current.getInputForId(NATURE_REMOVALS_INPUT_ID);
+        techInputRef.current = modelContextRef.current.getInputForId(TECHNOLOGICAL_REMOVALS_INPUT_ID);
+        techModeSwitchRef.current = modelContextRef.current.getInputForId(TECHNOLOGICAL_REMOVALS_MODE_SWITCH_ID);
+        natureModeSwitchRef.current = modelContextRef.current.getInputForId(NATURE_REMOVALS_MODE_SWITCH_ID);
 
-          // Carbon Price
-          if (!carbonPriceInputRef.current && (varId.includes('_price') || varId === '_carbon_price' || varId.includes('carbon_tax'))) {
-            carbonPriceInputRef.current = input;
-            console.log(`Module2Removals: Found Carbon Price at ID ${i}: ${input.varId}`);
-          }
-
-          // Nature-based removal (afforestation/deforestation)
-          if (!natureInputRef.current && (varId.includes('afforest') || (varId.includes('deforest') && !varId.includes('from')))) {
-            natureInputRef.current = input;
-            console.log(`Module2Removals: Found Nature-based at ID ${i}: ${input.varId}, min: ${input.min}, max: ${input.max}`);
-          }
-
-          // Technological removal (direct air capture, tech carbon removal)
-          if (!techInputRef.current && (varId.includes('tech') && (varId.includes('remov') || varId.includes('carbon') || varId.includes('capture')))) {
-            techInputRef.current = input;
-            console.log(`Module2Removals: Found Tech removal at ID ${i}: ${input.varId}, min: ${input.min}, max: ${input.max}`);
-          }
-        }
+        // Ensure aggregate sliders are active (same mode users expect in En-ROADS top-level sliders).
+        // 208 offValue=1 enables slider 67; 418 offValue=0 enables slider 417.
+        if (techModeSwitchRef.current?.set) techModeSwitchRef.current.set(1);
+        if (natureModeSwitchRef.current?.set) natureModeSwitchRef.current.set(0);
 
         // Fallback: dump all inputs to help debug
-        if (!natureInputRef.current || !techInputRef.current) {
+        if (!carbonPriceInputRef.current || !natureInputRef.current || !techInputRef.current) {
           console.log('Module2Removals: Dumping all inputs for debugging...');
           for (let i = 0; i < 200; i++) {
             const input = modelContextRef.current.getInputForId(String(i));
@@ -221,6 +258,34 @@ export default function Module2RemovalsDashboard() {
               console.log(`  ID ${i}: ${input.varId}`);
             }
           }
+        }
+
+        // Initialize slider positions and labels from model defaults (status quo).
+        if (carbonPriceInputRef.current) {
+          const current = carbonPriceInputRef.current.get();
+          const min = carbonPriceInputRef.current.min ?? 0;
+          const max = carbonPriceInputRef.current.max ?? 250;
+          const pos = toSliderPos(current, min, max);
+          setCarbonPriceVal(pos);
+          setCarbonPriceText(getInputRangeLabel(carbonPriceInputRef.current, current));
+        }
+
+        if (natureInputRef.current) {
+          const current = natureInputRef.current.get();
+          const min = natureInputRef.current.min ?? 0;
+          const max = natureInputRef.current.max ?? 100;
+          const pos = toSliderPos(current, min, max);
+          setNatureVal(pos);
+          setNatureText(getInputRangeLabel(natureInputRef.current, current));
+        }
+
+        if (techInputRef.current) {
+          const current = techInputRef.current.get();
+          const min = techInputRef.current.min ?? 0;
+          const max = techInputRef.current.max ?? 100;
+          const pos = toSliderPos(current, min, max);
+          setTechVal(pos);
+          setTechText(getInputRangeLabel(techInputRef.current, current));
         }
 
         modelContextRef.current.onOutputsChanged = () => updateAllGraphs();
@@ -254,15 +319,47 @@ export default function Module2RemovalsDashboard() {
 
       {/* Temperature display */}
       <div className="flex justify-center mb-4">
-        <div className="bg-white dark:bg-gray-800 px-6 py-3 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 text-center">
-          <div className="text-3xl md:text-4xl font-black text-red-500">+{tempC.toFixed(1)}°C</div>
-          <div className="text-lg font-bold text-red-400">+{tempF.toFixed(1)}°F</div>
-          <div className="text-gray-500 text-xs font-bold uppercase mt-1">Global Temperature by 2100</div>
+        <div className="bg-white dark:bg-gray-800 px-8 py-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 text-center w-full max-w-[430px] mx-auto">
+          <div
+            style={{
+              color: '#14a9df',
+              fontSize: 'clamp(3rem, 3vw, 3rem)',
+              fontWeight: 800,
+              lineHeight: 1.5,
+            }}
+          >
+            +{tempC.toFixed(1)}°C
+          </div>
+          <div className="mx-auto my-4 h-[2px] w-[72%] bg-black" />
+          <div
+            style={{
+              color: '#14a9df',
+              fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)',
+              fontWeight: 800,
+              lineHeight: 1,
+            }}
+          >
+            +{tempF.toFixed(1)}°F
+          </div>
+          <div
+            className="mt-3 leading-tight"
+            style={{
+              color: '#000000',
+              fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)',
+              fontWeight: 800,
+            }}
+          >
+            Temperature
+            <br />
+            Increase by
+            <br />
+            2100
+          </div>
         </div>
       </div>
 
-      {/* Three graphs in a grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+      {/* Graphs */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         {GRAPH_CONFIGS.map((cfg) => (
           <div
             key={cfg.canvasId}
@@ -271,6 +368,19 @@ export default function Module2RemovalsDashboard() {
             <h3 className="text-sm font-bold text-gray-700 dark:text-gray-200 mb-2">{cfg.label}</h3>
             <div className="relative w-full h-[250px]">
               <canvas id={cfg.canvasId} className="w-full h-full" />
+            </div>
+            <div className="flex justify-center gap-3 mt-3">
+              {cfg.id === '57' ? (
+                <>
+                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#cc3b09' }}>CO₂ EMISSIONS</span>
+                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#0063b0' }}>CO₂ REMOVALS</span>
+                </>
+              ) : (
+                <>
+                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
+                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#00b6f1' }}>CURRENT SCENARIO</span>
+                </>
+              )}
             </div>
           </div>
         ))}
@@ -281,7 +391,7 @@ export default function Module2RemovalsDashboard() {
         {/* Carbon Price */}
         <div className="space-y-2">
           <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
-            <label>💰 Carbon Price</label>
+            <label>Carbon Price</label>
             <span className="text-xs font-mono text-gray-500">{carbonPriceText}</span>
           </div>
           <input
@@ -290,14 +400,17 @@ export default function Module2RemovalsDashboard() {
             max="100"
             value={carbonPriceVal}
             onChange={handleCarbonPriceChange}
-            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-green-500"
+            className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+            style={{
+              background: `linear-gradient(to right, #3B82F6 0%, #3B82F6 ${carbonPriceVal}%, #e5e7eb ${carbonPriceVal}%, #e5e7eb 100%)`
+            }}
           />
         </div>
 
         {/* Nature-based Removals */}
         <div className="space-y-2">
           <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
-            <label>🌱 Nature-Based Removals</label>
+            <label>Nature-Based Removals</label>
             <span className="text-xs font-mono text-gray-500">{natureText}</span>
           </div>
           <input
@@ -306,14 +419,17 @@ export default function Module2RemovalsDashboard() {
             max="100"
             value={natureVal}
             onChange={handleNatureChange}
-            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-emerald-500"
+            className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+            style={{
+              background: `linear-gradient(to right, #3B82F6 0%, #3B82F6 ${natureVal}%, #e5e7eb ${natureVal}%, #e5e7eb 100%)`
+            }}
           />
         </div>
 
         {/* Technological Removals */}
         <div className="space-y-2">
           <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
-            <label>🔧 Technological Removals</label>
+            <label>Technological Removals</label>
             <span className="text-xs font-mono text-gray-500">{techText}</span>
           </div>
           <input
@@ -322,7 +438,10 @@ export default function Module2RemovalsDashboard() {
             max="100"
             value={techVal}
             onChange={handleTechChange}
-            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-500"
+            className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+            style={{
+              background: `linear-gradient(to right, #3B82F6 0%, #3B82F6 ${techVal}%, #e5e7eb ${techVal}%, #e5e7eb 100%)`
+            }}
           />
         </div>
       </div>
