@@ -140,12 +140,22 @@ export function FlexibleModulePage({
                         const border = (isCurrent || isDone) ? 'none' : '2px solid #a7d7a9';
                         const opacity = isCurrent ? 1 : isDone ? 0.85 : Math.max(0.3, 1 - (stepNum - currentBlock) * 0.15);
                         return (
-                          <div
+                          <button
                             key={i}
+                            type="button"
+                            onClick={() => setCurrentBlock(stepNum)}
+                            aria-label={`Go to step ${stepNum}`}
+                            aria-current={isCurrent ? 'step' : undefined}
+                            className="rounded-full focus:outline-none focus:ring-2 focus:ring-green-500/60"
                             style={{
-                              width: size, height: size, borderRadius: '50%',
-                              background: bg, border, opacity,
-                              transition: 'all 0.4s ease', flexShrink: 0,
+                              width: size,
+                              height: size,
+                              background: bg,
+                              border,
+                              opacity,
+                              transition: 'all 0.4s ease',
+                              flexShrink: 0,
+                              cursor: 'pointer',
                             }}
                           />
                         );
