@@ -49,6 +49,13 @@ export const resourceCategoriesData: Record<string, ResourceCategoryData> = {
         title: 'Articles',
         items: [
           {
+            title: 'The Most Important Thing We\'re Not Talking About',
+            description: 'A reflection on climate change as a “hyperobject” and why attention, framing, and medium-scale action matter in a worsening crisis.',
+            type: 'Article',
+            duration: '12 min',
+            url: 'https://thegoldenhour.substack.com/p/the-hyperobject',
+          },
+          {
             title: 'BBC Climate Change Overview',
             description: 'A concise overview of climate change from the BBC.',
             type: 'Article',
@@ -105,6 +112,13 @@ export const resourceCategoriesData: Record<string, ResourceCategoryData> = {
             duration: '10 min',
             url: 'https://thesystemsthinker.com/wp-content/uploads/2016/03/Systems-Thinking-Tools-TRST01E.pdf',
           },
+          {
+            title: 'FLOWER Systems Model',
+            description: 'Interactive systems model from the iSee systems Exchange for exploring multisolving dynamics.',
+            type: 'Tool',
+            duration: 'Interactive',
+            url: 'https://exchange.iseesystems.com/public/multisolvinginstitute/flower/index.html#page1',
+          },
         ],
       },
       {
@@ -131,6 +145,13 @@ export const resourceCategoriesData: Record<string, ResourceCategoryData> = {
             duration: 'Interactive',
             url: 'https://drawdown.org/explorer',
           },
+          {
+            title: 'Climate Walks',
+            description: 'Interactive climate storytelling and learning experiences for exploring climate solutions.',
+            type: 'Tool',
+            duration: 'Interactive',
+            url: 'https://climatewalks.com/',
+          },
         ],
       },
     ],
@@ -156,6 +177,13 @@ export const resourceCategoriesData: Record<string, ResourceCategoryData> = {
             type: 'video',
             duration: '4 min',
             url: 'https://www.youtube.com/watch?v=EtW2rrLHs08',
+          },
+          {
+            title: 'Think Like A Bathtub COP26',
+            description: 'The video shows how an everyday object - a bathtub - can help more people understand climate change and inspire us to take climate action.',
+            type: 'video',
+            duration: 'Varies',
+            url: 'https://pie.yt/?v=https://youtu.be/7WAMnt8thGs?si=eTqeh4BF850UNqbG&pieshare=1',
           },
         ],
       },
