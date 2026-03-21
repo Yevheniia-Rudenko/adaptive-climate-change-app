@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import { Button } from './ui/button';
@@ -17,6 +18,7 @@ type ResourceCategory = {
 export function ResourcesPage() {
   const { t } = useLanguage();
   const navigate = useNavigate();
+  const videoRefs = useRef<Record<string, HTMLVideoElement | null>>({});
 
   const categories: ResourceCategory[] = [
     {
@@ -80,6 +82,25 @@ export function ResourcesPage() {
     navigate(`/resources/${categoryId}`);
   };
 
+  const playCardVideo = (categoryId: string) => {
+    const video = videoRefs.current[categoryId];
+    if (!video) return;
+
+    // Restart each hover so the animation is noticeable.
+    video.currentTime = 0;
+    void video.play().catch(() => {
+      // Ignore autoplay/play promise rejections.
+    });
+  };
+
+  const stopCardVideo = (categoryId: string) => {
+    const video = videoRefs.current[categoryId];
+    if (!video) return;
+
+    video.pause();
+    video.currentTime = 0;
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 pt-20 font-sora">
       <div className="max-w-4xl w-full">
@@ -115,22 +136,27 @@ export function ResourcesPage() {
                     e.currentTarget.style.transform = 'scale(1.05)';
                     e.currentTarget.style.boxShadow = '0 8px 30px rgba(34,197,94,0.25)';
                     e.currentTarget.style.borderColor = '#ffffff';
+                    if (category.video) playCardVideo(category.id);
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'scale(1)';
                     e.currentTarget.style.boxShadow = '';
                     e.currentTarget.style.borderColor = '';
+                    if (category.video) stopCardVideo(category.id);
                   }}
                 >
                   {/* Icon / Video */}
                   {category.video ? (
                     <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-4 mx-auto overflow-hidden">
                       <video
+                        ref={(el) => {
+                          videoRefs.current[category.id] = el;
+                        }}
                         src={category.video}
-                        autoPlay
                         loop
                         muted
                         playsInline
+                        preload="metadata"
                         className="w-full h-full object-contain"
                       />
                     </div>
