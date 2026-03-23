@@ -33,7 +33,10 @@ import hopeOrientationImg from '../assets/module2/Hope Orientation-Tippett.png';
 import hopeStockAudio from '../assets/module2/Module2-Hope-as-a-Stock.m4a';
 import systemsIcebergImg from '../assets/systems_iceberg.jpg';
 import icebergExplainerAudio from '../assets/IcebergExplainer.mp3';
-
+import mandalaForSystemsChangeImg from '../assets/module_5/mandala-for-systems-change.png';
+import youthLeadershipImg from '../assets/module_5/youthleadership.png';
+import skyRocketAnimation from '../assets/module_5/sky_rocket.json';
+import breatheImg from '../assets/module_5/breathe.jpg';
 
 
 export type FlipCardData = {
@@ -1655,6 +1658,267 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
     title: "Lever of Change",
     headerImage: "https://images.unsplash.com/photo-1742729096780-600245031d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsZXZlciUyMG1lY2hhbmlzbSUyMGNoYW5nZXxlbnwxfHx8fDE3NjUxNzUwNjl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
     sections: [
+          {
+        type: 'block',
+        colorTheme: 'pink',
+        content: [
+                    {
+            type: 'text',
+            title: '',
+            content: "**You have a role to play.** \n\n By now, you’ve seen both the **gravity** of the climate crisis and the **real reasons for hope**—from powerful policy tools to nature‑based solutions, from systems thinking to community action. This final module is about turning what you’ve learned into **impact.**\n"
+          },
+          {
+            type: 'lottie',
+            animationData: skyRocketAnimation,
+            loop: true,
+            autoplay: true,
+            width: '80%'
+          },
+
+                    {
+            type: 'text',
+            title: 'Holding Creative Tension',
+            hideIcon: true,
+            content: "In this program, we’ve practiced **creative tension:**\n\n• **Current Reality:** what the data and your En‑ROADS simulations show.\n• **Vision:** the healthier, fairer future you believe is possible.\n\nThe space **between** those two is not a void—it’s **energy**. When we face the truth and keep our vision alive, that tension fuels **focused, courageous action.** This module helps you channel that energy into **levers of change**—places in the system where smart, well‑designed actions can shift outcomes."
+          },
         ]
       },
+            {
+        type: 'block',
+        colorTheme: 'pink',
+        content: [
+          {
+            type: 'text',
+            title: 'You are not alone: the power of collective leadership',
+            hideIcon: true,
+            content: "A major global study surveyed 10,000 young people (ages 16–25) in 10 countries about their emotional responses to climate change. The results show that climate anxiety is widespread, intense, and deeply connected to how young people view government action."
+          },
+                    {
+            type: 'text',
+            title: '😟 1. Most young people across all countries are worried about climate change',
+            hideIcon: true,
+            content: "• **59%** said they were **very or extremely worried** \n• **84%** were at least **moderately worried**\n\nYoung people everywhere—regardless of country—are carrying strong concern about the future of the planet."
+          },
+          {
+            type: 'text',
+            title: '💬 2. More than half reported feeling a range of difficult emotions',
+            hideIcon: true,
+            content: "Over 50% of respondents said they feel:\n• Sad \n• Anxious \n• Angry \n• Powerless \n• Helpless \n• Guilty\n\nThis shows that climate change isn’t just a scientific or political issue—it’s an emotional one."
+          },
+          {
+            type: 'text',
+            title: '🧠 3. Climate anxiety affects daily life and thinking for many',
+            hideIcon: true,
+            content: "• More than **45%** said climate-related feelings **negatively affect their daily life and functioning** \n• **75%** said “the future is frightening” \n• **83%** said that “people have failed to take care of the planet”\n\nThis suggests that climate anxiety is shaping how young people see their future and their place in it."
+          },
+          {
+            type: 'text',
+            title: '🏛️ 4. Young people rated government climate responses very negatively',
+            hideIcon: true,
+            content: "Respondents said they felt:\n• **More betrayal than reassurance** when thinking about government action\n• A sense that leaders are **not doing enough** to protect them\n\nThese feelings of betrayal were stronger in countries where climate impacts are severe."
+          },
+          {
+            type: 'text',
+            title: '🔗 5. Climate anxiety is strongly linked to feeling let down by government',
+            hideIcon: true,
+            content: "The researchers found a clear connection:\n\n• When young people believe their government is not responding adequately, their **climate anxiety and distress increase.**"
+          },
+                    {
+            type: 'text',
+            title: '',
+            hideIcon: true,
+            content: "In other words, it’s not just the climate crisis itself—it’s the feeling that adults in power aren’t acting fast enough.\n\nThis study shows that **young people around the world are deeply worried about climate change**, experiencing strong emotions that affect their daily lives. Feelings of **fear, sadness, and anger** are common. Most importantly, the research shows that **inadequate government action** makes these feelings **worse**, leading to a sense of betrayal.\n\nYouth climate anxiety is not irrational—it’s a **real, evidence‑based response** to global inaction."
+          },
+          {
+            type: 'button',
+            label: 'Check out the study',
+            newTab: true,
+            url: 'https://www.thelancet.com/journals/lanplh/article/PIIS2542-5196%2821%2900278-3/fulltext'
+          },
+          {
+            type: 'text',
+            title: 'A Call to Youth Leadership',
+            hideIcon: true,
+            content: "Real change needs **informed, brave youth leaders**—people who can:\n\n • Think in systems, not quick fixes\n • Consider **equity and fairness**, not just averages\n • Communicate with **clarity and care**\n • Act with **persistence** when the work is hard\n\nYou don’t have to do everything. But you **can** do something—strategically, together."
+          },          
+        ]
+      },
+          {
+        type: 'block',
+        colorTheme: 'pink',
+        content: [
+          {
+            type: 'text',
+            title: '2. Finding Your Climate Action',
+            hideIcon: true,
+            content: "**Where can you have an impact in climate action?**\n\n Dr. Ayana Elizabeth Johnson, a marine biologist, policy expert, writer, and climate solution advocate, has an inspiring way to think about this very question."
+          },
+          {
+            type: 'video',
+            title: 'Watch as Dr. Johnson shares “How to Find Joy in Climate Action”',
+            videoUrl: 'https://www.youtube.com/embed/VsOJR40M0as?si=4wHcfG7r6kODHJV5',
+            description: 'A video by Dr. Johnson discussing the importance of finding joy in climate action.'
+          },
+          {
+            type: 'text',
+            title: 'Draw your own venn diagram inspired by Dr. Johnson’s talk.',
+            content: "• What are you good at?\n\n • What needs doing?\n\n • What brings you joy?"
+          },
+          {
+            type:'reflection',
+            prompt:'What did you discover in this exercise? What climate actions might it inspire?',
+            id:'module-5-reflection-1'
+          }
+          
+        ]
+      },
+          {
+        type: 'block',
+        colorTheme: 'pink',
+        content: [
+          {
+            type: 'text',
+            title: '3. Designing for Systems Change',
+            content: "Inspired by the last exercise of discovering your climate action, let’s plan your action out further. \n\n This systems tool can help give the understanding of what is needed to accomplish this my goals"
+          },
+          {
+            type: 'text',
+            title: 'Mandala for Systems Change',
+            hideIcon: true,
+            content: "The **Mandala for Systems Change** is a way of understanding how real, lasting change happens in complex systems—like schools, communities, social issues, or the climate system."
+          },
+          {
+            type: 'image',
+            imageUrl: mandalaForSystemsChangeImg,
+            alt: 'Mandala for Systems Change',
+            title: 'Mandala for Systems Change',
+            width: '100%'
+          },
+          {
+            type: 'text',
+            title: '',
+            hideIcon: true,
+            content: "A “mandala” is a circle made of different parts that work together.\n\n In this model, the parts show what we need inside ourselves and around us in the world to create meaningful change.\n\nThink of it like a balanced recipe:"
+          },
+              {
+            type: 'flip-cards',
+            cards: [
+              {
+                frontTitle: 'Practice',
+                frontDescription: '',
+                backTitle: 'Definition',
+                backDescription: 'What do you want to do or accomplish?'
+              },
+              {
+                frontTitle: 'Research',
+                frontDescription: '',
+                backTitle: 'Definition',
+                backDescription: ' How will you know its working? How will you  reflect, document, measure or track your progress, learning and development?'
+              },
+              {
+                frontTitle: 'Community Building',
+                frontDescription: '',
+                backTitle: 'Definition',
+                backDescription: 'Who is the ‘we’? What communities or stakeholders need to be involved?'
+              },
+              {
+                frontTitle: 'Capacity Building',
+                frontDescription: '',
+                backTitle: 'Definition',
+                backDescription: 'What skills, knowledge or resources will we need to move these changes forward?'
+              }
+            ]
+          },
+        ]
+      },
+      {
+        type: 'block',
+        colorTheme: 'pink',
+        content: [
+          {
+            type: 'image',
+            imageUrl: breatheImg,
+            alt: 'Breathe in Nature',
+            title: '',
+            width: '100%'
+          },
+          {
+            type: 'text',
+            title: 'Caring for Your Energy (So You Can Sustain Action)',
+            hideIcon: true,
+            content: "Courage isn’t just intensity—it’s also regulation. To hold creative tension without burning out, you’ll need practices that refill your “hope stock” and steady your nervous system."
+          },
+          {
+            type: 'text',
+            title: '',
+            hideIcon: true,
+            content: "Try this 60‑second reset before hard conversations or decision‑making: \n\n 1. **Breathe:** Inhale for 4 counts, exhale for 6 counts (3 rounds). \n 2. **Name it:** Quietly name one feeling you’re having—just to notice it. \n 3. **Refocus:** Ask, “What’s one small, meaningful change I can try next?” \n 4. **Re‑enter:** Carry one clear action into the next step."
+          }
+        ]
+      },
+      {
+        type: 'block',
+        colorTheme: 'pink',
+        content: [
+        {
+          type:'reflection',
+          prompt:'As we close these activities, consider what you have learned and been inspired by. \n\n What is one climate action or change you feel motivated to try?',
+          id:'module-5-reflection-2'
+        },
+        {
+          type:'text',
+          title:'The Big Idea',
+          hideIcon: true,
+          content: "**Systems don’t change themselves—people change them.** \n With clear vision, honest data, a global understanding, and steady hearts, you can help move this system toward a future that’s livable and just. \n\n **Let's begin!**"
+        }
+        ]
+      },
+            {
+        type: 'block',
+        colorTheme: 'pink',
+        content: [
+      {
+        type: 'module-feedback',
+        title: '🎉 Congratulations on completing Module 5: Levers of Change – the last module in this series!',
+        description: "Before you depart–hopefully to start your climate action–we’d love your feedback on this learning experience.",
+        id: 'module-5-feedback'
+        }
+        ]
+      },
+                  {
+        type: 'block',
+        colorTheme: 'pink',
+        content: [
+      {
+        type: 'quote-carousel',
+        title: '',
+        quotes: [
+          {
+            quote: '“When young people develop basic leadership and collaborative learning skills, they can be a formidable force for change.”',
+            author: 'Peter M. Senge',
+            subtitle: 'rom The Fifth Discipline: The Art & Practice of The Learning Organization'
+          },
+        ]
+      },
+      {type: 'image',
+        imageUrl: youthLeadershipImg,
+        alt: 'Youth Leadership',
+        title: '',
+        width: '70%'
+      },
+      {
+        type: 'text',
+        title: '',
+        hideIcon: true,
+        content: "Learn more about how you can be a force for change. \n\n Explore our **Resources** to keep learning and connect with others on climate education and action."
+      },
+      {
+        type: 'button',
+        label: 'Explore Resources',
+        url: '/resources'
+      }
+        ]
+      },
+        ]
+    },
 ];
