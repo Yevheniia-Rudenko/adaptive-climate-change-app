@@ -59,6 +59,11 @@ export const glossary: GlossaryData = {
       term: 'CO₂ Concentration',
       variants: ['CO₂ Concentration'],
       definition: 'Measure of carbon dioxide molecules present in a specific volume of air, commonly expressed in parts per million (ppm). It serves as a key indicator of climate change, with rising levels trapping more heat in the atmosphere. Since we started burning fossil fuels the CO2 concentration has increased more than 50% from 280 pmm to around 428 pmm today.'
+    },
+        {
+      term: 'Dr. Ayana Elizabeth Johnson',
+      variants: ['Ayana Elizabeth Johnson'],
+      definition: 'Dr. Ayana Elizabeth Johnson is co-founder of the non-profit think tank Urban Ocean Lab, co-editor of the bestselling climate anthology All We Can Save, and author of What If We Get it Right?: Visions of Climate Futures.'
     }
 
   ],
