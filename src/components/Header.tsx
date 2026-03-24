@@ -12,7 +12,8 @@ export function Header() {
   const navigate = useNavigate();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [modulesDropdownOpen, setModulesDropdownOpen] = useState(false);
+  const [desktopModulesDropdownOpen, setDesktopModulesDropdownOpen] = useState(false);
+  const [mobileModulesDropdownOpen, setMobileModulesDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const isRTL = language === 'ar';
@@ -27,22 +28,23 @@ export function Header() {
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setModulesDropdownOpen(false);
+        setDesktopModulesDropdownOpen(false);
       }
     }
 
-    if (modulesDropdownOpen) {
+    if (desktopModulesDropdownOpen) {
       document.addEventListener('mousedown', handleClickOutside);
       return () => {
         document.removeEventListener('mousedown', handleClickOutside);
       };
     }
-  }, [modulesDropdownOpen]);
+  }, [desktopModulesDropdownOpen]);
 
   // Close mobile menu when language changes
   useEffect(() => {
     setMobileMenuOpen(false);
-    setModulesDropdownOpen(false);
+    setDesktopModulesDropdownOpen(false);
+    setMobileModulesDropdownOpen(false);
   }, [language]);
 
   const modules = [
@@ -56,7 +58,8 @@ export function Header() {
   const handleNavigate = (path: string) => {
     navigate(path);
     setMobileMenuOpen(false);
-    setModulesDropdownOpen(false);
+    setDesktopModulesDropdownOpen(false);
+    setMobileModulesDropdownOpen(false);
   };
 
   return (
@@ -89,15 +92,15 @@ export function Header() {
             {/* Modules Dropdown */}
             <div className="relative" ref={dropdownRef}>
               <button
-                onClick={() => setModulesDropdownOpen(!modulesDropdownOpen)}
+                onClick={() => setDesktopModulesDropdownOpen(!desktopModulesDropdownOpen)}
                 className="flex items-center gap-1 px-4 py-2 rounded-full text-white transition-colors"
                 style={{ backgroundColor: '#2F8237' }}
               >
                 <span>{t.modules}</span>
-                <ChevronDown size={16} className={`transition-transform ${modulesDropdownOpen ? 'rotate-180' : ''}`} />
+                <ChevronDown size={16} className={`transition-transform ${desktopModulesDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
 
-              {modulesDropdownOpen && (
+              {desktopModulesDropdownOpen && (
                 <div className={`absolute ${isRTL ? 'right-0' : 'left-0'} mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-2 z-50`}>
                   {modules.map((module) => (
                     <button
@@ -180,17 +183,17 @@ export function Header() {
               {/* Modules Section */}
               <div className="border-b border-gray-100 dark:border-gray-700 pb-2 mb-2">
                 <button
-                  onClick={() => setModulesDropdownOpen(!modulesDropdownOpen)}
+                  onClick={() => setMobileModulesDropdownOpen(!mobileModulesDropdownOpen)}
                   className={`w-full flex items-center justify-between px-4 py-2 rounded-md transition-colors ${isModuleActive
                     ? 'bg-primary/10 dark:bg-primary/20 text-primary'
                     : 'hover:bg-muted'
                     }`}
                 >
                   <span>{t.modules}</span>
-                  <ChevronDown size={16} className={`transition-transform ${modulesDropdownOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown size={16} className={`transition-transform ${mobileModulesDropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
 
-                {modulesDropdownOpen && (
+                {mobileModulesDropdownOpen && (
                   <div className={`mt-2 ${isRTL ? 'mr-4' : 'ml-4'} space-y-1`}>
                     {modules.map((module) => (
                       <button
