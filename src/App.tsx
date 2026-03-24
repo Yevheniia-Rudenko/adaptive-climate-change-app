@@ -29,7 +29,6 @@ import { resourceCategoriesData } from './data/resourceCategories';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { SessionProvider } from './contexts/SessionContext';
-import backgroundImage from './assets/background.jpeg';
 
 function App() {
   return (
@@ -39,11 +38,7 @@ function App() {
           <div
             className="min-h-screen transition-colors"
             style={{
-              backgroundImage: `url(${backgroundImage})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              backgroundAttachment: 'fixed',
-              backgroundRepeat: 'no-repeat',
+              backgroundColor: '#e8f6d1',
             }}
           >
             <ScrollToTop />
