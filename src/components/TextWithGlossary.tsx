@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { Link } from 'react-router-dom';
 import { GlossaryTerm } from './GlossaryTerm';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useGlossaryHighlight } from '../contexts/GlossaryHighlightContext';
@@ -24,13 +25,41 @@ export function TextWithGlossary({ text, className }: TextWithGlossaryProps) {
       if (linkIndex % 4 === 1) {
         const linkText = linkParts[linkIndex + 1];
         const linkUrl = linkParts[linkIndex + 2];
+
+        const isExternalLink = /^(https?:\/\/|mailto:|tel:)/i.test(linkUrl);
+        const isInternalRoute = linkUrl.startsWith('/');
+
+        if (isInternalRoute) {
+          return (
+            <Link
+              key={`${keyPrefix}-link-${linkIndex}`}
+              to={linkUrl}
+              className="text-blue-700 dark:text-blue-300 underline decoration-2 underline-offset-2 font-medium hover:text-blue-800 dark:hover:text-blue-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60 rounded-sm"
+            >
+              {linkText}
+            </Link>
+          );
+        }
+
+        if (isExternalLink) {
+          return (
+            <a
+              key={`${keyPrefix}-link-${linkIndex}`}
+              href={linkUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-700 dark:text-blue-300 underline decoration-2 underline-offset-2 font-medium hover:text-blue-800 dark:hover:text-blue-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60 rounded-sm"
+            >
+              {linkText}
+            </a>
+          );
+        }
+
         return (
           <a
             key={`${keyPrefix}-link-${linkIndex}`}
             href={linkUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-600 dark:text-blue-400 hover:underline"
+            className="text-blue-700 dark:text-blue-300 underline decoration-2 underline-offset-2 font-medium hover:text-blue-800 dark:hover:text-blue-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60 rounded-sm"
           >
             {linkText}
           </a>

@@ -217,10 +217,42 @@ export default function Module2ExerciseDashboard() {
 
       {/* Temperature card */}
       <div className="flex justify-center mb-4">
-        <div className="bg-white dark:bg-gray-800 px-8 py-5 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 text-center">
-          <div className="text-4xl md:text-5xl font-black text-green-500 mb-1">+{tempC.toFixed(1)}°C</div>
-          <div className="text-lg md:text-xl font-bold text-green-400 mb-3">+{tempF.toFixed(1)}°F</div>
-          <div className="text-gray-500 text-xs font-bold uppercase">Global Temperature<br />by 2100</div>
+        <div className="bg-white dark:bg-gray-800 px-8 py-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 text-center w-full max-w-[430px] mx-auto">
+          <div
+            style={{
+              color: '#14a9df',
+              fontSize: 'clamp(3rem, 3vw, 3rem)',
+              fontWeight: 800,
+              lineHeight: 1.5,
+            }}
+          >
+            +{tempC.toFixed(1)}°C
+          </div>
+          <div className="mx-auto my-4 h-[2px] w-[72%] bg-black" />
+          <div
+            style={{
+              color: '#14a9df',
+              fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)',
+              fontWeight: 800,
+              lineHeight: 1,
+            }}
+          >
+            +{tempF.toFixed(1)}°F
+          </div>
+          <div
+            className="mt-3 leading-tight"
+            style={{
+              color: '#000000',
+              fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)',
+              fontWeight: 800,
+            }}
+          >
+            Temperature
+            <br />
+            Increase by
+            <br />
+            2100
+          </div>
         </div>
       </div>
 
