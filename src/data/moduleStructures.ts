@@ -10,7 +10,7 @@ import windTurbinesImg from '../assets/Wind turbines.jpg';
 import coalPlantImg from '../assets/coal_plant_cut.png';
 import carbonPricingImg from '../assets/carbon_pricing_meeting.jpg';
 import carbonPriceAudio from '../assets/CarbonPrice.mp3';
-import FourthExerciseDashboard from '../components/FourthExerciseDashboard';
+import Module1CarbonPriceDashboard from '../components/Module1CarbonPriceDashboard';
 import waterImg from '../assets/water.jpg';
 import openingMeditationAudio from '../assets/Module1-OpeningMeditation.m4a';
 import hopeMeditationAudio from '../assets/Module1-HopeMeditation.m4a';

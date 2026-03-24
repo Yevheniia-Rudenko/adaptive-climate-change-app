@@ -13,18 +13,23 @@ const GRAPHS = [
   { id: '275', label: 'Deaths from Extreme Heat', varId: '_excess_deaths_from_extreme_heat_per_100k_people' }
 ];
 
-export default function SecondExerciseDashboard() {
+const CANVAS_WIDTH = 640;
+const CANVAS_HEIGHT = 320;
+
+export default function Module1RenewablesDashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   // Slider states
-  const [renewablesVal, setRenewablesVal] = useState(0); // 0-100 range for slider UI
+  const [renewablesVal, setRenewablesVal] = useState(0);
   const [renewablesText, setRenewablesText] = useState('status quo');
 
-  // Display states
-  const [tempC, setTempC] = useState(3.2);
-  const [tempF, setTempF] = useState(5.7);
-  const [selectedGraphId, setSelectedGraphId] = useState('86'); // Default to Global Temperature
+  // selectedGraphId stays as state (needed for dropdown + useEffect trigger)
+  const [selectedGraphId, setSelectedGraphId] = useState('86');
+
+  // Temperature display — use refs + direct DOM to avoid React re-renders that reset canvas
+  const tempCRef = useRef<HTMLSpanElement>(null);
+  const tempFRef = useRef<HTMLSpanElement>(null);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const modelRef = useRef<any>(null);
@@ -33,28 +38,19 @@ export default function SecondExerciseDashboard() {
   const coreConfigRef = useRef<any>(null);
 
   // Input refs
-  const renewablesInputRef = useRef<any>(null); // ID 16 (Renewables Subsidy/Tax)
+  const renewablesInputRef = useRef<any>(null);
 
-  // Helper function to get localized string
   const str = (key: string) => {
     return (enStrings as any)[key] || key;
   };
 
-  // Generalized slider status text
   const getSliderText = (value: number) => {
-    // ID 16: Negative is subsidy (cheaper), Positive is tax (more expensive)
     if (value <= -0.01) return 'subsidized';
     if (value >= 0.01) return 'taxed';
     return 'status quo';
   };
 
   const createGraphViewModel = (graphSpec: any) => {
-    // Create a default spec if we are using a custom graph ID (like 1 or 2 for simple vars)
-    // or try to find it in core config.
-    // But '1' and '2' might not be valid graph IDs in En-Roads config.
-    // We might need to construct a simple graph spec if it doesn't exist.
-    // For now, let's try to look up generic graphs or construct them.
-
     const datasetViewModels = graphSpec.datasets.map((datasetSpec: any) => ({
       spec: datasetSpec,
       visible: true,
@@ -93,15 +89,16 @@ export default function SecondExerciseDashboard() {
         datasetViewModel.points = [...newPoints];
 
         if (!datasetSpec.externalSourceName) {
-          datasetSpec.color = '#3B82F6'; // Current scenario blue
+          datasetSpec.color = '#00b6f1'; // CI blue for current scenario
           datasetSpec.lineWidth = 4;
-        } else if (datasetSpec.externalSourceName === 'baseline') {
+        } else if (datasetSpec.externalSourceName === 'baseline' || datasetSpec.externalSourceName === 'Ref') {
           datasetSpec.color = '#000000';
           datasetSpec.lineWidth = 4;
         }
       }
 
-      graphView.updateData(true);
+      // FIX: no animation to prevent chart flickering/jumping
+      graphView.updateData(false);
     } catch (e) {
       console.error('Error in updateGraphData:', e);
     }
@@ -110,29 +107,25 @@ export default function SecondExerciseDashboard() {
   const updateTemperatureDisplay = () => {
     if (!modelContextRef.current) return;
 
-    // Try getting the variable that is confirmed to be in outputs
     let tempSeries = modelContextRef.current.getSeriesForVar('_temperature_change_from_1850');
-
-    // If not found, try the specific relative one
     if (!tempSeries || !tempSeries.points) {
       tempSeries = modelContextRef.current.getSeriesForVar('_temperature_relative_to_1850_1900');
     }
 
     if (tempSeries && tempSeries.points && tempSeries.points.length > 0) {
       const tempCelsius = tempSeries.getValueAtTime(2100);
-      console.log(`Temp Update (Main Var): ${tempCelsius.toFixed(4)} C`);
       const tempFahrenheit = tempCelsius * 9 / 5;
-      setTempC(tempCelsius);
-      setTempF(tempFahrenheit);
+      // FIX: direct DOM update instead of setState to avoid React re-render
+      if (tempCRef.current) tempCRef.current.textContent = `+${tempCelsius.toFixed(1)}°C`;
+      if (tempFRef.current) tempFRef.current.textContent = `+${tempFahrenheit.toFixed(1)}°F`;
     } else {
-      // Fallback: approximate from emissions
       const emissionsSeries = modelContextRef.current.getSeriesForVar('_co2_equivalent_net_emissions');
       if (emissionsSeries && emissionsSeries.points && emissionsSeries.points.length > 0) {
         const emissions2100 = emissionsSeries.getValueAtTime(2100);
         const tempCelsius = 1.5 + (emissions2100 / 69.6) * 1.8;
         const tempFahrenheit = tempCelsius * 9 / 5;
-        setTempC(tempCelsius);
-        setTempF(tempFahrenheit);
+        if (tempCRef.current) tempCRef.current.textContent = `+${tempCelsius.toFixed(1)}°C`;
+        if (tempFRef.current) tempFRef.current.textContent = `+${tempFahrenheit.toFixed(1)}°F`;
       }
     }
   };
@@ -147,9 +140,7 @@ export default function SecondExerciseDashboard() {
 
     let graphSpec = coreConfigRef.current.graphs.get(graphId);
 
-    // Fallback: If graph spec not found (e.g. for custom IDs), construct a minimal one
     if (!graphSpec) {
-      console.log(`Graph ID ${graphId} not found in core config, constructing custom spec...`);
       const graphDef = GRAPHS.find(g => g.id === graphId);
       if (graphDef) {
         graphSpec = {
@@ -167,21 +158,18 @@ export default function SecondExerciseDashboard() {
       }
     }
 
-    console.log(`Loading graph ${graphId}:`, graphSpec);
-
-    const canvas = document.getElementById('exercise2-graph-canvas') as HTMLCanvasElement;
+    const canvas = canvasRef.current;
     if (!canvas) {
       console.error('Canvas element not found for Exercise 2');
       return;
     }
-    const rect = canvas.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
 
-    // Ensure consistent size
-    canvas.width = rect.width * dpr;
-    canvas.height = 300 * dpr;
-    canvas.style.width = '100%';
-    canvas.style.height = '300px';
+    // FIX: use fixed dimensions — do NOT use getBoundingClientRect()
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = CANVAS_WIDTH * dpr;
+    canvas.height = CANVAS_HEIGHT * dpr;
+    canvas.style.width = `${CANVAS_WIDTH}px`;
+    canvas.style.height = `${CANVAS_HEIGHT}px`;
 
     let viewModel;
     try {
@@ -197,15 +185,16 @@ export default function SecondExerciseDashboard() {
         style: 'normal',
         color: '#1f2937'
       },
-      xAxis: { tickMaxCount: 6 },
-      yAxis: { tickMaxCount: 6 },
-      getAxisLabelFontSize: () => 14,
-      getTickLabelFontSize: () => 12,
-      getDefaultLineWidth: () => 4,
+      xAxis: { tickMaxCount: 8 },
+      yAxis: { tickMaxCount: 8 },
+      getAxisLabelFontSize: () => 16,
+      getTickLabelFontSize: () => 14,
+      getDefaultLineWidth: () => 5,
       plotBackgroundColor: '#ffffff'
     };
 
-    const options = { style, responsive: true, animations: true };
+    // FIX: responsive:false, animations:false — prevents ResizeObserver redraws and hover animations
+    const options = { style, responsive: false, animations: false };
 
     try {
       graphViewRef.current = new GraphView(canvas, viewModel, options, true);
@@ -221,20 +210,10 @@ export default function SecondExerciseDashboard() {
     setRenewablesVal(sliderPos);
 
     if (renewablesInputRef.current) {
-      // ID 16: Negative = Subsidy (Cheaper). Positive = Tax.
-      // We map 0-100 Slider to 0.0 (Status Quo) to -0.07 (Max Subsidy)
-      // Adjust this range as needed based on Min (likely -0.08 or so).
       const min = renewablesInputRef.current.min !== undefined ? renewablesInputRef.current.min : -0.08;
-
-      // Let's assume user wants "Make cheaper" -> Subsidy.
-      // Slider 0 = Status Quo (0.00)
-      // Slider 100 = Max Subsidy (min value)
-
       const val = 0 + (sliderPos / 100) * (min - 0);
-
       console.log(`Setting Renewables (16) to: ${val}`);
       renewablesInputRef.current.set(val);
-
       setRenewablesText(getSliderText(val));
     }
   };
@@ -249,30 +228,17 @@ export default function SecondExerciseDashboard() {
         modelContextRef.current = modelRef.current.addContext();
         createDefaultOutputs();
 
-        // Load Inputs
-        // Renewables: 16 (Not 25)
         renewablesInputRef.current = modelContextRef.current.getInputForId('16');
-        console.log('Renewables input:', renewablesInputRef.current);
 
         if (renewablesInputRef.current) {
           const current = renewablesInputRef.current.get();
-          // For initialization, verify where we are. Default is likely ~0.
-          // We map current model value back to slider 0-100?
-          // If current is 0, slider is 0.
-          // If current is -0.08, slider is 100.
-
           const min = renewablesInputRef.current.min !== undefined ? renewablesInputRef.current.min : -0.08;
-
-          // Inverse logic: val = (pos/100) * min  -> pos = (val / min) * 100
-          // (Assuming min is negative)
-
           if (min < 0) {
             const calculatedPos = (current / min) * 100;
             setRenewablesVal(Math.max(0, Math.min(100, calculatedPos)));
           } else {
             setRenewablesVal(0);
           }
-
           setRenewablesText(getSliderText(current));
         }
 
@@ -281,10 +247,9 @@ export default function SecondExerciseDashboard() {
         };
 
         setTimeout(() => {
-          // toggle initial graph
           loadGraph(selectedGraphId);
-          updateTemperatureDisplay();
-        }, 200);
+          setTimeout(() => updateDashboard(), 50);
+        }, 150);
 
         setIsLoading(false);
       } catch (err) {
@@ -304,8 +269,6 @@ export default function SecondExerciseDashboard() {
   // Effect to reload graph when selectedGraphId changes
   useEffect(() => {
     if (!isLoading && !error && coreConfigRef.current && modelRef.current) {
-      // Need to dispose old graph?
-      // Just re-call loadGraph, it will overwrite the chart on canvas
       loadGraph(selectedGraphId);
     }
   }, [selectedGraphId, isLoading, error]);
@@ -314,49 +277,41 @@ export default function SecondExerciseDashboard() {
   if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora">
+    <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora mb-24">
       <h2 className="text-xl px-4 pt-4 mb-4 font-bold text-gray-800 dark:text-gray-200">En-Roads Dashboard: Renewables</h2>
 
-      <div className="grid grid-cols-4 gap-4 mb-4">
-        {/* Graph Area */}
-        <div className="col-span-3 bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
-          <div className="flex justify-between items-center mb-4">
-            <select
-              value={selectedGraphId}
-              onChange={(e) => setSelectedGraphId(e.target.value)}
-              className="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 font-bold"
-            >
-              {GRAPHS.map(g => (
-                <option key={g.id} value={g.id}>{g.label}</option>
-              ))}
-            </select>
-          </div>
-          <div className="relative w-full h-[300px]">
-            <canvas id="exercise2-graph-canvas" className="w-full h-full" />
-          </div>
-          <div className="flex gap-4 justify-center mt-4 text-xs font-semibold uppercase tracking-wider">
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-1 bg-black"></div>
-              <span className="text-gray-600 dark:text-gray-400">Baseline</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-1 bg-blue-500"></div>
-              <span className="text-gray-600 dark:text-gray-400">Current Scenario</span>
-            </div>
-          </div>
+      {/* Temperature card — centered at top */}
+      <div className="flex justify-center mb-4">
+        <div className="bg-white dark:bg-gray-800 px-8 py-5 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 text-center">
+          <span ref={tempCRef} className="block text-4xl md:text-5xl font-black text-green-500 mb-1">+3.2°C</span>
+          <span ref={tempFRef} className="block text-lg md:text-xl font-bold text-green-400 mb-3">+5.7°F</span>
+          <div className="text-gray-500 dark:text-gray-400 font-semibold uppercase tracking-wider text-xs">Global Temperature<br />by 2100</div>
         </div>
+      </div>
 
-        {/* Temperature Display */}
-        <div className="bg-white dark:bg-gray-800 p-3 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 flex flex-col items-center justify-center text-center">
-          <div className="text-4xl md:text-5xl font-black text-blue-500 mb-1">
-            +{tempC.toFixed(1)}°C
-          </div>
-          <div className="text-lg md:text-xl font-bold text-blue-400 mb-3">
-            +{tempF.toFixed(1)}°F
-          </div>
-          <div className="text-gray-500 dark:text-gray-400 font-semibold uppercase tracking-wider text-xs">
-            Global Temperature<br />by 2100
-          </div>
+      {/* Graph */}
+      <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 mb-4">
+        <div className="flex justify-between items-center mb-4">
+          <select
+            value={selectedGraphId}
+            onChange={(e) => setSelectedGraphId(e.target.value)}
+            className="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 font-bold"
+          >
+            {GRAPHS.map(g => (
+              <option key={g.id} value={g.id}>{g.label}</option>
+            ))}
+          </select>
+        </div>
+        <div style={{ position: 'relative', width: '100%', height: `${CANVAS_HEIGHT}px`, overflow: 'hidden' }}>
+          <canvas
+            ref={canvasRef}
+            style={{ display: 'block', width: `${CANVAS_WIDTH}px`, height: `${CANVAS_HEIGHT}px`, pointerEvents: 'none' }}
+          />
+        </div>
+        {/* Legend badges */}
+        <div className="flex justify-center gap-3 mt-3">
+          <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
+          <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#00b6f1' }}>CURRENT SCENARIO</span>
         </div>
       </div>
 
@@ -372,7 +327,10 @@ export default function SecondExerciseDashboard() {
             max="100"
             value={renewablesVal}
             onChange={handleRenewablesChange}
-            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 accent-blue-500"
+            className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+            style={{
+              background: `linear-gradient(to right, #3B82F6 0%, #3B82F6 ${renewablesVal}%, #e5e7eb ${renewablesVal}%, #e5e7eb 100%)`
+            }}
           />
         </div>
       </div>

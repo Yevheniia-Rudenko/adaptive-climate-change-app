@@ -6,10 +6,10 @@ import { ContentBlock as ContentBlockType } from '../data/moduleStructures';
 import { InteractiveDashboard } from './InteractiveDashboard';
 import { useLanguage } from '../contexts/LanguageContext';
 import { TextWithGlossary } from './TextWithGlossary';
-import EnRoadsDashboard from './EnRoadsDashboard';
-import SecondExerciseDashboard from './2ndExerciseDashboard';
-import ThirdExerciseDashboard from './ThirdExerciseDashboard';
-import FourthExerciseDashboard from './FourthExerciseDashboard';
+import Module1CarbonRemovalDashboard from './Module1CarbonRemovalDashboard';
+import Module1RenewablesDashboard from './Module1RenewablesDashboard';
+import Module1FossilFuelTaxesDashboard from './Module1FossilFuelTaxesDashboard';
+import Module1CarbonPriceDashboard from './Module1CarbonPriceDashboard';
 import Module3CarbonPriceDashboard from './module_3/Module3CarbonPriceDashboard';
 import Module2ExerciseDashboard from './Module2ExerciseDashboard';
 import Module2RemovalsDashboard from './Module2RemovalsDashboard';
@@ -872,19 +872,19 @@ export function ContentBlock({
     }
 
     case 'dashboard':
-      return moduleId === 1 ? <EnRoadsDashboard /> : <InteractiveDashboard moduleId={moduleId} />;
+      return moduleId === 1 ? <Module1CarbonRemovalDashboard /> : <InteractiveDashboard moduleId={moduleId} />;
 
     case 'exercise1-dashboard':
-      return <EnRoadsDashboard />;
+      return <Module1CarbonRemovalDashboard />;
 
     case '2ndExerciseDashboard':
-      return <SecondExerciseDashboard />;
+      return <Module1RenewablesDashboard />;
 
     case 'third-exercise':
-      return <ThirdExerciseDashboard />;
+      return <Module1FossilFuelTaxesDashboard />;
 
     case 'fourth-exercise':
-      return <FourthExerciseDashboard />;
+      return <Module1CarbonPriceDashboard />;
 
     case 'module3-carbon-price-dashboard':
       return <Module3CarbonPriceDashboard />;
