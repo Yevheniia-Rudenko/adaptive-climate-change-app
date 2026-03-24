@@ -20,6 +20,7 @@ import { ResourcesPage } from './components/ResourcesPage';
 import { GlossaryPage } from './components/GlossaryPage';
 import { ResourceCategoryPage } from './components/ResourceCategoryPage';
 import { ContributorsPage } from './components/ContributorsPage';
+import { SandboxPage } from './components/SandboxPage';
 import { PrivacyPolicyPage } from './components/PrivacyPolicyPage';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
@@ -27,6 +28,7 @@ import { moduleStructures } from './data/moduleStructures';
 import { resourceCategoriesData } from './data/resourceCategories';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { SessionProvider } from './contexts/SessionContext';
 import backgroundImage from './assets/background.jpeg';
 
 function App() {
@@ -34,7 +36,7 @@ function App() {
     <ThemeProvider>
       <LanguageProvider>
         <BrowserRouter basename="/adaptive-climate-change-app">
-          <div 
+          <div
             className="min-h-screen transition-colors"
             style={{
               backgroundImage: `url(${backgroundImage})`,
@@ -56,6 +58,8 @@ function App() {
               <Route path="/glossary" element={<GlossaryPage />} />
               <Route path="/contributors" element={<ContributorsPage />} />
               <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+              {/* 🧪 TEMPORARY sandbox — delete when done */}
+              <Route path="/sandbox" element={<SandboxPage />} />
               <Route path="/module/:moduleId" element={<FlexibleModulePageWrapper />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
@@ -79,7 +83,11 @@ function FlexibleModulePageWrapper() {
   if (!module) return <Navigate to="/" replace />;
 
   // Add a key ensuring the component fully remounts when the ID changes
-  return <FlexibleModulePage key={id} module={module} moduleId={id} />;
+  return (
+    <SessionProvider moduleId={id}>
+      <FlexibleModulePage key={id} module={module} moduleId={id} />
+    </SessionProvider>
+  );
 }
 
 function ResourceCategoryPageWrapper() {

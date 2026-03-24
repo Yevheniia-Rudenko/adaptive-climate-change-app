@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import { Button } from './ui/button';
-import { ArrowLeft, ExternalLink, Video, FileText, Clock, Globe, Wrench, BookOpen, Headphones, ClipboardList } from 'lucide-react';
+import { ExternalLink, Video, FileText, Clock, Globe, Wrench, BookOpen, Headphones, ClipboardList } from 'lucide-react';
 
 // Types for resource data
 export type ResourceItem = {
@@ -37,17 +37,19 @@ export function ResourceCategoryPage({ category }: ResourceCategoryPageProps) {
         {/* Back Navigation */}
         <Link to="/resources">
           <Button
-            variant="ghost"
-            className="mb-4 sm:mb-6 text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 -ml-2"
+            variant="outline"
+            className="mb-4 sm:mb-6"
           >
-            <ArrowLeft size={18} className="mr-2" />
-            {t.backToResources || 'Back to Resources'}
+            ← {t.backToResources || 'Back to Resources'}
           </Button>
         </Link>
 
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 sm:p-8 md:p-12">
           {/* Page Header */}
-          <h1 className="text-green-600 mb-3 sm:mb-4">{category.title}</h1>
+          <h1 
+            className="font-bold text-gray-800 dark:text-gray-100 text-center mb-3 sm:mb-4"
+            style={{ fontSize: '2rem', lineHeight: '1.2' }}
+          >{category.title}</h1>
           <p className="text-gray-600 dark:text-gray-300 mb-8 sm:mb-10 text-sm sm:text-base max-w-2xl">
             {category.description}
           </p>
