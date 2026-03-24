@@ -1,7 +1,7 @@
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { ModuleStructure } from '../data/moduleStructures';
+import { ModuleStructure, ContentBlock as ModuleContentBlock } from '../data/moduleStructures';
 import { ContentBlock } from './ContentBlock';
 import { useLanguage } from '../contexts/LanguageContext';
 import { GlossaryHighlightProvider } from '../contexts/GlossaryHighlightContext';
@@ -133,6 +133,70 @@ export function FlexibleModulePage({
     }
   };
 
+  const groupModule2Content = (blocks: ModuleContentBlock[]) => {
+    const groups: ModuleContentBlock[][] = [];
+    let currentGroup: ModuleContentBlock[] = [];
+    let inDrawYourOwnStockFlow = false;
+
+    const normalizeTitle = (value: string) =>
+      value
+        .replace(/\*\*/g, '')
+        .replace(/[’']/g, "'")
+        .trim()
+        .toLowerCase();
+
+    blocks.forEach((block, index) => {
+      const title = 'title' in block && typeof block.title === 'string' ? block.title.trim() : '';
+      const normalizedTitle = normalizeTitle(title);
+      const previousBlock = index > 0 ? blocks[index - 1] : undefined;
+      const isDrawYourOwnHeading = normalizedTitle.includes('draw your own stock & flow');
+      const isStepHeading = /^step\s+/i.test(normalizedTitle);
+      const isReflectHeading = normalizedTitle.includes("let's reflect") || normalizedTitle.includes('let’s reflect');
+      const isUntitledTextAfterVideo =
+        block.type === 'text' &&
+        title.length === 0 &&
+        previousBlock?.type === 'video';
+
+      if (isDrawYourOwnHeading) {
+        inDrawYourOwnStockFlow = true;
+      }
+
+      let startsNewSection = index === 0 || title.length > 0;
+
+      // Keep Draw Your Own + Step One..Five + related image/text in one card.
+      if (inDrawYourOwnStockFlow && isStepHeading) {
+        startsNewSection = false;
+      }
+
+      // Reflection should begin its own card.
+      if (inDrawYourOwnStockFlow && isReflectHeading) {
+        startsNewSection = true;
+        inDrawYourOwnStockFlow = false;
+      }
+
+      // For Module 2 layout: keep title+video together, then start a new card for explanatory text.
+      if (isUntitledTextAfterVideo) {
+        startsNewSection = true;
+      }
+
+      if (startsNewSection) {
+        if (currentGroup.length > 0) {
+          groups.push(currentGroup);
+        }
+        currentGroup = [block];
+        return;
+      }
+
+      currentGroup.push(block);
+    });
+
+    if (currentGroup.length > 0) {
+      groups.push(currentGroup);
+    }
+
+    return groups;
+  };
+
   return (
     <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 font-sora">
       <div className="max-w-4xl mx-auto">
@@ -233,13 +297,28 @@ export function FlexibleModulePage({
                         {section.blockTitle}
                       </h2>
                     )}
-                    {section.content.map((block, blockIndex) => (
-                      <ContentBlock
-                        key={blockIndex}
-                        block={block}
-                        moduleId={moduleId}
-                      />
-                    ))}
+                    {moduleId === 2
+                      ? groupModule2Content(section.content).map((group, groupIndex) => (
+                        <div
+                          key={groupIndex}
+                          className="mb-4 sm:mb-5 rounded-2xl border border-green-200/80 dark:border-green-700/50 bg-[#EBF7D8]/70 dark:bg-green-900/20 p-4 sm:p-5 shadow-sm"
+                        >
+                          {group.map((block, blockIndex) => (
+                            <ContentBlock
+                              key={`${groupIndex}-${blockIndex}`}
+                              block={block}
+                              moduleId={moduleId}
+                            />
+                          ))}
+                        </div>
+                      ))
+                      : section.content.map((block, blockIndex) => (
+                        <ContentBlock
+                          key={blockIndex}
+                          block={block}
+                          moduleId={moduleId}
+                        />
+                      ))}
                   </div>
                 );
               } else {
