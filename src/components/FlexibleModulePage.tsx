@@ -1,5 +1,5 @@
 import { ArrowLeft, ArrowRight } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { ModuleStructure } from '../data/moduleStructures';
 import { ContentBlock } from './ContentBlock';
@@ -18,6 +18,7 @@ export function FlexibleModulePage({
 }: FlexibleModulePageProps) {
   const { t } = useLanguage();
   const navigate = useNavigate();
+  const { search } = useLocation();
   const [currentBlock, setCurrentBlock] = useState(1);
 
   // Build per-block navigation groups.
@@ -59,10 +60,44 @@ export function FlexibleModulePage({
   const totalBlocks = isMultiBlock ? blockSections.length : 1;
   const currentSections = isMultiBlock ? blockSections[currentBlock - 1] : module.sections;
 
+  // Allow deep-linking to a specific sub-section with ?block=N
+  useEffect(() => {
+    const requested = Number.parseInt(new URLSearchParams(search).get('block') || '', 10);
+    const nextBlock = Number.isNaN(requested)
+      ? 1
+      : Math.min(Math.max(requested, 1), totalBlocks);
+
+    setCurrentBlock(prev => (prev === nextBlock ? prev : nextBlock));
+  }, [moduleId, search, totalBlocks]);
+
   // Scroll to top whenever the block changes
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [currentBlock]);
+
+  // Allow deep-linking to a specific section title in the active block with ?section=<slug>
+  useEffect(() => {
+    const sectionSlug = new URLSearchParams(search).get('section');
+    if (!sectionSlug) return;
+
+    const selector = `[data-section-slug="${sectionSlug}"]`;
+    let raf2 = 0;
+
+    // Wait for block content to render before scrolling to target subsection
+    const raf1 = window.requestAnimationFrame(() => {
+      raf2 = window.requestAnimationFrame(() => {
+        const target = document.querySelector(selector);
+        if (target instanceof HTMLElement) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    return () => {
+      window.cancelAnimationFrame(raf1);
+      if (raf2) window.cancelAnimationFrame(raf2);
+    };
+  }, [currentBlock, search]);
 
   const handleBlockNext = () => {
     if (currentBlock < totalBlocks) {

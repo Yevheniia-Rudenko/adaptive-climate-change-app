@@ -802,7 +802,7 @@ Thank you for practicing.`
           {
             type: 'text',
             title: "**Let's Test Your Predictions!**",
-            content: "In this next activity, you'll use **En‑ROADS** to simulate these scenarios.\n\nAs we learned in the last module, a **carbon price** is one of the more powerful and high-leverage climate policies for quickly lowering our global CO₂ emissions.\n\nSo in this simulation, **you'll adjust the carbon price slider** to see how changing emissions affects the concentration of CO₂ in the atmosphere."
+            content: "In this next activity, you'll use **[En‑ROADS](/module/1?block=2&section=what-if)** to simulate these scenarios.\n\nAs we learned in the last module, a **carbon price** is one of the more powerful and high-leverage climate policies for quickly lowering our global CO₂ emissions.\n\nSo in this simulation, **you'll adjust the carbon price slider** to see how changing emissions affects the concentration of CO₂ in the atmosphere."
           },
           {
             type: 'module2-exercise'

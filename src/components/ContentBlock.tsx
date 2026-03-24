@@ -661,6 +661,14 @@ const formatTitle = (text: string) => {
   });
 };
 
+const stripMarkdownMarkers = (text: string) => text.replace(/\*\*/g, '').trim();
+
+const toSectionSlug = (text: string) =>
+  stripMarkdownMarkers(text)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+
 export function ContentBlock({
   block,
   moduleId
@@ -670,8 +678,9 @@ export function ContentBlock({
 
   switch (block.type) {
     case 'text':
+      const sectionSlug = block.title ? toSectionSlug(block.title) : undefined;
       return (
-        <div className="mb-6 sm:mb-8 font-sora">
+        <div className="mb-6 sm:mb-8 font-sora" data-section-slug={sectionSlug}>
           {block.title && (
             <div className="flex items-center gap-2 mb-3 sm:mb-4">
               {!block.hideIcon && <BookOpen className="text-blue-600 dark:text-blue-400 flex-shrink-0" size={20} />}
