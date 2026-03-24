@@ -210,7 +210,7 @@ export function FlexibleModulePage({
 
 
             {/* Content Blocks */}
-            <GlossaryHighlightProvider key={`glossary-${moduleId}-${currentBlock}`}>
+            <GlossaryHighlightProvider key={`glossary-${moduleId}`}>
             {currentSections.map((section, index) => {
               if (section.type === 'block') {
                 // Color theme mapping
