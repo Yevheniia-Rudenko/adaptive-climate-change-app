@@ -9,14 +9,8 @@ type GlossaryTermProps = {
 
 export function GlossaryTerm({ term, definition }: GlossaryTermProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
 
-  const handleClick = (e: React.MouseEvent) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setPosition({
-      x: rect.left + rect.width / 2,
-      y: rect.bottom + 8
-    });
+  const handleClick = () => {
     setIsOpen(true);
   };
 
@@ -29,7 +23,8 @@ export function GlossaryTerm({ term, definition }: GlossaryTermProps) {
         tabIndex={0}
         onKeyDown={(e) => {
           if (e.key === 'Enter' || e.key === ' ') {
-            handleClick(e as any);
+            e.preventDefault();
+            handleClick();
           }
         }}
         aria-label="Show definition"
@@ -43,7 +38,6 @@ export function GlossaryTerm({ term, definition }: GlossaryTermProps) {
         onClose={() => setIsOpen(false)}
         term={term}
         definition={definition}
-        position={position}
       />
     </>
   );

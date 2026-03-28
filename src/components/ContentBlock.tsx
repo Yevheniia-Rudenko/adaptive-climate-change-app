@@ -6,10 +6,10 @@ import { ContentBlock as ContentBlockType } from '../data/moduleStructures';
 import { InteractiveDashboard } from './InteractiveDashboard';
 import { useLanguage } from '../contexts/LanguageContext';
 import { TextWithGlossary } from './TextWithGlossary';
-import EnRoadsDashboard from './EnRoadsDashboard';
-import SecondExerciseDashboard from './2ndExerciseDashboard';
-import ThirdExerciseDashboard from './ThirdExerciseDashboard';
-import FourthExerciseDashboard from './FourthExerciseDashboard';
+import Module1CarbonRemovalDashboard from './Module1CarbonRemovalDashboard';
+import Module1RenewablesDashboard from './Module1RenewablesDashboard';
+import Module1FossilFuelTaxesDashboard from './Module1FossilFuelTaxesDashboard';
+import Module1CarbonPriceDashboard from './Module1CarbonPriceDashboard';
 import Module3CarbonPriceDashboard from './module_3/Module3CarbonPriceDashboard';
 import Module2ExerciseDashboard from './Module2ExerciseDashboard';
 import Module2RemovalsDashboard from './Module2RemovalsDashboard';
@@ -666,6 +666,14 @@ const formatTitle = (text: string) => {
   });
 };
 
+const stripMarkdownMarkers = (text: string) => text.replace(/\*\*/g, '').trim();
+
+const toSectionSlug = (text: string) =>
+  stripMarkdownMarkers(text)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+
 export function ContentBlock({
   block,
   moduleId
@@ -675,8 +683,9 @@ export function ContentBlock({
 
   switch (block.type) {
     case 'text':
+      const sectionSlug = block.title ? toSectionSlug(block.title) : undefined;
       return (
-        <div className="mb-6 sm:mb-8 font-sora">
+        <div className="mb-6 sm:mb-8 font-sora" data-section-slug={sectionSlug}>
           {block.title && (
             <div className="flex items-center gap-2 mb-3 sm:mb-4">
               {!block.hideIcon && <BookOpen className="text-blue-600 dark:text-blue-400 flex-shrink-0" size={20} />}
@@ -1026,19 +1035,19 @@ export function ContentBlock({
     }
 
     case 'dashboard':
-      return moduleId === 1 ? <EnRoadsDashboard /> : <InteractiveDashboard moduleId={moduleId} />;
+      return moduleId === 1 ? <Module1CarbonRemovalDashboard /> : <InteractiveDashboard moduleId={moduleId} />;
 
     case 'exercise1-dashboard':
-      return <EnRoadsDashboard />;
+      return <Module1CarbonRemovalDashboard />;
 
     case '2ndExerciseDashboard':
-      return <SecondExerciseDashboard />;
+      return <Module1RenewablesDashboard />;
 
     case 'third-exercise':
-      return <ThirdExerciseDashboard />;
+      return <Module1FossilFuelTaxesDashboard />;
 
     case 'fourth-exercise':
-      return <FourthExerciseDashboard />;
+      return <Module1CarbonPriceDashboard />;
 
     case 'module3-carbon-price-dashboard':
       return <Module3CarbonPriceDashboard />;

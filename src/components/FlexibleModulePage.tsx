@@ -1,7 +1,7 @@
 import { ArrowLeft, ArrowRight } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { ModuleStructure, moduleStructures } from '../data/moduleStructures';
+import { ModuleStructure, ContentBlock as ModuleContentBlock } from '../data/moduleStructures';
 import { ContentBlock } from './ContentBlock';
 import { useLanguage } from '../contexts/LanguageContext';
 import { GlossaryHighlightProvider } from '../contexts/GlossaryHighlightContext';
@@ -18,6 +18,7 @@ export function FlexibleModulePage({
 }: FlexibleModulePageProps) {
   const { t } = useLanguage();
   const navigate = useNavigate();
+  const { search } = useLocation();
   const [currentBlock, setCurrentBlock] = useState(1);
   const totalModules = moduleStructures.length;
   const isLastModule = moduleId >= totalModules;
@@ -61,10 +62,44 @@ export function FlexibleModulePage({
   const totalBlocks = isMultiBlock ? blockSections.length : 1;
   const currentSections = isMultiBlock ? blockSections[currentBlock - 1] : module.sections;
 
+  // Allow deep-linking to a specific sub-section with ?block=N
+  useEffect(() => {
+    const requested = Number.parseInt(new URLSearchParams(search).get('block') || '', 10);
+    const nextBlock = Number.isNaN(requested)
+      ? 1
+      : Math.min(Math.max(requested, 1), totalBlocks);
+
+    setCurrentBlock(prev => (prev === nextBlock ? prev : nextBlock));
+  }, [moduleId, search, totalBlocks]);
+
   // Scroll to top whenever the block changes
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [currentBlock]);
+
+  // Allow deep-linking to a specific section title in the active block with ?section=<slug>
+  useEffect(() => {
+    const sectionSlug = new URLSearchParams(search).get('section');
+    if (!sectionSlug) return;
+
+    const selector = `[data-section-slug="${sectionSlug}"]`;
+    let raf2 = 0;
+
+    // Wait for block content to render before scrolling to target subsection
+    const raf1 = window.requestAnimationFrame(() => {
+      raf2 = window.requestAnimationFrame(() => {
+        const target = document.querySelector(selector);
+        if (target instanceof HTMLElement) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    return () => {
+      window.cancelAnimationFrame(raf1);
+      if (raf2) window.cancelAnimationFrame(raf2);
+    };
+  }, [currentBlock, search]);
 
   const handleBlockNext = () => {
     if (currentBlock < totalBlocks) {
@@ -98,6 +133,70 @@ export function FlexibleModulePage({
     } else {
       navigate('/');
     }
+  };
+
+  const groupModule2Content = (blocks: ModuleContentBlock[]) => {
+    const groups: ModuleContentBlock[][] = [];
+    let currentGroup: ModuleContentBlock[] = [];
+    let inDrawYourOwnStockFlow = false;
+
+    const normalizeTitle = (value: string) =>
+      value
+        .replace(/\*\*/g, '')
+        .replace(/[’']/g, "'")
+        .trim()
+        .toLowerCase();
+
+    blocks.forEach((block, index) => {
+      const title = 'title' in block && typeof block.title === 'string' ? block.title.trim() : '';
+      const normalizedTitle = normalizeTitle(title);
+      const previousBlock = index > 0 ? blocks[index - 1] : undefined;
+      const isDrawYourOwnHeading = normalizedTitle.includes('draw your own stock & flow');
+      const isStepHeading = /^step\s+/i.test(normalizedTitle);
+      const isReflectHeading = normalizedTitle.includes("let's reflect") || normalizedTitle.includes('let’s reflect');
+      const isUntitledTextAfterVideo =
+        block.type === 'text' &&
+        title.length === 0 &&
+        previousBlock?.type === 'video';
+
+      if (isDrawYourOwnHeading) {
+        inDrawYourOwnStockFlow = true;
+      }
+
+      let startsNewSection = index === 0 || title.length > 0;
+
+      // Keep Draw Your Own + Step One..Five + related image/text in one card.
+      if (inDrawYourOwnStockFlow && isStepHeading) {
+        startsNewSection = false;
+      }
+
+      // Reflection should begin its own card.
+      if (inDrawYourOwnStockFlow && isReflectHeading) {
+        startsNewSection = true;
+        inDrawYourOwnStockFlow = false;
+      }
+
+      // For Module 2 layout: keep title+video together, then start a new card for explanatory text.
+      if (isUntitledTextAfterVideo) {
+        startsNewSection = true;
+      }
+
+      if (startsNewSection) {
+        if (currentGroup.length > 0) {
+          groups.push(currentGroup);
+        }
+        currentGroup = [block];
+        return;
+      }
+
+      currentGroup.push(block);
+    });
+
+    if (currentGroup.length > 0) {
+      groups.push(currentGroup);
+    }
+
+    return groups;
   };
 
   return (
@@ -165,19 +264,30 @@ export function FlexibleModulePage({
                     </div>
                   </div>
                   {/* Label row */}
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="font-semibold text-purple-600 dark:text-purple-400">
-                      🚀 Step {currentBlock} of {totalBlocks}
-                    </span>
-                    <span className="font-bold text-green-600 dark:text-green-400">{pct}% complete!</span>
-                  </div>
+                  {moduleId === 2 ? (
+                    <div className="flex items-center justify-between gap-2 text-sm">
+                      <span className="inline-flex items-center rounded-full border border-green-200 bg-green-50 px-3 py-1 font-semibold text-green-700 dark:border-green-700/60 dark:bg-green-900/30 dark:text-green-300">
+                        Step {currentBlock} of {totalBlocks}
+                      </span>
+                      <span className="inline-flex items-center rounded-full border border-green-200 bg-green-50 px-3 py-1 font-bold text-green-700 dark:border-green-700/60 dark:bg-green-900/30 dark:text-green-300">
+                        {pct}% complete
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="font-semibold text-purple-600 dark:text-purple-400">
+                        🚀 Step {currentBlock} of {totalBlocks}
+                      </span>
+                      <span className="font-bold text-green-600 dark:text-green-400">{pct}% complete!</span>
+                    </div>
+                  )}
                 </div>
               );
             })()}
 
 
             {/* Content Blocks */}
-            <GlossaryHighlightProvider key={`glossary-${moduleId}-${currentBlock}`}>
+            <GlossaryHighlightProvider key={`glossary-${moduleId}`}>
             {currentSections.map((section, index) => {
               if (section.type === 'block') {
                 // Color theme mapping
@@ -200,13 +310,28 @@ export function FlexibleModulePage({
                         {section.blockTitle}
                       </h2>
                     )}
-                    {section.content.map((block, blockIndex) => (
-                      <ContentBlock
-                        key={blockIndex}
-                        block={block}
-                        moduleId={moduleId}
-                      />
-                    ))}
+                    {moduleId === 2
+                      ? groupModule2Content(section.content).map((group, groupIndex) => (
+                        <div
+                          key={groupIndex}
+                          className="mb-4 sm:mb-5 rounded-2xl border border-green-200/80 dark:border-green-700/50 bg-[#EBF7D8]/70 dark:bg-green-900/20 p-4 sm:p-5 shadow-sm"
+                        >
+                          {group.map((block, blockIndex) => (
+                            <ContentBlock
+                              key={`${groupIndex}-${blockIndex}`}
+                              block={block}
+                              moduleId={moduleId}
+                            />
+                          ))}
+                        </div>
+                      ))
+                      : section.content.map((block, blockIndex) => (
+                        <ContentBlock
+                          key={blockIndex}
+                          block={block}
+                          moduleId={moduleId}
+                        />
+                      ))}
                   </div>
                 );
               } else {

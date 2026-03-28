@@ -10,7 +10,7 @@ import windTurbinesImg from '../assets/Wind turbines.jpg';
 import coalPlantImg from '../assets/coal_plant_cut.png';
 import carbonPricingImg from '../assets/carbon_pricing_meeting.jpg';
 import carbonPriceAudio from '../assets/CarbonPrice.mp3';
-import FourthExerciseDashboard from '../components/FourthExerciseDashboard';
+import Module1CarbonPriceDashboard from '../components/Module1CarbonPriceDashboard';
 import waterImg from '../assets/water.jpg';
 import openingMeditationAudio from '../assets/Module1-OpeningMeditation.m4a';
 import hopeMeditationAudio from '../assets/Module1-HopeMeditation.m4a';
@@ -806,7 +806,7 @@ Thank you for practicing.`
           {
             type: 'text',
             title: "**Let's Test Your Predictions!**",
-            content: "In this next activity, you'll use **En‑ROADS** to simulate these scenarios.\n\nAs we learned in the last module, a **carbon price** is one of the more powerful and high-leverage climate policies for quickly lowering our global CO₂ emissions.\n\nSo in this simulation, **you'll adjust the carbon price slider** to see how changing emissions affects the concentration of CO₂ in the atmosphere."
+            content: "In this next activity, you'll use **[En‑ROADS](/module/1?block=2&section=what-if)** to simulate these scenarios.\n\nAs we learned in the last module, a **carbon price** is one of the more powerful and high-leverage climate policies for quickly lowering our global CO₂ emissions.\n\nSo in this simulation, **you'll adjust the carbon price slider** to see how changing emissions affects the concentration of CO₂ in the atmosphere."
           },
           {
             type: 'module2-exercise'
@@ -928,18 +928,13 @@ Thank you for practicing.`
           },
           {
             type: 'video',
-            title: 'Think Like A Bathtub – COP26',
+            title: '',
             videoUrl: 'https://www.youtube.com/embed/7WAMnt8thGs',
             description: 'Understanding climate change through the bathtub analogy'
           },
           {
             type: 'text',
-            content: "Think of carbon dioxide (CO₂) the same way.\n-The **atmosphere** is like the bathtub—this is the **stock**.\n-Burning fossil fuels (cars, factories, etc.) is like the faucet—that's a **flow adding CO₂**.\n-Trees and oceans absorbing CO₂ is like the drain—that's a **flow removing CO₂**.\n\nRight now, the **faucet is on full blast**, and the **drain is slow**, so the \"bathtub\" of CO₂ keeps rising.\n\nEven if we slow down the faucet, the tub will **keep filling** unless the drain is equally fast."
-          },
-          {
-            type: 'text',
-            title: 'This helps explain why climate change is so hard:',
-            content: "To stop the CO₂ level from rising, the inflows and outflows have to balance.\n\nUnderstanding \"stock and flow\" helps you see that climate change isn't just about using fewer fossil fuels—it's about changing the whole system so we stop overfilling the atmospheric \"bathtub.\"\n\nIt's not just about one good action.\n\nIt's about how all our collective actions affect the **total amount** over time."
+            content: "Think of carbon dioxide (CO₂) the same way.\n-The **atmosphere** is like the bathtub—this is the **stock**.\n-Burning fossil fuels (cars, factories, etc.) is like the faucet—that's a **flow adding CO₂**.\n-Trees and oceans absorbing CO₂ is like the drain—that's a **flow removing CO₂**.\n\nRight now, the **faucet is on full blast**, and the **drain is slow**, so the \"bathtub\" of CO₂ keeps rising.\n\nEven if we slow down the faucet, the tub will **keep filling** unless the drain is equally fast.\n\nTo stop the CO₂ level from rising, the inflows and outflows have to balance.\n\nUnderstanding \"stock and flow\" helps you see that climate change isn't just about using fewer fossil fuels—it's about changing the whole system so we stop overfilling the atmospheric \"bathtub.\"\n\nIt's not just about one good action.\n\nIt's about how all our collective actions affect the **total amount** over time."
           },
         ]
       },
@@ -949,22 +944,22 @@ Thank you for practicing.`
         content: [
           {
             type: 'text',
-            title: '🌍 The Vision of "Net‑Zero Emissions"',
+            title: '**🌍 The Vision of "Net‑Zero Emissions"**',
             content: "**What does Net-Zero Emissions mean?**\n\nThink of net‑zero emissions like balancing a scale.\n\nIt doesn't mean we produce zero carbon emissions ever again.\n\nIt means:\n\n**We don't add extra carbon dioxide to the atmosphere overall.**\n\nIn other words, any CO₂ we do emit gets balanced out by CO₂ we remove from the atmosphere."
           },
           {
             type: 'text',
-            title: '🛁 Back to our Bathtub Metaphor',
+            title: '**🛁 Back to our Bathtub Metaphor**',
             content: "Remember, imagine the atmosphere is a big bathtub (your CO₂ \"stock\").\n\n- The water coming in = **CO₂ emissions**\n- The water draining out = **CO₂ removals**\n\n**Net zero** is when water flows in at the same rate it flows out, so the water level stops rising.\n\nThat means CO₂ concentration in the atmosphere levels out instead of increasing."
           },
           {
             type: 'text',
-            title: '🧩 How We Get to Net Zero',
+            title: '**🧩 How We Get to Net Zero**',
             content: "To reach net zero, we need two big things working together:\n\n**1️⃣ Cut emissions as much as possible**\n\nThis means:\n- More renewable energy\n- Energy efficiency\n- Cleaner transportation\n- Better buildings\n- Switching away from fossil fuels\n\n*Reducing what's coming into the tub.*\n\n**2️⃣ Increase CO₂ removals**\n\nThis means:\n- Protecting forests\n- Re‑growing forests (reforestation)\n- Healthier soils\n- Technology that pulls CO₂ out of the air\n\n*Speeding up the drain.*"
           },
           {
             type: 'text',
-            title: '🏁 Why Net Zero Matters',
+            title: '**🏁 Why Net Zero Matters**',
             content: ''
           },
           {
@@ -978,7 +973,7 @@ Thank you for practicing.`
           },
           {
             type: 'text',
-            title: '💭 Let\'s Reflect',
+            title: '**💭 Let\'s Reflect**',
             content: 'Take a moment to think about what you\'ve learned in this module.'
           },
           {
@@ -1018,7 +1013,7 @@ Thank you for practicing.`
           },
           {
             type: 'audio',
-            title: '🌎 Guided Meditation: Growing Climate Hope',
+            title: '**🌎 Guided Meditation: Growing Climate Hope**',
             audioUrl: hopeStockAudio,
             transcript: `Take a slow breath in…\nand a long breath out.\nLet your mind settle for a moment, like dust floating down in a quiet room.\n\nNow imagine that hope for the climate is a stock—a pool inside you that rises and falls over time.\nIt's normal for it to dip when you hear hard news or think about the future.\nIt's also possible to refill it—drop by drop.\n\nAs you breathe in, imagine a tiny stream flowing into that pool.\nThis stream is made of everything that strengthens your hopefulness:\nyoung people taking action,\nscientists discovering new solutions,\ncommunities planting trees, restoring land, or helping each other after storms,\nleaders and corporations making choices that move the world in the right direction.\n\nLet one of those images come to the front of your mind.\nHold it gently.\n\nWith each inhale, imagine that hopeful stream getting just a little stronger.\nWith each exhale, imagine releasing worry that feels too heavy to carry in this moment.\n\nSay silently to yourself:\n"Hope can grow. I can grow it."\n\nNotice your hope stock filling—slowly, steadily—like water rising in a bathtub when the faucet is turned on.\n\nTake one more full breath in…\nand a soft breath out.\n\nWhen you're ready, bring your attention back to the room, knowing that your hope is something you can refill—again and again.`
           },

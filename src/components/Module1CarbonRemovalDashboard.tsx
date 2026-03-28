@@ -22,7 +22,7 @@ const SECTION2_GRAPHS = [
   { id: '169', label: 'Deforestation', varId: '_deforestation_in_mha_per_year' }
 ];
 
-export default function EnRoadsDashboard() {
+export default function Module1CarbonRemovalDashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -36,9 +36,9 @@ export default function EnRoadsDashboard() {
   const [section2DeforestationValue, setSection2DeforestationValue] = useState(50);
   const [section2DeforestationText, setSection2DeforestationText] = useState('status quo');
 
-  // Temperature display
-  const [tempC, setTempC] = useState(3.2);
-  const [tempF, setTempF] = useState(5.7);
+  // Temperature display — use refs + direct DOM to avoid React re-renders that reset canvas
+  const tempCRef = useRef<HTMLSpanElement>(null);
+  const tempFRef = useRef<HTMLSpanElement>(null);
 
   // Refs for Section 1
   const section1CanvasRef = useRef<HTMLCanvasElement>(null);
@@ -114,17 +114,17 @@ export default function EnRoadsDashboard() {
       const newPoints = series?.points || [];
       datasetViewModel.points = [...newPoints];
 
-      // Color coding
+      // Color coding — same as Module 2
       if (!datasetSpec.externalSourceName) {
-        datasetSpec.color = '#3B82F6'; // Blue for current scenario
+        datasetSpec.color = '#00b6f1'; // CI blue for current scenario
         datasetSpec.lineWidth = 4;
-      } else if (datasetSpec.externalSourceName === 'baseline') {
+      } else if (datasetSpec.externalSourceName === 'baseline' || datasetSpec.externalSourceName === 'Ref') {
         datasetSpec.color = '#000000'; // Black for baseline
         datasetSpec.lineWidth = 4;
       }
     }
 
-    graphView.updateData(true);
+    graphView.updateData(false);
   };
 
   const updateTemperatureDisplay = () => {
@@ -142,8 +142,8 @@ export default function EnRoadsDashboard() {
       const tempFahrenheit = tempCelsius * 9 / 5;
 
       console.log(`Temperature updated: ${tempCelsius.toFixed(2)}°C`);
-      setTempC(tempCelsius);
-      setTempF(tempFahrenheit);
+      if (tempCRef.current) tempCRef.current.textContent = `+${tempCelsius.toFixed(1)}°C`;
+      if (tempFRef.current) tempFRef.current.textContent = `+${tempFahrenheit.toFixed(1)}°F`;
     } else {
       // Fallback: approximate from emissions
       console.log('Temperature series not found, using emissions fallback');
@@ -154,8 +154,8 @@ export default function EnRoadsDashboard() {
         const tempFahrenheit = tempCelsius * 9 / 5;
 
         console.log(`Temperature from emissions: ${tempCelsius.toFixed(2)}°C (emissions: ${emissions2100.toFixed(2)})`);
-        setTempC(tempCelsius);
-        setTempF(tempFahrenheit);
+        if (tempCRef.current) tempCRef.current.textContent = `+${tempCelsius.toFixed(1)}°C`;
+        if (tempFRef.current) tempFRef.current.textContent = `+${tempFahrenheit.toFixed(1)}°F`;
       }
     }
   };
@@ -184,13 +184,14 @@ export default function EnRoadsDashboard() {
     }
 
     const canvas = canvasRef.current;
-    const rect = canvas.getBoundingClientRect();
     const dpr = window.devicePixelRatio || 1;
+    const CANVAS_WIDTH = 640;
+    const CANVAS_HEIGHT = 320;
 
-    canvas.style.width = rect.width + 'px';
-    canvas.style.height = '280px';
-    canvas.width = rect.width * dpr;
-    canvas.height = 280 * dpr;
+    canvas.style.width = CANVAS_WIDTH + 'px';
+    canvas.style.height = CANVAS_HEIGHT + 'px';
+    canvas.width = CANVAS_WIDTH * dpr;
+    canvas.height = CANVAS_HEIGHT * dpr;
 
     const viewModel = createGraphViewModel(graphSpec);
 
@@ -200,21 +201,17 @@ export default function EnRoadsDashboard() {
         style: 'normal',
         color: '#1f2937'
       },
-      xAxis: {
-        tickMaxCount: 6
-      },
-      yAxis: {
-        tickMaxCount: 6
-      },
-      getAxisLabelFontSize: () => 14,
-      getTickLabelFontSize: () => 12,
-      getDefaultLineWidth: () => 4
+      xAxis: { tickMaxCount: 8 },
+      yAxis: { tickMaxCount: 8 },
+      getAxisLabelFontSize: () => 16,
+      getTickLabelFontSize: () => 14,
+      getDefaultLineWidth: () => 5
     };
 
     const options = {
       style,
-      responsive: true,
-      animations: true
+      responsive: false,
+      animations: false
     };
 
     const graphView = new GraphView(canvas, viewModel, options, true);
@@ -309,24 +306,23 @@ export default function EnRoadsDashboard() {
           console.warn('Deforestation input not found, Section 2 deforestation slider will not function');
         }
 
-        // Set initial values
-        const carbonRemovalInitialValue = 0.02 - (20 / 70) * 0.07;
-        carbonRemovalInputRef.current.set(carbonRemovalInitialValue);
-
-        // Initialize graphs with a delay
-        setTimeout(() => {
-          loadSection1Graph(selectedGraphId);
-          loadSection2Graph(section2SelectedGraphId);
-          updateTemperatureDisplay();
-        }, 100);
-
-        // Set up output change handler
+        // Set up output change handler FIRST — before any set() calls
         modelContextRef.current.onOutputsChanged = () => {
-          console.log('Model outputs changed, updating graphs...');
           updateAllGraphs();
         };
 
-        console.log('Dashboard initialized successfully');
+        // Set initial values — this triggers model run
+        const carbonRemovalInitialValue = 0.02 - (20 / 70) * 0.07;
+        carbonRemovalInputRef.current.set(carbonRemovalInitialValue);
+
+        // Initialize graphs after model has had time to run
+        setTimeout(() => {
+          loadSection1Graph(selectedGraphId);
+          loadSection2Graph(section2SelectedGraphId);
+          // Explicitly update graphs with current model data
+          setTimeout(() => updateAllGraphs(), 50);
+        }, 150);
+
         setIsLoading(false);
       } catch (err) {
         console.error('Failed to initialize dashboard:', err);
@@ -373,36 +369,40 @@ export default function EnRoadsDashboard() {
   }
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora">
+    <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora mb-24">
+
+      {/* Temperature card — centered at top like Module 2 */}
+      <div className="flex justify-center mb-6">
+        <div className="bg-white dark:bg-gray-800 px-8 py-5 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 text-center">
+          <span ref={tempCRef} className="block text-4xl md:text-5xl font-black text-green-500 mb-1">+3.2°C</span>
+          <span ref={tempFRef} className="block text-lg md:text-xl font-bold text-green-400 mb-3">+5.7°F</span>
+          <div className="text-gray-500 text-xs font-bold uppercase">Global Temperature<br />by 2100</div>
+        </div>
+      </div>
+
       {/* SECTION 1: Nature-Based Carbon Removal & Impact Analysis */}
       <div className="mb-8">
-        <h2 className="text-xl px-4 pt-4 mb-4 font-bold text-gray-800 dark:text-gray-200">
-          Section 1: Nature-Based Carbon Removal & Impacts
+        <h2 className="text-xl px-4 pt-2 mb-4 font-bold text-gray-800 dark:text-gray-200">
+          Section 1: Nature-Based Carbon Removal &amp; Impacts
         </h2>
 
-        <div className="grid grid-cols-4 gap-4 mb-4">
-          <div className="col-span-3 bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
-            <select
-              value={selectedGraphId}
-              onChange={(e) => setSelectedGraphId(e.target.value)}
-              className="mb-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm rounded-lg block w-full p-2.5 font-bold"
-            >
-              {SECTION1_GRAPHS.map(g => <option key={g.id} value={g.id}>{g.label}</option>)}
-            </select>
-            <div className="relative w-full h-[300px]">
-              <canvas
-                ref={section1CanvasRef}
-                className="w-full h-full"
-                width={800}
-                height={280}
-              ></canvas>
-            </div>
-          </div>
-
-          <div className="bg-white dark:bg-gray-800 p-3 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 flex flex-col items-center justify-center text-center">
-            <div className="text-4xl md:text-5xl font-black text-green-500 mb-1">+{tempC.toFixed(1)}°C</div>
-            <div className="text-lg md:text-xl font-bold text-green-400 mb-3">+{tempF.toFixed(1)}°F</div>
-            <div className="text-gray-500 text-xs font-bold uppercase">Global Temperature<br />by 2100</div>
+        <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 mb-4">
+          <select
+            value={selectedGraphId}
+            onChange={(e) => setSelectedGraphId(e.target.value)}
+            className="mb-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm rounded-lg block w-full p-2.5 font-bold"
+          >
+            {SECTION1_GRAPHS.map(g => <option key={g.id} value={g.id}>{g.label}</option>)}
+          </select>
+          <div style={{ position: 'relative', width: '100%', height: '320px', overflow: 'hidden' }}>
+            <canvas
+              ref={section1CanvasRef}
+              style={{ display: 'block', width: '640px', height: '320px', pointerEvents: 'none' }}
+            /></div>
+          {/* Legend badges */}
+          <div className="flex justify-center gap-3 mt-3">
+            <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
+            <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#00b6f1' }}>CURRENT SCENARIO</span>
           </div>
         </div>
 
@@ -419,7 +419,10 @@ export default function EnRoadsDashboard() {
               step="1"
               value={section1SliderValue}
               onChange={handleSection1SliderChange}
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-green-500"
+              className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+              style={{
+                background: `linear-gradient(to right, #3B82F6 0%, #3B82F6 ${(section1SliderValue / 70) * 100}%, #e5e7eb ${(section1SliderValue / 70) * 100}%, #e5e7eb 100%)`
+              }}
             />
           </div>
         </div>
@@ -427,7 +430,7 @@ export default function EnRoadsDashboard() {
 
       {/* SECTION 2: Deforestation Analysis */}
       <div>
-        <h2 className="text-xl px-4 pt-4 mb-4 font-bold text-gray-800 dark:text-gray-200">
+        <h2 className="text-xl px-4 pt-2 mb-4 font-bold text-gray-800 dark:text-gray-200">
           Section 2: Deforestation Analysis
         </h2>
 
@@ -439,13 +442,15 @@ export default function EnRoadsDashboard() {
           >
             {SECTION2_GRAPHS.map(g => <option key={g.id} value={g.id}>{g.label}</option>)}
           </select>
-          <div className="relative w-full h-[300px]">
+          <div style={{ position: 'relative', width: '100%', height: '320px', overflow: 'hidden' }}>
             <canvas
               ref={section2CanvasRef}
-              className="w-full h-full"
-              width={800}
-              height={280}
-            ></canvas>
+              style={{ display: 'block', width: '640px', height: '320px', pointerEvents: 'none' }}
+            /></div>
+          {/* Legend badges */}
+          <div className="flex justify-center gap-3 mt-3">
+            <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
+            <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#00b6f1' }}>CURRENT SCENARIO</span>
           </div>
         </div>
 
@@ -462,7 +467,10 @@ export default function EnRoadsDashboard() {
               step="1"
               value={section1SliderValue}
               onChange={handleSection1SliderChange}
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-green-500"
+              className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+              style={{
+                background: `linear-gradient(to right, #3B82F6 0%, #3B82F6 ${(section1SliderValue / 70) * 100}%, #e5e7eb ${(section1SliderValue / 70) * 100}%, #e5e7eb 100%)`
+              }}
             />
           </div>
 
@@ -478,7 +486,10 @@ export default function EnRoadsDashboard() {
               step="1"
               value={section2DeforestationValue}
               onChange={handleSection2DeforestationChange}
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-orange-500"
+              className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+              style={{
+                background: `linear-gradient(to right, #f97316 0%, #f97316 ${section2DeforestationValue}%, #e5e7eb ${section2DeforestationValue}%, #e5e7eb 100%)`
+              }}
             />
           </div>
         </div>
