@@ -16,6 +16,39 @@ export function TextWithGlossary({ text, className }: TextWithGlossaryProps) {
 
   // Helper to process bold text, italic text, and links within strings
   const formatText = (inputText: string, keyPrefix: string) => {
+    const renderBoldItalic = (segment: string, segmentKeyPrefix: string) => {
+      const boldItalicParts = segment.split(/(\*\*.*?\*\*|\*.*?\*)/g);
+
+      return boldItalicParts.map((subPart, subIndex) => {
+        if (!subPart) return null;
+
+        if (subPart.startsWith('**') && subPart.endsWith('**')) {
+          return (
+            <strong
+              key={`${segmentKeyPrefix}-bi-${subIndex}`}
+              className="font-bold"
+            >
+              {subPart.slice(2, -2)}
+            </strong>
+          );
+        }
+
+        if (
+          subPart.startsWith('*') &&
+          subPart.endsWith('*') &&
+          subPart.length > 1
+        ) {
+          return (
+            <em key={`${segmentKeyPrefix}-bi-${subIndex}`} className="italic">
+              {subPart.slice(1, -1)}
+            </em>
+          );
+        }
+
+        return subPart;
+      });
+    };
+
     // First, split by links [text](url)
     const linkPattern = /(\[([^\]]+)\]\(([^)]+)\))/g;
     const linkParts = inputText.split(linkPattern);
@@ -71,21 +104,31 @@ export function TextWithGlossary({ text, className }: TextWithGlossaryProps) {
         return null;
       }
 
-      // Process bold and italic in non-link text
-      // We use a regex that captures both **bold** and *italic*
-      // The regex captures the whole matched string, so we need to inspect it
-      const boldItalicParts = part.split(/(\*\*.*?\*\*|\*.*?\*)/g);
+      const highlightParts = part.split(/(==.*?==)/g);
 
-      return boldItalicParts.map((subPart, subIndex) => {
-        if (!subPart) return null;
+      return highlightParts.map((highlightPart, highlightIndex) => {
+        if (!highlightPart) return null;
 
-        if (subPart.startsWith('**') && subPart.endsWith('**')) {
-          return <strong key={`${keyPrefix}-${linkIndex}-${subIndex}`} className="font-bold">{subPart.slice(2, -2)}</strong>;
-        } else if (subPart.startsWith('*') && subPart.endsWith('*') && subPart.length > 1) {
-          return <em key={`${keyPrefix}-${linkIndex}-${subIndex}`} className="italic">{subPart.slice(1, -1)}</em>;
+        if (
+          highlightPart.startsWith('==') &&
+          highlightPart.endsWith('==') &&
+          highlightPart.length > 4
+        ) {
+          const inner = highlightPart.slice(2, -2);
+          return (
+            <span
+              key={`${keyPrefix}-hl-${linkIndex}-${highlightIndex}`}
+              className="inline-flex items-baseline rounded-md bg-purple-50 px-2 py-0.5 font-extrabold text-purple-900 shadow-sm border border-purple-200 tabular-nums dark:bg-purple-500 dark:text-white dark:border-gray-600"
+            >
+              {renderBoldItalic(inner, `${keyPrefix}-hlbi-${linkIndex}-${highlightIndex}`)}
+            </span>
+          );
         }
 
-        return subPart;
+        return renderBoldItalic(
+          highlightPart,
+          `${keyPrefix}-plain-${linkIndex}-${highlightIndex}`
+        );
       });
     });
   };
