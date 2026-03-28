@@ -21,6 +21,7 @@ import { useSession } from '../contexts/SessionContext';
 import { Button } from './ui/button';
 import { Carousel, type CarouselApi, CarouselContent, CarouselItem } from './ui/carousel';
 import { Link } from 'react-router-dom';
+import * as RechartsPrimitive from 'recharts';
 
 
 function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { type: 'poll' }>; moduleId: number }) {
@@ -415,20 +416,24 @@ function NumericPredictionBlock({ block, moduleId }: { block: Extract<ContentBlo
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700 mb-8 font-sora">
       <h3 className="text-gray-900 dark:text-gray-100 text-lg font-bold mb-4">{block.question}</h3>
-      <div className="flex items-center gap-3">
-        <input
-          type="number"
-          step="0.1"
-          value={valueText}
-          onChange={(e) => {
-            setValueText(e.target.value);
-            setSubmitError(null);
-            setIsSubmitted(false);
-          }}
-          placeholder="0.0"
-          className="w-24 p-2 text-xl font-bold text-center border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:border-blue-500 focus:outline-none bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-300"
-        />
-        {block.unit && <span className="text-lg font-bold text-gray-500">{block.unit}</span>}
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3 min-w-0">
+        <div className="w-full sm:w-32 min-w-0">
+          <div className="flex items-center w-full min-w-0 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-900 focus-within:border-blue-500">
+            <input
+              type="number"
+              step="0.1"
+              value={valueText}
+              onChange={(e) => {
+                setValueText(e.target.value);
+                setSubmitError(null);
+                setIsSubmitted(false);
+              }}
+              placeholder="0.0"
+              className="w-full min-w-0 p-3 sm:p-2 text-lg sm:text-xl font-bold text-right focus:outline-none bg-transparent text-gray-900 dark:text-gray-100 placeholder-gray-300"
+            />
+            {block.unit && <span className="pr-3 pl-2 text-base sm:text-lg font-bold text-gray-500 whitespace-nowrap">{block.unit}</span>}
+          </div>
+        </div>
       </div>
       <SubmitButton onClick={handleSubmit} disabled={!canSubmit || isSubmitting} />
       {isSubmitting && <div className="mt-2 text-sm text-gray-600">Submitting…</div>}
@@ -684,6 +689,155 @@ export function ContentBlock({
           />
         </div>
       );
+
+    case 'stats': {
+      const accent = block.accentColor ?? 'blue';
+      const accents: Record<NonNullable<typeof block.accentColor>, { color: string; ring: string }> = {
+        blue: { color: '#2563eb', ring: 'border-blue-100 dark:border-blue-900/40' },
+        green: { color: '#16a34a', ring: 'border-green-100 dark:border-green-900/40' },
+        amber: { color: '#d97706', ring: 'border-amber-100 dark:border-amber-900/40' },
+        purple: { color: '#9333ea', ring: 'border-purple-100 dark:border-purple-900/40' },
+        pink: { color: '#db2777', ring: 'border-pink-100 dark:border-pink-900/40' },
+        teal: { color: '#0d9488', ring: 'border-teal-100 dark:border-teal-900/40' },
+      };
+      const styles = accents[accent];
+      const data = block.items.map(item => ({
+        name: item.label,
+        value: Math.max(0, Math.min(100, item.value)),
+      }));
+
+      return (
+        <div className="mb-6 sm:mb-8 font-sora">
+          {block.title && (
+            <div className="flex items-center gap-2 mb-3 sm:mb-4">
+              {!block.hideIcon && <Layers className="text-blue-600 dark:text-blue-400 flex-shrink-0" size={20} />}
+              <h2 className="text-gray-900 dark:text-gray-100 text-base sm:text-lg md:text-xl font-bold">{formatTitle(block.title)}</h2>
+            </div>
+          )}
+
+          <div className={`rounded-2xl p-5 bg-white dark:bg-gray-800 border ${styles.ring} shadow-sm`}>
+            <div className="h-48 w-full">
+              <RechartsPrimitive.ResponsiveContainer width="100%" height="100%">
+                <RechartsPrimitive.BarChart
+                  data={data}
+                  layout="vertical"
+                  margin={{ left: 0, right: 28, top: 8, bottom: 8 }}
+                >
+                  <RechartsPrimitive.CartesianGrid horizontal={false} />
+                  <RechartsPrimitive.XAxis
+                    type="number"
+                    domain={[0, 100]}
+                    tickFormatter={(v: number) => `${v}%`}
+                    axisLine={false}
+                    tickLine={false}
+                  />
+                  <RechartsPrimitive.YAxis
+                    type="category"
+                    dataKey="name"
+                    width={170}
+                    axisLine={false}
+                    tickLine={false}
+                  />
+                  <RechartsPrimitive.Bar
+                    dataKey="value"
+                    fill={styles.color}
+                    radius={[8, 8, 8, 8]}
+                    isAnimationActive={false}
+                  >
+                    <RechartsPrimitive.LabelList
+                      dataKey="value"
+                      position="right"
+                      formatter={(v: number) => `${v}%`}
+                    />
+                  </RechartsPrimitive.Bar>
+                </RechartsPrimitive.BarChart>
+              </RechartsPrimitive.ResponsiveContainer>
+            </div>
+          </div>
+
+          {block.footer ? (
+            <TextWithGlossary
+              text={block.footer}
+              className="mt-4 text-gray-700 dark:text-gray-300 text-sm sm:text-base md:text-lg leading-relaxed whitespace-pre-line"
+            />
+          ) : null}
+        </div>
+      );
+    }
+
+    case 'tags': {
+      const colorByLabel: Record<string, string> = {
+        Sad: '#2563eb',
+        Anxious: '#9333ea',
+        Angry: '#dc2626',
+        Powerless: '#6b7280',
+        Helpless: '#0d9488',
+        Guilty: '#d97706',
+      };
+      const fallbackColors = ['#2563eb', '#16a34a', '#d97706', '#9333ea', '#db2777', '#0d9488'];
+
+      const getColor = (label: string, idx: number) => colorByLabel[label] ?? fallbackColors[idx % fallbackColors.length];
+
+      const hexToRgba = (hex: string, alpha: number) => {
+        const normalized = hex.replace('#', '').trim();
+        const full = normalized.length === 3
+          ? normalized.split('').map(c => `${c}${c}`).join('')
+          : normalized;
+        const r = parseInt(full.slice(0, 2), 16);
+        const g = parseInt(full.slice(2, 4), 16);
+        const b = parseInt(full.slice(4, 6), 16);
+        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+      };
+
+      return (
+        <div className="mb-6 sm:mb-8 font-sora">
+          {block.title && (
+            <div className="flex items-center gap-2 mb-3 sm:mb-4">
+              {!block.hideIcon && <Quote className="text-blue-600 dark:text-blue-400 flex-shrink-0" size={20} />}
+              <h2 className="text-gray-900 dark:text-gray-100 text-base sm:text-lg md:text-xl font-bold">{formatTitle(block.title)}</h2>
+            </div>
+          )}
+
+          <div className="rounded-2xl p-5 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 shadow-sm">
+            {block.lead ? (
+              <TextWithGlossary
+                text={block.lead}
+                className="text-gray-700 dark:text-gray-300 text-sm sm:text-base md:text-lg leading-relaxed whitespace-pre-line"
+              />
+            ) : null}
+
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginTop: block.lead ? '0.75rem' : undefined }}>
+              {block.items.map((label, idx) => {
+                const color = getColor(label, idx);
+                return (
+                  <span
+                    key={`${label}-${idx}`}
+                    className="text-sm sm:text-base font-semibold"
+                    style={{
+                      backgroundColor: hexToRgba(color, 0.12),
+                      border: `1px solid ${hexToRgba(color, 0.25)}`,
+                      color,
+                      borderRadius: 9999,
+                      padding: '0.45rem 0.75rem',
+                      lineHeight: 1.2,
+                    }}
+                  >
+                    {label}
+                  </span>
+                );
+              })}
+            </div>
+          </div>
+
+          {block.footer ? (
+            <TextWithGlossary
+              text={block.footer}
+              className="mt-4 text-gray-700 dark:text-gray-300 text-sm sm:text-base md:text-lg leading-relaxed whitespace-pre-line"
+            />
+          ) : null}
+        </div>
+      );
+    }
 
     case 'audio':
       return (

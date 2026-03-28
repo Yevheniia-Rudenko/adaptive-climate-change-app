@@ -13,7 +13,8 @@ export function Header() {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [modulesDropdownOpen, setModulesDropdownOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const desktopDropdownRef = useRef<HTMLDivElement>(null);
+  const mobileDropdownRef = useRef<HTMLDivElement>(null);
 
   const isRTL = language === 'ar';
   const pathname = location.pathname;
@@ -25,16 +26,22 @@ export function Header() {
 
   // Close dropdown when clicking outside
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+    function handleClickOutside(event: PointerEvent) {
+      const targetNode = event.target as Node;
+      const clickedDesktopDropdown =
+        desktopDropdownRef.current && desktopDropdownRef.current.contains(targetNode);
+      const clickedMobileDropdown =
+        mobileDropdownRef.current && mobileDropdownRef.current.contains(targetNode);
+
+      if (!clickedDesktopDropdown && !clickedMobileDropdown) {
         setModulesDropdownOpen(false);
       }
     }
 
     if (modulesDropdownOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('pointerdown', handleClickOutside);
       return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
+        document.removeEventListener('pointerdown', handleClickOutside);
       };
     }
   }, [modulesDropdownOpen]);
@@ -87,7 +94,7 @@ export function Header() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-10text-foreground">
             {/* Modules Dropdown */}
-            <div className="relative" ref={dropdownRef}>
+            <div className="relative" ref={desktopDropdownRef}>
               <button
                 onClick={() => setModulesDropdownOpen(!modulesDropdownOpen)}
                 className="flex items-center gap-1 px-4 py-2 rounded-full text-white transition-colors"
@@ -178,7 +185,7 @@ export function Header() {
           <div className="md:hidden py-4 border-t border-gray-200 dark:border-gray-700">
             <nav className="flex flex-col gap-2 text-foreground">
               {/* Modules Section */}
-              <div className="border-b border-gray-100 dark:border-gray-700 pb-2 mb-2">
+              <div className="border-b border-gray-100 dark:border-gray-700 pb-2 mb-2" ref={mobileDropdownRef}>
                 <button
                   onClick={() => setModulesDropdownOpen(!modulesDropdownOpen)}
                   className={`w-full flex items-center justify-between px-4 py-2 rounded-md transition-colors ${isModuleActive

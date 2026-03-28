@@ -37,6 +37,8 @@ import mandalaForSystemsChangeImg from '../assets/module_5/mandala-for-systems-c
 import youthLeadershipImg from '../assets/module_5/youthleadership.png';
 import skyRocketAnimation from '../assets/module_5/sky_rocket.json';
 import breatheImg from '../assets/module_5/breathe.jpg';
+import leadershipImg from '../assets/module_5/leadership.jpg';
+import vennDiagramImg from '../assets/module_5/venn-diagram.png';
 
 
 export type FlipCardData = {
@@ -48,6 +50,8 @@ export type FlipCardData = {
 
 export type ContentBlock =
   | { type: 'text'; title?: string; content: string; hideIcon?: boolean }
+  | { type: 'stats'; title?: string; hideIcon?: boolean; accentColor?: 'blue' | 'green' | 'amber' | 'purple' | 'pink' | 'teal'; items: { value: number; label: string; description?: string }[]; footer?: string }
+  | { type: 'tags'; title?: string; hideIcon?: boolean; lead?: string; items: string[]; footer?: string }
   | { type: 'video'; title?: string; videoUrl: string; description?: string }
   | { type: 'audio'; title?: string; audioUrl: string; description?: string; transcript?: string }
   | { type: 'image'; imageUrl: string; alt: string; title?: string; width?: string }
@@ -1691,19 +1695,26 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
             type: 'text',
             title: 'You are not alone: the power of collective leadership',
             hideIcon: true,
-            content: "A major global study surveyed 10,000 young people (ages 16–25) in 10 countries about their emotional responses to climate change. The results show that climate anxiety is widespread, intense, and deeply connected to how young people view government action."
+            content: "A major global study surveyed ==10,000== **young people (ages 16–25)** in 10 countries about their emotional responses to climate change. The results show that climate anxiety is widespread, intense, and deeply connected to how young people view government action."
           },
                     {
-            type: 'text',
+            type: 'stats',
             title: '😟 1. Most young people across all countries are worried about climate change',
             hideIcon: true,
-            content: "• **59%** said they were **very or extremely worried** \n• **84%** were at least **moderately worried**\n\nYoung people everywhere—regardless of country—are carrying strong concern about the future of the planet."
+            accentColor: 'purple',
+            items: [
+              { value: 59, label: 'Very or extremely worried' },
+              { value: 84, label: 'At least moderately worried' }
+            ],
+            footer: "Young people everywhere—regardless of country—are carrying strong concern about the future of the planet."
           },
           {
-            type: 'text',
+            type: 'tags',
             title: '💬 2. More than half reported feeling a range of difficult emotions',
             hideIcon: true,
-            content: "Over 50% of respondents said they feel:\n• Sad \n• Anxious \n• Angry \n• Powerless \n• Helpless \n• Guilty\n\nThis shows that climate change isn’t just a scientific or political issue—it’s an emotional one."
+            lead: 'Over 50% of respondents said they feel:',
+            items: ['Sad', 'Anxious', 'Angry', 'Powerless', 'Helpless', 'Guilty'],
+            footer: 'This shows that climate change isn’t just a scientific or political issue—it’s an emotional one.'
           },
           {
             type: 'text',
@@ -1736,6 +1747,12 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
             url: 'https://www.thelancet.com/journals/lanplh/article/PIIS2542-5196%2821%2900278-3/fulltext'
           },
           {
+            type: 'image',
+            imageUrl: leadershipImg,
+            alt: 'A group of young people holding hands and discussing climate change',
+            width: '80%'
+          },
+          {
             type: 'text',
             title: 'A Call to Youth Leadership',
             hideIcon: true,
@@ -1762,7 +1779,14 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
           {
             type: 'text',
             title: 'Draw your own venn diagram inspired by Dr. Johnson’s talk.',
-            content: "• What are you good at?\n\n • What needs doing?\n\n • What brings you joy?"
+            content: ""
+          },
+          {
+            type: 'image',
+            imageUrl: vennDiagramImg,
+            alt: 'Venn diagram of climate action',
+            title: '',
+            width: '100%'
           },
           {
             type:'reflection',
@@ -1806,25 +1830,25 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
               {
                 frontTitle: 'Practice',
                 frontDescription: '',
-                backTitle: 'Definition',
+                backTitle: 'Consider',
                 backDescription: 'What do you want to do or accomplish?'
               },
               {
                 frontTitle: 'Research',
                 frontDescription: '',
-                backTitle: 'Definition',
+                backTitle: 'Consider',
                 backDescription: ' How will you know its working? How will you  reflect, document, measure or track your progress, learning and development?'
               },
               {
                 frontTitle: 'Community Building',
                 frontDescription: '',
-                backTitle: 'Definition',
+                backTitle: 'Consider',
                 backDescription: 'Who is the ‘we’? What communities or stakeholders need to be involved?'
               },
               {
                 frontTitle: 'Capacity Building',
                 frontDescription: '',
-                backTitle: 'Definition',
+                backTitle: 'Consider',
                 backDescription: 'What skills, knowledge or resources will we need to move these changes forward?'
               }
             ]
@@ -1882,14 +1906,8 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
         title: '🎉 Congratulations on completing Module 5: Levers of Change – the last module in this series!',
         description: "Before you depart–hopefully to start your climate action–we’d love your feedback on this learning experience.",
         id: 'module-5-feedback'
-        }
-        ]
-      },
-                  {
-        type: 'block',
-        colorTheme: 'pink',
-        content: [
-      {
+        },
+              {
         type: 'quote-carousel',
         title: '',
         quotes: [

@@ -1,7 +1,7 @@
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { ModuleStructure } from '../data/moduleStructures';
+import { ModuleStructure, moduleStructures } from '../data/moduleStructures';
 import { ContentBlock } from './ContentBlock';
 import { useLanguage } from '../contexts/LanguageContext';
 import { GlossaryHighlightProvider } from '../contexts/GlossaryHighlightContext';
@@ -19,6 +19,8 @@ export function FlexibleModulePage({
   const { t } = useLanguage();
   const navigate = useNavigate();
   const [currentBlock, setCurrentBlock] = useState(1);
+  const totalModules = moduleStructures.length;
+  const isLastModule = moduleId >= totalModules;
 
   // Build per-block navigation groups.
   // For Module 1 we use the existing hand-crafted grouping.
@@ -83,7 +85,7 @@ export function FlexibleModulePage({
   };
 
   const handleNext = () => {
-    if (moduleId < 5) {
+    if (!isLastModule) {
       navigate(`/module/${moduleId + 1}`);
     } else {
       navigate('/');
@@ -113,7 +115,7 @@ export function FlexibleModulePage({
             <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 md:bottom-6 md:left-6 md:right-6">
               <div className="flex items-center gap-2 mb-1 sm:mb-2">
                 <span className="text-white/90 text-xs sm:text-sm uppercase tracking-wider">
-                  Module {moduleId} of 5
+                  Module {moduleId} of {totalModules}
                 </span>
               </div>
               <h1 className="text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl">
@@ -237,7 +239,7 @@ export function FlexibleModulePage({
               >
                 <span>
                   {isMultiBlock && currentBlock === totalBlocks
-                    ? `Continue to Module ${moduleId + 1}`
+                    ? (isLastModule ? t.complete : `Continue to Module ${moduleId + 1}`)
                     : t.next}
                 </span>
                 <ArrowRight size={18} />
