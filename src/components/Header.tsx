@@ -44,13 +44,12 @@ export function Header() {
         document.removeEventListener('pointerdown', handleClickOutside);
       };
     }
-  }, [desktopModulesDropdownOpen]);
+  }, [modulesDropdownOpen]);
 
   // Close mobile menu when language changes
   useEffect(() => {
     setMobileMenuOpen(false);
-    setDesktopModulesDropdownOpen(false);
-    setMobileModulesDropdownOpen(false);
+    setModulesDropdownOpen(false);
   }, [language]);
 
   const modules = [
@@ -64,8 +63,7 @@ export function Header() {
   const handleNavigate = (path: string) => {
     navigate(path);
     setMobileMenuOpen(false);
-    setDesktopModulesDropdownOpen(false);
-    setMobileModulesDropdownOpen(false);
+    setModulesDropdownOpen(false);
   };
 
   return (
@@ -94,19 +92,19 @@ export function Header() {
           </button>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-10text-foreground">
+          <nav className="hidden md:flex items-center gap-10 text-foreground">
             {/* Modules Dropdown */}
             <div className="relative" ref={desktopDropdownRef}>
               <button
-                onClick={() => setDesktopModulesDropdownOpen(!desktopModulesDropdownOpen)}
+                onClick={() => setModulesDropdownOpen(!modulesDropdownOpen)}
                 className="flex items-center gap-1 px-4 py-2 rounded-full text-white transition-colors"
                 style={{ backgroundColor: '#2F8237' }}
               >
                 <span>{t.modules}</span>
-                <ChevronDown size={16} className={`transition-transform ${desktopModulesDropdownOpen ? 'rotate-180' : ''}`} />
+                <ChevronDown size={16} className={`transition-transform ${modulesDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
 
-              {desktopModulesDropdownOpen && (
+              {modulesDropdownOpen && (
                 <div className={`absolute ${isRTL ? 'right-0' : 'left-0'} mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-2 z-50`}>
                   {modules.map((module) => (
                     <button
@@ -189,17 +187,17 @@ export function Header() {
               {/* Modules Section */}
               <div className="border-b border-gray-100 dark:border-gray-700 pb-2 mb-2" ref={mobileDropdownRef}>
                 <button
-                  onClick={() => setMobileModulesDropdownOpen(!mobileModulesDropdownOpen)}
+                  onClick={() => setModulesDropdownOpen(!modulesDropdownOpen)}
                   className={`w-full flex items-center justify-between px-4 py-2 rounded-md transition-colors ${isModuleActive
                     ? 'bg-primary/10 dark:bg-primary/20 text-primary'
                     : 'hover:bg-muted'
                     }`}
                 >
                   <span>{t.modules}</span>
-                  <ChevronDown size={16} className={`transition-transform ${mobileModulesDropdownOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown size={16} className={`transition-transform ${modulesDropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
 
-                {mobileModulesDropdownOpen && (
+                {modulesDropdownOpen && (
                   <div className={`mt-2 ${isRTL ? 'mr-4' : 'ml-4'} space-y-1`}>
                     {modules.map((module) => (
                       <button

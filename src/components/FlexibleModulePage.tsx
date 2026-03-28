@@ -1,7 +1,7 @@
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { ModuleStructure, ContentBlock as ModuleContentBlock } from '../data/moduleStructures';
+import { moduleStructures, ModuleStructure, ContentBlock as ModuleContentBlock } from '../data/moduleStructures';
 import { ContentBlock } from './ContentBlock';
 import { useLanguage } from '../contexts/LanguageContext';
 import { GlossaryHighlightProvider } from '../contexts/GlossaryHighlightContext';
