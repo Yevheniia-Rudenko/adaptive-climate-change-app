@@ -1,11 +1,34 @@
-import { ArrowLeft, ArrowRight } from 'lucide-react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { ArrowLeft, ArrowRight, ExternalLink, Home } from 'lucide-react';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { moduleStructures, ModuleStructure, ContentBlock as ModuleContentBlock } from '../data/moduleStructures';
 import { ContentBlock } from './ContentBlock';
 import { useLanguage } from '../contexts/LanguageContext';
 import { GlossaryHighlightProvider } from '../contexts/GlossaryHighlightContext';
 import { Button } from './ui/button';
+
+const MODULE_QUOTES: Record<number, { text: string; author: string }> = {
+  1: {
+    text: 'We do not inherit the earth from our ancestors; we borrow it from our children.',
+    author: 'Antoine de Saint-Exupéry',
+  },
+  2: {
+    text: 'Our house is on fire. I want you to act as if the house is on fire, because it is.',
+    author: 'Greta Thunberg',
+  },
+  3: {
+    text: 'The good man is the friend of all living things.',
+    author: 'Mahatma Gandhi',
+  },
+  4: {
+    text: 'Just as no single policy will solve the climate crisis, it takes many people acting with conviction to grow a movement.',
+    author: 'Andrew Jones (Climate Interactive)',
+  },
+  5: {
+    text: 'When young people develop basic leadership and collaborative learning skills, they can be a formidable force for change.',
+    author: 'Peter M. Senge, The Fifth Discipline',
+  },
+};
 
 type FlexibleModulePageProps = {
   module: ModuleStructure;
@@ -347,6 +370,37 @@ export function FlexibleModulePage({
             })}
             </GlossaryHighlightProvider>
 
+            {/* Quote section — shown only on the last block of non-final modules */}
+            {(!isMultiBlock || currentBlock === totalBlocks) && !isLastModule && MODULE_QUOTES[moduleId] && (
+              <div className="mb-8 rounded-2xl bg-gradient-to-br from-green-50 to-teal-50 dark:from-green-900/20 dark:to-teal-900/20 border border-green-200 dark:border-green-700/60 p-6 sm:p-8 text-center shadow-sm">
+                <p className="text-gray-700 dark:text-gray-300 text-base sm:text-lg md:text-xl italic leading-relaxed mb-4">
+                  &ldquo;{MODULE_QUOTES[moduleId].text}&rdquo;
+                </p>
+                <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base font-semibold">
+                  — {MODULE_QUOTES[moduleId].author}
+                </p>
+              </div>
+            )}
+
+            {/* Program completion CTAs — centered, shown only on Module 5's last block */}
+            {isLastModule && (!isMultiBlock || currentBlock === totalBlocks) && (
+              <div className="mb-8 flex flex-col items-center gap-3 w-full max-w-sm mx-auto">
+                <Link
+                  to="/resources"
+                  style={{ backgroundColor: '#15803d', color: '#ffffff' }}
+                  className="w-full flex items-center gap-3 px-6 py-4 rounded-2xl hover:brightness-90 active:scale-[0.98] shadow-xl transition-all duration-200 group"
+                >
+                  <span className="flex-shrink-0 w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <ExternalLink size={20} />
+                  </span>
+                  <span className="flex flex-col text-left">
+                    <span className="font-extrabold text-base tracking-wide leading-tight">Explore Resources</span>
+                    <span className="opacity-90 font-medium text-xs mt-0.5">Keep learning &amp; take action</span>
+                  </span>
+                </Link>
+              </div>
+            )}
+
             {/* Navigation */}
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
               <Button
@@ -358,17 +412,59 @@ export function FlexibleModulePage({
                 <span>{t.back}</span>
               </Button>
 
-              <Button
-                onClick={handleBlockNext}
-                className="flex-1 order-1 sm:order-3"
-              >
-                <span>
-                  {isMultiBlock && currentBlock === totalBlocks
-                    ? (isLastModule ? t.complete : `Continue to Module ${moduleId + 1}`)
-                    : t.next}
-                </span>
-                <ArrowRight size={18} />
-              </Button>
+              {/* Debug / Fallback output */}
+              <div className="hidden">Debug: isLast={isLastModule ? 'true':'false'}, curr={currentBlock}, tot={totalBlocks}</div>
+
+              {(!isLastModule) ? (
+                // --- MODULES 1-4 NAVIGATION ---
+                <>
+                  {(!isMultiBlock || currentBlock === totalBlocks) && (
+                    <Button
+                      asChild
+                      variant="default"
+                      className="order-3 sm:order-2 shadow-md bg-green-700 hover:bg-green-800 text-white"
+                    >
+                      <Link to="/resources">
+                        <ExternalLink size={16} />
+                        <span className="font-semibold">Go to Resources</span>
+                      </Link>
+                    </Button>
+                  )}
+                  <Button
+                    onClick={handleBlockNext}
+                    className="flex-1 order-1 sm:order-4"
+                  >
+                    <span>
+                      {isMultiBlock && currentBlock === totalBlocks
+                        ? `Continue to Module ${moduleId + 1}`
+                        : t.next}
+                    </span>
+                    <ArrowRight size={18} />
+                  </Button>
+                </>
+              ) : (
+                // --- MODULE 5 NAVIGATION ---
+                (!isMultiBlock || currentBlock === totalBlocks) ? (
+                  // Module 5 FINAL block => Return to Main Menu
+                  <Link 
+                    to="/" 
+                    style={{ backgroundColor: '#8031C5', color: '#ffffff' }}
+                    className="flex-1 order-1 sm:order-4 hover:brightness-90 border-0 flex justify-center items-center gap-2 py-2 px-4 rounded-md font-medium transition-all h-10"
+                  >
+                    <span>Return to Main Menu</span>
+                    <ArrowRight size={18} />
+                  </Link>
+                ) : (
+                  // Module 5 NON-final block => Next
+                  <Button
+                    onClick={handleBlockNext}
+                    className="flex-1 order-1 sm:order-4"
+                  >
+                    <span>{t.next}</span>
+                    <ArrowRight size={18} />
+                  </Button>
+                )
+              )}
             </div>
           </div>
         </div>
