@@ -677,7 +677,7 @@ Thank you for practicing.`
             title: '',
             content: "So imagine you've got a **bathtub**.\n\n- The **water already in the tub** is the **stock**.\n- The **water coming in from the faucet** is a **flow**.\n- The **water draining out** is another **flow**.\n\n The size of the stock (how much water is in the tub) depends on the flows (how fast water enters or leaves).\n\nSo if the faucet is running faster than the drain?\n➡️ The tub fills up.\n\nIf the drain is faster than the faucet?\n➡️ The tub empties.\n\nIf they're equal?\n➡️ The water level stays the same."
           },
-{
+          {
             type: 'video',
             title: '**What is Stock and Flow?**',
             videoUrl: 'https://www.youtube.com/embed/nRlYGDBGcRA',
@@ -1039,16 +1039,16 @@ Thank you for practicing.`
     title: "Roadmap to Possible Futures",
     headerImage: "https://images.unsplash.com/photo-1704466260929-047dca5330a9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwYXRod2F5JTIwZm9yZXN0JTIwbGlnaHR8ZW58MXx8fHwxNzY1MTc1MDY5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
     sections: [
-            {
+      {
         type: 'block',
         colorTheme: 'amber',
         content: [
-                      {
+          {
             type: 'text',
             title: '**About this Module**',
             content: "So far, we’ve explored several high‑leverage climate solutions—policies and actions that can significantly reduce net emissions and slow the rise in global temperature.\n\n Now we’re going to ask an important question:"
           },
-                {
+          {
             type: 'lottie',
             animationData: puzzleAnimation,
             loop: true,
@@ -1057,40 +1057,42 @@ Thank you for practicing.`
             width: '709px',
             height: '540px',
           },
-                {
-        type: 'text',
-        title: '**What happens when we combine solutions?**',
-        content: "Some high‑leverage policies—like a carbon price—are extremely effective at lowering emissions. But in a system where everything is connected, every solution has consequences, both good and bad.\n\n In this module, we’ll take a closer look at the ethical, ecological, and economic effects that different climate policies can create."
-      },
-                      {
-        type: 'text',
-        title: '**How do we explore solutions thoughtfully, without ignoring the impacts they might have?**',
-        content: "To help you think like a systems scientist or policymaker, you’ll use the full En‑ROADS simulator to design your own climate policy scenario—one that reduces emissions and considers real‑world trade‑offs."
-      },
+          {
+            type: 'text',
+            title: '**What happens when we combine solutions?**',
+            content: "Some high‑leverage policies—like a carbon price—are extremely effective at lowering emissions. But in a system where everything is connected, every solution has consequences, both good and bad.\n\n In this module, we’ll take a closer look at the ethical, ecological, and economic effects that different climate policies can create."
+          },
+          {
+            type: 'text',
+            title: '**How do we explore solutions thoughtfully, without ignoring the impacts they might have?**',
+            content: "To help you think like a systems scientist or policymaker, you’ll use the full En‑ROADS simulator to design your own climate policy scenario—one that reduces emissions and considers real‑world trade‑offs."
+          },
         ]
       },
-            {
+      {
         type: 'block',
         colorTheme: 'green',
         content: [
-                {
-        type: 'image',
-        imageUrl: carbonAndEmissionsImg,
-        alt: 'White and black ship on sea under white clouds',
-        width: '80%'
-      },
-                      {
+          {
+            type: 'image',
+            imageUrl: carbonAndEmissionsImg,
+            alt: 'White and black ship on sea under white clouds',
+            width: '80%'
+          },
+          {
             type: 'text',
             title: '**Group Activity**',
             content: "In Modules 1 and 2, we saw that putting a price on carbon is one of the fastest and strongest ways to reduce emissions. \n\n But lowering emissions isn’t the only effect of a carbon price."
           },
-          {type: 'text',
+          {
+            type: 'text',
             content: 'All climate policies create: \n\n• **Positive side‑effects** (sometimes called multisolving)\n   - Example: Improving public health or saving money long-term \n\n• **Unintended negative impacts** \n   -Often hit people with lower incomes the hardest'
           },
-          {type: 'text',
+          {
+            type: 'text',
             content: 'Trying to reduce or prevent those negative impacts is called **equity work**—making sure solutions are fair to everyone.'
           },
-                    {
+          {
             type: 'text',
             title: '**Brainstorm individually or in small groups:**',
             content: '',
@@ -1105,8 +1107,9 @@ Thank you for practicing.`
             width: '496px',
             height: '378px',
           },
-          {type: 'text',
-          content: '1. **What positive side‑effects could a carbon price create?** \n (Think: health, transportation, jobs, air quality, etc.) \n\n 2.**What potential harms could it cause?** \n How might these harms show up in different communities? \n\n 3.**How could we reduce or prevent those harms?** \n (Hint: government support, rebates, investments, equity policies)',
+          {
+            type: 'text',
+            content: '1. **What positive side‑effects could a carbon price create?** \n (Think: health, transportation, jobs, air quality, etc.) \n\n 2.**What potential harms could it cause?** \n How might these harms show up in different communities? \n\n 3.**How could we reduce or prevent those harms?** \n (Hint: government support, rebates, investments, equity policies)',
           },
           {
             type: 'text',
@@ -1125,51 +1128,52 @@ Thank you for practicing.`
           },
         ]
       },
-                  {
+      {
         type: 'block',
         colorTheme: 'green',
         content: [
-                          {
-        type: 'image',
-        imageUrl: enroadsScreenshot,
-        alt: 'White and black ship on sea under white clouds',
-        width: '100%'
-      },
-      {
+          {
+            type: 'image',
+            imageUrl: enroadsScreenshot,
+            alt: 'White and black ship on sea under white clouds',
+            width: '100%'
+          },
+          {
             type: 'text',
             title: '**Explore the Scenario in En‑ROADS**',
             content: "Now you’ll get to experiment with the carbon price slider and see how this policy affects two important side‑effects shown in the graphs:"
           },
-                      {
+          {
             type: 'text',
             title: '**1. Air Pollution**',
             hideIcon: true,
             content: "Measured as the amount of harmful particles released into the air each year. \n Long‑term exposure to air pollution increases the risk of:\n\n• Asthma\n• Heart disease\n• Stroke\n• Chronic obstructive pulmonary disease (COPD)\n• Lung cancer\n• Dementia\n\n Cleaner air usually means **healthier communities.**"
-          },    
-                                {
+          },
+          {
             type: 'text',
             title: '**2. Average Price of Energy for Consumers**',
             hideIcon: true,
             content: 'This graph shows the average cost of energy for everyday people—including:\n\n• Electricity\n• Gas\n• Hydrogen\n\nWhen this line goes up, **energy bills get more expensive** for everyone, which can create equity concerns.'
-          },   
+          },
           {
             type: 'text',
             title: '**Let’s Predict**',
             hideIcon: true,
             content: 'Before you use the model, take a moment to make your predictions.'
           },
-          {type: 'reflection',
+          {
+            type: 'reflection',
             prompt: 'What do you think will happen to the price of energy and the amount of air pollution as the carbon price increases?',
             id: 'predict-1'
           },
-                    {
+          {
             type: 'text',
             title: '**Make a Model**',
             hideIcon: true,
             content: ''
           },
           { type: 'module3-carbon-price-dashboard' },
-            {
+          {
             type: 'text',
             title: '**Let\'s Reflect**',
             content: ''
@@ -1184,20 +1188,21 @@ Thank you for practicing.`
             prompt: 'Looking at this through an equity lens, what might this scenario mean for different people?\n\nThink about who benefits and who might face challenges.',
             id: 'prediction-reflection-2'
           },
-                    {
+          {
             type: 'reflection',
             prompt: 'Who do you think would be most affected by this policy? Why?\n\nConsider income levels, communities, industries, or regions.',
             id: 'prediction-reflection-3'
           },
-                    {
+          {
             type: 'reflection',
             prompt: 'Are there groups who might be positively affected—and others who might be negatively affected—by raising the carbon price?\n\nExplain what those effects could look like in real life.',
             id: 'prediction-reflection-4'
           },
-        {type: 'audio',
-          audioUrl: carbonEquityAudio,
-          title: 'Understanding Trade-offs',
-          transcript: `By now, we know that a carbon price basically makes it more expensive to release carbon into the atmosphere. So if an energy source gives off more CO₂ for every unit of energy it produces, it becomes more expensive under a carbon price. In this case, energy sources that release less carbon would stay cheaper.
+          {
+            type: 'audio',
+            audioUrl: carbonEquityAudio,
+            title: 'Understanding Trade-offs',
+            transcript: `By now, we know that a carbon price basically makes it more expensive to release carbon into the atmosphere. So if an energy source gives off more CO₂ for every unit of energy it produces, it becomes more expensive under a carbon price. In this case, energy sources that release less carbon would stay cheaper.
 Among the fossil fuels, coal produces the most CO₂ per unit of energy, and it also creates the worst air pollution. That means when we raise the carbon price, coal gets much more expensive compared to cleaner options. As a result, people and companies would use way less of it.
 And when coal use drops, air pollution drops too—by a lot.
 
@@ -1209,184 +1214,193 @@ And here’s why that matters:
 For most households—especially lower‑income households—energy is a basic, non‑optional cost. People can’t just stop using electricity or heating. So when prices rise, poorer communities feel it the most.
 You may have also seen that energy prices peak around 2037. That’s when the carbon price hits its highest level after slowly increasing for about ten years.
 If a government wants people to support a carbon price, it has to think carefully about how to protect the people who would be hurt most by rising energy costs.`
-        },
-        {type: 'text',
-        title: '**❓So here’s the big question:**',
-        hideIcon: true,
-        content: '**What policies could help balance things out?**\nIf a carbon price brings in extra money to the government, how could that money be used to:\n\n• Lower energy bills for low‑income families?\n• Help people transition to clean energy?\n• Make the policy feel fair for everyone?\n\nThat’s your challenge to think about.',
-        },
-        {
+          },
+          {
+            type: 'text',
+            title: '**❓So here’s the big question:**',
+            hideIcon: true,
+            content: '**What policies could help balance things out?**\nIf a carbon price brings in extra money to the government, how could that money be used to:\n\n• Lower energy bills for low‑income families?\n• Help people transition to clean energy?\n• Make the policy feel fair for everyone?\n\nThat’s your challenge to think about.',
+          },
+          {
             type: 'text',
             title: '**Let\'s Reflect**',
             content: ''
           },
-        {type: 'reflection',
-          prompt: 'What policies can you think of that could achieve this goal?',
-          id: 'prediction-reflection-5'
-        }
-        ]
-      },
-      {
-        type: 'block',
-        colorTheme: 'green',
-        content: [
           {
-            type:'text',
-            title: '**Create Your Own Climate Policy Scenario in En‑ROADS**',
-            hideIcon: true,
-            content:''
-          },
-        {
-        type: 'image',
-        imageUrl: enroadsScreenshot,
-        alt: 'White and black ship on sea under white clouds',
-        width: '100%'
-      },
-      {
-        type: 'text',
-        title: '**Now it\'s your turn to design a climate future!**',
-        hideIcon: true,
-        content: 'Using the **full En‑ROADS climate policy simulator**, create a scenario that reflects the kind of world you want to help build. As you experiment with the sliders, try to meet these three goals **at the same time:**'
-      },
-      { type: 'text',
-        title: '**Your Challenge**',
-        content: '\n**1- Keep global warming below 2°C** \n(You’ll see this on the main En‑ROADS temperature graph.)\n\n **2- Reduce inequality** \n (Think about what policies are fair, who they help, and who might be harmed.) \n\n **3- Balance costs and fairness**\n (Consider energy prices, economic impacts, and how to support communities most affected by the transition.)**'
-          },
-            { type: 'text',
-        title: '**Your Task**',
-        hideIcon: true,
-        content: 'Use the sliders—energy, land use, transportation, carbon removal, and policies—to build a scenario that meets these goals.\n here’s no single “right answer,” but there are trade‑offs you’ll need to think through.'
-          },
-            { type: 'text',
-        title: '**When you’re done**',
-        hideIcon: true,
-        content: 'Click the “Share Your Scenario” button, copy the link, and return back here.'
-          },
-          {
-        type: 'button',
-        label: 'Now go create in En-ROADS!',
-        url: 'https://en-roads.climateinteractive.org/scenario.html?v=25.11.0',
-        variant: 'default',
-        size: 'default',
-        iconName: 'ExternalLink',
-        newTab: false   
-  }
-
-        ]
-      },
-            {
-        type: 'block',
-        colorTheme: 'green',
-        content: [
-      {
-        type: 'text',
-        title: '**👋 Welcome back!**',
-        hideIcon: true,
-        content: 'How was En-ROADS?  We’d love to learn from your experience.'
-      },
-      {type: 'text',
-        title: '**Share your scenario**',
-        hideIcon: true,
-        content: ''
-      },
-                    {type: 'reflection',
-          prompt: 'Paste your En-ROADS Scenario link here:',
-          id: 'en-roads-scenario-1'
-        },
-      {
-            type: 'text',
-            title: '**Let\'s Reflect - Reflect on your scenario:**',
-            content: ''
-          },
-              {type: 'reflection',
-          prompt: '• Which policies did you choose and why? \n • How did your scenario keep warming below 2°C? \n • What choices did you make to reduce inequality or protect vulnerable communities? \n • How did you think about fairness and cost? \n • What surprised you while designing your scenario?',
-          id: 'en-roads-scenario-2'
-        }
-        ]
-      },
-                  {
-        type: 'block',
-        colorTheme: 'green',
-        content: [
-                {
-        type: 'text',
-        title: '**Imagining the Future**',
-        hideIcon: true,
-        content: '🎉 You have just joined the over 492,000+ people around the world who have created climate scenarios using En-ROADS.'
-      },
-      {
-        type: 'quote-carousel',
-        title: '**What leaders say about En‑ROADS**',
-        quotes: [
-          {
-            quote: 'En‑ROADS is quite simply a climate crisis game-changer for policymakers and people across the country. Everyone is hearing more and more about the science, but sometimes it takes a demonstration tool like En‑ROADS for people to see first-hand that every one of us needs to be on a war footing and mobilize to fight this crisis head-on. Our goal with World War Zero is to drive at least ten million conversations about the climate crisis: En‑ROADS is the ultimate conversation starter.',
-            author: 'John Kerry',
-            subtitle: 'U.S. Special Presidential Envoy for Climate (2021–2024), U.S. Secretary of State (2013–2017)'
-          },
-                    {
-            quote: 'Amidst a complex and urgent issue, En-ROADS emerges as a beacon of understanding and direction. The simulator connects scientific research with tangible pathways for action, empowering leaders to make informed decisions that shape effective climate strategies. It\'s time to act, and En-ROADS puts the power to act decisively in our hands.',
-            author: 'Sissi Knispel de Acosta',
-            subtitle: 'Executive Secretary, European Climate Research Alliance (ECRA). Brussels, Belgium'
-          },
-                              {
-            quote: 'EN-ROADS lit my brain on fire….in one screen, the model communicates the urgency of the climate change threat, powerfully debunks cherished myths, confirms the importance of current commitments and emphasizes how much more we have to do.',
-            author: 'Roberta Barbieri',
-            subtitle: 'Vice President, Global Sustainability, PepsiCo, United States'
+            type: 'reflection',
+            prompt: 'What policies can you think of that could achieve this goal?',
+            id: 'prediction-reflection-5'
           }
         ]
       },
       {
-        type:'text',
-        title: '',
-        hideIcon: true,
-        content: 'There are a number of roadmaps to our possible shared future.'
-      },
-      {
-        type: 'image-collage',
-        title: '**Scenario snapshots**',
-        width: '1100px',
-        images: [
-          { imageUrl: scenario1Img, alt: 'Scenario 1', caption: 'Scenario 1' },
-          { imageUrl: scenario2Img, alt: 'Scenario 2', caption: 'Scenario 2' },
-          { imageUrl: scenario3Img, alt: 'Scenario 3', caption: 'Scenario 3' },
-          { imageUrl: scenario4Img, alt: 'Scenario 4', caption: 'Scenario 4' }
+        type: 'block',
+        colorTheme: 'green',
+        content: [
+          {
+            type: 'text',
+            title: '**Create Your Own Climate Policy Scenario in En‑ROADS**',
+            hideIcon: true,
+            content: ''
+          },
+          {
+            type: 'image',
+            imageUrl: enroadsScreenshot,
+            alt: 'White and black ship on sea under white clouds',
+            width: '100%'
+          },
+          {
+            type: 'text',
+            title: '**Now it\'s your turn to design a climate future!**',
+            hideIcon: true,
+            content: 'Using the **full En‑ROADS climate policy simulator**, create a scenario that reflects the kind of world you want to help build. As you experiment with the sliders, try to meet these three goals **at the same time:**'
+          },
+          {
+            type: 'text',
+            title: '**Your Challenge**',
+            content: '\n**1- Keep global warming below 2°C** \n(You’ll see this on the main En‑ROADS temperature graph.)\n\n **2- Reduce inequality** \n (Think about what policies are fair, who they help, and who might be harmed.) \n\n **3- Balance costs and fairness**\n (Consider energy prices, economic impacts, and how to support communities most affected by the transition.)**'
+          },
+          {
+            type: 'text',
+            title: '**Your Task**',
+            hideIcon: true,
+            content: 'Use the sliders—energy, land use, transportation, carbon removal, and policies—to build a scenario that meets these goals.\n here’s no single “right answer,” but there are trade‑offs you’ll need to think through.'
+          },
+          {
+            type: 'text',
+            title: '**When you’re done**',
+            hideIcon: true,
+            content: 'Click the “Share Your Scenario” button, copy the link, and return back here.'
+          },
+          {
+            type: 'button',
+            label: 'Now go create in En-ROADS!',
+            url: 'https://en-roads.climateinteractive.org/scenario.html?v=25.11.0',
+            variant: 'default',
+            size: 'default',
+            iconName: 'ExternalLink',
+            newTab: false
+          }
+
         ]
       },
-            {
-        type:'text',
-        title: '',
-        hideIcon: true,
-        content: 'Seeing these scenarios of the future, and creating your own, can evoke a lot. \n\n We might begin to think about all the policies, collaborations, and societal changes needed. \n\n We might imagine what these futures look like–and wonder where we or our communities might be doing in that future. \n\n Let’s take a moment to pause and check in with yourselves.'
+      {
+        type: 'block',
+        colorTheme: 'green',
+        content: [
+          {
+            type: 'text',
+            title: '**👋 Welcome back!**',
+            hideIcon: true,
+            content: 'How was En-ROADS?  We’d love to learn from your experience.'
+          },
+          {
+            type: 'text',
+            title: '**Share your scenario**',
+            hideIcon: true,
+            content: ''
+          },
+          {
+            type: 'reflection',
+            prompt: 'Paste your En-ROADS Scenario link here:',
+            id: 'en-roads-scenario-1'
+          },
+          {
+            type: 'text',
+            title: '**Let\'s Reflect - Reflect on your scenario:**',
+            content: ''
+          },
+          {
+            type: 'reflection',
+            prompt: '• Which policies did you choose and why? \n • How did your scenario keep warming below 2°C? \n • What choices did you make to reduce inequality or protect vulnerable communities? \n • How did you think about fairness and cost? \n • What surprised you while designing your scenario?',
+            id: 'en-roads-scenario-2'
+          }
+        ]
       },
-                {
+      {
+        type: 'block',
+        colorTheme: 'green',
+        content: [
+          {
+            type: 'text',
+            title: '**Imagining the Future**',
+            hideIcon: true,
+            content: '🎉 You have just joined the over 492,000+ people around the world who have created climate scenarios using En-ROADS.'
+          },
+          {
+            type: 'quote-carousel',
+            title: '**What leaders say about En‑ROADS**',
+            quotes: [
+              {
+                quote: 'En‑ROADS is quite simply a climate crisis game-changer for policymakers and people across the country. Everyone is hearing more and more about the science, but sometimes it takes a demonstration tool like En‑ROADS for people to see first-hand that every one of us needs to be on a war footing and mobilize to fight this crisis head-on. Our goal with World War Zero is to drive at least ten million conversations about the climate crisis: En‑ROADS is the ultimate conversation starter.',
+                author: 'John Kerry',
+                subtitle: 'U.S. Special Presidential Envoy for Climate (2021–2024), U.S. Secretary of State (2013–2017)'
+              },
+              {
+                quote: 'Amidst a complex and urgent issue, En-ROADS emerges as a beacon of understanding and direction. The simulator connects scientific research with tangible pathways for action, empowering leaders to make informed decisions that shape effective climate strategies. It\'s time to act, and En-ROADS puts the power to act decisively in our hands.',
+                author: 'Sissi Knispel de Acosta',
+                subtitle: 'Executive Secretary, European Climate Research Alliance (ECRA). Brussels, Belgium'
+              },
+              {
+                quote: 'EN-ROADS lit my brain on fire….in one screen, the model communicates the urgency of the climate change threat, powerfully debunks cherished myths, confirms the importance of current commitments and emphasizes how much more we have to do.',
+                author: 'Roberta Barbieri',
+                subtitle: 'Vice President, Global Sustainability, PepsiCo, United States'
+              }
+            ]
+          },
+          {
+            type: 'text',
+            title: '',
+            hideIcon: true,
+            content: 'There are a number of roadmaps to our possible shared future.'
+          },
+          {
+            type: 'image-collage',
+            title: '**Scenario snapshots**',
+            width: '1100px',
+            images: [
+              { imageUrl: scenario1Img, alt: 'Scenario 1', caption: 'Scenario 1' },
+              { imageUrl: scenario2Img, alt: 'Scenario 2', caption: 'Scenario 2' },
+              { imageUrl: scenario3Img, alt: 'Scenario 3', caption: 'Scenario 3' },
+              { imageUrl: scenario4Img, alt: 'Scenario 4', caption: 'Scenario 4' }
+            ]
+          },
+          {
+            type: 'text',
+            title: '',
+            hideIcon: true,
+            content: 'Seeing these scenarios of the future, and creating your own, can evoke a lot. \n\n We might begin to think about all the policies, collaborations, and societal changes needed. \n\n We might imagine what these futures look like–and wonder where we or our communities might be doing in that future. \n\n Let’s take a moment to pause and check in with yourselves.'
+          },
+          {
             type: 'image',
             title: 'Wheel of Emotions',
             imageUrl: plutchikWheel,
             alt: "Plutchik's Wheel of Emotions",
             width: '70%'
           },
-                {
-        type:'text',
-        title: '',
-        hideIcon: true,
-        content: 'Let’s revisit the emotion wheel. What emotions came up when you were creating your En-ROADS scenario?  It’s okay if there were many or even conflicting emotions. '
+          {
+            type: 'text',
+            title: '',
+            hideIcon: true,
+            content: 'Let’s revisit the emotion wheel. What emotions came up when you were creating your En-ROADS scenario?  It’s okay if there were many or even conflicting emotions. '
+          },
+          {
+            type: 'reflection',
+            prompt: 'How are you feeling? What emotions do you feel when you think about these climate futures?',
+            id: 'en-roads-scenario-3'
+          },
+        ]
       },
-      {type: 'reflection',
-        prompt: 'How are you feeling? What emotions do you feel when you think about these climate futures?',
-        id: 'en-roads-scenario-3'
-      },
-    ]
-  },
-                  {
+      {
         type: 'block',
         colorTheme: 'green',
         content: [
-           {
-        type: 'module-feedback',
-        title: '🎉 Congratulations on completing Module 3: Roadmaps to Possible Futures!',
-        description: "Before you begin the next, we'd love your feedback on this learning experience.",
-        id: 'module-3-feedback'
-      }
+          {
+            type: 'module-feedback',
+            title: '🎉 Congratulations on completing Module 3: Roadmaps to Possible Futures!',
+            description: "Before you begin the next, we'd love your feedback on this learning experience.",
+            id: 'module-3-feedback'
+          }
         ]
       },
     ]
@@ -1657,11 +1671,11 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
     title: "Lever of Change",
     headerImage: "https://images.unsplash.com/photo-1742729096780-600245031d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsZXZlciUyMG1lY2hhbmlzbSUyMGNoYW5nZXxlbnwxfHx8fDE3NjUxNzUwNjl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
     sections: [
-          {
+      {
         type: 'block',
         colorTheme: 'pink',
         content: [
-                    {
+          {
             type: 'text',
             title: '',
             content: "**You have a role to play.** \n\n By now, you’ve seen both the **gravity** of the climate crisis and the **real reasons for hope**—from powerful policy tools to nature‑based solutions, from systems thinking to community action. This final module is about turning what you’ve learned into **impact.**\n"
@@ -1674,7 +1688,7 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
             width: '80%'
           },
 
-                    {
+          {
             type: 'text',
             title: 'Holding Creative Tension',
             hideIcon: true,
@@ -1682,7 +1696,7 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
           },
         ]
       },
-            {
+      {
         type: 'block',
         colorTheme: 'pink',
         content: [
@@ -1692,7 +1706,7 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
             hideIcon: true,
             content: "A major global study surveyed ==10,000== **young people (ages 16–25)** in 10 countries about their emotional responses to climate change. The results show that climate anxiety is widespread, intense, and deeply connected to how young people view government action."
           },
-                    {
+          {
             type: 'stats',
             title: '😟 1. Most young people across all countries are worried about climate change',
             hideIcon: true,
@@ -1729,7 +1743,7 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
             hideIcon: true,
             content: "The researchers found a clear connection:\n\n• When young people believe their government is not responding adequately, their **climate anxiety and distress increase.**"
           },
-                    {
+          {
             type: 'text',
             title: '',
             hideIcon: true,
@@ -1752,10 +1766,10 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
             title: 'A Call to Youth Leadership',
             hideIcon: true,
             content: "Real change needs **informed, brave youth leaders**—people who can:\n\n • Think in systems, not quick fixes\n • Consider **equity and fairness**, not just averages\n • Communicate with **clarity and care**\n • Act with **persistence** when the work is hard\n\nYou don’t have to do everything. But you **can** do something—strategically, together."
-          },          
+          },
         ]
       },
-          {
+      {
         type: 'block',
         colorTheme: 'pink',
         content: [
@@ -1784,14 +1798,14 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
             width: '100%'
           },
           {
-            type:'reflection',
-            prompt:'What did you discover in this exercise? What climate actions might it inspire?',
-            id:'module-5-reflection-1'
+            type: 'reflection',
+            prompt: 'What did you discover in this exercise? What climate actions might it inspire?',
+            id: 'module-5-reflection-1'
           }
-          
+
         ]
       },
-          {
+      {
         type: 'block',
         colorTheme: 'pink',
         content: [
@@ -1819,7 +1833,7 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
             hideIcon: true,
             content: "A “mandala” is a circle made of different parts that work together.\n\n In this model, the parts show what we need inside ourselves and around us in the world to create meaningful change.\n\nThink of it like a balanced recipe:"
           },
-              {
+          {
             type: 'flip-cards',
             cards: [
               {
@@ -1879,59 +1893,40 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
         type: 'block',
         colorTheme: 'pink',
         content: [
-        {
-          type:'reflection',
-          prompt:'As we close these activities, consider what you have learned and been inspired by. \n\n What is one climate action or change you feel motivated to try?',
-          id:'module-5-reflection-2'
-        },
-        {
-          type:'text',
-          title:'The Big Idea',
-          hideIcon: true,
-          content: "**Systems don’t change themselves—people change them.** \n With clear vision, honest data, a global understanding, and steady hearts, you can help move this system toward a future that’s livable and just. \n\n **Let's begin!**"
-        }
+          {
+            type: 'reflection',
+            prompt: 'As we close these activities, consider what you have learned and been inspired by. \n\n What is one climate action or change you feel motivated to try?',
+            id: 'module-5-reflection-2'
+          },
+          {
+            type: 'text',
+            title: 'The Big Idea',
+            hideIcon: true,
+            content: "**Systems don’t change themselves—people change them.** \n With clear vision, honest data, a global understanding, and steady hearts, you can help move this system toward a future that’s livable and just. \n\n **Let's begin!**"
+          }
         ]
       },
-            {
+      {
         type: 'block',
         colorTheme: 'pink',
         content: [
-      {
-        type: 'module-feedback',
-        title: '🎉 Congratulations on completing Module 5: Levers of Change – the last module in this series!',
-        description: "Before you depart–hopefully to start your climate action–we’d love your feedback on this learning experience.",
-        id: 'module-5-feedback'
-        },
-              {
-        type: 'quote-carousel',
-        title: '',
-        quotes: [
           {
-            quote: '“When young people develop basic leadership and collaborative learning skills, they can be a formidable force for change.”',
-            author: 'Peter M. Senge',
-            subtitle: 'rom The Fifth Discipline: The Art & Practice of The Learning Organization'
+            type: 'module-feedback',
+            title: 'Congratulations! You completed all modules.',
+            description: "Before you depart–hopefully to start your climate action–we’d love your feedback on this learning experience.",
+            id: 'module-5-feedback'
           },
+
+          {
+            type: 'image',
+            imageUrl: youthLeadershipImg,
+            alt: 'Youth Leadership',
+            title: '',
+            width: '70%'
+          },
+
         ]
       },
-      {type: 'image',
-        imageUrl: youthLeadershipImg,
-        alt: 'Youth Leadership',
-        title: '',
-        width: '70%'
-      },
-      {
-        type: 'text',
-        title: '',
-        hideIcon: true,
-        content: "Learn more about how you can be a force for change. \n\n Explore our **Resources** to keep learning and connect with others on climate education and action."
-      },
-      {
-        type: 'button',
-        label: 'Explore Resources',
-        url: '/resources'
-      }
-        ]
-      },
-        ]
-    },
+    ]
+  },
 ];
