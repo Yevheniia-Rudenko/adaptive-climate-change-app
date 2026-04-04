@@ -22,6 +22,7 @@ import { Button } from './ui/button';
 import { Carousel, type CarouselApi, CarouselContent, CarouselItem } from './ui/carousel';
 import { Link } from 'react-router-dom';
 import * as RechartsPrimitive from 'recharts';
+import { trackEvent } from '../utils/analytics';
 
 
 function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { type: 'poll' }>; moduleId: number }) {
@@ -73,6 +74,10 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
         module_id: String(moduleId),
         section_id: block.id,
         session_id: sessionId,
+      });
+      trackEvent('poll_submit', {
+        module_id: moduleId,
+        question: block.question.slice(0, 100),
       });
       setSelectedOptions([]);
       setOtherText('');
@@ -192,6 +197,10 @@ function ModuleFeedbackBlock({ block, moduleId }: { block: Extract<ContentBlockT
         module_id: String(moduleId),
         section_id: block.id,
         session_id: sessionId,
+      });
+      trackEvent('module_feedback_submit', {
+        module_id: moduleId,
+        rating,
       });
       setRating(0);
       setHoverRating(0);
@@ -336,6 +345,9 @@ function ReflectionBlock({ block, moduleId }: { block: Extract<ContentBlockType,
         section_id: block.id,
         session_id: sessionId,
       });
+      trackEvent('reflection_submit', {
+        module_id: moduleId,
+      });
       setReflectionText('');
       setIsSubmitted(true);
     } catch (e) {
@@ -401,6 +413,9 @@ function NumericPredictionBlock({ block, moduleId }: { block: Extract<ContentBlo
         module_id: String(moduleId),
         section_id: block.id,
         session_id: sessionId,
+      });
+      trackEvent('numeric_prediction_submit', {
+        module_id: moduleId,
       });
       setValueText('');
       setIsSubmitted(true);

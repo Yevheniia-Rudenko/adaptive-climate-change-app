@@ -1,11 +1,12 @@
 import { ArrowLeft, ArrowRight, ExternalLink, Home } from 'lucide-react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { moduleStructures, ModuleStructure, ContentBlock as ModuleContentBlock } from '../data/moduleStructures';
 import { ContentBlock } from './ContentBlock';
 import { useLanguage } from '../contexts/LanguageContext';
 import { GlossaryHighlightProvider } from '../contexts/GlossaryHighlightContext';
 import { Button } from './ui/button';
+import { trackEvent } from '../utils/analytics';
 
 const MODULE_QUOTES: Record<number, { text: string; author: string }> = {
   1: {
@@ -95,6 +96,26 @@ export function FlexibleModulePage({
     setCurrentBlock(prev => (prev === nextBlock ? prev : nextBlock));
   }, [moduleId, search, totalBlocks]);
 
+  // Track module_start once per module load
+  const trackedModuleRef = useRef<number | null>(null);
+  useEffect(() => {
+    if (trackedModuleRef.current === moduleId) return;
+    trackedModuleRef.current = moduleId;
+    trackEvent('module_start', {
+      module_id: moduleId,
+      module_name: module.title,
+    });
+  }, [moduleId, module.title]);
+
+  // Track module_step_view on every block change
+  useEffect(() => {
+    trackEvent('module_step_view', {
+      module_id: moduleId,
+      step_number: currentBlock,
+      total_steps: totalBlocks,
+    });
+  }, [moduleId, currentBlock, totalBlocks]);
+
   // Scroll to top whenever the block changes
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -128,7 +149,11 @@ export function FlexibleModulePage({
     if (currentBlock < totalBlocks) {
       setCurrentBlock(currentBlock + 1);
     } else {
-      // Last block, go to next module
+      // Last block completed — fire module_complete before navigating
+      trackEvent('module_complete', {
+        module_id: moduleId,
+        module_name: module.title,
+      });
       handleNext();
     }
   };

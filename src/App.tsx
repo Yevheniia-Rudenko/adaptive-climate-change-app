@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
+import { trackPageView } from './utils/analytics';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -9,6 +10,8 @@ function ScrollToTop() {
     window.requestAnimationFrame(() => {
       window.scrollTo(0, 0);
     });
+    // Track SPA page navigation in GA4
+    trackPageView(pathname);
   }, [pathname]);
   return null;
 }
