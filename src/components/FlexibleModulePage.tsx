@@ -96,18 +96,43 @@ export function FlexibleModulePage({
     setCurrentBlock(prev => (prev === nextBlock ? prev : nextBlock));
   }, [moduleId, search, totalBlocks]);
 
-  // Track module_start once per module load
-  const trackedModuleRef = useRef<number | null>(null);
+  // Scroll to top whenever the block changes
   useEffect(() => {
-    if (trackedModuleRef.current === moduleId) return;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentBlock]);
+
+  const mountTimeRef = useRef<number>(Date.now());
+  const isCompleteRef = useRef<boolean>(false);
+  const trackedModuleRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    mountTimeRef.current = Date.now();
+    isCompleteRef.current = false;
     trackedModuleRef.current = moduleId;
+
     trackEvent('module_start', {
       module_id: moduleId,
       module_name: module.title,
     });
+
+    return () => {
+      const timeSpentSeconds = Math.round((Date.now() - mountTimeRef.current) / 1000);
+      trackEvent('module_time_spent', {
+        module_id: moduleId,
+        seconds_spent: timeSpentSeconds
+      });
+
+      if (!isCompleteRef.current) {
+        trackEvent('module_abandon', {
+          module_id: moduleId,
+          step_number: currentBlock,
+          total_steps: totalBlocks,
+          time_spent_seconds: timeSpentSeconds
+        });
+      }
+    };
   }, [moduleId, module.title]);
 
-  // Track module_step_view on every block change
   useEffect(() => {
     trackEvent('module_step_view', {
       module_id: moduleId,
@@ -115,11 +140,6 @@ export function FlexibleModulePage({
       total_steps: totalBlocks,
     });
   }, [moduleId, currentBlock, totalBlocks]);
-
-  // Scroll to top whenever the block changes
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [currentBlock]);
 
   // Allow deep-linking to a specific section title in the active block with ?section=<slug>
   useEffect(() => {
@@ -149,11 +169,12 @@ export function FlexibleModulePage({
     if (currentBlock < totalBlocks) {
       setCurrentBlock(currentBlock + 1);
     } else {
-      // Last block completed — fire module_complete before navigating
+      isCompleteRef.current = true;
       trackEvent('module_complete', {
         module_id: moduleId,
         module_name: module.title,
       });
+      // Last block, go to next module
       handleNext();
     }
   };
@@ -336,63 +357,63 @@ export function FlexibleModulePage({
 
             {/* Content Blocks */}
             <GlossaryHighlightProvider key={`glossary-${moduleId}`}>
-            {currentSections.map((section, index) => {
-              if (section.type === 'block') {
-                // Color theme mapping
-                const colorThemes = {
-                  teal: 'bg-gradient-to-br from-teal-50/60 to-cyan-50/60 dark:from-teal-900/10 dark:to-cyan-900/10',
-                  green: 'bg-gradient-to-br from-green-50/60 to-emerald-50/60 dark:from-green-900/10 dark:to-emerald-900/10',
-                  amber: 'bg-gradient-to-br from-amber-50/60 to-yellow-50/60 dark:from-amber-900/10 dark:to-yellow-900/10',
-                  purple: 'bg-gradient-to-br from-purple-50/60 to-violet-50/60 dark:from-purple-900/10 dark:to-violet-900/10',
-                  pink: 'bg-gradient-to-br from-pink-50/60 to-rose-50/60 dark:from-pink-900/10 dark:to-rose-900/10',
-                  blue: 'bg-gradient-to-br from-blue-50/60 to-indigo-50/60 dark:from-blue-900/10 dark:to-indigo-900/10'
-                };
+              {currentSections.map((section, index) => {
+                if (section.type === 'block') {
+                  // Color theme mapping
+                  const colorThemes = {
+                    teal: 'bg-gradient-to-br from-teal-50/60 to-cyan-50/60 dark:from-teal-900/10 dark:to-cyan-900/10',
+                    green: 'bg-gradient-to-br from-green-50/60 to-emerald-50/60 dark:from-green-900/10 dark:to-emerald-900/10',
+                    amber: 'bg-gradient-to-br from-amber-50/60 to-yellow-50/60 dark:from-amber-900/10 dark:to-yellow-900/10',
+                    purple: 'bg-gradient-to-br from-purple-50/60 to-violet-50/60 dark:from-purple-900/10 dark:to-violet-900/10',
+                    pink: 'bg-gradient-to-br from-pink-50/60 to-rose-50/60 dark:from-pink-900/10 dark:to-rose-900/10',
+                    blue: 'bg-gradient-to-br from-blue-50/60 to-indigo-50/60 dark:from-blue-900/10 dark:to-indigo-900/10'
+                  };
 
-                return (
-                  <div
-                    key={index}
-                    className={`rounded-2xl p-6 sm:p-8 mb-8 ${colorThemes[section.colorTheme]}`}
-                  >
-                    {section.blockTitle && (
-                      <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">
-                        {section.blockTitle}
-                      </h2>
-                    )}
-                    {moduleId === 2
-                      ? groupModule2Content(section.content).map((group, groupIndex) => (
-                        <div
-                          key={groupIndex}
-                          className="mb-4 sm:mb-5 rounded-2xl border border-green-200/80 dark:border-green-700/50 bg-[#EBF7D8]/70 dark:bg-green-900/20 p-4 sm:p-5 shadow-sm"
-                        >
-                          {group.map((block, blockIndex) => (
-                            <ContentBlock
-                              key={`${groupIndex}-${blockIndex}`}
-                              block={block}
-                              moduleId={moduleId}
-                            />
-                          ))}
-                        </div>
-                      ))
-                      : section.content.map((block, blockIndex) => (
-                        <ContentBlock
-                          key={blockIndex}
-                          block={block}
-                          moduleId={moduleId}
-                        />
-                      ))}
-                  </div>
-                );
-              } else {
-                // Regular content block (not wrapped)
-                return (
-                  <ContentBlock
-                    key={index}
-                    block={section}
-                    moduleId={moduleId}
-                  />
-                );
-              }
-            })}
+                  return (
+                    <div
+                      key={index}
+                      className={`rounded-2xl p-6 sm:p-8 mb-8 ${colorThemes[section.colorTheme]}`}
+                    >
+                      {section.blockTitle && (
+                        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">
+                          {section.blockTitle}
+                        </h2>
+                      )}
+                      {moduleId === 2
+                        ? groupModule2Content(section.content).map((group, groupIndex) => (
+                          <div
+                            key={groupIndex}
+                            className="mb-4 sm:mb-5 rounded-2xl border border-green-200/80 dark:border-green-700/50 bg-[#EBF7D8]/70 dark:bg-green-900/20 p-4 sm:p-5 shadow-sm"
+                          >
+                            {group.map((block, blockIndex) => (
+                              <ContentBlock
+                                key={`${groupIndex}-${blockIndex}`}
+                                block={block}
+                                moduleId={moduleId}
+                              />
+                            ))}
+                          </div>
+                        ))
+                        : section.content.map((block, blockIndex) => (
+                          <ContentBlock
+                            key={blockIndex}
+                            block={block}
+                            moduleId={moduleId}
+                          />
+                        ))}
+                    </div>
+                  );
+                } else {
+                  // Regular content block (not wrapped)
+                  return (
+                    <ContentBlock
+                      key={index}
+                      block={section}
+                      moduleId={moduleId}
+                    />
+                  );
+                }
+              })}
             </GlossaryHighlightProvider>
 
             {/* Quote section — shown only on the last block of non-final modules */}
@@ -438,7 +459,7 @@ export function FlexibleModulePage({
               </Button>
 
               {/* Debug / Fallback output */}
-              <div className="hidden">Debug: isLast={isLastModule ? 'true':'false'}, curr={currentBlock}, tot={totalBlocks}</div>
+              <div className="hidden">Debug: isLast={isLastModule ? 'true' : 'false'}, curr={currentBlock}, tot={totalBlocks}</div>
 
               {(!isLastModule) ? (
                 // --- MODULES 1-4 NAVIGATION ---
@@ -471,8 +492,8 @@ export function FlexibleModulePage({
                 // --- MODULE 5 NAVIGATION ---
                 (!isMultiBlock || currentBlock === totalBlocks) ? (
                   // Module 5 FINAL block => Return to Main Menu
-                  <Link 
-                    to="/" 
+                  <Link
+                    to="/"
                     style={{ backgroundColor: '#8031C5', color: '#ffffff' }}
                     className="flex-1 order-1 sm:order-4 hover:brightness-90 border-0 flex justify-center items-center gap-2 py-2 px-4 rounded-md font-medium transition-all h-10"
                   >

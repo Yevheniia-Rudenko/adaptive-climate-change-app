@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { Language, translations, Translations } from '../data/translations';
+import { setUserProperties } from '../utils/analytics';
 
 type LanguageContextType = {
   language: Language;
@@ -32,6 +33,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     document.documentElement.dir = 'ltr';
     document.documentElement.lang = language;
     // }
+    setUserProperties({ language });
   }, [language]);
 
   const setLanguage = (lang: Language) => {

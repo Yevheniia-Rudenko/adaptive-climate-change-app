@@ -4,6 +4,7 @@ import { Button } from './ui/button';
 import { motion } from 'motion/react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { trackEvent } from '../utils/analytics';
 import module1Icon from '../assets/module1.png';
 import module2Icon from '../assets/module2.png';
 import module3Icon from '../assets/module3.png';
@@ -18,6 +19,7 @@ export function IntroPage() {
   const [flippedCard, setFlippedCard] = useState<number | null>(null);
 
   const onStart = () => {
+    trackEvent('module_click', { module_id: 1, module_name: 'Start Journey' });
     navigate('/module/1');
   };
 
@@ -25,6 +27,7 @@ export function IntroPage() {
     if (moduleId === 'resources') {
       navigate('/resources');
     } else {
+      trackEvent('module_click', { module_id: moduleId });
       navigate(`/module/${moduleId}`);
     }
   };

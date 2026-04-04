@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { setUserProperties } from '../utils/analytics';
 
 type Theme = 'light' | 'dark';
 
@@ -27,6 +28,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       } else {
         document.documentElement.classList.remove('dark');
       }
+      setUserProperties({ theme });
     } catch {
       // Silent error handling
     }

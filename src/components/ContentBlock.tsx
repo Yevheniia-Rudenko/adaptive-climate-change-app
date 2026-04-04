@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import * as LucideIcons from 'lucide-react';
+import { trackEvent } from '../utils/analytics';
 import { Play, BookOpen, Sparkles, Layers, Headphones, ChevronDown, ChevronUp, Star, Quote, ArrowLeft, ArrowRight } from 'lucide-react';
 import Lottie from 'lottie-react';
 import { ContentBlock as ContentBlockType } from '../data/moduleStructures';
@@ -22,7 +23,6 @@ import { Button } from './ui/button';
 import { Carousel, type CarouselApi, CarouselContent, CarouselItem } from './ui/carousel';
 import { Link } from 'react-router-dom';
 import * as RechartsPrimitive from 'recharts';
-import { trackEvent } from '../utils/analytics';
 
 
 function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { type: 'poll' }>; moduleId: number }) {
@@ -74,10 +74,6 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
         module_id: String(moduleId),
         section_id: block.id,
         session_id: sessionId,
-      });
-      trackEvent('poll_submit', {
-        module_id: moduleId,
-        question: block.question.slice(0, 100),
       });
       setSelectedOptions([]);
       setOtherText('');
@@ -197,10 +193,6 @@ function ModuleFeedbackBlock({ block, moduleId }: { block: Extract<ContentBlockT
         module_id: String(moduleId),
         section_id: block.id,
         session_id: sessionId,
-      });
-      trackEvent('module_feedback_submit', {
-        module_id: moduleId,
-        rating,
       });
       setRating(0);
       setHoverRating(0);
@@ -345,9 +337,6 @@ function ReflectionBlock({ block, moduleId }: { block: Extract<ContentBlockType,
         section_id: block.id,
         session_id: sessionId,
       });
-      trackEvent('reflection_submit', {
-        module_id: moduleId,
-      });
       setReflectionText('');
       setIsSubmitted(true);
     } catch (e) {
@@ -413,9 +402,6 @@ function NumericPredictionBlock({ block, moduleId }: { block: Extract<ContentBlo
         module_id: String(moduleId),
         section_id: block.id,
         session_id: sessionId,
-      });
-      trackEvent('numeric_prediction_submit', {
-        module_id: moduleId,
       });
       setValueText('');
       setIsSubmitted(true);
@@ -877,7 +863,7 @@ export function ContentBlock({
           )}
           <div className="relative rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 shadow-md border border-gray-200 dark:border-gray-700 p-4">
             {block.audioUrl.endsWith('.mp3') || block.audioUrl.endsWith('.m4a') ? (
-              <audio controls className="w-full">
+              <audio controls className="w-full" onPlay={() => trackEvent('audio_play', { module_id: moduleId, audio_title: block.title || 'Audio' })}>
                 <source src={block.audioUrl} type={block.audioUrl.endsWith('.mp3') ? 'audio/mpeg' : 'audio/mp4'} />
                 Your browser does not support the audio element.
               </audio>
@@ -911,9 +897,24 @@ export function ContentBlock({
         </div>
       );
 
-    case 'video':
+    case 'video': {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const [tracked, setTracked] = useState(false);
       return (
-        <div className="mb-6 sm:mb-8 font-sora">
+        <div 
+          className="mb-6 sm:mb-8 font-sora"
+          onMouseEnter={() => {
+            // Track when user focuses/clicks into the iframe
+            const checkFocus = () => {
+              if (!tracked && document.activeElement instanceof HTMLIFrameElement && document.activeElement.src === block.videoUrl) {
+                trackEvent('video_play', { module_id: moduleId, video_title: block.title || 'Video' });
+                setTracked(true);
+              }
+            };
+            window.addEventListener('blur', checkFocus);
+            setTimeout(() => window.removeEventListener('blur', checkFocus), 30000);
+          }}
+        >
           {block.title && (
             <div className="flex items-center gap-2 mb-3 sm:mb-4">
               <Play className="text-blue-600 dark:text-blue-400 flex-shrink-0" size={20} />
@@ -934,6 +935,7 @@ export function ContentBlock({
           </div>
         </div>
       );
+    }
 
     case 'image':
       return (

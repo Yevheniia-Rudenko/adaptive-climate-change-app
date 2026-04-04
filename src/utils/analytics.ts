@@ -29,3 +29,13 @@ export function trackEvent(
   if (typeof window.gtag !== 'function') return;
   window.gtag('event', eventName, params);
 }
+
+/**
+ * Set user properties in GA4 (e.g. language, theme).
+ */
+export function setUserProperties(
+  properties: Record<string, string | number | boolean>
+) {
+  if (typeof window.gtag !== 'function') return;
+  window.gtag('set', 'user_properties', properties);
+}
