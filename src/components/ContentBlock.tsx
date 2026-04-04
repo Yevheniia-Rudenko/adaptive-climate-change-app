@@ -207,6 +207,7 @@ function ModuleFeedbackBlock({ block, moduleId }: { block: Extract<ContentBlockT
 
   const handleExport = async () => {
     if (isExporting) return;
+    trackEvent('download_pdf', { module_id: moduleId });
     setIsExporting(true);
     setExportError(null);
     try {

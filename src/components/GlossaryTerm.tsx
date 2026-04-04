@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { HelpCircle } from 'lucide-react';
 import { TermPopup } from './TermPopup';
+import { trackEvent } from '../utils/analytics';
 
 type GlossaryTermProps = {
   term: string;
@@ -11,6 +12,7 @@ export function GlossaryTerm({ term, definition }: GlossaryTermProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = () => {
+    trackEvent('glossary_click', { term });
     setIsOpen(true);
   };
 
