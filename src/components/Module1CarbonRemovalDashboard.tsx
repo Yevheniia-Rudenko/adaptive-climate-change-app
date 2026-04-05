@@ -41,10 +41,12 @@ export default function Module1CarbonRemovalDashboard() {
   const tempFRef = useRef<HTMLSpanElement>(null);
 
   // Refs for Section 1
+  const section1GraphContainerRef = useRef<HTMLDivElement>(null);
   const section1CanvasRef = useRef<HTMLCanvasElement>(null);
   const section1GraphViewRef = useRef<any>(null);
 
   // Refs for Section 2 (single graph with dropdown)
+  const section2GraphContainerRef = useRef<HTMLDivElement>(null);
   const section2CanvasRef = useRef<HTMLCanvasElement>(null);
   const section2GraphViewRef = useRef<any>(null);
 
@@ -174,8 +176,32 @@ export default function Module1CarbonRemovalDashboard() {
     updateTemperatureDisplay();
   };
 
-  const initGraph = (canvasRef: React.RefObject<HTMLCanvasElement | null>, graphId: string) => {
-    if (!canvasRef.current || !coreConfigRef.current) return null;
+  const getGraphHeight = (containerWidth: number) => {
+    const height = containerWidth * 0.55;
+    return Math.max(220, Math.min(320, Math.round(height)));
+  };
+
+  const resizeCanvasToContainer = (containerRef: React.RefObject<HTMLDivElement | null>, canvasRef: React.RefObject<HTMLCanvasElement | null>) => {
+    const container = containerRef.current;
+    const canvas = canvasRef.current;
+    if (!container || !canvas) return;
+
+    const rect = container.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    const height = getGraphHeight(rect.width);
+
+    canvas.width = Math.floor(rect.width * dpr);
+    canvas.height = Math.floor(height * dpr);
+    canvas.style.width = '100%';
+    canvas.style.height = `${height}px`;
+  };
+
+  const initGraph = (
+    containerRef: React.RefObject<HTMLDivElement | null>,
+    canvasRef: React.RefObject<HTMLCanvasElement | null>,
+    graphId: string
+  ) => {
+    if (!canvasRef.current || !containerRef.current || !coreConfigRef.current) return null;
 
     const graphSpec = coreConfigRef.current.graphs.get(graphId);
     if (!graphSpec) {
@@ -184,33 +210,31 @@ export default function Module1CarbonRemovalDashboard() {
     }
 
     const canvas = canvasRef.current;
-    const dpr = window.devicePixelRatio || 1;
-    const CANVAS_WIDTH = 640;
-    const CANVAS_HEIGHT = 320;
-
-    canvas.style.width = CANVAS_WIDTH + 'px';
-    canvas.style.height = CANVAS_HEIGHT + 'px';
-    canvas.width = CANVAS_WIDTH * dpr;
-    canvas.height = CANVAS_HEIGHT * dpr;
+    resizeCanvasToContainer(containerRef, canvasRef);
 
     const viewModel = createGraphViewModel(graphSpec);
+
+    const containerWidth = containerRef.current.getBoundingClientRect().width || 640;
+    const compact = containerWidth < 420;
 
     const style = {
       font: {
         family: 'system-ui, -apple-system, sans-serif',
         style: 'normal',
-        color: '#1f2937'
+        color: '#1f2937',
+        size: compact ? 13 : 14
       },
-      xAxis: { tickMaxCount: 8 },
-      yAxis: { tickMaxCount: 8 },
-      getAxisLabelFontSize: () => 16,
-      getTickLabelFontSize: () => 14,
-      getDefaultLineWidth: () => 5
+      xAxis: { tickMaxCount: compact ? 6 : 8 },
+      yAxis: { tickMaxCount: compact ? 6 : 8 },
+      getAxisLabelFontSize: () => (compact ? 14 : 16),
+      getTickLabelFontSize: () => (compact ? 12 : 14),
+      getDefaultLineWidth: () => (compact ? 4 : 5),
+      plotBackgroundColor: '#ffffff'
     };
 
     const options = {
       style,
-      responsive: false,
+      responsive: true,
       animations: false
     };
 
@@ -220,11 +244,11 @@ export default function Module1CarbonRemovalDashboard() {
   };
 
   const loadSection1Graph = (graphId: string) => {
-    section1GraphViewRef.current = initGraph(section1CanvasRef, graphId);
+    section1GraphViewRef.current = initGraph(section1GraphContainerRef, section1CanvasRef, graphId);
   };
 
   const loadSection2Graph = (graphId: string) => {
-    section2GraphViewRef.current = initGraph(section2CanvasRef, graphId);
+    section2GraphViewRef.current = initGraph(section2GraphContainerRef, section2CanvasRef, graphId);
   };
 
   const handleSection1SliderChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -351,6 +375,24 @@ export default function Module1CarbonRemovalDashboard() {
     }
   }, [section2SelectedGraphId, isLoading]);
 
+  useEffect(() => {
+    const container1 = section1GraphContainerRef.current;
+    const container2 = section2GraphContainerRef.current;
+    if (!container1 || !container2) return;
+
+    const ro = new ResizeObserver(() => {
+      resizeCanvasToContainer(section1GraphContainerRef, section1CanvasRef);
+      if (section1GraphViewRef.current) section1GraphViewRef.current.updateData(false);
+
+      resizeCanvasToContainer(section2GraphContainerRef, section2CanvasRef);
+      if (section2GraphViewRef.current) section2GraphViewRef.current.updateData(false);
+    });
+
+    ro.observe(container1);
+    ro.observe(container2);
+    return () => ro.disconnect();
+  }, [isLoading]);
+
   if (isLoading) {
     return (
       <div className="enroads-loading">
@@ -369,36 +411,39 @@ export default function Module1CarbonRemovalDashboard() {
   }
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora mb-24">
+    <div className="bg-gray-50 dark:bg-gray-900 p-3 sm:p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora mb-24">
 
       {/* Temperature card — centered at top like Module 2 */}
-      <div className="flex justify-center mb-6">
-        <div className="bg-white dark:bg-gray-800 px-8 py-5 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 text-center">
-          <span ref={tempCRef} className="block text-4xl md:text-5xl font-black text-green-500 mb-1">+3.2°C</span>
-          <span ref={tempFRef} className="block text-lg md:text-xl font-bold text-green-400 mb-3">+5.7°F</span>
-          <div className="text-gray-500 text-xs font-bold uppercase">Global Temperature<br />by 2100</div>
+      <div className="flex justify-center mb-4">
+        <div className="bg-white dark:bg-gray-800 px-6 sm:px-8 py-5 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 text-center">
+          <span ref={tempCRef} className="block text-4xl sm:text-5xl font-black text-green-500 mb-1">+3.2°C</span>
+          <span ref={tempFRef} className="block text-lg sm:text-xl font-bold text-green-400 mb-3">+5.7°F</span>
+          <div className="text-gray-500 dark:text-gray-400 font-semibold uppercase tracking-wider text-xs">Global Temperature<br />by 2100</div>
         </div>
       </div>
 
       {/* SECTION 1: Nature-Based Carbon Removal & Impact Analysis */}
       <div className="mb-8">
-        <h2 className="text-xl px-4 pt-2 mb-4 font-bold text-gray-800 dark:text-gray-200">
+        <h2 className="text-lg sm:text-xl px-3 sm:px-4 pt-3 sm:pt-4 mb-4 font-bold text-gray-800 dark:text-gray-200">
           Section 1: Nature-Based Carbon Removal &amp; Impacts
         </h2>
 
         <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 mb-4">
-          <select
-            value={selectedGraphId}
-            onChange={(e) => setSelectedGraphId(e.target.value)}
-            className="mb-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm rounded-lg block w-full p-2.5 font-bold"
-          >
-            {SECTION1_GRAPHS.map(g => <option key={g.id} value={g.id}>{g.label}</option>)}
-          </select>
-          <div style={{ position: 'relative', width: '100%', height: '320px', overflow: 'hidden' }}>
+          <div className="flex justify-between items-center mb-4">
+            <select
+              value={selectedGraphId}
+              onChange={(e) => setSelectedGraphId(e.target.value)}
+              className="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 font-bold"
+            >
+              {SECTION1_GRAPHS.map(g => <option key={g.id} value={g.id}>{g.label}</option>)}
+            </select>
+          </div>
+          <div ref={section1GraphContainerRef} style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
             <canvas
               ref={section1CanvasRef}
-              style={{ display: 'block', width: '640px', height: '320px', pointerEvents: 'none' }}
-            /></div>
+              style={{ display: 'block', width: '100%', pointerEvents: 'none' }}
+            />
+          </div>
           {/* Legend badges */}
           <div className="flex justify-center gap-3 mt-3">
             <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
@@ -407,10 +452,10 @@ export default function Module1CarbonRemovalDashboard() {
         </div>
 
         <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-6">
-          <div className="space-y-2">
-            <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
+          <div className="space-y-4">
+            <div className="flex justify-between items-center font-bold text-gray-700 dark:text-gray-200">
               <label>Carbon-Dioxide Removal - Nature Based</label>
-              <span className="text-xs font-mono text-gray-500">{section1SliderText}</span>
+              <span className="text-sm font-mono text-gray-500">{section1SliderText}</span>
             </div>
             <input
               type="range"
@@ -430,23 +475,26 @@ export default function Module1CarbonRemovalDashboard() {
 
       {/* SECTION 2: Deforestation Analysis */}
       <div>
-        <h2 className="text-xl px-4 pt-2 mb-4 font-bold text-gray-800 dark:text-gray-200">
+        <h2 className="text-lg sm:text-xl px-3 sm:px-4 pt-3 sm:pt-4 mb-4 font-bold text-gray-800 dark:text-gray-200">
           Section 2: Deforestation Analysis
         </h2>
 
         <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 mb-4">
-          <select
-            value={section2SelectedGraphId}
-            onChange={(e) => setSection2SelectedGraphId(e.target.value)}
-            className="mb-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm rounded-lg block w-full p-2.5 font-bold"
-          >
-            {SECTION2_GRAPHS.map(g => <option key={g.id} value={g.id}>{g.label}</option>)}
-          </select>
-          <div style={{ position: 'relative', width: '100%', height: '320px', overflow: 'hidden' }}>
+          <div className="flex justify-between items-center mb-4">
+            <select
+              value={section2SelectedGraphId}
+              onChange={(e) => setSection2SelectedGraphId(e.target.value)}
+              className="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 font-bold"
+            >
+              {SECTION2_GRAPHS.map(g => <option key={g.id} value={g.id}>{g.label}</option>)}
+            </select>
+          </div>
+          <div ref={section2GraphContainerRef} style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
             <canvas
               ref={section2CanvasRef}
-              style={{ display: 'block', width: '640px', height: '320px', pointerEvents: 'none' }}
-            /></div>
+              style={{ display: 'block', width: '100%', pointerEvents: 'none' }}
+            />
+          </div>
           {/* Legend badges */}
           <div className="flex justify-center gap-3 mt-3">
             <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
@@ -454,11 +502,11 @@ export default function Module1CarbonRemovalDashboard() {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-6">
-          <div className="space-y-2">
-            <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-8">
+          <div className="space-y-4">
+            <div className="flex justify-between items-center font-bold text-gray-700 dark:text-gray-200">
               <label>Carbon-Dioxide Removal - Nature Based</label>
-              <span className="text-xs font-mono text-gray-500">{section1SliderText}</span>
+              <span className="text-sm font-mono text-gray-500">{section1SliderText}</span>
             </div>
             <input
               type="range"
@@ -474,10 +522,10 @@ export default function Module1CarbonRemovalDashboard() {
             />
           </div>
 
-          <div className="space-y-2">
-            <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
+          <div className="space-y-4">
+            <div className="flex justify-between items-center font-bold text-gray-700 dark:text-gray-200">
               <label>Deforestation</label>
-              <span className="text-xs font-mono text-gray-500">{section2DeforestationText}</span>
+              <span className="text-sm font-mono text-gray-500">{section2DeforestationText}</span>
             </div>
             <input
               type="range"

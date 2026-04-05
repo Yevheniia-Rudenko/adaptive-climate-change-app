@@ -13,9 +13,6 @@ const GRAPHS = [
   { id: '275', label: 'Deaths from Extreme Heat', varId: '_excess_deaths_from_extreme_heat_per_100k_people' }
 ];
 
-const CANVAS_WIDTH = 640;
-const CANVAS_HEIGHT = 320;
-
 export default function Module1RenewablesDashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -31,6 +28,7 @@ export default function Module1RenewablesDashboard() {
   const tempCRef = useRef<HTMLSpanElement>(null);
   const tempFRef = useRef<HTMLSpanElement>(null);
 
+  const graphContainerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const modelRef = useRef<any>(null);
   const modelContextRef = useRef<any>(null);
@@ -135,6 +133,26 @@ export default function Module1RenewablesDashboard() {
     updateTemperatureDisplay();
   };
 
+  const getGraphHeight = (containerWidth: number) => {
+    const height = containerWidth * 0.55;
+    return Math.max(220, Math.min(320, Math.round(height)));
+  };
+
+  const resizeCanvasToContainer = () => {
+    const container = graphContainerRef.current;
+    const canvas = canvasRef.current;
+    if (!container || !canvas) return;
+
+    const rect = container.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    const height = getGraphHeight(rect.width);
+
+    canvas.width = Math.floor(rect.width * dpr);
+    canvas.height = Math.floor(height * dpr);
+    canvas.style.width = '100%';
+    canvas.style.height = `${height}px`;
+  };
+
   const loadGraph = (graphId: string) => {
     if (!coreConfigRef.current) return;
 
@@ -164,12 +182,7 @@ export default function Module1RenewablesDashboard() {
       return;
     }
 
-    // FIX: use fixed dimensions — do NOT use getBoundingClientRect()
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = CANVAS_WIDTH * dpr;
-    canvas.height = CANVAS_HEIGHT * dpr;
-    canvas.style.width = `${CANVAS_WIDTH}px`;
-    canvas.style.height = `${CANVAS_HEIGHT}px`;
+    resizeCanvasToContainer();
 
     let viewModel;
     try {
@@ -179,22 +192,24 @@ export default function Module1RenewablesDashboard() {
       return;
     }
 
+    const containerWidth = graphContainerRef.current?.getBoundingClientRect().width ?? 640;
+    const compact = containerWidth < 420;
     const style = {
       font: {
         family: 'system-ui, -apple-system, sans-serif',
         style: 'normal',
-        color: '#1f2937'
+        color: '#1f2937',
+        size: compact ? 13 : 14
       },
-      xAxis: { tickMaxCount: 8 },
-      yAxis: { tickMaxCount: 8 },
-      getAxisLabelFontSize: () => 16,
-      getTickLabelFontSize: () => 14,
-      getDefaultLineWidth: () => 5,
+      xAxis: { tickMaxCount: compact ? 6 : 8 },
+      yAxis: { tickMaxCount: compact ? 6 : 8 },
+      getAxisLabelFontSize: () => (compact ? 14 : 16),
+      getTickLabelFontSize: () => (compact ? 12 : 14),
+      getDefaultLineWidth: () => (compact ? 4 : 5),
       plotBackgroundColor: '#ffffff'
     };
 
-    // FIX: responsive:false, animations:false — prevents ResizeObserver redraws and hover animations
-    const options = { style, responsive: false, animations: false };
+    const options = { style, responsive: true, animations: false };
 
     try {
       graphViewRef.current = new GraphView(canvas, viewModel, options, true);
@@ -273,18 +288,31 @@ export default function Module1RenewablesDashboard() {
     }
   }, [selectedGraphId, isLoading, error]);
 
+  useEffect(() => {
+    const container = graphContainerRef.current;
+    if (!container) return;
+
+    const ro = new ResizeObserver(() => {
+      resizeCanvasToContainer();
+      if (graphViewRef.current) graphViewRef.current.updateData(false);
+    });
+
+    ro.observe(container);
+    return () => ro.disconnect();
+  }, []);
+
   if (isLoading) return <div className="p-8 text-center text-gray-500">Loading Model...</div>;
   if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora mb-24">
-      <h2 className="text-xl px-4 pt-4 mb-4 font-bold text-gray-800 dark:text-gray-200">En-Roads Dashboard: Renewables</h2>
+    <div className="bg-gray-50 dark:bg-gray-900 p-3 sm:p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora mb-24">
+      <h2 className="text-lg sm:text-xl px-3 sm:px-4 pt-3 sm:pt-4 mb-4 font-bold text-gray-800 dark:text-gray-200">En-Roads Dashboard: Renewables</h2>
 
       {/* Temperature card — centered at top */}
       <div className="flex justify-center mb-4">
-        <div className="bg-white dark:bg-gray-800 px-8 py-5 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 text-center">
-          <span ref={tempCRef} className="block text-4xl md:text-5xl font-black text-green-500 mb-1">+3.2°C</span>
-          <span ref={tempFRef} className="block text-lg md:text-xl font-bold text-green-400 mb-3">+5.7°F</span>
+        <div className="bg-white dark:bg-gray-800 px-6 sm:px-8 py-5 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 text-center">
+          <span ref={tempCRef} className="block text-4xl sm:text-5xl font-black text-green-500 mb-1">+3.2°C</span>
+          <span ref={tempFRef} className="block text-lg sm:text-xl font-bold text-green-400 mb-3">+5.7°F</span>
           <div className="text-gray-500 dark:text-gray-400 font-semibold uppercase tracking-wider text-xs">Global Temperature<br />by 2100</div>
         </div>
       </div>
@@ -302,10 +330,10 @@ export default function Module1RenewablesDashboard() {
             ))}
           </select>
         </div>
-        <div style={{ position: 'relative', width: '100%', height: `${CANVAS_HEIGHT}px`, overflow: 'hidden' }}>
+        <div ref={graphContainerRef} style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
           <canvas
             ref={canvasRef}
-            style={{ display: 'block', width: `${CANVAS_WIDTH}px`, height: `${CANVAS_HEIGHT}px`, pointerEvents: 'none' }}
+            style={{ display: 'block', width: '100%', pointerEvents: 'none' }}
           />
         </div>
         {/* Legend badges */}

@@ -31,6 +31,7 @@ export default function Module1CarbonPriceDashboard() {
   const modelContextRef = useRef<any>(null);
   const graphViewRef = useRef<any>(null);
   const coreConfigRef = useRef<any>(null);
+  const graphContainerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // Input ref for Carbon Price (ID 48 usually, check if fails)
@@ -101,6 +102,26 @@ export default function Module1CarbonPriceDashboard() {
     updateTemperatureDisplay();
   };
 
+  const getGraphHeight = (containerWidth: number) => {
+    const height = containerWidth * 0.55;
+    return Math.max(220, Math.min(320, Math.round(height)));
+  };
+
+  const resizeCanvasToContainer = () => {
+    const container = graphContainerRef.current;
+    const canvas = canvasRef.current;
+    if (!container || !canvas) return;
+
+    const rect = container.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    const height = getGraphHeight(rect.width);
+
+    canvas.width = Math.floor(rect.width * dpr);
+    canvas.height = Math.floor(height * dpr);
+    canvas.style.width = '100%';
+    canvas.style.height = `${height}px`;
+  };
+
   const loadGraph = (graphId: string) => {
     if (!coreConfigRef.current) return;
     let graphSpec = coreConfigRef.current.graphs.get(graphId);
@@ -108,23 +129,35 @@ export default function Module1CarbonPriceDashboard() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = 640 * dpr;
-    canvas.height = 320 * dpr;
-    canvas.style.width = '640px';
-    canvas.style.height = '320px';
+    resizeCanvasToContainer();
 
     try {
       const viewModel = createGraphViewModel(graphSpec);
+      const containerWidth = graphContainerRef.current?.getBoundingClientRect().width ?? 640;
+      const compact = containerWidth < 420;
+
       const style = {
-        font: { family: 'system-ui, sans-serif', size: 14, color: '#1f2937' },
-        xAxis: { tickMaxCount: 8 },
-        yAxis: { tickMaxCount: 8 },
-        getAxisLabelFontSize: () => 16,
-        getTickLabelFontSize: () => 14,
-        getDefaultLineWidth: () => 5
+        font: {
+          family: 'system-ui, -apple-system, sans-serif',
+          style: 'normal',
+          color: '#1f2937',
+          size: compact ? 13 : 14
+        },
+        xAxis: { tickMaxCount: compact ? 6 : 8 },
+        yAxis: { tickMaxCount: compact ? 6 : 8 },
+        getAxisLabelFontSize: () => (compact ? 14 : 16),
+        getTickLabelFontSize: () => (compact ? 12 : 14),
+        getDefaultLineWidth: () => (compact ? 4 : 5),
+        plotBackgroundColor: '#ffffff'
       };
-      graphViewRef.current = new GraphView(canvas, viewModel, { style, responsive: false, animations: false }, true);
+
+      const options = {
+        style,
+        responsive: true,
+        animations: false
+      };
+
+      graphViewRef.current = new GraphView(canvas, viewModel, options, true);
       updateGraphData(graphViewRef.current);
     } catch (e) { console.error('Error loading graph', e); }
   };
@@ -218,35 +251,50 @@ export default function Module1CarbonPriceDashboard() {
     if (!isLoading && coreConfigRef.current) loadGraph(selectedGraphId);
   }, [selectedGraphId]);
 
+  useEffect(() => {
+    const container = graphContainerRef.current;
+    if (!container) return;
+
+    const ro = new ResizeObserver(() => {
+      resizeCanvasToContainer();
+      if (graphViewRef.current) graphViewRef.current.updateData(false);
+    });
+
+    ro.observe(container);
+    return () => ro.disconnect();
+  }, [isLoading]);
+
   if (isLoading) return <div className="p-8 text-center text-gray-500">Loading Model...</div>;
   if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora mb-24">
-      <h2 className="text-xl px-4 pt-4 mb-4 font-bold text-gray-800 dark:text-gray-200">Make a Model: Carbon Price</h2>
+    <div className="bg-gray-50 dark:bg-gray-900 p-3 sm:p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora mb-24">
+      <h2 className="text-lg sm:text-xl px-3 sm:px-4 pt-3 sm:pt-4 mb-4 font-bold text-gray-800 dark:text-gray-200">Make a Model: Carbon Price</h2>
 
       {/* Temperature card — centered at top */}
       <div className="flex justify-center mb-4">
-        <div className="bg-white dark:bg-gray-800 px-8 py-5 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 text-center">
-          <span ref={tempCRef} className="block text-4xl md:text-5xl font-black text-green-500 mb-1">+3.3°C</span>
-          <span ref={tempFRef} className="block text-lg md:text-xl font-bold text-green-400 mb-3">+5.9°F</span>
-          <div className="text-gray-500 text-xs font-bold uppercase">Global Temperature<br />by 2100</div>
+        <div className="bg-white dark:bg-gray-800 px-6 sm:px-8 py-5 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 text-center">
+          <span ref={tempCRef} className="block text-4xl sm:text-5xl font-black text-green-500 mb-1">+3.3°C</span>
+          <span ref={tempFRef} className="block text-lg sm:text-xl font-bold text-green-400 mb-3">+5.9°F</span>
+          <div className="text-gray-500 dark:text-gray-400 font-semibold uppercase tracking-wider text-xs">Global Temperature<br />by 2100</div>
         </div>
       </div>
 
       {/* Graph */}
       <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 mb-4">
-        <select
-          value={selectedGraphId}
-          onChange={(e) => setSelectedGraphId(e.target.value)}
-          className="mb-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 text-sm rounded-lg block w-full p-2.5 font-bold"
-        >
-          {GRAPHS.map(g => <option key={g.id} value={g.id}>{g.label}</option>)}
-        </select>
-        <div style={{ position: 'relative', width: '100%', height: '320px', overflow: 'hidden' }}>
+        <div className="flex justify-between items-center mb-4">
+          <select
+            value={selectedGraphId}
+            onChange={(e) => setSelectedGraphId(e.target.value)}
+            className="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 font-bold"
+          >
+            {GRAPHS.map(g => <option key={g.id} value={g.id}>{g.label}</option>)}
+          </select>
+        </div>
+        <div ref={graphContainerRef} style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
           <canvas
             ref={canvasRef}
-            style={{ display: 'block', width: '640px', height: '320px', pointerEvents: 'none' }}
+            style={{ display: 'block', width: '100%', pointerEvents: 'none' }}
           />
         </div>
         {/* Legend badges */}
@@ -256,11 +304,11 @@ export default function Module1CarbonPriceDashboard() {
         </div>
       </div>
 
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 space-y-6">
-        <div className="space-y-2">
-          <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-8">
+        <div className="space-y-4">
+          <div className="flex justify-between items-center font-bold text-gray-700 dark:text-gray-200">
             <label>Carbon Price</label>
-            <span className="text-xs font-mono text-gray-500">{carbonPriceText}</span>
+            <span className="text-sm font-mono text-gray-500">{carbonPriceText}</span>
           </div>
           <input
             type="range"
