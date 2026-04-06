@@ -899,17 +899,16 @@ export function ContentBlock({
       );
 
     case 'video': {
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const [tracked, setTracked] = useState(false);
       return (
         <div 
           className="mb-6 sm:mb-8 font-sora"
           onMouseEnter={() => {
+            let tracked = false;
             // Track when user focuses/clicks into the iframe
             const checkFocus = () => {
               if (!tracked && document.activeElement instanceof HTMLIFrameElement && document.activeElement.src === block.videoUrl) {
                 trackEvent('video_play', { module_id: moduleId, video_title: block.title || 'Video' });
-                setTracked(true);
+                tracked = true;
               }
             };
             window.addEventListener('blur', checkFocus);
