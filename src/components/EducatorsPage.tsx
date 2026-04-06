@@ -99,14 +99,23 @@ function CalloutBox({
   };
 
   const style = styles[type];
+  const isFacilitatorTip = title === 'Facilitator Tip';
 
   return (
     <div className={`${style.bg} ${style.border} border rounded-lg p-4 my-4`}>
       <div className="flex items-center gap-2 mb-2">
         {style.icon}
-        <span className={`font-semibold ${style.titleColor}`}>{title}</span>
+        <span
+          className={`${isFacilitatorTip ? 'font-bold' : 'font-semibold'} ${style.titleColor}`}
+          style={isFacilitatorTip ? { fontStyle: 'italic' } : undefined}
+        >
+          {title}
+        </span>
       </div>
-      <div className="text-gray-700 dark:text-gray-300 text-sm">
+      <div
+        className="text-gray-700 dark:text-gray-300 text-sm"
+        style={isFacilitatorTip ? { fontStyle: 'italic' } : undefined}
+      >
         {children}
       </div>
     </div>
@@ -116,7 +125,8 @@ function CalloutBox({
 export function EducatorsPage() {
   const { t } = useLanguage();
   const [activeSection, setActiveSection] = useState('overview');
-  const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+  const sectionRefs = useRef<{ [key: string]: HTMLElement | null }>({});
+  const sectionCardClass = 'scroll-mt-6 rounded-2xl p-6 sm:p-8 mb-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-md';
 
   const sections: Section[] = [
     { id: 'overview', title: 'Overview', icon: BookOpen },
@@ -150,11 +160,26 @@ export function EducatorsPage() {
           </Button>
         </Link>
 
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 sm:p-8 md:p-10">
+          {/* Page Header */}
+          <div className="mb-4 sm:mb-5 pb-0">
+            <h1
+              className="font-bold text-gray-800 dark:text-gray-100 text-center mb-3 sm:mb-4"
+              style={{ fontSize: '3rem', lineHeight: '1.2' }}
+            >
+              Educator Guide
+            </h1>
+            <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base max-w-3xl">
+              Welcome! This guide supports you in teaching and facilitating the climate systems curriculum.
+              Here you'll find everything you need to effectively use this platform in your classroom or workshop settings.
+            </p>
+          </div>
+
         <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
           {/* Left Navigation Sidebar */}
           <aside className="lg:w-64 flex-shrink-0">
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 lg:sticky lg:top-6">
-              <h2 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">
+            <div className="rounded-2xl p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-md lg:sticky lg:top-6">
+              <h2 className="text-2xl font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-4">
                 Sections
               </h2>
               <nav className="space-y-1">
@@ -180,20 +205,12 @@ export function EducatorsPage() {
 
           {/* Main Content */}
           <main className="flex-1">
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 sm:p-8 md:p-10">
-              {/* Page Header */}
-              <div className="mb-8 sm:mb-10 pb-6 border-b border-gray-200 dark:border-gray-700">
-                <h1 className="text-green-600 text-2xl sm:text-3xl font-bold mb-3">Educator Guide</h1>
-                <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base max-w-3xl">
-                  Welcome! This guide supports you in teaching and facilitating the climate systems curriculum.
-                  Here you'll find everything you need to effectively use this platform in your classroom or workshop settings.
-                </p>
-              </div>
+              <div>
 
               {/* Section 1: Overview */}
               <section
                 ref={(el) => { sectionRefs.current['overview'] = el; }}
-                className="mb-10 sm:mb-12 scroll-mt-6"
+                className={sectionCardClass}
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
@@ -220,8 +237,8 @@ export function EducatorsPage() {
                   <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
                     <Users size={24} className="text-green-600 dark:text-green-400 mb-2" />
                     <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">Target Audience</h4>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">Ages 14-18</p>
-                    <p className="text-gray-500 dark:text-gray-500 text-xs">High school level</p>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm">Ages 14-18+</p>
+                    <p className="text-gray-500 dark:text-gray-500 text-xs">High school level, college or above</p>
                   </div>
                   <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
                     <FileText size={24} className="text-green-600 dark:text-green-400 mb-2" />
@@ -242,14 +259,12 @@ export function EducatorsPage() {
                   The curriculum is modular—use all 5 modules sequentially or select specific modules
                   that fit your teaching needs and available time.
                 </CalloutBox>
-                <div className="mb-8" />
               </section>
-              <div className="mb-14 sm:mb-16" />
 
               {/* Section 2: How to Use This Curriculum */}
               <section
                 ref={(el) => { sectionRefs.current['how-to-use'] = el; }}
-                className="mb-10 sm:mb-12 scroll-mt-6"
+                className={sectionCardClass}
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
@@ -259,6 +274,10 @@ export function EducatorsPage() {
                     How to Use This Curriculum
                   </h2>
                 </div>
+
+                <p className="text-gray-600 dark:text-gray-300 mb-4">
+                  Here are some suggestions on ways of preparing to use this curriculum in your classroom or learning community.
+                </p>
 
                 <div className="space-y-4">
                   <CollapsibleSection title="Step 1: Familiarize Yourself" defaultOpen={true}>
@@ -297,22 +316,17 @@ export function EducatorsPage() {
                     </ul>
                   </CollapsibleSection>
                 </div>
-                <div className="mb-8" />
-
-                <div className="mb-14 sm:mb-16" />
-
+                <div className="mt-6" />
                 <CalloutBox type="tip" title="Facilitator Tip">
                   Before your first session, work through one complete module as a student would.
                   This helps you anticipate questions and identify good discussion points.
                 </CalloutBox>
-                <div className="mb-8" />
               </section>
-              <div className="mb-14 sm:mb-16" />
 
               {/* Section 3: Learning Objectives */}
               <section
                 ref={(el) => { sectionRefs.current['learning-objectives'] = el; }}
-                className="mb-10 sm:mb-12 scroll-mt-6"
+                className={sectionCardClass}
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-lg bg-teal-100 dark:bg-teal-900/30 flex items-center justify-center">
@@ -364,14 +378,12 @@ export function EducatorsPage() {
                     </div>
                   </div>
                 </div>
-                <div className="mb-8" />
               </section>
-              <div className="mb-14 sm:mb-16" />
 
               {/* Section 4: Lesson Flow & Facilitation */}
               <section
                 ref={(el) => { sectionRefs.current['lesson-flow'] = el; }}
-                className="mb-10 sm:mb-12 scroll-mt-6"
+                className={sectionCardClass}
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
@@ -384,34 +396,28 @@ export function EducatorsPage() {
 
                 <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">Suggested Lesson Structure</h3>
 
+                <p className="text-gray-600 dark:text-gray-300 mb-4">
+                  This basic flow can work for each of the five modules and can be adjusted to the timing of your classroom or workshop.
+                </p>
+
                 <div className="space-y-4 mb-6">
-                  <div className="flex gap-4 items-start">
-                    <div className="w-16 text-center flex-shrink-0">
-                      <span className="inline-block px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-medium rounded">5-10 min</span>
-                    </div>
-                    <div>
-                      <h4 className="font-medium text-gray-900 dark:text-gray-100">Opening</h4>
-                      <p className="text-gray-600 dark:text-gray-400 text-sm">Warm-up question, connect to prior knowledge, introduce today's focus</p>
-                    </div>
-                  </div>
-                  <div className="flex gap-4 items-start">
-                    <div className="w-16 text-center flex-shrink-0">
-                      <span className="inline-block px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-xs font-medium rounded">30-40 min</span>
-                    </div>
-                    <div>
-                      <h4 className="font-medium text-gray-900 dark:text-gray-100">Core Activity</h4>
-                      <p className="text-gray-600 dark:text-gray-400 text-sm">Students work through module content, interact with simulations, pause for discussions</p>
-                    </div>
-                  </div>
-                  <div className="flex gap-4 items-start">
-                    <div className="w-16 text-center flex-shrink-0">
-                      <span className="inline-block px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 text-xs font-medium rounded">10-15 min</span>
-                    </div>
-                    <div>
-                      <h4 className="font-medium text-gray-900 dark:text-gray-100">Reflection & Debrief</h4>
-                      <p className="text-gray-600 dark:text-gray-400 text-sm">Written reflections, group discussion, connections to real world</p>
-                    </div>
-                  </div>
+                  <CollapsibleSection title="5-10 min · Opening" defaultOpen={true}>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">
+                      Warm-up question, connect to prior knowledge, introduce today's focus
+                    </p>
+                  </CollapsibleSection>
+
+                  <CollapsibleSection title="30-40 min · Core Activity">
+                    <p className="text-sm text-gray-600 dark:text-gray-300">
+                      Students work through module content, interact with simulations, pause for discussions
+                    </p>
+                  </CollapsibleSection>
+
+                  <CollapsibleSection title="10-15 min · Reflection & Debrief">
+                    <p className="text-sm text-gray-600 dark:text-gray-300">
+                      Written reflections, group discussion, connections to real world
+                    </p>
+                  </CollapsibleSection>
                 </div>
 
                 <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">Sample Discussion Prompts</h3>
@@ -433,21 +439,17 @@ export function EducatorsPage() {
                     <li>What would you want to explore further?</li>
                   </ul>
                 </div>
-                <div className="mb-8" />
-
-                <div className="mb-14 sm:mb-16" />
+                <div className="mt-6" />
                 <CalloutBox type="tip" title="Facilitator Tip">
                   Allow students to share reflections in pairs before whole-group discussion.
                   This increases participation and helps students articulate their thoughts.
                 </CalloutBox>
-                <div className="mb-8" />
               </section>
-              <div className="mb-14 sm:mb-16" />
 
               {/* Section 5: Classroom & Workshop Formats */}
               <section
                 ref={(el) => { sectionRefs.current['formats'] = el; }}
-                className="mb-10 sm:mb-12 scroll-mt-6"
+                className={sectionCardClass}
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-lg bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center">
@@ -496,18 +498,18 @@ export function EducatorsPage() {
                   </CollapsibleSection>
                 </div>
 
-                <CalloutBox type="pitfall" title="Common Pitfall">
-                  Don't rush through simulations. Students need time to experiment, observe results,
-                  and discuss findings. It's better to cover less content deeply than to rush through everything.
-                </CalloutBox>
-                <div className="mb-8" />
+                <div className="mt-6">
+                  <CalloutBox type="tip" title="Facilitator Tip">
+                    Don't rush through simulations. Students need time to experiment, observe results,
+                    and discuss findings. It's better to cover less content deeply than to rush through everything.
+                  </CalloutBox>
+                </div>
               </section>
-              <div className="mb-14 sm:mb-16" />
 
               {/* Section 6: En-ROADS & Systems Tools */}
               <section
                 ref={(el) => { sectionRefs.current['enroads'] = el; }}
-                className="mb-10 sm:mb-12 scroll-mt-6"
+                className={sectionCardClass}
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-lg bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center">
@@ -520,12 +522,29 @@ export function EducatorsPage() {
 
                 <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">About En-ROADS</h3>
                 <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm">
-                  En-ROADS is a free, online climate simulation developed by Climate Interactive and MIT Sloan.
+                  <a
+                    href="https://en-roads.climateinteractive.org/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 dark:text-blue-400 underline hover:text-blue-700 dark:hover:text-blue-300"
+                  >
+                    En-ROADS
+                  </a>{' '}
+                  is a free, online climate simulation developed by{' '}
+                  <a
+                    href="https://www.climateinteractive.org/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 dark:text-blue-400 underline hover:text-blue-700 dark:hover:text-blue-300"
+                  >
+                    Climate Interactive
+                  </a>{' '}
+                  and MIT Sloan School of Management.
                   It allows users to explore how different policies and actions affect global temperature,
                   energy systems, and emissions over time.
                 </p>
 
-                <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">Simplified vs. Full Model</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">Simplified vs. Full En-ROADS Models</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                   <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
                     <h4 className="font-medium text-green-800 dark:text-green-300 mb-2">This Curriculum (Simplified)</h4>
@@ -549,34 +568,44 @@ export function EducatorsPage() {
 
                 <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">When to Use Each</h3>
                 <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 mb-4">
-                  <ul className="text-gray-600 dark:text-gray-300 text-sm space-y-2">
+                  <ul className="text-gray-600 dark:text-gray-300 text-sm space-y-4">
                     <li><strong>Use Simplified Version:</strong> For initial learning, younger students, shorter sessions, or when focusing on key concepts</li>
                     <li><strong>Use Full Model:</strong> For advanced students, extended workshops, research projects, or when students are ready for more complexity</li>
                   </ul>
                 </div>
 
-                <a
-                  href="https://www.climateinteractive.org/en-roads/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors text-sm font-medium"
-                >
-                  <ExternalLink size={16} />
-                  Visit Climate Interactive En-ROADS
-                </a>
+                <div className="flex flex-row flex-wrap gap-3 mb-2">
+                  <a
+                    href="https://www.climateinteractive.org/en-roads/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex w-fit items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border-2 border-indigo-600 dark:border-indigo-500 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-colors text-sm font-semibold"
+                  >
+                    <ExternalLink size={16} />
+                    Visit Climate Interactive En-ROADS
+                  </a>
+
+                  <a
+                    href="https://docs.google.com/presentation/d/1vMWTb9xpBjTX-EVpygowQGXio89y2Y9RNd8TvVUciHE/edit?slide=id.p3#slide=id.p3"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border border-indigo-300 dark:border-indigo-600 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-colors text-sm font-medium"
+                  >
+                    <ExternalLink size={16} />
+                    Endorsements of En-ROADS
+                  </a>
+                </div>
 
                 <CalloutBox type="tip" title="Facilitator Tip">
                   Start with the simplified version in this curriculum. Once students are comfortable,
                   introduce the full En-ROADS model for advanced exploration or independent projects.
                 </CalloutBox>
-                <div className="mb-8" />
               </section>
-              <div className="mb-14 sm:mb-16" />
 
               {/* Section 7: Downloadable Materials */}
               <section
                 ref={(el) => { sectionRefs.current['downloads'] = el; }}
-                className="mb-10 sm:mb-12 scroll-mt-6"
+                className={sectionCardClass}
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-lg bg-pink-100 dark:bg-pink-900/30 flex items-center justify-center">
@@ -588,8 +617,8 @@ export function EducatorsPage() {
                 </div>
 
                 <p className="text-gray-600 dark:text-gray-300 mb-6 text-sm">
-                  Download these resources to support your teaching. All materials are free to use
-                  for educational purposes.
+                  Download these resources to support your teaching and facilitation. All materials are free to use and adapt
+                  for educational purposes under a Creative Commons licence.
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -621,21 +650,12 @@ export function EducatorsPage() {
                     </Button>
                   </div>
                 </div>
-                <div className="mb-8" />
-
-                <div className="mb-14 sm:mb-16" />
-                <CalloutBox type="note" title="More Resources Coming">
-                  We're actively developing additional materials. Check back regularly for updates,
-                  or contact us if you have specific resource needs.
-                </CalloutBox>
-                <div className="mb-8" />
               </section>
-              <div className="mb-14 sm:mb-16" />
 
               {/* Section 8: Adaptations for Learners */}
               <section
                 ref={(el) => { sectionRefs.current['adaptations'] = el; }}
-                className="mb-10 sm:mb-12 scroll-mt-6"
+                className={sectionCardClass}
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-lg bg-cyan-100 dark:bg-cyan-900/30 flex items-center justify-center">
@@ -650,11 +670,15 @@ export function EducatorsPage() {
                   <CollapsibleSection title="Different Age Groups" defaultOpen={true}>
                     <div className="space-y-3 text-sm">
                       <div>
-                        <h5 className="font-medium text-gray-900 dark:text-gray-100">Ages 14-15 (Middle School)</h5>
+                        <h5 className="font-medium text-gray-900 dark:text-gray-100">Ages 11-14</h5>
+                        <p className="text-gray-600 dark:text-gray-400">Build foundational climate and systems awareness through age-appropriate examples, visual storytelling, and guided activities that allow extra time for reflection and discussion.</p>
+                      </div>
+                      <div>
+                        <h5 className="font-medium text-gray-900 dark:text-gray-100">Ages 14-15</h5>
                         <p className="text-gray-600 dark:text-gray-400">Focus on foundational concepts, use more visual aids, allow more time for activities, pair with guided worksheets</p>
                       </div>
                       <div>
-                        <h5 className="font-medium text-gray-900 dark:text-gray-100">Ages 16-18 (High School)</h5>
+                        <h5 className="font-medium text-gray-900 dark:text-gray-100">Ages 16-18</h5>
                         <p className="text-gray-600 dark:text-gray-400">Introduce more complexity, encourage independent exploration, connect to current events and policy</p>
                       </div>
                       <div>
@@ -696,14 +720,12 @@ export function EducatorsPage() {
                     </div>
                   </CollapsibleSection>
                 </div>
-                <div className="mb-8" />
               </section>
-              <div className="mb-14 sm:mb-16" />
 
               {/* Section 9: Teacher Professional Development */}
               <section
                 ref={(el) => { sectionRefs.current['professional-dev'] = el; }}
-                className="mb-10 sm:mb-12 scroll-mt-6"
+                className={sectionCardClass}
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-lg bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center">
@@ -717,6 +739,18 @@ export function EducatorsPage() {
                 <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm">
                   Use this outline to run a professional development session for fellow educators.
                 </p>
+
+                <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-5 mb-4">
+                  <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">MIT Day of Climate</h3>
+                  <div className="space-y-3 text-sm text-gray-600 dark:text-gray-300">
+                    <p>
+                      <strong>“Introduction to the Compassionate Systems Framework”</strong> – hands-on workshop on systems leadership offered by the Center for Systems Awareness.
+                    </p>
+                    <p>
+                      <strong>Compassionate Climate Community</strong> – a program to create a space for an international, multi-generational group of like-minded individuals seeking to improve their knowledge and capacities to mitigate climate change. The overarching goals of this program are to bring these vital capacities into school sites and foster an international community of change-makers. Custom program offerings available through the Center for Systems Awareness.
+                    </p>
+                  </div>
+                </div>
 
                 <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-5 mb-4">
                   <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">Suggested PD Session (2-3 hours)</h3>
@@ -764,15 +798,13 @@ export function EducatorsPage() {
                   The best way to prepare educators is to let them experience the curriculum as learners first.
                   This builds empathy for student experiences and surfaces potential challenges.
                 </CalloutBox>
-                <div className="mb-8" />
               </section>
-              <div className="mb-14 sm:mb-16" />
 
 
               {/* Section 10: FAQs & Troubleshooting */}
               <section
                 ref={(el) => { sectionRefs.current['faqs'] = el; }}
-                className="mb-10 sm:mb-12 scroll-mt-6"
+                className={sectionCardClass}
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-lg bg-rose-100 dark:bg-rose-900/30 flex items-center justify-center">
@@ -850,15 +882,17 @@ export function EducatorsPage() {
                 </div>
               </section>
 
+              </div>
+
               {/* Footer */}
               <div className="mt-10 pt-6 border-t border-gray-200 dark:border-gray-700">
                 <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
                   Have questions or feedback? We'd love to hear from you!<br />
-                  <span className="text-green-600 dark:text-green-400">educators@climatesystems.edu</span> (example)
+                  <span className="text-green-600 dark:text-green-400">systemsawareness@mit.edu</span>
                 </p>
               </div>
-            </div>
           </main>
+        </div>
         </div>
       </div>
     </div>
