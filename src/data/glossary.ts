@@ -11,34 +11,49 @@ export type GlossaryData = Record<Language, GlossaryEntry[]>;
 export const glossary: GlossaryData = {
   en: [
     {
-      term: 'Carbon Dioxide',
+      term: 'carbon dioxide',
       variants: ['CO₂', 'CO2'],
       definition: 'A greenhouse gas released when we burn fossil fuels like coal, oil, and gas. It traps heat in Earth\'s atmosphere, causing global warming. CO₂ stays in the atmosphere for hundreds of years.'
     },
     {
-      term: 'Emissions',
-      variants: ['emission'],
-      definition: 'The release of greenhouse gases (like carbon dioxide and methane) into the atmosphere, primarily from burning fossil fuels, deforestation, and industrial processes. Reducing emissions is key to fighting climate change.'
+      term: 'carbon price',
+      variants: ['carbon price', 'carbon pricing'],
+      definition: 'A method for governments to mitigate climate change, in which a monetary cost is applied to greenhouse gas emissions. This is done to encourage polluters to reduce fossil fuel combustion, the main driver of climate change.'
     },
     {
-      term: 'Greenhouse Gas',
-      variants: ['greenhouse gases'],
-      definition: 'Gases in the atmosphere that trap heat from the sun, warming the planet. The main greenhouse gases are carbon dioxide, methane, and nitrous oxide. While some greenhouse gases are natural, human activities have increased their concentration dramatically.'
+      term: 'Climate Interactive',
+      variants: [],
+      definition: 'A non-profit that creates and shares cutting-edge tools that drive effective and equitable climate action. You can learn more about their work here: https://www.climateinteractive.org/'
     },
     {
-      term: 'Renewable Energy',
-      variants: ['renewables'],
-      definition: 'Energy from sources that naturally replenish themselves, like solar, wind, hydro, and geothermal power. Unlike fossil fuels, renewable energy doesn\'t produce greenhouse gas emissions and won\'t run out.'
+      term: 'climate policies',
+      variants: ['climate policies', 'climate policy'],
+      definition: 'Strategies, laws, and regulations developed by governments and institutions to reduce greenhouse gas emissions and adapt to climate change impacts.'
     },
     {
-      term: 'Climate System',
+      term: 'climate system',
       variants: ['climate systems'],
       definition: 'The complex interactions between the atmosphere, oceans, ice, land, and living things that determine Earth\'s climate. Understanding these systems helps us see how changes in one area affect the whole planet.'
     },
     {
-      term: 'Fossil Fuels',
-      variants: ['fossil fuel'],
-      definition: 'Energy sources formed from ancient plant and animal remains, including coal, oil, and natural gas. Burning fossil fuels releases carbon dioxide that has been stored underground for millions of years.'
+      term: 'co₂ concentration',
+      variants: ['CO₂ Concentration'],
+      definition: 'Measure of carbon dioxide molecules present in a specific volume of air, commonly expressed in parts per million (ppm). It serves as a key indicator of climate change, with rising levels trapping more heat in the atmosphere. Since we started burning fossil fuels the CO2 concentration has increased more than 50% from 280 pmm to around 428 pmm today.'
+    },
+    {
+      term: 'co₂ emissions',
+      variants: ['CO₂ Emissions'],
+      definition: 'Combined amount of CO₂ annually released into the atmosphere from all sources such as electricity production, industrial processes, transportation, deforestation, etc. This is most often measured in gigatons (10^9 tons) per year.'
+    },
+    {
+      term: 'co₂ removals',
+      variants: ['CO2 removals', 'carbon dioxide removals'],
+      definition: 'Natural and technological processes that take CO2 out of the atmosphere and store them elsewhere.'
+    },
+    {
+      term: 'Dr. Ayana Elizabeth Johnson',
+      variants: ['Ayana Elizabeth Johnson'],
+      definition: 'Dr. Ayana Elizabeth Johnson is co-founder of the non-profit think tank Urban Ocean Lab, co-editor of the bestselling climate anthology All We Can Save, and author of What If We Get it Right?: Visions of Climate Futures.'
     },
     {
       term: 'drivers',
@@ -46,26 +61,35 @@ export const glossary: GlossaryData = {
       definition: 'The main causes or forces that are pushing something to happen. In the context of climate change, drivers are the key activities or systems—like burning fossil fuels, deforestation, and certain industrial processes—that release large amounts of greenhouse gases and speed up global warming. In other words, drivers are the big things behind the scenes that set major changes in motion.'
     },
     {
+      term: 'emissions',
+      variants: ['emission'],
+      definition: 'The release of greenhouse gases (like carbon dioxide and methane) into the atmosphere, primarily from burning fossil fuels, deforestation, and industrial processes. Reducing emissions is key to fighting climate change.'
+    },
+    {
+      term: 'fossil fuels',
+      variants: ['fossil fuel'],
+      definition: 'Energy sources formed from ancient plant and animal remains, including coal, oil, and natural gas. Burning fossil fuels releases carbon dioxide that has been stored underground for millions of years.'
+    },
+    {
+      term: 'greenhouse gas',
+      variants: ['greenhouse gases'],
+      definition: 'Gases in the atmosphere that trap heat from the sun, warming the planet. The main greenhouse gases are carbon dioxide, methane, and nitrous oxide. While some greenhouse gases are natural, human activities have increased their concentration dramatically.'
+    },
+    {
+      term: 'level out',
+      variants: ['level out'],
+      definition: 'To level out means that something stops going up or down and stays about the same over time. You can think of it like a line on a graph that becomes flat.'
+    },
+    {
       term: 'nature-based solution to carbon dioxide removal',
       variants: ['nature-based solutions', 'nature-based carbon removal', 'afforestation', 'reforestation'],
       definition: 'Encourage the expansion of forests (afforestation), the restoration of former or degraded forests (reforestation), the implementation of agricultural practices that capture carbon, and the production of biochar. These nature-based methods can remove carbon dioxide from the atmosphere and store it in plants and soils. However, this carbon may be released again if the land is altered, whether through deliberate actions like farming or accidental events like wildfires.'
     },
     {
-      term: 'CO₂ Emissions',
-      variants: ['CO₂ Emissions'],
-      definition: 'Combined amount of CO₂ annually released into the atmosphere from all sources such as electricity production, industrial processes, transportation, deforestation, etc. This is most often measured in gigatons (10^9 tons) per year.'
-    },
-    {
-      term: 'CO₂ Concentration',
-      variants: ['CO₂ Concentration'],
-      definition: 'Measure of carbon dioxide molecules present in a specific volume of air, commonly expressed in parts per million (ppm). It serves as a key indicator of climate change, with rising levels trapping more heat in the atmosphere. Since we started burning fossil fuels the CO2 concentration has increased more than 50% from 280 pmm to around 428 pmm today.'
-    },
-        {
-      term: 'Dr. Ayana Elizabeth Johnson',
-      variants: ['Ayana Elizabeth Johnson'],
-      definition: 'Dr. Ayana Elizabeth Johnson is co-founder of the non-profit think tank Urban Ocean Lab, co-editor of the bestselling climate anthology All We Can Save, and author of What If We Get it Right?: Visions of Climate Futures.'
+      term: 'renewable energy',
+      variants: ['renewables'],
+      definition: 'Energy from sources that naturally replenish themselves, like solar, wind, hydro, and geothermal power. Unlike fossil fuels, renewable energy doesn\'t produce greenhouse gas emissions and won\'t run out.'
     }
-
   ],
 
   es: [
