@@ -128,7 +128,7 @@ export function EducatorsPage() {
   const sectionRefs = useRef<{ [key: string]: HTMLElement | null }>({});
   const sectionCardClass = 'scroll-mt-6 rounded-2xl p-6 sm:p-8 mb-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-md';
 
-  const sections: Section[] = [
+const sections: Section[] = [
     { id: 'overview', title: 'Overview', icon: BookOpen },
     { id: 'how-to-use', title: 'How to Use', icon: Settings },
     { id: 'learning-objectives', title: 'Learning Objectives', icon: Target },
@@ -139,6 +139,80 @@ export function EducatorsPage() {
     { id: 'adaptations', title: 'Adaptations', icon: Accessibility },
     { id: 'professional-dev', title: 'Professional Dev', icon: Award },
     { id: 'faqs', title: 'FAQs', icon: HelpCircle },
+  ];
+
+  const tocData = [
+    {
+      module: "Module 1: Relating to Climate Futures",
+      id: 1,
+      subsections: [
+        "About this Module",
+        "Understanding Climate Drivers and Impacts",
+        "Exercise 1: Nature-Based Carbon Dioxide Removal",
+        "Exercise 2: Renewable Energy",
+        "Exercise 3 — Fossil Fuels",
+        "Exercise 4 — Carbon Price",
+        "The Practice of Hope",
+        "Module end"
+      ]
+    },
+    {
+      module: "Module 2: Stock and Flow",
+      id: 2,
+      subsections: [
+        "About this Module",
+        "🌍 Why This Matters for Climate Change",
+        "Understanding CO₂ Removals",
+        "🎛️ How this works in the simulation",
+        "🌍 Why This Matters for Climate Change",
+        "🌍 The Vision of “Net‑Zero Emissions”",
+        "Hope As A Stock",
+        "Module end"
+      ]
+    },
+    {
+      module: "Module 3: Roadmaps to Possible Futures",
+      id: 3,
+      subsections: [
+        "About this Module",
+        "Group Activity",
+        "Explore the Scenario in En‑ROADS",
+        "❓So here’s the big question:",
+        "Create Your Own Climate Policy Scenario in En‑ROADS",
+        "👋 Welcome back! ",
+        "Imagining the Future",
+        "Module end"
+      ]
+    },
+    {
+      module: "Module 4: Systems View of Climate Solutions",
+      id: 4,
+      subsections: [
+        "About this Module",
+        "❄️ Top of the Iceberg: Events",
+        "🔁 Just Below the Surface: Patterns & Trends",
+        "⚙️ Deeper: Underlying Systemic Structures",
+        "🧠 Deepest Level: Mental Models",
+        "Why Think About Climate Systems Using the Iceberg Model?",
+        "✏️ Draw Your Own Climate Iceberg",
+        "💭 Let's Reflect",
+        "🌍 Why the Systems Iceberg Matters for Climate Change",
+        "Module end"
+      ]
+    },
+    {
+      module: "Module 5: Lever of Change",
+      id: 5,
+      subsections: [
+        "You have a role to play.",
+        "You are not alone: the power of collective leadership",
+        "Finding Your Climate Action",
+        "Designing for Systems Change",
+        "Caring for Your Energy (So You Can Sustain Action)",
+        "💭Let’s Reflect",
+        "Module end"
+      ]
+    }
   ];
 
   const scrollToSection = (sectionId: string) => {
@@ -177,8 +251,10 @@ export function EducatorsPage() {
 
         <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
           {/* Left Navigation Sidebar */}
-          <aside className="lg:w-64 flex-shrink-0">
-            <div className="rounded-2xl p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-md lg:sticky lg:top-6">
+          <aside className="lg:w-64 flex-shrink-0 flex flex-col gap-6 lg:sticky lg:top-6 max-h-[calc(100vh-3rem)] overflow-y-auto no-scrollbar pb-6">
+            
+            {/* Sections Container */}
+            <div className="rounded-2xl p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-md">
               <h2 className="text-2xl font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-4">
                 Sections
               </h2>
@@ -200,6 +276,36 @@ export function EducatorsPage() {
                   );
                 })}
               </nav>
+            </div>
+
+            {/* Table of Contents Container */}
+            <div className="rounded-2xl p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-md">
+              <h2 className="text-xl font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+                <BookOpen size={20} className="text-gray-500" />
+                Curriculum
+              </h2>
+              <div className="space-y-3">
+                {tocData.map((module) => (
+                  <div key={module.id} className="border border-gray-100 dark:border-gray-700 rounded-xl overflow-hidden bg-gray-50 dark:bg-gray-800/50">
+                    <div className="bg-gray-100/80 dark:bg-gray-700/80 px-3 py-2.5 font-semibold text-gray-800 dark:text-gray-200 text-sm border-b border-gray-200 dark:border-gray-600 leading-snug">
+                      {module.module}
+                    </div>
+                    <ul className="p-3 space-y-2.5">
+                      {module.subsections.map((sub, index) => (
+                        <li key={index} className="text-xs">
+                          <Link 
+                            to={`/module/${module.id}?block=${index + 1}`}
+                            className="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors flex items-start gap-2"
+                          >
+                            <span className="text-green-600/70 dark:text-green-500/70 font-semibold min-w-[1.2rem]">{index + 1}.</span>
+                            <span className="leading-snug">{sub}</span>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
             </div>
           </aside>
 
