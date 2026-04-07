@@ -24,7 +24,7 @@ export function EndingPage({ progress, onRestart, onBackToHome }: EndingPageProp
   return (
     <div className="min-h-screen flex items-center justify-center p-4 sm:p-6">
       <div className="max-w-4xl w-full">
-        <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
+        <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl overflow-hidden">
           {/* Hero Section */}
           <div className="bg-gradient-to-br from-blue-600 via-green-600 to-teal-600 p-8 sm:p-12 text-center text-white">
             <div className="flex justify-center mb-6">
@@ -75,7 +75,7 @@ export function EndingPage({ progress, onRestart, onBackToHome }: EndingPageProp
                   return (
                     <div 
                       key={moduleId}
-                      className="bg-gradient-to-br from-blue-50 to-green-50 rounded-xl p-6"
+                      className="bg-gradient-to-br from-blue-50 to-green-50 dark:from-blue-900/20 dark:to-green-900/20 rounded-xl p-6 border border-blue-100 dark:border-blue-800/40"
                     >
                       <div className="flex items-start gap-3 mb-3">
                         <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-blue-500 to-green-500 rounded-full flex items-center justify-center text-white">
@@ -102,7 +102,7 @@ export function EndingPage({ progress, onRestart, onBackToHome }: EndingPageProp
             </div>
 
             {allCompleted && (
-              <div className="bg-yellow-50 border-2 border-yellow-200 rounded-2xl p-6 mb-8">
+              <div className="bg-yellow-50 dark:bg-gray-700 border-2 border-yellow-200 dark:border-yellow-800 rounded-2xl p-6 mb-8">
                 <h3 className="text-gray-900 dark:text-gray-100 mb-3">What&apos;s Next?</h3>
                 <ul className="space-y-2 text-gray-700 dark:text-gray-300">
                   <li className="flex items-start gap-2">

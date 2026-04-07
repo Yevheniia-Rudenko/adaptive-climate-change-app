@@ -170,11 +170,13 @@ export default function Module2RemovalsDashboard() {
 
     try {
       const viewModel = createGraphViewModel(graphSpec);
+      const isDark = document.documentElement.classList.contains('dark');
       const style = {
-        font: { family: 'system-ui, sans-serif', size: 12, color: '#333' },
+        font: { family: 'system-ui, sans-serif', size: 12, color: isDark ? '#e2e8f0' : '#333' },
         xAxis: { tickMaxCount: 6 },
         yAxis: { tickMaxCount: 6 },
         getDefaultLineWidth: () => 4,
+        plotBackgroundColor: isDark ? '#1e293b' : '#ffffff'
       };
       const gv = new GraphView(canvas, viewModel, { style }, true);
       graphViewRefs.current[canvasId] = gv;
@@ -342,9 +344,8 @@ export default function Module2RemovalsDashboard() {
             +{tempF.toFixed(1)}°F
           </div>
           <div
-            className="mt-3 leading-tight"
+            className="mt-3 leading-tight text-gray-900 dark:text-gray-100"
             style={{
-              color: '#000000',
               fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)',
               fontWeight: 800,
             }}
@@ -387,7 +388,7 @@ export default function Module2RemovalsDashboard() {
       </div>
 
       {/* Sliders */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 space-y-6">
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-6">
         {/* Carbon Price */}
         <div className="space-y-2">
           <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">

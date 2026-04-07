@@ -75,7 +75,7 @@ export function AboutPage() {
         <Link to="/">
           <Button
             variant="outline"
-            className="mb-4 sm:mb-6"
+            className="mb-4 sm:mb-6 dark:text-gray-100 dark:border-gray-400"
           >
             ← {t.backHome}
           </Button>

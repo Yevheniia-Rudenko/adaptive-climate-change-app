@@ -129,13 +129,15 @@ export default function Module2ExerciseDashboard() {
 
     try {
       const viewModel = createGraphViewModel(graphSpec);
+      const isDark = document.documentElement.classList.contains('dark');
       const style = {
-        font: { family: 'system-ui, -apple-system, sans-serif', style: 'normal', color: '#1f2937' },
+        font: { family: 'system-ui, -apple-system, sans-serif', style: 'normal', color: isDark ? '#e2e8f0' : '#1f2937' },
         xAxis: { tickMaxCount: 6 },
         yAxis: { tickMaxCount: 6 },
         getAxisLabelFontSize: () => 14,
         getTickLabelFontSize: () => 12,
         getDefaultLineWidth: () => 4,
+        plotBackgroundColor: isDark ? '#1e293b' : '#ffffff'
       };
       const gv = new GraphView(canvas, viewModel, { style, responsive: true, animations: true }, true);
       graphViewRefs.current[canvasId] = gv;
@@ -240,9 +242,8 @@ export default function Module2ExerciseDashboard() {
             +{tempF.toFixed(1)}°F
           </div>
           <div
-            className="mt-3 leading-tight"
+            className="mt-3 leading-tight text-gray-900 dark:text-gray-100"
             style={{
-              color: '#000000',
               fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)',
               fontWeight: 800,
             }}

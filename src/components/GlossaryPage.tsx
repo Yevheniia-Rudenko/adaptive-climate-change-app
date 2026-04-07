@@ -61,7 +61,7 @@ export function GlossaryPage() {
         <Link to="/">
           <Button
             variant="outline"
-            className="mb-4 sm:mb-6"
+            className="mb-4 sm:mb-6 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-500 dark:hover:bg-gray-600"
           >
             ← {t.backHome}
           </Button>
@@ -88,7 +88,7 @@ export function GlossaryPage() {
             </div>
 
             {/* Alphabet Navigation */}
-            <div className="flex flex-wrap gap-1 sm:gap-2 mb-6 sm:mb-8 p-3 sm:p-4 bg-gray-100 dark:bg-gray-700/50 rounded-xl">
+            <div className="flex flex-wrap gap-1 sm:gap-2 mb-6 sm:mb-8 p-3 sm:p-4 bg-gray-100 dark:bg-gray-700 rounded-xl">
               {allLetters.map((letter) => {
                 const isAvailable = availableLetters.has(letter);
                 return (
@@ -98,7 +98,7 @@ export function GlossaryPage() {
                     disabled={!isAvailable}
                     className={`w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-lg text-sm sm:text-base font-medium transition-all duration-200 ${
                       isAvailable
-                        ? 'bg-white dark:bg-gray-600 text-green-600 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-900/30 hover:text-green-700 dark:hover:text-green-300 shadow-sm cursor-pointer'
+                        ? 'bg-white dark:bg-gray-700 text-green-600 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-900 hover:text-green-700 dark:hover:text-green-300 shadow-sm cursor-pointer'
                         : 'text-gray-400 dark:text-gray-500 cursor-not-allowed'
                     }`}
                   >

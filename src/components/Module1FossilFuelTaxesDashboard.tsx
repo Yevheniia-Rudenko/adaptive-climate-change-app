@@ -161,13 +161,15 @@ export default function Module1FossilFuelTaxesDashboard() {
       const viewModel = createGraphViewModel(graphSpec);
       const containerWidth = graphContainerRef.current?.getBoundingClientRect().width ?? 640;
       const compact = containerWidth < 420;
+      const isDark = document.documentElement.classList.contains('dark');
       const style = {
-        font: { family: 'system-ui, sans-serif', size: compact ? 13 : 14, color: '#1f2937' },
+        font: { family: 'system-ui, sans-serif', size: compact ? 13 : 14, color: isDark ? '#e2e8f0' : '#1f2937' },
         xAxis: { tickMaxCount: compact ? 6 : 8 },
         yAxis: { tickMaxCount: compact ? 6 : 8 },
         getAxisLabelFontSize: () => (compact ? 14 : 16),
         getTickLabelFontSize: () => (compact ? 12 : 14),
-        getDefaultLineWidth: () => (compact ? 4 : 5)
+        getDefaultLineWidth: () => (compact ? 4 : 5),
+        plotBackgroundColor: isDark ? '#1e293b' : '#ffffff'
       };
       graphViewRef.current = new GraphView(canvas, viewModel, { style, responsive: true, animations: false }, true);
       updateGraphData(graphViewRef.current);
@@ -291,7 +293,7 @@ export default function Module1FossilFuelTaxesDashboard() {
         </div>
       </div>
 
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 space-y-6">
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-6">
         <div className="space-y-2">
           <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
             <label>Tax on Coal</label>

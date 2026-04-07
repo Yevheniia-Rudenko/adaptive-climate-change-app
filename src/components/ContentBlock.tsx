@@ -299,7 +299,7 @@ function ModuleFeedbackBlock({ block, moduleId }: { block: Extract<ContentBlockT
           <button
             onClick={handleExport}
             disabled={isExporting}
-            className="px-4 py-2 bg-white hover:bg-purple-50 disabled:bg-gray-200 disabled:cursor-not-allowed text-purple-600 border-2 border-purple-600 text-sm font-medium rounded-lg transition-colors duration-200 shadow-sm hover:shadow-md"
+            className="px-4 py-2 bg-white dark:bg-gray-700 hover:bg-purple-50 dark:hover:bg-purple-900/30 disabled:bg-gray-200 disabled:cursor-not-allowed text-purple-600 dark:text-purple-400 border-2 border-purple-600 dark:border-purple-500 text-sm font-medium rounded-lg transition-colors duration-200 shadow-sm hover:shadow-md"
           >
             {isExporting ? 'Generating PDF…' : 'Export responses'}
           </button>
@@ -486,7 +486,7 @@ function QuoteCarouselBlock({ block }: { block: Extract<ContentBlockType, { type
         <CarouselContent>
           {block.quotes.map((q, idx) => (
             <CarouselItem key={idx} className="w-full">
-              <div className="w-full max-w-full bg-white/80 dark:bg-gray-800/80 backdrop-blur rounded-2xl p-5 sm:p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+              <div className="w-full max-w-full bg-white dark:bg-gray-800 backdrop-blur rounded-2xl p-5 sm:p-6 shadow-sm border border-gray-100 dark:border-gray-700">
                 <p
                   className="text-gray-700 dark:text-gray-300 text-sm sm:text-base md:text-lg leading-relaxed italic"
                   style={{ whiteSpace: 'normal', overflowWrap: 'anywhere', wordBreak: 'break-word' }}
@@ -515,7 +515,7 @@ function QuoteCarouselBlock({ block }: { block: Extract<ContentBlockType, { type
               size="icon"
               disabled={!canPrev}
               onClick={() => api?.scrollPrev()}
-              className="bg-white/80 dark:bg-gray-900/60"
+              className="bg-white dark:bg-gray-900"
               aria-label="Previous quote"
             >
               <ArrowLeft size={16} />
@@ -528,7 +528,7 @@ function QuoteCarouselBlock({ block }: { block: Extract<ContentBlockType, { type
               size="icon"
               disabled={!canNext}
               onClick={() => api?.scrollNext()}
-              className="bg-white/80 dark:bg-gray-900/60"
+              className="bg-white dark:bg-gray-900"
               aria-label="Next quote"
             >
               <ArrowRight size={16} />
@@ -567,7 +567,7 @@ function ImageCollageBlock({ block }: { block: Extract<ContentBlockType, { type:
         {block.images.map((img, idx) => (
           <div
             key={`${img.imageUrl}-${idx}`}
-            className="rounded-xl sm:rounded-2xl overflow-hidden shadow-lg border border-gray-100 dark:border-gray-700 bg-white/80 dark:bg-gray-800/80"
+            className="rounded-xl sm:rounded-2xl overflow-hidden shadow-lg border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800"
           >
             <img src={img.imageUrl} alt={img.alt} className="w-full h-auto block" />
             {img.caption && (
@@ -728,41 +728,50 @@ export function ContentBlock({
 
           <div className={`rounded-2xl p-5 bg-white dark:bg-gray-800 border ${styles.ring} shadow-sm`}>
             <div className="h-48 w-full">
-              <RechartsPrimitive.ResponsiveContainer width="100%" height="100%">
-                <RechartsPrimitive.BarChart
-                  data={data}
-                  layout="vertical"
-                  margin={{ left: 0, right: 28, top: 8, bottom: 8 }}
-                >
-                  <RechartsPrimitive.CartesianGrid horizontal={false} />
-                  <RechartsPrimitive.XAxis
-                    type="number"
-                    domain={[0, 100]}
-                    tickFormatter={(v: number) => `${v}%`}
-                    axisLine={false}
-                    tickLine={false}
-                  />
-                  <RechartsPrimitive.YAxis
-                    type="category"
-                    dataKey="name"
-                    width={170}
-                    axisLine={false}
-                    tickLine={false}
-                  />
-                  <RechartsPrimitive.Bar
-                    dataKey="value"
-                    fill={styles.color}
-                    radius={[8, 8, 8, 8]}
-                    isAnimationActive={false}
-                  >
-                    <RechartsPrimitive.LabelList
-                      dataKey="value"
-                      position="right"
-                      formatter={(v: number) => `${v}%`}
-                    />
-                  </RechartsPrimitive.Bar>
-                </RechartsPrimitive.BarChart>
-              </RechartsPrimitive.ResponsiveContainer>
+              {(() => {
+                const isDark = document.documentElement.classList.contains('dark');
+                const tickColor = isDark ? '#d1d5db' : '#374151';
+                return (
+                  <RechartsPrimitive.ResponsiveContainer width="100%" height="100%">
+                    <RechartsPrimitive.BarChart
+                      data={data}
+                      layout="vertical"
+                      margin={{ left: 0, right: 28, top: 8, bottom: 8 }}
+                    >
+                      <RechartsPrimitive.CartesianGrid horizontal={false} stroke={isDark ? '#374151' : '#e5e7eb'} />
+                      <RechartsPrimitive.XAxis
+                        type="number"
+                        domain={[0, 100]}
+                        tickFormatter={(v: number) => `${v}%`}
+                        axisLine={false}
+                        tickLine={false}
+                        tick={{ fill: tickColor, fontSize: 12 }}
+                      />
+                      <RechartsPrimitive.YAxis
+                        type="category"
+                        dataKey="name"
+                        width={170}
+                        axisLine={false}
+                        tickLine={false}
+                        tick={{ fill: tickColor, fontSize: 12 }}
+                      />
+                      <RechartsPrimitive.Bar
+                        dataKey="value"
+                        fill={styles.color}
+                        radius={[8, 8, 8, 8]}
+                        isAnimationActive={false}
+                      >
+                        <RechartsPrimitive.LabelList
+                          dataKey="value"
+                          position="right"
+                          formatter={(v: number) => `${v}%`}
+                          style={{ fill: tickColor, fontSize: 12 }}
+                        />
+                      </RechartsPrimitive.Bar>
+                    </RechartsPrimitive.BarChart>
+                  </RechartsPrimitive.ResponsiveContainer>
+                );
+              })()}
             </div>
           </div>
 
