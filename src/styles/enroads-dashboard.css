@@ -293,3 +293,64 @@
     font-size: 18px;
   }
 }
+
+/* Dark mode overrides */
+.dark .enroads-container {
+  background: #1e293b;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.dark .enroads-graph-section {
+  background: #1e293b;
+}
+
+.dark .enroads-graph-container {
+  background: #0f172a;
+  border-color: #374151;
+}
+
+.dark .enroads-graph-title {
+  color: #e2e8f0;
+}
+
+.dark .enroads-graph-icon,
+.dark .enroads-graph-menu {
+  color: #9ca3af;
+}
+
+.dark .enroads-temperature-section {
+  background: #0f172a;
+  border-color: #374151;
+}
+
+.dark .enroads-temperature-label {
+  color: #d1d5db;
+}
+
+.dark .enroads-slider-container {
+  background: #0f172a;
+  border-color: #374151;
+}
+
+.dark .enroads-slider-label {
+  color: #e2e8f0;
+}
+
+.dark .enroads-slider-icon,
+.dark .enroads-slider-menu {
+  color: #9ca3af;
+}
+
+.dark .enroads-slider-status {
+  color: #9ca3af;
+}
+
+.dark .loading-spinner {
+  border-color: #374151;
+  border-top-color: #60a5fa;
+}
+
+.dark .enroads-loading p,
+.dark .enroads-error p {
+  color: #d1d5db;
+}

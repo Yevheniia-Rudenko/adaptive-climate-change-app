@@ -38,7 +38,7 @@ export function ResourceCategoryPage({ category }: ResourceCategoryPageProps) {
         <Link to="/resources">
           <Button
             variant="outline"
-            className="mb-4 sm:mb-6"
+            className="mb-4 sm:mb-6 dark:text-gray-100 dark:border-gray-400"
           >
             ← {t.backToResources || 'Back to Resources'}
           </Button>
@@ -68,7 +68,7 @@ export function ResourceCategoryPage({ category }: ResourceCategoryPageProps) {
                   {section.items.map((item) => (
                     <div
                       key={item.title}
-                      className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4 sm:p-5 border border-gray-200 dark:border-gray-600 hover:border-green-300 dark:hover:border-green-600 hover:shadow-md transition-all duration-200"
+                      className="bg-gray-50 dark:bg-gray-700 rounded-xl p-4 sm:p-5 border border-gray-200 dark:border-gray-600 hover:border-green-300 dark:hover:border-green-600 hover:shadow-md transition-all duration-200"
                     >
                       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                         {/* Content */}
@@ -120,7 +120,7 @@ export function ResourceCategoryPage({ category }: ResourceCategoryPageProps) {
                             </span>
 
                             {/* Duration Badge */}
-                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300">
+                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
                               <Clock size={12} />
                               {item.duration}
                             </span>

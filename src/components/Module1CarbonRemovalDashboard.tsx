@@ -217,11 +217,12 @@ export default function Module1CarbonRemovalDashboard() {
     const containerWidth = containerRef.current.getBoundingClientRect().width || 640;
     const compact = containerWidth < 420;
 
+      const isDark = document.documentElement.classList.contains('dark');
     const style = {
       font: {
         family: 'system-ui, -apple-system, sans-serif',
         style: 'normal',
-        color: '#1f2937',
+        color: isDark ? '#e2e8f0' : '#1f2937',
         size: compact ? 13 : 14
       },
       xAxis: { tickMaxCount: compact ? 6 : 8 },
@@ -229,7 +230,7 @@ export default function Module1CarbonRemovalDashboard() {
       getAxisLabelFontSize: () => (compact ? 14 : 16),
       getTickLabelFontSize: () => (compact ? 12 : 14),
       getDefaultLineWidth: () => (compact ? 4 : 5),
-      plotBackgroundColor: '#ffffff'
+      plotBackgroundColor: isDark ? '#1e293b' : '#ffffff'
     };
 
     const options = {

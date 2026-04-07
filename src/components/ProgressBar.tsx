@@ -12,7 +12,7 @@ export function ProgressBar({ completedCount, percentComplete, onNavigateHome }:
   const { t } = useLanguage();
   
   return (
-    <div className="sticky top-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm shadow-md">
+    <div className="sticky top-0 z-50 bg-white/95 dark:bg-gray-900 backdrop-blur-sm shadow-md">
       <div className="max-w-6xl mx-auto px-4 py-4">
         <div className="flex items-center gap-4">
           <button

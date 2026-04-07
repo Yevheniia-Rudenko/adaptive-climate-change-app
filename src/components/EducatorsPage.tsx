@@ -49,7 +49,7 @@ function CollapsibleSection({
     <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-left"
+        className="w-full flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-left"
       >
         <span className="font-medium text-gray-900 dark:text-gray-100">{title}</span>
         {isOpen ? (
@@ -154,7 +154,7 @@ export function EducatorsPage() {
         <Link to="/">
           <Button
             variant="outline"
-            className="mb-4 sm:mb-6"
+            className="mb-4 sm:mb-6 dark:text-gray-100 dark:border-gray-400"
           >
             ← {t.backHome}
           </Button>
@@ -228,25 +228,25 @@ export function EducatorsPage() {
 
                 {/* Key Info Cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                  <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
+                  <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
                     <Clock size={24} className="text-green-600 dark:text-green-400 mb-2" />
                     <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">Estimated Time</h4>
                     <p className="text-gray-600 dark:text-gray-400 text-sm">5-6 hours total</p>
                     <p className="text-gray-500 dark:text-gray-500 text-xs">45-60 min per module</p>
                   </div>
-                  <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
+                  <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
                     <Users size={24} className="text-green-600 dark:text-green-400 mb-2" />
                     <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">Target Audience</h4>
                     <p className="text-gray-600 dark:text-gray-400 text-sm">Ages 14-18+</p>
                     <p className="text-gray-500 dark:text-gray-500 text-xs">High school level, college or above</p>
                   </div>
-                  <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
+                  <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
                     <FileText size={24} className="text-green-600 dark:text-green-400 mb-2" />
                     <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">Materials Needed</h4>
                     <p className="text-gray-600 dark:text-gray-400 text-sm">Internet access</p>
                     <p className="text-gray-500 dark:text-gray-500 text-xs">Optional: worksheets</p>
                   </div>
-                  <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
+                  <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
                     <Monitor size={24} className="text-green-600 dark:text-green-400 mb-2" />
                     <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">Tech Requirements</h4>
                     <p className="text-gray-600 dark:text-gray-400 text-sm">Modern browser</p>
@@ -342,35 +342,35 @@ export function EducatorsPage() {
                 </p>
 
                 <div className="space-y-3">
-                  <div className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                  <div className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
                     <CheckCircle size={20} className="text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
                     <div>
                       <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">Systems Thinking</h4>
                       <p className="text-gray-600 dark:text-gray-400 text-sm">Identify feedback loops, leverage points, and interconnections in climate systems</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                  <div className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
                     <CheckCircle size={20} className="text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
                     <div>
                       <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">Climate Science Understanding</h4>
                       <p className="text-gray-600 dark:text-gray-400 text-sm">Explain the greenhouse effect, climate drivers, and projected impacts</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                  <div className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
                     <CheckCircle size={20} className="text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
                     <div>
                       <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">Solution Evaluation</h4>
                       <p className="text-gray-600 dark:text-gray-400 text-sm">Analyze and compare different climate solutions using simulation tools</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                  <div className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
                     <CheckCircle size={20} className="text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
                     <div>
                       <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">Discussion Skills</h4>
                       <p className="text-gray-600 dark:text-gray-400 text-sm">Engage in constructive dialogue about climate policy and personal action</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                  <div className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
                     <CheckCircle size={20} className="text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
                     <div>
                       <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">Agency & Action</h4>
@@ -421,7 +421,7 @@ export function EducatorsPage() {
                 </div>
 
                 <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">Sample Discussion Prompts</h3>
-                <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 mb-4">
+                <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-4">
                   <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 text-sm">
                     <li>What surprised you most about the simulation results?</li>
                     <li>How do the solutions we explored connect to each other?</li>
@@ -432,7 +432,7 @@ export function EducatorsPage() {
                 </div>
 
                 <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">Reflection Questions</h3>
-                <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
+                <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
                   <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 text-sm">
                     <li>What is one thing you learned today that changed how you think about climate?</li>
                     <li>What action could you take this week based on what you learned?</li>
@@ -567,7 +567,7 @@ export function EducatorsPage() {
                 </div>
 
                 <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">When to Use Each</h3>
-                <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 mb-4">
+                <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-4">
                   <ul className="text-gray-600 dark:text-gray-300 text-sm space-y-4">
                     <li><strong>Use Simplified Version:</strong> For initial learning, younger students, shorter sessions, or when focusing on key concepts</li>
                     <li><strong>Use Full Model:</strong> For advanced students, extended workshops, research projects, or when students are ready for more complexity</li>
@@ -622,7 +622,7 @@ export function EducatorsPage() {
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
+                  <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
                     <FileText size={32} className="text-red-500 mb-3" />
                     <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-1">Student Worksheets</h4>
                     <p className="text-gray-500 dark:text-gray-400 text-xs mb-3">PDF - Printable worksheets for each module</p>
@@ -631,7 +631,7 @@ export function EducatorsPage() {
                       Coming Soon
                     </Button>
                   </div>
-                  <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
+                  <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
                     <FileText size={32} className="text-blue-500 mb-3" />
                     <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-1">Facilitator Guide</h4>
                     <p className="text-gray-500 dark:text-gray-400 text-xs mb-3">PDF - Detailed facilitation notes</p>
@@ -640,7 +640,7 @@ export function EducatorsPage() {
                       Coming Soon
                     </Button>
                   </div>
-                  <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
+                  <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
                     <FileText size={32} className="text-orange-500 mb-3" />
                     <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-1">Slide Deck</h4>
                     <p className="text-gray-500 dark:text-gray-400 text-xs mb-3">PPTX - Presentation slides</p>
@@ -740,7 +740,7 @@ export function EducatorsPage() {
                   Use this outline to run a professional development session for fellow educators.
                 </p>
 
-                <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-5 mb-4">
+                <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-5 mb-4">
                   <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">MIT Day of Climate</h3>
                   <div className="space-y-3 text-sm text-gray-600 dark:text-gray-300">
                     <p>
@@ -752,7 +752,7 @@ export function EducatorsPage() {
                   </div>
                 </div>
 
-                <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-5 mb-4">
+                <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-5 mb-4">
                   <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">Suggested PD Session (2-3 hours)</h3>
 
                   <div className="space-y-4 text-sm">

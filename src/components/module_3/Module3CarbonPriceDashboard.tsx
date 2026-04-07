@@ -105,18 +105,19 @@ export default function Module3CarbonPriceDashboard() {
     canvas.height = 260 * dpr;
 
     const viewModel = createGraphViewModel(graphSpec);
+    const isDark = document.documentElement.classList.contains('dark');
     const style = {
       font: {
         family: 'system-ui, -apple-system, sans-serif',
         style: 'normal',
-        color: '#1f2937'
+        color: isDark ? '#e2e8f0' : '#1f2937'
       },
       xAxis: { tickMaxCount: 6 },
       yAxis: { tickMaxCount: 6 },
       getAxisLabelFontSize: () => 14,
       getTickLabelFontSize: () => 12,
       getDefaultLineWidth: () => 4,
-      plotBackgroundColor: '#ffffff'
+      plotBackgroundColor: isDark ? '#1e293b' : '#ffffff'
     };
 
     const options = { style, responsive: true, animations: true };

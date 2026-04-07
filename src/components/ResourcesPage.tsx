@@ -107,7 +107,7 @@ export function ResourcesPage() {
         <Link to="/">
           <Button
             variant="outline"
-            className="mb-4 sm:mb-6"
+            className="mb-4 sm:mb-6 dark:text-gray-100 dark:border-gray-400"
           >
             ← {t.backHome}
           </Button>
@@ -130,12 +130,12 @@ export function ResourcesPage() {
               return (
                 <div
                   key={category.id}
-                  className="bg-white dark:bg-gray-700/50 rounded-xl p-5 sm:p-6 border border-gray-200 dark:border-gray-600 shadow-sm flex flex-col cursor-pointer"
+                  className="bg-white dark:bg-gray-700 rounded-xl p-5 sm:p-6 border border-gray-200 dark:border-gray-600 shadow-sm flex flex-col cursor-pointer"
                   style={{ transition: 'transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease' }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'scale(1.05)';
                     e.currentTarget.style.boxShadow = '0 8px 30px rgba(34,197,94,0.25)';
-                    e.currentTarget.style.borderColor = '#ffffff';
+                    e.currentTarget.style.borderColor = '#22c55e';
                     if (category.video) playCardVideo(category.id);
                   }}
                   onMouseLeave={(e) => {
