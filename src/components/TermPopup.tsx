@@ -68,7 +68,17 @@ export function TermPopup({ isOpen, onClose, term, definition }: TermPopupProps)
               {/* Definition */}
               <div className="min-h-0 overflow-y-auto">
                 <div className="bg-gradient-to-br from-blue-50 to-green-50 dark:from-blue-900/20 dark:to-green-900/20 rounded-xl p-4 border border-blue-100 dark:border-blue-700/50">
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-left break-words">{definition}</p>
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-left break-words">
+                    {definition.split(/(https?:\/\/[^\s]+)/g).map((part, i) => 
+                      /(https?:\/\/[^\s]+)/.test(part) ? (
+                        <a key={i} href={part} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">
+                          {part}
+                        </a>
+                      ) : (
+                        part
+                      )
+                    )}
+                  </p>
                 </div>
               </div>
 

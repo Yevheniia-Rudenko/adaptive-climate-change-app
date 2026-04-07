@@ -129,7 +129,17 @@ export function GlossaryPage() {
                       {groupedTerms[letter].map((entry) => (
                         <div key={entry.term} className="border-b border-gray-200 dark:border-gray-700 pb-4 sm:pb-6 last:border-b-0">
                           <h3 className="text-green-700 dark:text-green-500 mb-2 text-base sm:text-lg font-medium">{entry.term}</h3>
-                          <p className="text-gray-700 dark:text-gray-300 text-sm sm:text-base">{entry.definition}</p>
+                          <p className="text-gray-700 dark:text-gray-300 text-sm sm:text-base">
+                            {entry.definition.split(/(https?:\/\/[^\s]+)/g).map((part, i) => 
+                              /(https?:\/\/[^\s]+)/.test(part) ? (
+                                <a key={i} href={part} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">
+                                  {part}
+                                </a>
+                              ) : (
+                                part
+                              )
+                            )}
+                          </p>
                         </div>
                       ))}
                     </div>
