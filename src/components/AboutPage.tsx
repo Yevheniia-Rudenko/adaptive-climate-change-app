@@ -115,7 +115,7 @@ export function AboutPage() {
             </h2>
             <img 
               src={aboutDayOfClimate} 
-              alt="Day of Climate at MIT" 
+              alt="A crowd at a climate protest holding signs, with the most prominent reading There Is No Planet B above a drawing of Earth" 
               className="w-full rounded-xl mb-6 object-cover"
             />
             <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
@@ -147,7 +147,7 @@ export function AboutPage() {
             </h2>
             <img 
               src={aboutSystemsLab} 
-              alt="MIT Systems Awareness Lab" 
+              alt="MIT Systems Awareness Lab Team" 
               className="w-full rounded-xl mb-6 object-cover"
             />
             <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
