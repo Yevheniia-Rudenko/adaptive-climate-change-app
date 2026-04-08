@@ -203,7 +203,7 @@ Thank you for practicing with me.
             type: 'image',
             title: 'Wheel of Emotions',
             imageUrl: plutchikWheel,
-            alt: "Plutchik's Wheel of Emotions",
+            alt: "Plutchik's Wheel of Emotions, a circular diagram showing 8 basic emotions and their variations in intensity",
             width: '70%'
           },
           {
@@ -242,7 +242,7 @@ Thank you for practicing with me.
           {
             type: 'image',
             imageUrl: enroadsScreenshot,
-            alt: 'En-ROADS Screenshot'
+            alt: 'En-ROADS climate simulation tool dashboard with policy sliders and graphs displaying projected climate outcomes, including a dropdown to switch between different graph views.'
           },
           {
             type: 'text',
@@ -257,7 +257,7 @@ Thank you for practicing with me.
           {
             type: 'image',
             imageUrl: climateChangeGif,
-            alt: 'Climate Change Weather Animation',
+            alt: 'Animation of Thermometer filling to max degree with climate change text',
             width: '33%'
           },
           {
@@ -273,7 +273,7 @@ Thank you for practicing with me.
           {
             type: 'image',
             imageUrl: enroadsTemp,
-            alt: 'En-ROADS Temperature Projection',
+            alt: 'Projected global temperature increase of +3.3°C (+5.9°F) by 2100.',
             width: '40%'
           },
           {
@@ -311,7 +311,7 @@ We'll introduce you to En-ROADS a few elements at a time. Later, we'll play with
           {
             type: 'image',
             imageUrl: forestImage,
-            alt: 'Forest landscape',
+            alt: 'A dense forest with tall trees',
             width: '100%'
           },
           {
@@ -555,7 +555,7 @@ What assumptions did you have that were challenged? What surprises you?`,
       {
         type: 'image',
         imageUrl: carbonPricingImg,
-        alt: 'Carbon Pricing Coalition Leadership Meeting',
+        alt: 'A person holding up a white t-shirt printed with Put a #PriceOnCarbon at Carbon Pricing Coalition Leadership Meeting',
         width: '60%'
       },
       {
@@ -670,8 +670,7 @@ Thank you for practicing.`
           {
             type: 'image',
             imageUrl: stockFlowExample,
-            alt: "Stock vs flow example"
-          },
+            alt: "Diagram of a bathtub model showing a faucet filling a water tank, with arrows indicating water Inflow entering from the tap and Outflow draining from the bottom."},
           {
             type: 'text',
             title: '',
@@ -725,7 +724,7 @@ Thank you for practicing.`
           {
             type: 'image',
             imageUrl: stockFlowExample,
-            alt: 'Stock and Flow diagram example'
+            alt: 'Diagram of a bathtub model showing a faucet filling a water tank, with arrows indicating water Inflow entering from the tap and Outflow draining from the bottom.'
           },
           {
             type: 'text',
@@ -850,7 +849,7 @@ Thank you for practicing.`
           {
             type: 'image',
             imageUrl: co2Removal1,
-            alt: 'Natural CO₂ removal processes'
+            alt: 'A person standing among massive old-growth trees in a forest'
           },
           {
             type: 'text',
@@ -859,7 +858,7 @@ Thank you for practicing.`
           {
             type: 'image',
             imageUrl: co2Removal2,
-            alt: 'Technological CO₂ removal processes'
+            alt: 'Illustration of a coastal industrial port with wind turbines'
           },
           {
             type: 'text',
@@ -1005,7 +1004,7 @@ Thank you for practicing.`
           {
             type: 'image',
             imageUrl: hopeOrientationImg,
-            alt: 'Hope Orientation by Tippett'
+            alt: '"Hope as a Stock" — a quote by Krista Tippett: I\'m talking about hope as an orientation really more than a virtue, a way of seeing and moving through the world. And it is a choice. In the face of profound, reasonable despair, it is a calling, it is a practice, a muscle. And, like any muscle, it can be flexed and strengthened. Illustrated with hands holding a heart-shaped globe with leaves.'
           },
           {
             type: 'text',
@@ -1076,7 +1075,7 @@ Thank you for practicing.`
           {
             type: 'image',
             imageUrl: carbonAndEmissionsImg,
-            alt: 'White and black ship on sea under white clouds',
+            alt: 'Large cargo ships on sea under white clouds',
             width: '80%'
           },
           {
@@ -1135,7 +1134,7 @@ Thank you for practicing.`
           {
             type: 'image',
             imageUrl: enroadsScreenshot,
-            alt: 'White and black ship on sea under white clouds',
+            alt: 'En-ROADS climate simulation tool dashboard with policy sliders and graphs displaying projected climate outcomes, including a dropdown to switch between different graph views.',
             width: '100%'
           },
           {
@@ -1246,7 +1245,7 @@ If a government wants people to support a carbon price, it has to think carefull
           {
             type: 'image',
             imageUrl: enroadsScreenshot,
-            alt: 'White and black ship on sea under white clouds',
+            alt: 'En-ROADS climate simulation tool dashboard with policy sliders and graphs displaying projected climate outcomes, including a dropdown to switch between different graph views.',
             width: '100%'
           },
           {
@@ -1375,7 +1374,7 @@ If a government wants people to support a carbon price, it has to think carefull
             type: 'image',
             title: 'Wheel of Emotions',
             imageUrl: plutchikWheel,
-            alt: "Plutchik's Wheel of Emotions",
+            alt: "Plutchik's Wheel of Emotions, a circular diagram showing 8 basic emotions and their variations in intensity",
             width: '70%'
           },
           {
@@ -1758,7 +1757,7 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
           {
             type: 'image',
             imageUrl: leadershipImg,
-            alt: 'A group of young people holding hands and discussing climate change',
+            alt: 'A red figure leading a group of yellow figures',
             width: '80%'
           },
           {
@@ -1793,7 +1792,7 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
           {
             type: 'image',
             imageUrl: vennDiagramImg,
-            alt: 'Venn diagram of climate action',
+            alt: 'A Venn diagram with three overlapping circles labeled: "What brings you joy?" (sources of satisfaction and delight), "What are you good at?" (your skills, resources, and networks), and "What work needs doing?" (climate and justice solutions).',
             title: '',
             width: '100%'
           },
@@ -1823,7 +1822,7 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
           {
             type: 'image',
             imageUrl: mandalaForSystemsChangeImg,
-            alt: 'Mandala for Systems Change',
+            alt: 'Mandala for Systems Change diagram showing a circular model with four outer sections — Capacity Building, Practice, Community Building, and Research surrounding inner sections of reflective questions',
             title: 'Mandala for Systems Change',
             width: '100%'
           },
@@ -1871,7 +1870,7 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
           {
             type: 'image',
             imageUrl: breatheImg,
-            alt: 'Breathe in Nature',
+            alt: 'A person with arms outstretched in a forest',
             title: '',
             width: '100%'
           },
@@ -1920,7 +1919,7 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
           {
             type: 'image',
             imageUrl: youthLeadershipImg,
-            alt: 'Youth Leadership',
+            alt: 'Quote by Peter M. Senge from The Fifth Discipline: The Art & Practice of The Learning Organization: "When young people develop basic leadership and collaborative learning skills, they can be a formidable force for change."',
             title: '',
             width: '70%'
           },

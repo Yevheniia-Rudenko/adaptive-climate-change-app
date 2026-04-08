@@ -76,13 +76,13 @@ export function Footer() {
                 {section.title === 'MIT Systems Awareness Lab' ? (
                   <img
                     src={systemsAwarenessLabLogo}
-                    alt="MIT Systems Awareness Lab"
+                    alt="MIT Systems Awareness Lab Logo"
                     className="h-9 mb-4"
                   />
                 ) : section.title === 'Day of Climate' ? (
                   <img
                     src={dayOfClimateLogo}
-                    alt="Day of Climate"
+                    alt="Day of Climate Logo"
                     className="h-16 mb-4"
                   />
                 ) : (

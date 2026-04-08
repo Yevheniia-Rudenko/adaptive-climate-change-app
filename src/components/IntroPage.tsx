@@ -110,7 +110,7 @@ export function IntroPage() {
           <div className="relative h-48 sm:h-64 md:h-80 overflow-hidden">
             <img
               src={earthImage}
-              alt="Earth from space"
+              alt="View of earth from space"
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
