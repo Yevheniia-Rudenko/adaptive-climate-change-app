@@ -32,6 +32,21 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [lastSubmittedResponse, setLastSubmittedResponse] = useState<string | null>(null);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(`poll:${sessionId}:${moduleId}:${block.id}`);
+      if (stored) setLastSubmittedResponse(stored);
+    } catch {
+    }
+  }, [sessionId, moduleId, block.id]);
+
+  useEffect(() => {
+    if (!isSubmitted || submitError) return;
+    const timeoutId = window.setTimeout(() => setIsSubmitted(false), 3000);
+    return () => window.clearTimeout(timeoutId);
+  }, [isSubmitted, submitError]);
 
   const toggleOption = (option: string) => {
     setSubmitError(null);
@@ -56,6 +71,13 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
 
   const handleSubmit = async () => {
     if (isSubmitting) return;
+    const responseDisplay = (() => {
+      const parts = selectedOptions.filter(o => o !== 'Other');
+      if (selectedOptions.includes('Other') && otherText.trim() !== '') {
+        parts.push(`Other: ${otherText.trim()}`);
+      }
+      return parts.join(', ');
+    })();
     const input = JSON.stringify({
       type: block.type,
       question: block.question,
@@ -75,6 +97,11 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
         section_id: block.id,
         session_id: sessionId,
       });
+      setLastSubmittedResponse(responseDisplay);
+      try {
+        localStorage.setItem(`poll:${sessionId}:${moduleId}:${block.id}`, responseDisplay);
+      } catch {
+      }
       setSelectedOptions([]);
       setOtherText('');
       setIsSubmitted(true);
@@ -97,6 +124,23 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
           }
           return <p key={i} className="text-gray-900 dark:text-gray-100 text-sm sm:text-base md:text-lg">{line}</p>;
         })}
+      </div>
+      <div className="mb-4 space-y-2">
+        {isSubmitting && (
+          <div role="status" aria-live="polite" className="text-sm text-gray-600 dark:text-gray-300">
+            Submitting…
+          </div>
+        )}
+        {submitError && (
+          <div role="alert" className="text-sm text-red-600">
+            {submitError}
+          </div>
+        )}
+        {isSubmitted && !submitError && (
+          <div role="status" aria-live="polite" className="text-sm text-green-700 dark:text-green-400">
+            Submitted.
+          </div>
+        )}
       </div>
       <div className="space-y-3">
         {block.options.map((option) => (
@@ -155,9 +199,14 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
         </div>
       </div>
       <SubmitButton onClick={handleSubmit} disabled={!canSubmit || isSubmitting} />
-      {isSubmitting && <div className="mt-2 text-sm text-gray-500">Submitting…</div>}
-      {submitError && <div className="mt-2 text-sm text-red-600">{submitError}</div>}
-      {isSubmitted && !submitError && <div className="mt-2 text-sm text-green-600">Submitted.</div>}
+      {lastSubmittedResponse && (
+        <div className="mt-2 text-sm text-gray-700 dark:text-gray-300">
+          <div className="font-semibold">Your submitted response</div>
+          <div className="mt-2 whitespace-pre-wrap break-words bg-gray-200 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl p-4 leading-relaxed shadow-sm">
+            {lastSubmittedResponse}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -317,9 +366,25 @@ function ReflectionBlock({ block, moduleId }: { block: Extract<ContentBlockType,
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [lastSubmittedText, setLastSubmittedText] = useState<string | null>(null);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(`reflection:${sessionId}:${moduleId}:${block.id}`);
+      if (stored) setLastSubmittedText(stored);
+    } catch {
+    }
+  }, [sessionId, moduleId, block.id]);
+
+  useEffect(() => {
+    if (!isSubmitted || submitError) return;
+    const timeoutId = window.setTimeout(() => setIsSubmitted(false), 3000);
+    return () => window.clearTimeout(timeoutId);
+  }, [isSubmitted, submitError]);
 
   const handleSubmit = async () => {
     if (isSubmitting) return;
+    const submittedText = reflectionText.trim();
     const input = JSON.stringify({
       type: block.type,
       prompt: block.prompt,
@@ -338,6 +403,11 @@ function ReflectionBlock({ block, moduleId }: { block: Extract<ContentBlockType,
         section_id: block.id,
         session_id: sessionId,
       });
+      setLastSubmittedText(submittedText);
+      try {
+        localStorage.setItem(`reflection:${sessionId}:${moduleId}:${block.id}`, submittedText);
+      } catch {
+      }
       setReflectionText('');
       setIsSubmitted(true);
     } catch (e) {
@@ -355,6 +425,23 @@ function ReflectionBlock({ block, moduleId }: { block: Extract<ContentBlockType,
       <p className="text-gray-700 dark:text-gray-300 mb-3 sm:mb-4 leading-relaxed text-sm sm:text-base whitespace-pre-line">
         {block.prompt}
       </p>
+      <div className="mb-3 sm:mb-4 space-y-2">
+        {isSubmitting && (
+          <div role="status" aria-live="polite" className="text-sm text-gray-600 dark:text-gray-300">
+            Submitting…
+          </div>
+        )}
+        {submitError && (
+          <div role="alert" className="text-sm text-red-600">
+            {submitError}
+          </div>
+        )}
+        {isSubmitted && !submitError && (
+          <div role="status" aria-live="polite" className="text-sm text-green-700 dark:text-green-400">
+            Submitted.
+          </div>
+        )}
+      </div>
       <textarea
         value={reflectionText}
         onChange={(e) => {
@@ -366,9 +453,17 @@ function ReflectionBlock({ block, moduleId }: { block: Extract<ContentBlockType,
         className="w-full p-3 sm:p-4 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none min-h-[100px] sm:min-h-[120px] resize-y bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm sm:text-base"
       />
       <SubmitButton onClick={handleSubmit} disabled={!canSubmit || isSubmitting} />
-      {isSubmitting && <div className="mt-2 text-sm text-gray-600">Submitting…</div>}
-      {submitError && <div className="mt-2 text-sm text-red-600">{submitError}</div>}
-      {isSubmitted && !submitError && <div className="mt-2 text-sm text-green-700">Submitted.</div>}
+      {lastSubmittedText && (
+  <div className="mt-3 text-sm text-gray-700 dark:text-gray-300">
+    <div className="font-semibold text-gray-900 dark:text-gray-100">
+      Your Reflection
+    </div>
+
+    <div className="mt-2 whitespace-pre-wrap break-words bg-gray-200 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl p-4 leading-relaxed shadow-sm">
+      {lastSubmittedText}
+    </div>
+  </div>
+)}
     </div>
   );
 }
@@ -379,10 +474,26 @@ function NumericPredictionBlock({ block, moduleId }: { block: Extract<ContentBlo
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [lastSubmittedValue, setLastSubmittedValue] = useState<string | null>(null);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(`numeric-prediction:${sessionId}:${moduleId}:${block.id}`);
+      if (stored) setLastSubmittedValue(stored);
+    } catch {
+    }
+  }, [sessionId, moduleId, block.id]);
+
+  useEffect(() => {
+    if (!isSubmitted || submitError) return;
+    const timeoutId = window.setTimeout(() => setIsSubmitted(false), 3000);
+    return () => window.clearTimeout(timeoutId);
+  }, [isSubmitted, submitError]);
 
   const handleSubmit = async () => {
     if (isSubmitting) return;
     const valueNumber = valueText.trim() === '' ? null : Number(valueText);
+    const submittedValue = valueText.trim() === '' ? '' : `${valueText.trim()}${block.unit ? ` ${block.unit}` : ''}`;
 
     const input = JSON.stringify({
       type: block.type,
@@ -404,6 +515,11 @@ function NumericPredictionBlock({ block, moduleId }: { block: Extract<ContentBlo
         section_id: block.id,
         session_id: sessionId,
       });
+      setLastSubmittedValue(submittedValue);
+      try {
+        localStorage.setItem(`numeric-prediction:${sessionId}:${moduleId}:${block.id}`, submittedValue);
+      } catch {
+      }
       setValueText('');
       setIsSubmitted(true);
     } catch (e) {
@@ -418,6 +534,23 @@ function NumericPredictionBlock({ block, moduleId }: { block: Extract<ContentBlo
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700 mb-8 font-sora">
       <h3 className="text-gray-900 dark:text-gray-100 text-lg font-bold mb-4">{block.question}</h3>
+      <div className="mb-4 space-y-2">
+        {isSubmitting && (
+          <div role="status" aria-live="polite" className="text-sm text-gray-600 dark:text-gray-300">
+            Submitting…
+          </div>
+        )}
+        {submitError && (
+          <div role="alert" className="text-sm text-red-600">
+            {submitError}
+          </div>
+        )}
+        {isSubmitted && !submitError && (
+          <div role="status" aria-live="polite" className="text-sm text-green-700 dark:text-green-400">
+            Submitted.
+          </div>
+        )}
+      </div>
       <div className="flex flex-col sm:flex-row sm:items-center gap-3 min-w-0">
         <div className="w-full sm:w-32 min-w-0">
           <div className="flex items-center w-full min-w-0 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-900 focus-within:border-blue-500">
@@ -438,9 +571,14 @@ function NumericPredictionBlock({ block, moduleId }: { block: Extract<ContentBlo
         </div>
       </div>
       <SubmitButton onClick={handleSubmit} disabled={!canSubmit || isSubmitting} />
-      {isSubmitting && <div className="mt-2 text-sm text-gray-600">Submitting…</div>}
-      {submitError && <div className="mt-2 text-sm text-red-600">{submitError}</div>}
-      {isSubmitted && !submitError && <div className="mt-2 text-sm text-green-700">Submitted.</div>}
+      {lastSubmittedValue && (
+        <div className="mt-2 text-sm text-gray-700 dark:text-gray-300">
+          <div className="font-bold">Your submitted value</div>
+          <div className="mt-2 whitespace-pre-wrap break-words bg-gray-200 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl p-4 leading-relaxed shadow-sm">
+            {lastSubmittedValue}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
