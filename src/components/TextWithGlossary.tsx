@@ -143,9 +143,13 @@ export function TextWithGlossary({ text, className }: TextWithGlossaryProps) {
   let match;
   let keyCounter = 0;
 
-  // Use the shared module-level set if a provider exists, otherwise local set
+  // Use the shared module-level map if a provider exists, otherwise local map
   const glossaryCtx = useGlossaryHighlight();
-  const highlightedTerms = glossaryCtx?.highlightedTerms ?? new Set<string>();
+  const highlightedTermsMap = glossaryCtx?.highlightedTerms ?? new Map<string, string>();
+  
+  // Track terms we've already highlighted in *this specific* render pass.
+  // This prevents highlighting the same term multiple times within the same text block.
+  const localRenderSet = new Set<string>();
 
   // Reset regex lastIndex
   pattern.lastIndex = 0;
@@ -160,7 +164,16 @@ export function TextWithGlossary({ text, className }: TextWithGlossaryProps) {
     if (entry) {
       // Normalize term for tracking (lowercase to handle case variations)
       const normalizedTerm = matchedText.toLowerCase();
-      const isFirstOccurrence = !highlightedTerms.has(normalizedTerm);
+      
+      let firstHighlightedText = highlightedTermsMap.get(normalizedTerm);
+      if (!firstHighlightedText) {
+        firstHighlightedText = text;
+        highlightedTermsMap.set(normalizedTerm, text);
+      }
+      
+      const isFirstInModule = firstHighlightedText === text;
+      const seenInThisRender = localRenderSet.has(normalizedTerm);
+      const isFirstOccurrence = isFirstInModule && !seenInThisRender;
 
       // Add text before the match
       if (matchStart > lastIndex) {
@@ -174,7 +187,7 @@ export function TextWithGlossary({ text, className }: TextWithGlossaryProps) {
 
       if (isFirstOccurrence) {
         // First occurrence: highlight as glossary term
-        highlightedTerms.add(normalizedTerm);
+        localRenderSet.add(normalizedTerm);
         parts.push(
           <GlossaryTerm
             key={`term-${keyCounter++}`}
