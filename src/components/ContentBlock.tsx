@@ -33,11 +33,31 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [lastSubmittedResponse, setLastSubmittedResponse] = useState<string | null>(null);
+  const [lastSubmittedSelection, setLastSubmittedSelection] = useState<{ selectedOptions: string[]; otherText: string } | null>(null);
 
   useEffect(() => {
     try {
       const stored = localStorage.getItem(`poll:${sessionId}:${moduleId}:${block.id}`);
       if (stored) setLastSubmittedResponse(stored);
+    } catch {
+    }
+  }, [sessionId, moduleId, block.id]);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(`pollSelection:${sessionId}:${moduleId}:${block.id}`);
+      if (!stored) return;
+      const parsed = JSON.parse(stored) as unknown;
+      if (
+        parsed &&
+        typeof parsed === 'object' &&
+        'selectedOptions' in parsed &&
+        'otherText' in parsed &&
+        Array.isArray((parsed as any).selectedOptions) &&
+        typeof (parsed as any).otherText === 'string'
+      ) {
+        setLastSubmittedSelection({ selectedOptions: (parsed as any).selectedOptions, otherText: (parsed as any).otherText });
+      }
     } catch {
     }
   }, [sessionId, moduleId, block.id]);
@@ -51,16 +71,23 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
   const toggleOption = (option: string) => {
     setSubmitError(null);
     setIsSubmitted(false);
+    const isStartingNewFromSubmitted =
+      selectedOptions.length === 0 && otherText.trim() === '' && !!lastSubmittedSelection && lastSubmittedSelection.selectedOptions.length > 0;
+    const baseSelectedOptions = isStartingNewFromSubmitted ? lastSubmittedSelection!.selectedOptions : selectedOptions;
+    const baseOtherText = isStartingNewFromSubmitted ? lastSubmittedSelection!.otherText : otherText;
+    if (isStartingNewFromSubmitted) {
+      setOtherText(baseOtherText);
+    }
     if (block.singleSelect) {
       // Single select: always replace selection with new option
       setSelectedOptions([option]);
     } else {
       // Multi select (default): toggle functionality
-      setSelectedOptions(prev => {
-        if (prev.includes(option)) {
-          return prev.filter(o => o !== option);
+      setSelectedOptions(() => {
+        if (baseSelectedOptions.includes(option)) {
+          return baseSelectedOptions.filter(o => o !== option);
         } else {
-          return [...prev, option];
+          return [...baseSelectedOptions, option];
         }
       });
     }
@@ -102,6 +129,12 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
         localStorage.setItem(`poll:${sessionId}:${moduleId}:${block.id}`, responseDisplay);
       } catch {
       }
+      const submittedSelection = { selectedOptions, otherText };
+      setLastSubmittedSelection(submittedSelection);
+      try {
+        localStorage.setItem(`pollSelection:${sessionId}:${moduleId}:${block.id}`, JSON.stringify(submittedSelection));
+      } catch {
+      }
       setSelectedOptions([]);
       setOtherText('');
       setIsSubmitted(true);
@@ -113,6 +146,11 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
   };
 
   const canSubmit = selectedOptions.length > 0 && (!selectedOptions.includes('Other') || otherText.trim() !== '');
+  const hasCurrentDraft = selectedOptions.length > 0 || otherText.trim() !== '';
+  const effectiveSelection = hasCurrentDraft ? { selectedOptions, otherText } : lastSubmittedSelection;
+  const isSelected = (option: string) => !!effectiveSelection?.selectedOptions.includes(option);
+  const showReadOnlyOtherText =
+    !hasCurrentDraft && !!lastSubmittedSelection?.selectedOptions.includes('Other') && lastSubmittedSelection.otherText.trim() !== '';
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700 mb-8 font-sora">
@@ -144,7 +182,7 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
       </div>
       <div className="space-y-3">
         {block.options.map((option) => (
-          <label key={option} className={`flex items-center p-3 rounded-xl border-2 cursor-pointer transition-all ${selectedOptions.includes(option)
+          <label key={option} className={`flex items-center p-3 rounded-xl border-2 cursor-pointer transition-all ${isSelected(option)
             ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
             : 'border-gray-200 dark:border-gray-700 hover:border-blue-200'
             }`}>
@@ -152,7 +190,7 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
               type={inputType}
               name={`poll-${block.id}`}
               value={option}
-              checked={selectedOptions.includes(option)}
+              checked={isSelected(option)}
               onChange={() => toggleOption(option)}
               className="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500 rounded-full"
             />
@@ -166,7 +204,7 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
             <span className="text-gray-700 dark:text-gray-300 text-sm sm:text-base" style={{ marginLeft: '3rem' }}>{option}</span>
           </label>
         ))}
-        <div className={`flex flex-col p-3 rounded-xl border-2 transition-all ${selectedOptions.includes('Other')
+        <div className={`flex flex-col p-3 rounded-xl border-2 transition-all ${isSelected('Other')
           ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
           : 'border-gray-200 dark:border-gray-700 hover:border-blue-200'
           }`}>
@@ -175,7 +213,7 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
               type={inputType}
               name={`poll-${block.id}`}
               value="Other"
-              checked={selectedOptions.includes('Other')}
+              checked={isSelected('Other')}
               onChange={() => toggleOption('Other')}
               className="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500 rounded"
             />
@@ -195,6 +233,11 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
               style={{ marginLeft: '4.25rem' }}
               autoFocus
             />
+          )}
+          {showReadOnlyOtherText && (
+            <div className="mt-3 text-sm text-gray-700 dark:text-gray-300" style={{ marginLeft: '4.25rem' }}>
+              {lastSubmittedSelection!.otherText}
+            </div>
           )}
         </div>
       </div>
