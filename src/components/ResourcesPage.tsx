@@ -1,24 +1,18 @@
-import { useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import { Button } from './ui/button';
 import { BookOpen, FileText, Wrench, PlayCircle, Globe, Users, ExternalLink, ArrowRight, BookText } from 'lucide-react';
-import newspaperArticleVideo from '../assets/resources categories/Newspaper Article.mp4';
-import toolVideo from '../assets/resources categories/Tool.mp4';
-import bookmarksVideoPage from '../assets/resources categories/Bookmarks video page.mp4';
 
 type ResourceCategory = {
   id: string;
   title: string;
   description: string;
   icon: React.ComponentType<{ className?: string; size?: number }>;
-  video?: string;
 };
 
 export function ResourcesPage() {
   const { t } = useLanguage();
   const navigate = useNavigate();
-  const videoRefs = useRef<Record<string, HTMLVideoElement | null>>({});
 
   const categories: ResourceCategory[] = [
     {
@@ -32,21 +26,18 @@ export function ResourcesPage() {
       title: 'Articles & Publications',
       description: 'Research papers, reports, and in-depth reading materials.',
       icon: FileText,
-      video: newspaperArticleVideo,
     },
     {
       id: 'tools-frameworks',
       title: 'Tools & Frameworks',
       description: 'Interactive simulators and analytical tools for climate exploration.',
       icon: Wrench,
-      video: toolVideo,
     },
     {
       id: 'videos-podcasts',
       title: 'Videos & Podcasts',
       description: 'Engaging multimedia content to learn about climate solutions.',
       icon: PlayCircle,
-      video: bookmarksVideoPage,
     },
     {
       id: 'case-studies',
@@ -80,25 +71,6 @@ export function ResourcesPage() {
       return;
     }
     navigate(`/resources/${categoryId}`);
-  };
-
-  const playCardVideo = (categoryId: string) => {
-    const video = videoRefs.current[categoryId];
-    if (!video) return;
-
-    // Restart each hover so the animation is noticeable.
-    video.currentTime = 0;
-    void video.play().catch(() => {
-      // Ignore autoplay/play promise rejections.
-    });
-  };
-
-  const stopCardVideo = (categoryId: string) => {
-    const video = videoRefs.current[categoryId];
-    if (!video) return;
-
-    video.pause();
-    video.currentTime = 0;
   };
 
   return (
@@ -136,35 +108,17 @@ export function ResourcesPage() {
                     e.currentTarget.style.transform = 'scale(1.05)';
                     e.currentTarget.style.boxShadow = '0 8px 30px rgba(34,197,94,0.25)';
                     e.currentTarget.style.borderColor = '#22c55e';
-                    if (category.video) playCardVideo(category.id);
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'scale(1)';
                     e.currentTarget.style.boxShadow = '';
                     e.currentTarget.style.borderColor = '';
-                    if (category.video) stopCardVideo(category.id);
                   }}
                 >
-                  {/* Icon / Video */}
-                  {category.video ? (
-                    <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-4 mx-auto overflow-hidden">
-                      <video
-                        ref={(el) => {
-                          videoRefs.current[category.id] = el;
-                        }}
-                        src={category.video}
-                        loop
-                        muted
-                        playsInline
-                        preload="metadata"
-                        className="w-full h-full object-contain"
-                      />
-                    </div>
-                  ) : (
-                    <div className="w-12 h-12 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-4 mx-auto">
-                      <Icon className="text-green-600 dark:text-green-400" size={24} />
-                    </div>
-                  )}
+                  {/* Icon */}
+                  <div className="w-12 h-12 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-4 mx-auto">
+                    <Icon className="text-green-600 dark:text-green-400" size={24} />
+                  </div>
 
                   {/* Title */}
                   <h3 className="text-green-600 dark:text-green-400 font-semibold text-base sm:text-xl text-center mb-2">
