@@ -25,7 +25,7 @@ import scenario2Img from '../assets/Scenario2.png';
 import scenario3Img from '../assets/Scenario3.png';
 import scenario4Img from '../assets/Scenario4.png';
 import module2Water from '../assets/module2/water.jpg';
-import stockFlowExample from '../assets/module2/stock-vs-flow-example1.jpg';
+import stockFlowExample from '../assets/module2/StockandFlow.webp';
 import co2Removal1 from '../assets/module2/co2removal_1.jpg';
 import co2Removal2 from '../assets/module2/co2removal_2.jpg';
 import netZeroImg from '../assets/module2/Net zero = emissions in \u2013 removals out = 0.png';
@@ -674,7 +674,7 @@ Thank you for practicing.`
           {
             type: 'text',
             title: '',
-            content: "So imagine you've got a **bathtub**.\n\n- The **water already in the tub** is the **stock**.\n- The **water coming in from the faucet** is a **flow**.\n- The **water draining out** is another **flow**.\n\n The size of the stock (how much water is in the tub) depends on the flows (how fast water enters or leaves).\n\nSo if the faucet is running faster than the drain?\n➡️ The tub fills up.\n\nIf the drain is faster than the faucet?\n➡️ The tub empties.\n\nIf they're equal?\n➡️ The water level stays the same."
+            content: "So imagine you've got a **sink**.\n\n- The **water already in the sink** is the **stock**.\n- The **water coming in from the faucet** is a **flow**.\n- The **water draining out** is another **flow**.\n\n The size of the stock (how much water is in the sink) depends on the flows (how fast water enters or leaves).\n\nSo if the water in the faucet is running faster than the drain?\n➡️ The sink fills up.\n\nIf the drain is faster than the water in the faucet?\n➡️ The sink empties.\n\nIf they're equal?\n➡️ The water level stays the same."
           },
           {
             type: 'video',
@@ -694,31 +694,31 @@ Thank you for practicing.`
                 frontTitle: 'Stock',
                 frontDescription: 'What accumulates over time',
                 backTitle: 'Definition',
-                backDescription: 'A stock is anything in a system that can build up or decrease over time, like a “container” that holds a quantity—such as water in a reservoir, money in a savings account, or carbon in the atmosphere.'
+                backDescription: 'A stock is anything in a system that can build up or decrease over time—such as water in a sink or reservoir, money in a savings account, or carbon in the atmosphere.'
               },
               {
                 frontTitle: 'In-flow',
                 frontDescription: 'What increases the stock',
                 backTitle: 'Definition',
-                backDescription: 'An in‑flow is anything that adds to a stock—like water flowing into a bathtub, new money going into a bank account, or carbon being released into the atmosphere.'
+                backDescription: 'An in‑flow is anything that adds to a stock—like water flowing into a sink, new money going into a bank account, or carbon being released into the atmosphere.'
               },
               {
                 frontTitle: 'Out-flow',
                 frontDescription: 'What decreases the stock',
                 backTitle: 'Definition',
-                backDescription: 'An out‑flow is anything that takes away from a stock—like water draining from a bathtub, money being spent from a bank account, or carbon being removed from the atmosphere.'
+                backDescription: 'An out‑flow is anything that takes away from a stock—like water draining from a sink, money being spent from a bank account, or carbon being removed from the atmosphere.'
               }
             ]
           },
           {
             type: 'text',
             title: '**🛁 Draw Your Own Stock & Flow**',
-            content: "To explore how \"Stock and Flow\" works, let's start with a personal example."
+            content: "To explore how \"Stock and Flow\" works, let's start with a personal example. Pick an example of a Stock that you care about."
           },
           {
             type: 'text',
-            title: '**Step One**',
-            content: "Draw a Stock and Flow diagram like in the image below.",
+            title: '**Step One:** Draw a Stock and Flow diagram like in the image below.',
+            content: "\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0You will need a paper and a pen or pencil to draw the Stock and Flow. Or you can also download and print this Stock and Flow worksheet",
             hideIcon: true
           },
           {
@@ -728,26 +728,26 @@ Thank you for practicing.`
           },
           {
             type: 'text',
-            title: '**Step Two**',
-            content: "Pick a stock that you care about. Think about something quantifiable—meaning something that could be counted or measured. Some \"stock\" examples could be:\n\n- My free time\n- My level of well-being\n- My money\n- My level of motivation in my academics\n- The level of trust I have in my relationships\n- The level of hope I have in a positive future",
+            title: '**Step Two:** Pick a stock that you care about. Think about something that can rise or fall depending on what flows in or out of it. Some \"stock\" examples could be:',
+            content: "-My level of well-being\n- My money\n- My level of motivation in my academics\n- The level of trust I have in my relationships\n- The level of hope I have in a positive future",
             hideIcon: true
           },
           {
             type: 'text',
-            title: '**Step Three**',
-            content: "Draw the in-flows to your chosen stock. What is adding to or filling up your stock? Try to identify at least three in-flows to your stock.",
+            title: '**Step Three:** Draw the in-flows to your chosen stock example. What is adding to or filling up your stock? Try to identify at least three in-flows to your stock.',
+            content: "",
             hideIcon: true
           },
           {
             type: 'text',
-            title: '**Step Four**',
-            content: "Draw the out-flows. What depletes or diminishes your stock? Remember, these in- and out-flows describe factors that change your stock over time. Try to identify at least 3 out-flows from your stock.",
+            title: '**Step Four:** Draw the out-flows. What depletes or diminishes your stock? Remember, these in- and out-flows describe factors that change your stock over time. Try to identify at least 3 out-flows from your stock.',
+            content: "",
             hideIcon: true
           },
           {
             type: 'text',
-            title: '**Step Five**',
-            content: "Share your Stock and Flow with a partner or in a small group.",
+            title: '**Step Five:** Share your Stock and Flow with a partner or in a small group.',
+            content: "",
             hideIcon: true
           },
           {
@@ -784,14 +784,14 @@ Thank you for practicing.`
           },
           {
             type: 'poll',
-            question: '**1. If our total CO₂ emissions stop rising and stay flat…**\nWhat do you think will happen to the amount of CO₂ already in the atmosphere?',
+            question: '**Scenario 1. If our total CO₂ emissions stop rising and stay flat…**\nWhat do you think will happen to the amount of CO₂ already in the atmosphere?',
             options: ['Increase', 'Level out', 'Decrease'],
             id: 'prediction-flat-emissions',
             singleSelect: true
           },
           {
             type: 'poll',
-            question: '**2. If our total CO₂ emissions drop a lot and become much lower than they are today…**\nWhat do you think will happen to the CO₂ concentration in the atmosphere?',
+            question: '**Scenario 2. If our total CO₂ emissions drop a lot and become much lower than they are today…**\nWhat do you think will happen to the CO₂ concentration in the atmosphere?',
             options: ['Increase', 'Level out', 'Decrease'],
             id: 'prediction-lower-emissions',
             singleSelect: true
