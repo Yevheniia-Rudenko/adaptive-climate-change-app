@@ -5,12 +5,12 @@ import { motion } from 'motion/react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { trackEvent } from '../utils/analytics';
-import module1Icon from '../assets/module1.png';
-import module2Icon from '../assets/module2.png';
-import module3Icon from '../assets/module3.png';
-import module4Icon from '../assets/module4.png';
-import module5Icon from '../assets/module5.png';
-import resourcesIcon from '../assets/resources.png';
+import module1Icon from '../assets/module_1_card.webp';
+import module2Icon from '../assets/module_2_card.webp';
+import module3Icon from '../assets/module_3_card.webp';
+import module4Icon from '../assets/module_4_card.webp';
+import module5Icon from '../assets/module_5_card.webp';
+import resourcesIcon from '../assets/resources_card.webp';
 import earthImage from '../assets/earth_img.jpg';
 
 export function IntroPage() {
@@ -149,7 +149,7 @@ export function IntroPage() {
                 {moduleCards.map(({ id, label, Icon, iconImage, gradient, gradientStyle, chips, backText }, index) => (
                   <motion.div
                     key={id}
-                    className="h-full"
+                    className="h-full relative"
                     style={{ perspective: '1000px' }}
                     onMouseEnter={() => setFlippedCard(id)}
                     onMouseLeave={() => setFlippedCard(null)}
@@ -170,42 +170,42 @@ export function IntroPage() {
                         className="absolute inset-0 cursor-pointer"
                         style={{ backfaceVisibility: 'hidden' }}
                       >
-                        <div className="overflow-hidden rounded-3xl border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-2xl transition-shadow duration-300 h-full flex flex-col" style={{ backgroundColor: '#4A6652' }}>
+                        <div className="group relative overflow-hidden rounded-3xl border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-2xl transition-shadow duration-300 h-full flex flex-col" style={{ backgroundColor: '#4A6652' }}>
                           {/* Image Area */}
                           <div
-                            className="h-40 sm:h-48 w-full relative overflow-hidden flex-shrink-0"
-                            style={{ background: iconImage ? '#ffffff' : gradientStyle }}
+                            className="min-h-44 sm:min-h-52 w-full relative overflow-hidden flex-1"
+                            style={{ background: iconImage ? '#000000' : gradientStyle }}
                           >
-                            {/* Module Number Badge */}
-                            {id !== 6 && (
-                              <div className="absolute top-0 left-0 px-4 py-1.5 shadow-lg z-10" style={{ borderRadius: '50px', backgroundColor: '#4A6652' }}>
-                                <span className="text-lg font-bold text-white tracking-wide">Module {id}</span>
-                              </div>
-                            )}
-
-                            {/* Absolute Image Container */}
-                            <div className="absolute inset-0 flex items-center justify-center p-4 sm:p-6">
-                              {iconImage ? (
+                            {iconImage ? (
+                              <>
                                 <img
                                   src={iconImage}
                                   alt={label}
-                                  style={{ 
-                                    width: 'auto', 
-                                    height: 'auto', 
-                                    maxWidth: '100%', 
-                                    maxHeight: '100%', 
-                                    objectFit: 'contain' 
-                                  }}
-                                  className="group-hover:scale-105 transition-transform duration-300"
+                                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110 z-0"
+                                  style={{ opacity: 0.95 }}
                                 />
-                              ) : (
+                                <div
+                                  className="absolute inset-0 z-10"
+                                  style={{ background: 'linear-gradient(0deg, rgba(0,0,0,0.28), rgba(0,0,0,0.06))' }}
+                                />
+                              </>
+                            ) : (
+                              <div className="absolute inset-0 flex items-center justify-center p-4 sm:p-6">
                                 <Icon size={56} strokeWidth={1.5} className="text-white/90" />
-                              )}
-                            </div>
+                              </div>
+                            )}
+                            {id !== 6 && (
+                              <div
+                                className="absolute top-8 left-4 px-4 py-1.5 shadow-lg z-20 pointer-events-none"
+                                style={{ borderRadius: '50px', backgroundColor: '#4A6652', transform: 'translateZ(1px)' }}
+                              >
+                                <span className="text-lg font-bold text-white tracking-wide">Module {id}</span>
+                              </div>
+                            )}
                           </div>
 
                           {/* Title Bar */}
-                          <div className="px-8 py-8 min-h-28 flex items-center justify-center flex-grow" style={{ backgroundColor: '#4A6652' }}>
+                          <div className="px-6 py-4 min-h-16 flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#4A6652' }}>
                             <h3 className="text-xl sm:text-2xl md:text-2xl leading-snug line-clamp-3 w-full text-center" style={{ color: '#ffffff', fontWeight: '900' }}>
                               {label}
                             </h3>

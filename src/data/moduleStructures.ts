@@ -1,4 +1,4 @@
-import plutchikWheel from '../assets/Plutchik-Model-600.png';
+import plutchikWheel from '../assets/Wheel1.webp';
 import globalTempAudio from '../assets/GlobalTemperature.mp3';
 import renewableEnergyAudio from '../assets/RenewableEnergy.mp3';
 import climateInteractiveLogo from '../assets/ci-logo.svg';
@@ -11,7 +11,7 @@ import coalPlantImg from '../assets/coal_plant_cut.png';
 import carbonPricingImg from '../assets/carbon_pricing_meeting.jpg';
 import carbonPriceAudio from '../assets/CarbonPrice.mp3';
 import Module1CarbonPriceDashboard from '../components/Module1CarbonPriceDashboard';
-import waterImg from '../assets/water.jpg';
+import module1Background from '../assets/module_1_background.webp';
 import openingMeditationAudio from '../assets/Module1-OpeningMeditation.m4a';
 import hopeMeditationAudio from '../assets/Module1-HopeMeditation.m4a';
 import coalOilGasAudio from '../assets/Coal-Oil-Gas.mp3';
@@ -24,21 +24,24 @@ import scenario1Img from '../assets/Scenario1.png';
 import scenario2Img from '../assets/Scenario2.png';
 import scenario3Img from '../assets/Scenario3.png';
 import scenario4Img from '../assets/Scenario4.png';
-import module2Water from '../assets/module2/water.jpg';
-import stockFlowExample from '../assets/module2/stock-vs-flow-example1.jpg';
+import module2Background from '../assets/module_2_background.webp';
+import stockFlowExample from '../assets/module2/StockandFlow.webp';
 import co2Removal1 from '../assets/module2/co2removal_1.jpg';
 import co2Removal2 from '../assets/module2/co2removal_2.jpg';
 import netZeroImg from '../assets/module2/Net zero = emissions in \u2013 removals out = 0.png';
 import hopeOrientationImg from '../assets/module2/Hope Orientation-Tippett.png';
 import hopeStockAudio from '../assets/module2/Module2-Hope-as-a-Stock.m4a';
-import systemsIcebergImg from '../assets/systems_iceberg.jpg';
+import systemsIcebergImg from '../assets/Iceberg1.webp';
 import icebergExplainerAudio from '../assets/IcebergExplainer.mp3';
-import mandalaForSystemsChangeImg from '../assets/module_5/mandala-for-systems-change.png';
+import mandalaForSystemsChangeImg from '../assets/module_5/Mandala-empty.webp';
 import youthLeadershipImg from '../assets/module_5/youthleadership.png';
 import skyRocketAnimation from '../assets/module_5/sky_rocket.json';
 import breatheImg from '../assets/module_5/breathe.jpg';
 import leadershipImg from '../assets/module_5/leadership.jpg';
 import vennDiagramImg from '../assets/module_5/venn-diagram.png';
+import module3Background from '../assets/module_3_background.webp';
+import module4Background from '../assets/module_4_background.webp';
+import module5Background from '../assets/module_5_background.webp';
 
 
 export type FlipCardData = {
@@ -96,7 +99,7 @@ export const moduleStructures: ModuleStructure[] = [
   {
     id: 1,
     title: "Relating to Climate Futures",
-    headerImage: waterImg,
+    headerImage: module1Background,
     sections: [
       {
         type: 'block',
@@ -112,7 +115,8 @@ export const moduleStructures: ModuleStructure[] = [
             label: 'Open Glossary',
             url: '/glossary',
             variant: 'outline',
-            iconName: 'BookOpen'
+            iconName: 'BookOpen',
+            newTab: true
           },
           {
             type: 'text',
@@ -656,7 +660,7 @@ Thank you for practicing.`
   {
     id: 2,
     title: "Stock & Flow",
-    headerImage: module2Water,
+    headerImage: module2Background,
     sections: [
       {
         type: 'block',
@@ -1036,7 +1040,7 @@ Thank you for practicing.`
   {
     id: 3,
     title: "Roadmap to Possible Futures",
-    headerImage: "https://images.unsplash.com/photo-1704466260929-047dca5330a9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwYXRod2F5JTIwZm9yZXN0JTIwbGlnaHR8ZW58MXx8fHwxNzY1MTc1MDY5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    headerImage: module3Background,
     sections: [
       {
         type: 'block',
@@ -1278,7 +1282,7 @@ If a government wants people to support a carbon price, it has to think carefull
             variant: 'default',
             size: 'default',
             iconName: 'ExternalLink',
-            newTab: false
+            newTab: true
           }
 
         ]
@@ -1407,7 +1411,7 @@ If a government wants people to support a carbon price, it has to think carefull
   {
     id: 4,
     title: "Systems View of Climate Solutions",
-    headerImage: systemsIcebergImg,
+    headerImage: module4Background,
     sections: [
       // ── Submodule 1: Systems Iceberg Introduction ──────────────────────
       {
@@ -1668,7 +1672,7 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
   {
     id: 5,
     title: "Lever of Change",
-    headerImage: "https://images.unsplash.com/photo-1742729096780-600245031d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsZXZlciUyMG1lY2hhbmlzbSUyMGNoYW5nZXxlbnwxfHx8fDE3NjUxNzUwNjl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    headerImage: module5Background,
     sections: [
       {
         type: 'block',
