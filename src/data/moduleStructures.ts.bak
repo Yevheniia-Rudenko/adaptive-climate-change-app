@@ -16,7 +16,7 @@ import openingMeditationAudio from '../assets/Module1-OpeningMeditation.m4a';
 import hopeMeditationAudio from '../assets/Module1-HopeMeditation.m4a';
 import coalOilGasAudio from '../assets/Coal-Oil-Gas.mp3';
 import module2Water from '../assets/module2/water.jpg';
-import stockFlowExample from '../assets/module2/stock-vs-flow-example1.jpg';
+import stockFlowExample from '../assets/module2/StockandFlow.webp';
 import co2Removal1 from '../assets/module2/co2removal_1.jpg';
 import co2Removal2 from '../assets/module2/co2removal_2.jpg';
 import netZeroImg from '../assets/module2/Net zero = emissions in \u2013 removals out = 0.png';

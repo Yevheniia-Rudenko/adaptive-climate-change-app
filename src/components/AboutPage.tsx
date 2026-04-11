@@ -8,13 +8,24 @@ import aboutSystemsLab from '../assets/about_systemslab.jpeg';
 import tibyanPhoto from '../assets/team_photos/tibyan.jpg';
 import yevheniaPhoto from '../assets/team_photos/yevhenia.jpg';
 import karimPhoto from '../assets/team_photos/karim.jpg';
+import lanaCookPhoto from '../assets/team_photos/2025Lanacook.jpeg';
+import peterSengePhoto from '../assets/team_photos/Peter_Senge_2022-square.webp';
+import jonasJebrilPhoto from '../assets/team_photos/Jonas_Jebril_2022-1024x1015-square-fbe1b6fff45e771ef3c854b654383771-.webp';
+import fiorellaPhoto from '../assets/team_photos/Fio.png';
 
-function TeamMemberCard({ photo, name, role, bio, linkedinLink }: { photo: string, name: string, role: string, bio: string, linkedinLink: string }) {
+function TeamMemberCard({ photo, name, role, bio, linkedinLink, compact = false }: { photo?: string, name: string, role: string, bio: string, linkedinLink: string, compact?: boolean }) {
   const [isFlipped, setIsFlipped] = useState(false);
+  const initials = name
+    .replace('Dr. ', '')
+    .split(' ')
+    .map(part => part[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
 
   return (
     <div 
-      className="flex-1 cursor-pointer" 
+      className={`flex-1 cursor-pointer ${compact ? 'min-w-0 h-[200px] sm:h-[230px]' : ''}`}
       style={{ perspective: '1000px' }}
       onMouseEnter={() => setIsFlipped(true)}
       onMouseLeave={() => setIsFlipped(false)}
@@ -28,20 +39,26 @@ function TeamMemberCard({ photo, name, role, bio, linkedinLink }: { photo: strin
       >
         {/* Front */}
         <div 
-          className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3 shadow-md text-center flex flex-col w-full h-full"
+          className={`bg-gray-50 dark:bg-gray-700 rounded-lg shadow-md text-center flex flex-col w-full h-full ${compact ? 'p-2' : 'p-3'}`}
           style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
         >
-          <img 
-            src={photo} 
-            alt={name} 
-            className="w-full aspect-square rounded-lg mb-3 object-cover shadow-sm"
-          />
-          <h3 className="text-sm sm:text-base font-bold text-gray-800 dark:text-gray-100">{name}</h3>
+          {photo ? (
+            <img 
+              src={photo} 
+              alt={name} 
+              className={`w-full aspect-square rounded-lg object-cover shadow-sm ${compact ? 'mb-2' : 'mb-3'}`}
+            />
+          ) : (
+            <div className={`w-full aspect-square rounded-lg bg-gray-200 dark:bg-gray-600 shadow-sm flex items-center justify-center ${compact ? 'mb-2' : 'mb-3'}`}>
+              <span className={`${compact ? 'text-2xl' : 'text-3xl'} font-bold text-gray-600 dark:text-gray-200`}>{initials}</span>
+            </div>
+          )}
+          <h3 className={`${compact ? 'text-[10px] sm:text-[11px]' : 'text-base sm:text-lg'} font-bold text-gray-800 dark:text-gray-100`}>{name}</h3>
         </div>
 
         {/* Back */}
         <div 
-          className="absolute top-0 left-0 w-full h-full bg-gray-50 dark:bg-gray-700 rounded-lg p-4 sm:p-6 shadow-md flex flex-col items-center justify-between text-center"
+          className={`absolute top-0 left-0 w-full h-full bg-gray-50 dark:bg-gray-700 rounded-lg shadow-md flex flex-col items-center justify-between text-center overflow-hidden ${compact ? 'p-3 sm:p-4' : 'p-4 sm:p-6'}`}
           style={{ 
             backfaceVisibility: 'hidden', 
             WebkitBackfaceVisibility: 'hidden',
@@ -49,15 +66,18 @@ function TeamMemberCard({ photo, name, role, bio, linkedinLink }: { photo: strin
           }}
         >
           <div className="flex-1 flex flex-col items-center justify-center w-full">
-            <h3 className="text-base sm:text-lg font-bold text-gray-800 dark:text-gray-100 mb-3 sm:mb-4">{name}</h3>
-            <p className="text-sm sm:text-base font-semibold text-green-500 mb-3 sm:mb-5">{role}</p>
-            <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 px-2 leading-relaxed">
+            <h3 className={`${compact ? 'text-[11px] sm:text-xs mb-1 sm:mb-2' : 'text-lg sm:text-xl mb-3 sm:mb-4'} font-bold text-gray-800 dark:text-gray-100`}>{name}</h3>
+            <p className={`${compact ? 'text-[10px] sm:text-[11px] mb-1 sm:mb-2' : 'text-base sm:text-lg mb-3 sm:mb-5'} font-semibold text-green-500`}>{role}</p>
+            <p
+              className={`${compact ? 'text-[9px] sm:text-[10px]' : 'text-sm sm:text-base'} text-gray-500 dark:text-gray-400 px-2 leading-relaxed`}
+              style={compact ? { display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', overflow: 'hidden' } : undefined}
+            >
               {bio}
             </p>
           </div>
-          <div className="mt-4">
+          <div className={compact ? 'mt-2' : 'mt-4'}>
             <a href={linkedinLink} target="_blank" rel="noopener noreferrer" className="inline-block text-blue-500 hover:text-blue-700 dark:text-blue-400 transition-transform hover:scale-110">
-              <Linkedin size={28} />
+              <Linkedin size={compact ? 18 : 32} />
             </a>
           </div>
         </div>
@@ -100,10 +120,29 @@ export function AboutPage() {
             <h2 className="text-2xl sm:text-3xl md:text-3xl font-bold text-green-600 mb-3">
               Curriculum Overview
             </h2>
-            <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
-              This curriculum draws from the MIT Systems Awareness Lab's research on the "Compassionate Systems Framework," an educational framework that brings together tools and practices designed to develop students' understanding of and efficacy in navigating complex change across interconnecting systems of 1) self: personal, emotional, individual; 2) relational: self and others; and 3) collective: the self and larger societal and ecological realities.
+            <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed mb-4">
+              This curriculum draws from the MIT Systems Awareness Lab’s research and the Center for Systems Awareness’ work  the “Compassionate Systems Framework.” This educational framework brings together tools and practices designed to develop students’ understanding of and efficacy in navigating complex change across interconnecting systems:
             </p>
+            <ol className="list-decimal pl-8 text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed space-y-2">
+              <li>1. self: personal, emotional, individual;</li>
+              <li>2. relational: self and others;</li>
+              <li>3. collective: larger societal, political, ecological and economic realities.</li>
+            </ol>
           </div>
+          
+          {/* SPACER */}
+          <div className="h-6 sm:h-24 w-full block"></div>
+
+            <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed mb-4">
+             This curriculum also supports young people to learn about climate policies using Climate Interactive’s En-ROADS climate policy simulator. En‑ROADS is a global climate simulator that lets you test how different climate solutions—like electrifying transportation, putting a price on carbon, or changing farming practices—affect things like temperature, air quality, sea level rise, and energy costs. In this combination of compassionate systems and En-ROADS, students learn about the inner and outer systems dynamics that underlie climate change, its drivers, and effects–from global energy policies, consumer behavior, to our sense of agency and hope in contributing to a more positive future.          
+             </p>
+
+          {/* SPACER */}
+          <div className="h-1 sm:h-24 w-full block"></div>
+
+            <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed mb-4">
+             In this combination of compassionate systems and En-ROADS, students learn about the inner and outer systems dynamics that underlie climate change, its drivers, and effects–from global energy policies, consumer behavior, to our sense of agency and hope in contributing to a more positive future.          
+             </p>
 
           {/* SPACER */}
           <div className="h-6 sm:h-24 w-full block"></div>
@@ -119,8 +158,15 @@ export function AboutPage() {
               className="w-full rounded-xl mb-6 object-cover"
             />
             <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
-              The pK-12 Initiative's Day of Climate at MIT equips learners and educators with hands-on educational materials and tools to better understand climate change, its impacts, and potential solutions. Uniting the broader MIT community toward actionable, concrete solutions, the program provides elementary, middle, and high school-age learners and educators with free, high-quality, and accessible climate curriculum that can be used in and out of the classroom, year-round.
+              The pK-12 Initiative's Day of Climate at the Massachusetts Institute of Technology (MIT) equips learners and educators with hands-on educational materials and tools to better understand climate change, its impacts, and potential solutions. 
             </p>
+
+          {/* SPACER */}
+          <div className="h-6 sm:h-24 w-full block"></div>
+
+            <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
+              Uniting the broader MIT community toward actionable, concrete solutions, the program provides elementary, middle, and high school-age learners and educators with free, high-quality, and accessible climate curriculum that can be used in and out of the classroom, year-round.           
+             </p>
             <div className="flex justify-start mt-6">
               <a 
                 href="https://dayofclimate.mit.edu" 
@@ -151,8 +197,36 @@ export function AboutPage() {
               className="w-full rounded-xl mb-6 object-cover"
             />
             <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
-              A global research network advancing the study of ongoing systems change efforts in education. The MIT Systems Awareness Lab is a community of researchers and practitioners dedicated to the rigorous, scientific study of long-term, transformative, and ongoing "systems change in the making."
+              Bringing together researchers, educators, policymakers, and practitioners dedicated to the study of systems change.            </p>
+            
+          {/*SPACER*/}
+          <div className="h-6 sm:h-24 w-full block"></div>
+
+            <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
+              At the MIT Systems Awareness Lab, our mission is to develop, investigate, and grow the conditions for greater human and planetary flourishing in response to the global poly-crisis, including the climate emergency, social inequities, and the youth mental health crisis.
             </p>
+
+          {/*SPACER*/}
+          <div className="h-6 sm:h-24 w-full block"></div>
+          
+            <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
+             We believe meaningful change only occurs when we address both tangible artifacts, such as formal structures and policies, and intangible mental models, including the habits of thought, feeling, and action that shape how people engage with one another across the systems of all levels.
+            </p>
+
+          {/*SPACER*/}
+          <div className="h-6 sm:h-24 w-full block"></div>
+
+            <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
+             Addressing the climate crisis requires a fundamental shift in our mental models from one of consumption and extraction toward a vision of collective responsibility action for planetary flourishing. 
+            </p>
+
+          {/*SPACER*/}
+          <div className="h-6 sm:h-24 w-full block"></div>
+
+            <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
+             Our work explores how cultivating compassion and systems awareness can empower youth and educational communities to lead sustainable transformation in the face of global ecological and social challenges.
+            </p>
+
             <div className="flex justify-start mt-6">
               <a 
                 href="https://systemsawareness.mit.edu" 
@@ -170,35 +244,134 @@ export function AboutPage() {
           </div>
 
           {/*SPACER*/}
+          <div className="h-6 sm:h-24 w-full block"></div>
+
+          {/* About Climate Interactive Section */}
+          <div>
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-green-600 mb-3">
+              About Climate Interactive
+            </h2>
+            <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
+              At Climate Interactive, their mission is to create and share tools that drive effective and equitable action. Developed by Climate Interactive, MIT Sloan School of Management, and Ventana Systems, the En-ROADS Climate Solutions Simulator is based on best-available science and carefully compared with other major climate and energy models. En‑ROADS is free to use online and is available in more than a dozen languages, making it accessible to people all over the world.
+            </p>
+            <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed mt-4 leading-loose">
+              <a 
+                href="https://www.climateinteractive.org" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-block mr-2 align-middle"
+              >
+                <Button 
+                  variant="outline"
+                  className="text-gray-800 dark:text-gray-200 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm sm:text-sm font-semibold px-4 py-2 rounded-xl shadow-md hover:shadow-lg transition-all h-auto"
+                >
+                  Visit Climate Interactive →
+                </Button>
+              </a>
+              to learn more about their climate Simulators, Experiences, Insights and Research, and how to become an En-ROADS Climate Ambassador through their facilitator training.
+            </p>
+          </div>
+
+          {/*SPACER*/}
+          <div className="h-6 sm:h-24 w-full block"></div>
+
+          {/* About the Center for Systems Awareness Section */}
+          <div>
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-green-600 mb-3">
+              About the Center for Systems Awareness: Youth Leadership Team
+            </h2>
+            <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed mb-4">
+              The vision of the <a href="https://systemsawareness.org/youth-leadership-team/" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">Center for Systems Awareness Youth Leadership Team</a> is to increase the capacity for compassion, systems awareness, and self-mastery by training students worldwide and to develop compassionate leaders of the future.
+            </p>
+            <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
+              For a decade, this team has been designing highly efficient and meaningful learning experiences in which the pursuit of knowledge, social and emotional literacy, self-agency, collaborative skills, and personal growth may be discovered and embodied using the Compassionate Systems Framework.
+            </p>
+
+            <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed mt-4 leading-loose">
+              <a 
+                href="https://systemsawareness.org" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-block mr-2 align-middle"
+              >
+                <Button 
+                  variant="outline"
+                  className="text-gray-800 dark:text-gray-200 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm sm:text-sm font-semibold px-4 py-2 rounded-xl shadow-md hover:shadow-lg transition-all h-auto"
+                >
+                  Visit the Center for Systems Awareness →
+                </Button>
+              </a>
+              to learn more about upcoming programs.
+            </p>
+          </div>
+
+          {/*SPACER*/}
           <div className="h-6 sm:h-16 w-full block"></div>
 
           {/* Meet Our Team Section */}
           <div>
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-green-600 mb-4">
-              Meet Our Team
+              Project Team
             </h2>
-            <div className="flex flex-row gap-4">
-              <TeamMemberCard 
-                photo={tibyanPhoto} 
-                name="Tibyan Bilal" 
-                role="Web Developer" 
-                bio="Mathematical Engineering Student at YTÜ | MIT Emerging Talent Alum 25’ | Web Dev | NLP " 
-                linkedinLink="https://www.linkedin.com/in/tibyankhalid/" 
-              />
-              <TeamMemberCard 
-                photo={yevheniaPhoto} 
-                name="Yevheniia Rudenko" 
-                role="Web Developer" 
-                bio="MIT Emerging Talent 2024/25 Data Science learner | ReDI School (Machine Learning & AI) | MSc in Computer Science" 
-                linkedinLink="https://www.linkedin.com/in/yevheniia-rudenko/" 
-              />
-              <TeamMemberCard 
-                photo={karimPhoto} 
-                name="Karim Makie" 
-                role="Web Developer" 
-                bio="[Full Stack Developer @ MIT System Awareness Lab | Flutter Developer | Data Analyst" 
-                linkedinLink="https://www.linkedin.com/in/karim-makie/" 
-              />
+            <div className="space-y-4">
+              <div className="flex flex-row gap-4">
+                <TeamMemberCard
+                  photo={lanaCookPhoto}
+                  name="Dr. Lana Cook"
+                  role="Project Lead"
+                  bio="Associate Director, MIT Systems Awareness Lab"
+                  linkedinLink="#"
+                />
+                <TeamMemberCard
+                  photo={peterSengePhoto}
+                  name="Dr. Peter Senge"
+                  role="Project Advisor"
+                  bio="Co-Director, MIT Systems Awareness Lab | Senior Lecturer, MIT Sloan"
+                  linkedinLink="#"
+                />
+                <TeamMemberCard
+                  photo={jonasJebrilPhoto}
+                  name="Jonas Jebril"
+                  role="Curriculum Design"
+                  bio="Youth Leadership, Center for Systems Awareness"
+                  linkedinLink="#"
+                />
+              </div>
+
+              <div className="flex flex-row gap-4">
+                <TeamMemberCard 
+                  photo={tibyanPhoto} 
+                  name="Tibyan Bilal" 
+                  role="Web Developer" 
+                  bio="Mathematical Engineering Student at YTÜ | MIT Emerging Talent Alum 25’ | Web Dev | NLP " 
+                  linkedinLink="https://www.linkedin.com/in/tibyankhalid/"
+                  compact
+                />
+                <TeamMemberCard 
+                  photo={yevheniaPhoto} 
+                  name="Yevheniia Rudenko" 
+                  role="Web Developer" 
+                  bio="MIT Emerging Talent 2024/25 Data Science learner | ReDI School (Machine Learning & AI) | MSc in Computer Science" 
+                  linkedinLink="https://www.linkedin.com/in/yevheniia-rudenko/"
+                  compact
+                />
+                <TeamMemberCard 
+                  photo={karimPhoto} 
+                  name="Karim Makie" 
+                  role="Web Developer" 
+                  bio="[Full Stack Developer @ MIT System Awareness Lab | Flutter Developer | Data Analyst" 
+                  linkedinLink="https://www.linkedin.com/in/karim-makie/"
+                  compact
+                />
+                <TeamMemberCard
+                  photo={fiorellaPhoto}
+                  name="Fiorella Massa"
+                  role="Graphic Designer"
+                  bio="Graphic Designer"
+                  linkedinLink="#"
+                  compact
+                />
+              </div>
             </div>
           </div>
 
