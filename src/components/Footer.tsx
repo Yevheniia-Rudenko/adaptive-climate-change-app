@@ -67,7 +67,7 @@ export function Footer() {
 
   return (
     <div className="flex justify-center px-4 sm:px-6 pb-4 sm:pb-6">
-      <footer style={{ backgroundColor: '#283b2e' }} className="max-w-4xl w-full rounded-2xl transition-colors shadow-lg">
+      <footer style={{ backgroundColor: '#153833' }} className="max-w-4xl w-full rounded-2xl transition-colors shadow-lg">
         {/* Main Footer Content */}
         <div className="p-6 sm:p-8">
           <div className="flex flex-col items-start gap-6 sm:flex-row justify-between">

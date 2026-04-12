@@ -98,7 +98,7 @@ export function Header() {
               <button
                 onClick={() => setModulesDropdownOpen(!modulesDropdownOpen)}
                 className="flex items-center gap-1 px-4 py-2 rounded-full text-white transition-colors"
-                style={{ backgroundColor: '#2F8237' }}
+                style={{ backgroundColor: '#00AF00' }}
               >
                 <span>{t.modules}</span>
                 <ChevronDown size={16} className={`transition-transform ${modulesDropdownOpen ? 'rotate-180' : ''}`} />

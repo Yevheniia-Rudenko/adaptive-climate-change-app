@@ -197,7 +197,7 @@ export function IntroPage() {
                             {id !== 6 && (
                               <div
                                 className="absolute top-8 left-4 px-4 py-1.5 shadow-lg z-20 pointer-events-none"
-                                style={{ borderRadius: '50px', backgroundColor: '#4A6652', transform: 'translateZ(1px)' }}
+                                style={{ borderRadius: '50px', backgroundColor: '#00AF00', transform: 'translateZ(1px)' }}
                               >
                                 <span className="text-lg font-bold text-white tracking-wide">Module {id}</span>
                               </div>
@@ -205,7 +205,7 @@ export function IntroPage() {
                           </div>
 
                           {/* Title Bar */}
-                          <div className="px-6 py-4 min-h-16 flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#4A6652' }}>
+                          <div className="px-6 py-4 min-h-16 flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#153833' }}>
                             <h3 className="text-xl sm:text-2xl md:text-2xl leading-snug line-clamp-3 w-full text-center" style={{ color: '#ffffff', fontWeight: '900' }}>
                               {label}
                             </h3>
