@@ -6,14 +6,15 @@ import '../styles/enroads-dashboard.css';
 
 // Graph definitions
 const GRAPHS = [
-  { id: '86', label: 'Global Temperature', varId: '_temperature_relative_to_1850_1900' },
-  { id: '90', label: 'Sea Level Rise', varId: '_slr_from_2000_in_meters' },
-  { id: '169', label: 'Deforestation', varId: '_deforestation_in_mha_per_per_year' }
+  { id: '86', label: 'Global Temperature', canvasId: 'module1-graph-temperature' },
+  { id: '90', label: 'Sea Level Rise', canvasId: 'module1-graph-sea-level' },
+  { id: '169', label: 'Deforestation', canvasId: 'module1-graph-deforestation' }
 ];
 
 export default function Module1FossilFuelTaxesDashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   // Slider states
   const [coalVal, setCoalVal] = useState(0);
@@ -24,17 +25,13 @@ export default function Module1FossilFuelTaxesDashboard() {
   const [oilText, setOilText] = useState('status quo');
   const [gasText, setGasText] = useState('status quo');
 
-  // Display states — use refs + direct DOM to avoid React re-renders that reset canvas
-  const tempCRef = useRef<HTMLSpanElement>(null);
-  const tempFRef = useRef<HTMLSpanElement>(null);
-  const [selectedGraphId, setSelectedGraphId] = useState('86');
+  const [tempC, setTempC] = useState(3.3);
+  const [tempF, setTempF] = useState(5.9);
 
   const modelRef = useRef<any>(null);
   const modelContextRef = useRef<any>(null);
-  const graphViewRef = useRef<any>(null);
+  const graphViewRefs = useRef<Record<string, any>>({});
   const coreConfigRef = useRef<any>(null);
-  const graphContainerRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // Input refs for Coal (1), Oil (7), Gas (10)
   const coalInputRef = useRef<any>(null);
@@ -84,14 +81,14 @@ export default function Module1FossilFuelTaxesDashboard() {
         datasetViewModel.points = [...newPoints];
 
         if (!datasetSpec.externalSourceName) {
-          datasetSpec.color = '#00b6f1'; // CI blue for current scenario
+          datasetSpec.color = '#53B1E8'; // Current scenario (match Module 2)
           datasetSpec.lineWidth = 4;
         } else if (datasetSpec.externalSourceName === 'baseline' || datasetSpec.externalSourceName === 'Ref') {
           datasetSpec.color = '#000000';
           datasetSpec.lineWidth = 4;
         }
       }
-      graphView.updateData(false);
+      graphView.updateData(true);
     } catch (e) { console.error(e); }
   };
 
@@ -108,71 +105,57 @@ export default function Module1FossilFuelTaxesDashboard() {
 
     if (tempSeries && tempSeries.points && tempSeries.points.length > 0) {
       const tempCelsius = tempSeries.getValueAtTime(2100);
-      if (tempCRef.current) tempCRef.current.textContent = `+${tempCelsius.toFixed(1)}°C`;
-      if (tempFRef.current) tempFRef.current.textContent = `+${(tempCelsius * 9 / 5).toFixed(1)}°F`;
+      setTempC(tempCelsius);
+      setTempF(tempCelsius * 9 / 5);
     } else {
       // Fallback: approximate from emissions
       const emissionsSeries = modelContextRef.current.getSeriesForVar('_co2_equivalent_net_emissions');
       if (emissionsSeries && emissionsSeries.points && emissionsSeries.points.length > 0) {
         const emissions2100 = emissionsSeries.getValueAtTime(2100);
         const tempCelsius = 1.5 + (emissions2100 / 69.6) * 1.8;
-        if (tempCRef.current) tempCRef.current.textContent = `+${(1.5 + (emissionsSeries.getValueAtTime(2100) / 69.6) * 1.8).toFixed(1)}°C`;
-        if (tempFRef.current) tempFRef.current.textContent = `+${((1.5 + (emissionsSeries.getValueAtTime(2100) / 69.6) * 1.8) * 9 / 5).toFixed(1)}°F`;
+        setTempC(tempCelsius);
+        setTempF(tempCelsius * 9 / 5);
       }
     }
   };
 
   const updateDashboard = () => {
-    if (graphViewRef.current) updateGraphData(graphViewRef.current);
+    for (const key of Object.keys(graphViewRefs.current)) {
+      if (graphViewRefs.current[key]) updateGraphData(graphViewRefs.current[key]);
+    }
     updateTemperatureDisplay();
   };
 
-  const getGraphHeight = (containerWidth: number) => {
-    const height = containerWidth * 0.55;
-    return Math.max(220, Math.min(320, Math.round(height)));
-  };
-
-  const resizeCanvasToContainer = () => {
-    const container = graphContainerRef.current;
-    const canvas = canvasRef.current;
-    if (!container || !canvas) return;
-
-    const rect = container.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
-    const height = getGraphHeight(rect.width);
-
-    canvas.width = Math.floor(rect.width * dpr);
-    canvas.height = Math.floor(height * dpr);
-    canvas.style.width = '100%';
-    canvas.style.height = `${height}px`;
-  };
-
-  const loadGraph = (graphId: string) => {
+  const loadGraph = (canvasId: string, graphId: string, height = 250) => {
     if (!coreConfigRef.current) return;
     const graphSpec = coreConfigRef.current.graphs.get(graphId);
     if (!graphSpec) return;
 
-    const canvas = canvasRef.current;
+    const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
     if (!canvas) return;
 
-    resizeCanvasToContainer();
+    const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = Math.floor(rect.width * dpr);
+    canvas.height = Math.floor(height * dpr);
+    canvas.style.width = '100%';
+    canvas.style.height = `${height}px`;
 
     try {
       const viewModel = createGraphViewModel(graphSpec);
-      const containerWidth = graphContainerRef.current?.getBoundingClientRect().width ?? 640;
-      const compact = containerWidth < 420;
       const isDark = document.documentElement.classList.contains('dark');
       const style = {
-        font: { family: 'system-ui, sans-serif', size: compact ? 13 : 14, color: isDark ? '#e2e8f0' : '#1f2937' },
-        xAxis: { tickMaxCount: compact ? 6 : 8 },
-        yAxis: { tickMaxCount: compact ? 6 : 8 },
-        getAxisLabelFontSize: () => (compact ? 14 : 16),
-        getTickLabelFontSize: () => (compact ? 12 : 14),
-        getDefaultLineWidth: () => (compact ? 4 : 5),
+        font: { family: 'system-ui, -apple-system, sans-serif', style: 'normal', color: isDark ? '#e2e8f0' : '#1f2937' },
+        xAxis: { tickMaxCount: 6 },
+        yAxis: { tickMaxCount: 6 },
+        getAxisLabelFontSize: () => 14,
+        getTickLabelFontSize: () => 12,
+        getDefaultLineWidth: () => 4,
         plotBackgroundColor: isDark ? '#1e293b' : '#ffffff'
       };
-      graphViewRef.current = new GraphView(canvas, viewModel, { style, responsive: true, animations: false }, true);
-      updateGraphData(graphViewRef.current);
+      const graphView = new GraphView(canvas, viewModel, { style, responsive: true, animations: true }, true);
+      graphViewRefs.current[canvasId] = graphView;
+      updateGraphData(graphView);
     } catch (e) { console.error('Error loading graph', e); }
   };
 
@@ -223,7 +206,9 @@ export default function Module1FossilFuelTaxesDashboard() {
         modelContextRef.current.onOutputsChanged = () => updateDashboard();
 
         setTimeout(() => {
-          loadGraph(selectedGraphId);
+          for (const graph of GRAPHS) {
+            loadGraph(graph.canvasId, graph.id, 250);
+          }
           setTimeout(() => updateDashboard(), 50);
         }, 150);
 
@@ -239,61 +224,190 @@ export default function Module1FossilFuelTaxesDashboard() {
   }, []);
 
   useEffect(() => {
-    if (!isLoading && coreConfigRef.current) loadGraph(selectedGraphId);
-  }, [selectedGraphId]);
+    if (isLoading || !coreConfigRef.current) return;
 
-  useEffect(() => {
-    const container = graphContainerRef.current;
-    if (!container) return;
+    const previousBodyOverflow = document.body.style.overflow;
+    if (isExpanded) {
+      document.body.style.overflow = 'hidden';
+    }
 
-    const ro = new ResizeObserver(() => {
-      resizeCanvasToContainer();
-      if (graphViewRef.current) graphViewRef.current.updateData(false);
-    });
+    const timer = window.setTimeout(() => {
+      for (const graph of GRAPHS) {
+        loadGraph(graph.canvasId, graph.id, isExpanded ? 300 : 250);
+      }
+      updateTemperatureDisplay();
+    }, 120);
 
-    ro.observe(container);
-    return () => ro.disconnect();
-  }, []);
+    return () => {
+      window.clearTimeout(timer);
+      document.body.style.overflow = previousBodyOverflow;
+    };
+  }, [isExpanded, isLoading]);
 
   if (isLoading) return <div className="p-8 text-center text-gray-500">Loading Model...</div>;
   if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-900 p-3 sm:p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora mb-24">
-      <h2 className="text-lg sm:text-xl px-3 sm:px-4 pt-3 sm:pt-4 mb-4 font-bold text-gray-800 dark:text-gray-200">En-Roads Dashboard: Fossil Fuel Taxes</h2>
+    <div
+      className={isExpanded
+        ? 'fixed inset-0 z-50 bg-white p-4 md:p-6 overflow-y-auto font-sora'
+        : 'bg-gray-50 dark:bg-gray-900 p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora mb-24'}
+    >
+      <div className={isExpanded ? 'w-full h-full' : ''}>
+        {isExpanded ? (
+          <div className="relative px-4 pt-4 mb-4">
+            <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200 text-center">
+              En-ROADS Dashboard: Fossil Fuel Taxes
+            </h2>
+            <button
+              type="button"
+              onClick={() => setIsExpanded((v) => !v)}
+              className="absolute right-4 top-4 px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
+              style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
+            >
+              Close Full Screen
+            </button>
+          </div>
+        ) : (
+          <div className="flex items-start justify-between gap-3 px-4 pt-4 mb-4">
+            <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200">
+              En-ROADS Dashboard: Fossil Fuel Taxes
+            </h2>
+            <button
+              type="button"
+              onClick={() => setIsExpanded((v) => !v)}
+              className="px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
+              style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
+            >
+              Open Full Screen
+            </button>
+          </div>
+        )}
 
-      {/* Temperature card — centered at top */}
-      <div className="flex justify-center mb-4">
-        <div className="bg-white dark:bg-gray-800 px-6 sm:px-8 py-5 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 text-center">
-          <span ref={tempCRef} className="block text-4xl sm:text-5xl font-black text-green-500 mb-1">+3.2°C</span>
-          <span ref={tempFRef} className="block text-lg sm:text-xl font-bold text-green-400 mb-3">+5.7°F</span>
-          <div className="text-gray-500 text-xs font-bold uppercase">Global Temperature<br />by 2100</div>
-        </div>
-      </div>
+        {isExpanded ? (
+          <div className="overflow-x-auto mb-4">
+            <div className="flex items-stretch gap-4 min-w-[1820px]">
+              {GRAPHS.map((graph) => (
+                <div
+                  key={graph.id}
+                  className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 flex-1 min-w-0"
+                >
+                  <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">{graph.label}</h3>
+                  <div className="relative w-full h-[300px]">
+                    <canvas id={graph.canvasId} className="w-full h-full" />
+                  </div>
+                  <div className="flex justify-center gap-3 mt-3">
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
+                  </div>
+                </div>
+              ))}
 
-      {/* Graph */}
-      <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 mb-4">
-        <select
-          value={selectedGraphId}
-          onChange={(e) => setSelectedGraphId(e.target.value)}
-          className="mb-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 text-sm rounded-lg block w-full p-2.5 font-bold"
-        >
-          {GRAPHS.map(g => <option key={g.id} value={g.id}>{g.label}</option>)}
-        </select>
-        <div ref={graphContainerRef} style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
-          <canvas
-            ref={canvasRef}
-            style={{ display: 'block', width: '100%', pointerEvents: 'none' }}
-          />
-        </div>
-        {/* Legend badges */}
-        <div className="flex justify-center gap-3 mt-3">
-          <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
-          <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#00b6f1' }}>CURRENT SCENARIO</span>
-        </div>
-      </div>
+              <div className="shrink-0 w-fit">
+                <div
+                  className="px-6 pb-4 text-center inline-flex flex-col items-center w-fit h-fit"
+                  style={{ transform: 'translateY(110px)' }}
+                >
+                  <div
+                    style={{
+                      color: '#14a9df',
+                      fontSize: 'clamp(3rem, 3vw, 3rem)',
+                      fontWeight: 800,
+                      lineHeight: 1.5,
+                    }}
+                  >
+                    +{tempC.toFixed(1)}°C
+                  </div>
+                  <div className="mx-auto my-4 h-[2px] w-[72%] bg-black" />
+                  <div
+                    style={{
+                      color: '#14a9df',
+                      fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)',
+                      fontWeight: 800,
+                      lineHeight: 1,
+                    }}
+                  >
+                    +{tempF.toFixed(1)}°F
+                  </div>
+                  <div
+                    className="mt-5 leading-tight text-gray-900 dark:text-gray-100"
+                    style={{
+                      fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)',
+                      fontWeight: 800,
+                    }}
+                  >
+                    Temperature
+                    <br />
+                    Increase by
+                    <br />
+                    2100
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <>
+            <div className="flex justify-center mb-4">
+              <div className="bg-white dark:bg-gray-800 px-6 py-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 text-center inline-flex flex-col items-center w-fit mx-auto">
+                <div
+                  style={{
+                    color: '#14a9df',
+                    fontSize: 'clamp(3rem, 3vw, 3rem)',
+                    fontWeight: 800,
+                    lineHeight: 1.5,
+                  }}
+                >
+                  +{tempC.toFixed(1)}°C
+                </div>
+                <div className="mx-auto my-4 h-[2px] w-[72%] bg-black" />
+                <div
+                  style={{
+                    color: '#14a9df',
+                    fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)',
+                    fontWeight: 800,
+                    lineHeight: 1,
+                  }}
+                >
+                  +{tempF.toFixed(1)}°F
+                </div>
+                <div
+                  className="mt-3 leading-tight text-gray-900 dark:text-gray-100"
+                  style={{
+                    fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)',
+                    fontWeight: 800,
+                  }}
+                >
+                  Temperature
+                  <br />
+                  Increase by
+                  <br />
+                  2100
+                </div>
+              </div>
+            </div>
 
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              {GRAPHS.map((graph) => (
+                <div
+                  key={graph.id}
+                  className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600"
+                >
+                  <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">{graph.label}</h3>
+                  <div className="relative w-full h-[250px]">
+                    <canvas id={graph.canvasId} className="w-full h-full" />
+                  </div>
+                  <div className="flex justify-center gap-3 mt-3">
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-6">
         <div className="space-y-2">
           <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
             <label>Tax on Coal</label>
@@ -301,7 +415,7 @@ export default function Module1FossilFuelTaxesDashboard() {
           </div>
           <input type="range" min="0" max="100" value={coalVal} onChange={(e) => handleSliderChange('coal', e)}
             className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-            style={{ background: `linear-gradient(to right, #3B82F6 0%, #3B82F6 ${coalVal}%, #e5e7eb ${coalVal}%, #e5e7eb 100%)` }}
+            style={{ background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${coalVal}%, #e5e7eb ${coalVal}%, #e5e7eb 100%)` }}
           />
         </div>
 
@@ -312,7 +426,7 @@ export default function Module1FossilFuelTaxesDashboard() {
           </div>
           <input type="range" min="0" max="100" value={oilVal} onChange={(e) => handleSliderChange('oil', e)}
             className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-            style={{ background: `linear-gradient(to right, #3B82F6 0%, #3B82F6 ${oilVal}%, #e5e7eb ${oilVal}%, #e5e7eb 100%)` }}
+            style={{ background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${oilVal}%, #e5e7eb ${oilVal}%, #e5e7eb 100%)` }}
           />
         </div>
 
@@ -323,11 +437,11 @@ export default function Module1FossilFuelTaxesDashboard() {
           </div>
           <input type="range" min="0" max="100" value={gasVal} onChange={(e) => handleSliderChange('gas', e)}
             className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-            style={{ background: `linear-gradient(to right, #3B82F6 0%, #3B82F6 ${gasVal}%, #e5e7eb ${gasVal}%, #e5e7eb 100%)` }}
+            style={{ background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${gasVal}%, #e5e7eb ${gasVal}%, #e5e7eb 100%)` }}
           />
         </div>
+        </div>
       </div>
-
     </div>
   );
 }

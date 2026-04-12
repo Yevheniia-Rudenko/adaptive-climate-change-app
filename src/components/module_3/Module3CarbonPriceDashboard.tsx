@@ -11,6 +11,7 @@ const CARBON_PRICE_INPUT_ID = '39';
 export default function Module3CarbonPriceDashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const [carbonPricePos, setCarbonPricePos] = useState(0);
   const [carbonPriceValue, setCarbonPriceValue] = useState(0);
@@ -75,9 +76,9 @@ export default function Module3CarbonPriceDashboard() {
       datasetViewModel.points = [...(series?.points || [])];
 
       if (!datasetSpec.externalSourceName) {
-        datasetSpec.color = '#3B82F6';
+        datasetSpec.color = '#53B1E8';
         datasetSpec.lineWidth = 4;
-      } else if (datasetSpec.externalSourceName === 'baseline') {
+      } else if (datasetSpec.externalSourceName === 'baseline' || datasetSpec.externalSourceName === 'Ref') {
         datasetSpec.color = '#000000';
         datasetSpec.lineWidth = 4;
       }
@@ -91,7 +92,7 @@ export default function Module3CarbonPriceDashboard() {
     if (priceGraphViewRef.current) updateGraphData(priceGraphViewRef.current);
   };
 
-  const initGraph = (canvas: HTMLCanvasElement, graphId: string) => {
+  const initGraph = (canvas: HTMLCanvasElement, graphId: string, height = 250) => {
     if (!coreConfigRef.current) return null;
     const graphSpec = coreConfigRef.current.graphs.get(graphId);
     if (!graphSpec) return null;
@@ -100,9 +101,9 @@ export default function Module3CarbonPriceDashboard() {
     const dpr = window.devicePixelRatio || 1;
 
     canvas.style.width = rect.width + 'px';
-    canvas.style.height = '260px';
+    canvas.style.height = `${height}px`;
     canvas.width = rect.width * dpr;
-    canvas.height = 260 * dpr;
+    canvas.height = height * dpr;
 
     const viewModel = createGraphViewModel(graphSpec);
     const isDark = document.documentElement.classList.contains('dark');
@@ -170,10 +171,10 @@ export default function Module3CarbonPriceDashboard() {
 
         setTimeout(() => {
           if (airCanvasRef.current) {
-            airGraphViewRef.current = initGraph(airCanvasRef.current, AIR_POLLUTION_GRAPH_ID);
+            airGraphViewRef.current = initGraph(airCanvasRef.current, AIR_POLLUTION_GRAPH_ID, 250);
           }
           if (priceCanvasRef.current) {
-            priceGraphViewRef.current = initGraph(priceCanvasRef.current, AVG_ENERGY_PRICE_GRAPH_ID);
+            priceGraphViewRef.current = initGraph(priceCanvasRef.current, AVG_ENERGY_PRICE_GRAPH_ID, 250);
           }
           updateAllGraphs();
         }, 150);
@@ -190,56 +191,139 @@ export default function Module3CarbonPriceDashboard() {
     return () => { };
   }, []);
 
+  useEffect(() => {
+    if (isLoading || !coreConfigRef.current) return;
+
+    const previousBodyOverflow = document.body.style.overflow;
+    if (isExpanded) {
+      document.body.style.overflow = 'hidden';
+    }
+
+    const timer = window.setTimeout(() => {
+      if (airCanvasRef.current) {
+        airGraphViewRef.current = initGraph(airCanvasRef.current, AIR_POLLUTION_GRAPH_ID, isExpanded ? 300 : 250);
+      }
+      if (priceCanvasRef.current) {
+        priceGraphViewRef.current = initGraph(priceCanvasRef.current, AVG_ENERGY_PRICE_GRAPH_ID, isExpanded ? 300 : 250);
+      }
+      updateAllGraphs();
+    }, 120);
+
+    return () => {
+      window.clearTimeout(timer);
+      document.body.style.overflow = previousBodyOverflow;
+    };
+  }, [isExpanded, isLoading]);
+
   if (isLoading) return <div className="p-8 text-center text-gray-500">Loading Model...</div>;
   if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora">
+    <div
+      className={isExpanded
+        ? 'fixed inset-0 z-50 bg-white p-4 md:p-6 overflow-y-auto font-sora'
+        : 'bg-gray-50 dark:bg-gray-900 p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora mb-24'}
+    >
+      <div className={isExpanded ? 'w-full h-full' : ''}>
+        {isExpanded ? (
+          <div className="relative px-4 pt-4 mb-4">
+            <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200 text-center">
+              Make a Model: Carbon Price
+            </h2>
+            <button
+              type="button"
+              onClick={() => setIsExpanded((v) => !v)}
+              className="absolute right-4 top-4 px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
+              style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
+            >
+              Close Full Screen
+            </button>
+          </div>
+        ) : (
+          <div className="flex items-start justify-between gap-3 px-4 pt-4 mb-4">
+            <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200">
+              Make a Model: Carbon Price
+            </h2>
+            <button
+              type="button"
+              onClick={() => setIsExpanded((v) => !v)}
+              className="px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
+              style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
+            >
+              Open Full Screen
+            </button>
+          </div>
+        )}
 
-      <div className="grid grid-cols-1 gap-4 mb-4">
-        <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
-          <div className="flex justify-between items-center mb-2">
-            <div className="font-bold text-gray-800 dark:text-gray-200">Air Pollution</div>
-          </div>
-          <div className="relative w-full h-[260px]">
-            <canvas ref={airCanvasRef} className="w-full h-full" />
-          </div>
-        </div>
+        {isExpanded ? (
+          <div className="overflow-x-auto mb-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 min-w-[980px]">
+              <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
+                <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">Air Pollution</h3>
+                <div className="relative w-full h-[300px]">
+                  <canvas ref={airCanvasRef} className="w-full h-full" />
+                </div>
+                <div className="flex justify-center gap-3 mt-3">
+                  <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
+                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
+                </div>
+              </div>
 
-        <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
-          <div className="flex justify-between items-center mb-2">
-            <div className="font-bold text-gray-800 dark:text-gray-200">Average Price of Energy to Consumers</div>
+              <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
+                <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">Average Price of Energy to Consumers</h3>
+                <div className="relative w-full h-[300px]">
+                  <canvas ref={priceCanvasRef} className="w-full h-full" />
+                </div>
+                <div className="flex justify-center gap-3 mt-3">
+                  <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
+                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="relative w-full h-[260px]">
-            <canvas ref={priceCanvasRef} className="w-full h-full" />
-          </div>
-        </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
+              <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">Air Pollution</h3>
+              <div className="relative w-full h-[250px]">
+                <canvas ref={airCanvasRef} className="w-full h-full" />
+              </div>
+              <div className="flex justify-center gap-3 mt-3">
+                <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
+                <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
+              </div>
+            </div>
 
-        <div className="flex gap-4 justify-center text-xs font-semibold uppercase tracking-wider">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-1 bg-black"></div>
-            <span className="text-gray-600 dark:text-gray-400">Baseline</span>
+            <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
+              <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">Average Price of Energy to Consumers</h3>
+              <div className="relative w-full h-[250px]">
+                <canvas ref={priceCanvasRef} className="w-full h-full" />
+              </div>
+              <div className="flex justify-center gap-3 mt-3">
+                <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
+                <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
+              </div>
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-1 bg-blue-500"></div>
-            <span className="text-gray-600 dark:text-gray-400">Current Scenario</span>
-          </div>
-        </div>
-      </div>
+        )}
 
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-4">
-        <div className="flex justify-between items-center">
-          <label className="font-bold text-gray-700 dark:text-gray-200">Carbon Price</label>
-          <span className="text-sm font-mono text-gray-500">{getCarbonPriceRangeLabel(carbonPriceValue)}</span>
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-2">
+          <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
+            <label>Carbon Price</label>
+            <span className="text-xs font-mono text-gray-500">{getCarbonPriceRangeLabel(carbonPriceValue)}</span>
+          </div>
+          <input
+            type="range"
+            min="0"
+            max="100"
+            value={carbonPricePos}
+            onChange={handleCarbonPriceChange}
+            className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-green-500"
+            style={{
+              background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${carbonPricePos}%, #e5e7eb ${carbonPricePos}%, #e5e7eb 100%)`
+            }}
+          />
         </div>
-        <input
-          type="range"
-          min="0"
-          max="100"
-          value={carbonPricePos}
-          onChange={handleCarbonPriceChange}
-          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 accent-blue-500"
-        />
       </div>
     </div>
   );

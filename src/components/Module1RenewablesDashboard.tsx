@@ -4,43 +4,32 @@ import enStrings from '@climateinteractive/en-roads-core/strings/en';
 import { GraphView } from '@climateinteractive/sim-ui-graph';
 import '../styles/enroads-dashboard.css';
 
-// Graph definitions
 const GRAPHS = [
-  { id: '86', label: 'Global Temperature', varId: '_temperature_relative_to_1850_1900' },
-  { id: '62', label: 'CO2 Emissions', varId: '_co2_equivalent_net_emissions' },
-  { id: '90', label: 'Sea Level Rise', varId: '_slr_from_2000_in_meters' },
-  { id: '169', label: 'Deforestation', varId: '_deforestation_in_mha_per_year' },
-  { id: '275', label: 'Deaths from Extreme Heat', varId: '_excess_deaths_from_extreme_heat_per_100k_people' }
+  { id: '86', label: 'Global Temperature', varId: '_temperature_relative_to_1850_1900', canvasId: 'module1-renewables-graph-temperature' },
+  { id: '62', label: 'CO2 Emissions', varId: '_co2_equivalent_net_emissions', canvasId: 'module1-renewables-graph-emissions' },
+  { id: '90', label: 'Sea Level Rise', varId: '_slr_from_2000_in_meters', canvasId: 'module1-renewables-graph-sea-level' },
+  { id: '169', label: 'Deforestation', varId: '_deforestation_in_mha_per_year', canvasId: 'module1-renewables-graph-deforestation' },
+  { id: '275', label: 'Deaths from Extreme Heat', varId: '_excess_deaths_from_extreme_heat_per_100k_people', canvasId: 'module1-renewables-graph-heat-deaths' }
 ];
 
 export default function Module1RenewablesDashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isExpanded, setIsExpanded] = useState(false);
 
-  // Slider states
   const [renewablesVal, setRenewablesVal] = useState(0);
   const [renewablesText, setRenewablesText] = useState('status quo');
 
-  // selectedGraphId stays as state (needed for dropdown + useEffect trigger)
-  const [selectedGraphId, setSelectedGraphId] = useState('86');
+  const [tempC, setTempC] = useState(3.3);
+  const [tempF, setTempF] = useState(5.9);
 
-  // Temperature display — use refs + direct DOM to avoid React re-renders that reset canvas
-  const tempCRef = useRef<HTMLSpanElement>(null);
-  const tempFRef = useRef<HTMLSpanElement>(null);
-
-  const graphContainerRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const modelRef = useRef<any>(null);
   const modelContextRef = useRef<any>(null);
-  const graphViewRef = useRef<any>(null);
+  const graphViewRefs = useRef<Record<string, any>>({});
   const coreConfigRef = useRef<any>(null);
-
-  // Input refs
   const renewablesInputRef = useRef<any>(null);
 
-  const str = (key: string) => {
-    return (enStrings as any)[key] || key;
-  };
+  const str = (key: string) => (enStrings as any)[key] || key;
 
   const getSliderText = (value: number) => {
     if (value <= -0.01) return 'subsidized';
@@ -71,6 +60,24 @@ export default function Module1RenewablesDashboard() {
     };
   };
 
+  const getGraphSpec = (graphId: string) => {
+    const fromConfig = coreConfigRef.current?.graphs?.get(graphId);
+    if (fromConfig) return fromConfig;
+
+    const graphDef = GRAPHS.find((g) => g.id === graphId);
+    if (!graphDef) return null;
+
+    return {
+      id: graphId,
+      title: graphDef.label,
+      kind: 'line',
+      datasets: [
+        { varId: graphDef.varId, externalSourceName: 'baseline', label: 'Baseline' },
+        { varId: graphDef.varId, label: 'Current' }
+      ]
+    };
+  };
+
   const updateGraphData = (graphView: any) => {
     try {
       if (!graphView || !modelContextRef.current) return;
@@ -87,7 +94,7 @@ export default function Module1RenewablesDashboard() {
         datasetViewModel.points = [...newPoints];
 
         if (!datasetSpec.externalSourceName) {
-          datasetSpec.color = '#00b6f1'; // CI blue for current scenario
+          datasetSpec.color = '#53B1E8';
           datasetSpec.lineWidth = 4;
         } else if (datasetSpec.externalSourceName === 'baseline' || datasetSpec.externalSourceName === 'Ref') {
           datasetSpec.color = '#000000';
@@ -95,8 +102,7 @@ export default function Module1RenewablesDashboard() {
         }
       }
 
-      // FIX: no animation to prevent chart flickering/jumping
-      graphView.updateData(false);
+      graphView.updateData(true);
     } catch (e) {
       console.error('Error in updateGraphData:', e);
     }
@@ -110,114 +116,61 @@ export default function Module1RenewablesDashboard() {
       tempSeries = modelContextRef.current.getSeriesForVar('_temperature_relative_to_1850_1900');
     }
 
-    if (tempSeries && tempSeries.points && tempSeries.points.length > 0) {
+    if (tempSeries?.points?.length > 0) {
       const tempCelsius = tempSeries.getValueAtTime(2100);
-      const tempFahrenheit = tempCelsius * 9 / 5;
-      // FIX: direct DOM update instead of setState to avoid React re-render
-      if (tempCRef.current) tempCRef.current.textContent = `+${tempCelsius.toFixed(1)}°C`;
-      if (tempFRef.current) tempFRef.current.textContent = `+${tempFahrenheit.toFixed(1)}°F`;
-    } else {
-      const emissionsSeries = modelContextRef.current.getSeriesForVar('_co2_equivalent_net_emissions');
-      if (emissionsSeries && emissionsSeries.points && emissionsSeries.points.length > 0) {
-        const emissions2100 = emissionsSeries.getValueAtTime(2100);
-        const tempCelsius = 1.5 + (emissions2100 / 69.6) * 1.8;
-        const tempFahrenheit = tempCelsius * 9 / 5;
-        if (tempCRef.current) tempCRef.current.textContent = `+${tempCelsius.toFixed(1)}°C`;
-        if (tempFRef.current) tempFRef.current.textContent = `+${tempFahrenheit.toFixed(1)}°F`;
-      }
+      setTempC(tempCelsius);
+      setTempF(tempCelsius * 9 / 5);
+      return;
+    }
+
+    const emissionsSeries = modelContextRef.current.getSeriesForVar('_co2_equivalent_net_emissions');
+    if (emissionsSeries?.points?.length > 0) {
+      const emissions2100 = emissionsSeries.getValueAtTime(2100);
+      const tempCelsius = 1.5 + (emissions2100 / 69.6) * 1.8;
+      setTempC(tempCelsius);
+      setTempF(tempCelsius * 9 / 5);
     }
   };
 
   const updateDashboard = () => {
-    if (graphViewRef.current) updateGraphData(graphViewRef.current);
+    for (const key of Object.keys(graphViewRefs.current)) {
+      if (graphViewRefs.current[key]) updateGraphData(graphViewRefs.current[key]);
+    }
     updateTemperatureDisplay();
   };
 
-  const getGraphHeight = (containerWidth: number) => {
-    const height = containerWidth * 0.55;
-    return Math.max(220, Math.min(320, Math.round(height)));
-  };
+  const loadGraph = (canvasId: string, graphId: string, height = 250) => {
+    const graphSpec = getGraphSpec(graphId);
+    if (!graphSpec) return;
 
-  const resizeCanvasToContainer = () => {
-    const container = graphContainerRef.current;
-    const canvas = canvasRef.current;
-    if (!container || !canvas) return;
+    const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
+    if (!canvas) return;
 
-    const rect = container.getBoundingClientRect();
+    const rect = canvas.getBoundingClientRect();
     const dpr = window.devicePixelRatio || 1;
-    const height = getGraphHeight(rect.width);
-
     canvas.width = Math.floor(rect.width * dpr);
     canvas.height = Math.floor(height * dpr);
     canvas.style.width = '100%';
     canvas.style.height = `${height}px`;
-  };
-
-  const loadGraph = (graphId: string) => {
-    if (!coreConfigRef.current) return;
-
-    let graphSpec = coreConfigRef.current.graphs.get(graphId);
-
-    if (!graphSpec) {
-      const graphDef = GRAPHS.find(g => g.id === graphId);
-      if (graphDef) {
-        graphSpec = {
-          id: graphId,
-          title: graphDef.label,
-          kind: 'line',
-          datasets: [
-            { varId: graphDef.varId, externalSourceName: 'baseline', label: 'Baseline' },
-            { varId: graphDef.varId, label: 'Current' }
-          ]
-        };
-      } else {
-        console.error(`Graph config for ${graphId} not found`);
-        return;
-      }
-    }
-
-    const canvas = canvasRef.current;
-    if (!canvas) {
-      console.error('Canvas element not found for Exercise 2');
-      return;
-    }
-
-    resizeCanvasToContainer();
-
-    let viewModel;
-    try {
-      viewModel = createGraphViewModel(graphSpec);
-    } catch (e) {
-      console.error('Error creating graph view model:', e);
-      return;
-    }
-
-    const containerWidth = graphContainerRef.current?.getBoundingClientRect().width ?? 640;
-    const compact = containerWidth < 420;
-    const isDark = document.documentElement.classList.contains('dark');
-    const style = {
-      font: {
-        family: 'system-ui, -apple-system, sans-serif',
-        style: 'normal',
-        color: isDark ? '#e2e8f0' : '#1f2937',
-        size: compact ? 13 : 14
-      },
-      xAxis: { tickMaxCount: compact ? 6 : 8 },
-      yAxis: { tickMaxCount: compact ? 6 : 8 },
-      getAxisLabelFontSize: () => (compact ? 14 : 16),
-      getTickLabelFontSize: () => (compact ? 12 : 14),
-      getDefaultLineWidth: () => (compact ? 4 : 5),
-      plotBackgroundColor: isDark ? '#1e293b' : '#ffffff'
-    };
-
-    const options = { style, responsive: true, animations: false };
 
     try {
-      graphViewRef.current = new GraphView(canvas, viewModel, options, true);
-      updateGraphData(graphViewRef.current);
+      const viewModel = createGraphViewModel(graphSpec);
+      const isDark = document.documentElement.classList.contains('dark');
+      const style = {
+        font: { family: 'system-ui, -apple-system, sans-serif', style: 'normal', color: isDark ? '#e2e8f0' : '#1f2937' },
+        xAxis: { tickMaxCount: 6 },
+        yAxis: { tickMaxCount: 6 },
+        getAxisLabelFontSize: () => 14,
+        getTickLabelFontSize: () => 12,
+        getDefaultLineWidth: () => 4,
+        plotBackgroundColor: isDark ? '#1e293b' : '#ffffff'
+      };
+
+      const graphView = new GraphView(canvas, viewModel, { style, responsive: true, animations: true }, true);
+      graphViewRefs.current[canvasId] = graphView;
+      updateGraphData(graphView);
     } catch (e) {
-      console.error('CRITICAL ERROR instantiating GraphView:', e);
-      setError('Failed to initialize graph visualization.');
+      console.error('Error initializing graph view:', e);
     }
   };
 
@@ -227,14 +180,12 @@ export default function Module1RenewablesDashboard() {
 
     if (renewablesInputRef.current) {
       const min = renewablesInputRef.current.min !== undefined ? renewablesInputRef.current.min : -0.08;
-      const val = 0 + (sliderPos / 100) * (min - 0);
-      console.log(`Setting Renewables (16) to: ${val}`);
+      const val = (sliderPos / 100) * min;
       renewablesInputRef.current.set(val);
       setRenewablesText(getSliderText(val));
     }
   };
 
-  // Initialize
   useEffect(() => {
     const initApp = async () => {
       try {
@@ -258,13 +209,13 @@ export default function Module1RenewablesDashboard() {
           setRenewablesText(getSliderText(current));
         }
 
-        modelContextRef.current.onOutputsChanged = () => {
-          updateDashboard();
-        };
+        modelContextRef.current.onOutputsChanged = () => updateDashboard();
 
         setTimeout(() => {
-          loadGraph(selectedGraphId);
-          setTimeout(() => updateDashboard(), 50);
+          for (const graph of GRAPHS) {
+            loadGraph(graph.canvasId, graph.id, 250);
+          }
+          updateDashboard();
         }, 150);
 
         setIsLoading(false);
@@ -275,80 +226,143 @@ export default function Module1RenewablesDashboard() {
       }
     };
 
-    if (!modelRef.current) {
-      initApp();
-    }
-
-    return () => { };
+    if (!modelRef.current) initApp();
   }, []);
 
-  // Effect to reload graph when selectedGraphId changes
   useEffect(() => {
-    if (!isLoading && !error && coreConfigRef.current && modelRef.current) {
-      loadGraph(selectedGraphId);
+    if (isLoading || !coreConfigRef.current) return;
+
+    const previousBodyOverflow = document.body.style.overflow;
+    if (isExpanded) {
+      document.body.style.overflow = 'hidden';
     }
-  }, [selectedGraphId, isLoading, error]);
 
-  useEffect(() => {
-    const container = graphContainerRef.current;
-    if (!container) return;
+    const timer = window.setTimeout(() => {
+      for (const graph of GRAPHS) {
+        loadGraph(graph.canvasId, graph.id, isExpanded ? 300 : 250);
+      }
+      updateTemperatureDisplay();
+    }, 120);
 
-    const ro = new ResizeObserver(() => {
-      resizeCanvasToContainer();
-      if (graphViewRef.current) graphViewRef.current.updateData(false);
-    });
-
-    ro.observe(container);
-    return () => ro.disconnect();
-  }, []);
+    return () => {
+      window.clearTimeout(timer);
+      document.body.style.overflow = previousBodyOverflow;
+    };
+  }, [isExpanded, isLoading]);
 
   if (isLoading) return <div className="p-8 text-center text-gray-500">Loading Model...</div>;
   if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-900 p-3 sm:p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora mb-24">
-      <h2 className="text-lg sm:text-xl px-3 sm:px-4 pt-3 sm:pt-4 mb-4 font-bold text-gray-800 dark:text-gray-200">En-Roads Dashboard: Renewables</h2>
+    <div
+      className={isExpanded
+        ? 'fixed inset-0 z-50 bg-white p-4 md:p-6 overflow-y-auto font-sora'
+        : 'bg-gray-50 dark:bg-gray-900 p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora mb-24'}
+    >
+      <div className={isExpanded ? 'w-full h-full' : ''}>
+        {isExpanded ? (
+          <div className="relative px-4 pt-4 mb-4">
+            <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200 text-center">En-Roads Dashboard: Renewables</h2>
+            <button
+              type="button"
+              onClick={() => setIsExpanded((v) => !v)}
+              className="absolute right-4 top-4 px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
+              style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
+            >
+              Close Full Screen
+            </button>
+          </div>
+        ) : (
+          <div className="flex items-start justify-between gap-3 px-4 pt-4 mb-4">
+            <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200">En-Roads Dashboard: Renewables</h2>
+            <button
+              type="button"
+              onClick={() => setIsExpanded((v) => !v)}
+              className="px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
+              style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
+            >
+              Open Full Screen
+            </button>
+          </div>
+        )}
 
-      {/* Temperature card — centered at top */}
-      <div className="flex justify-center mb-4">
-        <div className="bg-white dark:bg-gray-800 px-6 sm:px-8 py-5 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 text-center">
-          <span ref={tempCRef} className="block text-4xl sm:text-5xl font-black text-green-500 mb-1">+3.2°C</span>
-          <span ref={tempFRef} className="block text-lg sm:text-xl font-bold text-green-400 mb-3">+5.7°F</span>
-          <div className="text-gray-500 dark:text-gray-400 font-semibold uppercase tracking-wider text-xs">Global Temperature<br />by 2100</div>
-        </div>
-      </div>
+        {isExpanded ? (
+          <div className="overflow-x-auto mb-4">
+            <div className="flex items-stretch gap-4 min-w-[2920px]">
+              {GRAPHS.map((graph) => (
+                <div
+                  key={graph.id}
+                  className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 flex-1 min-w-0"
+                >
+                  <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">{graph.label}</h3>
+                  <div className="relative w-full h-[300px]">
+                    <canvas id={graph.canvasId} className="w-full h-full" />
+                  </div>
+                  <div className="flex justify-center gap-3 mt-3">
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
+                  </div>
+                </div>
+              ))}
 
-      {/* Graph */}
-      <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 mb-4">
-        <div className="flex justify-between items-center mb-4">
-          <select
-            value={selectedGraphId}
-            onChange={(e) => setSelectedGraphId(e.target.value)}
-            className="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 font-bold"
-          >
-            {GRAPHS.map(g => (
-              <option key={g.id} value={g.id}>{g.label}</option>
-            ))}
-          </select>
-        </div>
-        <div ref={graphContainerRef} style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
-          <canvas
-            ref={canvasRef}
-            style={{ display: 'block', width: '100%', pointerEvents: 'none' }}
-          />
-        </div>
-        {/* Legend badges */}
-        <div className="flex justify-center gap-3 mt-3">
-          <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
-          <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#00b6f1' }}>CURRENT SCENARIO</span>
-        </div>
-      </div>
+              <div className="shrink-0 w-fit">
+                <div className="px-6 pb-4 text-center inline-flex flex-col items-center w-fit h-fit" style={{ transform: 'translateY(110px)' }}>
+                  <div style={{ color: '#14a9df', fontSize: 'clamp(3rem, 3vw, 3rem)', fontWeight: 800, lineHeight: 1.5 }}>
+                    +{tempC.toFixed(1)}°C
+                  </div>
+                  <div className="mx-auto my-4 h-[2px] w-[72%] bg-black" />
+                  <div style={{ color: '#14a9df', fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)', fontWeight: 800, lineHeight: 1 }}>
+                    +{tempF.toFixed(1)}°F
+                  </div>
+                  <div className="mt-5 leading-tight text-gray-900 dark:text-gray-100" style={{ fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)', fontWeight: 800 }}>
+                    Temperature
+                    <br />
+                    Increase by
+                    <br />
+                    2100
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <>
+            <div className="flex justify-center mb-4">
+              <div className="bg-white dark:bg-gray-800 px-6 py-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 text-center inline-flex flex-col items-center w-fit mx-auto">
+                <div style={{ color: '#14a9df', fontSize: 'clamp(3rem, 3vw, 3rem)', fontWeight: 800, lineHeight: 1.5 }}>+{tempC.toFixed(1)}°C</div>
+                <div className="mx-auto my-4 h-[2px] w-[72%] bg-black" />
+                <div style={{ color: '#14a9df', fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)', fontWeight: 800, lineHeight: 1 }}>+{tempF.toFixed(1)}°F</div>
+                <div className="mt-3 leading-tight text-gray-900 dark:text-gray-100" style={{ fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)', fontWeight: 800 }}>
+                  Temperature
+                  <br />
+                  Increase by
+                  <br />
+                  2100
+                </div>
+              </div>
+            </div>
 
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-8">
-        <div className="space-y-4">
-          <div className="flex justify-between items-center">
-            <label className="font-bold text-gray-700 dark:text-gray-200">Renewables</label>
-            <span className="text-sm font-mono text-gray-500">{renewablesText}</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              {GRAPHS.map((graph) => (
+                <div key={graph.id} className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
+                  <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">{graph.label}</h3>
+                  <div className="relative w-full h-[250px]">
+                    <canvas id={graph.canvasId} className="w-full h-full" />
+                  </div>
+                  <div className="flex justify-center gap-3 mt-3">
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-2">
+          <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
+            <label>Renewables</label>
+            <span className="text-xs font-mono text-gray-500">{renewablesText}</span>
           </div>
           <input
             type="range"
@@ -356,9 +370,9 @@ export default function Module1RenewablesDashboard() {
             max="100"
             value={renewablesVal}
             onChange={handleRenewablesChange}
-            className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+            className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-green-500"
             style={{
-              background: `linear-gradient(to right, #3B82F6 0%, #3B82F6 ${renewablesVal}%, #e5e7eb ${renewablesVal}%, #e5e7eb 100%)`
+              background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${renewablesVal}%, #e5e7eb ${renewablesVal}%, #e5e7eb 100%)`
             }}
           />
         </div>
