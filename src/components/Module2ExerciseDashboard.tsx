@@ -13,6 +13,7 @@ const GRAPH_CONFIGS = [
 export default function Module2ExerciseDashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   // Carbon Price slider state
   const [carbonPriceVal, setCarbonPriceVal] = useState(0);
@@ -81,13 +82,14 @@ export default function Module2ExerciseDashboard() {
       }
 
       // Color coding
-      if (!datasetSpec.externalSourceName) {
-        datasetSpec.color = '#3B82F6'; // Blue for current scenario
-        datasetSpec.lineWidth = 4;
-      } else if (datasetSpec.externalSourceName === 'baseline') {
-        datasetSpec.color = '#000000'; // Black for baseline
-        datasetSpec.lineWidth = 4;
+      // En-ROADS graph datasets can vary by external source name, so force
+      // baseline/ref to black and all other scenario lines to the requested blue.
+      if (datasetSpec.externalSourceName === 'baseline' || datasetSpec.externalSourceName === 'Ref') {
+        datasetSpec.color = '#000000'; // Baseline
+      } else {
+        datasetSpec.color = '#53B1E8'; // Current scenario
       }
+      datasetSpec.lineWidth = 4;
     }
 
     graphView.updateData(true);
@@ -200,6 +202,27 @@ export default function Module2ExerciseDashboard() {
     if (!modelRef.current) initApp();
   }, []);
 
+  useEffect(() => {
+    if (isLoading || !coreConfigRef.current) return;
+
+    const previousBodyOverflow = document.body.style.overflow;
+    if (isExpanded) {
+      document.body.style.overflow = 'hidden';
+    }
+
+    const timer = window.setTimeout(() => {
+      for (const cfg of GRAPH_CONFIGS) {
+        loadGraph(cfg.canvasId, cfg.id, isExpanded ? 300 : 250);
+      }
+      updateTemperatureDisplay();
+    }, 120);
+
+    return () => {
+      window.clearTimeout(timer);
+      document.body.style.overflow = previousBodyOverflow;
+    };
+  }, [isExpanded, isLoading]);
+
   if (isLoading) {
     return (
       <div className="enroads-loading">
@@ -212,88 +235,186 @@ export default function Module2ExerciseDashboard() {
   if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora mb-24">
-      <h2 className="text-xl px-4 pt-4 mb-4 font-bold text-gray-800 dark:text-gray-200">
-        Test Your Predictions: Carbon Price Simulation
-      </h2>
+    <div
+      className={isExpanded
+        ? 'fixed inset-0 z-50 bg-white p-4 md:p-6 overflow-y-auto font-sora'
+        : 'bg-gray-50 dark:bg-gray-900 p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora mb-24'}
+    >
+      <div className={isExpanded ? 'w-full h-full' : ''}>
+        {isExpanded ? (
+          <div className="relative px-4 pt-4 mb-4">
+            <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200 text-center">
+              Test Your Predictions: Carbon Price Simulation
+            </h2>
+            <button
+              type="button"
+              onClick={() => setIsExpanded((v) => !v)}
+              className="absolute right-4 top-4 px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
+              style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
+            >
+              Close Full Screen
+            </button>
+          </div>
+        ) : (
+          <div className="flex items-start justify-between gap-3 px-4 pt-4 mb-4">
+            <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200">
+              Test Your Predictions: Carbon Price Simulation
+            </h2>
+            <button
+              type="button"
+              onClick={() => setIsExpanded((v) => !v)}
+              className="px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
+              style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
+            >
+              Open Full Screen
+            </button>
+          </div>
+        )}
 
-      {/* Temperature card */}
-      <div className="flex justify-center mb-4">
-        <div className="bg-white dark:bg-gray-800 px-8 py-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 text-center w-full max-w-[430px] mx-auto">
-          <div
-            style={{
-              color: '#14a9df',
-              fontSize: 'clamp(3rem, 3vw, 3rem)',
-              fontWeight: 800,
-              lineHeight: 1.5,
-            }}
-          >
-            +{tempC.toFixed(1)}°C
-          </div>
-          <div className="mx-auto my-4 h-[2px] w-[72%] bg-black" />
-          <div
-            style={{
-              color: '#14a9df',
-              fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)',
-              fontWeight: 800,
-              lineHeight: 1,
-            }}
-          >
-            +{tempF.toFixed(1)}°F
-          </div>
-          <div
-            className="mt-3 leading-tight text-gray-900 dark:text-gray-100"
-            style={{
-              fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)',
-              fontWeight: 800,
-            }}
-          >
-            Temperature
-            <br />
-            Increase by
-            <br />
-            2100
-          </div>
-        </div>
-      </div>
+        {isExpanded ? (
+          <div className="overflow-x-auto mb-4">
+            <div className="flex items-stretch gap-4 min-w-[1320px]">
+              {GRAPH_CONFIGS.map((cfg) => (
+                <div
+                  key={cfg.canvasId}
+                  className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 flex-1 min-w-0"
+                >
+                  <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">{cfg.label}</h3>
+                  <div className="relative w-full h-[300px]">
+                    <canvas id={cfg.canvasId} className="w-full h-full" />
+                  </div>
+                  <div className="flex justify-center gap-3 mt-3">
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
+                  </div>
+                </div>
+              ))}
 
-      {/* CO₂ Net Emissions + CO₂ Concentration side by side */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        {GRAPH_CONFIGS.map((cfg) => (
-          <div
-            key={cfg.canvasId}
-            className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600"
-          >
-            <h3 className="text-sm font-bold text-gray-700 dark:text-gray-200 mb-2">{cfg.label}</h3>
-            <div className="relative w-full h-[250px]">
-              <canvas id={cfg.canvasId} className="w-full h-full" />
+              <div className="shrink-0 w-fit">
+                <div
+                  className="px-6 pb-4 text-center inline-flex flex-col items-center w-fit h-fit"
+                  style={{ transform: 'translateY(110px)' }}
+                >
+                  <div
+                    style={{
+                      color: '#14a9df',
+                      fontSize: 'clamp(3rem, 3vw, 3rem)',
+                      fontWeight: 800,
+                      lineHeight: 1.5,
+                    }}
+                  >
+                    +{tempC.toFixed(1)}°C
+                  </div>
+                  <div className="mx-auto my-4 h-[2px] w-[72%] bg-black" />
+                  <div
+                    style={{
+                      color: '#14a9df',
+                      fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)',
+                      fontWeight: 800,
+                      lineHeight: 1,
+                    }}
+                  >
+                    +{tempF.toFixed(1)}°F
+                  </div>
+                  <div
+                    className="mt-5 leading-tight text-gray-900 dark:text-gray-100"
+                    style={{
+                      fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)',
+                      fontWeight: 800,
+                    }}
+                  >
+                    Temperature
+                    <br />
+                    Increase by
+                    <br />
+                    2100
+                  </div>
+                </div>
+              </div>
             </div>
-            {/* Legend badges */}
-            <div className="flex justify-center gap-3 mt-3">
-              <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
-              <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#00b6f1' }}>CURRENT SCENARIO</span>
-            </div>
           </div>
-        ))}
-      </div>
+        ) : (
+          <>
+            {/* Temperature card */}
+            <div className="flex justify-center mb-4">
+              <div className="bg-white dark:bg-gray-800 px-6 py-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 text-center inline-flex flex-col items-center w-fit mx-auto">
+                <div
+                  style={{
+                    color: '#14a9df',
+                    fontSize: 'clamp(3rem, 3vw, 3rem)',
+                    fontWeight: 800,
+                    lineHeight: 1.5,
+                  }}
+                >
+                  +{tempC.toFixed(1)}°C
+                </div>
+                <div className="mx-auto my-4 h-[2px] w-[72%] bg-black" />
+                <div
+                  style={{
+                    color: '#14a9df',
+                    fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)',
+                    fontWeight: 800,
+                    lineHeight: 1,
+                  }}
+                >
+                  +{tempF.toFixed(1)}°F
+                </div>
+                <div
+                  className="mt-3 leading-tight text-gray-900 dark:text-gray-100"
+                  style={{
+                    fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)',
+                    fontWeight: 800,
+                  }}
+                >
+                  Temperature
+                  <br />
+                  Increase by
+                  <br />
+                  2100
+                </div>
+              </div>
+            </div>
 
-      {/* Carbon Price slider */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-2">
-        <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
-          <label>Carbon Price</label>
-          <span className="text-xs font-mono text-gray-500">{sliderText}</span>
+            {/* CO₂ Net Emissions + CO₂ Concentration side by side */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              {GRAPH_CONFIGS.map((cfg) => (
+                <div
+                  key={cfg.canvasId}
+                  className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600"
+                >
+                  <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">{cfg.label}</h3>
+                  <div className="relative w-full h-[250px]">
+                    <canvas id={cfg.canvasId} className="w-full h-full" />
+                  </div>
+                  {/* Legend badges */}
+                  <div className="flex justify-center gap-3 mt-3">
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+        {/* Carbon Price slider */}
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-2">
+          <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
+            <label>Carbon Price</label>
+            <span className="text-xs font-mono text-gray-500">{sliderText}</span>
+          </div>
+          <input
+            type="range"
+            min="0"
+            max="100"
+            value={carbonPriceVal}
+            onChange={handleSliderChange}
+            className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-green-500"
+            style={{
+              background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${carbonPriceVal}%, #e5e7eb ${carbonPriceVal}%, #e5e7eb 100%)`
+            }}
+          />
         </div>
-        <input
-          type="range"
-          min="0"
-          max="100"
-          value={carbonPriceVal}
-          onChange={handleSliderChange}
-          className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-green-500"
-          style={{
-            background: `linear-gradient(to right, #3B82F6 0%, #3B82F6 ${carbonPriceVal}%, #e5e7eb ${carbonPriceVal}%, #e5e7eb 100%)`
-          }}
-        />
       </div>
     </div>
   );
