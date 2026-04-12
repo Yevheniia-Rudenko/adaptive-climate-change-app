@@ -26,6 +26,7 @@ const NATURE_REMOVALS_MODE_SWITCH_ID = '418';
 export default function Module2RemovalsDashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   // Slider states
   const [carbonPriceVal, setCarbonPriceVal] = useState(0);
@@ -153,7 +154,7 @@ export default function Module2RemovalsDashboard() {
     updateTemperatureDisplay();
   };
 
-  const loadGraph = (canvasId: string, graphId: string) => {
+  const loadGraph = (canvasId: string, graphId: string, height = 250) => {
     if (!coreConfigRef.current) return;
     const graphSpec = coreConfigRef.current.graphs.get(graphId);
     if (!graphSpec) return;
@@ -164,9 +165,9 @@ export default function Module2RemovalsDashboard() {
     const rect = canvas.getBoundingClientRect();
     const dpr = window.devicePixelRatio || 1;
     canvas.width = rect.width * dpr;
-    canvas.height = 250 * dpr;
+    canvas.height = height * dpr;
     canvas.style.width = '100%';
-    canvas.style.height = '250px';
+    canvas.style.height = `${height}px`;
 
     try {
       const viewModel = createGraphViewModel(graphSpec);
@@ -310,140 +311,268 @@ export default function Module2RemovalsDashboard() {
     if (!modelRef.current) initApp();
   }, []);
 
+  useEffect(() => {
+    if (isLoading || !coreConfigRef.current) return;
+
+    const previousBodyOverflow = document.body.style.overflow;
+    if (isExpanded) {
+      document.body.style.overflow = 'hidden';
+    }
+
+    const timer = window.setTimeout(() => {
+      for (const cfg of GRAPH_CONFIGS) {
+        loadGraph(cfg.canvasId, cfg.id, isExpanded ? 300 : 250);
+      }
+      updateTemperatureDisplay();
+    }, 120);
+
+    return () => {
+      window.clearTimeout(timer);
+      document.body.style.overflow = previousBodyOverflow;
+    };
+  }, [isExpanded, isLoading]);
+
   if (isLoading) return <div className="p-8 text-center text-gray-500">Loading Model...</div>;
   if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora">
-      <h2 className="text-xl px-4 pt-4 mb-4 font-bold text-gray-800 dark:text-gray-200">
-        ⚙️ Make a Model: Carbon Price + CO₂ Removals
-      </h2>
+    <div
+      className={isExpanded
+        ? 'fixed inset-0 z-50 bg-white p-4 md:p-6 overflow-y-auto font-sora'
+        : 'bg-gray-50 dark:bg-gray-900 p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora mb-24'}
+    >
+      <div className={isExpanded ? 'w-full h-full' : ''}>
+        {isExpanded ? (
+          <div className="relative px-4 pt-4 mb-4">
+            <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200 text-center">
+              ⚙️ Make a Model: Carbon Price + CO₂ Removals
+            </h2>
+            <button
+              type="button"
+              onClick={() => setIsExpanded((v) => !v)}
+              className="absolute right-4 top-4 px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
+              style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
+            >
+              Close Full Screen
+            </button>
+          </div>
+        ) : (
+          <div className="flex items-start justify-between gap-3 px-4 pt-4 mb-4">
+            <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200">
+              ⚙️ Make a Model: Carbon Price + CO₂ Removals
+            </h2>
+            <button
+              type="button"
+              onClick={() => setIsExpanded((v) => !v)}
+              className="px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
+              style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
+            >
+              Open Full Screen
+            </button>
+          </div>
+        )}
 
-      {/* Temperature display */}
-      <div className="flex justify-center mb-4">
-        <div className="bg-white dark:bg-gray-800 px-8 py-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 text-center w-full max-w-[430px] mx-auto">
-          <div
-            style={{
-              color: '#14a9df',
-              fontSize: 'clamp(3rem, 3vw, 3rem)',
-              fontWeight: 800,
-              lineHeight: 1.5,
-            }}
-          >
-            +{tempC.toFixed(1)}°C
-          </div>
-          <div className="mx-auto my-4 h-[2px] w-[72%] bg-black" />
-          <div
-            style={{
-              color: '#14a9df',
-              fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)',
-              fontWeight: 800,
-              lineHeight: 1,
-            }}
-          >
-            +{tempF.toFixed(1)}°F
-          </div>
-          <div
-            className="mt-3 leading-tight text-gray-900 dark:text-gray-100"
-            style={{
-              fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)',
-              fontWeight: 800,
-            }}
-          >
-            Temperature
-            <br />
-            Increase by
-            <br />
-            2100
-          </div>
-        </div>
-      </div>
+        {isExpanded ? (
+          <div className="overflow-x-auto mb-4">
+            <div className="flex items-stretch gap-4 min-w-[1320px]">
+              {GRAPH_CONFIGS.map((cfg) => (
+                <div
+                  key={cfg.canvasId}
+                  className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 flex-1 min-w-0"
+                >
+                  <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">{cfg.label}</h3>
+                  <div className="relative w-full h-[300px]">
+                    <canvas id={cfg.canvasId} className="w-full h-full" />
+                  </div>
+                  <div className="flex justify-center gap-3 mt-3">
+                    {cfg.id === '57' ? (
+                      <>
+                        <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#cc3b09' }}>CO₂ EMISSIONS</span>
+                        <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#0063b0' }}>CO₂ REMOVALS</span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
+                        <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#00b6f1' }}>CURRENT SCENARIO</span>
+                      </>
+                    )}
+                  </div>
+                </div>
+              ))}
 
-      {/* Graphs */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        {GRAPH_CONFIGS.map((cfg) => (
-          <div
-            key={cfg.canvasId}
-            className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600"
-          >
-            <h3 className="text-sm font-bold text-gray-700 dark:text-gray-200 mb-2">{cfg.label}</h3>
-            <div className="relative w-full h-[250px]">
-              <canvas id={cfg.canvasId} className="w-full h-full" />
+              <div className="shrink-0 w-fit">
+                <div
+                  className="px-6 pb-4 text-center inline-flex flex-col items-center w-fit h-fit"
+                  style={{ transform: 'translateY(110px)' }}
+                >
+                  <div
+                    style={{
+                      color: '#14a9df',
+                      fontSize: 'clamp(3rem, 3vw, 3rem)',
+                      fontWeight: 800,
+                      lineHeight: 1.5,
+                    }}
+                  >
+                    +{tempC.toFixed(1)}°C
+                  </div>
+                  <div className="mx-auto my-4 h-[2px] w-[72%] bg-black" />
+                  <div
+                    style={{
+                      color: '#14a9df',
+                      fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)',
+                      fontWeight: 800,
+                      lineHeight: 1,
+                    }}
+                  >
+                    +{tempF.toFixed(1)}°F
+                  </div>
+                  <div
+                    className="mt-5 leading-tight text-gray-900 dark:text-gray-100"
+                    style={{
+                      fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)',
+                      fontWeight: 800,
+                    }}
+                  >
+                    Temperature
+                    <br />
+                    Increase by
+                    <br />
+                    2100
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="flex justify-center gap-3 mt-3">
-              {cfg.id === '57' ? (
-                <>
-                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#cc3b09' }}>CO₂ EMISSIONS</span>
-                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#0063b0' }}>CO₂ REMOVALS</span>
-                </>
-              ) : (
-                <>
-                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
-                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#00b6f1' }}>CURRENT SCENARIO</span>
-                </>
-              )}
+          </div>
+        ) : (
+          <>
+            {/* Temperature display */}
+            <div className="flex justify-center mb-4">
+              <div className="bg-white dark:bg-gray-800 px-8 py-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 text-center w-full max-w-[430px] mx-auto">
+                <div
+                  style={{
+                    color: '#14a9df',
+                    fontSize: 'clamp(3rem, 3vw, 3rem)',
+                    fontWeight: 800,
+                    lineHeight: 1.5,
+                  }}
+                >
+                  +{tempC.toFixed(1)}°C
+                </div>
+                <div className="mx-auto my-4 h-[2px] w-[72%] bg-black" />
+                <div
+                  style={{
+                    color: '#14a9df',
+                    fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)',
+                    fontWeight: 800,
+                    lineHeight: 1,
+                  }}
+                >
+                  +{tempF.toFixed(1)}°F
+                </div>
+                <div
+                  className="mt-3 leading-tight text-gray-900 dark:text-gray-100"
+                  style={{
+                    fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)',
+                    fontWeight: 800,
+                  }}
+                >
+                  Temperature
+                  <br />
+                  Increase by
+                  <br />
+                  2100
+                </div>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
 
-      {/* Sliders */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-6">
-        {/* Carbon Price */}
-        <div className="space-y-2">
-          <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
-            <label>Carbon Price</label>
-            <span className="text-xs font-mono text-gray-500">{carbonPriceText}</span>
-          </div>
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={carbonPriceVal}
-            onChange={handleCarbonPriceChange}
-            className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-            style={{
-              background: `linear-gradient(to right, #3B82F6 0%, #3B82F6 ${carbonPriceVal}%, #e5e7eb ${carbonPriceVal}%, #e5e7eb 100%)`
-            }}
-          />
-        </div>
+            {/* Graphs */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              {GRAPH_CONFIGS.map((cfg) => (
+                <div
+                  key={cfg.canvasId}
+                  className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600"
+                >
+                  <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">{cfg.label}</h3>
+                  <div className="relative w-full h-[250px]">
+                    <canvas id={cfg.canvasId} className="w-full h-full" />
+                  </div>
+                  <div className="flex justify-center gap-3 mt-3">
+                    {cfg.id === '57' ? (
+                      <>
+                        <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#cc3b09' }}>CO₂ EMISSIONS</span>
+                        <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#0063b0' }}>CO₂ REMOVALS</span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
+                        <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#00b6f1' }}>CURRENT SCENARIO</span>
+                      </>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
 
-        {/* Nature-based Removals */}
-        <div className="space-y-2">
-          <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
-            <label>Nature-Based Removals</label>
-            <span className="text-xs font-mono text-gray-500">{natureText}</span>
+        {/* Sliders */}
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-6">
+          {/* Carbon Price */}
+          <div className="space-y-2">
+            <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
+              <label>Carbon Price</label>
+              <span className="text-xs font-mono text-gray-500">{carbonPriceText}</span>
+            </div>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={carbonPriceVal}
+              onChange={handleCarbonPriceChange}
+              className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+              style={{
+                background: `linear-gradient(to right, #3B82F6 0%, #3B82F6 ${carbonPriceVal}%, #e5e7eb ${carbonPriceVal}%, #e5e7eb 100%)`
+              }}
+            />
           </div>
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={natureVal}
-            onChange={handleNatureChange}
-            className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-            style={{
-              background: `linear-gradient(to right, #3B82F6 0%, #3B82F6 ${natureVal}%, #e5e7eb ${natureVal}%, #e5e7eb 100%)`
-            }}
-          />
-        </div>
 
-        {/* Technological Removals */}
-        <div className="space-y-2">
-          <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
-            <label>Technological Removals</label>
-            <span className="text-xs font-mono text-gray-500">{techText}</span>
+          {/* Nature-based Removals */}
+          <div className="space-y-2">
+            <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
+              <label>Nature-Based Removals</label>
+              <span className="text-xs font-mono text-gray-500">{natureText}</span>
+            </div>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={natureVal}
+              onChange={handleNatureChange}
+              className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+              style={{
+                background: `linear-gradient(to right, #3B82F6 0%, #3B82F6 ${natureVal}%, #e5e7eb ${natureVal}%, #e5e7eb 100%)`
+              }}
+            />
           </div>
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={techVal}
-            onChange={handleTechChange}
-            className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-            style={{
-              background: `linear-gradient(to right, #3B82F6 0%, #3B82F6 ${techVal}%, #e5e7eb ${techVal}%, #e5e7eb 100%)`
-            }}
-          />
+
+          {/* Technological Removals */}
+          <div className="space-y-2">
+            <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
+              <label>Technological Removals</label>
+              <span className="text-xs font-mono text-gray-500">{techText}</span>
+            </div>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={techVal}
+              onChange={handleTechChange}
+              className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+              style={{
+                background: `linear-gradient(to right, #3B82F6 0%, #3B82F6 ${techVal}%, #e5e7eb ${techVal}%, #e5e7eb 100%)`
+              }}
+            />
+          </div>
         </div>
       </div>
     </div>
