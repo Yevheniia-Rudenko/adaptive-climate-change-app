@@ -26,7 +26,7 @@ import * as RechartsPrimitive from 'recharts';
 
 
 function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { type: 'poll' }>; moduleId: number }) {
-  const { sessionId } = useSession();
+  const { sessionId, studyConsent } = useSession();
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [otherText, setOtherText] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -98,6 +98,16 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
 
   const handleSubmit = async () => {
     if (isSubmitting) return;
+    if (studyConsent !== 'in') {
+      if (studyConsent === null) {
+        window.dispatchEvent(new Event('study_consent_request'));
+      }
+      setSubmitError(studyConsent === 'out'
+        ? 'You opted out of the study; your responses will not be submitted.'
+        : 'Please choose whether to participate in the study before submitting.'
+      );
+      return;
+    }
     const responseDisplay = (() => {
       const parts = selectedOptions.filter(o => o !== 'Other');
       if (selectedOptions.includes('Other') && otherText.trim() !== '') {
@@ -255,7 +265,7 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
 }
 
 function ModuleFeedbackBlock({ block, moduleId }: { block: Extract<ContentBlockType, { type: 'module-feedback' }>; moduleId: number }) {
-  const { sessionId } = useSession();
+  const { sessionId, studyConsent } = useSession();
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [feedback, setFeedback] = useState('');
@@ -267,6 +277,16 @@ function ModuleFeedbackBlock({ block, moduleId }: { block: Extract<ContentBlockT
 
   const handleSubmit = async () => {
     if (isSubmitting) return;
+    if (studyConsent !== 'in') {
+      if (studyConsent === null) {
+        window.dispatchEvent(new Event('study_consent_request'));
+      }
+      setSubmitError(studyConsent === 'out'
+        ? 'You opted out of the study; your responses will not be submitted.'
+        : 'Please choose whether to participate in the study before submitting.'
+      );
+      return;
+    }
     const input = JSON.stringify({
       type: block.type,
       title: block.title,
@@ -299,6 +319,16 @@ function ModuleFeedbackBlock({ block, moduleId }: { block: Extract<ContentBlockT
 
   const handleExport = async () => {
     if (isExporting) return;
+    if (studyConsent !== 'in') {
+      if (studyConsent === null) {
+        window.dispatchEvent(new Event('study_consent_request'));
+      }
+      setExportError(studyConsent === 'out'
+        ? 'You opted out of the study; there are no stored responses to export.'
+        : 'Please choose whether to participate in the study before exporting.'
+      );
+      return;
+    }
     trackEvent('download_pdf', { module_id: moduleId });
     setIsExporting(true);
     setExportError(null);
@@ -403,7 +433,7 @@ function ModuleFeedbackBlock({ block, moduleId }: { block: Extract<ContentBlockT
 }
 
 function ReflectionBlock({ block, moduleId }: { block: Extract<ContentBlockType, { type: 'reflection' }>; moduleId: number }) {
-  const { sessionId } = useSession();
+  const { sessionId, studyConsent } = useSession();
   const { t } = useLanguage();
   const [reflectionText, setReflectionText] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -427,6 +457,16 @@ function ReflectionBlock({ block, moduleId }: { block: Extract<ContentBlockType,
 
   const handleSubmit = async () => {
     if (isSubmitting) return;
+    if (studyConsent !== 'in') {
+      if (studyConsent === null) {
+        window.dispatchEvent(new Event('study_consent_request'));
+      }
+      setSubmitError(studyConsent === 'out'
+        ? 'You opted out of the study; your responses will not be submitted.'
+        : 'Please choose whether to participate in the study before submitting.'
+      );
+      return;
+    }
     const submittedText = reflectionText.trim();
     const input = JSON.stringify({
       type: block.type,
@@ -512,7 +552,7 @@ function ReflectionBlock({ block, moduleId }: { block: Extract<ContentBlockType,
 }
 
 function NumericPredictionBlock({ block, moduleId }: { block: Extract<ContentBlockType, { type: 'numeric-prediction' }>; moduleId: number }) {
-  const { sessionId } = useSession();
+  const { sessionId, studyConsent } = useSession();
   const [valueText, setValueText] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -535,6 +575,16 @@ function NumericPredictionBlock({ block, moduleId }: { block: Extract<ContentBlo
 
   const handleSubmit = async () => {
     if (isSubmitting) return;
+    if (studyConsent !== 'in') {
+      if (studyConsent === null) {
+        window.dispatchEvent(new Event('study_consent_request'));
+      }
+      setSubmitError(studyConsent === 'out'
+        ? 'You opted out of the study; your responses will not be submitted.'
+        : 'Please choose whether to participate in the study before submitting.'
+      );
+      return;
+    }
     const valueNumber = valueText.trim() === '' ? null : Number(valueText);
     const submittedValue = valueText.trim() === '' ? '' : `${valueText.trim()}${block.unit ? ` ${block.unit}` : ''}`;
 

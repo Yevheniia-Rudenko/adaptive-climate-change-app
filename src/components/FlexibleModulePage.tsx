@@ -7,6 +7,17 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { GlossaryHighlightProvider } from '../contexts/GlossaryHighlightContext';
 import { Button } from './ui/button';
 import { trackEvent } from '../utils/analytics';
+import { useSession } from '../contexts/SessionContext';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from './ui/alert-dialog';
 
 const MODULE_QUOTES: Record<number, { text: string; author: string }> = {
   1: {
@@ -44,8 +55,11 @@ export function FlexibleModulePage({
   const navigate = useNavigate();
   const { search } = useLocation();
   const [currentBlock, setCurrentBlock] = useState(1);
+  const [isConsentDialogOpen, setIsConsentDialogOpen] = useState(false);
+  const { studyConsent, setStudyConsent, clearModuleStoredData } = useSession();
   const totalModules = moduleStructures.length;
   const isLastModule = moduleId >= totalModules;
+  const consentOpenTimeoutRef = useRef<number | null>(null);
 
   // Build per-block navigation groups.
   // For Module 1 we use the existing hand-crafted grouping.
@@ -132,6 +146,38 @@ export function FlexibleModulePage({
       }
     };
   }, [moduleId, module.title]);
+
+  useEffect(() => {
+    if (consentOpenTimeoutRef.current !== null) {
+      window.clearTimeout(consentOpenTimeoutRef.current);
+      consentOpenTimeoutRef.current = null;
+    }
+    setIsConsentDialogOpen(false);
+
+    if (studyConsent !== null) return;
+    consentOpenTimeoutRef.current = window.setTimeout(() => {
+      setIsConsentDialogOpen(true);
+    }, 10000);
+
+    return () => {
+      if (consentOpenTimeoutRef.current !== null) {
+        window.clearTimeout(consentOpenTimeoutRef.current);
+        consentOpenTimeoutRef.current = null;
+      }
+    };
+  }, [moduleId, studyConsent]);
+
+  useEffect(() => {
+    const handler = () => {
+      if (studyConsent !== null) return;
+      setIsConsentDialogOpen(true);
+    };
+
+    window.addEventListener('study_consent_request', handler);
+    return () => {
+      window.removeEventListener('study_consent_request', handler);
+    };
+  }, [studyConsent]);
 
   useEffect(() => {
     trackEvent('module_step_view', {
@@ -270,6 +316,36 @@ export function FlexibleModulePage({
 
   return (
     <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 font-sora">
+      <AlertDialog open={isConsentDialogOpen} onOpenChange={setIsConsentDialogOpen}>
+        <AlertDialogContent className="font-sora">
+          <AlertDialogHeader>
+            <AlertDialogTitle>MIT Research Study</AlertDialogTitle>
+            <AlertDialogDescription>
+              Your responses will contribute to a MIT research study on how learners feel about climate change. All data is collected anonymously (you can choose to opt out of the study and your data will be deleted after your session). At the end of each module, you can download your responses for your own use.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="justify-center sm:justify-center">
+            <AlertDialogCancel
+              onClick={() => {
+                setStudyConsent('out');
+                clearModuleStoredData();
+                setIsConsentDialogOpen(false);
+                navigate('/');
+              }}
+            >
+              Opt out
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                setStudyConsent('in');
+                setIsConsentDialogOpen(false);
+              }}
+            >
+              Count me in!
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
       <div className="max-w-4xl mx-auto">
         <div className="bg-white dark:bg-gray-800 rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden">
           {/* Header */}

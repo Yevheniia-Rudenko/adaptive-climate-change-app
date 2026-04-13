@@ -9,9 +9,14 @@ function generateSessionId(): string {
     });
 }
 
+export type StudyConsent = 'in' | 'out' | null;
+
 interface SessionContextType {
     sessionId: string;
     startNewSession: () => void;
+    studyConsent: StudyConsent;
+    setStudyConsent: (consent: Exclude<StudyConsent, null>) => void;
+    clearModuleStoredData: () => void;
 }
 
 const SessionContext = createContext<SessionContextType | undefined>(undefined);
@@ -42,6 +47,12 @@ export function SessionProvider({ children, moduleId }: SessionProviderProps) {
         return newId;
     });
 
+    const [studyConsent, setStudyConsentState] = useState<StudyConsent>(() => {
+        const storageKey = `module_${moduleId}_study_consent`;
+        const stored = localStorage.getItem(storageKey);
+        return stored === 'in' || stored === 'out' ? stored : null;
+    });
+
     // Update session ID when module changes
     useEffect(() => {
         const storageKey = `module_${moduleId}_session`;
@@ -61,6 +72,12 @@ export function SessionProvider({ children, moduleId }: SessionProviderProps) {
         }
     }, [moduleId]);
 
+    useEffect(() => {
+        const storageKey = `module_${moduleId}_study_consent`;
+        const stored = localStorage.getItem(storageKey);
+        setStudyConsentState(stored === 'in' || stored === 'out' ? stored : null);
+    }, [moduleId]);
+
     const startNewSession = () => {
         const storageKey = `module_${moduleId}_session`;
         const newId = generateSessionId();
@@ -68,8 +85,34 @@ export function SessionProvider({ children, moduleId }: SessionProviderProps) {
         setSessionId(newId);
     };
 
+    const setStudyConsent = (consent: Exclude<StudyConsent, null>) => {
+        const storageKey = `module_${moduleId}_study_consent`;
+        localStorage.setItem(storageKey, consent);
+        setStudyConsentState(consent);
+    };
+
+    const clearModuleStoredData = () => {
+        try {
+            const prefixes = [
+                `reflection:${sessionId}:${moduleId}:`,
+                `poll:${sessionId}:${moduleId}:`,
+                `pollSelection:${sessionId}:${moduleId}:`,
+                `numeric-prediction:${sessionId}:${moduleId}:`,
+            ];
+            for (let i = localStorage.length - 1; i >= 0; i--) {
+                const key = localStorage.key(i);
+                if (!key) continue;
+                if (prefixes.some(prefix => key.startsWith(prefix))) {
+                    localStorage.removeItem(key);
+                }
+            }
+        } catch {
+        }
+        startNewSession();
+    };
+
     return (
-        <SessionContext.Provider value={{ sessionId, startNewSession }}>
+        <SessionContext.Provider value={{ sessionId, startNewSession, studyConsent, setStudyConsent, clearModuleStoredData }}>
             {children}
         </SessionContext.Provider>
     );
