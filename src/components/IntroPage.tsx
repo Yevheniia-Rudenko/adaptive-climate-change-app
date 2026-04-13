@@ -11,7 +11,7 @@ import module3Icon from '../assets/module_3_card.webp';
 import module4Icon from '../assets/module_4_card.webp';
 import module5Icon from '../assets/module_5_card.webp';
 import resourcesIcon from '../assets/resources_card.webp';
-import earthImage from '../assets/earth_img.jpg';
+import earthImage from '../assets/systems_cover.webp';
 
 export function IntroPage() {
   const { t } = useLanguage();
@@ -41,7 +41,7 @@ export function IntroPage() {
       gradient: 'from-emerald-500 via-teal-400 to-sky-400',
       gradientStyle: 'linear-gradient(135deg, #526c63 0%, #14b8a6 45%, #4b6e7d 100%)',
       chips: ['Climate futures', 'Feelings'],
-      backText: 'Explore different climate scenarios and understand how our choices today shape tomorrow. Connect your emotions and actions to potential futures.',
+      backText: 'Explore different climate scenarios and understand how our choices today shape tomorrow. Connect with the emotions that can arise as we witness climate effects and imagine potential futures.',
     },
     {
       id: 2,
@@ -51,7 +51,7 @@ export function IntroPage() {
       gradient: 'from-cyan-500 via-sky-400 to-blue-500',
       gradientStyle: 'linear-gradient(135deg, #06b6d4 0%, #38bdf8 50%, #4d6a99 100%)',
       chips: ['Flows', 'Balance'],
-      backText: 'Learn how resources accumulate and deplete over time. Understand the balance between inflows and outflows in climate systems.',
+      backText: 'Learn how systems accumulate and deplete over time. Understand the balance between inflows and outflows in climate systems.',
     },
     {
       id: 3,
@@ -61,7 +61,7 @@ export function IntroPage() {
       gradient: 'from-amber-400 via-orange-400 to-pink-500',
       gradientStyle: 'linear-gradient(135deg, #f59e0b 0%, #fb923c 45%, #7e6270 100%)',
       chips: ['Pathways', 'Scenarios'],
-      backText: 'Navigate through various climate pathways and scenarios. Discover the multiple routes we can take toward sustainability.',
+      backText: 'Navigate through various climate policy pathways by building scenarios. Discover the multiple routes we can take toward sustainability.',
     },
     {
       id: 4,
@@ -81,7 +81,7 @@ export function IntroPage() {
       gradient: 'from-purple-500 via-indigo-500 to-blue-600',
       gradientStyle: 'linear-gradient(135deg, #a855f7 0%, #6366f1 50%, #2563eb 100%)',
       chips: ['Leverage', 'Momentum'],
-      backText: 'Identify high-leverage points for climate action. Learn where to apply effort for maximum impact and lasting change.',
+      backText: 'Identify high-leverage points for climate action. Discover your space of climate agency and how youth can lead lasting change.',
     },
     {
       id: 6,
@@ -91,7 +91,7 @@ export function IntroPage() {
       gradient: 'from-rose-500 via-pink-500 to-purple-500',
       gradientStyle: 'linear-gradient(135deg, #f43f5e 0%, #ec4899 50%, #a855f7 100%)',
       chips: ['Resources', 'Learn More'],
-      backText: 'Access additional learning materials, research papers, and tools to deepen your understanding of climate systems.',
+      backText: 'Access additional learning materials, research, and tools to deepen your understanding of climate systems.',
     },
   ];
 
