@@ -699,7 +699,7 @@ export default function Module1CarbonRemovalDashboard() {
                   {SECTION1_GRAPHS.map(g => <option key={g.id} value={g.id}>{g.label}</option>)}
                 </select>
               </div>
-              <div ref={section1GraphContainerRef} className="relative w-full h-[250px] overflow-hidden">
+              <div ref={section1GraphContainerRef} className="relative w-full">
                 <canvas
                   ref={section1CanvasRef}
                   style={{ display: 'block', width: '100%', height: '100%', pointerEvents: 'none' }}
@@ -834,7 +834,7 @@ export default function Module1CarbonRemovalDashboard() {
                   {SECTION2_GRAPHS.map(g => <option key={g.id} value={g.id}>{g.label}</option>)}
                 </select>
               </div>
-              <div ref={section2GraphContainerRef} className="relative w-full h-[250px] overflow-hidden">
+              <div ref={section2GraphContainerRef} className="relative w-full">
                 <canvas
                   ref={section2CanvasRef}
                   style={{ display: 'block', width: '100%', height: '100%', pointerEvents: 'none' }}
@@ -953,7 +953,7 @@ export default function Module1CarbonRemovalDashboard() {
                     {SECTION1_GRAPHS.map(g => <option key={g.id} value={g.id}>{g.label}</option>)}
                   </select>
                 </div>
-                <div ref={section1GraphContainerRef} className="relative w-full h-[300px] overflow-hidden">
+                <div ref={section1GraphContainerRef} className="relative w-full">
                   <canvas ref={section1CanvasRef} style={{ display: 'block', width: '100%', pointerEvents: 'none' }} />
                 </div>
                 <div className="flex justify-center gap-3 mt-3">
@@ -1047,7 +1047,7 @@ export default function Module1CarbonRemovalDashboard() {
                     {SECTION2_GRAPHS.map(g => <option key={g.id} value={g.id}>{g.label}</option>)}
                   </select>
                 </div>
-                <div ref={section2GraphContainerRef} className="relative w-full h-[300px] overflow-hidden">
+                <div ref={section2GraphContainerRef} className="relative w-full">
                   <canvas ref={section2CanvasRef} style={{ display: 'block', width: '100%', pointerEvents: 'none' }} />
                 </div>
                 <div className="flex justify-center gap-3 mt-3">

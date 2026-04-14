@@ -260,7 +260,7 @@ export default function Module3CarbonPriceDashboard() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 min-w-[980px]">
               <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
                 <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">Air Pollution</h3>
-                <div className="relative w-full h-[300px]">
+                <div className="relative w-full">
                   <canvas ref={airCanvasRef} className="w-full h-full" />
                 </div>
                 <div className="flex justify-center gap-3 mt-3">
@@ -271,7 +271,7 @@ export default function Module3CarbonPriceDashboard() {
 
               <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
                 <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">Average Price of Energy to Consumers</h3>
-                <div className="relative w-full h-[300px]">
+                <div className="relative w-full">
                   <canvas ref={priceCanvasRef} className="w-full h-full" />
                 </div>
                 <div className="flex justify-center gap-3 mt-3">
@@ -285,7 +285,7 @@ export default function Module3CarbonPriceDashboard() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
               <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">Air Pollution</h3>
-              <div className="relative w-full h-[250px]">
+              <div className="relative w-full">
                 <canvas ref={airCanvasRef} className="w-full h-full" />
               </div>
               <div className="flex justify-center gap-3 mt-3">
@@ -296,7 +296,7 @@ export default function Module3CarbonPriceDashboard() {
 
             <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
               <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">Average Price of Energy to Consumers</h3>
-              <div className="relative w-full h-[250px]">
+              <div className="relative w-full">
                 <canvas ref={priceCanvasRef} className="w-full h-full" />
               </div>
               <div className="flex justify-center gap-3 mt-3">

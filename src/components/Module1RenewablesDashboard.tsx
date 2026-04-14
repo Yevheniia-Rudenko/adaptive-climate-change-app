@@ -397,7 +397,7 @@ export default function Module1RenewablesDashboard() {
             <div className="flex items-stretch gap-4 min-w-[1800px]">
               <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 flex-1 min-w-0">
                 <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">CO2 Emissions</h3>
-                <div className="relative w-full h-[300px]">
+                <div className="relative w-full">
                   <canvas id={MAIN_GRAPH.canvasId} className="w-full h-full" style={{ display: 'block', pointerEvents: 'none' }} />
                 </div>
                 <div className="flex justify-center gap-3 mt-3">
@@ -416,7 +416,7 @@ export default function Module1RenewablesDashboard() {
                     {SECONDARY_GRAPHS.map(g => <option key={g.id} value={g.id}>{g.label}</option>)}
                   </select>
                 </div>
-                <div className="relative w-full h-[300px]">
+                <div className="relative w-full">
                   <canvas id={SECONDARY_GRAPH_CANVAS_ID} className="w-full h-full" style={{ display: 'block', pointerEvents: 'none' }} />
                 </div>
                                 {selectedSecondaryGraphId === '279' ? (
@@ -487,7 +487,7 @@ export default function Module1RenewablesDashboard() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
                 <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">CO2 Emissions</h3>
-                <div className="relative w-full h-[250px]">
+                <div className="relative w-full">
                   <canvas id={MAIN_GRAPH.canvasId} className="w-full h-full" style={{ display: 'block', pointerEvents: 'none' }} />
                 </div>
                 <div className="flex justify-center gap-3 mt-3">
@@ -506,7 +506,7 @@ export default function Module1RenewablesDashboard() {
                     {SECONDARY_GRAPHS.map(g => <option key={g.id} value={g.id}>{g.label}</option>)}
                   </select>
                 </div>
-                <div className="relative w-full h-[250px]">
+                <div className="relative w-full">
                   <canvas id={SECONDARY_GRAPH_CANVAS_ID} className="w-full h-full" style={{ display: 'block', pointerEvents: 'none' }} />
                 </div>
                                 {selectedSecondaryGraphId === '279' ? (
