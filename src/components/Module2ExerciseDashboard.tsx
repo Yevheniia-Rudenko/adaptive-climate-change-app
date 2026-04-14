@@ -280,7 +280,7 @@ export default function Module2ExerciseDashboard() {
                   className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 flex-1 min-w-0"
                 >
                   <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">{cfg.label}</h3>
-                  <div className="relative w-full h-[300px]">
+                  <div className="relative w-full">
                     <canvas id={cfg.canvasId} className="w-full h-full" />
                   </div>
                   <div className="flex justify-center gap-3 mt-3">
@@ -383,7 +383,7 @@ export default function Module2ExerciseDashboard() {
                   className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600"
                 >
                   <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">{cfg.label}</h3>
-                  <div className="relative w-full h-[250px]">
+                  <div className="relative w-full">
                     <canvas id={cfg.canvasId} className="w-full h-full" />
                   </div>
                   {/* Legend badges */}

@@ -162,14 +162,17 @@ export default function Module1FossilFuelTaxesDashboard() {
     updateTemperatureDisplay();
   };
 
-  const loadGraph = (canvasId: string, graphId: string, height = 250) => {
+  const loadGraph = (canvasId: string, graphId: string) => {
     const graphSpec = getSafeSpec(graphId);
     if (!graphSpec) return;
     const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
     if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
     const dpr  = window.devicePixelRatio || 1;
-    canvas.width  = Math.floor((rect.width || 640) * dpr);
+    const w    = rect.width || 640;
+    // Responsive height: taller when narrow (mobile, single-col), shorter when wide (tablet 2-col)
+    const height = Math.max(200, Math.min(300, Math.round(w * 0.55)));
+    canvas.width  = Math.floor(w * dpr);
     canvas.height = Math.floor(height * dpr);
     canvas.style.width  = '100%';
     canvas.style.height = `${height}px`;
@@ -221,7 +224,7 @@ export default function Module1FossilFuelTaxesDashboard() {
         // Do NOT call set() — let model use its built-in baseline so current = baseline at startup.
         modelContextRef.current.onOutputsChanged = () => updateDashboard();
         setTimeout(() => {
-          for (const g of GRAPHS) loadGraph(g.canvasId, g.id, 250);
+          for (const g of GRAPHS) loadGraph(g.canvasId, g.id);
           setTimeout(() => updateDashboard(), 50);
         }, 150);
         setIsLoading(false);
@@ -323,8 +326,8 @@ export default function Module1FossilFuelTaxesDashboard() {
           {/* CO2 Net Emissions */}
           <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
             <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">CO2 Net Emissions</h3>
-            <div className="relative w-full h-[250px]">
-              <canvas id="fft-graph-co2" className="w-full h-full"
+            <div className="relative w-full">
+              <canvas id="fft-graph-co2" className="w-full"
                 style={{ display: 'block', pointerEvents: 'none' }} />
             </div>
             <Legend />
@@ -333,8 +336,8 @@ export default function Module1FossilFuelTaxesDashboard() {
           {/* Sea Level Rise */}
           <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
             <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">Sea Level Rise</h3>
-            <div className="relative w-full h-[250px]">
-              <canvas id="fft-graph-sea-level" className="w-full h-full"
+            <div className="relative w-full">
+              <canvas id="fft-graph-sea-level" className="w-full"
                 style={{ display: 'block', pointerEvents: 'none' }} />
             </div>
             <Legend />
