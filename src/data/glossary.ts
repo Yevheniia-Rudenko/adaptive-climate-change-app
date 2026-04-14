@@ -89,6 +89,11 @@ export const glossary: GlossaryData = {
       term: 'renewable energy',
       variants: ['renewables'],
       definition: 'Energy from sources that naturally replenish themselves, like solar, wind, hydro, and geothermal power. Unlike fossil fuels, renewable energy doesn\'t produce greenhouse gas emissions and won\'t run out.'
+    },
+        {
+      term: 'systems awareness',
+      variants: ['systems awareness'],
+      definition: 'Systems awareness is the capacity to sense, feel and think about complexity, interdependence and change over time.'
     }
   ],
 

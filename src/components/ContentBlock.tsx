@@ -813,6 +813,36 @@ function ImageCollageBlock({ block }: { block: Extract<ContentBlockType, { type:
   );
 }
 
+function TextWithImageBlock({ block }: { block: Extract<ContentBlockType, { type: 'text-with-image' }> }) {
+  const reverse = block.imageSide === 'right';
+
+  return (
+    <div className="mb-6 sm:mb-8 font-sora">
+      {block.title && (
+        <div className="flex items-center gap-2 mb-3 sm:mb-4">
+          <BookOpen className="text-blue-600 dark:text-blue-400 flex-shrink-0" size={20} />
+          <h3 className="text-gray-900 dark:text-gray-100 text-base sm:text-lg font-bold">{formatTitle(block.title)}</h3>
+        </div>
+      )}
+
+      <div className={`flex flex-col sm:flex-row gap-4 sm:gap-6 ${reverse ? 'sm:flex-row-reverse' : ''}`}>
+        <div className="w-full max-w-md mx-auto sm:max-w-none sm:mx-0 sm:w-5/12 lg:w-4/12">
+          <div className="rounded-xl sm:rounded-2xl overflow-hidden shadow-lg">
+            <img src={block.imageUrl} alt={block.alt} className="w-full h-auto block" />
+          </div>
+        </div>
+
+        <div className="w-full sm:flex-1">
+          <TextWithGlossary
+            text={block.content}
+            className="text-gray-700 dark:text-gray-300 text-sm sm:text-base md:text-lg leading-relaxed whitespace-pre-line"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function LottieBlock({ block }: { block: Extract<ContentBlockType, { type: 'lottie' }> }) {
   const lottieRef = useRef<any>(null);
   const [animationData, setAnimationData] = useState<unknown | null>((block.animationData as unknown) ?? null);
@@ -1195,6 +1225,9 @@ export function ContentBlock({
           </div>
         </div>
       );
+
+    case 'text-with-image':
+      return <TextWithImageBlock block={block} />;
 
     case 'image-collage':
       return <ImageCollageBlock block={block} />;
