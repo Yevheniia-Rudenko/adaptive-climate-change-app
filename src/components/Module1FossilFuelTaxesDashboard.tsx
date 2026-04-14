@@ -4,214 +4,226 @@ import enStrings from '@climateinteractive/en-roads-core/strings/en';
 import { GraphView } from '@climateinteractive/sim-ui-graph';
 import '../styles/enroads-dashboard.css';
 
-// Graph definitions
+// ── Only 2 data graphs — temperature is displayed as a live number card ───────
 const GRAPHS = [
-  { id: '86', label: 'Global Temperature', canvasId: 'module1-graph-temperature' },
-  { id: '90', label: 'Sea Level Rise', canvasId: 'module1-graph-sea-level' },
-  { id: '169', label: 'Deforestation', canvasId: 'module1-graph-deforestation' }
+  { id: '62',  label: 'CO2 Emissions',     canvasId: 'fft-graph-co2'       },
+  { id: '90',  label: 'Sea Level Rise',    canvasId: 'fft-graph-sea-level'  },
 ];
 
+// ── En-ROADS status quo defaults (model's built-in baseline values) ────────────────
+const SQ_COAL = -30;  // Coal price adj:  -30% (En-ROADS default)
+const SQ_OIL  =  15;  // Oil  price adj:  +15% (tax 35 − subsidy 20, En-ROADS default)
+const SQ_GAS  = -30;  // Gas  price adj:  -30% (En-ROADS default)
+
+// ── Label helpers ─────────────────────────────────────────────────────────────
+// Coal & Gas  →  200→100 Highly Discouraged | 99→1 Discouraged |
+//                0→-25 Less Encouraged | -26→-35 Status Quo | -36→-50 More Encouraged
+const getCoalGasLabel = (v: number): string => {
+  if (v >= 100) return 'Highly Discouraged';
+  if (v >= 1)   return 'Discouraged';
+  if (v >= -25) return 'Less Encouraged';
+  if (v >= -35) return 'Status Quo';
+  return         'More Encouraged';
+};
+
+// Oil  →  200→100 Highly Discouraged | 99→20 Discouraged | 19→0 Status Quo |
+//         -1→-25 Encouraged | -26→-50 Highly Encouraged
+const getOilLabel = (v: number): string => {
+  if (v >= 100) return 'Highly Discouraged';
+  if (v >= 20)  return 'Discouraged';
+  if (v >= 0)   return 'Status Quo';
+  if (v >= -25) return 'Encouraged';
+  return         'Highly Encouraged';
+};
+
+// Slider range: min=-50 (right/encouraged) … max=200 (left/discouraged)
+// Rendered with transform:scaleX(-1) → visual LEFT = discouraged, RIGHT = encouraged
+const sliderPct = (v: number) => ((v + 50) / 250) * 100;
+
+// Gradient for flipped slider: gray left→pct, blue pct→right
+// After scaleX(-1): blue fills from visual-left to thumb
+const flipGrad = (v: number) => {
+  const p = sliderPct(v);
+  return `linear-gradient(to right, #e5e7eb 0%, #e5e7eb ${p}%, #53B1E8 ${p}%, #53B1E8 100%)`;
+};
+
 export default function Module1FossilFuelTaxesDashboard() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [isLoading,  setIsLoading]  = useState(true);
+  const [error,      setError]      = useState<string | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
 
-  // Slider states
-  const [coalVal, setCoalVal] = useState(0);
-  const [oilVal, setOilVal] = useState(0);
-  const [gasVal, setGasVal] = useState(0);
+  // ── Slider state — default 0 = En-ROADS model baseline (no additional policy) ──
+  const [coalVal,  setCoalVal]  = useState(SQ_COAL);
+  const [oilVal,   setOilVal]   = useState(SQ_OIL);
+  const [gasVal,   setGasVal]   = useState(SQ_GAS);
+  const [coalText, setCoalText] = useState(getCoalGasLabel(SQ_COAL));  // 'Status Quo'
+  const [oilText,  setOilText]  = useState(getOilLabel(SQ_OIL));       // 'Status Quo'
+  const [gasText,  setGasText]  = useState(getCoalGasLabel(SQ_GAS));   // 'Status Quo'
 
-  const [coalText, setCoalText] = useState('status quo');
-  const [oilText, setOilText] = useState('status quo');
-  const [gasText, setGasText] = useState('status quo');
+  // ── Temperature — DOM refs to avoid re-renders that remount canvases ──────
+  const tempCRef = useRef<HTMLElement | null>(null);
+  const tempFRef = useRef<HTMLElement | null>(null);
+  // expanded view duplicate refs
+  const tempCRef2 = useRef<HTMLElement | null>(null);
+  const tempFRef2 = useRef<HTMLElement | null>(null);
 
-  const [tempC, setTempC] = useState(3.3);
-  const [tempF, setTempF] = useState(5.9);
-
-  const modelRef = useRef<any>(null);
+  const modelRef        = useRef<any>(null);
   const modelContextRef = useRef<any>(null);
-  const graphViewRefs = useRef<Record<string, any>>({});
-  const coreConfigRef = useRef<any>(null);
+  const graphViewRefs   = useRef<Record<string, any>>({});
+  const coreConfigRef   = useRef<any>(null);
+  const coalInputRef    = useRef<any>(null);
+  const oilInputRef     = useRef<any>(null);
+  const gasInputRef     = useRef<any>(null);
 
-  // Input refs for Coal (1), Oil (7), Gas (10)
-  const coalInputRef = useRef<any>(null);
-  const oilInputRef = useRef<any>(null);
-  const gasInputRef = useRef<any>(null);
+  const str = (key: string) => (enStrings as any)[key] || key;
 
-  const str = (key: string) => {
-    return (enStrings as any)[key] || key;
-  };
-
-  const getSliderText = (value: number) => {
-    // Determine text based on value range (approximate En-Roads logic)
-    // Taxes are positive values here? Let's check ranges.
-    // Coal Tax (ID 1): 0 to 100 $/ton usually.
-    if (value > 10) return 'taxed';
-    if (value > 0) return 'lightly taxed';
-    return 'status quo';
+  // ── Safe 2-dataset graph spec ─────────────────────────────────────────────
+  const getSafeSpec = (graphId: string) => {
+    const raw = coreConfigRef.current?.graphs?.get(graphId);
+    if (!raw) return null;
+    const baseline = raw.datasets?.find(
+      (d: any) => d.externalSourceName === 'Ref' || d.externalSourceName === 'baseline'
+    );
+    const current = raw.datasets?.find((d: any) => !d.externalSourceName);
+    if (baseline && current) {
+      return {
+        ...raw,
+        datasets: [
+          { ...baseline, label: 'Baseline', color: '#000000', lineStyle: baseline.lineStyle || 'thinline' },
+          { ...current,  label: 'Current',  color: '#53B1E8', lineStyle: current.lineStyle  || 'line'     },
+        ],
+      };
+    }
+    const gDef = GRAPHS.find(g => g.id === graphId);
+    if (!gDef) return null;
+    return {
+      ...raw,
+      datasets: [
+        { varId: gDef.id, externalSourceName: 'Ref', label: 'Baseline', color: '#000000', lineStyle: 'thinline' },
+        { varId: gDef.id,                            label: 'Current',  color: '#53B1E8', lineStyle: 'line'     },
+      ],
+    };
   };
 
   const createGraphViewModel = (graphSpec: any) => {
-    const datasetViewModels = graphSpec.datasets.map((datasetSpec: any) => ({
-      spec: datasetSpec,
-      visible: true,
-      points: []
+    const dsVMs = (graphSpec.datasets || []).map((ds: any) => ({
+      spec: ds, visible: true, points: [],
     }));
-
     return {
       spec: graphSpec,
-      getDatasets: () => datasetViewModels,
+      getDatasets: () => dsVMs,
       getStringForKey: (key: string) => str(key),
-      formatYAxisTickValue: (value: number) => value.toFixed(1),
-      formatYAxisTooltipValue: (value: number) => value.toFixed(2)
+      formatYAxisTickValue:    (v: number) => v.toFixed(1),
+      formatYAxisTooltipValue: (v: number) => v.toFixed(2),
     };
   };
 
   const updateGraphData = (graphView: any) => {
     try {
       if (!graphView || !modelContextRef.current) return;
-      const graphViewModel = graphView.viewModel;
-      for (const datasetViewModel of graphViewModel.getDatasets()) {
-        const datasetSpec = datasetViewModel.spec;
-        const series = modelContextRef.current.getSeriesForVar(
-          datasetSpec.varId,
-          datasetSpec.externalSourceName
-        );
-        const newPoints = series?.points || [];
-        datasetViewModel.points = [...newPoints];
-
-        if (!datasetSpec.externalSourceName) {
-          datasetSpec.color = '#53B1E8'; // Current scenario (match Module 2)
-          datasetSpec.lineWidth = 4;
-        } else if (datasetSpec.externalSourceName === 'baseline' || datasetSpec.externalSourceName === 'Ref') {
-          datasetSpec.color = '#000000';
-          datasetSpec.lineWidth = 4;
-        }
+      for (const dsVM of graphView.viewModel.getDatasets()) {
+        const ds = dsVM.spec;
+        let series = modelContextRef.current.getSeriesForVar(ds.varId, ds.externalSourceName);
+        if (!series?.points?.length && ds.externalSourceName === 'baseline')
+          series = modelContextRef.current.getSeriesForVar(ds.varId, 'Ref');
+        else if (!series?.points?.length && ds.externalSourceName === 'Ref')
+          series = modelContextRef.current.getSeriesForVar(ds.varId, 'baseline');
+        const pts = series?.points || [];
+        dsVM.points = [...pts];
+        if (pts.length <= 2) { dsVM.visible = false; continue; }
+        dsVM.visible = true;
+        if (!ds.externalSourceName) { if (!ds.color) ds.color = '#53B1E8'; ds.lineWidth = 4; }
+        else                        { if (!ds.color) ds.color = '#000000'; ds.lineWidth = 4; }
       }
-      graphView.updateData(true);
+      graphView.updateData(false);
     } catch (e) { console.error(e); }
   };
 
   const updateTemperatureDisplay = () => {
     if (!modelContextRef.current) return;
-
-    // Try getting the variable that is confirmed to be in outputs
-    let tempSeries = modelContextRef.current.getSeriesForVar('_temperature_change_from_1850');
-
-    // If not found, try the specific relative one
-    if (!tempSeries || !tempSeries.points) {
-      tempSeries = modelContextRef.current.getSeriesForVar('_temperature_relative_to_1850_1900');
-    }
-
-    if (tempSeries && tempSeries.points && tempSeries.points.length > 0) {
-      const tempCelsius = tempSeries.getValueAtTime(2100);
-      setTempC(tempCelsius);
-      setTempF(tempCelsius * 9 / 5);
-    } else {
-      // Fallback: approximate from emissions
-      const emissionsSeries = modelContextRef.current.getSeriesForVar('_co2_equivalent_net_emissions');
-      if (emissionsSeries && emissionsSeries.points && emissionsSeries.points.length > 0) {
-        const emissions2100 = emissionsSeries.getValueAtTime(2100);
-        const tempCelsius = 1.5 + (emissions2100 / 69.6) * 1.8;
-        setTempC(tempCelsius);
-        setTempF(tempCelsius * 9 / 5);
-      }
+    let s = modelContextRef.current.getSeriesForVar('_temperature_change_from_1850');
+    if (!s?.points?.length)
+      s = modelContextRef.current.getSeriesForVar('_temperature_relative_to_1850_1900');
+    if (s?.points?.length) {
+      const c = s.getValueAtTime(2100);
+      const f = c * 9 / 5;
+      const cStr = `+${c.toFixed(1)}°C`;
+      const fStr = `+${f.toFixed(1)}°F`;
+      if (tempCRef.current)  tempCRef.current.textContent  = cStr;
+      if (tempFRef.current)  tempFRef.current.textContent  = fStr;
+      if (tempCRef2.current) tempCRef2.current.textContent = cStr;
+      if (tempFRef2.current) tempFRef2.current.textContent = fStr;
     }
   };
 
   const updateDashboard = () => {
-    for (const key of Object.keys(graphViewRefs.current)) {
+    for (const key of Object.keys(graphViewRefs.current))
       if (graphViewRefs.current[key]) updateGraphData(graphViewRefs.current[key]);
-    }
     updateTemperatureDisplay();
   };
 
   const loadGraph = (canvasId: string, graphId: string, height = 250) => {
-    if (!coreConfigRef.current) return;
-    const graphSpec = coreConfigRef.current.graphs.get(graphId);
+    const graphSpec = getSafeSpec(graphId);
     if (!graphSpec) return;
-
     const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
     if (!canvas) return;
-
     const rect = canvas.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = Math.floor(rect.width * dpr);
+    const dpr  = window.devicePixelRatio || 1;
+    canvas.width  = Math.floor((rect.width || 640) * dpr);
     canvas.height = Math.floor(height * dpr);
-    canvas.style.width = '100%';
+    canvas.style.width  = '100%';
     canvas.style.height = `${height}px`;
-
+    canvas.style.pointerEvents = 'none';
     try {
-      const viewModel = createGraphViewModel(graphSpec);
       const isDark = document.documentElement.classList.contains('dark');
       const style = {
-        font: { family: 'system-ui, -apple-system, sans-serif', style: 'normal', color: isDark ? '#e2e8f0' : '#1f2937' },
+        font: { family: 'system-ui,-apple-system,sans-serif', style: 'normal',
+                color: isDark ? '#e2e8f0' : '#1f2937', size: 13 },
         xAxis: { tickMaxCount: 6 },
         yAxis: { tickMaxCount: 6 },
         getAxisLabelFontSize: () => 14,
         getTickLabelFontSize: () => 12,
-        getDefaultLineWidth: () => 4,
-        plotBackgroundColor: isDark ? '#1e293b' : '#ffffff'
+        getDefaultLineWidth:  () => 4,
+        plotBackgroundColor: isDark ? '#1e293b' : '#ffffff',
       };
-      const graphView = new GraphView(canvas, viewModel, { style, responsive: true, animations: true }, true);
-      graphViewRefs.current[canvasId] = graphView;
-      updateGraphData(graphView);
-    } catch (e) { console.error('Error loading graph', e); }
+      const gv = new GraphView(canvas, createGraphViewModel(graphSpec), { style, responsive: true, animations: false }, true);
+      graphViewRefs.current[canvasId] = gv;
+      updateGraphData(gv);
+    } catch (e) { console.error('loadGraph error', canvasId, e); }
   };
 
   const handleSliderChange = (type: 'coal' | 'oil' | 'gas', e: ChangeEvent<HTMLInputElement>) => {
-    const val = parseFloat(e.target.value); // 0-100 slider position
-    // Map 0-100 to tax range.
-    // Coal (1): 0 to 100 $/ton? Default max is often high.
-    // Oil (7): 0 to 100 $/barrel?
-    // Gas (10): 0 to 10 $/Mcf?
-
-    // We need to map slider 0-100 to Input Min/Max.
-    let inputRef;
-    let setText;
-    let setVal;
-
-    if (type === 'coal') { inputRef = coalInputRef; setText = setCoalText; setVal = setCoalVal; }
-    else if (type === 'oil') { inputRef = oilInputRef; setText = setOilText; setVal = setOilVal; }
-    else { inputRef = gasInputRef; setText = setGasText; setVal = setGasVal; }
-
-    setVal(val);
-
-    if (inputRef.current) {
-      const min = inputRef.current.min !== undefined ? inputRef.current.min : 0;
-      const max = inputRef.current.max !== undefined ? inputRef.current.max : 100;
-      // Tax logic: 0 is status quo (min), 100 is max tax.
-      const modelVal = min + (val / 100) * (max - min);
-
-      console.log(`Ex3 Slider ${type} -> Raw: ${val}, Model: ${modelVal} (Min: ${min}, Max: ${max})`);
-      inputRef.current.set(modelVal);
-      setText(getSliderText(modelVal));
+    const v = parseFloat(e.target.value);
+    if (type === 'coal') {
+      setCoalVal(v); setCoalText(getCoalGasLabel(v));
+      if (coalInputRef.current) coalInputRef.current.set(v - SQ_COAL);
+    } else if (type === 'oil') {
+      setOilVal(v);  setOilText(getOilLabel(v));
+      if (oilInputRef.current)  oilInputRef.current.set(v - SQ_OIL);
+    } else {
+      setGasVal(v);  setGasText(getCoalGasLabel(v));
+      if (gasInputRef.current)  gasInputRef.current.set(v - SQ_GAS);
     }
+    setTimeout(() => updateDashboard(), 50);
   };
 
   useEffect(() => {
-    const initApp = async () => {
+    const init = async () => {
       try {
         setIsLoading(true);
-        coreConfigRef.current = getDefaultConfig();
-        modelRef.current = await createAsyncModel();
+        coreConfigRef.current   = getDefaultConfig();
+        modelRef.current        = await createAsyncModel();
         modelContextRef.current = modelRef.current.addContext();
         createDefaultOutputs();
-
-        // Load Inputs: Coal(1), Oil(7), Gas(10)
         coalInputRef.current = modelContextRef.current.getInputForId('1');
-        oilInputRef.current = modelContextRef.current.getInputForId('7');
-        gasInputRef.current = modelContextRef.current.getInputForId('10');
-
+        oilInputRef.current  = modelContextRef.current.getInputForId('7');
+        gasInputRef.current  = modelContextRef.current.getInputForId('10');
+        // Do NOT call set() — let model use its built-in baseline so current = baseline at startup.
         modelContextRef.current.onOutputsChanged = () => updateDashboard();
-
         setTimeout(() => {
-          for (const graph of GRAPHS) {
-            loadGraph(graph.canvasId, graph.id, 250);
-          }
+          for (const g of GRAPHS) loadGraph(g.canvasId, g.id, 250);
           setTimeout(() => updateDashboard(), 50);
         }, 150);
-
         setIsLoading(false);
       } catch (err) {
         console.error(err);
@@ -219,228 +231,157 @@ export default function Module1FossilFuelTaxesDashboard() {
         setIsLoading(false);
       }
     };
-
-    if (!modelRef.current) initApp();
+    if (!modelRef.current) init();
+    return () => {
+      // Reset on unmount so HMR always gets a clean model init
+      modelRef.current = null;
+      modelContextRef.current = null;
+    };
   }, []);
 
   useEffect(() => {
     if (isLoading || !coreConfigRef.current) return;
-
-    const previousBodyOverflow = document.body.style.overflow;
-    if (isExpanded) {
-      document.body.style.overflow = 'hidden';
-    }
-
-    const timer = window.setTimeout(() => {
-      for (const graph of GRAPHS) {
-        loadGraph(graph.canvasId, graph.id, isExpanded ? 300 : 250);
-      }
+    const prev = document.body.style.overflow;
+    if (isExpanded) document.body.style.overflow = 'hidden';
+    const h = isExpanded ? 280 : 250;
+    const t = window.setTimeout(() => {
+      for (const g of GRAPHS) loadGraph(g.canvasId, g.id, h);
       updateTemperatureDisplay();
     }, 120);
-
-    return () => {
-      window.clearTimeout(timer);
-      document.body.style.overflow = previousBodyOverflow;
-    };
+    return () => { window.clearTimeout(t); document.body.style.overflow = prev; };
   }, [isExpanded, isLoading]);
 
   if (isLoading) return <div className="p-8 text-center text-gray-500">Loading Model...</div>;
-  if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
+  if (error)     return <div className="p-8 text-center text-red-600">{error}</div>;
+
+  const Legend = () => (
+    <div className="flex justify-center gap-3 mt-3">
+      <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
+      <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
+    </div>
+  );
 
   return (
     <div
       className={isExpanded
-        ? 'fixed inset-0 z-50 bg-white p-4 md:p-6 overflow-y-auto font-sora'
+        ? 'fixed inset-0 z-50 bg-white dark:bg-gray-900 p-4 md:p-6 overflow-y-auto font-sora'
         : 'bg-gray-50 dark:bg-gray-900 p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora mb-24'}
     >
-      <div className={isExpanded ? 'w-full h-full' : ''}>
-        {isExpanded ? (
-          <div className="relative px-4 pt-4 mb-4">
-            <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200 text-center">
-              En-ROADS Dashboard: Fossil Fuel Taxes
-            </h2>
-            <button
-              type="button"
-              onClick={() => setIsExpanded((v) => !v)}
-              className="absolute right-4 top-4 px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
-              style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
-            >
-              Close Full Screen
-            </button>
-          </div>
-        ) : (
-          <div className="flex items-start justify-between gap-3 px-4 pt-4 mb-4">
-            <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200">
-              En-ROADS Dashboard: Fossil Fuel Taxes
-            </h2>
-            <button
-              type="button"
-              onClick={() => setIsExpanded((v) => !v)}
-              className="px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
-              style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
-            >
-              Open Full Screen
-            </button>
-          </div>
-        )}
+      {/* ── Header ── */}
+      {isExpanded ? (
+        <div className="relative px-4 pt-4 mb-6">
+          <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200 text-center">
+            En-ROADS Dashboard: Fossil Fuel Taxes
+          </h2>
+          <button type="button" onClick={() => setIsExpanded(v => !v)}
+            className="absolute right-4 top-4 px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
+            style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#fff' }}>
+            Close Full Screen
+          </button>
+        </div>
+      ) : (
+        <div className="flex items-start justify-between gap-3 px-4 pt-4 mb-6">
+          <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200">
+            En-ROADS Dashboard: Fossil Fuel Taxes
+          </h2>
+          <button type="button" onClick={() => setIsExpanded(v => !v)}
+            className="px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
+            style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#fff' }}>
+            Open Full Screen
+          </button>
+        </div>
+      )}
 
-        {isExpanded ? (
-          <div className="overflow-x-auto mb-4">
-            <div className="flex items-stretch gap-4 min-w-[1820px]">
-              {GRAPHS.map((graph) => (
-                <div
-                  key={graph.id}
-                  className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 flex-1 min-w-0"
-                >
-                  <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">{graph.label}</h3>
-                  <div className="relative w-full h-[300px]">
-                    <canvas id={graph.canvasId} className="w-full h-full" />
-                  </div>
-                  <div className="flex justify-center gap-3 mt-3">
-                    <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
-                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
-                  </div>
-                </div>
-              ))}
+      {/* ═══════════════════════════════════════════════════════════════════
+          TRIANGLE LAYOUT
+          ▲  Temperature card  — full width, top
+          ▼  CO2  |  Sea Level — two columns, bottom
+      ════════════════════════════════════════════════════════════════════ */}
+      <div className="flex flex-col gap-4 mb-4">
 
-              <div className="shrink-0 w-fit">
-                <div
-                  className="px-6 pb-4 text-center inline-flex flex-col items-center w-fit h-fit"
-                  style={{ transform: 'translateY(110px)' }}
-                >
-                  <div
-                    style={{
-                      color: '#14a9df',
-                      fontSize: 'clamp(3rem, 3vw, 3rem)',
-                      fontWeight: 800,
-                      lineHeight: 1.5,
-                    }}
-                  >
-                    +{tempC.toFixed(1)}°C
-                  </div>
-                  <div className="mx-auto my-4 h-[2px] w-[72%] bg-black" />
-                  <div
-                    style={{
-                      color: '#14a9df',
-                      fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)',
-                      fontWeight: 800,
-                      lineHeight: 1,
-                    }}
-                  >
-                    +{tempF.toFixed(1)}°F
-                  </div>
-                  <div
-                    className="mt-5 leading-tight text-gray-900 dark:text-gray-100"
-                    style={{
-                      fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)',
-                      fontWeight: 800,
-                    }}
-                  >
-                    Temperature
-                    <br />
-                    Increase by
-                    <br />
-                    2100
-                  </div>
-                </div>
-              </div>
+        {/* ── TOP: Temperature card — same style as other dashboards ── */}
+        <div className="flex justify-center">
+          <div className="bg-white dark:bg-gray-800 px-6 py-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 text-center inline-flex flex-col items-center w-fit mx-auto">
+            <span
+              ref={el => { tempCRef.current = el; }}
+              style={{ color: '#14a9df', fontSize: 'clamp(3rem, 3vw, 3rem)', fontWeight: 800, lineHeight: 1.5 }}
+            >+3.3°C</span>
+            <div className="mx-auto my-4 h-[2px] w-[72%] bg-black" />
+            <span
+              ref={el => { tempFRef.current = el; }}
+              style={{ color: '#14a9df', fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)', fontWeight: 800, lineHeight: 1 }}
+            >+5.9°F</span>
+            <div className="mt-3 leading-tight text-gray-900 dark:text-gray-100" style={{ fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)', fontWeight: 800 }}>
+              Temperature<br />Increase by<br />2100
             </div>
           </div>
-        ) : (
-          <>
-            <div className="flex justify-center mb-4">
-              <div className="bg-white dark:bg-gray-800 px-6 py-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 text-center inline-flex flex-col items-center w-fit mx-auto">
-                <div
-                  style={{
-                    color: '#14a9df',
-                    fontSize: 'clamp(3rem, 3vw, 3rem)',
-                    fontWeight: 800,
-                    lineHeight: 1.5,
-                  }}
-                >
-                  +{tempC.toFixed(1)}°C
-                </div>
-                <div className="mx-auto my-4 h-[2px] w-[72%] bg-black" />
-                <div
-                  style={{
-                    color: '#14a9df',
-                    fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)',
-                    fontWeight: 800,
-                    lineHeight: 1,
-                  }}
-                >
-                  +{tempF.toFixed(1)}°F
-                </div>
-                <div
-                  className="mt-3 leading-tight text-gray-900 dark:text-gray-100"
-                  style={{
-                    fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)',
-                    fontWeight: 800,
-                  }}
-                >
-                  Temperature
-                  <br />
-                  Increase by
-                  <br />
-                  2100
-                </div>
-              </div>
-            </div>
+        </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-              {GRAPHS.map((graph) => (
-                <div
-                  key={graph.id}
-                  className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600"
-                >
-                  <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">{graph.label}</h3>
-                  <div className="relative w-full h-[250px]">
-                    <canvas id={graph.canvasId} className="w-full h-full" />
-                  </div>
-                  <div className="flex justify-center gap-3 mt-3">
-                    <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
-                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
+        {/* ── BOTTOM: CO2 | Sea Level (two columns) ── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-6">
+          {/* CO2 Net Emissions */}
+          <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
+            <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">CO2 Net Emissions</h3>
+            <div className="relative w-full h-[250px]">
+              <canvas id="fft-graph-co2" className="w-full h-full"
+                style={{ display: 'block', pointerEvents: 'none' }} />
+            </div>
+            <Legend />
+          </div>
+
+          {/* Sea Level Rise */}
+          <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
+            <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">Sea Level Rise</h3>
+            <div className="relative w-full h-[250px]">
+              <canvas id="fft-graph-sea-level" className="w-full h-full"
+                style={{ display: 'block', pointerEvents: 'none' }} />
+            </div>
+            <Legend />
+          </div>
+
+        </div>
+      </div>
+
+      {/* ── Sliders ── */}
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-6">
+
+        {/* Coal */}
         <div className="space-y-2">
           <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
             <label>Tax on Coal</label>
             <span className="text-xs font-mono text-gray-500">{coalText}</span>
           </div>
-          <input type="range" min="0" max="100" value={coalVal} onChange={(e) => handleSliderChange('coal', e)}
+          <input type="range" min="-50" max="200" step="1" value={coalVal}
+            onChange={e => handleSliderChange('coal', e)}
             className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-            style={{ background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${coalVal}%, #e5e7eb ${coalVal}%, #e5e7eb 100%)` }}
-          />
+            style={{ transform: 'scaleX(-1)', background: flipGrad(coalVal) }} />
         </div>
 
+        {/* Oil */}
         <div className="space-y-2">
           <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
             <label>Tax on Oil</label>
             <span className="text-xs font-mono text-gray-500">{oilText}</span>
           </div>
-          <input type="range" min="0" max="100" value={oilVal} onChange={(e) => handleSliderChange('oil', e)}
+          <input type="range" min="-50" max="200" step="1" value={oilVal}
+            onChange={e => handleSliderChange('oil', e)}
             className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-            style={{ background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${oilVal}%, #e5e7eb ${oilVal}%, #e5e7eb 100%)` }}
-          />
+            style={{ transform: 'scaleX(-1)', background: flipGrad(oilVal) }} />
         </div>
 
+        {/* Gas */}
         <div className="space-y-2">
           <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
             <label>Tax on Gas</label>
             <span className="text-xs font-mono text-gray-500">{gasText}</span>
           </div>
-          <input type="range" min="0" max="100" value={gasVal} onChange={(e) => handleSliderChange('gas', e)}
+          <input type="range" min="-50" max="200" step="1" value={gasVal}
+            onChange={e => handleSliderChange('gas', e)}
             className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-            style={{ background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${gasVal}%, #e5e7eb ${gasVal}%, #e5e7eb 100%)` }}
-          />
+            style={{ transform: 'scaleX(-1)', background: flipGrad(gasVal) }} />
         </div>
-        </div>
+
       </div>
     </div>
   );

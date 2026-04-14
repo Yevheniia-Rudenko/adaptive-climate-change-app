@@ -36,7 +36,7 @@ export default function Module1CarbonRemovalDashboard() {
   const [section2SelectedGraphId, setSection2SelectedGraphId] = useState('62');
 
   // Section 2 states
-  const [section2DeforestationValue, setSection2DeforestationValue] = useState(50);
+  const [section2DeforestationValue, setSection2DeforestationValue] = useState(0);
   const [section2DeforestationText, setSection2DeforestationText] = useState('status quo');
 
   // Temperature display — use refs + direct DOM to avoid React re-renders that reset canvas
@@ -86,12 +86,18 @@ export default function Module1CarbonRemovalDashboard() {
     return str(rangeLabelKeys[idx] ?? 'input_range__status_quo');
   };
 
+  const getCarbonRemovalText = (value: number) => {
+    if (value >= 70) return 'high growth';
+    if (value >= 40) return 'medium growth';
+    if (value >= 15) return 'low growth';
+    return 'status quo';
+  };
+
   const getDeforestationText = (value: number) => {
-    if (value > 0.5) return 'high deforestation';
-    if (value > 0.1) return 'moderate deforestation';
-    if (value >= -0.1) return 'status quo';
-    if (value > -0.5) return 'moderate reforestation';
-    return 'high reforestation';
+    if (value >= 0.1) return 'increased';
+    if (value >= -1.0) return 'status quo';
+    if (value >= -4.0) return 'reduced';
+    return 'highly reduced';
   };
 
   const createGraphViewModel = (graphSpec: any) => {
@@ -139,12 +145,13 @@ export default function Module1CarbonRemovalDashboard() {
         const newPoints = series?.points || [];
         datasetViewModel.points = [...newPoints];
 
-        // Color coding — baseline black, all non-baseline scenario lines blue.
+        // Preserve config-defined colors (e.g. Species Loss marine/land).
+        // Only apply defaults when no color is set.
         if (datasetSpec.externalSourceName === 'baseline' || datasetSpec.externalSourceName === 'Ref') {
-          datasetSpec.color = '#000000';
+          if (!datasetSpec.color) datasetSpec.color = '#000000';
           datasetSpec.lineWidth = 4;
         } else {
-          datasetSpec.color = '#00b6f1';
+          if (!datasetSpec.color) datasetSpec.color = '#00b6f1';
           datasetSpec.lineWidth = 4;
         }
       }
@@ -236,6 +243,24 @@ export default function Module1CarbonRemovalDashboard() {
 
     const fromConfig = coreConfigRef.current?.graphs?.get(graphId);
     if (fromConfig) {
+      // Graph 279 (Species Loss) shows marine + land species as separate lines.
+      // Explicitly set palette so chart lines and legend badges always match.
+      if (graphId === '279') {
+        const MARINE = '#3385C6';
+        const LAND   = '#843C0C';
+        const curr = (fromConfig.datasets || []).filter((d: any) => !d.externalSourceName);
+        const base = (fromConfig.datasets || []).filter(
+          (d: any) => d.externalSourceName === 'Ref' || d.externalSourceName === 'baseline'
+        );
+        return {
+          ...fromConfig,
+          datasets: [
+            ...base.slice(0, 2).map((d: any, i: number) => ({ ...d, color: [MARINE, LAND][i] })),
+            ...curr.slice(0, 2).map((d: any, i: number) => ({ ...d, color: [MARINE, LAND][i] }))
+          ]
+        };
+      }
+
       const baselineDataset = fromConfig.datasets?.find(
         (d: any) => d.externalSourceName === 'Ref' || d.externalSourceName === 'baseline'
       );
@@ -362,14 +387,14 @@ export default function Module1CarbonRemovalDashboard() {
     const sliderPos = parseFloat(e.target.value);
 
     setSection1SliderValue(sliderPos);
+    setSection1SliderText(getCarbonRemovalText(sliderPos));
 
     if (carbonRemovalInputRef.current) {
       const min = carbonRemovalInputRef.current.min ?? 0;
       const max = carbonRemovalInputRef.current.max ?? 100;
-      const modelVal = min + (sliderPos / 70) * (max - min);
+      const modelVal = min + (sliderPos / 100) * (max - min);
 
       carbonRemovalInputRef.current.set(modelVal);
-      setSection1SliderText(getInputRangeLabel(carbonRemovalInputRef.current, modelVal));
 
       // Force model update
       setTimeout(() => {
@@ -382,17 +407,20 @@ export default function Module1CarbonRemovalDashboard() {
 
   const handleSection2DeforestationChange = (e: ChangeEvent<HTMLInputElement>) => {
     const sliderPos = parseFloat(e.target.value);
-    // Map slider 0-100 to deforestation range (will determine actual range after finding input)
-    const value = (sliderPos - 50) / 50; // -1 to 1 range as placeholder
 
     setSection2DeforestationValue(sliderPos);
-    setSection2DeforestationText(getDeforestationText(value));
+    setSection2DeforestationText(getDeforestationText(sliderPos));
 
     if (deforestationInputRef.current) {
-      const min = deforestationInputRef.current.min !== undefined ? deforestationInputRef.current.min : -1;
+      const min = deforestationInputRef.current.min !== undefined ? deforestationInputRef.current.min : -10;
       const max = deforestationInputRef.current.max !== undefined ? deforestationInputRef.current.max : 1;
-      const modelVal = min + (sliderPos / 100) * (max - min);
+      const modelVal = min + ((sliderPos + 10) / 11) * (max - min);
       deforestationInputRef.current.set(modelVal);
+
+      // Force model update
+      setTimeout(() => {
+        updateAllGraphs();
+      }, 100);
     }
   };
 
@@ -426,13 +454,16 @@ export default function Module1CarbonRemovalDashboard() {
         // Ensure aggregate nature-based removals slider is active.
         if (natureModeSwitchRef.current?.set) natureModeSwitchRef.current.set(0);
 
-        const currentNatureVal = carbonRemovalInputRef.current.get?.() ?? 0;
         const natureMin = carbonRemovalInputRef.current.min ?? 0;
         const natureMax = carbonRemovalInputRef.current.max ?? 100;
         const natureDenom = natureMax - natureMin;
-        const initialSliderPos = natureDenom === 0 ? 0 : ((currentNatureVal - natureMin) / natureDenom) * 70;
-        setSection1SliderValue(Math.max(0, Math.min(70, initialSliderPos)));
-        setSection1SliderText(getInputRangeLabel(carbonRemovalInputRef.current, currentNatureVal));
+        
+        setSection1SliderValue(0);
+        setSection1SliderText(getCarbonRemovalText(0));
+        if (carbonRemovalInputRef.current?.set) {
+          const modelVal = natureMin + (0 / 100) * natureDenom;
+          carbonRemovalInputRef.current.set(modelVal);
+        }
 
         // Find deforestation input
         console.log('Searching for deforestation input...');
@@ -451,7 +482,16 @@ export default function Module1CarbonRemovalDashboard() {
           }
         }
 
-        if (!deforestationInputRef.current) {
+        if (deforestationInputRef.current) {
+          setSection2DeforestationValue(0);
+          setSection2DeforestationText(getDeforestationText(0));
+          if (deforestationInputRef.current.set) {
+            const min = deforestationInputRef.current.min !== undefined ? deforestationInputRef.current.min : -10;
+            const max = deforestationInputRef.current.max !== undefined ? deforestationInputRef.current.max : 1;
+            const modelVal = min + ((0 + 10) / 11) * (max - min);
+            deforestationInputRef.current.set(modelVal);
+          }
+        } else {
           console.warn('Deforestation input not found, Section 2 deforestation slider will not function');
         }
 
@@ -665,11 +705,21 @@ export default function Module1CarbonRemovalDashboard() {
                   style={{ display: 'block', width: '100%', height: '100%', pointerEvents: 'none' }}
                 />
               </div>
-              {/* Legend badges */}
-              <div className="flex justify-center gap-3 mt-3">
-                <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
-                <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
-              </div>
+              {/* Dynamic legend — species graph gets marine/land badges */}
+                            {selectedGraphId === '279' ? (
+                <div className="mt-3 text-center">
+                  <div className="flex justify-center gap-3 mb-1">
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#3385C6' }}>MARINE SPECIES</span>
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#843C0C' }}>LAND SPECIES</span>
+                  </div>
+                  <p className="text-xs text-gray-500 italic">Dashed lines represent Baseline</p>
+                </div>
+              ) : (
+                <div className="flex justify-center gap-3 mt-3">
+                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
+                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#00b6f1' }}>CURRENT SCENARIO</span>
+                </div>
+              )}
             </div>
 
             <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-6">
@@ -681,13 +731,13 @@ export default function Module1CarbonRemovalDashboard() {
                 <input
                   type="range"
                   min="0"
-                  max="70"
+                  max="100"
                   step="1"
                   value={section1SliderValue}
                   onChange={handleSection1SliderChange}
                   className="w-full h-2 rounded-lg appearance-none cursor-pointer"
                   style={{
-                    background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${(section1SliderValue / 70) * 100}%, #e5e7eb ${(section1SliderValue / 70) * 100}%, #e5e7eb 100%)`
+                    background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${section1SliderValue}%, #e5e7eb ${section1SliderValue}%, #e5e7eb 100%)`
                   }}
                 />
               </div>
@@ -790,11 +840,21 @@ export default function Module1CarbonRemovalDashboard() {
                   style={{ display: 'block', width: '100%', height: '100%', pointerEvents: 'none' }}
                 />
               </div>
-              {/* Legend badges */}
-              <div className="flex justify-center gap-3 mt-3">
-                <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
-                <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
-              </div>
+              {/* Dynamic legend — species graph gets marine/land badges */}
+                            {section2SelectedGraphId === '279' ? (
+                <div className="mt-3 text-center">
+                  <div className="flex justify-center gap-3 mb-1">
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#3385C6' }}>MARINE SPECIES</span>
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#843C0C' }}>LAND SPECIES</span>
+                  </div>
+                  <p className="text-xs text-gray-500 italic">Dashed lines represent Baseline</p>
+                </div>
+              ) : (
+                <div className="flex justify-center gap-3 mt-3">
+                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
+                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#00b6f1' }}>CURRENT SCENARIO</span>
+                </div>
+              )}
             </div>
 
             <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-8">
@@ -806,13 +866,13 @@ export default function Module1CarbonRemovalDashboard() {
                 <input
                   type="range"
                   min="0"
-                  max="70"
+                  max="100"
                   step="1"
                   value={section1SliderValue}
                   onChange={handleSection1SliderChange}
                   className="w-full h-2 rounded-lg appearance-none cursor-pointer"
                   style={{
-                    background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${(section1SliderValue / 70) * 100}%, #e5e7eb ${(section1SliderValue / 70) * 100}%, #e5e7eb 100%)`
+                    background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${section1SliderValue}%, #e5e7eb ${section1SliderValue}%, #e5e7eb 100%)`
                   }}
                 />
               </div>
@@ -824,14 +884,14 @@ export default function Module1CarbonRemovalDashboard() {
                 </div>
                 <input
                   type="range"
-                  min="0"
-                  max="100"
-                  step="1"
+                  min="-10"
+                  max="1"
+                  step="0.1"
                   value={section2DeforestationValue}
                   onChange={handleSection2DeforestationChange}
                   className="w-full h-2 rounded-lg appearance-none cursor-pointer"
                   style={{
-                    background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${section2DeforestationValue}%, #e5e7eb ${section2DeforestationValue}%, #e5e7eb 100%)`
+                    background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${((section2DeforestationValue + 10) / 11) * 100}%, #e5e7eb ${((section2DeforestationValue + 10) / 11) * 100}%, #e5e7eb 100%)`
                   }}
                 />
               </div>
@@ -927,13 +987,13 @@ export default function Module1CarbonRemovalDashboard() {
             <input
               type="range"
               min="0"
-              max="70"
+              max="100"
               step="1"
               value={section1SliderValue}
               onChange={handleSection1SliderChange}
               className="w-full h-2 rounded-lg appearance-none cursor-pointer"
               style={{
-                background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${(section1SliderValue / 70) * 100}%, #e5e7eb ${(section1SliderValue / 70) * 100}%, #e5e7eb 100%)`
+                background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${section1SliderValue}%, #e5e7eb ${section1SliderValue}%, #e5e7eb 100%)`
               }}
             />
           </div>
@@ -1022,13 +1082,13 @@ export default function Module1CarbonRemovalDashboard() {
               <input
                 type="range"
                 min="0"
-                max="70"
+                max="100"
                 step="1"
                 value={section1SliderValue}
                 onChange={handleSection1SliderChange}
                 className="w-full h-2 rounded-lg appearance-none cursor-pointer"
                 style={{
-                  background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${(section1SliderValue / 70) * 100}%, #e5e7eb ${(section1SliderValue / 70) * 100}%, #e5e7eb 100%)`
+                  background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${section1SliderValue}%, #e5e7eb ${section1SliderValue}%, #e5e7eb 100%)`
                 }}
               />
             </div>
@@ -1040,14 +1100,14 @@ export default function Module1CarbonRemovalDashboard() {
               </div>
               <input
                 type="range"
-                min="0"
-                max="100"
-                step="1"
+                min="-10"
+                max="1"
+                step="0.1"
                 value={section2DeforestationValue}
                 onChange={handleSection2DeforestationChange}
                 className="w-full h-2 rounded-lg appearance-none cursor-pointer"
                 style={{
-                  background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${section2DeforestationValue}%, #e5e7eb ${section2DeforestationValue}%, #e5e7eb 100%)`
+                  background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${((section2DeforestationValue + 10) / 11) * 100}%, #e5e7eb ${((section2DeforestationValue + 10) / 11) * 100}%, #e5e7eb 100%)`
                 }}
               />
             </div>
