@@ -38,13 +38,14 @@ import youthLeadershipImg from '../assets/module_5/youthleadership.png';
 import skyRocketAnimation from '../assets/module_5/sky_rocket.json';
 import breatheImg from '../assets/module_5/breathe.jpg';
 import leadershipImg from '../assets/module_5/leadership.jpg';
-import vennDiagramImg from '../assets/module_5/venn-diagram.png';
+import vennDiagramImg from '../assets/module_5/venn_worksheet.webp';
 import module3Background from '../assets/module_3_background.webp';
 import module4Background from '../assets/module_4_background.webp';
 import module5Background from '../assets/module_5_background.webp';
 import airPollutionImg from '../assets/module_3/air_pollution.webp';
 import pumpingGasImg from '../assets/module_3/pumping_gas.webp';
 import shareScenarioImg from '../assets/module_3/share-scenario.webp';
+import creativeTensionImg from '../assets/module_5/tension.webp';
 
 
 export type FlipCardData = {
@@ -1751,8 +1752,21 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
             type: 'text',
             title: 'Holding Creative Tension',
             hideIcon: true,
-            content: "In this program, we’ve practiced **creative tension:**\n\n• **Current Reality:** what the data and your En‑ROADS simulations show.\n• **Vision:** the healthier, fairer future you believe is possible.\n\nThe space **between** those two is not a void—it’s **energy**. When we face the truth and keep our vision alive, that tension fuels **focused, courageous action.** This module helps you channel that energy into **levers of change**—places in the system where smart, well‑designed actions can shift outcomes."
+            content: "In this program, we’ve practiced **creative tension:**\n\n• **Current Reality:** where we are now, and what the data and your En‑ROADS simulations show.\n• **Vision:** the healthier, fairer future you want to see."
           },
+          {
+            type: 'image',
+            imageUrl: creativeTensionImg,
+            alt: 'Creative Tension',
+            width: '60%'
+          },
+          {
+            type: 'text',
+            title: '',
+            hideIcon: true,
+            content: "The space **between** those two is not a void—it’s **energy**. When we face the truth and keep our vision alive, that tension fuels **focused, courageous action.** This module helps you channel that energy into **levers of change**—places in the system where smart, well‑designed actions can shift outcomes."
+          },
+          
         ]
       },
       {
@@ -1814,11 +1828,15 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
             newTab: true,
             url: 'https://www.thelancet.com/journals/lanplh/article/PIIS2542-5196%2821%2900278-3/fulltext'
           },
+        ]
+      },
+      {
+        type: 'block',
+        colorTheme: 'pink',
+        content: [
           {
-            type: 'image',
-            imageUrl: leadershipImg,
-            alt: 'A red figure leading a group of yellow figures',
-            width: '80%'
+            type: 'video',
+            videoUrl: 'https://player.vimeo.com/video/738821349?h=5b8d752b65'
           },
           {
             type: 'text',
@@ -1833,20 +1851,43 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
         colorTheme: 'pink',
         content: [
           {
+            type: 'image',
+            imageUrl: breatheImg,
+            alt: 'A person with arms outstretched in a forest',
+            title: '',
+            width: '100%'
+          },
+          {
+            type: 'text',
+            title: 'Caring for Your Energy (So You Can Sustain Action)',
+            hideIcon: true,
+            content: 'Courage isn’t just intensity—it’s also **regulation**. To hold creative tension without burning out, you’ll need practices that **refill your “hope stock”** and steady your nervous system.\n\nTry this **60‑second reset** before hard conversations or decision‑making:\n\n 1. **Breathe:** Inhale for 4 counts, exhale for 6 counts (3 rounds).\n2. **Name it:** Quietly name one feeling you’re having—just to notice it.\n3.**Refocus:** Ask, “What’s one small, meaningful change I can try next?”\n4. **Re‑enter:** Carry one clear action into the next step.'
+          },
+        ]
+      },
+      {
+        type: 'block',
+        colorTheme: 'pink',
+        content: [
+          {
             type: 'text',
             title: '2. Finding Your Climate Action',
             hideIcon: true,
-            content: "**Where can you have an impact in climate action?**\n\n Dr. Ayana Elizabeth Johnson, a marine biologist, policy expert, writer, and climate solution advocate, has an inspiring way to think about this very question."
-          },
-          {
-            type: 'video',
-            title: 'Watch as Dr. Johnson shares “How to Find Joy in Climate Action”',
-            videoUrl: 'https://www.youtube.com/embed/VsOJR40M0as?si=4wHcfG7r6kODHJV5',
-            description: 'A video by Dr. Johnson discussing the importance of finding joy in climate action.'
+            content: `
+            **Where can you have an impact in climate action?**
+      
+            Dr. Ayana Elizabeth Johnson, a marine biologist, policy expert, writer, and climate solution advocate, has an inspiring way to think about this very question. through her Climate Action Venn Diagram:
+            
+            • **What are you good at?** Think about your sources of satisfaction and delight.
+            • **What needs doing?** What climate and justice solutions do you know about?
+            • **What brings you joy?** What skills, resources and networks do you have?
+
+            She writes, "The goal is to be in the heart of your Venn diagram, where these three circles overlap, for as many minutes of your life as you can. That will create way more progress on climate solutions than if each of us get sucked into obsessing only about our individual carbon footprints."
+            `
           },
           {
             type: 'text',
-            title: 'Draw your own venn diagram inspired by Dr. Johnson’s talk.',
+            title: 'Draw your own Climate Action Venn Diagram inspired by Dr. Johnson’s talk.',
             content: ""
           },
           {
@@ -1921,31 +1962,6 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
               }
             ]
           },
-        ]
-      },
-      {
-        type: 'block',
-        colorTheme: 'pink',
-        content: [
-          {
-            type: 'image',
-            imageUrl: breatheImg,
-            alt: 'A person with arms outstretched in a forest',
-            title: '',
-            width: '100%'
-          },
-          {
-            type: 'text',
-            title: 'Caring for Your Energy (So You Can Sustain Action)',
-            hideIcon: true,
-            content: "Courage isn’t just intensity—it’s also regulation. To hold creative tension without burning out, you’ll need practices that refill your “hope stock” and steady your nervous system."
-          },
-          {
-            type: 'text',
-            title: '',
-            hideIcon: true,
-            content: "Try this 60‑second reset before hard conversations or decision‑making: \n\n 1. **Breathe:** Inhale for 4 counts, exhale for 6 counts (3 rounds). \n 2. **Name it:** Quietly name one feeling you’re having—just to notice it. \n 3. **Refocus:** Ask, “What’s one small, meaningful change I can try next?” \n 4. **Re‑enter:** Carry one clear action into the next step."
-          }
         ]
       },
       {
