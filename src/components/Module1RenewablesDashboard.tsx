@@ -4,18 +4,24 @@ import enStrings from '@climateinteractive/en-roads-core/strings/en';
 import { GraphView } from '@climateinteractive/sim-ui-graph';
 import '../styles/enroads-dashboard.css';
 
-const GRAPHS = [
-  { id: '86', label: 'Global Temperature', varId: '_temperature_relative_to_1850_1900', canvasId: 'module1-renewables-graph-temperature' },
-  { id: '62', label: 'CO2 Emissions', varId: '_co2_equivalent_net_emissions', canvasId: 'module1-renewables-graph-emissions' },
-  { id: '90', label: 'Sea Level Rise', varId: '_slr_from_2000_in_meters', canvasId: 'module1-renewables-graph-sea-level' },
-  { id: '169', label: 'Deforestation', varId: '_deforestation_in_mha_per_year', canvasId: 'module1-renewables-graph-deforestation' },
-  { id: '275', label: 'Deaths from Extreme Heat', varId: '_excess_deaths_from_extreme_heat_per_100k_people', canvasId: 'module1-renewables-graph-heat-deaths' }
+const MAIN_GRAPH = { id: '62', label: 'CO2 Emissions', varId: '_co2_equivalent_net_emissions', canvasId: 'module1-renewables-graph-emissions' };
+
+const SECONDARY_GRAPHS = [
+  { id: '90', label: 'Sea Level Rise', varId: '_slr_from_2000_in_meters' },
+  { id: '275', label: 'Deaths from Extreme Heat', varId: '_excess_deaths_from_extreme_heat_per_100k_people' },
+  { id: '279', label: 'Species Loss - Extinction', varId: '_percent_endemic_species_at_high_risk_of_extinction' },
+  { id: '183', label: 'Crop Yield', varId: '_crop_yield_per_hectare_kg_per_year_per_ha' },
+  { id: '112', label: 'Air Pollution', varId: '_pm2_5_emissions_from_energy_mt_per_year' }
 ];
+
+const SECONDARY_GRAPH_CANVAS_ID = 'module1-renewables-graph-secondary';
+const ALL_GRAPH_DEFS = [MAIN_GRAPH, ...SECONDARY_GRAPHS];
 
 export default function Module1RenewablesDashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [selectedSecondaryGraphId, setSelectedSecondaryGraphId] = useState('90');
 
   const [renewablesVal, setRenewablesVal] = useState(0);
   const [renewablesText, setRenewablesText] = useState('status quo');
@@ -64,7 +70,7 @@ export default function Module1RenewablesDashboard() {
     const fromConfig = coreConfigRef.current?.graphs?.get(graphId);
     if (fromConfig) return fromConfig;
 
-    const graphDef = GRAPHS.find((g) => g.id === graphId);
+    const graphDef = ALL_GRAPH_DEFS.find((g) => g.id === graphId);
     if (!graphDef) return null;
 
     return {
@@ -92,6 +98,14 @@ export default function Module1RenewablesDashboard() {
 
         const newPoints = series?.points || [];
         datasetViewModel.points = [...newPoints];
+
+        // Hide scatter/marker datasets (single dots such as the red point)
+        // so main line graphs remain clean and match Module 2 style.
+        if (newPoints.length <= 2) {
+          datasetViewModel.visible = false;
+          continue;
+        }
+        datasetViewModel.visible = true;
 
         if (!datasetSpec.externalSourceName) {
           datasetSpec.color = '#53B1E8';
@@ -212,9 +226,8 @@ export default function Module1RenewablesDashboard() {
         modelContextRef.current.onOutputsChanged = () => updateDashboard();
 
         setTimeout(() => {
-          for (const graph of GRAPHS) {
-            loadGraph(graph.canvasId, graph.id, 250);
-          }
+          loadGraph(MAIN_GRAPH.canvasId, MAIN_GRAPH.id, 250);
+          loadGraph(SECONDARY_GRAPH_CANVAS_ID, selectedSecondaryGraphId, 250);
           updateDashboard();
         }, 150);
 
@@ -238,9 +251,8 @@ export default function Module1RenewablesDashboard() {
     }
 
     const timer = window.setTimeout(() => {
-      for (const graph of GRAPHS) {
-        loadGraph(graph.canvasId, graph.id, isExpanded ? 300 : 250);
-      }
+      loadGraph(MAIN_GRAPH.canvasId, MAIN_GRAPH.id, isExpanded ? 300 : 250);
+      loadGraph(SECONDARY_GRAPH_CANVAS_ID, selectedSecondaryGraphId, isExpanded ? 300 : 250);
       updateTemperatureDisplay();
     }, 120);
 
@@ -248,7 +260,7 @@ export default function Module1RenewablesDashboard() {
       window.clearTimeout(timer);
       document.body.style.overflow = previousBodyOverflow;
     };
-  }, [isExpanded, isLoading]);
+  }, [isExpanded, isLoading, selectedSecondaryGraphId]);
 
   if (isLoading) return <div className="p-8 text-center text-gray-500">Loading Model...</div>;
   if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
@@ -288,22 +300,36 @@ export default function Module1RenewablesDashboard() {
 
         {isExpanded ? (
           <div className="overflow-x-auto mb-4">
-            <div className="flex items-stretch gap-4 min-w-[2920px]">
-              {GRAPHS.map((graph) => (
-                <div
-                  key={graph.id}
-                  className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 flex-1 min-w-0"
-                >
-                  <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">{graph.label}</h3>
-                  <div className="relative w-full h-[300px]">
-                    <canvas id={graph.canvasId} className="w-full h-full" />
-                  </div>
-                  <div className="flex justify-center gap-3 mt-3">
-                    <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
-                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
-                  </div>
+            <div className="flex items-stretch gap-4 min-w-[1800px]">
+              <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 flex-1 min-w-0">
+                <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">CO2 Emissions</h3>
+                <div className="relative w-full h-[300px]">
+                  <canvas id={MAIN_GRAPH.canvasId} className="w-full h-full" />
                 </div>
-              ))}
+                <div className="flex justify-center gap-3 mt-3">
+                  <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
+                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 flex-1 min-w-0">
+                <div className="flex justify-start items-center mb-2">
+                  <select
+                    value={selectedSecondaryGraphId}
+                    onChange={(e) => setSelectedSecondaryGraphId(e.target.value)}
+                    className="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm rounded-lg block p-2.5 font-bold"
+                  >
+                    {SECONDARY_GRAPHS.map(g => <option key={g.id} value={g.id}>{g.label}</option>)}
+                  </select>
+                </div>
+                <div className="relative w-full h-[300px]">
+                  <canvas id={SECONDARY_GRAPH_CANVAS_ID} className="w-full h-full" />
+                </div>
+                <div className="flex justify-center gap-3 mt-3">
+                  <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
+                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
+                </div>
+              </div>
 
               <div className="shrink-0 w-fit">
                 <div className="px-6 pb-4 text-center inline-flex flex-col items-center w-fit h-fit" style={{ transform: 'translateY(110px)' }}>
@@ -343,18 +369,35 @@ export default function Module1RenewablesDashboard() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-              {GRAPHS.map((graph) => (
-                <div key={graph.id} className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
-                  <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">{graph.label}</h3>
-                  <div className="relative w-full h-[250px]">
-                    <canvas id={graph.canvasId} className="w-full h-full" />
-                  </div>
-                  <div className="flex justify-center gap-3 mt-3">
-                    <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
-                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
-                  </div>
+              <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
+                <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">CO2 Emissions</h3>
+                <div className="relative w-full h-[250px]">
+                  <canvas id={MAIN_GRAPH.canvasId} className="w-full h-full" />
                 </div>
-              ))}
+                <div className="flex justify-center gap-3 mt-3">
+                  <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
+                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
+                <div className="flex justify-start items-center mb-2">
+                  <select
+                    value={selectedSecondaryGraphId}
+                    onChange={(e) => setSelectedSecondaryGraphId(e.target.value)}
+                    className="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm rounded-lg block p-2.5 font-bold"
+                  >
+                    {SECONDARY_GRAPHS.map(g => <option key={g.id} value={g.id}>{g.label}</option>)}
+                  </select>
+                </div>
+                <div className="relative w-full h-[250px]">
+                  <canvas id={SECONDARY_GRAPH_CANVAS_ID} className="w-full h-full" />
+                </div>
+                <div className="flex justify-center gap-3 mt-3">
+                  <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
+                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
+                </div>
+              </div>
             </div>
           </>
         )}
