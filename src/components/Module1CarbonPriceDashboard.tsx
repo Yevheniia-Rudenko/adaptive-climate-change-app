@@ -63,18 +63,31 @@ export default function Module1CarbonPriceDashboard() {
       const graphViewModel = graphView.viewModel;
       for (const datasetViewModel of graphViewModel.getDatasets()) {
         const datasetSpec = datasetViewModel.spec;
-        const series = modelContextRef.current.getSeriesForVar(
+        let series = modelContextRef.current.getSeriesForVar(
           datasetSpec.varId,
           datasetSpec.externalSourceName
         );
+
+        // Fallback: En-ROADS uses 'Ref' and 'baseline' interchangeably.
+        if ((!series || !series.points || series.points.length === 0) && datasetSpec.externalSourceName === 'baseline') {
+          series = modelContextRef.current.getSeriesForVar(datasetSpec.varId, 'Ref');
+        } else if ((!series || !series.points || series.points.length === 0) && datasetSpec.externalSourceName === 'Ref') {
+          series = modelContextRef.current.getSeriesForVar(datasetSpec.varId, 'baseline');
+        }
+
         const newPoints = series?.points || [];
         datasetViewModel.points = [...newPoints];
 
+        // Hide single-point scatter markers, show full time-series only.
+        if (newPoints.length <= 2) { datasetViewModel.visible = false; continue; }
+        datasetViewModel.visible = true;
+
+        // Preserve config-defined colors (e.g. Species Loss marine/land).
         if (!datasetSpec.externalSourceName) {
-          datasetSpec.color = '#00b6f1'; // CI blue for current scenario
+          if (!datasetSpec.color) datasetSpec.color = '#00b6f1';
           datasetSpec.lineWidth = 4;
         } else if (datasetSpec.externalSourceName === 'baseline' || datasetSpec.externalSourceName === 'Ref') {
-          datasetSpec.color = '#000000';
+          if (!datasetSpec.color) datasetSpec.color = '#000000';
           datasetSpec.lineWidth = 4;
         }
       }
@@ -124,7 +137,61 @@ export default function Module1CarbonPriceDashboard() {
 
   const loadGraph = (graphId: string) => {
     if (!coreConfigRef.current) return;
-    let graphSpec = coreConfigRef.current.graphs.get(graphId);
+
+    // Graph 279 (Species Loss): return raw config to preserve all species lines.
+    // All other graphs: filter to safe 2-dataset spec so CO2 etc. always show.
+    let graphSpec: any;
+    const rawConfig = coreConfigRef.current.graphs.get(graphId);
+    if (rawConfig) {
+      if (graphId === '279') {
+        const MARINE = '#3385C6';
+        const LAND   = '#843C0C';
+        const curr = (rawConfig.datasets || []).filter((d: any) => !d.externalSourceName);
+        const base = (rawConfig.datasets || []).filter(
+          (d: any) => d.externalSourceName === 'Ref' || d.externalSourceName === 'baseline'
+        );
+        graphSpec = {
+          ...rawConfig,
+          datasets: [
+            ...base.slice(0, 2).map((d: any, i: number) => ({ ...d, color: [MARINE, LAND][i] })),
+            ...curr.slice(0, 2).map((d: any, i: number) => ({ ...d, color: [MARINE, LAND][i] }))
+          ]
+        };
+      } else {
+        const baselineDataset = rawConfig.datasets?.find(
+          (d: any) => d.externalSourceName === 'Ref' || d.externalSourceName === 'baseline'
+        );
+        const currentDataset = rawConfig.datasets?.find((d: any) => !d.externalSourceName);
+        if (baselineDataset && currentDataset) {
+          graphSpec = {
+            ...rawConfig,
+            datasets: [
+              { ...baselineDataset, label: 'Baseline', color: '#000000', lineStyle: baselineDataset.lineStyle || 'thinline' },
+              { ...currentDataset, label: 'Current', color: '#00b6f1', lineStyle: currentDataset.lineStyle || 'line' }
+            ]
+          };
+        } else {
+          const graphDef = GRAPHS.find(g => g.id === graphId);
+          graphSpec = graphDef ? {
+            ...rawConfig,
+            datasets: [
+              { varId: graphDef.varId, externalSourceName: 'Ref', label: 'Baseline', color: '#000000', lineStyle: 'thinline' },
+              { varId: graphDef.varId, label: 'Current', color: '#00b6f1', lineStyle: 'line' }
+            ]
+          } : rawConfig;
+        }
+      }
+    } else {
+      const graphDef = GRAPHS.find(g => g.id === graphId);
+      if (!graphDef) return;
+      graphSpec = {
+        id: graphId, title: graphDef.label, kind: 'line',
+        datasets: [
+          { varId: graphDef.varId, externalSourceName: 'Ref', label: 'Baseline', color: '#000000', lineStyle: 'thinline' },
+          { varId: graphDef.varId, label: 'Current', color: '#00b6f1', lineStyle: 'line' }
+        ]
+      };
+    }
 
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -152,12 +219,7 @@ export default function Module1CarbonPriceDashboard() {
         plotBackgroundColor: isDark ? '#1e293b' : '#ffffff'
       };
 
-      const options = {
-        style,
-        responsive: true,
-        animations: false
-      };
-
+      const options = { style, responsive: true, animations: false };
       graphViewRef.current = new GraphView(canvas, viewModel, options, true);
       updateGraphData(graphViewRef.current);
     } catch (e) { console.error('Error loading graph', e); }
@@ -272,12 +334,21 @@ export default function Module1CarbonPriceDashboard() {
     <div className="bg-gray-50 dark:bg-gray-900 p-3 sm:p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora mb-24">
       <h2 className="text-lg sm:text-xl px-3 sm:px-4 pt-3 sm:pt-4 mb-4 font-bold text-gray-800 dark:text-gray-200">Make a Model: Carbon Price</h2>
 
-      {/* Temperature card — centered at top */}
+      {/* Temperature card — matches the design from other dashboards */}
       <div className="flex justify-center mb-4">
-        <div className="bg-white dark:bg-gray-800 px-6 sm:px-8 py-5 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 text-center">
-          <span ref={tempCRef} className="block text-4xl sm:text-5xl font-black text-green-500 mb-1">+3.3°C</span>
-          <span ref={tempFRef} className="block text-lg sm:text-xl font-bold text-green-400 mb-3">+5.9°F</span>
-          <div className="text-gray-500 dark:text-gray-400 font-semibold uppercase tracking-wider text-xs">Global Temperature<br />by 2100</div>
+        <div className="bg-white dark:bg-gray-800 px-6 py-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 text-center inline-flex flex-col items-center w-fit mx-auto">
+          <span
+            ref={tempCRef}
+            style={{ color: '#14a9df', fontSize: 'clamp(3rem, 3vw, 3rem)', fontWeight: 800, lineHeight: 1.5 }}
+          >+3.3°C</span>
+          <div className="mx-auto my-4 h-[2px] w-[72%] bg-black" />
+          <span
+            ref={tempFRef}
+            style={{ color: '#14a9df', fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)', fontWeight: 800, lineHeight: 1 }}
+          >+5.9°F</span>
+          <div className="mt-3 leading-tight text-gray-900 dark:text-gray-100" style={{ fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)', fontWeight: 800 }}>
+            Temperature<br />Increase by<br />2100
+          </div>
         </div>
       </div>
 
@@ -298,11 +369,21 @@ export default function Module1CarbonPriceDashboard() {
             style={{ display: 'block', width: '100%', pointerEvents: 'none' }}
           />
         </div>
-        {/* Legend badges */}
-        <div className="flex justify-center gap-3 mt-3">
-          <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
-          <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#00b6f1' }}>CURRENT SCENARIO</span>
-        </div>
+        {/* Dynamic legend */}
+                {selectedGraphId === '279' ? (
+          <div className="mt-3 text-center">
+            <div className="flex justify-center gap-3 mb-1">
+              <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#3385C6' }}>MARINE SPECIES</span>
+              <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#843C0C' }}>LAND SPECIES</span>
+            </div>
+            <p className="text-xs text-gray-500 italic">Dashed lines represent Baseline</p>
+          </div>
+        ) : (
+          <div className="flex justify-center gap-3 mt-3">
+            <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
+            <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#00b6f1' }}>CURRENT SCENARIO</span>
+          </div>
+        )}
       </div>
 
       <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-8">

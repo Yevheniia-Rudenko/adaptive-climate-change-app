@@ -145,12 +145,13 @@ export default function Module1CarbonRemovalDashboard() {
         const newPoints = series?.points || [];
         datasetViewModel.points = [...newPoints];
 
-        // Color coding — baseline black, all non-baseline scenario lines blue.
+        // Preserve config-defined colors (e.g. Species Loss marine/land).
+        // Only apply defaults when no color is set.
         if (datasetSpec.externalSourceName === 'baseline' || datasetSpec.externalSourceName === 'Ref') {
-          datasetSpec.color = '#000000';
+          if (!datasetSpec.color) datasetSpec.color = '#000000';
           datasetSpec.lineWidth = 4;
         } else {
-          datasetSpec.color = '#00b6f1';
+          if (!datasetSpec.color) datasetSpec.color = '#00b6f1';
           datasetSpec.lineWidth = 4;
         }
       }
@@ -242,6 +243,24 @@ export default function Module1CarbonRemovalDashboard() {
 
     const fromConfig = coreConfigRef.current?.graphs?.get(graphId);
     if (fromConfig) {
+      // Graph 279 (Species Loss) shows marine + land species as separate lines.
+      // Explicitly set palette so chart lines and legend badges always match.
+      if (graphId === '279') {
+        const MARINE = '#3385C6';
+        const LAND   = '#843C0C';
+        const curr = (fromConfig.datasets || []).filter((d: any) => !d.externalSourceName);
+        const base = (fromConfig.datasets || []).filter(
+          (d: any) => d.externalSourceName === 'Ref' || d.externalSourceName === 'baseline'
+        );
+        return {
+          ...fromConfig,
+          datasets: [
+            ...base.slice(0, 2).map((d: any, i: number) => ({ ...d, color: [MARINE, LAND][i] })),
+            ...curr.slice(0, 2).map((d: any, i: number) => ({ ...d, color: [MARINE, LAND][i] }))
+          ]
+        };
+      }
+
       const baselineDataset = fromConfig.datasets?.find(
         (d: any) => d.externalSourceName === 'Ref' || d.externalSourceName === 'baseline'
       );
@@ -660,11 +679,21 @@ export default function Module1CarbonRemovalDashboard() {
                   style={{ display: 'block', width: '100%', height: '100%', pointerEvents: 'none' }}
                 />
               </div>
-              {/* Legend badges */}
-              <div className="flex justify-center gap-3 mt-3">
-                <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
-                <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
-              </div>
+              {/* Dynamic legend — species graph gets marine/land badges */}
+                            {selectedGraphId === '279' ? (
+                <div className="mt-3 text-center">
+                  <div className="flex justify-center gap-3 mb-1">
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#3385C6' }}>MARINE SPECIES</span>
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#843C0C' }}>LAND SPECIES</span>
+                  </div>
+                  <p className="text-xs text-gray-500 italic">Dashed lines represent Baseline</p>
+                </div>
+              ) : (
+                <div className="flex justify-center gap-3 mt-3">
+                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
+                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#00b6f1' }}>CURRENT SCENARIO</span>
+                </div>
+              )}
             </div>
 
             <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-6">
@@ -766,11 +795,21 @@ export default function Module1CarbonRemovalDashboard() {
                   style={{ display: 'block', width: '100%', height: '100%', pointerEvents: 'none' }}
                 />
               </div>
-              {/* Legend badges */}
-              <div className="flex justify-center gap-3 mt-3">
-                <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
-                <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
-              </div>
+              {/* Dynamic legend — species graph gets marine/land badges */}
+                            {section2SelectedGraphId === '279' ? (
+                <div className="mt-3 text-center">
+                  <div className="flex justify-center gap-3 mb-1">
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#3385C6' }}>MARINE SPECIES</span>
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#843C0C' }}>LAND SPECIES</span>
+                  </div>
+                  <p className="text-xs text-gray-500 italic">Dashed lines represent Baseline</p>
+                </div>
+              ) : (
+                <div className="flex justify-center gap-3 mt-3">
+                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
+                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#00b6f1' }}>CURRENT SCENARIO</span>
+                </div>
+              )}
             </div>
 
             <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-8">
