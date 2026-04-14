@@ -272,6 +272,24 @@ export default function Module1RenewablesDashboard() {
         : 'bg-gray-50 dark:bg-gray-900 p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora mb-24'}
     >
       <div className={isExpanded ? 'w-full h-full' : ''}>
+        <div className="px-4 mb-4 text-gray-700 dark:text-gray-300 leading-relaxed space-y-4">
+          <p>
+            In this model, explore the impact of renewables on global temperature (remember our goal of 1.5°C!) and other impacts, which you can select in the graph dropdown.
+          </p>
+          <p>You can choose:</p>
+          <ul className="space-y-2" style={{ listStyleType: 'disc', paddingLeft: '1.5rem' }}>
+            <li>
+              <strong>Status Quo:</strong> Maintain the current levels of use of renewable energy. This is where the slider starts.
+            </li>
+            <li>
+              <strong>Encourage:</strong> Support building and use of solar panels, geothermal, and wind turbines through government subsidies that allow investment in renewable energy and lower costs for consumers.
+            </li>
+            <li>
+              <strong>Discourage:</strong> Through taxes raising costs of renewable energy investment and use, through public policy, or communications.
+            </li>
+          </ul>
+        </div>
+
         {isExpanded ? (
           <div className="relative px-4 pt-4 mb-4">
             <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200 text-center">En-Roads Dashboard: Renewables</h2>

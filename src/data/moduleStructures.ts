@@ -108,7 +108,7 @@ export const moduleStructures: ModuleStructure[] = [
           {
             type: 'text',
             title: '**About this Module**',
-            content: "Climate change isn't just about science and data—it's deeply personal.\n\n Understanding how climate futures affect you, your community, and the world helps build meaningful connections to the issue. This module explores how we emotionally and intellectually relate to different possible futures, and why these connections matter for taking action."
+            content: "Climate change isn't just about science and data—it's also deeply personal.\n\n Understanding how climate futures affect you, your community, and the world helps build meaningful connections to the issue. This module explores how we emotionally and intellectually relate to our current climate situation, how we imagine different possible futures, and why these connections matter for understanding these complex global challenges and feeling empowered to take effective action"
           },
           {
             type: 'button',
@@ -121,7 +121,7 @@ export const moduleStructures: ModuleStructure[] = [
           {
             type: 'text',
             title: '**Key Concepts**',
-            content: ''
+            content: 'To start us off, let\'s explore some of the following key concepts. Take a moment to review the following cards, considering your own definitions as well.'
           },
           {
             type: 'flip-cards',
@@ -151,23 +151,23 @@ export const moduleStructures: ModuleStructure[] = [
                 backDescription: 'The skill of paying close attention to what\'s happening in a system using all our senses, emotions, and lived experience. It helps us notice patterns, relationships, and changes to better understand how everything is connected.'
               },
               {
-                frontTitle: 'Emotions',
+                frontTitle: 'Emotional Literacy',
                 frontDescription: 'Feelings you experience',
                 backTitle: 'Definition',
-                backDescription: 'Feelings you experience in response to what\'s happening around or inside you. They range from joy and excitement to stress, anger, or confusion, and help you understand your experiences and needs.'
+                backDescription: 'Emotions are the feelings you experience in response to what\’s happening around you or inside you. They can range from joy,excitement and anger, or more complex emotional states like stress, confusion or happiness. Emotional literacy is learning how these feelings show up in your body, your thoughts, and your behaviors, and help you understand your experiences and needs.'
               },
               {
                 frontTitle: 'Awareness',
                 frontDescription: 'Noticing and understanding',
                 backTitle: 'Definition',
-                backDescription: 'Being able to notice and understand what you\'re feeling, thinking, or experiencing in the moment. It\'s paying attention to your emotions without judging them and recognizing how they affect your choices and relationships.'
+                backDescription: 'Awareness means being able to notice and understand what you\’re feeling, thinking, or experiencing in the moment. By learning to pay attention to your emotions without judging them, you can begin to recognize how they affect your choices, your relationships, and your overall well‑being.'
               }
             ]
           },
           {
             type: 'text',
             title: '**Reflection**',
-            content: "Climate change brings up many emotions, feelings and opinions based on our experience and context.\n\nHow do we get in touch with this emotional landscape?"
+            content: "Thinking about climate change brings up many emotions, feelings and opinions based on our experience and context.\n\nHow do we get in touch with this emotional landscape?"
           },
           {
             type: 'audio',
@@ -201,7 +201,7 @@ Thank you for practicing with me.
           {
             type: 'text',
             title: '**Learning to Name Our Emotions**',
-            content: "The Wheel of Emotions, created by psychologist Robert Plutchik, is a tool that can help you make sense of what you're feeling.\n\nThink of it like a map of emotions: it shows eight basic feelings—such as joy, fear, anger, and surprise—and how they shift, grow stronger, or blend into other emotions.\n\nWhen you're having a tough day, feeling stressed, or even just noticing a mood change, the wheel can help you put a name to what's going on inside. The more clearly you can identify your emotions, the easier it becomes to communicate with others, make thoughtful decisions, and understand yourself better.\n\nUsing this tool is a simple way to build emotional awareness and strengthen your overall well‑being.\n\nTake a look at the Wheel of Emotions and identify any emotions that you connect with when you think about climate change."
+            content: "The Wheel of Emotions, created by psychologist Robert Plutchik, is a tool that can help you make sense of what you're feeling.\n\nThink of it like a map of emotions: it shows eight basic feelings—such as joy, fear, anger, and surprise—and how they shift, grow stronger, or blend into other emotions.\n\nWhen you’re having a tough day, feeling stressed, or even just noticing a mood change, the wheel can help you put a name to what’s going on inside and sometimes even lessen its intensity. The more clearly you can identify your emotions, the easier it becomes to communicate with others, make thoughtful decisions, and understand yourself better.\n\nUsing this tool is a simple way to build emotional awareness and strengthen your overall well‑being.\n\nTake a look at the Wheel of Emotions and identify any emotions that you connect with when you think about climate change."
           },
           {
             type: 'image',
@@ -224,7 +224,7 @@ Thank you for practicing with me.
           {
             type: 'text',
             title: '**Understanding Climate Drivers and Impacts**',
-            content: "Think about the possible impacts of climate change–whether those occurring right now or those in the future."
+            content: "Think about the current and possible impacts of climate change–whether those occurring right now or those in the future. What do you care about most?"
           },
           {
             type: 'poll',
@@ -235,7 +235,7 @@ Thank you for practicing with me.
           {
             type: 'text',
             title: '**What If?**',
-            content: "We will begin to explore some of the primary drivers that are causing climate change and the impact that different policies and actions could have in shaping our collective future.\n\nA powerful tool for exploring this is En-ROADS, an interactive climate simulation made by Climate Interactive based on real scientific research. Think of it like a real‑life \"what if?\" simulator for the Earth's future."
+            content: "We are going to look at what’s driving climate change and explore how different policies and actions could shape the future we all share.\n\nWe will begin to explore some of these primary drivers through a powerful tool called En-ROADS, an interactive climate solutions simulator made by Climate Interactive and MIT Sloan based on real scientific research.\nThink of it like a real‑life \"what if?\" simulator for the Earth's future."
           },
           {
             type: 'image',
@@ -264,6 +264,12 @@ Thank you for practicing with me.
             alt: 'Animation of Thermometer filling to max degree with climate change text',
             width: '33%'
           },
+                    {
+            type: 'text',
+            title: '',
+            content: 'Even small changes in Earth\’s average temperature can cause big changes in weather and ecosystems—just like how a small change in body temperature can make a human very sick.',
+            hideIcon: true
+          },
           {
             type: 'audio',
             title: '**What does global temperature increase mean?**',
@@ -282,7 +288,7 @@ Thank you for practicing with me.
           },
           {
             type: 'text',
-            content: "That far exceeds the 1.5 degree Celsius goal. So what can we do?"
+            content: "That far exceeds the 1.5 degree Celsius (or 2.7 degrees Fahrenheit) goal. So what can we do?"
           }
         ]
       },
@@ -301,11 +307,11 @@ Instead of just hearing: "Climate change is bad and complicated," you get to:
 • See **cause and effect** immediately
 • Discover which solutions matter most
 
-You're not memorizing facts—you're **thinking like a decision‑maker.**
+Let’s move beyond memorizing facts, let\’s **think like a decision‑maker.**
 
 So, let's try it out! 
 
-We'll introduce you to En-ROADS a few elements at a time. Later, we'll play with the full model.`
+We\’ll introduce you to En-ROADS a few elements at a time. Later, we\’ll play with the full climate policy model.`
           },
           {
             type: 'text',
@@ -322,11 +328,11 @@ We'll introduce you to En-ROADS a few elements at a time. Later, we'll play with
             type: 'text',
             content: `**Could we just plant more trees? What if we planted a trillion trees?**
 
-Some organizations and groups are advocating just that. They advocate that planting more trees will help slow climate change by using trees' natural ability to **remove carbon dioxide (CO₂)** from the atmosphere.
+Some organizations and groups are recommending just that. They advocate that planting more trees will help slow climate change by using trees’ natural ability to **remove carbon dioxide (CO₂)** from the atmosphere.
 
 Trees absorb CO₂ as they grow and store that carbon in their trunks, branches, roots, and surrounding soil. This process is known as **carbon sequestration**.
 
-Planting a trillion trees would cover 550 million hectares–or over 2 million square miles–of unforested land with forest. To visualize, imagine half the area of the entire United States of America.
+To plant a trillion trees, that would cover 550 million hectares–or over 2 million square miles–of unforested land with forest. To visualise, imagine an area half the size of the entire United States of America.
 
 So, let's try this solution out! Let's plant more trees–a nature-based solution to carbon dioxide removal.`
           },
@@ -344,18 +350,18 @@ So, let's try this solution out! Let's plant more trees–a nature-based solutio
           },
           {
             type: 'numeric-prediction',
-            question: 'If we implemented this solution, what do you think the global temperature increase by 2100 would be? Would it stay at 3.3 degrees Celsius? Would it increase or decrease?',
+            question: 'If we implemented this solution of planting more trees, do you think global temperature by 2100 would increase or decrease from 3.3 degrees Celsius?',
             id: 'afforestation-temp-prediction',
             unit: '°C'
           },
           {
             type: 'text',
             title: '**Make a Model**',
-            content: ''
+            content: 'To get started, let\’s learn how to read and use the En-ROADS tool.'
           },
           {
             type: 'flip-cards',
-            title: '**Concept Cards: How to Use the En-ROADS Graphs**',
+            title: '**Concept Cards: How to Use En-ROADS**',
             cards: [
               {
                 frontTitle: 'Sliders',
@@ -365,7 +371,17 @@ So, let's try this solution out! Let's plant more trees–a nature-based solutio
               {
                 frontTitle: 'Graphs',
                 frontDescription: 'Display impacts',
-                backDescription: 'Graphs display impacts. You will see the main graph of global temperature increase by 2100. You can also choose an impact graph you care about.'
+                backDescription: 'Graphs display impacts. You will see the main graph of global temperature increase by 2100. You can also choose from different Impact Graphs you care about from the Dropdown in the left hand corner of the graph.'
+              },
+              {
+                frontTitle: 'Baseline',
+                frontDescription: 'Display baseline scenario',
+                backDescription: 'The En-ROADS Baseline Scenario represents the state of the world if societal and technological changes were to continue at their current rate of progress, without additional policies or action.  It is represented as the black line in the Graphs.'
+              },
+              {
+                frontTitle: 'Current Scenario',
+                frontDescription: 'Display current scenario',
+                backDescription: ' This is the projected state of the world based on the changes you make to the solution Sliders. It is represented as the blue line in the Graphs.'
               }
             ]
           },
@@ -431,7 +447,7 @@ Renewable energy also connects to other technologies. We can produce clean hydro
           },
           {
             type: 'text',
-            content: 'Should we try it out? What if the world encouraged building solar panels, geothermal, and wind turbines through tax subsidies?'
+            content: 'Should we try it out? What if the world encouraged building solar panels, geothermal, and wind turbines?'
           },
           {
             type: 'text',
@@ -543,10 +559,13 @@ To reduce use of fossil fuels–oil, gas and coal–one strategy is to place hig
           },
           {
             type: 'reflection',
-            prompt: `Pause and reflect on these graphs. What do you notice? What do you wonder?
-
-What assumptions did you have that were challenged? What surprises you?`,
+            prompt: 'Pause and reflect on these graphs. What do you notice? What do you wonder?',
             id: 'fossil-fuel-reflection'
+          },
+                    {
+            type: 'reflection',
+            prompt: 'What assumptions did you have that were challenged? What surprises you?',
+            id: 'fossil-fuel-reflection-assumptions'
           }
         ]
       },
@@ -564,7 +583,7 @@ What assumptions did you have that were challenged? What surprises you?`,
       },
       {
         type: 'text',
-        content: 'Should we charge those who pollute?  Could we tax companies who release more carbon dioxide into the atmosphere?  Communities are exploring this very solution, with advocates arguing that carbon price is a powerful strategy for reducing emissions and speeding up the shift to cleaner energy.'
+        content: 'Should we charge those who pollute?  Could we tax companies or nations who release more carbon dioxide into the atmosphere?  Communities are exploring this very solution, with advocates arguing that carbon price is a powerful strategy for reducing emissions and speeding up the shift to cleaner energy.'
       },
       {
         type: 'audio',
@@ -602,20 +621,20 @@ Advocates say carbon pricing creates a clear signal: if you pollute more, you pa
       {
         type: 'fourth-exercise'
       },
-      {
-        type: 'reflection',
-        prompt: 'Pause and reflect on these graphs. What do you notice? What do you wonder?',
-        id: 'carbon-price-reflection'
-      },
-      {
+            {
         type: 'text',
         title: '**Let\'s Reflect**',
-        content: 'Think back through these four exercises. What did you notice across these different scenarios? What do you notice? What do you wonder?',
+        content: '',
         hideIcon: true
       },
       {
         type: 'reflection',
-        prompt: 'What was disappointing?\n\nWhat gave you the most hope?\n\nAny patterns or trends?',
+        prompt: 'Pause and reflect on the Carbon Price graphs. What do you notice? What do you wonder?',
+        id: 'carbon-price-reflection'
+      },
+      {
+        type: 'reflection',
+        prompt: 'Think back through these four exercises. What did you notice across these different scenarios? What was disappointing? What gave you the most hope?  Do any of these examples–forests, renewables, oil, gas, and coal, or carbon price–connect to something happening locally where you live?',
         id: 'exercises-comparison-reflection'
       },
       {
@@ -625,7 +644,7 @@ Advocates say carbon pricing creates a clear signal: if you pollute more, you pa
           {
             type: 'text',
             title: '**The Practice of Hope**',
-            content: "Change takes time. We started this module exploring the complex emotions that we may have about climate change.  We explored different possible solutions and impacts.\n\nHow are we feeling now? \n\nWe can hold both today’s reality and a vision for the future."
+            content: "Change takes time. We can hold both today’s reality and a vision for the future. We started this module exploring the complex emotions that we may have about climate change.  We then explored different possible global solutions and impacts, reflecting on the future.\n\nHow are we feeling now? What does your inner system (your emotions, body, and thoughts) feel like when you consider these outer challenges?"
           },
           {
             type: 'audio',

@@ -562,11 +562,37 @@ export default function Module1CarbonRemovalDashboard() {
   return (
     <>
       <div className="font-sora mb-24 space-y-6">
-          {/* SECTION 1: Nature-Based Carbon Removal & Impact Analysis */}
+          {/* MODEL 1: Nature-Based Carbon Removal */}
           <div className="bg-gray-50 dark:bg-gray-900 p-3 sm:p-4 rounded-xl border border-gray-200 dark:border-gray-700">
+            <div className="px-3 sm:px-4 mb-4 text-gray-700 dark:text-gray-300 leading-relaxed space-y-4">
+              <h3 className="text-base sm:text-lg font-extrabold text-gray-800 dark:text-gray-200">
+                En-ROADS Simplified Dashboard
+              </h3>
+              <p>
+                Now let&apos;s see what effect nature-based carbon-dioxide removal (aka planting more trees) has on global temperature increase (remember the goal to keep the increase at no more than 1.5 degrees Celsius or 2.7 degrees Fahrenheit).
+              </p>
+              <p>
+                In Exercise 1, you will adjust the amount that nature-based Carbon-Dioxide Removal is implemented as a policy by moving the slider. You can choose:
+              </p>
+              <ul className="space-y-2" style={{ listStyleType: 'disc', paddingLeft: '1.5rem' }}>
+                <li>
+                  <strong>Status Quo:</strong> Maintain the current levels of natural and cultivated forests. This is where the slider starts.
+                </li>
+                <li>
+                  <strong>Subsidize:</strong> Increase the amount of trees planted by providing governmental or private funding to support the planting and maintenance of forests and wooded areas.
+                </li>
+                <li>
+                  <strong>Tax:</strong> Decrease the amount of trees planted by charging governmental taxes or fees (ex. Taxes that increase the cost of purchasing trees)
+                </li>
+              </ul>
+              <p>
+                You can also explore other climate impacts like sea level rise, air pollution, crop yield and others using the dropdown option on the graphs.
+              </p>
+            </div>
+
             <div className="flex items-start justify-between gap-3 px-3 sm:px-4 pt-3 sm:pt-4 mb-4">
               <h2 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-gray-200">
-                Section 1: Nature-Based Carbon Removal &amp; Impacts
+                Model 1: Nature-Based Carbon Removal
               </h2>
               <button
                 type="button"
@@ -670,9 +696,28 @@ export default function Module1CarbonRemovalDashboard() {
 
           {/* SECTION 2: Deforestation Analysis */}
           <div className="bg-gray-50 dark:bg-gray-900 p-3 sm:p-4 rounded-xl border border-gray-200 dark:border-gray-700">
+            <div className="px-3 sm:px-4 mb-4 text-gray-700 dark:text-gray-300 leading-relaxed space-y-4">
+              <p>
+                Planting more trees in this model is different from saving existing forests. Let&apos;s also see what happens when we look at policies around deforestation—the intentional and large-scale clearing of forests for agriculture, building construction, and livestock.
+              </p>
+              <p>In Exercise 2, adjust the amount that Deforestation is happening globally by moving the slider. You can choose:</p>
+              <ul className="space-y-2" style={{ listStyleType: 'disc', paddingLeft: '1.5rem' }}>
+                <li>
+                  <strong>Status Quo:</strong> Maintain the current levels of natural and cultivated forests. This is where the slider starts.
+                </li>
+                <li>
+                  <strong>Reforestation:</strong> Encourage the protection of forests, preserving current forests and allowing areas to re-grow after human disturbance. For example, letting a grass yard grow into a meadow and eventually into a forest.
+                </li>
+                <li>
+                  <strong>Deforestation:</strong> Discourage the protection of forests and increase the use of forest land for other uses, primarily for plant and animal agriculture and livestock, harvesting for wood products or bioenergy.
+                </li>
+              </ul>
+              <p>Let&apos;s try it out!</p>
+            </div>
+
             <div className="flex items-start justify-between gap-3 px-3 sm:px-4 pt-3 sm:pt-4 mb-4">
               <h2 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-gray-200">
-                Section 2: Deforestation Analysis
+                Model 2: Deforestation
               </h2>
               <button
                 type="button"
@@ -796,6 +841,32 @@ export default function Module1CarbonRemovalDashboard() {
 
       {isSection1Expanded && (
         <div className="fixed inset-0 z-50 bg-white p-4 md:p-6 overflow-y-auto font-sora">
+          <div className="px-4 mb-4 text-gray-700 dark:text-gray-300 leading-relaxed space-y-4">
+            <h3 className="text-lg font-extrabold text-gray-800 dark:text-gray-200">
+              En-ROADS Simplified Dashboard
+            </h3>
+            <p>
+              Now let&apos;s see what effect nature-based carbon-dioxide removal (aka planting more trees) has on global temperature increase (remember the goal to keep the increase at no more than 1.5 degrees Celsius or 2.7 degrees Fahrenheit).
+            </p>
+            <p>
+              In Exercise 1, you will adjust the amount that nature-based Carbon-Dioxide Removal is implemented as a policy by moving the slider. You can choose:
+            </p>
+            <ul className="space-y-2" style={{ listStyleType: 'disc', paddingLeft: '1.5rem' }}>
+              <li>
+                <strong>Status Quo:</strong> Maintain the current levels of natural and cultivated forests. This is where the slider starts.
+              </li>
+              <li>
+                <strong>Subsidize:</strong> Increase the amount of trees planted by providing governmental or private funding to support the planting and maintenance of forests and wooded areas.
+              </li>
+              <li>
+                <strong>Tax:</strong> Decrease the amount of trees planted by charging governmental taxes or fees (ex. Taxes that increase the cost of purchasing trees)
+              </li>
+            </ul>
+            <p>
+              You can also explore other climate impacts like sea level rise, air pollution, crop yield and others using the dropdown option on the graphs.
+            </p>
+          </div>
+
           <div className="relative px-4 pt-4 mb-4">
             <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200 text-center">
               Section 1: Nature-Based Carbon Removal &amp; Impacts
@@ -871,6 +942,25 @@ export default function Module1CarbonRemovalDashboard() {
 
       {isSection2Expanded && (
         <div className="fixed inset-0 z-50 bg-white p-4 md:p-6 overflow-y-auto font-sora">
+          <div className="px-4 mb-4 text-gray-700 dark:text-gray-300 leading-relaxed space-y-4">
+            <p>
+              Planting more trees in this model is different from saving existing forests. Let&apos;s also see what happens when we look at policies around deforestation—the intentional and large-scale clearing of forests for agriculture, building construction, and livestock.
+            </p>
+            <p>In Exercise 2, adjust the amount that Deforestation is happening globally by moving the slider. You can choose:</p>
+            <ul className="space-y-2" style={{ listStyleType: 'disc', paddingLeft: '1.5rem' }}>
+              <li>
+                <strong>Status Quo:</strong> Maintain the current levels of natural and cultivated forests. This is where the slider starts.
+              </li>
+              <li>
+                <strong>Reforestation:</strong> Encourage the protection of forests, preserving current forests and allowing areas to re-grow after human disturbance. For example, letting a grass yard grow into a meadow and eventually into a forest.
+              </li>
+              <li>
+                <strong>Deforestation:</strong> Discourage the protection of forests and increase the use of forest land for other uses, primarily for plant and animal agriculture and livestock, harvesting for wood products or bioenergy.
+              </li>
+            </ul>
+            <p>Let&apos;s try it out!</p>
+          </div>
+
           <div className="relative px-4 pt-4 mb-4">
             <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200 text-center">
               Section 2: Deforestation Analysis
