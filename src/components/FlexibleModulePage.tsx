@@ -509,16 +509,10 @@ export function FlexibleModulePage({
               <div className="mb-8 flex flex-col items-center gap-3 w-full max-w-sm mx-auto">
                 <Link
                   to="/resources"
-                  style={{ backgroundColor: '#15803d', color: '#ffffff' }}
-                  className="w-full flex items-center gap-3 px-6 py-4 rounded-2xl hover:brightness-90 active:scale-[0.98] shadow-xl transition-all duration-200 group"
+                  className="w-full px-6 py-3 bg-white dark:bg-gray-700 hover:bg-purple-50 dark:hover:bg-purple-900/30 text-purple-600 dark:text-purple-400 border-2 border-purple-600 dark:border-purple-500 font-medium rounded-lg transition-colors duration-200 shadow-sm hover:shadow-md flex items-center justify-center gap-2"
                 >
-                  <span className="flex-shrink-0 w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <ExternalLink size={20} />
-                  </span>
-                  <span className="flex flex-col text-left">
-                    <span className="font-extrabold text-base tracking-wide leading-tight">Explore Resources</span>
-                    <span className="opacity-90 font-medium text-xs mt-0.5">Keep learning &amp; take action</span>
-                  </span>
+                  <ExternalLink size={18} />
+                  <span className="font-semibold">Explore Resources</span>
                 </Link>
               </div>
             )}
@@ -541,16 +535,13 @@ export function FlexibleModulePage({
                 // --- MODULES 1-4 NAVIGATION ---
                 <>
                   {(!isMultiBlock || currentBlock === totalBlocks) && (
-                    <Button
-                      asChild
-                      variant="default"
-                      className="order-3 sm:order-2 shadow-md bg-green-700 hover:bg-green-800 text-white"
+                    <Link
+                      to="/resources"
+                      className="order-3 sm:order-2 px-4 py-2 bg-white dark:bg-gray-700 hover:bg-purple-50 dark:hover:bg-purple-900/30 text-purple-600 dark:text-purple-400 border-2 border-purple-600 dark:border-purple-500 text-sm font-medium rounded-lg transition-colors duration-200 shadow-sm hover:shadow-md flex items-center justify-center gap-2 whitespace-nowrap"
                     >
-                      <Link to="/resources">
-                        <ExternalLink size={16} />
-                        <span className="font-semibold">Go to Resources</span>
-                      </Link>
-                    </Button>
+                      <ExternalLink size={16} />
+                      <span>Go to Resources</span>
+                    </Link>
                   )}
                   <Button
                     onClick={handleBlockNext}
