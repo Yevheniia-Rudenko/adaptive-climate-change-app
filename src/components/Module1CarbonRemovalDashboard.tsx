@@ -36,7 +36,7 @@ export default function Module1CarbonRemovalDashboard() {
   const [section2SelectedGraphId, setSection2SelectedGraphId] = useState('62');
 
   // Section 2 states
-  const [section2DeforestationValue, setSection2DeforestationValue] = useState(50);
+  const [section2DeforestationValue, setSection2DeforestationValue] = useState(0);
   const [section2DeforestationText, setSection2DeforestationText] = useState('status quo');
 
   // Temperature display — use refs + direct DOM to avoid React re-renders that reset canvas
@@ -86,12 +86,18 @@ export default function Module1CarbonRemovalDashboard() {
     return str(rangeLabelKeys[idx] ?? 'input_range__status_quo');
   };
 
+  const getCarbonRemovalText = (value: number) => {
+    if (value >= 70) return 'high growth';
+    if (value >= 40) return 'medium growth';
+    if (value >= 15) return 'low growth';
+    return 'status quo';
+  };
+
   const getDeforestationText = (value: number) => {
-    if (value > 0.5) return 'high deforestation';
-    if (value > 0.1) return 'moderate deforestation';
-    if (value >= -0.1) return 'status quo';
-    if (value > -0.5) return 'moderate reforestation';
-    return 'high reforestation';
+    if (value >= 0.1) return 'increased';
+    if (value >= -1.0) return 'status quo';
+    if (value >= -4.0) return 'reduced';
+    return 'highly reduced';
   };
 
   const createGraphViewModel = (graphSpec: any) => {
@@ -362,14 +368,14 @@ export default function Module1CarbonRemovalDashboard() {
     const sliderPos = parseFloat(e.target.value);
 
     setSection1SliderValue(sliderPos);
+    setSection1SliderText(getCarbonRemovalText(sliderPos));
 
     if (carbonRemovalInputRef.current) {
       const min = carbonRemovalInputRef.current.min ?? 0;
       const max = carbonRemovalInputRef.current.max ?? 100;
-      const modelVal = min + (sliderPos / 70) * (max - min);
+      const modelVal = min + (sliderPos / 100) * (max - min);
 
       carbonRemovalInputRef.current.set(modelVal);
-      setSection1SliderText(getInputRangeLabel(carbonRemovalInputRef.current, modelVal));
 
       // Force model update
       setTimeout(() => {
@@ -382,17 +388,20 @@ export default function Module1CarbonRemovalDashboard() {
 
   const handleSection2DeforestationChange = (e: ChangeEvent<HTMLInputElement>) => {
     const sliderPos = parseFloat(e.target.value);
-    // Map slider 0-100 to deforestation range (will determine actual range after finding input)
-    const value = (sliderPos - 50) / 50; // -1 to 1 range as placeholder
 
     setSection2DeforestationValue(sliderPos);
-    setSection2DeforestationText(getDeforestationText(value));
+    setSection2DeforestationText(getDeforestationText(sliderPos));
 
     if (deforestationInputRef.current) {
-      const min = deforestationInputRef.current.min !== undefined ? deforestationInputRef.current.min : -1;
+      const min = deforestationInputRef.current.min !== undefined ? deforestationInputRef.current.min : -10;
       const max = deforestationInputRef.current.max !== undefined ? deforestationInputRef.current.max : 1;
-      const modelVal = min + (sliderPos / 100) * (max - min);
+      const modelVal = min + ((sliderPos + 10) / 11) * (max - min);
       deforestationInputRef.current.set(modelVal);
+
+      // Force model update
+      setTimeout(() => {
+        updateAllGraphs();
+      }, 100);
     }
   };
 
@@ -426,13 +435,16 @@ export default function Module1CarbonRemovalDashboard() {
         // Ensure aggregate nature-based removals slider is active.
         if (natureModeSwitchRef.current?.set) natureModeSwitchRef.current.set(0);
 
-        const currentNatureVal = carbonRemovalInputRef.current.get?.() ?? 0;
         const natureMin = carbonRemovalInputRef.current.min ?? 0;
         const natureMax = carbonRemovalInputRef.current.max ?? 100;
         const natureDenom = natureMax - natureMin;
-        const initialSliderPos = natureDenom === 0 ? 0 : ((currentNatureVal - natureMin) / natureDenom) * 70;
-        setSection1SliderValue(Math.max(0, Math.min(70, initialSliderPos)));
-        setSection1SliderText(getInputRangeLabel(carbonRemovalInputRef.current, currentNatureVal));
+        
+        setSection1SliderValue(0);
+        setSection1SliderText(getCarbonRemovalText(0));
+        if (carbonRemovalInputRef.current?.set) {
+          const modelVal = natureMin + (0 / 100) * natureDenom;
+          carbonRemovalInputRef.current.set(modelVal);
+        }
 
         // Find deforestation input
         console.log('Searching for deforestation input...');
@@ -451,7 +463,16 @@ export default function Module1CarbonRemovalDashboard() {
           }
         }
 
-        if (!deforestationInputRef.current) {
+        if (deforestationInputRef.current) {
+          setSection2DeforestationValue(0);
+          setSection2DeforestationText(getDeforestationText(0));
+          if (deforestationInputRef.current.set) {
+            const min = deforestationInputRef.current.min !== undefined ? deforestationInputRef.current.min : -10;
+            const max = deforestationInputRef.current.max !== undefined ? deforestationInputRef.current.max : 1;
+            const modelVal = min + ((0 + 10) / 11) * (max - min);
+            deforestationInputRef.current.set(modelVal);
+          }
+        } else {
           console.warn('Deforestation input not found, Section 2 deforestation slider will not function');
         }
 
@@ -655,13 +676,13 @@ export default function Module1CarbonRemovalDashboard() {
                 <input
                   type="range"
                   min="0"
-                  max="70"
+                  max="100"
                   step="1"
                   value={section1SliderValue}
                   onChange={handleSection1SliderChange}
                   className="w-full h-2 rounded-lg appearance-none cursor-pointer"
                   style={{
-                    background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${(section1SliderValue / 70) * 100}%, #e5e7eb ${(section1SliderValue / 70) * 100}%, #e5e7eb 100%)`
+                    background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${section1SliderValue}%, #e5e7eb ${section1SliderValue}%, #e5e7eb 100%)`
                   }}
                 />
               </div>
@@ -761,13 +782,13 @@ export default function Module1CarbonRemovalDashboard() {
                 <input
                   type="range"
                   min="0"
-                  max="70"
+                  max="100"
                   step="1"
                   value={section1SliderValue}
                   onChange={handleSection1SliderChange}
                   className="w-full h-2 rounded-lg appearance-none cursor-pointer"
                   style={{
-                    background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${(section1SliderValue / 70) * 100}%, #e5e7eb ${(section1SliderValue / 70) * 100}%, #e5e7eb 100%)`
+                    background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${section1SliderValue}%, #e5e7eb ${section1SliderValue}%, #e5e7eb 100%)`
                   }}
                 />
               </div>
@@ -779,14 +800,14 @@ export default function Module1CarbonRemovalDashboard() {
                 </div>
                 <input
                   type="range"
-                  min="0"
-                  max="100"
-                  step="1"
+                  min="-10"
+                  max="1"
+                  step="0.1"
                   value={section2DeforestationValue}
                   onChange={handleSection2DeforestationChange}
                   className="w-full h-2 rounded-lg appearance-none cursor-pointer"
                   style={{
-                    background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${section2DeforestationValue}%, #e5e7eb ${section2DeforestationValue}%, #e5e7eb 100%)`
+                    background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${((section2DeforestationValue + 10) / 11) * 100}%, #e5e7eb ${((section2DeforestationValue + 10) / 11) * 100}%, #e5e7eb 100%)`
                   }}
                 />
               </div>
@@ -856,13 +877,13 @@ export default function Module1CarbonRemovalDashboard() {
             <input
               type="range"
               min="0"
-              max="70"
+              max="100"
               step="1"
               value={section1SliderValue}
               onChange={handleSection1SliderChange}
               className="w-full h-2 rounded-lg appearance-none cursor-pointer"
               style={{
-                background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${(section1SliderValue / 70) * 100}%, #e5e7eb ${(section1SliderValue / 70) * 100}%, #e5e7eb 100%)`
+                background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${section1SliderValue}%, #e5e7eb ${section1SliderValue}%, #e5e7eb 100%)`
               }}
             />
           </div>
@@ -932,13 +953,13 @@ export default function Module1CarbonRemovalDashboard() {
               <input
                 type="range"
                 min="0"
-                max="70"
+                max="100"
                 step="1"
                 value={section1SliderValue}
                 onChange={handleSection1SliderChange}
                 className="w-full h-2 rounded-lg appearance-none cursor-pointer"
                 style={{
-                  background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${(section1SliderValue / 70) * 100}%, #e5e7eb ${(section1SliderValue / 70) * 100}%, #e5e7eb 100%)`
+                  background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${section1SliderValue}%, #e5e7eb ${section1SliderValue}%, #e5e7eb 100%)`
                 }}
               />
             </div>
@@ -950,14 +971,14 @@ export default function Module1CarbonRemovalDashboard() {
               </div>
               <input
                 type="range"
-                min="0"
-                max="100"
-                step="1"
+                min="-10"
+                max="1"
+                step="0.1"
                 value={section2DeforestationValue}
                 onChange={handleSection2DeforestationChange}
                 className="w-full h-2 rounded-lg appearance-none cursor-pointer"
                 style={{
-                  background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${section2DeforestationValue}%, #e5e7eb ${section2DeforestationValue}%, #e5e7eb 100%)`
+                  background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${((section2DeforestationValue + 10) / 11) * 100}%, #e5e7eb ${((section2DeforestationValue + 10) / 11) * 100}%, #e5e7eb 100%)`
                 }}
               />
             </div>
