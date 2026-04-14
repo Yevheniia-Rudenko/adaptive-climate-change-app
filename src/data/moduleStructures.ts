@@ -42,6 +42,9 @@ import vennDiagramImg from '../assets/module_5/venn-diagram.png';
 import module3Background from '../assets/module_3_background.webp';
 import module4Background from '../assets/module_4_background.webp';
 import module5Background from '../assets/module_5_background.webp';
+import airPollutionImg from '../assets/module_3/air_pollution.webp';
+import pumpingGasImg from '../assets/module_3/pumping_gas.webp';
+import shareScenarioImg from '../assets/module_3/share-scenario.webp';
 
 
 export type FlipCardData = {
@@ -1094,11 +1097,11 @@ Thank you for practicing.`
           },
           {
             type: 'text',
-            content: 'All climate policies create: \n\n• **Positive side‑effects** (sometimes called multisolving)\n   - Example: Improving public health or saving money long-term \n\n• **Unintended negative impacts** \n   -Often hit people with lower incomes the hardest'
+            content: 'All climate policies create both: \n\n• **Positive side‑effects** (sometimes called multisolving)\n   - Example: Improving public health or saving money long-term \n\n• **Unintended negative impacts**, which often hit people with lower incomes the hardest'
           },
           {
             type: 'text',
-            content: 'Trying to reduce or prevent those negative impacts is called **equity work**—making sure solutions are fair to everyone.'
+            content: 'An equity lens helps us to try to reduce or prevent those negative impacts—making sure solutions are fair to everyone.'
           },
           {
             type: 'text',
@@ -1149,7 +1152,13 @@ Thank you for practicing.`
           {
             type: 'text',
             title: '**Explore the Scenario in En‑ROADS**',
-            content: "Now you’ll get to experiment with the carbon price slider and see how this policy affects two important side‑effects shown in the graphs:"
+            content: "Now you’ll get to experiment with the carbon price slider and see how this policy affects two important side‑effects.\n\nYou might recall that carbon price is a cost in the form of a tax or penalty applied to greenhouse gas emissions. Setting a carbon price can help governments to mitigate climate change by financially encouraging polluters to reduce fossil fuel combustion, one of the main drivers of climate change."
+          },
+          {
+            type: 'image',
+            imageUrl: airPollutionImg,
+            alt: 'Air pollution in Cairo',
+            width: '100%'
           },
           {
             type: 'text',
@@ -1158,16 +1167,22 @@ Thank you for practicing.`
             content: "Measured as the amount of harmful particles released into the air each year. \n Long‑term exposure to air pollution increases the risk of:\n\n• Asthma\n• Heart disease\n• Stroke\n• Chronic obstructive pulmonary disease (COPD)\n• Lung cancer\n• Dementia\n\n Cleaner air usually means **healthier communities.**"
           },
           {
+            type: 'image',
+            imageUrl: pumpingGasImg,
+            alt: 'Pumping gas in Cairo',
+            width: '100%'
+          },
+          {
             type: 'text',
             title: '**2. Average Price of Energy for Consumers**',
             hideIcon: true,
-            content: 'This graph shows the average cost of energy for everyday people—including:\n\n• Electricity\n• Gas\n• Hydrogen\n\nWhen this line goes up, **energy bills get more expensive** for everyone, which can create equity concerns.'
+            content: 'This graph shows the average cost of energy for everyday people—including:\n\n• Electricity\n• Gas\n• Hydrogen\n\nWhen this line goes up, **energy bills get more expensive** for everyone, which can create equity concerns in communities where finances are already stressed.'
           },
           {
             type: 'text',
             title: '**Let’s Predict**',
             hideIcon: true,
-            content: 'Before you use the model, take a moment to make your predictions.'
+            content: 'Before you use En-ROADS the model, take a moment to make your predictions.'
           },
           {
             type: 'reflection',
@@ -1188,24 +1203,22 @@ Thank you for practicing.`
           },
           {
             type: 'reflection',
-            prompt: 'What did you notice happening in the carbon price model?\n\nDescribe how emissions, air pollution, and energy prices changed as you adjusted the carbon price.',
+            prompt: 'What did you notice happening in the carbon price model?\n\nDescribe how temperature, air pollution, and energy prices changed as you adjusted the carbon price.',
             id: 'prediction-reflection-1'
           },
           {
             type: 'reflection',
-            prompt: 'Looking at this through an equity lens, what might this scenario mean for different people?\n\nThink about who benefits and who might face challenges.',
+            prompt: 'Looking at this through an equity lens, what might this scenario mean for different people? Who do you think would be most affected by this policy? Why?\n\nThink about who benefits and who might face challenges. Consider income levels, communities, industries, or regions.',
             id: 'prediction-reflection-2'
           },
-          {
-            type: 'reflection',
-            prompt: 'Who do you think would be most affected by this policy? Why?\n\nConsider income levels, communities, industries, or regions.',
-            id: 'prediction-reflection-3'
-          },
-          {
-            type: 'reflection',
-            prompt: 'Are there groups who might be positively affected—and others who might be negatively affected—by raising the carbon price?\n\nExplain what those effects could look like in real life.',
-            id: 'prediction-reflection-4'
-          },
+        ]
+      },
+                {
+            type: 'block',
+            colorTheme: 'blue',
+            content: [
+             
+
           {
             type: 'audio',
             audioUrl: carbonEquityAudio,
@@ -1225,7 +1238,7 @@ If a government wants people to support a carbon price, it has to think carefull
           },
           {
             type: 'text',
-            title: '**❓So here’s the big question:**',
+            title: '**❓Can we balance these tradeoffs? :**',
             hideIcon: true,
             content: '**What policies could help balance things out?**\nIf a carbon price brings in extra money to the government, how could that money be used to:\n\n• Lower energy bills for low‑income families?\n• Help people transition to clean energy?\n• Make the policy feel fair for everyone?\n\nThat’s your challenge to think about.',
           },
@@ -1236,11 +1249,11 @@ If a government wants people to support a carbon price, it has to think carefull
           },
           {
             type: 'reflection',
-            prompt: 'What policies can you think of that could achieve this goal?',
+            prompt: 'What policies or government or community efforts could help achieve this goal? Think at any level: local, state or ministry, national, regional or global.',
             id: 'prediction-reflection-5'
           }
-        ]
-      },
+            ]
+          },
       {
         type: 'block',
         colorTheme: 'green',
@@ -1252,16 +1265,10 @@ If a government wants people to support a carbon price, it has to think carefull
             content: ''
           },
           {
-            type: 'image',
-            imageUrl: enroadsScreenshot,
-            alt: 'En-ROADS climate simulation tool dashboard with policy sliders and graphs displaying projected climate outcomes, including a dropdown to switch between different graph views.',
-            width: '100%'
-          },
-          {
             type: 'text',
-            title: '**Now it\'s your turn to design a climate future!**',
+            title: '**✏️ Now it\'s your turn to design a climate future!**',
             hideIcon: true,
-            content: 'Using the **full En‑ROADS climate policy simulator**, create a scenario that reflects the kind of world you want to help build. As you experiment with the sliders, try to meet these three goals **at the same time:**'
+            content: 'You will use the full En‑ROADS climate policy simulator to create a scenario that reflects **the kind of world you want to help build.**\n\nAs you experiment with the sliders, try to meet these three goals **at the same time:**'
           },
           {
             type: 'text',
@@ -1272,13 +1279,19 @@ If a government wants people to support a carbon price, it has to think carefull
             type: 'text',
             title: '**Your Task**',
             hideIcon: true,
-            content: 'Use the sliders—energy, land use, transportation, carbon removal, and policies—to build a scenario that meets these goals.\n here’s no single “right answer,” but there are trade‑offs you’ll need to think through.'
+            content: 'Use any of the sliders to build a scenario that meets these goals.\n\n There’s no single “right answer,” but there are trade‑offs you’ll need to think through.'
           },
           {
             type: 'text',
-            title: '**When you’re done**',
+            title: '**When You’re Done:**',
             hideIcon: true,
-            content: 'Click the “Share Your Scenario” button, copy the link, and return back here.'
+            content: 'Once you finish in En-ROADS, click the “Share Your Scenario” button, copy the link, and **return back here** to finish the module.'
+          },
+          {
+            type:'image',
+            imageUrl: enroadsScreenshot,
+            alt: 'En-ROADS Scenario Screenshot',
+            width: '100%'
           },
           {
             type: 'button',
@@ -1314,8 +1327,15 @@ If a government wants people to support a carbon price, it has to think carefull
             id: 'en-roads-scenario-1'
           },
           {
+            type: 'image',
+            imageUrl: shareScenarioImg,
+            alt: 'Share Scenario Image',
+            width: '100%',
+            title: 'Hint: You can find the Share Your Scenario link in the upper right hand corner of En-ROADS.'
+          },
+          {
             type: 'text',
-            title: '**Let\'s Reflect - Reflect on your scenario:**',
+            title: '**Let\'s Reflect:**',
             content: ''
           },
           {
@@ -1360,7 +1380,7 @@ If a government wants people to support a carbon price, it has to think carefull
             type: 'text',
             title: '',
             hideIcon: true,
-            content: 'There are a number of roadmaps to our possible shared future.'
+            content: 'There are a number of roadmaps to our possible shared future.   Below are just a few of the climate futures that other learners like you have created.'
           },
           {
             type: 'image-collage',
@@ -1377,7 +1397,7 @@ If a government wants people to support a carbon price, it has to think carefull
             type: 'text',
             title: '',
             hideIcon: true,
-            content: 'Seeing these scenarios of the future, and creating your own, can evoke a lot. \n\n We might begin to think about all the policies, collaborations, and societal changes needed. \n\n We might imagine what these futures look like–and wonder where we or our communities might be doing in that future. \n\n Let’s take a moment to pause and check in with yourselves.'
+            content: 'Seeing these scenarios of the future, and creating your own, might evoke a lot–from hope to discouragement, optimism to despair.\n\n We might begin to think about all the policies, collaborations, and societal changes needed. \n\n We might imagine what these futures would look like and wonder what we or our communities might be doing in that future. \n\n Let’s take a moment to pause, take a breath, and check in with yourselves.'
           },
           {
             type: 'image',
@@ -1390,11 +1410,11 @@ If a government wants people to support a carbon price, it has to think carefull
             type: 'text',
             title: '',
             hideIcon: true,
-            content: 'Let’s revisit the emotion wheel. What emotions came up when you were creating your En-ROADS scenario?  It’s okay if there were many or even conflicting emotions. '
+            content: 'Let’s revisit the wheel of emotions. What emotions came up when you were creating your En-ROADS scenario?  It’s okay if there were many or even conflicting emotions. '
           },
           {
             type: 'reflection',
-            prompt: 'How are you feeling? What emotions do you feel when you think about these climate futures?',
+            prompt: 'How are you feeling? What emotions do you feel when you think about these climate futures? Pay attention to your body for a moment, where do you feel these emotions in your body?',
             id: 'en-roads-scenario-3'
           },
         ]
