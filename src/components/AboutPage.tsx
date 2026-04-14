@@ -7,7 +7,7 @@ import aboutDayOfClimate from '../assets/about_dayofclimate.jpeg';
 import aboutSystemsLab from '../assets/about_systemslab.jpeg';
 import tibyanPhoto from '../assets/team_photos/tibyan.png';
 import yevheniaPhoto from '../assets/team_photos/yevhenia.png';
-import karimPhoto from '../assets/team_photos/karim.JPG';
+import karimPhoto from '../assets/team_photos/karim.png';
 import lanaCookPhoto from '../assets/team_photos/2025Lanacook.jpeg';
 import peterSengePhoto from '../assets/team_photos/Peter_Senge_2022-square.webp';
 import jonasJebrilPhoto from '../assets/team_photos/Jonas_Jebril_2022-1024x1015-square-fbe1b6fff45e771ef3c854b654383771-.webp';
