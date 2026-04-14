@@ -5,13 +5,13 @@ import { Link } from 'react-router-dom';
 import { Linkedin } from 'lucide-react';
 import aboutDayOfClimate from '../assets/about_dayofclimate.jpeg';
 import aboutSystemsLab from '../assets/about_systemslab.jpeg';
-import tibyanPhoto from '../assets/team_photos/tibyan.jpg';
-import yevheniaPhoto from '../assets/team_photos/yevhenia.jpg';
-import karimPhoto from '../assets/team_photos/karim.jpg';
+import tibyanPhoto from '../assets/team_photos/tibyan.png';
+import yevheniaPhoto from '../assets/team_photos/yevhenia.png';
+import karimPhoto from '../assets/team_photos/karim.JPG';
 import lanaCookPhoto from '../assets/team_photos/2025Lanacook.jpeg';
 import peterSengePhoto from '../assets/team_photos/Peter_Senge_2022-square.webp';
 import jonasJebrilPhoto from '../assets/team_photos/Jonas_Jebril_2022-1024x1015-square-fbe1b6fff45e771ef3c854b654383771-.webp';
-import fiorellaPhoto from '../assets/team_photos/Fio.png';
+import fiorellaPhoto from '../assets/team_photos/FiorellaMassa.jpeg';
 
 function TeamMemberCard({ photo, name, role, bio, linkedinLink, compact = false }: { photo?: string, name: string, role: string, bio: string, linkedinLink: string, compact?: boolean }) {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -25,7 +25,7 @@ function TeamMemberCard({ photo, name, role, bio, linkedinLink, compact = false 
 
   return (
     <div 
-      className={`flex-1 cursor-pointer ${compact ? 'min-w-0 h-[200px] sm:h-[230px]' : ''}`}
+      className={`flex-1 basis-0 cursor-pointer ${compact ? 'min-w-0 h-[200px] sm:h-[230px]' : ''}`}
       style={{ perspective: '1000px' }}
       onMouseEnter={() => setIsFlipped(true)}
       onMouseLeave={() => setIsFlipped(false)}
@@ -42,17 +42,19 @@ function TeamMemberCard({ photo, name, role, bio, linkedinLink, compact = false 
           className={`bg-gray-50 dark:bg-gray-700 rounded-lg shadow-md text-center flex flex-col w-full h-full ${compact ? 'p-2' : 'p-3'}`}
           style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
         >
-          {photo ? (
-            <img 
-              src={photo} 
-              alt={name} 
-              className={`w-full aspect-square rounded-lg object-cover shadow-sm ${compact ? 'mb-2' : 'mb-3'}`}
-            />
-          ) : (
-            <div className={`w-full aspect-square rounded-lg bg-gray-200 dark:bg-gray-600 shadow-sm flex items-center justify-center ${compact ? 'mb-2' : 'mb-3'}`}>
-              <span className={`${compact ? 'text-2xl' : 'text-3xl'} font-bold text-gray-600 dark:text-gray-200`}>{initials}</span>
-            </div>
-          )}
+          <div className={`w-full rounded-lg overflow-hidden shadow-sm ${compact ? 'h-[140px] sm:h-[150px] mb-2' : 'aspect-square mb-3'}`}>
+            {photo ? (
+              <img 
+                src={photo} 
+                alt={name} 
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center">
+                <span className={`${compact ? 'text-2xl' : 'text-3xl'} font-bold text-gray-600 dark:text-gray-200`}>{initials}</span>
+              </div>
+            )}
+          </div>
           <h3 className={`${compact ? 'text-[10px] sm:text-[11px]' : 'text-base sm:text-lg'} font-bold text-gray-800 dark:text-gray-100`}>{name}</h3>
         </div>
 
@@ -134,7 +136,7 @@ export function AboutPage() {
           <div className="h-6 sm:h-24 w-full block"></div>
 
             <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed mb-4">
-             This curriculum also supports young people to learn about climate policies using Climate Interactive’s En-ROADS climate policy simulator. En‑ROADS is a global climate simulator that lets you test how different climate solutions—like electrifying transportation, putting a price on carbon, or changing farming practices—affect things like temperature, air quality, sea level rise, and energy costs. In this combination of compassionate systems and En-ROADS, students learn about the inner and outer systems dynamics that underlie climate change, its drivers, and effects–from global energy policies, consumer behavior, to our sense of agency and hope in contributing to a more positive future.          
+             This curriculum also supports young people to learn about climate policies using <a href="https://www.climateinteractive.org" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 underline">Climate Interactive</a>’s En-ROADS climate policy simulator. En‑ROADS is a global climate simulator that lets you test how different climate solutions—like electrifying transportation, putting a price on carbon, or changing farming practices—affect things like temperature, air quality, sea level rise, and energy costs. In this combination of compassionate systems and En-ROADS, students learn about the inner and outer systems dynamics that underlie climate change, its drivers, and effects–from global energy policies, consumer behavior, to our sense of agency and hope in contributing to a more positive future.          
              </p>
 
           {/* SPACER */}
@@ -150,7 +152,7 @@ export function AboutPage() {
           {/* About Day of Climate Section */}
           <div>
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-green-600 mb-3">
-              About Day of Climate
+              Day of Climate
             </h2>
             <img 
               src={aboutDayOfClimate} 
@@ -189,7 +191,7 @@ export function AboutPage() {
           {/* About Systems Awareness Lab Section */}
           <div>
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-green-600 mb-3">
-              About MIT Systems Awareness Lab
+              MIT Systems Awareness Lab
             </h2>
             <img 
               src={aboutSystemsLab} 
@@ -249,7 +251,7 @@ export function AboutPage() {
           {/* About Climate Interactive Section */}
           <div>
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-green-600 mb-3">
-              About Climate Interactive
+              Climate Interactive
             </h2>
             <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
               At Climate Interactive, their mission is to create and share tools that drive effective and equitable action. Developed by Climate Interactive, MIT Sloan School of Management, and Ventana Systems, the En-ROADS Climate Solutions Simulator is based on best-available science and carefully compared with other major climate and energy models. En‑ROADS is free to use online and is available in more than a dozen languages, making it accessible to people all over the world.
@@ -268,7 +270,7 @@ export function AboutPage() {
                   Visit Climate Interactive →
                 </Button>
               </a>
-              to learn more about their climate Simulators, Experiences, Insights and Research, and how to become an En-ROADS Climate Ambassador through their facilitator training.
+              to learn more about their climate simulators, experiences, insights and research, and how to become an En-ROADS Climate Ambassador through their facilitator training.
             </p>
           </div>
 
@@ -278,7 +280,7 @@ export function AboutPage() {
           {/* About the Center for Systems Awareness Section */}
           <div>
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-green-600 mb-3">
-              About the Center for Systems Awareness: Youth Leadership Team
+              Center for Systems Awareness
             </h2>
             <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed mb-4">
               The vision of the <a href="https://systemsawareness.org/youth-leadership-team/" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">Center for Systems Awareness Youth Leadership Team</a> is to increase the capacity for compassion, systems awareness, and self-mastery by training students worldwide and to develop compassionate leaders of the future.
@@ -319,22 +321,22 @@ export function AboutPage() {
                   photo={lanaCookPhoto}
                   name="Dr. Lana Cook"
                   role="Project Lead"
-                  bio="Associate Director, MIT Systems Awareness Lab"
-                  linkedinLink="#"
+                  bio="Associate Director | MIT Systems Awareness Lab"
+                  linkedinLink="https://www.linkedin.com/in/lanacook/"
                 />
                 <TeamMemberCard
                   photo={peterSengePhoto}
                   name="Dr. Peter Senge"
                   role="Project Advisor"
                   bio="Co-Director, MIT Systems Awareness Lab | Senior Lecturer, MIT Sloan"
-                  linkedinLink="#"
+                  linkedinLink="https://mitsloan.mit.edu/faculty/directory/peter-m-senge"
                 />
                 <TeamMemberCard
                   photo={jonasJebrilPhoto}
                   name="Jonas Jebril"
                   role="Curriculum Design"
-                  bio="Youth Leadership, Center for Systems Awareness"
-                  linkedinLink="#"
+                  bio="Youth Leadership | Center for Systems Awareness"
+                  linkedinLink="https://systemsawareness.org/person/jonas-jebril/"
                 />
               </div>
 
@@ -343,7 +345,7 @@ export function AboutPage() {
                   photo={tibyanPhoto} 
                   name="Tibyan Bilal" 
                   role="Web Developer" 
-                  bio="Mathematical Engineering Student at YTÜ | MIT Emerging Talent Alum 25’ | Web Dev | NLP " 
+                  bio="Mathematical Engineering Student | YTÜ" 
                   linkedinLink="https://www.linkedin.com/in/tibyankhalid/"
                   compact
                 />
@@ -351,7 +353,7 @@ export function AboutPage() {
                   photo={yevheniaPhoto} 
                   name="Yevheniia Rudenko" 
                   role="Web Developer" 
-                  bio="MIT Emerging Talent 2024/25 Data Science learner | ReDI School (Machine Learning & AI) | MSc in Computer Science" 
+                  bio="Full Stack Developer | MIT Systems Awareness Lab" 
                   linkedinLink="https://www.linkedin.com/in/yevheniia-rudenko/"
                   compact
                 />
@@ -359,7 +361,7 @@ export function AboutPage() {
                   photo={karimPhoto} 
                   name="Karim Makie" 
                   role="Web Developer" 
-                  bio="[Full Stack Developer @ MIT System Awareness Lab | Flutter Developer | Data Analyst" 
+                  bio="Full Stack Developer | MIT Systems Awareness Lab" 
                   linkedinLink="https://www.linkedin.com/in/karim-makie/"
                   compact
                 />
@@ -368,7 +370,7 @@ export function AboutPage() {
                   name="Fiorella Massa"
                   role="Graphic Designer"
                   bio="Graphic Designer"
-                  linkedinLink="#"
+                  linkedinLink="https://www.behance.net/fiorellamassa"
                   compact
                 />
               </div>
