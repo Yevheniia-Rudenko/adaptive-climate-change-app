@@ -37,7 +37,7 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
 
   useEffect(() => {
     try {
-      const stored = localStorage.getItem(`poll:${sessionId}:${moduleId}:${block.id}`);
+      const stored = sessionStorage.getItem(`poll:${sessionId}:${moduleId}:${block.id}`);
       if (stored) setLastSubmittedResponse(stored);
     } catch {
     }
@@ -45,7 +45,7 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
 
   useEffect(() => {
     try {
-      const stored = localStorage.getItem(`pollSelection:${sessionId}:${moduleId}:${block.id}`);
+      const stored = sessionStorage.getItem(`pollSelection:${sessionId}:${moduleId}:${block.id}`);
       if (!stored) return;
       const parsed = JSON.parse(stored) as unknown;
       if (
@@ -136,13 +136,13 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
       });
       setLastSubmittedResponse(responseDisplay);
       try {
-        localStorage.setItem(`poll:${sessionId}:${moduleId}:${block.id}`, responseDisplay);
+        sessionStorage.setItem(`poll:${sessionId}:${moduleId}:${block.id}`, responseDisplay);
       } catch {
       }
       const submittedSelection = { selectedOptions, otherText };
       setLastSubmittedSelection(submittedSelection);
       try {
-        localStorage.setItem(`pollSelection:${sessionId}:${moduleId}:${block.id}`, JSON.stringify(submittedSelection));
+        sessionStorage.setItem(`pollSelection:${sessionId}:${moduleId}:${block.id}`, JSON.stringify(submittedSelection));
       } catch {
       }
       setSelectedOptions([]);
@@ -443,7 +443,7 @@ function ReflectionBlock({ block, moduleId }: { block: Extract<ContentBlockType,
 
   useEffect(() => {
     try {
-      const stored = localStorage.getItem(`reflection:${sessionId}:${moduleId}:${block.id}`);
+      const stored = sessionStorage.getItem(`reflection:${sessionId}:${moduleId}:${block.id}`);
       if (stored) setLastSubmittedText(stored);
     } catch {
     }
@@ -488,7 +488,7 @@ function ReflectionBlock({ block, moduleId }: { block: Extract<ContentBlockType,
       });
       setLastSubmittedText(submittedText);
       try {
-        localStorage.setItem(`reflection:${sessionId}:${moduleId}:${block.id}`, submittedText);
+        sessionStorage.setItem(`reflection:${sessionId}:${moduleId}:${block.id}`, submittedText);
       } catch {
       }
       setReflectionText('');
@@ -561,7 +561,7 @@ function NumericPredictionBlock({ block, moduleId }: { block: Extract<ContentBlo
 
   useEffect(() => {
     try {
-      const stored = localStorage.getItem(`numeric-prediction:${sessionId}:${moduleId}:${block.id}`);
+      const stored = sessionStorage.getItem(`numeric-prediction:${sessionId}:${moduleId}:${block.id}`);
       if (stored) setLastSubmittedValue(stored);
     } catch {
     }
@@ -610,7 +610,7 @@ function NumericPredictionBlock({ block, moduleId }: { block: Extract<ContentBlo
       });
       setLastSubmittedValue(submittedValue);
       try {
-        localStorage.setItem(`numeric-prediction:${sessionId}:${moduleId}:${block.id}`, submittedValue);
+        sessionStorage.setItem(`numeric-prediction:${sessionId}:${moduleId}:${block.id}`, submittedValue);
       } catch {
       }
       setValueText('');
