@@ -316,7 +316,7 @@ export function AboutPage() {
               Project Team
             </h2>
             <div className="space-y-4">
-              <div className="flex flex-row gap-4">
+              <div className="flex flex-row gap-2">
                 <TeamMemberCard
                   photo={lanaCookPhoto}
                   name="Dr. Lana Cook"
@@ -340,7 +340,7 @@ export function AboutPage() {
                 />
               </div>
 
-              <div className="flex flex-row gap-4">
+              <div className="flex flex-row gap-2">
                 <TeamMemberCard 
                   photo={tibyanPhoto} 
                   name="Tibyan Bilal" 
