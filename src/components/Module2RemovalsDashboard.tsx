@@ -31,13 +31,10 @@ export default function Module2RemovalsDashboard() {
   // Slider states
   const [carbonPriceVal, setCarbonPriceVal] = useState(0);
   const [carbonPriceText, setCarbonPriceText] = useState('$0 / ton CO₂');
-  const [carbonPriceDefaultPct, setCarbonPriceDefaultPct] = useState<number | null>(null);
   const [natureVal, setNatureVal] = useState(0);
   const [natureText, setNatureText] = useState('status quo');
-  const [natureDefaultPct, setNatureDefaultPct] = useState<number | null>(null);
   const [techVal, setTechVal] = useState(0);
   const [techText, setTechText] = useState('status quo');
-  const [techDefaultPct, setTechDefaultPct] = useState<number | null>(null);
 
   // Temperature display
   const [tempC, setTempC] = useState(3.3);
@@ -79,19 +76,6 @@ export default function Module2RemovalsDashboard() {
     const denom = max - min;
     if (denom === 0) return 0;
     return Math.max(0, Math.min(100, ((value - min) / denom) * 100));
-  };
-
-  const getRangeHighlightBackground = (currentPct: number, defaultPct: number | null, color: string) => {
-    const track = '#e5e7eb';
-    const clampedCurrent = Math.max(0, Math.min(100, currentPct));
-    if (defaultPct === null) {
-      return `linear-gradient(to right, ${color} 0%, ${color} ${clampedCurrent}%, ${track} ${clampedCurrent}%, ${track} 100%)`;
-    }
-
-    const clampedDefault = Math.max(0, Math.min(100, defaultPct));
-    const a = Math.min(clampedCurrent, clampedDefault);
-    const b = Math.max(clampedCurrent, clampedDefault);
-    return `linear-gradient(to right, ${track} 0%, ${track} ${a}%, ${color} ${a}%, ${color} ${b}%, ${track} ${b}%, ${track} 100%)`;
   };
 
   const createGraphViewModel = (graphSpec: any) => {
@@ -286,7 +270,6 @@ export default function Module2RemovalsDashboard() {
           const max = carbonPriceInputRef.current.max ?? 250;
           const pos = toSliderPos(current, min, max);
           setCarbonPriceVal(pos);
-          setCarbonPriceDefaultPct(pos);
           setCarbonPriceText(getInputRangeLabel(carbonPriceInputRef.current, current));
         }
 
@@ -296,7 +279,6 @@ export default function Module2RemovalsDashboard() {
           const max = natureInputRef.current.max ?? 100;
           const pos = toSliderPos(current, min, max);
           setNatureVal(pos);
-          setNatureDefaultPct(pos);
           setNatureText(getInputRangeLabel(natureInputRef.current, current));
         }
 
@@ -306,7 +288,6 @@ export default function Module2RemovalsDashboard() {
           const max = techInputRef.current.max ?? 100;
           const pos = toSliderPos(current, min, max);
           setTechVal(pos);
-          setTechDefaultPct(pos);
           setTechText(getInputRangeLabel(techInputRef.current, current));
         }
 
@@ -542,22 +523,17 @@ export default function Module2RemovalsDashboard() {
               <label>Carbon Price</label>
               <span className="text-xs font-mono text-gray-500">{carbonPriceText}</span>
             </div>
-            <div className="enroads-range-wrap">
-              {carbonPriceDefaultPct !== null && (
-                <div className="enroads-range-tick" style={{ ['--tick-frac' as any]: String(carbonPriceDefaultPct / 100) }} />
-              )}
-              <input
-                type="range"
-                min="0"
-                max="100"
-                value={carbonPriceVal}
-                onChange={handleCarbonPriceChange}
-                className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-                style={{
-                  background: getRangeHighlightBackground(carbonPriceVal, carbonPriceDefaultPct, '#3B82F6')
-                }}
-              />
-            </div>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={carbonPriceVal}
+              onChange={handleCarbonPriceChange}
+              className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+              style={{
+                background: `linear-gradient(to right, #3B82F6 0%, #3B82F6 ${carbonPriceVal}%, #e5e7eb ${carbonPriceVal}%, #e5e7eb 100%)`
+              }}
+            />
           </div>
 
           {/* Nature-based Removals */}
@@ -566,22 +542,17 @@ export default function Module2RemovalsDashboard() {
               <label>Nature-Based Removals</label>
               <span className="text-xs font-mono text-gray-500">{natureText}</span>
             </div>
-            <div className="enroads-range-wrap">
-              {natureDefaultPct !== null && (
-                <div className="enroads-range-tick" style={{ ['--tick-frac' as any]: String(natureDefaultPct / 100) }} />
-              )}
-              <input
-                type="range"
-                min="0"
-                max="100"
-                value={natureVal}
-                onChange={handleNatureChange}
-                className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-                style={{
-                  background: getRangeHighlightBackground(natureVal, natureDefaultPct, '#3B82F6')
-                }}
-              />
-            </div>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={natureVal}
+              onChange={handleNatureChange}
+              className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+              style={{
+                background: `linear-gradient(to right, #3B82F6 0%, #3B82F6 ${natureVal}%, #e5e7eb ${natureVal}%, #e5e7eb 100%)`
+              }}
+            />
           </div>
 
           {/* Technological Removals */}
@@ -590,22 +561,17 @@ export default function Module2RemovalsDashboard() {
               <label>Technological Removals</label>
               <span className="text-xs font-mono text-gray-500">{techText}</span>
             </div>
-            <div className="enroads-range-wrap">
-              {techDefaultPct !== null && (
-                <div className="enroads-range-tick" style={{ ['--tick-frac' as any]: String(techDefaultPct / 100) }} />
-              )}
-              <input
-                type="range"
-                min="0"
-                max="100"
-                value={techVal}
-                onChange={handleTechChange}
-                className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-                style={{
-                  background: getRangeHighlightBackground(techVal, techDefaultPct, '#3B82F6')
-                }}
-              />
-            </div>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={techVal}
+              onChange={handleTechChange}
+              className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+              style={{
+                background: `linear-gradient(to right, #3B82F6 0%, #3B82F6 ${techVal}%, #e5e7eb ${techVal}%, #e5e7eb 100%)`
+              }}
+            />
           </div>
         </div>
       </div>

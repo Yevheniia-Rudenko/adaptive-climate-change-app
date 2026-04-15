@@ -40,11 +40,11 @@ const getOilLabel = (v: number): string => {
 // Rendered with transform:scaleX(-1) → visual LEFT = discouraged, RIGHT = encouraged
 const sliderPct = (v: number) => ((v + 50) / 250) * 100;
 
-const rangeGrad = (v: number, def: number) => {
-  const track = '#e5e7eb';
-  const a = Math.min(sliderPct(v), sliderPct(def));
-  const b = Math.max(sliderPct(v), sliderPct(def));
-  return `linear-gradient(to right, ${track} 0%, ${track} ${a}%, #53B1E8 ${a}%, #53B1E8 ${b}%, ${track} ${b}%, ${track} 100%)`;
+// Gradient for flipped slider: gray left→pct, blue pct→right
+// After scaleX(-1): blue fills from visual-left to thumb
+const flipGrad = (v: number) => {
+  const p = sliderPct(v);
+  return `linear-gradient(to right, #e5e7eb 0%, #e5e7eb ${p}%, #53B1E8 ${p}%, #53B1E8 100%)`;
 };
 
 export default function Module1FossilFuelTaxesDashboard() {
@@ -355,22 +355,10 @@ export default function Module1FossilFuelTaxesDashboard() {
             <label>Tax on Coal</label>
             <span className="text-xs font-mono text-gray-500">{coalText}</span>
           </div>
-          <div className="enroads-range-wrap" style={{ transform: 'scaleX(-1)' }}>
-            <div
-              className="enroads-range-tick"
-              style={{ ['--tick-frac' as any]: String(sliderPct(SQ_COAL) / 100) }}
-            />
-            <input
-              type="range"
-              min="-50"
-              max="200"
-              step="1"
-              value={coalVal}
-              onChange={e => handleSliderChange('coal', e)}
-              className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-              style={{ background: rangeGrad(coalVal, SQ_COAL) }}
-            />
-          </div>
+          <input type="range" min="-50" max="200" step="1" value={coalVal}
+            onChange={e => handleSliderChange('coal', e)}
+            className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+            style={{ transform: 'scaleX(-1)', background: flipGrad(coalVal) }} />
         </div>
 
         {/* Oil */}
@@ -379,22 +367,10 @@ export default function Module1FossilFuelTaxesDashboard() {
             <label>Tax on Oil</label>
             <span className="text-xs font-mono text-gray-500">{oilText}</span>
           </div>
-          <div className="enroads-range-wrap" style={{ transform: 'scaleX(-1)' }}>
-            <div
-              className="enroads-range-tick"
-              style={{ ['--tick-frac' as any]: String(sliderPct(SQ_OIL) / 100) }}
-            />
-            <input
-              type="range"
-              min="-50"
-              max="200"
-              step="1"
-              value={oilVal}
-              onChange={e => handleSliderChange('oil', e)}
-              className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-              style={{ background: rangeGrad(oilVal, SQ_OIL) }}
-            />
-          </div>
+          <input type="range" min="-50" max="200" step="1" value={oilVal}
+            onChange={e => handleSliderChange('oil', e)}
+            className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+            style={{ transform: 'scaleX(-1)', background: flipGrad(oilVal) }} />
         </div>
 
         {/* Gas */}
@@ -403,22 +379,10 @@ export default function Module1FossilFuelTaxesDashboard() {
             <label>Tax on Gas</label>
             <span className="text-xs font-mono text-gray-500">{gasText}</span>
           </div>
-          <div className="enroads-range-wrap" style={{ transform: 'scaleX(-1)' }}>
-            <div
-              className="enroads-range-tick"
-              style={{ ['--tick-frac' as any]: String(sliderPct(SQ_GAS) / 100) }}
-            />
-            <input
-              type="range"
-              min="-50"
-              max="200"
-              step="1"
-              value={gasVal}
-              onChange={e => handleSliderChange('gas', e)}
-              className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-              style={{ background: rangeGrad(gasVal, SQ_GAS) }}
-            />
-          </div>
+          <input type="range" min="-50" max="200" step="1" value={gasVal}
+            onChange={e => handleSliderChange('gas', e)}
+            className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+            style={{ transform: 'scaleX(-1)', background: flipGrad(gasVal) }} />
         </div>
 
       </div>

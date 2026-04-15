@@ -32,14 +32,12 @@ export default function Module1CarbonRemovalDashboard() {
   // Section 1 states
   const [section1SliderValue, setSection1SliderValue] = useState(0);
   const [section1SliderText, setSection1SliderText] = useState('status quo');
-  const [section1DefaultPct, setSection1DefaultPct] = useState<number | null>(null);
   const [selectedGraphId, setSelectedGraphId] = useState('90');
   const [section2SelectedGraphId, setSection2SelectedGraphId] = useState('62');
 
   // Section 2 states
   const [section2DeforestationValue, setSection2DeforestationValue] = useState(0);
   const [section2DeforestationText, setSection2DeforestationText] = useState('status quo');
-  const [section2DeforestationDefaultPct, setSection2DeforestationDefaultPct] = useState<number | null>(null);
 
   // Temperature display — use refs + direct DOM to avoid React re-renders that reset canvas
   const tempCRef = useRef<HTMLSpanElement>(null);
@@ -71,19 +69,6 @@ export default function Module1CarbonRemovalDashboard() {
 
   const str = (key: string) => {
     return (enStrings as any)[key] || key;
-  };
-
-  const getRangeHighlightBackground = (currentPct: number, defaultPct: number | null, color: string) => {
-    const track = '#e5e7eb';
-    const clampedCurrent = Math.max(0, Math.min(100, currentPct));
-    if (defaultPct === null) {
-      return `linear-gradient(to right, ${color} 0%, ${color} ${clampedCurrent}%, ${track} ${clampedCurrent}%, ${track} 100%)`;
-    }
-
-    const clampedDefault = Math.max(0, Math.min(100, defaultPct));
-    const a = Math.min(clampedCurrent, clampedDefault);
-    const b = Math.max(clampedCurrent, clampedDefault);
-    return `linear-gradient(to right, ${track} 0%, ${track} ${a}%, ${color} ${a}%, ${color} ${b}%, ${track} ${b}%, ${track} 100%)`;
   };
 
   const getInputRangeLabel = (input: any, value: number) => {
@@ -475,7 +460,6 @@ export default function Module1CarbonRemovalDashboard() {
         
         setSection1SliderValue(0);
         setSection1SliderText(getCarbonRemovalText(0));
-        setSection1DefaultPct(0);
         if (carbonRemovalInputRef.current?.set) {
           const modelVal = natureMin + (0 / 100) * natureDenom;
           carbonRemovalInputRef.current.set(modelVal);
@@ -501,7 +485,6 @@ export default function Module1CarbonRemovalDashboard() {
         if (deforestationInputRef.current) {
           setSection2DeforestationValue(0);
           setSection2DeforestationText(getDeforestationText(0));
-          setSection2DeforestationDefaultPct(((0 + 10) / 11) * 100);
           if (deforestationInputRef.current.set) {
             const min = deforestationInputRef.current.min !== undefined ? deforestationInputRef.current.min : -10;
             const max = deforestationInputRef.current.max !== undefined ? deforestationInputRef.current.max : 1;
@@ -745,23 +728,18 @@ export default function Module1CarbonRemovalDashboard() {
                   <label>Carbon-Dioxide Removal - Nature Based</label>
                   <span className="text-sm font-mono text-gray-500">{section1SliderText}</span>
                 </div>
-                <div className="enroads-range-wrap">
-                  {section1DefaultPct !== null && (
-                    <div className="enroads-range-tick" style={{ ['--tick-frac' as any]: String(section1DefaultPct / 100) }} />
-                  )}
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    step="1"
-                    value={section1SliderValue}
-                    onChange={handleSection1SliderChange}
-                    className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-                    style={{
-                      background: getRangeHighlightBackground(section1SliderValue, section1DefaultPct, '#53B1E8')
-                    }}
-                  />
-                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="1"
+                  value={section1SliderValue}
+                  onChange={handleSection1SliderChange}
+                  className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+                  style={{
+                    background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${section1SliderValue}%, #e5e7eb ${section1SliderValue}%, #e5e7eb 100%)`
+                  }}
+                />
               </div>
             </div>
           </div>
@@ -885,23 +863,18 @@ export default function Module1CarbonRemovalDashboard() {
                   <label>Carbon-Dioxide Removal - Nature Based</label>
                   <span className="text-sm font-mono text-gray-500">{section1SliderText}</span>
                 </div>
-                <div className="enroads-range-wrap">
-                  {section1DefaultPct !== null && (
-                    <div className="enroads-range-tick" style={{ ['--tick-frac' as any]: String(section1DefaultPct / 100) }} />
-                  )}
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    step="1"
-                    value={section1SliderValue}
-                    onChange={handleSection1SliderChange}
-                    className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-                    style={{
-                      background: getRangeHighlightBackground(section1SliderValue, section1DefaultPct, '#53B1E8')
-                    }}
-                  />
-                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="1"
+                  value={section1SliderValue}
+                  onChange={handleSection1SliderChange}
+                  className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+                  style={{
+                    background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${section1SliderValue}%, #e5e7eb ${section1SliderValue}%, #e5e7eb 100%)`
+                  }}
+                />
               </div>
 
               <div className="space-y-4">
@@ -909,23 +882,18 @@ export default function Module1CarbonRemovalDashboard() {
                   <label>Deforestation</label>
                   <span className="text-sm font-mono text-gray-500">{section2DeforestationText}</span>
                 </div>
-                <div className="enroads-range-wrap">
-                  {section2DeforestationDefaultPct !== null && (
-                    <div className="enroads-range-tick" style={{ ['--tick-frac' as any]: String(section2DeforestationDefaultPct / 100) }} />
-                  )}
-                  <input
-                    type="range"
-                    min="-10"
-                    max="1"
-                    step="0.1"
-                    value={section2DeforestationValue}
-                    onChange={handleSection2DeforestationChange}
-                    className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-                    style={{
-                      background: getRangeHighlightBackground(((section2DeforestationValue + 10) / 11) * 100, section2DeforestationDefaultPct, '#53B1E8')
-                    }}
-                  />
-                </div>
+                <input
+                  type="range"
+                  min="-10"
+                  max="1"
+                  step="0.1"
+                  value={section2DeforestationValue}
+                  onChange={handleSection2DeforestationChange}
+                  className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+                  style={{
+                    background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${((section2DeforestationValue + 10) / 11) * 100}%, #e5e7eb ${((section2DeforestationValue + 10) / 11) * 100}%, #e5e7eb 100%)`
+                  }}
+                />
               </div>
             </div>
           </div>
@@ -1016,23 +984,18 @@ export default function Module1CarbonRemovalDashboard() {
               <label>Carbon-Dioxide Removal - Nature Based</label>
               <span className="text-xs font-mono text-gray-500">{section1SliderText}</span>
             </div>
-            <div className="enroads-range-wrap">
-              {section1DefaultPct !== null && (
-                <div className="enroads-range-tick" style={{ ['--tick-frac' as any]: String(section1DefaultPct / 100) }} />
-              )}
-              <input
-                type="range"
-                min="0"
-                max="100"
-                step="1"
-                value={section1SliderValue}
-                onChange={handleSection1SliderChange}
-                className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-                style={{
-                  background: getRangeHighlightBackground(section1SliderValue, section1DefaultPct, '#53B1E8')
-                }}
-              />
-            </div>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              step="1"
+              value={section1SliderValue}
+              onChange={handleSection1SliderChange}
+              className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+              style={{
+                background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${section1SliderValue}%, #e5e7eb ${section1SliderValue}%, #e5e7eb 100%)`
+              }}
+            />
           </div>
         </div>
       )}
@@ -1116,23 +1079,18 @@ export default function Module1CarbonRemovalDashboard() {
                 <label>Carbon-Dioxide Removal - Nature Based</label>
                 <span className="text-xs font-mono text-gray-500">{section1SliderText}</span>
               </div>
-              <div className="enroads-range-wrap">
-                {section1DefaultPct !== null && (
-                  <div className="enroads-range-tick" style={{ ['--tick-frac' as any]: String(section1DefaultPct / 100) }} />
-                )}
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  step="1"
-                  value={section1SliderValue}
-                  onChange={handleSection1SliderChange}
-                  className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-                  style={{
-                    background: getRangeHighlightBackground(section1SliderValue, section1DefaultPct, '#53B1E8')
-                  }}
-                />
-              </div>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                step="1"
+                value={section1SliderValue}
+                onChange={handleSection1SliderChange}
+                className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+                style={{
+                  background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${section1SliderValue}%, #e5e7eb ${section1SliderValue}%, #e5e7eb 100%)`
+                }}
+              />
             </div>
 
             <div className="space-y-2">
@@ -1140,23 +1098,18 @@ export default function Module1CarbonRemovalDashboard() {
                 <label>Deforestation</label>
                 <span className="text-xs font-mono text-gray-500">{section2DeforestationText}</span>
               </div>
-              <div className="enroads-range-wrap">
-                {section2DeforestationDefaultPct !== null && (
-                  <div className="enroads-range-tick" style={{ ['--tick-frac' as any]: String(section2DeforestationDefaultPct / 100) }} />
-                )}
-                <input
-                  type="range"
-                  min="-10"
-                  max="1"
-                  step="0.1"
-                  value={section2DeforestationValue}
-                  onChange={handleSection2DeforestationChange}
-                  className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-                  style={{
-                    background: getRangeHighlightBackground(((section2DeforestationValue + 10) / 11) * 100, section2DeforestationDefaultPct, '#53B1E8')
-                  }}
-                />
-              </div>
+              <input
+                type="range"
+                min="-10"
+                max="1"
+                step="0.1"
+                value={section2DeforestationValue}
+                onChange={handleSection2DeforestationChange}
+                className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+                style={{
+                  background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${((section2DeforestationValue + 10) / 11) * 100}%, #e5e7eb ${((section2DeforestationValue + 10) / 11) * 100}%, #e5e7eb 100%)`
+                }}
+              />
             </div>
           </div>
         </div>
