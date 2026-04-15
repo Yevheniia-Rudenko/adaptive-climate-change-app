@@ -8,6 +8,7 @@ import { GlossaryHighlightProvider } from '../contexts/GlossaryHighlightContext'
 import { Button } from './ui/button';
 import { trackEvent } from '../utils/analytics';
 import { useSession } from '../contexts/SessionContext';
+import { useTheme } from '../contexts/ThemeContext';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -52,6 +53,7 @@ export function FlexibleModulePage({
   moduleId
 }: FlexibleModulePageProps) {
   const { t } = useLanguage();
+  const { theme } = useTheme();
   const navigate = useNavigate();
   const { search } = useLocation();
   const [currentBlock, setCurrentBlock] = useState(1);
@@ -521,8 +523,12 @@ export function FlexibleModulePage({
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
               <Button
                 onClick={handleBlockBack}
-                variant="ghost"
+                variant="outline"
                 className="order-2 sm:order-1"
+                style={{
+                  backgroundColor: theme === 'dark' ? '#374151' : '#ffffff',
+                  borderColor: theme === 'dark' ? '#6b7280' : '#7B2CBF'
+                }}
               >
                 <ArrowLeft size={18} />
                 <span>{t.back}</span>
@@ -545,7 +551,8 @@ export function FlexibleModulePage({
                   )}
                   <Button
                     onClick={handleBlockNext}
-                    className="flex-1 order-1 sm:order-4"
+                    className="flex-1 order-1 sm:order-4 hover:brightness-90"
+                    style={{ backgroundColor: '#7B2CBF', borderColor: '#7B2CBF', color: '#ffffff' }}
                   >
                     <span>
                       {isMultiBlock && currentBlock === totalBlocks
@@ -571,7 +578,8 @@ export function FlexibleModulePage({
                   // Module 5 NON-final block => Next
                   <Button
                     onClick={handleBlockNext}
-                    className="flex-1 order-1 sm:order-4"
+                    className="flex-1 order-1 sm:order-4 hover:brightness-90"
+                    style={{ backgroundColor: '#7B2CBF', borderColor: '#7B2CBF', color: '#ffffff' }}
                   >
                     <span>{t.next}</span>
                     <ArrowRight size={18} />

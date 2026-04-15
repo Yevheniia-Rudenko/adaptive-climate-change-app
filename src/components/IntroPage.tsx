@@ -5,6 +5,7 @@ import { motion } from 'motion/react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { trackEvent } from '../utils/analytics';
+import { useTheme } from '../contexts/ThemeContext';
 import module1Icon from '../assets/module_1_card.webp';
 import module2Icon from '../assets/module_2_card.webp';
 import module3Icon from '../assets/module_3_card.webp';
@@ -15,6 +16,7 @@ import earthImage from '../assets/systems_cover.webp';
 
 export function IntroPage() {
   const { t } = useLanguage();
+  const { theme } = useTheme();
   const navigate = useNavigate();
   const [flippedCard, setFlippedCard] = useState<number | null>(null);
 
@@ -167,10 +169,19 @@ export function IntroPage() {
                     >
                       {/* Front of card */}
                       <div
-                        className="absolute inset-0 cursor-pointer"
-                        style={{ backfaceVisibility: 'hidden' }}
+                        className="absolute inset-0 cursor-pointer rounded-3xl overflow-hidden"
+                        style={{
+                          backfaceVisibility: 'hidden',
+                          backgroundColor: theme === 'dark' ? '#153833' : 'transparent'
+                        }}
                       >
-                        <div className="group relative overflow-hidden rounded-3xl border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-2xl transition-shadow duration-300 h-full flex flex-col" style={{ backgroundColor: '#4A6652' }}>
+                        <div
+                          className="group relative overflow-hidden rounded-3xl border border-gray-200 shadow-md hover:shadow-2xl transition-shadow duration-300 h-full flex flex-col"
+                          style={{
+                            backgroundColor: theme === 'dark' ? '#153833' : '#4A6652',
+                            borderColor: theme === 'dark' ? '#153833' : undefined
+                          }}
+                        >
                           {/* Image Area */}
                           <div
                             className="min-h-44 sm:min-h-52 w-full relative overflow-hidden flex-1"
@@ -196,8 +207,8 @@ export function IntroPage() {
                             )}
                             {id !== 6 && (
                               <div
-                                className="absolute top-8 left-4 px-4 py-1.5 shadow-lg z-20 pointer-events-none"
-                                style={{ borderRadius: '50px', backgroundColor: '#4A6652', transform: 'translateZ(1px)' }}
+                                className="absolute top-3 left-3 px-2 py-1.5 rounded-full shadow-md z-20 pointer-events-none"
+                                style={{ backgroundColor: '#153833', transform: 'translateZ(1px)' }}
                               >
                                 <span className="text-lg font-bold text-white tracking-wide">Module {id}</span>
                               </div>
@@ -205,7 +216,7 @@ export function IntroPage() {
                           </div>
 
                           {/* Title Bar */}
-                          <div className="px-6 py-4 min-h-16 flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#4A6652' }}>
+                          <div className="px-6 py-4 min-h-16 flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#153833' }}>
                             <h3 className="text-xl sm:text-2xl md:text-2xl leading-snug line-clamp-3 w-full text-center" style={{ color: '#ffffff', fontWeight: '900' }}>
                               {label}
                             </h3>
@@ -215,16 +226,20 @@ export function IntroPage() {
 
                       {/* Back of card */}
                       <div
-                        className="absolute inset-0 cursor-pointer"
+                        className="absolute inset-0 cursor-pointer rounded-3xl overflow-hidden"
                         style={{
                           backfaceVisibility: 'hidden',
-                          transform: 'rotateY(180deg)'
+                          transform: 'rotateY(180deg)',
+                          backgroundColor: theme === 'dark' ? '#153833' : 'transparent'
                         }}
                         onClick={() => onNavigateToModule(id === 6 ? 'resources' : id)}
                       >
                         <div
-                          className="overflow-hidden rounded-3xl border border-gray-200 dark:border-gray-700 shadow-md h-full flex flex-col"
-                          style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}
+                          className="overflow-hidden rounded-3xl border border-gray-200 shadow-md h-full flex flex-col"
+                          style={{
+                            background: theme === 'dark' ? 'linear-gradient(135deg, #0f2623 0%, #153833 100%)' : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                            borderColor: theme === 'dark' ? '#153833' : undefined
+                          }}
                         >
                           <div className="h-full flex flex-col items-center justify-center p-6 text-white">
                             <Icon size={48} strokeWidth={1.5} className="mb-4 opacity-80" />
@@ -253,7 +268,8 @@ export function IntroPage() {
               <Button
                 onClick={onStart}
                 size="lg"
-                className="w-full"
+                className="w-full hover:brightness-90"
+                style={{ backgroundColor: '#7B2CBF', borderColor: '#7B2CBF', color: '#ffffff' }}
               >
                 <span>{t.startJourney}</span>
                 <ArrowRight size={20} />

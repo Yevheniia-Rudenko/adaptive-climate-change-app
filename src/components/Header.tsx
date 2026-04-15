@@ -2,13 +2,16 @@ import { useState, useRef, useEffect } from 'react';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useTheme } from '../contexts/ThemeContext';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { ThemeToggle } from './ThemeToggle';
 import systemsAwarenessLabLogo from '../assets/systemsAwarenessLabLogo.png';
+import systemsAwarenessLabLogoWhite from '../assets/logos/SAL_sub-brand_lockup_two-line_rgb_white.png';
 import dayOfClimateLogo from '../assets/day_of_climate.png';
 
 export function Header() {
   const { t, language } = useLanguage();
+  const { theme } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -84,7 +87,7 @@ export function Header() {
                 className="h-10 sm:h-12 w-auto"
               />
               <img
-                src={systemsAwarenessLabLogo}
+                src={theme === 'dark' ? systemsAwarenessLabLogoWhite : systemsAwarenessLabLogo}
                 alt="Systems Awareness Lab"
                 className="h-6 sm:h-3 w-3"
               />
