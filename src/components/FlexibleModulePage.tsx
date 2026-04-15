@@ -58,7 +58,7 @@ export function FlexibleModulePage({
   const { search } = useLocation();
   const [currentBlock, setCurrentBlock] = useState(1);
   const [isConsentDialogOpen, setIsConsentDialogOpen] = useState(false);
-  const { studyConsent, setStudyConsent, clearModuleStoredData } = useSession();
+  const { studyConsent, setStudyConsent } = useSession();
   const totalModules = moduleStructures.length;
   const isLastModule = moduleId >= totalModules;
   const consentOpenTimeoutRef = useRef<number | null>(null);
@@ -330,12 +330,10 @@ export function FlexibleModulePage({
             <AlertDialogCancel
               onClick={() => {
                 setStudyConsent('out');
-                clearModuleStoredData();
                 setIsConsentDialogOpen(false);
-                navigate('/');
               }}
             >
-              Opt out
+              Disagree
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={() => {
@@ -343,7 +341,7 @@ export function FlexibleModulePage({
                 setIsConsentDialogOpen(false);
               }}
             >
-              Count me in!
+              Agree
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

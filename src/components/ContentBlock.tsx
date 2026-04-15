@@ -98,14 +98,9 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
 
   const handleSubmit = async () => {
     if (isSubmitting) return;
-    if (studyConsent !== 'in') {
-      if (studyConsent === null) {
-        window.dispatchEvent(new Event('study_consent_request'));
-      }
-      setSubmitError(studyConsent === 'out'
-        ? 'You opted out of the study; your responses will not be submitted.'
-        : 'Please choose whether to participate in the study before submitting.'
-      );
+    if (studyConsent === null) {
+      window.dispatchEvent(new Event('study_consent_request'));
+      setSubmitError('Please choose Agree or Disagree before submitting.');
       return;
     }
     const responseDisplay = (() => {
@@ -132,6 +127,7 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
         input,
         module_id: String(moduleId),
         section_id: block.id,
+        study_consent: studyConsent,
         session_id: sessionId,
       });
       setLastSubmittedResponse(responseDisplay);
@@ -277,14 +273,9 @@ function ModuleFeedbackBlock({ block, moduleId }: { block: Extract<ContentBlockT
 
   const handleSubmit = async () => {
     if (isSubmitting) return;
-    if (studyConsent !== 'in') {
-      if (studyConsent === null) {
-        window.dispatchEvent(new Event('study_consent_request'));
-      }
-      setSubmitError(studyConsent === 'out'
-        ? 'You opted out of the study; your responses will not be submitted.'
-        : 'Please choose whether to participate in the study before submitting.'
-      );
+    if (studyConsent === null) {
+      window.dispatchEvent(new Event('study_consent_request'));
+      setSubmitError('Please choose Agree or Disagree before submitting.');
       return;
     }
     const input = JSON.stringify({
@@ -304,6 +295,7 @@ function ModuleFeedbackBlock({ block, moduleId }: { block: Extract<ContentBlockT
         input,
         module_id: String(moduleId),
         section_id: block.id,
+        study_consent: studyConsent,
         session_id: sessionId,
       });
       setRating(0);
@@ -319,14 +311,9 @@ function ModuleFeedbackBlock({ block, moduleId }: { block: Extract<ContentBlockT
 
   const handleExport = async () => {
     if (isExporting) return;
-    if (studyConsent !== 'in') {
-      if (studyConsent === null) {
-        window.dispatchEvent(new Event('study_consent_request'));
-      }
-      setExportError(studyConsent === 'out'
-        ? 'You opted out of the study; there are no stored responses to export.'
-        : 'Please choose whether to participate in the study before exporting.'
-      );
+    if (studyConsent === null) {
+      window.dispatchEvent(new Event('study_consent_request'));
+      setExportError('Please choose Agree or Disagree before exporting.');
       return;
     }
     trackEvent('download_pdf', { module_id: moduleId });
@@ -457,14 +444,9 @@ function ReflectionBlock({ block, moduleId }: { block: Extract<ContentBlockType,
 
   const handleSubmit = async () => {
     if (isSubmitting) return;
-    if (studyConsent !== 'in') {
-      if (studyConsent === null) {
-        window.dispatchEvent(new Event('study_consent_request'));
-      }
-      setSubmitError(studyConsent === 'out'
-        ? 'You opted out of the study; your responses will not be submitted.'
-        : 'Please choose whether to participate in the study before submitting.'
-      );
+    if (studyConsent === null) {
+      window.dispatchEvent(new Event('study_consent_request'));
+      setSubmitError('Please choose Agree or Disagree before submitting.');
       return;
     }
     const submittedText = reflectionText.trim();
@@ -484,6 +466,7 @@ function ReflectionBlock({ block, moduleId }: { block: Extract<ContentBlockType,
         input,
         module_id: String(moduleId),
         section_id: block.id,
+        study_consent: studyConsent,
         session_id: sessionId,
       });
       setLastSubmittedText(submittedText);
@@ -575,14 +558,9 @@ function NumericPredictionBlock({ block, moduleId }: { block: Extract<ContentBlo
 
   const handleSubmit = async () => {
     if (isSubmitting) return;
-    if (studyConsent !== 'in') {
-      if (studyConsent === null) {
-        window.dispatchEvent(new Event('study_consent_request'));
-      }
-      setSubmitError(studyConsent === 'out'
-        ? 'You opted out of the study; your responses will not be submitted.'
-        : 'Please choose whether to participate in the study before submitting.'
-      );
+    if (studyConsent === null) {
+      window.dispatchEvent(new Event('study_consent_request'));
+      setSubmitError('Please choose Agree or Disagree before submitting.');
       return;
     }
     const valueNumber = valueText.trim() === '' ? null : Number(valueText);
@@ -606,6 +584,7 @@ function NumericPredictionBlock({ block, moduleId }: { block: Extract<ContentBlo
         input,
         module_id: String(moduleId),
         section_id: block.id,
+        study_consent: studyConsent,
         session_id: sessionId,
       });
       setLastSubmittedValue(submittedValue);
