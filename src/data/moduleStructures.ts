@@ -1,6 +1,6 @@
 import plutchikWheel from '../assets/Wheel1.webp';
-import globalTempAudio from '../assets/GlobalTemperature.mp3';
-import renewableEnergyAudio from '../assets/RenewableEnergy.mp3';
+import globalTempAudio from '../assets/global-temperature.m4a';
+import renewableEnergyAudio from '../assets/renewable-energy.m4a';
 import climateInteractiveLogo from '../assets/ci-logo.svg';
 import enroadsScreenshot from '../assets/En-Roads-Screenshot 2026-01-30.png';
 import enroadsTemp from '../assets/En-Roads-Temp.png';
@@ -9,17 +9,17 @@ import forestImage from '../assets/forest.jpg';
 import windTurbinesImg from '../assets/Wind turbines.jpg';
 import coalPlantImg from '../assets/coal_plant_cut.png';
 import carbonPricingImg from '../assets/carbon_pricing_meeting.jpg';
-import carbonPriceAudio from '../assets/CarbonPrice.mp3';
+import carbonPriceAudio from '../assets/carbon-price.m4a';
 import Module1CarbonPriceDashboard from '../components/Module1CarbonPriceDashboard';
 import module1Background from '../assets/module_1_background.webp';
 import openingMeditationAudio from '../assets/Module1-OpeningMeditation.m4a';
 import hopeMeditationAudio from '../assets/Module1-HopeMeditation.m4a';
-import coalOilGasAudio from '../assets/Coal-Oil-Gas.mp3';
+import coalOilGasAudio from '../assets/coal-oil-gas.m4a';
 import globalWarmingImg from '../assets/module_3/global-warming.png';
 import puzzleAnimation from '../assets/module_3/assembling_puzzle_animation.json';
 import brainstorming from '../assets/module_3/brainstorming.json';
 import carbonAndEmissionsImg from '../assets/carbon_and_emissions.jpg';
-import carbonEquityAudio from '../assets/Carbon-Equity.mp3';
+import carbonEquityAudio from '../assets/carbon-equity.m4a';
 import scenario1Img from '../assets/Scenario1.png';
 import scenario2Img from '../assets/Scenario2.png';
 import scenario3Img from '../assets/Scenario3.png';
@@ -32,7 +32,7 @@ import netZeroImg from '../assets/module2/Net zero = emissions in \u2013 removal
 import hopeOrientationImg from '../assets/module2/Hope Orientation-Tippett.png';
 import hopeStockAudio from '../assets/module2/Module2-Hope-as-a-Stock.m4a';
 import systemsIcebergImg from '../assets/Iceberg1.webp';
-import icebergExplainerAudio from '../assets/IcebergExplainer.mp3';
+import icebergExplainerAudio from '../assets/iceberg-explainer.m4a';
 import mandalaForSystemsChangeImg from '../assets/module_5/Mandala-empty.webp';
 import youthLeadershipImg from '../assets/module_5/youthleadership.png';
 import skyRocketAnimation from '../assets/module_5/sky_rocket.json';
@@ -46,6 +46,7 @@ import airPollutionImg from '../assets/module_3/air_pollution.webp';
 import pumpingGasImg from '../assets/module_3/pumping_gas.webp';
 import shareScenarioImg from '../assets/module_3/share-scenario.webp';
 import creativeTensionImg from '../assets/module_5/tension.webp';
+import systemsDontChangeImg from '../assets/module_5/systems-dont-change-themselves.png';
 
 
 export type FlipCardData = {
@@ -400,14 +401,9 @@ So, let's try this solution out! Let's plant more trees–a nature-based solutio
           },
           {
             type: 'reflection',
-            prompt: 'Pause and reflect on these graphs. What do you notice? What do you wonder?',
+            prompt: 'Pause and reflect on these graphs. What do you notice? What do you wonder?\n\nWhat assumptions did you have that were challenged? What surprised you?',
             id: 'exercise-1-reflection-1'
           },
-          {
-            type: 'reflection',
-            prompt: 'What assumptions did you have that were challenged? What surprised you?',
-            id: 'exercise-1-reflection-2'
-          }
         ]
       },
       {
@@ -487,13 +483,8 @@ Renewable energy also connects to other technologies. We can produce clean hydro
           },
           {
             type: 'reflection',
-            prompt: 'Pause and reflect on these graphs. What do you notice? What do you wonder?',
+            prompt: 'Pause and reflect on these graphs. What do you notice? What do you wonder?\n\nWhat assumptions did you have that were challenged? What surprised you?',
             id: 'renewables-reflection-1'
-          },
-          {
-            type: 'reflection',
-            prompt: 'What assumptions did you have that were challenged? What surprised you?',
-            id: 'renewables-reflection-2'
           }
         ]
       },
@@ -519,7 +510,7 @@ Renewable energy also connects to other technologies. We can produce clean hydro
             audioUrl: coalOilGasAudio,
             transcript: `When people talk about divesting from oil, gas, and coal, they’re talking about moving money away from companies that extract or sell fossil fuels. Advocates believe this is one of the ways we can send a strong message about the future we want to build.
 
-They argue that when schools, cities, banks, or other institutions pull their investments out of fossil fuel companies, it reduces financial support for industries that contribute the most to carbon pollution.
+They argue that when governments schools, cities, banks, or other institutions pull their investments out of fossil fuel companies, it reduces financial support for industries that contribute the most to carbon pollution.
 
 At the same time, divestment can shift money toward cleaner energy sources like wind, solar, and geothermal. Supporters say this isn’t just symbolic—it's a way to push the global economy toward low‑carbon solutions faster.
 
@@ -564,13 +555,8 @@ To reduce use of fossil fuels–oil, gas and coal–one strategy is to place hig
           },
           {
             type: 'reflection',
-            prompt: 'Pause and reflect on these graphs. What do you notice? What do you wonder?',
+            prompt: 'Pause and reflect on these graphs. What do you notice? What do you wonder?\n\nWhat assumptions did you have that were challenged? What surprises you?',
             id: 'fossil-fuel-reflection'
-          },
-                    {
-            type: 'reflection',
-            prompt: 'What assumptions did you have that were challenged? What surprises you?',
-            id: 'fossil-fuel-reflection-assumptions'
           }
         ]
       },
@@ -598,7 +584,7 @@ To reduce use of fossil fuels–oil, gas and coal–one strategy is to place hig
 
 There are a few different ways countries can do this. One approach is to set a global carbon price so that, no matter where you are, companies pay based on how much they pollute. Another option is a clean electricity standard or an emissions performance standard, which essentially says, “You can only produce electricity up to this amount of carbon per unit.” Anything dirtier becomes harder or more expensive to use.
 
-Advocates say carbon pricing creates a clear signal: if you pollute more, you pay more. That encourages companies to adopt cleaner technologies and reduce emissions. But there’s another important piece: when energy companies face higher costs, they might pass those costs on to customers. That’s why any carbon pricing policy has to be designed carefully—to make sure it doesn’t put an unfair burden on low‑income families.`
+Advocates say carbon pricing creates a clear signal: if you pollute more, you pay more. That encourages companies to adopt cleaner technologies and reduce emissions. But there’s another important piece: when energy companies face higher costs, they might pass those costs on to customers. That’s why any carbon pricing policy has to be designed carefully—to make sure it doesn’t put an unfair burden on low‑income families and communities.`
       },
       {
         type: 'text',
@@ -707,7 +693,7 @@ Thank you for practicing.`
           {
             type: 'video',
             title: '**What is Stock and Flow?**',
-            videoUrl: 'https://www.youtube.com/embed/nRlYGDBGcRA',
+            videoUrl: 'https://player.vimeo.com/video/1183171944',
             description: ''
           },
           {
@@ -1519,21 +1505,13 @@ If a government wants people to support a carbon price, it has to think carefull
       {
         type: 'block',
         colorTheme: 'amber',
-        content: [
-                              {
-            type: 'text-with-image',
-            imageUrl: systemsIcebergImg,
-            alt: 'Systems Iceberg Model showing Events, Behavioral Patterns, Underlying Structures, Mental Models, and Artifacts',
-            title: 'Underlying Structures',
-            content: "The underlying structures are the **artifacts** and **mental models** that shape patterns and events.",
-            imageSide: 'left' // or 'right'
-          },   
+        content: [ 
                     {
             type: 'text-with-image',
             imageUrl: systemsIcebergImg,
             alt: 'Systems Iceberg Model showing Events, Behavioral Patterns, Underlying Structures, Mental Models, and Artifacts',
             title: 'Artifacts',
-            content: "First, let's look at the artifacts — these are the often tangible and visible structures that shape our systems like:\n\n• Infrastructure: How our energy system is built\n• Space and Place; Which communities live near highways or factories\n• Financials: Fossil fuel prices\n• Governance: Who makes policy decisions\n\nThese artifacts create the **conditions** that make certain behaviors and events more likely than others.\n\nIf we want to change patterns of behaviour, we need to understand and redesign **these artifacts**, not just react to events.",
+            content: "The underlying structures are the **artifacts** and **mental models** that shape patterns and events.\n\nFirst, let's look at the artifacts — these are the often tangible and visible structures that shape our systems like:\n\n• Infrastructure: How our energy system is built\n• Space and Place; Which communities live near highways or factories\n• Financials: Fossil fuel prices\n• Governance: Who makes policy decisions\n\nThese artifacts create the **conditions** that make certain behaviors and events more likely than others.\n\nIf we want to change patterns of behaviour, we need to understand and redesign **these artifacts**, not just react to events.",
             imageSide: 'left' // or 'right'
           },          
           {
@@ -1579,11 +1557,9 @@ When we change these policies, they influence behaviors in the system—how much
 
 Those behaviors then lead to the events we've been tracking in the impacts graphs, like global temperature rise, air pollution levels, or emissions curves.
 
-That's the part above the waterline of the iceberg.
-
 But systems thinking asks us to go deeper.
 
-The most important part—and the one we often overlook—is the level of mental models.
+One of three most important parts—and the one we often overlook—is the level of mental models.
 
 These are the beliefs, assumptions, and stories people carry that shape decisions in the first place.
 
@@ -1602,7 +1578,7 @@ These deeper layers help explain why climate progress doesn't always match what 
 
 The iceberg reminds us:
 If we want real change, we can't just react to the events at the top.
-We need to understand—and maybe shift—the beliefs and systems underneath them.`
+We need to understand—and shift—the beliefs and structures underneath them.`
           },
           {
             type: 'text',
@@ -1686,23 +1662,6 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
             type: 'reflection',
             prompt: '🧠 Mental Models\n\nWhat beliefs or assumptions shape people\'s behaviours and keep this system in place?',
             id: 'm4-own-iceberg-mental-models'
-          }
-        ]
-      },
-      // ── Submodule 8: Let's Reflect ────────────────────────────────────
-      {
-        type: 'block',
-        colorTheme: 'teal',
-        content: [
-          {
-            type: 'text',
-            title: '💭 Let\'s Reflect',
-            content: 'Share your iceberg experience:'
-          },
-          {
-            type: 'reflection',
-            prompt: 'What was your event?\n\nWhat behaviors and patterns over time are contributing to the event you chose?\n\nWhat underlying structures (mental models and artifacts) are driving those behaviors and patterns?\n\nWhere do you see opportunity or leverage for change?',
-            id: 'm4-final-reflection'
           }
         ]
       },
@@ -1974,10 +1933,17 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
             id: 'module-5-reflection-2'
           },
           {
+            type: 'image',
+            imageUrl: systemsDontChangeImg,
+            alt: 'Systems don’t change themselves—people change them.',
+            title: '',
+            width: '80%'
+          },
+          {
             type: 'text',
             title: 'The Big Idea',
             hideIcon: true,
-            content: "**Systems don’t change themselves—people change them.** \n With clear vision, honest data, a global understanding, and steady hearts, you can help move this system toward a future that’s livable and just. \n\n **Let's begin!**"
+            content: "*With clear vision, honest data, a global understanding, and steady hearts, you can help move this system toward a future that’s livable and just. \n\n **Let's begin!**"
           }
         ]
       },
