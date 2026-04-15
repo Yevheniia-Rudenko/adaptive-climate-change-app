@@ -252,6 +252,63 @@
   margin-top: 5px;
 }
 
+.enroads-range-wrap {
+  position: relative;
+  width: 100%;
+  --thumb-size: 22px;
+}
+
+.enroads-range-wrap input[type="range"] {
+  position: relative;
+  z-index: 2;
+}
+
+.enroads-range-wrap input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: var(--thumb-size);
+  height: var(--thumb-size);
+  border-radius: 50%;
+  background: #000000;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.enroads-range-wrap input[type="range"]::-moz-range-thumb {
+  width: var(--thumb-size);
+  height: var(--thumb-size);
+  border-radius: 50%;
+  background: #000000;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.enroads-range-tick {
+  position: absolute;
+  --tick-width: 4px;
+  --tick-height: 18px;
+  --tick-frac: 0.5;
+  --tick-y: 95%;
+  top: calc(var(--tick-y) - (var(--tick-height) / 2));
+  width: var(--tick-width);
+  height: var(--tick-height);
+  border-radius: 1px;
+  background: rgba(109, 109, 109, 1);
+  pointer-events: none;
+  z-index: 1;
+  inset-inline-start: calc(
+    (var(--thumb-size) / 2) +
+    ((100% - var(--thumb-size)) * clamp(0, var(--tick-frac), 1)) -
+    (var(--tick-width) / 2)
+  );
+  transform: none;
+}
+
+.dark .enroads-range-tick {
+  background: rgba(226, 232, 240, 0.7);
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .enroads-dashboard {
