@@ -20,6 +20,7 @@ export default function Module1CarbonPriceDashboard() {
   // Carbon Price Slider state
   const [carbonPriceVal, setCarbonPriceVal] = useState(0); // 0-100 range for slider
   const [carbonPriceText, setCarbonPriceText] = useState('$0 / ton CO2');
+  const [carbonPriceDefaultPct, setCarbonPriceDefaultPct] = useState<number | null>(null);
 
   // Temperature display — use refs + direct DOM to avoid React re-renders
   const tempCRef = useRef<HTMLSpanElement>(null);
@@ -38,6 +39,19 @@ export default function Module1CarbonPriceDashboard() {
 
   const str = (key: string) => {
     return (enStrings as any)[key] || key;
+  };
+
+  const getRangeHighlightBackground = (currentPct: number, defaultPct: number | null, color: string) => {
+    const track = '#e5e7eb';
+    const clampedCurrent = Math.max(0, Math.min(100, currentPct));
+    if (defaultPct === null) {
+      return `linear-gradient(to right, ${color} 0%, ${color} ${clampedCurrent}%, ${track} ${clampedCurrent}%, ${track} 100%)`;
+    }
+
+    const clampedDefault = Math.max(0, Math.min(100, defaultPct));
+    const a = Math.min(clampedCurrent, clampedDefault);
+    const b = Math.max(clampedCurrent, clampedDefault);
+    return `linear-gradient(to right, ${track} 0%, ${track} ${a}%, ${color} ${a}%, ${color} ${b}%, ${track} ${b}%, ${track} 100%)`;
   };
 
   const createGraphViewModel = (graphSpec: any) => {
@@ -289,6 +303,15 @@ export default function Module1CarbonPriceDashboard() {
           console.error("Ex4 Error: Carbon Price input NOT found in IDs 0-200.");
         } else {
           console.log("Ex4: Carbon Price Input Min/Max:", carbonPriceInputRef.current.min, carbonPriceInputRef.current.max);
+          const current = carbonPriceInputRef.current.get?.() ?? 0;
+          const min = carbonPriceInputRef.current.min !== undefined ? carbonPriceInputRef.current.min : 0;
+          const max = carbonPriceInputRef.current.max !== undefined ? carbonPriceInputRef.current.max : 250;
+          const denom = max - min;
+          const pct = denom !== 0 ? ((current - min) / denom) * 100 : 0;
+          const clampedPct = Math.max(0, Math.min(100, pct));
+          setCarbonPriceVal(clampedPct);
+          setCarbonPriceDefaultPct(clampedPct);
+          setCarbonPriceText(`$${Math.round(current)} / ton CO2`);
         }
 
         modelContextRef.current.onOutputsChanged = () => updateDashboard();
@@ -391,17 +414,22 @@ export default function Module1CarbonPriceDashboard() {
             <label>Carbon Price</label>
             <span className="text-sm font-mono text-gray-500">{carbonPriceText}</span>
           </div>
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={carbonPriceVal}
-            onChange={handleSliderChange}
-            className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-            style={{
-              background: `linear-gradient(to right, #3B82F6 0%, #3B82F6 ${carbonPriceVal}%, #e5e7eb ${carbonPriceVal}%, #e5e7eb 100%)`
-            }}
-          />
+          <div className="enroads-range-wrap">
+            {carbonPriceDefaultPct !== null && (
+              <div className="enroads-range-tick" style={{ ['--tick-frac' as any]: String(carbonPriceDefaultPct / 100) }} />
+            )}
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={carbonPriceVal}
+              onChange={handleSliderChange}
+              className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+              style={{
+                background: getRangeHighlightBackground(carbonPriceVal, carbonPriceDefaultPct, '#3B82F6')
+              }}
+            />
+          </div>
         </div>
       </div>
 

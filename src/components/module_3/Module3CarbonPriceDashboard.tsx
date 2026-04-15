@@ -15,6 +15,7 @@ export default function Module3CarbonPriceDashboard() {
 
   const [carbonPricePos, setCarbonPricePos] = useState(0);
   const [carbonPriceValue, setCarbonPriceValue] = useState(0);
+  const [carbonPriceDefaultPos, setCarbonPriceDefaultPos] = useState<number | null>(null);
 
   // Temperature display refs — updated via direct DOM writes to avoid canvas resets
   const tempCRef = useRef<HTMLSpanElement>(null);
@@ -48,6 +49,19 @@ export default function Module3CarbonPriceDashboard() {
     let idx = rangeDividers.findIndex((d) => value < d);
     if (idx === -1) idx = rangeLabelKeys.length - 1;
     return str(rangeLabelKeys[idx] ?? 'input_range__status_quo');
+  };
+
+  const getRangeHighlightBackground = (currentPct: number, defaultPct: number | null, color: string) => {
+    const track = '#e5e7eb';
+    const clampedCurrent = Math.max(0, Math.min(100, currentPct));
+    if (defaultPct === null) {
+      return `linear-gradient(to right, ${color} 0%, ${color} ${clampedCurrent}%, ${track} ${clampedCurrent}%, ${track} 100%)`;
+    }
+
+    const clampedDefault = Math.max(0, Math.min(100, defaultPct));
+    const a = Math.min(clampedCurrent, clampedDefault);
+    const b = Math.max(clampedCurrent, clampedDefault);
+    return `linear-gradient(to right, ${track} 0%, ${track} ${a}%, ${color} ${a}%, ${color} ${b}%, ${track} ${b}%, ${track} 100%)`;
   };
 
   const createGraphViewModel = (graphSpec: any) => {
@@ -195,7 +209,9 @@ export default function Module3CarbonPriceDashboard() {
           const denom = max - min;
           const pos = denom === 0 ? 0 : ((current - min) / denom) * 100;
 
-          setCarbonPricePos(Math.max(0, Math.min(100, pos)));
+          const clampedPos = Math.max(0, Math.min(100, pos));
+          setCarbonPricePos(clampedPos);
+          setCarbonPriceDefaultPos(clampedPos);
           setCarbonPriceValue(current);
         }
 
@@ -380,17 +396,22 @@ export default function Module3CarbonPriceDashboard() {
             <label>Carbon Price</label>
             <span className="text-xs font-mono text-gray-500">{getCarbonPriceRangeLabel(carbonPriceValue)}</span>
           </div>
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={carbonPricePos}
-            onChange={handleCarbonPriceChange}
-            className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-green-500"
-            style={{
-              background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${carbonPricePos}%, #e5e7eb ${carbonPricePos}%, #e5e7eb 100%)`
-            }}
-          />
+          <div className="enroads-range-wrap">
+            {carbonPriceDefaultPos !== null && (
+              <div className="enroads-range-tick" style={{ ['--tick-frac' as any]: String(carbonPriceDefaultPos / 100) }} />
+            )}
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={carbonPricePos}
+              onChange={handleCarbonPriceChange}
+              className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-green-500"
+              style={{
+                background: getRangeHighlightBackground(carbonPricePos, carbonPriceDefaultPos, '#53B1E8')
+              }}
+            />
+          </div>
         </div>
       </div>
     </div>

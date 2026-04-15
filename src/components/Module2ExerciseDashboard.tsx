@@ -18,6 +18,7 @@ export default function Module2ExerciseDashboard() {
   // Carbon Price slider state
   const [carbonPriceVal, setCarbonPriceVal] = useState(0);
   const [sliderText, setSliderText] = useState('status quo');
+  const [carbonPriceDefaultPct, setCarbonPriceDefaultPct] = useState<number | null>(null);
 
   // Temperature display
   const [tempC, setTempC] = useState(3.3);
@@ -43,6 +44,19 @@ export default function Module2ExerciseDashboard() {
     if (pct < 0.4) return 'medium';
     if (pct < 0.7) return 'high';
     return 'very high';
+  };
+
+  const getRangeHighlightBackground = (currentPct: number, defaultPct: number | null, color: string) => {
+    const track = '#e5e7eb';
+    const clampedCurrent = Math.max(0, Math.min(100, currentPct));
+    if (defaultPct === null) {
+      return `linear-gradient(to right, ${color} 0%, ${color} ${clampedCurrent}%, ${track} ${clampedCurrent}%, ${track} 100%)`;
+    }
+
+    const clampedDefault = Math.max(0, Math.min(100, defaultPct));
+    const a = Math.min(clampedCurrent, clampedDefault);
+    const b = Math.max(clampedCurrent, clampedDefault);
+    return `linear-gradient(to right, ${track} 0%, ${track} ${a}%, ${color} ${a}%, ${color} ${b}%, ${track} ${b}%, ${track} 100%)`;
   };
 
   const createGraphViewModel = (graphSpec: any) => {
@@ -181,6 +195,14 @@ export default function Module2ExerciseDashboard() {
         // ID 39 = _carbon_tax_initial_target, ID 42 = _carbon_tax_final_target
         carbonPriceInputRef.current = modelContextRef.current.getInputForId('39');
         carbonPriceFinalRef.current = modelContextRef.current.getInputForId('42');
+
+        if (carbonPriceInputRef.current) {
+          const current = carbonPriceInputRef.current.get?.() ?? 0;
+          const pos = Math.max(0, Math.min(100, (current / 250) * 100));
+          setCarbonPriceVal(pos);
+          setCarbonPriceDefaultPct(pos);
+          setSliderText(pos === 0 ? 'status quo' : getSliderText(current, 250));
+        }
 
         modelContextRef.current.onOutputsChanged = () => updateAllGraphs();
 
@@ -403,17 +425,22 @@ export default function Module2ExerciseDashboard() {
             <label>Carbon Price</label>
             <span className="text-xs font-mono text-gray-500">{sliderText}</span>
           </div>
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={carbonPriceVal}
-            onChange={handleSliderChange}
-            className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-green-500"
-            style={{
-              background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${carbonPriceVal}%, #e5e7eb ${carbonPriceVal}%, #e5e7eb 100%)`
-            }}
-          />
+          <div className="enroads-range-wrap">
+            {carbonPriceDefaultPct !== null && (
+              <div className="enroads-range-tick" style={{ ['--tick-frac' as any]: String(carbonPriceDefaultPct / 100) }} />
+            )}
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={carbonPriceVal}
+              onChange={handleSliderChange}
+              className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-green-500"
+              style={{
+                background: getRangeHighlightBackground(carbonPriceVal, carbonPriceDefaultPct, '#53B1E8')
+              }}
+            />
+          </div>
         </div>
       </div>
     </div>
