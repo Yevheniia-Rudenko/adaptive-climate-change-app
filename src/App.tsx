@@ -27,43 +27,49 @@ import { Footer } from './components/Footer';
 import { moduleStructures } from './data/moduleStructures';
 import { resourceCategoriesData } from './data/resourceCategories';
 import { LanguageProvider } from './contexts/LanguageContext';
-import { ThemeProvider } from './contexts/ThemeContext';
+import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 import { SessionProvider } from './contexts/SessionContext';
 
 function App() {
   return (
     <ThemeProvider>
       <LanguageProvider>
-        <BrowserRouter basename="/adaptive-climate-change-app">
-          <div
-            className="min-h-screen transition-colors"
-            style={{
-              backgroundColor: '#e8f6d1',
-            }}
-          >
-            <ScrollToTop />
-            <Header />
-
-            <Routes>
-              <Route path="/" element={<IntroPage />} />
-              <Route path="/about" element={<AboutPage />} />
-              <Route path="/educators" element={<EducatorsPage />} />
-              <Route path="/resources" element={<ResourcesPage />} />
-              <Route path="/resources/:categoryId" element={<ResourceCategoryPageWrapper />} />
-              <Route path="/glossary" element={<GlossaryPage />} />
-              <Route path="/contributors" element={<ContributorsPage />} />
-              <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-              {/* 🧪 TEMPORARY sandbox — delete when done */}
-              <Route path="/sandbox" element={<SandboxPage />} />
-              <Route path="/module/:moduleId" element={<FlexibleModulePageWrapper />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-
-            <Footer />
-          </div>
-        </BrowserRouter>
+        <AppContent />
       </LanguageProvider>
     </ThemeProvider>
+  );
+}
+
+function AppContent() {
+  const { theme } = useTheme();
+
+  return (
+    <BrowserRouter basename="/adaptive-climate-change-app">
+      <div
+        className="min-h-screen transition-colors"
+        style={{ backgroundColor: theme === 'dark' ? '#153833' : '#e8f6d1' }}
+      >
+        <ScrollToTop />
+        <Header />
+
+        <Routes>
+          <Route path="/" element={<IntroPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/educators" element={<EducatorsPage />} />
+          <Route path="/resources" element={<ResourcesPage />} />
+          <Route path="/resources/:categoryId" element={<ResourceCategoryPageWrapper />} />
+          <Route path="/glossary" element={<GlossaryPage />} />
+          <Route path="/contributors" element={<ContributorsPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          {/* 🧪 TEMPORARY sandbox — delete when done */}
+          <Route path="/sandbox" element={<SandboxPage />} />
+          <Route path="/module/:moduleId" element={<FlexibleModulePageWrapper />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+
+        <Footer />
+      </div>
+    </BrowserRouter>
   );
 }
 

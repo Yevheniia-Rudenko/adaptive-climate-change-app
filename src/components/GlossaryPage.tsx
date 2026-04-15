@@ -68,7 +68,10 @@ export function GlossaryPage() {
         </Link>
 
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 sm:p-8 md:p-12">
-          <h1 className="text-green-600 mb-6 sm:mb-8">{t.glossary}</h1>
+          <h1
+            className="font-bold text-gray-800 dark:text-gray-100 text-center mb-3 sm:mb-4"
+            style={{ fontSize: '3rem', lineHeight: '1.2' }}
+          >{t.glossary}</h1>
 
           <div>
             <p className="text-gray-600 dark:text-gray-300 mb-6 sm:mb-8 text-sm sm:text-base">

@@ -71,7 +71,7 @@
   --font-display: "Gugi", "Sora", sans-serif;
   --font-mono: "Montserrat", monospace;
   
-  --background: #ffffff;
+  --background: #e8f6d1;
   --foreground: #2d2d2d;
   --card: #ffffff;
   --card-foreground: #2d2d2d;
@@ -111,7 +111,7 @@
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: #153833;
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.145 0 0);
   --card-foreground: oklch(0.985 0 0);

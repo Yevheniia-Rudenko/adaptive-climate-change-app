@@ -1,6 +1,6 @@
 import { Globe, Mail, Youtube, Linkedin, Accessibility, Heart, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import systemsAwarenessLabLogo from '../assets/systemsAwarenessLabLogo.png';
+import systemsAwarenessLabLogoWhite from '../assets/logos/SAL_sub-brand_lockup_two-line_rgb_white.png';
 import dayOfClimateLogo from '../assets/day_of_climate.png';
 
 type FooterLink = {
@@ -67,7 +67,7 @@ export function Footer() {
 
   return (
     <div className="flex justify-center px-4 sm:px-6 pb-4 sm:pb-6">
-      <footer style={{ backgroundColor: '#283b2e' }} className="max-w-4xl w-full rounded-2xl transition-colors shadow-lg">
+      <footer style={{ backgroundColor: '#153833' }} className="max-w-4xl w-full rounded-2xl transition-colors shadow-lg">
         {/* Main Footer Content */}
         <div className="p-6 sm:p-8">
           <div className="flex flex-col items-start gap-6 sm:flex-row justify-between">
@@ -75,7 +75,7 @@ export function Footer() {
               <div key={section.title} className="flex-1">
                 {section.title === 'MIT Systems Awareness Lab' ? (
                   <img
-                    src={systemsAwarenessLabLogo}
+                    src={systemsAwarenessLabLogoWhite}
                     alt="MIT Systems Awareness Lab Logo"
                     className="h-9 mb-4"
                   />
