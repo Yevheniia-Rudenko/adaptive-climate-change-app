@@ -19,6 +19,7 @@ export function IntroPage() {
   const { theme } = useTheme();
   const navigate = useNavigate();
   const [flippedCard, setFlippedCard] = useState<number | null>(null);
+  const moduleCardRadius = '36px';
 
   const onStart = () => {
     trackEvent('module_click', { module_id: 1, module_name: 'Start Journey' });
@@ -160,32 +161,34 @@ export function IntroPage() {
                     transition={{ duration: 0.4, delay: index * 0.08 }}
                   >
                     <div
-                      className="relative w-full h-full transition-transform duration-900"
+                      className="relative w-full h-full transition-transform duration-900 rounded-[2rem]"
                       style={{
                         transformStyle: 'preserve-3d',
                         transform: flippedCard === id ? 'rotateY(180deg)' : 'rotateY(0deg)',
-                        minHeight: '320px'
+                        minHeight: '320px',
+                        borderRadius: moduleCardRadius
                       }}
                     >
                       {/* Front of card */}
                       <div
-                        className="absolute inset-0 cursor-pointer rounded-3xl overflow-hidden"
+                        className="absolute inset-0 cursor-pointer group rounded-[2rem] border border-gray-200 shadow-md hover:shadow-2xl transition-shadow duration-300 h-full flex flex-col overflow-hidden"
                         style={{
                           backfaceVisibility: 'hidden',
-                          backgroundColor: theme === 'dark' ? '#153833' : 'transparent'
+                          WebkitBackfaceVisibility: 'hidden',
+                          transform: 'rotateY(0deg)',
+                          backgroundColor: theme === 'dark' ? '#153833' : '#4A6652',
+                          borderColor: theme === 'dark' ? '#153833' : undefined,
+                          borderRadius: moduleCardRadius
                         }}
                       >
-                        <div
-                          className="group relative overflow-hidden rounded-3xl border border-gray-200 shadow-md hover:shadow-2xl transition-shadow duration-300 h-full flex flex-col"
-                          style={{
-                            backgroundColor: theme === 'dark' ? '#153833' : '#4A6652',
-                            borderColor: theme === 'dark' ? '#153833' : undefined
-                          }}
-                        >
                           {/* Image Area */}
                           <div
-                            className="min-h-44 sm:min-h-52 w-full relative overflow-hidden flex-1"
-                            style={{ background: iconImage ? '#000000' : gradientStyle }}
+                            className="min-h-44 sm:min-h-52 w-full relative overflow-hidden flex-1 rounded-t-[2rem]"
+                            style={{
+                              background: iconImage ? '#000000' : gradientStyle,
+                              borderTopLeftRadius: moduleCardRadius,
+                              borderTopRightRadius: moduleCardRadius
+                            }}
                           >
                             {iconImage ? (
                               <>
@@ -216,32 +219,31 @@ export function IntroPage() {
                           </div>
 
                           {/* Title Bar */}
-                          <div className="px-6 py-4 min-h-16 flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#153833' }}>
+                          <div className="px-6 py-4 min-h-16 flex items-center justify-center flex-shrink-0 rounded-b-[2rem]" style={{
+                            backgroundColor: '#153833',
+                            borderBottomLeftRadius: moduleCardRadius,
+                            borderBottomRightRadius: moduleCardRadius
+                          }}>
                             <h3 className="text-xl sm:text-2xl md:text-2xl leading-snug line-clamp-3 w-full text-center" style={{ color: '#ffffff', fontWeight: '900' }}>
                               {label}
                             </h3>
                           </div>
-                        </div>
                       </div>
 
                       {/* Back of card */}
                       <div
-                        className="absolute inset-0 cursor-pointer rounded-3xl overflow-hidden"
+                        className="absolute inset-0 cursor-pointer rounded-[2rem] border border-gray-200 shadow-md h-full flex flex-col overflow-hidden"
                         style={{
                           backfaceVisibility: 'hidden',
+                          WebkitBackfaceVisibility: 'hidden',
                           transform: 'rotateY(180deg)',
-                          backgroundColor: theme === 'dark' ? '#153833' : 'transparent'
+                          background: theme === 'dark' ? 'linear-gradient(135deg, #0f2623 0%, #153833 100%)' : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                          borderColor: theme === 'dark' ? '#153833' : undefined,
+                          borderRadius: moduleCardRadius
                         }}
                         onClick={() => onNavigateToModule(id === 6 ? 'resources' : id)}
                       >
-                        <div
-                          className="overflow-hidden rounded-3xl border border-gray-200 shadow-md h-full flex flex-col"
-                          style={{
-                            background: theme === 'dark' ? 'linear-gradient(135deg, #0f2623 0%, #153833 100%)' : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                            borderColor: theme === 'dark' ? '#153833' : undefined
-                          }}
-                        >
-                          <div className="h-full flex flex-col items-center justify-center p-6 text-white">
+                          <div className="h-full flex flex-col items-center justify-center p-6 text-white overflow-hidden rounded-[2rem]" style={{ borderRadius: moduleCardRadius }}>
                             <Icon size={48} strokeWidth={1.5} className="mb-4 opacity-80" />
                             <p className="text-center text-sm leading-relaxed mb-4">
                               {backText}
@@ -251,7 +253,6 @@ export function IntroPage() {
                               <ArrowRight size={16} />
                             </div>
                           </div>
-                        </div>
                       </div>
                     </div>
                   </motion.div>
