@@ -21,6 +21,7 @@ export function Header() {
 
   const isRTL = language === 'ar';
   const pathname = location.pathname;
+  const mobileSeparatorColor = theme === 'dark' ? '#FFFFFF' : '#153833';
 
   // Helper to check if a module page is active
   const isModuleActive = pathname.startsWith('/module/');
@@ -185,10 +186,10 @@ export function Header() {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-gray-200 dark:border-gray-700">
+          <div className="md:hidden py-4 border-t" style={{ borderTopColor: mobileSeparatorColor }}>
             <nav className="flex flex-col gap-2 text-foreground">
               {/* Modules Section */}
-              <div className="border-b border-gray-100 dark:border-gray-700 pb-2 mb-2" ref={mobileDropdownRef}>
+              <div className="border-b pb-2 mb-2" ref={mobileDropdownRef} style={{ borderBottomColor: mobileSeparatorColor }}>
                 <button
                   onClick={() => setModulesDropdownOpen(!modulesDropdownOpen)}
                   className={`w-full flex items-center justify-between px-4 py-2 rounded-md transition-colors ${isModuleActive
@@ -260,7 +261,7 @@ export function Header() {
               </button>
 
               {/* Language Switcher in Mobile Menu */}
-              <div className="px-4 py-2 mt-2 border-t border-gray-100 dark:border-gray-700 pt-4 flex items-center gap-3">
+              <div className="px-4 py-2 mt-2 border-t pt-4 flex items-center gap-3" style={{ borderTopColor: mobileSeparatorColor }}>
                 {/* <LanguageSwitcher /> */}
                 <ThemeToggle />
               </div>
