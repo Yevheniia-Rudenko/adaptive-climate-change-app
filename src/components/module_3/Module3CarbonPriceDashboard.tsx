@@ -16,6 +16,10 @@ export default function Module3CarbonPriceDashboard() {
   const [carbonPricePos, setCarbonPricePos] = useState(0);
   const [carbonPriceValue, setCarbonPriceValue] = useState(0);
 
+  // Temperature display refs — updated via direct DOM writes to avoid canvas resets
+  const tempCRef = useRef<HTMLSpanElement>(null);
+  const tempFRef = useRef<HTMLSpanElement>(null);
+
   const airCanvasRef = useRef<HTMLCanvasElement>(null);
   const priceCanvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -68,10 +72,17 @@ export default function Module3CarbonPriceDashboard() {
     const graphViewModel = graphView.viewModel;
     for (const datasetViewModel of graphViewModel.getDatasets()) {
       const datasetSpec = datasetViewModel.spec;
-      const series = modelContextRef.current.getSeriesForVar(
+      let series = modelContextRef.current.getSeriesForVar(
         datasetSpec.varId,
         datasetSpec.externalSourceName
       );
+
+      // Try both 'baseline' and 'Ref' for baseline datasets
+      if ((!series || !series.points?.length) && datasetSpec.externalSourceName === 'baseline') {
+        series = modelContextRef.current.getSeriesForVar(datasetSpec.varId, 'Ref');
+      } else if ((!series || !series.points?.length) && datasetSpec.externalSourceName === 'Ref') {
+        series = modelContextRef.current.getSeriesForVar(datasetSpec.varId, 'baseline');
+      }
 
       datasetViewModel.points = [...(series?.points || [])];
 
@@ -87,23 +98,46 @@ export default function Module3CarbonPriceDashboard() {
     graphView.updateData(true);
   };
 
+  const updateTemperatureDisplay = () => {
+    if (!modelContextRef.current) return;
+    let tempSeries = modelContextRef.current.getSeriesForVar('_temperature_change_from_1850');
+    if (!tempSeries?.points?.length) {
+      tempSeries = modelContextRef.current.getSeriesForVar('_temperature_relative_to_1850_1900');
+    }
+    if (tempSeries?.points?.length) {
+      const tempCelsius = tempSeries.getValueAtTime(2100);
+      const tempFahrenheit = tempCelsius * 9 / 5;
+      if (tempCRef.current) tempCRef.current.textContent = `+${tempCelsius.toFixed(1)}°C`;
+      if (tempFRef.current) tempFRef.current.textContent = `+${tempFahrenheit.toFixed(1)}°F`;
+    }
+  };
+
   const updateAllGraphs = () => {
     if (airGraphViewRef.current) updateGraphData(airGraphViewRef.current);
     if (priceGraphViewRef.current) updateGraphData(priceGraphViewRef.current);
+    updateTemperatureDisplay();
   };
 
-  const initGraph = (canvas: HTMLCanvasElement, graphId: string, height = 250) => {
+  // Responsive graph height — matches getGraphHeight used in other dashboards
+  const getGraphHeight = (containerWidth: number) => {
+    const h = containerWidth * 0.55;
+    return Math.max(200, Math.min(300, Math.round(h)));
+  };
+
+  const initGraph = (canvas: HTMLCanvasElement, graphId: string) => {
     if (!coreConfigRef.current) return null;
     const graphSpec = coreConfigRef.current.graphs.get(graphId);
     if (!graphSpec) return null;
 
     const rect = canvas.getBoundingClientRect();
     const dpr = window.devicePixelRatio || 1;
+    const w = rect.width || 640;
+    const height = getGraphHeight(w);
 
-    canvas.style.width = rect.width + 'px';
+    canvas.style.width = '100%';
     canvas.style.height = `${height}px`;
-    canvas.width = rect.width * dpr;
-    canvas.height = height * dpr;
+    canvas.width = Math.floor(w * dpr);
+    canvas.height = Math.floor(height * dpr);
 
     const viewModel = createGraphViewModel(graphSpec);
     const isDark = document.documentElement.classList.contains('dark');
@@ -171,10 +205,10 @@ export default function Module3CarbonPriceDashboard() {
 
         setTimeout(() => {
           if (airCanvasRef.current) {
-            airGraphViewRef.current = initGraph(airCanvasRef.current, AIR_POLLUTION_GRAPH_ID, 250);
+            airGraphViewRef.current = initGraph(airCanvasRef.current, AIR_POLLUTION_GRAPH_ID);
           }
           if (priceCanvasRef.current) {
-            priceGraphViewRef.current = initGraph(priceCanvasRef.current, AVG_ENERGY_PRICE_GRAPH_ID, 250);
+            priceGraphViewRef.current = initGraph(priceCanvasRef.current, AVG_ENERGY_PRICE_GRAPH_ID);
           }
           updateAllGraphs();
         }, 150);
@@ -188,7 +222,10 @@ export default function Module3CarbonPriceDashboard() {
 
     initApp();
 
-    return () => { };
+    return () => {
+      modelRef.current = null;
+      modelContextRef.current = null;
+    };
   }, []);
 
   useEffect(() => {
@@ -201,10 +238,10 @@ export default function Module3CarbonPriceDashboard() {
 
     const timer = window.setTimeout(() => {
       if (airCanvasRef.current) {
-        airGraphViewRef.current = initGraph(airCanvasRef.current, AIR_POLLUTION_GRAPH_ID, isExpanded ? 300 : 250);
+        airGraphViewRef.current = initGraph(airCanvasRef.current, AIR_POLLUTION_GRAPH_ID);
       }
       if (priceCanvasRef.current) {
-        priceGraphViewRef.current = initGraph(priceCanvasRef.current, AVG_ENERGY_PRICE_GRAPH_ID, isExpanded ? 300 : 250);
+        priceGraphViewRef.current = initGraph(priceCanvasRef.current, AVG_ENERGY_PRICE_GRAPH_ID);
       }
       updateAllGraphs();
     }, 120);
@@ -218,6 +255,43 @@ export default function Module3CarbonPriceDashboard() {
   if (isLoading) return <div className="p-8 text-center text-gray-500">Loading Model...</div>;
   if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
 
+  // ─── Shared JSX pieces ────────────────────────────────────────────────────
+
+  /** Temperature card — same design as every other En-ROADS dashboard */
+  const TemperatureCard = (
+    <div className="flex justify-center mb-4">
+      <div className="bg-white dark:bg-gray-800 px-6 py-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 text-center inline-flex flex-col items-center w-fit mx-auto">
+        <span
+          ref={tempCRef}
+          style={{ color: '#14a9df', fontSize: 'clamp(3rem, 3vw, 3rem)', fontWeight: 800, lineHeight: 1.5 }}
+        >
+          +3.2°C
+        </span>
+        <div className="mx-auto my-4 h-[2px] w-[72%] bg-black" />
+        <span
+          ref={tempFRef}
+          style={{ color: '#14a9df', fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)', fontWeight: 800, lineHeight: 1 }}
+        >
+          +5.7°F
+        </span>
+        <div
+          className="mt-3 leading-tight text-gray-900 dark:text-gray-100"
+          style={{ fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)', fontWeight: 800 }}
+        >
+          Temperature<br />Increase by<br />2100
+        </div>
+      </div>
+    </div>
+  );
+
+  /** Legend badges */
+  const Legend = (
+    <div className="flex justify-center gap-3 mt-3">
+      <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
+      <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
+    </div>
+  );
+
   return (
     <div
       className={isExpanded
@@ -225,6 +299,7 @@ export default function Module3CarbonPriceDashboard() {
         : 'bg-gray-50 dark:bg-gray-900 p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora mb-24'}
     >
       <div className={isExpanded ? 'w-full h-full' : ''}>
+        {/* ── Header ── */}
         {isExpanded ? (
           <div className="relative px-4 pt-4 mb-4">
             <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200 text-center">
@@ -255,6 +330,10 @@ export default function Module3CarbonPriceDashboard() {
           </div>
         )}
 
+        {/* ── Temperature card (always visible, refs update via DOM) ── */}
+        {TemperatureCard}
+
+        {/* ── Graph grid ── */}
         {isExpanded ? (
           <div className="overflow-x-auto mb-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 min-w-[980px]">
@@ -263,10 +342,7 @@ export default function Module3CarbonPriceDashboard() {
                 <div className="relative w-full">
                   <canvas ref={airCanvasRef} className="w-full h-full" />
                 </div>
-                <div className="flex justify-center gap-3 mt-3">
-                  <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
-                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
-                </div>
+                {Legend}
               </div>
 
               <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
@@ -274,10 +350,7 @@ export default function Module3CarbonPriceDashboard() {
                 <div className="relative w-full">
                   <canvas ref={priceCanvasRef} className="w-full h-full" />
                 </div>
-                <div className="flex justify-center gap-3 mt-3">
-                  <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
-                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
-                </div>
+                {Legend}
               </div>
             </div>
           </div>
@@ -288,10 +361,7 @@ export default function Module3CarbonPriceDashboard() {
               <div className="relative w-full">
                 <canvas ref={airCanvasRef} className="w-full h-full" />
               </div>
-              <div className="flex justify-center gap-3 mt-3">
-                <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
-                <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
-              </div>
+              {Legend}
             </div>
 
             <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
@@ -299,14 +369,12 @@ export default function Module3CarbonPriceDashboard() {
               <div className="relative w-full">
                 <canvas ref={priceCanvasRef} className="w-full h-full" />
               </div>
-              <div className="flex justify-center gap-3 mt-3">
-                <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
-                <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
-              </div>
+              {Legend}
             </div>
           </div>
         )}
 
+        {/* ── Carbon Price slider ── */}
         <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-2">
           <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
             <label>Carbon Price</label>
