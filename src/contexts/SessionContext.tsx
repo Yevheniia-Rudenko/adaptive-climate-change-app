@@ -28,9 +28,8 @@ interface SessionProviderProps {
 
 export function SessionProvider({ children, moduleId }: SessionProviderProps) {
     const [sessionId, setSessionId] = useState<string>(() => {
-        // Try to get existing session from localStorage for this module
         const storageKey = `module_${moduleId}_session`;
-        const stored = localStorage.getItem(storageKey);
+        const stored = sessionStorage.getItem(storageKey);
         if (stored) {
             try {
                 // Handle cases where session was stored as a JSON object (e.g., from previous versions)
@@ -41,22 +40,35 @@ export function SessionProvider({ children, moduleId }: SessionProviderProps) {
                 return stored;
             }
         }
-        // Generate new session if none exists
         const newId = generateSessionId();
-        localStorage.setItem(storageKey, newId);
+        try {
+            localStorage.removeItem(storageKey);
+        } catch {
+        }
+        sessionStorage.setItem(storageKey, newId);
         return newId;
     });
 
     const [studyConsent, setStudyConsentState] = useState<StudyConsent>(() => {
         const storageKey = `module_${moduleId}_study_consent`;
-        const stored = localStorage.getItem(storageKey);
-        return stored === 'in' || stored === 'out' ? stored : null;
+        const storedFromSession = sessionStorage.getItem(storageKey);
+        if (storedFromSession === 'in' || storedFromSession === 'out') return storedFromSession;
+        const storedFromLocal = localStorage.getItem(storageKey);
+        if (storedFromLocal === 'in' || storedFromLocal === 'out') {
+            try {
+                localStorage.removeItem(storageKey);
+            } catch {
+            }
+            sessionStorage.setItem(storageKey, storedFromLocal);
+            return storedFromLocal;
+        }
+        return null;
     });
 
     // Update session ID when module changes
     useEffect(() => {
         const storageKey = `module_${moduleId}_session`;
-        const stored = localStorage.getItem(storageKey);
+        const stored = sessionStorage.getItem(storageKey);
         if (stored) {
             try {
                 const parsed = JSON.parse(stored);
@@ -67,27 +79,49 @@ export function SessionProvider({ children, moduleId }: SessionProviderProps) {
             }
         } else {
             const newId = generateSessionId();
-            localStorage.setItem(storageKey, newId);
+            try {
+                localStorage.removeItem(storageKey);
+            } catch {
+            }
+            sessionStorage.setItem(storageKey, newId);
             setSessionId(newId);
         }
     }, [moduleId]);
 
     useEffect(() => {
         const storageKey = `module_${moduleId}_study_consent`;
-        const stored = localStorage.getItem(storageKey);
-        setStudyConsentState(stored === 'in' || stored === 'out' ? stored : null);
+        const storedFromSession = sessionStorage.getItem(storageKey);
+        if (storedFromSession === 'in' || storedFromSession === 'out') {
+            setStudyConsentState(storedFromSession);
+            return;
+        }
+        const storedFromLocal = localStorage.getItem(storageKey);
+        if (storedFromLocal === 'in' || storedFromLocal === 'out') {
+            try {
+                localStorage.removeItem(storageKey);
+            } catch {
+            }
+            sessionStorage.setItem(storageKey, storedFromLocal);
+            setStudyConsentState(storedFromLocal);
+            return;
+        }
+        setStudyConsentState(null);
     }, [moduleId]);
 
     const startNewSession = () => {
         const storageKey = `module_${moduleId}_session`;
         const newId = generateSessionId();
-        localStorage.setItem(storageKey, newId);
+        sessionStorage.setItem(storageKey, newId);
         setSessionId(newId);
     };
 
     const setStudyConsent = (consent: Exclude<StudyConsent, null>) => {
         const storageKey = `module_${moduleId}_study_consent`;
-        localStorage.setItem(storageKey, consent);
+        try {
+            localStorage.removeItem(storageKey);
+        } catch {
+        }
+        sessionStorage.setItem(storageKey, consent);
         setStudyConsentState(consent);
     };
 
@@ -99,11 +133,14 @@ export function SessionProvider({ children, moduleId }: SessionProviderProps) {
                 `pollSelection:${sessionId}:${moduleId}:`,
                 `numeric-prediction:${sessionId}:${moduleId}:`,
             ];
-            for (let i = localStorage.length - 1; i >= 0; i--) {
-                const key = localStorage.key(i);
-                if (!key) continue;
-                if (prefixes.some(prefix => key.startsWith(prefix))) {
-                    localStorage.removeItem(key);
+            const storages: Storage[] = [sessionStorage, localStorage];
+            for (const storage of storages) {
+                for (let i = storage.length - 1; i >= 0; i--) {
+                    const key = storage.key(i);
+                    if (!key) continue;
+                    if (prefixes.some(prefix => key.startsWith(prefix))) {
+                        storage.removeItem(key);
+                    }
                 }
             }
         } catch {
