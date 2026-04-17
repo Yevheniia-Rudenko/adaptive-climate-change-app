@@ -97,7 +97,7 @@ export function AboutPage() {
         <Link to="/">
           <Button
             variant="outline"
-            className="mb-4 sm:mb-6 dark:text-gray-100 dark:border-gray-400"
+            className="mb-4 sm:mb-6 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-500 dark:hover:bg-gray-600"
           >
             ← {t.backHome}
           </Button>
@@ -316,7 +316,7 @@ export function AboutPage() {
               Project Team
             </h2>
             <div className="space-y-4">
-              <div className="flex flex-row gap-4">
+              <div className="flex flex-row gap-2">
                 <TeamMemberCard
                   photo={lanaCookPhoto}
                   name="Dr. Lana Cook"
@@ -340,7 +340,7 @@ export function AboutPage() {
                 />
               </div>
 
-              <div className="flex flex-row gap-4">
+              <div className="flex flex-row gap-2">
                 <TeamMemberCard 
                   photo={tibyanPhoto} 
                   name="Tibyan Bilal" 

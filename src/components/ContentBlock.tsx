@@ -37,7 +37,7 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
 
   useEffect(() => {
     try {
-      const stored = localStorage.getItem(`poll:${sessionId}:${moduleId}:${block.id}`);
+      const stored = sessionStorage.getItem(`poll:${sessionId}:${moduleId}:${block.id}`);
       if (stored) setLastSubmittedResponse(stored);
     } catch {
     }
@@ -45,7 +45,7 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
 
   useEffect(() => {
     try {
-      const stored = localStorage.getItem(`pollSelection:${sessionId}:${moduleId}:${block.id}`);
+      const stored = sessionStorage.getItem(`pollSelection:${sessionId}:${moduleId}:${block.id}`);
       if (!stored) return;
       const parsed = JSON.parse(stored) as unknown;
       if (
@@ -98,14 +98,9 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
 
   const handleSubmit = async () => {
     if (isSubmitting) return;
-    if (studyConsent !== 'in') {
-      if (studyConsent === null) {
-        window.dispatchEvent(new Event('study_consent_request'));
-      }
-      setSubmitError(studyConsent === 'out'
-        ? 'You opted out of the study; your responses will not be submitted.'
-        : 'Please choose whether to participate in the study before submitting.'
-      );
+    if (studyConsent === null) {
+      window.dispatchEvent(new Event('study_consent_request'));
+      setSubmitError('Please choose Agree or Disagree before submitting.');
       return;
     }
     const responseDisplay = (() => {
@@ -132,17 +127,18 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
         input,
         module_id: String(moduleId),
         section_id: block.id,
+        study_consent: studyConsent,
         session_id: sessionId,
       });
       setLastSubmittedResponse(responseDisplay);
       try {
-        localStorage.setItem(`poll:${sessionId}:${moduleId}:${block.id}`, responseDisplay);
+        sessionStorage.setItem(`poll:${sessionId}:${moduleId}:${block.id}`, responseDisplay);
       } catch {
       }
       const submittedSelection = { selectedOptions, otherText };
       setLastSubmittedSelection(submittedSelection);
       try {
-        localStorage.setItem(`pollSelection:${sessionId}:${moduleId}:${block.id}`, JSON.stringify(submittedSelection));
+        sessionStorage.setItem(`pollSelection:${sessionId}:${moduleId}:${block.id}`, JSON.stringify(submittedSelection));
       } catch {
       }
       setSelectedOptions([]);
@@ -277,14 +273,9 @@ function ModuleFeedbackBlock({ block, moduleId }: { block: Extract<ContentBlockT
 
   const handleSubmit = async () => {
     if (isSubmitting) return;
-    if (studyConsent !== 'in') {
-      if (studyConsent === null) {
-        window.dispatchEvent(new Event('study_consent_request'));
-      }
-      setSubmitError(studyConsent === 'out'
-        ? 'You opted out of the study; your responses will not be submitted.'
-        : 'Please choose whether to participate in the study before submitting.'
-      );
+    if (studyConsent === null) {
+      window.dispatchEvent(new Event('study_consent_request'));
+      setSubmitError('Please choose Agree or Disagree before submitting.');
       return;
     }
     const input = JSON.stringify({
@@ -304,6 +295,7 @@ function ModuleFeedbackBlock({ block, moduleId }: { block: Extract<ContentBlockT
         input,
         module_id: String(moduleId),
         section_id: block.id,
+        study_consent: studyConsent,
         session_id: sessionId,
       });
       setRating(0);
@@ -319,14 +311,9 @@ function ModuleFeedbackBlock({ block, moduleId }: { block: Extract<ContentBlockT
 
   const handleExport = async () => {
     if (isExporting) return;
-    if (studyConsent !== 'in') {
-      if (studyConsent === null) {
-        window.dispatchEvent(new Event('study_consent_request'));
-      }
-      setExportError(studyConsent === 'out'
-        ? 'You opted out of the study; there are no stored responses to export.'
-        : 'Please choose whether to participate in the study before exporting.'
-      );
+    if (studyConsent === null) {
+      window.dispatchEvent(new Event('study_consent_request'));
+      setExportError('Please choose Agree or Disagree before exporting.');
       return;
     }
     trackEvent('download_pdf', { module_id: moduleId });
@@ -443,7 +430,7 @@ function ReflectionBlock({ block, moduleId }: { block: Extract<ContentBlockType,
 
   useEffect(() => {
     try {
-      const stored = localStorage.getItem(`reflection:${sessionId}:${moduleId}:${block.id}`);
+      const stored = sessionStorage.getItem(`reflection:${sessionId}:${moduleId}:${block.id}`);
       if (stored) setLastSubmittedText(stored);
     } catch {
     }
@@ -457,14 +444,9 @@ function ReflectionBlock({ block, moduleId }: { block: Extract<ContentBlockType,
 
   const handleSubmit = async () => {
     if (isSubmitting) return;
-    if (studyConsent !== 'in') {
-      if (studyConsent === null) {
-        window.dispatchEvent(new Event('study_consent_request'));
-      }
-      setSubmitError(studyConsent === 'out'
-        ? 'You opted out of the study; your responses will not be submitted.'
-        : 'Please choose whether to participate in the study before submitting.'
-      );
+    if (studyConsent === null) {
+      window.dispatchEvent(new Event('study_consent_request'));
+      setSubmitError('Please choose Agree or Disagree before submitting.');
       return;
     }
     const submittedText = reflectionText.trim();
@@ -484,11 +466,12 @@ function ReflectionBlock({ block, moduleId }: { block: Extract<ContentBlockType,
         input,
         module_id: String(moduleId),
         section_id: block.id,
+        study_consent: studyConsent,
         session_id: sessionId,
       });
       setLastSubmittedText(submittedText);
       try {
-        localStorage.setItem(`reflection:${sessionId}:${moduleId}:${block.id}`, submittedText);
+        sessionStorage.setItem(`reflection:${sessionId}:${moduleId}:${block.id}`, submittedText);
       } catch {
       }
       setReflectionText('');
@@ -561,7 +544,7 @@ function NumericPredictionBlock({ block, moduleId }: { block: Extract<ContentBlo
 
   useEffect(() => {
     try {
-      const stored = localStorage.getItem(`numeric-prediction:${sessionId}:${moduleId}:${block.id}`);
+      const stored = sessionStorage.getItem(`numeric-prediction:${sessionId}:${moduleId}:${block.id}`);
       if (stored) setLastSubmittedValue(stored);
     } catch {
     }
@@ -575,14 +558,9 @@ function NumericPredictionBlock({ block, moduleId }: { block: Extract<ContentBlo
 
   const handleSubmit = async () => {
     if (isSubmitting) return;
-    if (studyConsent !== 'in') {
-      if (studyConsent === null) {
-        window.dispatchEvent(new Event('study_consent_request'));
-      }
-      setSubmitError(studyConsent === 'out'
-        ? 'You opted out of the study; your responses will not be submitted.'
-        : 'Please choose whether to participate in the study before submitting.'
-      );
+    if (studyConsent === null) {
+      window.dispatchEvent(new Event('study_consent_request'));
+      setSubmitError('Please choose Agree or Disagree before submitting.');
       return;
     }
     const valueNumber = valueText.trim() === '' ? null : Number(valueText);
@@ -606,11 +584,12 @@ function NumericPredictionBlock({ block, moduleId }: { block: Extract<ContentBlo
         input,
         module_id: String(moduleId),
         section_id: block.id,
+        study_consent: studyConsent,
         session_id: sessionId,
       });
       setLastSubmittedValue(submittedValue);
       try {
-        localStorage.setItem(`numeric-prediction:${sessionId}:${moduleId}:${block.id}`, submittedValue);
+        sessionStorage.setItem(`numeric-prediction:${sessionId}:${moduleId}:${block.id}`, submittedValue);
       } catch {
       }
       setValueText('');
@@ -808,6 +787,36 @@ function ImageCollageBlock({ block }: { block: Extract<ContentBlockType, { type:
             )}
           </div>
         ))}
+      </div>
+    </div>
+  );
+}
+
+function TextWithImageBlock({ block }: { block: Extract<ContentBlockType, { type: 'text-with-image' }> }) {
+  const reverse = block.imageSide === 'right';
+
+  return (
+    <div className="mb-6 sm:mb-8 font-sora">
+      {block.title && (
+        <div className="flex items-center gap-2 mb-3 sm:mb-4">
+          <BookOpen className="text-blue-600 dark:text-blue-400 flex-shrink-0" size={20} />
+          <h3 className="text-gray-900 dark:text-gray-100 text-base sm:text-lg font-bold">{formatTitle(block.title)}</h3>
+        </div>
+      )}
+
+      <div className={`flex flex-col sm:flex-row gap-4 sm:gap-6 ${reverse ? 'sm:flex-row-reverse' : ''}`}>
+        <div className="w-full max-w-md mx-auto sm:max-w-none sm:mx-0 sm:w-5/12 lg:w-4/12">
+          <div className="rounded-xl sm:rounded-2xl overflow-hidden shadow-lg">
+            <img src={block.imageUrl} alt={block.alt} className="w-full h-auto block" />
+          </div>
+        </div>
+
+        <div className="w-full sm:flex-1">
+          <TextWithGlossary
+            text={block.content}
+            className="text-gray-700 dark:text-gray-300 text-sm sm:text-base md:text-lg leading-relaxed whitespace-pre-line"
+          />
+        </div>
       </div>
     </div>
   );
@@ -1195,6 +1204,9 @@ export function ContentBlock({
           </div>
         </div>
       );
+
+    case 'text-with-image':
+      return <TextWithImageBlock block={block} />;
 
     case 'image-collage':
       return <ImageCollageBlock block={block} />;

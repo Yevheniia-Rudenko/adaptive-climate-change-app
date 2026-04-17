@@ -4,6 +4,7 @@ export type PostInputRequest = {
   input: string;
   module_id: string;
   section_id: string;
+  study_consent: 'in' | 'out';
   timestamp?: string;
   session_id?: string;
 };

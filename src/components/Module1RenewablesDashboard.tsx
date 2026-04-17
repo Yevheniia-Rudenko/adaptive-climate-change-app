@@ -25,6 +25,7 @@ export default function Module1RenewablesDashboard() {
 
   const [renewablesVal, setRenewablesVal] = useState(0);
   const [renewablesText, setRenewablesText] = useState('status quo');
+  const [renewablesDefaultPct, setRenewablesDefaultPct] = useState<number | null>(null);
 
   // Use refs + direct DOM updates for temperature to avoid React re-renders
   // that reset the canvas on every model output change (the root cause of hover flicker).
@@ -46,6 +47,34 @@ export default function Module1RenewablesDashboard() {
     if (sliderPos <= 30)   return 'Status quo';
     if (sliderPos <= 65)   return 'More encouraged';
     return 'Highly encouraged';
+  };
+
+  const getRangeHighlightBackground = (currentPct: number, defaultPct: number | null, color: string) => {
+    const track = '#e5e7eb';
+    const clampedCurrent = Math.max(0, Math.min(100, currentPct));
+    if (defaultPct === null) {
+      return `linear-gradient(to right, ${color} 0%, ${color} ${clampedCurrent}%, ${track} ${clampedCurrent}%, ${track} 100%)`;
+    }
+
+    const clampedDefault = Math.max(0, Math.min(100, defaultPct));
+    const a = Math.min(clampedCurrent, clampedDefault);
+    const b = Math.max(clampedCurrent, clampedDefault);
+    return `linear-gradient(to right, ${track} 0%, ${track} ${a}%, ${color} ${a}%, ${color} ${b}%, ${track} ${b}%, ${track} 100%)`;
+  };
+
+  const sliderPosToPct = (sliderPos: number) => {
+    const min = -50;
+    const max = 100;
+    return ((sliderPos - min) / (max - min)) * 100;
+  };
+
+  const modelValToSliderPos = (modelVal: number, modelMin: number, modelMax: number) => {
+    if (modelVal >= 0) {
+      const denom = modelMax || 1;
+      return -(modelVal / denom) * 50;
+    }
+    const denom = modelMin || -1;
+    return (modelVal / denom) * 100;
   };
 
   const createGraphViewModel = (graphSpec: any) => {
@@ -285,9 +314,14 @@ export default function Module1RenewablesDashboard() {
         renewablesInputRef.current = modelContextRef.current.getInputForId('16');
 
         if (renewablesInputRef.current) {
-          // Model starts at status quo (0) → slider position 0
-          setRenewablesVal(0);
-          setRenewablesText(getSliderText(0));
+          const currentModelVal = renewablesInputRef.current.get?.() ?? 0;
+          const modelMin = renewablesInputRef.current.min !== undefined ? renewablesInputRef.current.min : -0.08;
+          const modelMax = renewablesInputRef.current.max !== undefined ? renewablesInputRef.current.max : 0.08;
+          const defaultSliderPos = modelValToSliderPos(currentModelVal, modelMin, modelMax);
+          const clampedDefaultSliderPos = Math.max(-50, Math.min(100, defaultSliderPos));
+          setRenewablesVal(clampedDefaultSliderPos);
+          setRenewablesText(getSliderText(clampedDefaultSliderPos));
+          setRenewablesDefaultPct(Math.max(0, Math.min(100, sliderPosToPct(clampedDefaultSliderPos))));
         }
 
         modelContextRef.current.onOutputsChanged = () => updateDashboard();
@@ -348,6 +382,24 @@ export default function Module1RenewablesDashboard() {
         : 'bg-gray-50 dark:bg-gray-900 p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora mb-24'}
     >
       <div className={isExpanded ? 'w-full h-full' : ''}>
+        <div className="px-4 mb-4 text-gray-700 dark:text-gray-300 leading-relaxed space-y-4">
+          <p>
+            In this model, explore the impact of renewables on global temperature (remember our goal of 1.5°C!) and other impacts, which you can select in the graph dropdown.
+          </p>
+          <p>You can choose:</p>
+          <ul className="space-y-2" style={{ listStyleType: 'disc', paddingLeft: '1.5rem' }}>
+            <li>
+              <strong>Status Quo:</strong> Maintain the current levels of use of renewable energy. This is where the slider starts.
+            </li>
+            <li>
+              <strong>Encourage:</strong> Support building and use of solar panels, geothermal, and wind turbines through government subsidies that allow investment in renewable energy and lower costs for consumers.
+            </li>
+            <li>
+              <strong>Discourage:</strong> Through taxes raising costs of renewable energy investment and use, through public policy, or communications.
+            </li>
+          </ul>
+        </div>
+
         {isExpanded ? (
           <div className="relative px-4 pt-4 mb-4">
             <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200 text-center">En-Roads Dashboard: Renewables</h2>
@@ -515,19 +567,23 @@ export default function Module1RenewablesDashboard() {
             <label>Renewables</label>
             <span className="text-xs font-mono text-gray-500">{renewablesText}</span>
           </div>
-          <input
-            type="range"
-            min="-50"
-            max="100"
-            step="1"
-            value={renewablesVal}
-            onChange={handleRenewablesChange}
-            className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-            style={{
-              // status quo (value=0) sits at 33.33% from left: (0+50)/150*100
-              background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${((renewablesVal + 50) / 150) * 100}%, #e5e7eb ${((renewablesVal + 50) / 150) * 100}%, #e5e7eb 100%)`
-            }}
-          />
+          <div className="enroads-range-wrap">
+            {renewablesDefaultPct !== null && (
+              <div className="enroads-range-tick" style={{ ['--tick-frac' as any]: String(renewablesDefaultPct / 100) }} />
+            )}
+            <input
+              type="range"
+              min="-50"
+              max="100"
+              step="1"
+              value={renewablesVal}
+              onChange={handleRenewablesChange}
+              className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+              style={{
+                background: getRangeHighlightBackground(((renewablesVal + 50) / 150) * 100, renewablesDefaultPct, '#53B1E8')
+              }}
+            />
+          </div>
         </div>
       </div>
     </div>

@@ -32,12 +32,14 @@ export default function Module1CarbonRemovalDashboard() {
   // Section 1 states
   const [section1SliderValue, setSection1SliderValue] = useState(0);
   const [section1SliderText, setSection1SliderText] = useState('status quo');
+  const [section1DefaultPct, setSection1DefaultPct] = useState<number | null>(null);
   const [selectedGraphId, setSelectedGraphId] = useState('90');
   const [section2SelectedGraphId, setSection2SelectedGraphId] = useState('62');
 
   // Section 2 states
   const [section2DeforestationValue, setSection2DeforestationValue] = useState(0);
   const [section2DeforestationText, setSection2DeforestationText] = useState('status quo');
+  const [section2DeforestationDefaultPct, setSection2DeforestationDefaultPct] = useState<number | null>(null);
 
   // Temperature display — use refs + direct DOM to avoid React re-renders that reset canvas
   const tempCRef = useRef<HTMLSpanElement>(null);
@@ -69,6 +71,19 @@ export default function Module1CarbonRemovalDashboard() {
 
   const str = (key: string) => {
     return (enStrings as any)[key] || key;
+  };
+
+  const getRangeHighlightBackground = (currentPct: number, defaultPct: number | null, color: string) => {
+    const track = '#e5e7eb';
+    const clampedCurrent = Math.max(0, Math.min(100, currentPct));
+    if (defaultPct === null) {
+      return `linear-gradient(to right, ${color} 0%, ${color} ${clampedCurrent}%, ${track} ${clampedCurrent}%, ${track} 100%)`;
+    }
+
+    const clampedDefault = Math.max(0, Math.min(100, defaultPct));
+    const a = Math.min(clampedCurrent, clampedDefault);
+    const b = Math.max(clampedCurrent, clampedDefault);
+    return `linear-gradient(to right, ${track} 0%, ${track} ${a}%, ${color} ${a}%, ${color} ${b}%, ${track} ${b}%, ${track} 100%)`;
   };
 
   const getInputRangeLabel = (input: any, value: number) => {
@@ -460,6 +475,7 @@ export default function Module1CarbonRemovalDashboard() {
         
         setSection1SliderValue(0);
         setSection1SliderText(getCarbonRemovalText(0));
+        setSection1DefaultPct(0);
         if (carbonRemovalInputRef.current?.set) {
           const modelVal = natureMin + (0 / 100) * natureDenom;
           carbonRemovalInputRef.current.set(modelVal);
@@ -485,6 +501,7 @@ export default function Module1CarbonRemovalDashboard() {
         if (deforestationInputRef.current) {
           setSection2DeforestationValue(0);
           setSection2DeforestationText(getDeforestationText(0));
+          setSection2DeforestationDefaultPct(((0 + 10) / 11) * 100);
           if (deforestationInputRef.current.set) {
             const min = deforestationInputRef.current.min !== undefined ? deforestationInputRef.current.min : -10;
             const max = deforestationInputRef.current.max !== undefined ? deforestationInputRef.current.max : 1;
@@ -602,11 +619,37 @@ export default function Module1CarbonRemovalDashboard() {
   return (
     <>
       <div className="font-sora mb-24 space-y-6">
-          {/* SECTION 1: Nature-Based Carbon Removal & Impact Analysis */}
+          {/* MODEL 1: Nature-Based Carbon Removal */}
           <div className="bg-gray-50 dark:bg-gray-900 p-3 sm:p-4 rounded-xl border border-gray-200 dark:border-gray-700">
+            <div className="px-3 sm:px-4 mb-4 text-gray-700 dark:text-gray-300 leading-relaxed space-y-4">
+              <h3 className="text-base sm:text-lg font-extrabold text-gray-800 dark:text-gray-200">
+                En-ROADS Simplified Dashboard
+              </h3>
+              <p>
+                Now let&apos;s see what effect nature-based carbon-dioxide removal (aka planting more trees) has on global temperature increase (remember the goal to keep the increase at no more than 1.5 degrees Celsius or 2.7 degrees Fahrenheit).
+              </p>
+              <p>
+                In Exercise 1, you will adjust the amount that nature-based Carbon-Dioxide Removal is implemented as a policy by moving the slider. You can choose:
+              </p>
+              <ul className="space-y-2" style={{ listStyleType: 'disc', paddingLeft: '1.5rem' }}>
+                <li>
+                  <strong>Status Quo:</strong> Maintain the current levels of natural and cultivated forests. This is where the slider starts.
+                </li>
+                <li>
+                  <strong>Subsidize:</strong> Increase the amount of trees planted by providing governmental or private funding to support the planting and maintenance of forests and wooded areas.
+                </li>
+                <li>
+                  <strong>Tax:</strong> Decrease the amount of trees planted by charging governmental taxes or fees (ex. Taxes that increase the cost of purchasing trees)
+                </li>
+              </ul>
+              <p>
+                You can also explore other climate impacts like sea level rise, air pollution, crop yield and others using the dropdown option on the graphs.
+              </p>
+            </div>
+
             <div className="flex items-start justify-between gap-3 px-3 sm:px-4 pt-3 sm:pt-4 mb-4">
               <h2 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-gray-200">
-                Section 1: Nature-Based Carbon Removal &amp; Impacts
+                Model 1: Nature-Based Carbon Removal
               </h2>
               <button
                 type="button"
@@ -702,27 +745,51 @@ export default function Module1CarbonRemovalDashboard() {
                   <label>Carbon-Dioxide Removal - Nature Based</label>
                   <span className="text-sm font-mono text-gray-500">{section1SliderText}</span>
                 </div>
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  step="1"
-                  value={section1SliderValue}
-                  onChange={handleSection1SliderChange}
-                  className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-                  style={{
-                    background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${section1SliderValue}%, #e5e7eb ${section1SliderValue}%, #e5e7eb 100%)`
-                  }}
-                />
+                <div className="enroads-range-wrap">
+                  {section1DefaultPct !== null && (
+                    <div className="enroads-range-tick" style={{ ['--tick-frac' as any]: String(section1DefaultPct / 100) }} />
+                  )}
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    step="1"
+                    value={section1SliderValue}
+                    onChange={handleSection1SliderChange}
+                    className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+                    style={{
+                      background: getRangeHighlightBackground(section1SliderValue, section1DefaultPct, '#53B1E8')
+                    }}
+                  />
+                </div>
               </div>
             </div>
           </div>
 
           {/* SECTION 2: Deforestation Analysis */}
           <div className="bg-gray-50 dark:bg-gray-900 p-3 sm:p-4 rounded-xl border border-gray-200 dark:border-gray-700">
+            <div className="px-3 sm:px-4 mb-4 text-gray-700 dark:text-gray-300 leading-relaxed space-y-4">
+              <p>
+                Planting more trees in this model is different from saving existing forests. Let&apos;s also see what happens when we look at policies around deforestation—the intentional and large-scale clearing of forests for agriculture, building construction, and livestock.
+              </p>
+              <p>In Exercise 2, adjust the amount that Deforestation is happening globally by moving the slider. You can choose:</p>
+              <ul className="space-y-2" style={{ listStyleType: 'disc', paddingLeft: '1.5rem' }}>
+                <li>
+                  <strong>Status Quo:</strong> Maintain the current levels of natural and cultivated forests. This is where the slider starts.
+                </li>
+                <li>
+                  <strong>Reforestation:</strong> Encourage the protection of forests, preserving current forests and allowing areas to re-grow after human disturbance. For example, letting a grass yard grow into a meadow and eventually into a forest.
+                </li>
+                <li>
+                  <strong>Deforestation:</strong> Discourage the protection of forests and increase the use of forest land for other uses, primarily for plant and animal agriculture and livestock, harvesting for wood products or bioenergy.
+                </li>
+              </ul>
+              <p>Let&apos;s try it out!</p>
+            </div>
+
             <div className="flex items-start justify-between gap-3 px-3 sm:px-4 pt-3 sm:pt-4 mb-4">
               <h2 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-gray-200">
-                Section 2: Deforestation Analysis
+                Model 2: Deforestation
               </h2>
               <button
                 type="button"
@@ -818,18 +885,23 @@ export default function Module1CarbonRemovalDashboard() {
                   <label>Carbon-Dioxide Removal - Nature Based</label>
                   <span className="text-sm font-mono text-gray-500">{section1SliderText}</span>
                 </div>
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  step="1"
-                  value={section1SliderValue}
-                  onChange={handleSection1SliderChange}
-                  className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-                  style={{
-                    background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${section1SliderValue}%, #e5e7eb ${section1SliderValue}%, #e5e7eb 100%)`
-                  }}
-                />
+                <div className="enroads-range-wrap">
+                  {section1DefaultPct !== null && (
+                    <div className="enroads-range-tick" style={{ ['--tick-frac' as any]: String(section1DefaultPct / 100) }} />
+                  )}
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    step="1"
+                    value={section1SliderValue}
+                    onChange={handleSection1SliderChange}
+                    className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+                    style={{
+                      background: getRangeHighlightBackground(section1SliderValue, section1DefaultPct, '#53B1E8')
+                    }}
+                  />
+                </div>
               </div>
 
               <div className="space-y-4">
@@ -837,18 +909,23 @@ export default function Module1CarbonRemovalDashboard() {
                   <label>Deforestation</label>
                   <span className="text-sm font-mono text-gray-500">{section2DeforestationText}</span>
                 </div>
-                <input
-                  type="range"
-                  min="-10"
-                  max="1"
-                  step="0.1"
-                  value={section2DeforestationValue}
-                  onChange={handleSection2DeforestationChange}
-                  className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-                  style={{
-                    background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${((section2DeforestationValue + 10) / 11) * 100}%, #e5e7eb ${((section2DeforestationValue + 10) / 11) * 100}%, #e5e7eb 100%)`
-                  }}
-                />
+                <div className="enroads-range-wrap">
+                  {section2DeforestationDefaultPct !== null && (
+                    <div className="enroads-range-tick" style={{ ['--tick-frac' as any]: String(section2DeforestationDefaultPct / 100) }} />
+                  )}
+                  <input
+                    type="range"
+                    min="-10"
+                    max="1"
+                    step="0.1"
+                    value={section2DeforestationValue}
+                    onChange={handleSection2DeforestationChange}
+                    className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+                    style={{
+                      background: getRangeHighlightBackground(((section2DeforestationValue + 10) / 11) * 100, section2DeforestationDefaultPct, '#53B1E8')
+                    }}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -856,6 +933,32 @@ export default function Module1CarbonRemovalDashboard() {
 
       {isSection1Expanded && (
         <div className="fixed inset-0 z-50 bg-white p-4 md:p-6 overflow-y-auto font-sora">
+          <div className="px-4 mb-4 text-gray-700 dark:text-gray-300 leading-relaxed space-y-4">
+            <h3 className="text-lg font-extrabold text-gray-800 dark:text-gray-200">
+              En-ROADS Simplified Dashboard
+            </h3>
+            <p>
+              Now let&apos;s see what effect nature-based carbon-dioxide removal (aka planting more trees) has on global temperature increase (remember the goal to keep the increase at no more than 1.5 degrees Celsius or 2.7 degrees Fahrenheit).
+            </p>
+            <p>
+              In Exercise 1, you will adjust the amount that nature-based Carbon-Dioxide Removal is implemented as a policy by moving the slider. You can choose:
+            </p>
+            <ul className="space-y-2" style={{ listStyleType: 'disc', paddingLeft: '1.5rem' }}>
+              <li>
+                <strong>Status Quo:</strong> Maintain the current levels of natural and cultivated forests. This is where the slider starts.
+              </li>
+              <li>
+                <strong>Subsidize:</strong> Increase the amount of trees planted by providing governmental or private funding to support the planting and maintenance of forests and wooded areas.
+              </li>
+              <li>
+                <strong>Tax:</strong> Decrease the amount of trees planted by charging governmental taxes or fees (ex. Taxes that increase the cost of purchasing trees)
+              </li>
+            </ul>
+            <p>
+              You can also explore other climate impacts like sea level rise, air pollution, crop yield and others using the dropdown option on the graphs.
+            </p>
+          </div>
+
           <div className="relative px-4 pt-4 mb-4">
             <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200 text-center">
               Section 1: Nature-Based Carbon Removal &amp; Impacts
@@ -913,24 +1016,48 @@ export default function Module1CarbonRemovalDashboard() {
               <label>Carbon-Dioxide Removal - Nature Based</label>
               <span className="text-xs font-mono text-gray-500">{section1SliderText}</span>
             </div>
-            <input
-              type="range"
-              min="0"
-              max="100"
-              step="1"
-              value={section1SliderValue}
-              onChange={handleSection1SliderChange}
-              className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-              style={{
-                background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${section1SliderValue}%, #e5e7eb ${section1SliderValue}%, #e5e7eb 100%)`
-              }}
-            />
+            <div className="enroads-range-wrap">
+              {section1DefaultPct !== null && (
+                <div className="enroads-range-tick" style={{ ['--tick-frac' as any]: String(section1DefaultPct / 100) }} />
+              )}
+              <input
+                type="range"
+                min="0"
+                max="100"
+                step="1"
+                value={section1SliderValue}
+                onChange={handleSection1SliderChange}
+                className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+                style={{
+                  background: getRangeHighlightBackground(section1SliderValue, section1DefaultPct, '#53B1E8')
+                }}
+              />
+            </div>
           </div>
         </div>
       )}
 
       {isSection2Expanded && (
         <div className="fixed inset-0 z-50 bg-white p-4 md:p-6 overflow-y-auto font-sora">
+          <div className="px-4 mb-4 text-gray-700 dark:text-gray-300 leading-relaxed space-y-4">
+            <p>
+              Planting more trees in this model is different from saving existing forests. Let&apos;s also see what happens when we look at policies around deforestation—the intentional and large-scale clearing of forests for agriculture, building construction, and livestock.
+            </p>
+            <p>In Exercise 2, adjust the amount that Deforestation is happening globally by moving the slider. You can choose:</p>
+            <ul className="space-y-2" style={{ listStyleType: 'disc', paddingLeft: '1.5rem' }}>
+              <li>
+                <strong>Status Quo:</strong> Maintain the current levels of natural and cultivated forests. This is where the slider starts.
+              </li>
+              <li>
+                <strong>Reforestation:</strong> Encourage the protection of forests, preserving current forests and allowing areas to re-grow after human disturbance. For example, letting a grass yard grow into a meadow and eventually into a forest.
+              </li>
+              <li>
+                <strong>Deforestation:</strong> Discourage the protection of forests and increase the use of forest land for other uses, primarily for plant and animal agriculture and livestock, harvesting for wood products or bioenergy.
+              </li>
+            </ul>
+            <p>Let&apos;s try it out!</p>
+          </div>
+
           <div className="relative px-4 pt-4 mb-4">
             <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200 text-center">
               Section 2: Deforestation Analysis
@@ -989,18 +1116,23 @@ export default function Module1CarbonRemovalDashboard() {
                 <label>Carbon-Dioxide Removal - Nature Based</label>
                 <span className="text-xs font-mono text-gray-500">{section1SliderText}</span>
               </div>
-              <input
-                type="range"
-                min="0"
-                max="100"
-                step="1"
-                value={section1SliderValue}
-                onChange={handleSection1SliderChange}
-                className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-                style={{
-                  background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${section1SliderValue}%, #e5e7eb ${section1SliderValue}%, #e5e7eb 100%)`
-                }}
-              />
+              <div className="enroads-range-wrap">
+                {section1DefaultPct !== null && (
+                  <div className="enroads-range-tick" style={{ ['--tick-frac' as any]: String(section1DefaultPct / 100) }} />
+                )}
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="1"
+                  value={section1SliderValue}
+                  onChange={handleSection1SliderChange}
+                  className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+                  style={{
+                    background: getRangeHighlightBackground(section1SliderValue, section1DefaultPct, '#53B1E8')
+                  }}
+                />
+              </div>
             </div>
 
             <div className="space-y-2">
@@ -1008,18 +1140,23 @@ export default function Module1CarbonRemovalDashboard() {
                 <label>Deforestation</label>
                 <span className="text-xs font-mono text-gray-500">{section2DeforestationText}</span>
               </div>
-              <input
-                type="range"
-                min="-10"
-                max="1"
-                step="0.1"
-                value={section2DeforestationValue}
-                onChange={handleSection2DeforestationChange}
-                className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-                style={{
-                  background: `linear-gradient(to right, #53B1E8 0%, #53B1E8 ${((section2DeforestationValue + 10) / 11) * 100}%, #e5e7eb ${((section2DeforestationValue + 10) / 11) * 100}%, #e5e7eb 100%)`
-                }}
-              />
+              <div className="enroads-range-wrap">
+                {section2DeforestationDefaultPct !== null && (
+                  <div className="enroads-range-tick" style={{ ['--tick-frac' as any]: String(section2DeforestationDefaultPct / 100) }} />
+                )}
+                <input
+                  type="range"
+                  min="-10"
+                  max="1"
+                  step="0.1"
+                  value={section2DeforestationValue}
+                  onChange={handleSection2DeforestationChange}
+                  className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+                  style={{
+                    background: getRangeHighlightBackground(((section2DeforestationValue + 10) / 11) * 100, section2DeforestationDefaultPct, '#53B1E8')
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>

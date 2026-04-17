@@ -1,5 +1,8 @@
 # 🌍 Adaptive Climate Change App
 
+
+
+
 An interactive educational web application designed to help learners understand climate change adaptation strategies through hands-on simulations and multilingual resources.
 
 [![React](https://img.shields.io/badge/React-18.3.1-blue.svg)](https://reactjs.org/)

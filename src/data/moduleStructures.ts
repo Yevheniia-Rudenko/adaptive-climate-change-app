@@ -1,6 +1,6 @@
 import plutchikWheel from '../assets/Wheel1.webp';
-import globalTempAudio from '../assets/GlobalTemperature.mp3';
-import renewableEnergyAudio from '../assets/RenewableEnergy.mp3';
+import globalTempAudio from '../assets/global-temperature.m4a';
+import renewableEnergyAudio from '../assets/renewable-energy.m4a';
 import climateInteractiveLogo from '../assets/ci-logo.svg';
 import enroadsScreenshot from '../assets/En-Roads-Screenshot 2026-01-30.png';
 import enroadsTemp from '../assets/En-Roads-Temp.png';
@@ -9,17 +9,17 @@ import forestImage from '../assets/forest.jpg';
 import windTurbinesImg from '../assets/Wind turbines.jpg';
 import coalPlantImg from '../assets/coal_plant_cut.png';
 import carbonPricingImg from '../assets/carbon_pricing_meeting.jpg';
-import carbonPriceAudio from '../assets/CarbonPrice.mp3';
+import carbonPriceAudio from '../assets/carbon-price.m4a';
 import Module1CarbonPriceDashboard from '../components/Module1CarbonPriceDashboard';
 import module1Background from '../assets/module_1_background.webp';
 import openingMeditationAudio from '../assets/Module1-OpeningMeditation.m4a';
 import hopeMeditationAudio from '../assets/Module1-HopeMeditation.m4a';
-import coalOilGasAudio from '../assets/Coal-Oil-Gas.mp3';
+import coalOilGasAudio from '../assets/coal-oil-gas.m4a';
 import globalWarmingImg from '../assets/module_3/global-warming.png';
 import puzzleAnimation from '../assets/module_3/assembling_puzzle_animation.json';
 import brainstorming from '../assets/module_3/brainstorming.json';
 import carbonAndEmissionsImg from '../assets/carbon_and_emissions.jpg';
-import carbonEquityAudio from '../assets/Carbon-Equity.mp3';
+import carbonEquityAudio from '../assets/carbon-equity.m4a';
 import scenario1Img from '../assets/Scenario1.png';
 import scenario2Img from '../assets/Scenario2.png';
 import scenario3Img from '../assets/Scenario3.png';
@@ -32,16 +32,21 @@ import netZeroImg from '../assets/module2/Net zero = emissions in \u2013 removal
 import hopeOrientationImg from '../assets/module2/Hope Orientation-Tippett.png';
 import hopeStockAudio from '../assets/module2/Module2-Hope-as-a-Stock.m4a';
 import systemsIcebergImg from '../assets/Iceberg1.webp';
-import icebergExplainerAudio from '../assets/IcebergExplainer.mp3';
+import icebergExplainerAudio from '../assets/iceberg-explainer.m4a';
 import mandalaForSystemsChangeImg from '../assets/module_5/Mandala-empty.webp';
 import youthLeadershipImg from '../assets/module_5/youthleadership.png';
 import skyRocketAnimation from '../assets/module_5/sky_rocket.json';
 import breatheImg from '../assets/module_5/breathe.jpg';
 import leadershipImg from '../assets/module_5/leadership.jpg';
-import vennDiagramImg from '../assets/module_5/venn-diagram.png';
+import vennDiagramImg from '../assets/module_5/venn_worksheet.webp';
 import module3Background from '../assets/module_3_background.webp';
 import module4Background from '../assets/module_4_background.webp';
 import module5Background from '../assets/module_5_background.webp';
+import airPollutionImg from '../assets/module_3/air_pollution.webp';
+import pumpingGasImg from '../assets/module_3/pumping_gas.webp';
+import shareScenarioImg from '../assets/module_3/share-scenario.webp';
+import creativeTensionImg from '../assets/module_5/tension.webp';
+import systemsDontChangeImg from '../assets/module_5/systems-dont-change-themselves.png';
 
 
 export type FlipCardData = {
@@ -58,6 +63,7 @@ export type ContentBlock =
   | { type: 'video'; title?: string; videoUrl: string; description?: string }
   | { type: 'audio'; title?: string; audioUrl: string; description?: string; transcript?: string }
   | { type: 'image'; imageUrl: string; alt: string; title?: string; width?: string }
+  | { type: 'text-with-image'; title?: string; content: string; imageUrl: string; alt: string; imageSide?: 'left' | 'right' }
   | { type: 'image-collage'; title?: string; images: { imageUrl: string; alt: string; caption?: string }[]; width?: string; columns?: 1 | 2 | 3 | 4 }
   | { type: 'button'; label: string; url: string; variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link'; size?: 'default' | 'sm' | 'lg' | 'icon'; iconName?: string; newTab?: boolean }
   | { type: 'lottie'; title?: string; animationData?: unknown; animationUrl?: string; loop?: boolean; autoplay?: boolean; speed?: number; width?: string; height?: string }
@@ -108,7 +114,7 @@ export const moduleStructures: ModuleStructure[] = [
           {
             type: 'text',
             title: '**About this Module**',
-            content: "Climate change isn't just about science and data—it's deeply personal.\n\n Understanding how climate futures affect you, your community, and the world helps build meaningful connections to the issue. This module explores how we emotionally and intellectually relate to different possible futures, and why these connections matter for taking action."
+            content: "Climate change isn't just about science and data—it's also deeply personal.\n\n Understanding how climate futures affect you, your community, and the world helps build meaningful connections to the issue. This module explores how we emotionally and intellectually relate to our current climate situation, how we imagine different possible futures, and why these connections matter for understanding these complex global challenges and feeling empowered to take effective action"
           },
           {
             type: 'button',
@@ -121,7 +127,7 @@ export const moduleStructures: ModuleStructure[] = [
           {
             type: 'text',
             title: '**Key Concepts**',
-            content: ''
+            content: 'To start us off, let\'s explore some of the following key concepts. Take a moment to review the following cards, considering your own definitions as well.'
           },
           {
             type: 'flip-cards',
@@ -151,23 +157,23 @@ export const moduleStructures: ModuleStructure[] = [
                 backDescription: 'The skill of paying close attention to what\'s happening in a system using all our senses, emotions, and lived experience. It helps us notice patterns, relationships, and changes to better understand how everything is connected.'
               },
               {
-                frontTitle: 'Emotions',
+                frontTitle: 'Emotional Literacy',
                 frontDescription: 'Feelings you experience',
                 backTitle: 'Definition',
-                backDescription: 'Feelings you experience in response to what\'s happening around or inside you. They range from joy and excitement to stress, anger, or confusion, and help you understand your experiences and needs.'
+                backDescription: 'Emotions are the feelings you experience in response to what\’s happening around you or inside you. They can range from joy,excitement and anger, or more complex emotional states like stress, confusion or happiness. Emotional literacy is learning how these feelings show up in your body, your thoughts, and your behaviors, and help you understand your experiences and needs.'
               },
               {
                 frontTitle: 'Awareness',
                 frontDescription: 'Noticing and understanding',
                 backTitle: 'Definition',
-                backDescription: 'Being able to notice and understand what you\'re feeling, thinking, or experiencing in the moment. It\'s paying attention to your emotions without judging them and recognizing how they affect your choices and relationships.'
+                backDescription: 'Awareness means being able to notice and understand what you\’re feeling, thinking, or experiencing in the moment. By learning to pay attention to your emotions without judging them, you can begin to recognize how they affect your choices, your relationships, and your overall well‑being.'
               }
             ]
           },
           {
             type: 'text',
             title: '**Reflection**',
-            content: "Climate change brings up many emotions, feelings and opinions based on our experience and context.\n\nHow do we get in touch with this emotional landscape?"
+            content: "Thinking about climate change brings up many emotions, feelings and opinions based on our experience and context.\n\nHow do we get in touch with this emotional landscape?"
           },
           {
             type: 'audio',
@@ -201,7 +207,7 @@ Thank you for practicing with me.
           {
             type: 'text',
             title: '**Learning to Name Our Emotions**',
-            content: "The Wheel of Emotions, created by psychologist Robert Plutchik, is a tool that can help you make sense of what you're feeling.\n\nThink of it like a map of emotions: it shows eight basic feelings—such as joy, fear, anger, and surprise—and how they shift, grow stronger, or blend into other emotions.\n\nWhen you're having a tough day, feeling stressed, or even just noticing a mood change, the wheel can help you put a name to what's going on inside. The more clearly you can identify your emotions, the easier it becomes to communicate with others, make thoughtful decisions, and understand yourself better.\n\nUsing this tool is a simple way to build emotional awareness and strengthen your overall well‑being.\n\nTake a look at the Wheel of Emotions and identify any emotions that you connect with when you think about climate change."
+            content: "The Wheel of Emotions, created by psychologist Robert Plutchik, is a tool that can help you make sense of what you're feeling.\n\nThink of it like a map of emotions: it shows eight basic feelings—such as joy, fear, anger, and surprise—and how they shift, grow stronger, or blend into other emotions.\n\nWhen you’re having a tough day, feeling stressed, or even just noticing a mood change, the wheel can help you put a name to what’s going on inside and sometimes even lessen its intensity. The more clearly you can identify your emotions, the easier it becomes to communicate with others, make thoughtful decisions, and understand yourself better.\n\nUsing this tool is a simple way to build emotional awareness and strengthen your overall well‑being.\n\nTake a look at the Wheel of Emotions and identify any emotions that you connect with when you think about climate change."
           },
           {
             type: 'image',
@@ -224,7 +230,7 @@ Thank you for practicing with me.
           {
             type: 'text',
             title: '**Understanding Climate Drivers and Impacts**',
-            content: "Think about the possible impacts of climate change–whether those occurring right now or those in the future."
+            content: "Think about the current and possible impacts of climate change–whether those occurring right now or those in the future. What do you care about most?"
           },
           {
             type: 'poll',
@@ -235,7 +241,7 @@ Thank you for practicing with me.
           {
             type: 'text',
             title: '**What If?**',
-            content: "We will begin to explore some of the primary drivers that are causing climate change and the impact that different policies and actions could have in shaping our collective future.\n\nA powerful tool for exploring this is En-ROADS, an interactive climate simulation made by Climate Interactive based on real scientific research. Think of it like a real‑life \"what if?\" simulator for the Earth's future."
+            content: "We are going to look at what’s driving climate change and explore how different policies and actions could shape the future we all share.\n\nWe will begin to explore some of these primary drivers through a powerful tool called En-ROADS, an interactive climate solutions simulator made by Climate Interactive and MIT Sloan based on real scientific research.\nThink of it like a real‑life \"what if?\" simulator for the Earth's future."
           },
           {
             type: 'image',
@@ -264,6 +270,12 @@ Thank you for practicing with me.
             alt: 'Animation of Thermometer filling to max degree with climate change text',
             width: '33%'
           },
+                    {
+            type: 'text',
+            title: '',
+            content: 'Even small changes in Earth\’s average temperature can cause big changes in weather and ecosystems—just like how a small change in body temperature can make a human very sick.',
+            hideIcon: true
+          },
           {
             type: 'audio',
             title: '**What does global temperature increase mean?**',
@@ -282,7 +294,7 @@ Thank you for practicing with me.
           },
           {
             type: 'text',
-            content: "That far exceeds the 1.5 degree Celsius goal. So what can we do?"
+            content: "That far exceeds the 1.5 degree Celsius (or 2.7 degrees Fahrenheit) goal. So what can we do?"
           }
         ]
       },
@@ -301,11 +313,11 @@ Instead of just hearing: "Climate change is bad and complicated," you get to:
 • See **cause and effect** immediately
 • Discover which solutions matter most
 
-You're not memorizing facts—you're **thinking like a decision‑maker.**
+Let’s move beyond memorizing facts, let\’s **think like a decision‑maker.**
 
 So, let's try it out! 
 
-We'll introduce you to En-ROADS a few elements at a time. Later, we'll play with the full model.`
+We\’ll introduce you to En-ROADS a few elements at a time. Later, we\’ll play with the full climate policy model.`
           },
           {
             type: 'text',
@@ -322,11 +334,11 @@ We'll introduce you to En-ROADS a few elements at a time. Later, we'll play with
             type: 'text',
             content: `**Could we just plant more trees? What if we planted a trillion trees?**
 
-Some organizations and groups are advocating just that. They advocate that planting more trees will help slow climate change by using trees' natural ability to **remove carbon dioxide (CO₂)** from the atmosphere.
+Some organizations and groups are recommending just that. They advocate that planting more trees will help slow climate change by using trees’ natural ability to **remove carbon dioxide (CO₂)** from the atmosphere.
 
 Trees absorb CO₂ as they grow and store that carbon in their trunks, branches, roots, and surrounding soil. This process is known as **carbon sequestration**.
 
-Planting a trillion trees would cover 550 million hectares–or over 2 million square miles–of unforested land with forest. To visualize, imagine half the area of the entire United States of America.
+To plant a trillion trees, that would cover 550 million hectares–or over 2 million square miles–of unforested land with forest. To visualise, imagine an area half the size of the entire United States of America.
 
 So, let's try this solution out! Let's plant more trees–a nature-based solution to carbon dioxide removal.`
           },
@@ -344,18 +356,18 @@ So, let's try this solution out! Let's plant more trees–a nature-based solutio
           },
           {
             type: 'numeric-prediction',
-            question: 'If we implemented this solution, what do you think the global temperature increase by 2100 would be? Would it stay at 3.3 degrees Celsius? Would it increase or decrease?',
+            question: 'If we implemented this solution of planting more trees, do you think global temperature by 2100 would increase or decrease from 3.3 degrees Celsius?',
             id: 'afforestation-temp-prediction',
             unit: '°C'
           },
           {
             type: 'text',
             title: '**Make a Model**',
-            content: ''
+            content: 'To get started, let\’s learn how to read and use the En-ROADS tool.'
           },
           {
             type: 'flip-cards',
-            title: '**Concept Cards: How to Use the En-ROADS Graphs**',
+            title: '**Concept Cards: How to Use En-ROADS**',
             cards: [
               {
                 frontTitle: 'Sliders',
@@ -365,7 +377,17 @@ So, let's try this solution out! Let's plant more trees–a nature-based solutio
               {
                 frontTitle: 'Graphs',
                 frontDescription: 'Display impacts',
-                backDescription: 'Graphs display impacts. You will see the main graph of global temperature increase by 2100. You can also choose an impact graph you care about.'
+                backDescription: 'Graphs display impacts. You will see the main graph of global temperature increase by 2100. You can also choose from different Impact Graphs you care about from the Dropdown in the left hand corner of the graph.'
+              },
+              {
+                frontTitle: 'Baseline',
+                frontDescription: 'Display baseline scenario',
+                backDescription: 'The En-ROADS Baseline Scenario represents the state of the world if societal and technological changes were to continue at their current rate of progress, without additional policies or action.  It is represented as the black line in the Graphs.'
+              },
+              {
+                frontTitle: 'Current Scenario',
+                frontDescription: 'Display current scenario',
+                backDescription: ' This is the projected state of the world based on the changes you make to the solution Sliders. It is represented as the blue line in the Graphs.'
               }
             ]
           },
@@ -379,14 +401,9 @@ So, let's try this solution out! Let's plant more trees–a nature-based solutio
           },
           {
             type: 'reflection',
-            prompt: 'Pause and reflect on these graphs. What do you notice? What do you wonder?',
+            prompt: 'Pause and reflect on these graphs. What do you notice? What do you wonder?\n\nWhat assumptions did you have that were challenged? What surprised you?',
             id: 'exercise-1-reflection-1'
           },
-          {
-            type: 'reflection',
-            prompt: 'What assumptions did you have that were challenged? What surprised you?',
-            id: 'exercise-1-reflection-2'
-          }
         ]
       },
       {
@@ -431,7 +448,7 @@ Renewable energy also connects to other technologies. We can produce clean hydro
           },
           {
             type: 'text',
-            content: 'Should we try it out? What if the world encouraged building solar panels, geothermal, and wind turbines through tax subsidies?'
+            content: 'Should we try it out? What if the world encouraged building solar panels, geothermal, and wind turbines?'
           },
           {
             type: 'text',
@@ -466,13 +483,8 @@ Renewable energy also connects to other technologies. We can produce clean hydro
           },
           {
             type: 'reflection',
-            prompt: 'Pause and reflect on these graphs. What do you notice? What do you wonder?',
+            prompt: 'Pause and reflect on these graphs. What do you notice? What do you wonder?\n\nWhat assumptions did you have that were challenged? What surprised you?',
             id: 'renewables-reflection-1'
-          },
-          {
-            type: 'reflection',
-            prompt: 'What assumptions did you have that were challenged? What surprised you?',
-            id: 'renewables-reflection-2'
           }
         ]
       },
@@ -498,7 +510,7 @@ Renewable energy also connects to other technologies. We can produce clean hydro
             audioUrl: coalOilGasAudio,
             transcript: `When people talk about divesting from oil, gas, and coal, they’re talking about moving money away from companies that extract or sell fossil fuels. Advocates believe this is one of the ways we can send a strong message about the future we want to build.
 
-They argue that when schools, cities, banks, or other institutions pull their investments out of fossil fuel companies, it reduces financial support for industries that contribute the most to carbon pollution.
+They argue that when governments schools, cities, banks, or other institutions pull their investments out of fossil fuel companies, it reduces financial support for industries that contribute the most to carbon pollution.
 
 At the same time, divestment can shift money toward cleaner energy sources like wind, solar, and geothermal. Supporters say this isn’t just symbolic—it's a way to push the global economy toward low‑carbon solutions faster.
 
@@ -543,9 +555,7 @@ To reduce use of fossil fuels–oil, gas and coal–one strategy is to place hig
           },
           {
             type: 'reflection',
-            prompt: `Pause and reflect on these graphs. What do you notice? What do you wonder?
-
-What assumptions did you have that were challenged? What surprises you?`,
+            prompt: 'Pause and reflect on these graphs. What do you notice? What do you wonder?\n\nWhat assumptions did you have that were challenged? What surprises you?',
             id: 'fossil-fuel-reflection'
           }
         ]
@@ -564,7 +574,7 @@ What assumptions did you have that were challenged? What surprises you?`,
       },
       {
         type: 'text',
-        content: 'Should we charge those who pollute?  Could we tax companies who release more carbon dioxide into the atmosphere?  Communities are exploring this very solution, with advocates arguing that carbon price is a powerful strategy for reducing emissions and speeding up the shift to cleaner energy.'
+        content: 'Should we charge those who pollute?  Could we tax companies or nations who release more carbon dioxide into the atmosphere?  Communities are exploring this very solution, with advocates arguing that carbon price is a powerful strategy for reducing emissions and speeding up the shift to cleaner energy.'
       },
       {
         type: 'audio',
@@ -574,7 +584,7 @@ What assumptions did you have that were challenged? What surprises you?`,
 
 There are a few different ways countries can do this. One approach is to set a global carbon price so that, no matter where you are, companies pay based on how much they pollute. Another option is a clean electricity standard or an emissions performance standard, which essentially says, “You can only produce electricity up to this amount of carbon per unit.” Anything dirtier becomes harder or more expensive to use.
 
-Advocates say carbon pricing creates a clear signal: if you pollute more, you pay more. That encourages companies to adopt cleaner technologies and reduce emissions. But there’s another important piece: when energy companies face higher costs, they might pass those costs on to customers. That’s why any carbon pricing policy has to be designed carefully—to make sure it doesn’t put an unfair burden on low‑income families.`
+Advocates say carbon pricing creates a clear signal: if you pollute more, you pay more. That encourages companies to adopt cleaner technologies and reduce emissions. But there’s another important piece: when energy companies face higher costs, they might pass those costs on to customers. That’s why any carbon pricing policy has to be designed carefully—to make sure it doesn’t put an unfair burden on low‑income families and communities.`
       },
       {
         type: 'text',
@@ -602,20 +612,20 @@ Advocates say carbon pricing creates a clear signal: if you pollute more, you pa
       {
         type: 'fourth-exercise'
       },
-      {
-        type: 'reflection',
-        prompt: 'Pause and reflect on these graphs. What do you notice? What do you wonder?',
-        id: 'carbon-price-reflection'
-      },
-      {
+            {
         type: 'text',
         title: '**Let\'s Reflect**',
-        content: 'Think back through these four exercises. What did you notice across these different scenarios? What do you notice? What do you wonder?',
+        content: '',
         hideIcon: true
       },
       {
         type: 'reflection',
-        prompt: 'What was disappointing?\n\nWhat gave you the most hope?\n\nAny patterns or trends?',
+        prompt: 'Pause and reflect on the Carbon Price graphs. What do you notice? What do you wonder?',
+        id: 'carbon-price-reflection'
+      },
+      {
+        type: 'reflection',
+        prompt: 'Think back through these four exercises. What did you notice across these different scenarios? What was disappointing? What gave you the most hope?  Do any of these examples–forests, renewables, oil, gas, and coal, or carbon price–connect to something happening locally where you live?',
         id: 'exercises-comparison-reflection'
       },
       {
@@ -625,7 +635,7 @@ Advocates say carbon pricing creates a clear signal: if you pollute more, you pa
           {
             type: 'text',
             title: '**The Practice of Hope**',
-            content: "Change takes time. We started this module exploring the complex emotions that we may have about climate change.  We explored different possible solutions and impacts.\n\nHow are we feeling now? \n\nWe can hold both today’s reality and a vision for the future."
+            content: "Change takes time. We can hold both today’s reality and a vision for the future. We started this module exploring the complex emotions that we may have about climate change.  We then explored different possible global solutions and impacts, reflecting on the future.\n\nHow are we feeling now? What does your inner system (your emotions, body, and thoughts) feel like when you consider these outer challenges?"
           },
           {
             type: 'audio',
@@ -683,7 +693,7 @@ Thank you for practicing.`
           {
             type: 'video',
             title: '**What is Stock and Flow?**',
-            videoUrl: 'https://www.youtube.com/embed/nRlYGDBGcRA',
+            videoUrl: 'https://player.vimeo.com/video/1183171944',
             description: ''
           },
           {
@@ -722,7 +732,7 @@ Thank you for practicing.`
           {
             type: 'text',
             title: '**Step One:** Draw a Stock and Flow diagram like in the image below.',
-            content: "\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0You will need a paper and a pen or pencil to draw the Stock and Flow. Or you can also download and print this Stock and Flow worksheet",
+            content: "*You will need a paper and a pen or pencil to draw the Stock and Flow. Or you can also download and print this Stock and Flow worksheet*",
             hideIcon: true
           },
           {
@@ -761,13 +771,8 @@ Thank you for practicing.`
           },
           {
             type: 'reflection',
-            prompt: 'What was happening in your Stock and Flow model? What did you notice or wonder about your chosen stock when exploring it using this model? ',
+            prompt: 'What was happening in your Stock and Flow model? What did you notice or wonder about your chosen stock when exploring it using this model? Did anything surprise you?',
             id: 'understanding'
-          },
-          {
-            type: 'reflection',
-            prompt: 'Did anything surprise you?',
-            id: 'actions'
           },
         ]
       },
@@ -779,23 +784,34 @@ Thank you for practicing.`
           {
             type: 'text',
             title: '**🌍 Why This Matters for Climate Change**',
-            content: "The idea of \"stock and flow\" might feel super obvious when we talk about something simple—like water filling up a bathtub. But when we try to use the same idea to understand climate change, things can get a little more complicated.\n\nStill, the stock‑and‑flow model is **really helpful** for understanding the basic forces driving climate change.\n\nFirst, we'll look at what's causing climate change today by running a few simulations in **En‑ROADS**.\n\nAfter that, we'll connect what we saw in the simulations to the stock‑and‑flow idea so the whole picture makes more sense.\n\nBut before we dive into En‑ROADS, let's make some predictions.\n\nThink about the relationship between CO₂ emissions (what we put into the atmosphere) and CO₂ concentration (how much ends up staying there).\n\nThese are two of the most important pieces of the climate system—so let's see what you already think before we explore the model."
+            content: "The idea of \"stock and flow\" might feel super obvious when we talk about something simple—like water filling up a bathtub. But when we try to use the same idea to understand climate change, things can get a little more complicated.\n\nStill, the stock‑and‑flow model is **really helpful** for understanding the basic forces driving climate change.\n\nFirst, we'll look at what's causing climate change today by running a few simulations in **En‑ROADS**.\n\nAfter that, we'll connect what we saw in the simulations to the stock‑and‑flow idea so the whole picture makes more sense."
           },
           {
             type: 'text',
             title: "**Let's Make a Prediction**",
-            content: "Now let's think about what might happen if we try to reduce global CO₂ emissions.\n\nBefore we run any simulations, make your best predictions for each scenario:"
+            content: `
+            But before we dive into En‑ROADS, let’s make some predictions.
+
+            Think about the relationship between:
+            - CO2 emissions (what we put into the atmosphere) 
+            - CO2 concentration (how much ends up staying there)
+            - CO2 removals (how much carbon dioxide is removed from the atmosphere)
+
+            These are three of the most important pieces of the climate system—so let’s see what you already think before we explore the model.
+
+            Now let’s think about what might happen if we try to reduce global CO₂ emissions. Make your best predictions for each scenario:
+            `
           },
           {
             type: 'poll',
-            question: '**Scenario 1. If our total CO₂ emissions stop rising and stay flat…**\nWhat do you think will happen to the amount of CO₂ already in the atmosphere?',
+            question: '**Scenario 1. Stop the Rise**\nIf our total CO₂ emissions stop rising and stay flat, and our CO₂ removals stay the same, what do you think will happen to the amount of CO₂ already in the atmosphere?',
             options: ['Increase', 'Level out', 'Decrease'],
             id: 'prediction-flat-emissions',
             singleSelect: true
           },
           {
             type: 'poll',
-            question: '**Scenario 2. If our total CO₂ emissions drop a lot and become much lower than they are today…**\nWhat do you think will happen to the CO₂ concentration in the atmosphere?',
+            question: '**Scenario 2. Drop Emissions**\nIf our total CO₂ emissions drop a lot and become much lower than they are today, and our CO₂ remain the same, what do you think will happen to the CO₂ concentration in the atmosphere?',
             options: ['Increase', 'Level out', 'Decrease'],
             id: 'prediction-lower-emissions',
             singleSelect: true
@@ -809,7 +825,7 @@ Thank you for practicing.`
           {
             type: 'text',
             title: "**Let's Test Your Predictions!**",
-            content: "In this next activity, you'll use **[En‑ROADS](/module/1?block=2&section=what-if)** to simulate these scenarios.\n\nAs we learned in the last module, a **carbon price** is one of the more powerful and high-leverage climate policies for quickly lowering our global CO₂ emissions.\n\nSo in this simulation, **you'll adjust the carbon price slider** to see how changing emissions affects the concentration of CO₂ in the atmosphere."
+            content: "In this next activity, you'll use **[En‑ROADS](/module/1?block=2&section=what-if)** to simulate these two scenarios.\n\nAs we learned in the last module, a **carbon price** is one of the more powerful and high-leverage climate policies for quickly lowering our global CO₂ emissions.\n\n Adjust the carbon price slider to see how changing emissions affects the concentration of CO₂ in the atmosphere."
           },
           {
             type: 'module2-exercise'
@@ -821,18 +837,8 @@ Thank you for practicing.`
           },
           {
             type: 'reflection',
-            prompt: 'What do you notice?',
+            prompt: 'What do you notice? Did your expectations match the outcome? Why do you think this is the result?',
             id: 'module2-notice'
-          },
-          {
-            type: 'reflection',
-            prompt: 'Did your expectations match the outcome?',
-            id: 'module2-expectations'
-          },
-          {
-            type: 'reflection',
-            prompt: 'Why do you think this is the result?',
-            id: 'module2-why'
           },
         ]
       },
@@ -848,7 +854,7 @@ Thank you for practicing.`
           {
             type: 'text',
             title: '**🌱 What are CO₂ removals?**',
-            content: '**CO₂ removals** are natural or technological processes that **take carbon dioxide out of the air and store it somewhere else.**'
+            content: 'CO₂ removals are natural or technological processes that take carbon dioxide out of the air and store it somewhere else.\n\n **Think of CO₂ as the outflow.**'
           },
           {
             type: 'image',
@@ -882,7 +888,7 @@ Thank you for practicing.`
           {
             type: 'text',
             title: '**🎛️ How this works in the simulation**',
-            content: "We can change how much CO₂ is removed from the atmosphere through policies like incentivizing farmers to reforest parts of their farmland, or by investing in technological carbon removal.\n\nThe two new En‑ROADS sliders below let you increase:\n\n- **Nature‑based CO₂ removal** (like reforestation)\n- **Technological CO₂ removal** (like direct air capture)\n\nWhen you adjust these sliders, you'll see a new graph called \"**CO₂ Emissions and Removals.**\"\n\nIt shows:\n- Emissions (what we add)\n- Removals (what we take out)\n\nAnd, as before, you'll still see the **CO₂ concentration graph** so you can watch how the total stock in the atmosphere changes."
+            content: "We can change how much CO₂ is removed from the atmosphere through policies like encouraging farmers to reforest parts of their farmland, or by investing in technological carbon removal.\n\nThe two new En‑ROADS sliders below let you increase:\n\n- **Nature‑based CO₂ removal** (like reforestation)\n- **Technological CO₂ removal** (like direct air capture)\n\nWhen you adjust these sliders, you'll see a new graph called \"**CO₂ Emissions and Removals.**\"\n\nIt shows:\n- Emissions (what we add: the \"inflow\")\n- Removals (what we take out: the \"outflow\")\n\nAnd, as before, you'll still see the **CO₂ concentration graph** so you can watch how the total stock in the atmosphere changes."
           },
           {
             type: 'text',
@@ -937,7 +943,7 @@ Thank you for practicing.`
           },
           {
             type: 'text',
-            content: "Think of carbon dioxide (CO₂) the same way.\n-The **atmosphere** is like the bathtub—this is the **stock**.\n-Burning fossil fuels (cars, factories, etc.) is like the faucet—that's a **flow adding CO₂**.\n-Trees and oceans absorbing CO₂ is like the drain—that's a **flow removing CO₂**.\n\nRight now, the **faucet is on full blast**, and the **drain is slow**, so the \"bathtub\" of CO₂ keeps rising.\n\nEven if we slow down the faucet, the tub will **keep filling** unless the drain is equally fast.\n\nTo stop the CO₂ level from rising, the inflows and outflows have to balance.\n\nUnderstanding \"stock and flow\" helps you see that climate change isn't just about using fewer fossil fuels—it's about changing the whole system so we stop overfilling the atmospheric \"bathtub.\"\n\nIt's not just about one good action.\n\nIt's about how all our collective actions affect the **total amount** over time."
+            content: "Remember the Stock & Flow. Think of carbon dioxide (CO₂) the same way.\n-The **atmosphere** is like the sink—this is the **stock**.\n-Burning fossil fuels (cars, factories, etc.) is like the water coming out of the faucet—that's an **inflow** adding CO₂.\n-Trees and oceans absorbing CO₂ is like the drain—that's an **outflow** removing CO₂.\n\nRight now, the **faucet is on full blast**, and the **drain is slow**, so the \"sink\" of CO₂ keeps rising.\n\nEven if we slow down the faucet, the sink will **keep filling** unless the drain is equally fast.\n\nThis helps explain why addressing emissions causing climate change is so hard:\n\nTo stop the CO₂ level from rising, the inflows and outflows have to balance.\n\nUnderstanding \"stock and flow\" helps you see that climate change isn't just about using fewer fossil fuels—it's about changing the whole system so we stop overfilling the atmospheric \"sink.\"\n\nIt's not just about one good action.\n\nIt's about how all our collective actions affect the **total amount** over time."
           },
         ]
       },
@@ -952,8 +958,8 @@ Thank you for practicing.`
           },
           {
             type: 'text',
-            title: '**🛁 Back to our Bathtub Metaphor**',
-            content: "Remember, imagine the atmosphere is a big bathtub (your CO₂ \"stock\").\n\n- The water coming in = **CO₂ emissions**\n- The water draining out = **CO₂ removals**\n\n**Net zero** is when water flows in at the same rate it flows out, so the water level stops rising.\n\nThat means CO₂ concentration in the atmosphere levels out instead of increasing."
+            title: '**🛁 Back to our Sink Metaphor**',
+            content: "Remember, imagine the atmosphere is a big sink (your CO₂ \"stock\").\n\n- The water coming in = **CO₂ emissions**\n- The water draining out = **CO₂ removals**\n\n**Net zero** is when water flows in at the same rate it flows out, so the water level stops rising.\n\nThat means CO₂ concentration in the atmosphere levels out instead of increasing."
           },
           {
             type: 'text',
@@ -981,22 +987,12 @@ Thank you for practicing.`
           },
           {
             type: 'reflection',
-            prompt: 'What needs to happen for global temperatures to actually start going down?',
+            prompt: 'What do you think needs to happen for global temperatures to actually start going down?',
             id: 'module2-temp-going-down'
           },
           {
             type: 'reflection',
-            prompt: 'Do you think temperatures will start dropping as soon as our emissions stop rising (when they peak)? Why or why not?',
-            id: 'module2-peak-emissions'
-          },
-          {
-            type: 'reflection',
-            prompt: 'When we reach net zero emissions, will Earth\'s temperature return to what it was before the Industrial Revolution (late 1700s - mid‑1800s)? If not, what do you think will happen instead?',
-            id: 'module2-net-zero-temp'
-          },
-          {
-            type: 'reflection',
-            prompt: 'What did this lesson help you understand about stocks and flows? How does that idea connect to climate change?',
+            prompt: 'What did this lesson help you understand about stocks and flows? Where do you see climate-related stocks and flows happening in your local community? For example, can we see stocks and flows in pollution, fast fashion, or food waste?) ',
             id: 'module2-stocks-flows-understanding'
           },
         ]
@@ -1012,7 +1008,7 @@ Thank you for practicing.`
           },
           {
             type: 'text',
-            content: 'Listen to this short guided meditation that frames hope as a stock—something we can refill intentionally, even in the face of big global challenges.'
+            content: 'While you might feel pessimistic or uncertain at times, we believe cultivating grounded hope is an essential muscle.  We invite you to listen to this **short guided meditation** that frames hope as a stock—something we can refill intentionally, even in the face of big global challenges.'
           },
           {
             type: 'audio',
@@ -1089,11 +1085,11 @@ Thank you for practicing.`
           },
           {
             type: 'text',
-            content: 'All climate policies create: \n\n• **Positive side‑effects** (sometimes called multisolving)\n   - Example: Improving public health or saving money long-term \n\n• **Unintended negative impacts** \n   -Often hit people with lower incomes the hardest'
+            content: 'All climate policies create both: \n\n• **Positive side‑effects** (sometimes called multisolving)\n   - Example: Improving public health or saving money long-term \n\n• **Unintended negative impacts**, which often hit people with lower incomes the hardest'
           },
           {
             type: 'text',
-            content: 'Trying to reduce or prevent those negative impacts is called **equity work**—making sure solutions are fair to everyone.'
+            content: 'An equity lens helps us to try to reduce or prevent those negative impacts—making sure solutions are fair to everyone.'
           },
           {
             type: 'text',
@@ -1144,7 +1140,13 @@ Thank you for practicing.`
           {
             type: 'text',
             title: '**Explore the Scenario in En‑ROADS**',
-            content: "Now you’ll get to experiment with the carbon price slider and see how this policy affects two important side‑effects shown in the graphs:"
+            content: "Now you’ll get to experiment with the carbon price slider and see how this policy affects two important side‑effects.\n\nYou might recall that carbon price is a cost in the form of a tax or penalty applied to greenhouse gas emissions. Setting a carbon price can help governments to mitigate climate change by financially encouraging polluters to reduce fossil fuel combustion, one of the main drivers of climate change."
+          },
+          {
+            type: 'image',
+            imageUrl: airPollutionImg,
+            alt: 'Air pollution in Cairo',
+            width: '100%'
           },
           {
             type: 'text',
@@ -1153,16 +1155,22 @@ Thank you for practicing.`
             content: "Measured as the amount of harmful particles released into the air each year. \n Long‑term exposure to air pollution increases the risk of:\n\n• Asthma\n• Heart disease\n• Stroke\n• Chronic obstructive pulmonary disease (COPD)\n• Lung cancer\n• Dementia\n\n Cleaner air usually means **healthier communities.**"
           },
           {
+            type: 'image',
+            imageUrl: pumpingGasImg,
+            alt: 'Pumping gas in Cairo',
+            width: '100%'
+          },
+          {
             type: 'text',
             title: '**2. Average Price of Energy for Consumers**',
             hideIcon: true,
-            content: 'This graph shows the average cost of energy for everyday people—including:\n\n• Electricity\n• Gas\n• Hydrogen\n\nWhen this line goes up, **energy bills get more expensive** for everyone, which can create equity concerns.'
+            content: 'This graph shows the average cost of energy for everyday people—including:\n\n• Electricity\n• Gas\n• Hydrogen\n\nWhen this line goes up, **energy bills get more expensive** for everyone, which can create equity concerns in communities where finances are already stressed.'
           },
           {
             type: 'text',
             title: '**Let’s Predict**',
             hideIcon: true,
-            content: 'Before you use the model, take a moment to make your predictions.'
+            content: 'Before you use En-ROADS the model, take a moment to make your predictions.'
           },
           {
             type: 'reflection',
@@ -1183,24 +1191,22 @@ Thank you for practicing.`
           },
           {
             type: 'reflection',
-            prompt: 'What did you notice happening in the carbon price model?\n\nDescribe how emissions, air pollution, and energy prices changed as you adjusted the carbon price.',
+            prompt: 'What did you notice happening in the carbon price model?\n\nDescribe how temperature, air pollution, and energy prices changed as you adjusted the carbon price.',
             id: 'prediction-reflection-1'
           },
           {
             type: 'reflection',
-            prompt: 'Looking at this through an equity lens, what might this scenario mean for different people?\n\nThink about who benefits and who might face challenges.',
+            prompt: 'Looking at this through an equity lens, what might this scenario mean for different people? Who do you think would be most affected by this policy? Why?\n\nThink about who benefits and who might face challenges. Consider income levels, communities, industries, or regions.',
             id: 'prediction-reflection-2'
           },
-          {
-            type: 'reflection',
-            prompt: 'Who do you think would be most affected by this policy? Why?\n\nConsider income levels, communities, industries, or regions.',
-            id: 'prediction-reflection-3'
-          },
-          {
-            type: 'reflection',
-            prompt: 'Are there groups who might be positively affected—and others who might be negatively affected—by raising the carbon price?\n\nExplain what those effects could look like in real life.',
-            id: 'prediction-reflection-4'
-          },
+        ]
+      },
+                {
+            type: 'block',
+            colorTheme: 'blue',
+            content: [
+             
+
           {
             type: 'audio',
             audioUrl: carbonEquityAudio,
@@ -1220,7 +1226,7 @@ If a government wants people to support a carbon price, it has to think carefull
           },
           {
             type: 'text',
-            title: '**❓So here’s the big question:**',
+            title: '**❓Can we balance these tradeoffs? :**',
             hideIcon: true,
             content: '**What policies could help balance things out?**\nIf a carbon price brings in extra money to the government, how could that money be used to:\n\n• Lower energy bills for low‑income families?\n• Help people transition to clean energy?\n• Make the policy feel fair for everyone?\n\nThat’s your challenge to think about.',
           },
@@ -1231,11 +1237,11 @@ If a government wants people to support a carbon price, it has to think carefull
           },
           {
             type: 'reflection',
-            prompt: 'What policies can you think of that could achieve this goal?',
+            prompt: 'What policies or government or community efforts could help achieve this goal? Think at any level: local, state or ministry, national, regional or global.',
             id: 'prediction-reflection-5'
           }
-        ]
-      },
+            ]
+          },
       {
         type: 'block',
         colorTheme: 'green',
@@ -1247,16 +1253,10 @@ If a government wants people to support a carbon price, it has to think carefull
             content: ''
           },
           {
-            type: 'image',
-            imageUrl: enroadsScreenshot,
-            alt: 'En-ROADS climate simulation tool dashboard with policy sliders and graphs displaying projected climate outcomes, including a dropdown to switch between different graph views.',
-            width: '100%'
-          },
-          {
             type: 'text',
-            title: '**Now it\'s your turn to design a climate future!**',
+            title: '**✏️ Now it\'s your turn to design a climate future!**',
             hideIcon: true,
-            content: 'Using the **full En‑ROADS climate policy simulator**, create a scenario that reflects the kind of world you want to help build. As you experiment with the sliders, try to meet these three goals **at the same time:**'
+            content: 'You will use the full En‑ROADS climate policy simulator to create a scenario that reflects **the kind of world you want to help build.**\n\nAs you experiment with the sliders, try to meet these three goals **at the same time:**'
           },
           {
             type: 'text',
@@ -1267,13 +1267,19 @@ If a government wants people to support a carbon price, it has to think carefull
             type: 'text',
             title: '**Your Task**',
             hideIcon: true,
-            content: 'Use the sliders—energy, land use, transportation, carbon removal, and policies—to build a scenario that meets these goals.\n here’s no single “right answer,” but there are trade‑offs you’ll need to think through.'
+            content: 'Use any of the sliders to build a scenario that meets these goals.\n\n There’s no single “right answer,” but there are trade‑offs you’ll need to think through.'
           },
           {
             type: 'text',
-            title: '**When you’re done**',
+            title: '**When You’re Done:**',
             hideIcon: true,
-            content: 'Click the “Share Your Scenario” button, copy the link, and return back here.'
+            content: 'Once you finish in En-ROADS, click the “Share Your Scenario” button, copy the link, and **return back here** to finish the module.'
+          },
+          {
+            type:'image',
+            imageUrl: enroadsScreenshot,
+            alt: 'En-ROADS Scenario Screenshot',
+            width: '100%'
           },
           {
             type: 'button',
@@ -1309,8 +1315,15 @@ If a government wants people to support a carbon price, it has to think carefull
             id: 'en-roads-scenario-1'
           },
           {
+            type: 'image',
+            imageUrl: shareScenarioImg,
+            alt: 'Share Scenario Image',
+            width: '100%',
+            title: 'Hint: You can find the Share Your Scenario link in the upper right hand corner of En-ROADS.'
+          },
+          {
             type: 'text',
-            title: '**Let\'s Reflect - Reflect on your scenario:**',
+            title: '**Let\'s Reflect:**',
             content: ''
           },
           {
@@ -1355,7 +1368,7 @@ If a government wants people to support a carbon price, it has to think carefull
             type: 'text',
             title: '',
             hideIcon: true,
-            content: 'There are a number of roadmaps to our possible shared future.'
+            content: 'There are a number of roadmaps to our possible shared future.   Below are just a few of the climate futures that other learners like you have created.'
           },
           {
             type: 'image-collage',
@@ -1372,7 +1385,7 @@ If a government wants people to support a carbon price, it has to think carefull
             type: 'text',
             title: '',
             hideIcon: true,
-            content: 'Seeing these scenarios of the future, and creating your own, can evoke a lot. \n\n We might begin to think about all the policies, collaborations, and societal changes needed. \n\n We might imagine what these futures look like–and wonder where we or our communities might be doing in that future. \n\n Let’s take a moment to pause and check in with yourselves.'
+            content: 'Seeing these scenarios of the future, and creating your own, might evoke a lot–from hope to discouragement, optimism to despair.\n\n We might begin to think about all the policies, collaborations, and societal changes needed. \n\n We might imagine what these futures would look like and wonder what we or our communities might be doing in that future. \n\n Let’s take a moment to pause, take a breath, and check in with yourselves.'
           },
           {
             type: 'image',
@@ -1385,11 +1398,11 @@ If a government wants people to support a carbon price, it has to think carefull
             type: 'text',
             title: '',
             hideIcon: true,
-            content: 'Let’s revisit the emotion wheel. What emotions came up when you were creating your En-ROADS scenario?  It’s okay if there were many or even conflicting emotions. '
+            content: 'Let’s revisit the wheel of emotions. What emotions came up when you were creating your En-ROADS scenario?  It’s okay if there were many or even conflicting emotions. '
           },
           {
             type: 'reflection',
-            prompt: 'How are you feeling? What emotions do you feel when you think about these climate futures?',
+            prompt: 'How are you feeling? What emotions do you feel when you think about these climate futures? Pay attention to your body for a moment, where do you feel these emotions in your body?',
             id: 'en-roads-scenario-3'
           },
         ]
@@ -1421,7 +1434,7 @@ If a government wants people to support a carbon price, it has to think carefull
           {
             type: 'text',
             title: '**About this Module**',
-            content: "To change outcomes, we need to look beneath the surface at systems.\n\nWe need systems thinking to understand climate change because it's not caused by one thing—it's shaped by many interconnected systems like energy, transportation, food, economics, and politics that all influence one another.\n\nSystems thinking helps us see these connections clearly, so we can design climate solutions that are effective, fair, and avoid unintended consequences."
+            content: "To change outcomes, we need to look beneath the surface at systems.\n\nWe need systems awareness to understand climate change because it's not caused by one thing—it's shaped by many interconnected systems like energy, transportation, food, economics, and politics that all influence one another.\n\nSystems awareness, a combination of *systems thinking and systems sensing*, helps us see these connections clearly, so we can design climate solutions that are effective, fair, and avoid unintended consequences."
           },
           {
             type: 'text',
@@ -1436,7 +1449,7 @@ If a government wants people to support a carbon price, it has to think carefull
           },
           {
             type: 'text',
-            content: "It comes from the field of systems dynamics and it's used to help people understand complex issues.\n\nThe big idea is this: 👉 **What we see happening is only the tip of the iceberg.**\n\nMost of the reasons things happen are hidden *below the surface.*\n\nLet's break it down."
+            content: "It comes from the field of systems dynamics and it's used to help people understand complex issues.\n\n**What we see happening is only the tip of the iceberg.**\n\nMost of the reasons things happen are hidden *below the surface.*\n\nLet's break it down."
           }
         ]
       },
@@ -1445,11 +1458,18 @@ If a government wants people to support a carbon price, it has to think carefull
         type: 'block',
         colorTheme: 'teal',
         content: [
-          {
+                    {
             type: 'text',
-            title: '❄️ Top of the Iceberg: Events',
-            content: "The top of the iceberg is what you see. These are things that happen right in front of you.\n\n**Examples:**\n• A heat wave\n• A wildfire\n• A spike in energy prices\n• Protests about pollution\n• The latest climate news headline\n\nEvents are important, but they're only the surface. If we pay attention only to events, we can feel overwhelmed and think the world is random or chaotic."
+            title: 'Top of the Iceberg: Events',
+            content: ''
           },
+          {
+  type: 'text-with-image',
+  imageUrl: systemsIcebergImg,
+  alt: 'Systems Iceberg Model showing Events, Behavioral Patterns, Underlying Structures, Mental Models, and Artifacts',
+  content: 'The top of the iceberg is what you see. These are things that happen right in front of you.\n\n**Examples:**\n• A heat wave\n• A wildfire\n• A spike in energy prices\n• Protests about pollution\n• The latest climate news headline\n\nEvents are important, but they\'re only the surface. If we pay attention only to events, we can feel overwhelmed and think the world is random or chaotic.',
+  imageSide: 'left' // or 'right'
+},
           {
             type: 'reflection',
             prompt: 'What climate "events" do you notice or see in your life?',
@@ -1464,9 +1484,16 @@ If a government wants people to support a carbon price, it has to think carefull
         content: [
           {
             type: 'text',
-            title: '🔁 Just Below the Surface: Patterns & Trends',
-            content: "If you zoom out in time, events start forming behavioural patterns and trends.\n\n**Examples:**\n• Heat waves happening more often\n• Wildfires getting bigger\n• Energy prices rising faster in certain communities\n• Air pollution affecting the same neighborhoods again and again\n• Consumers buying more single-use plastics every year\n\nPatterns show us:\n\n👉 **This isn't random—something is repeating.**"
+            title: 'Just Below the Surface: Behavioral Patterns',
+            content: ''
           },
+                    {
+  type: 'text-with-image',
+  imageUrl: systemsIcebergImg,
+  alt: 'Systems Iceberg Model showing Events, Behavioral Patterns, Underlying Structures, Mental Models, and Artifacts',
+  content: "If you zoom out in time, events start forming **behavioural patterns and trends.**\n\n**Examples:**\n• Heat waves happening more often\n• Wildfires getting bigger\n• Energy prices rising faster in certain communities\n• Air pollution affecting the same neighborhoods again and again\n• Consumers buying\n\nPatterns show us:\n\n This isn't random—**something is repeating.**",
+  imageSide: 'left' // or 'right'
+},
           {
             type: 'reflection',
             prompt: 'What climate "patterns" do you see in your life?',
@@ -1478,42 +1505,33 @@ If a government wants people to support a carbon price, it has to think carefull
       {
         type: 'block',
         colorTheme: 'amber',
-        content: [
-          {
-            type: 'text',
-            title: '⚙️ Deeper: Underlying Systemic Structures',
-            content: "This is where systems thinking gets powerful.\n\nThe underlying structures are the artifacts and mental models that shape patterns and events."
-          },
-          {
-            type: 'text',
+        content: [ 
+                    {
+            type: 'text-with-image',
+            imageUrl: systemsIcebergImg,
+            alt: 'Systems Iceberg Model showing Events, Behavioral Patterns, Underlying Structures, Mental Models, and Artifacts',
             title: 'Artifacts',
-            content: "First, let's cover the artifacts — these are the often tangible and visible structures that shape our systems like:\n\n• How our energy system is built\n• Which communities live near highways or factories\n• Pricing systems for fossil fuels\n• Transportation options\n• Who makes policy decisions\n• Where money and power flow in a society\n\nThese artifacts create the conditions that make certain outcomes more likely than others.\n\nIf we want to change patterns, we need to understand and redesign these artifacts, not just react to events."
-          },
+            content: "The underlying structures are the **artifacts** and **mental models** that shape patterns and events.\n\nFirst, let's look at the artifacts — these are the often tangible and visible structures that shape our systems like:\n\n• Infrastructure: How our energy system is built\n• Space and Place; Which communities live near highways or factories\n• Financials: Fossil fuel prices\n• Governance: Who makes policy decisions\n\nThese artifacts create the **conditions** that make certain behaviors and events more likely than others.\n\nIf we want to change patterns of behaviour, we need to understand and redesign **these artifacts**, not just react to events.",
+            imageSide: 'left' // or 'right'
+          },          
           {
             type: 'reflection',
             prompt: 'What artifacts related to climate do you see in your life?',
             id: 'm4-artifacts-reflection'
-          }
-        ]
-      },
-      // ── Submodule 5: Deepest Level — Mental Models ────────────────────
-      {
-        type: 'block',
-        colorTheme: 'purple',
-        content: [
-          {
+          },
+                    {
             type: 'text',
-            title: '🧠 Deepest Level: Mental Models',
-            content: "**The Ideas and Beliefs That Shape the System**\n\nAt the very bottom of the iceberg are mental models—the beliefs, assumptions, and stories people hold about how the world works.\n\n**Examples:**\n• \"The earth is a resource for humans.\"\n• \"Fossil fuels are necessary for economic growth.\"\n• \"Some communities can handle more pollution than others.\"\n• \"Technology will fix everything.\"\n• \"My actions don't matter.\"\n• \"Climate solutions help everyone equally.\"\n\nThese beliefs shape the choices we make, and those choices shape the structures we build.\n\nChanging mental models is slow and hard—but it's where the most meaningful, lasting change begins."
+            title: 'Mental Models',
+            content: "Also at the bottom of the iceberg are **mental models**—the values, worldviews, beliefs, assumptions, and stories people hold about how the world works.\n\n**Examples:**\n• \"The earth is a resource for humans.\"\n• \"Fossil fuels are necessary for economic growth.\"\n• \"Some communities can handle more pollution than others.\"\n• \"Technology will fix everything.\"\n• \"My actions don't matter.\"\n• \"Climate solutions help everyone equally.\"\n\nThese beliefs shape the choices (behaviours) we make, and those choices shape the artifacts and structures we build.\n\nAs the environmental scientist and educator Donella Meadows once said, “Remember, always, that everything you know, and everything everyone knows, is only a model. Get your model out there where it can be viewed. Invite others to challenge your assumptions and add their own.“\n\nChanging mental models is slow and hard—but it's where the most meaningful, lasting change begins."
           },
           {
             type: 'reflection',
-            prompt: 'What mental models do you have about climate change?',
+            prompt: 'What mental models do you have about climate change?  What mental models do you see or imagine in others who you might disagree or differ with?',
             id: 'm4-mental-models-reflection'
           }
         ]
       },
-      // ── Submodule 6: Why Think About Climate Systems Using the Iceberg Model ──
+      // ── Submodule 5: Why Think About Climate Systems Using the Iceberg Model ──
       {
         type: 'block',
         colorTheme: 'blue',
@@ -1539,11 +1557,9 @@ When we change these policies, they influence behaviors in the system—how much
 
 Those behaviors then lead to the events we've been tracking in the impacts graphs, like global temperature rise, air pollution levels, or emissions curves.
 
-That's the part above the waterline of the iceberg.
-
 But systems thinking asks us to go deeper.
 
-The most important part—and the one we often overlook—is the level of mental models.
+One of three most important parts—and the one we often overlook—is the level of mental models.
 
 These are the beliefs, assumptions, and stories people carry that shape decisions in the first place.
 
@@ -1552,7 +1568,7 @@ One of the biggest mental models in climate work is:
 
 This question points us to the underlying structures—the things beneath the surface that shape behavior long before policies ever change.
 
-Students can be invited to think about:
+We might ask ourselves:
 What beliefs keep leaders from acting?
 What assumptions shape our energy system?
 What mindsets or values guide where money flows?
@@ -1562,7 +1578,7 @@ These deeper layers help explain why climate progress doesn't always match what 
 
 The iceberg reminds us:
 If we want real change, we can't just react to the events at the top.
-We need to understand—and maybe shift—the beliefs and systems underneath them.`
+We need to understand—and shift—the beliefs and structures underneath them.`
           },
           {
             type: 'text',
@@ -1580,13 +1596,13 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
               },
               {
                 frontTitle: '📈 Behavioral Patterns',
-                frontDescription: "What's been happening over time?",
+                frontDescription: "What’s been happening over time? What are people doing in this system?",
                 backTitle: 'Behavioral Patterns',
                 backDescription: 'Trends and recurring behaviors we notice over time — rising temperatures decade after decade, or the same neighborhoods facing repeated flood damage.'
               },
               {
                 frontTitle: '⚙️ Artifacts',
-                frontDescription: 'What policies, technologies or rules create these patterns?',
+                frontDescription: 'What policies, regulations, technologies or rules shape that behavior?',
                 backTitle: 'Artifacts',
                 backDescription: 'The tangible structures that shape outcomes — energy infrastructure, zoning laws, pricing systems, who holds decision-making power, where money and resources flow.'
               },
@@ -1595,9 +1611,19 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
                 frontDescription: 'What beliefs keep this system in place?',
                 backTitle: 'Mental Models',
                 backDescription: 'The deepest level — the beliefs, assumptions and stories that shaped the structures in the first place. Changing mental models is slow, but it\'s where the most lasting change begins.'
-              }
+              },
             ]
-          }
+          },
+          {
+          type: 'text',
+          title: '',
+          content: `
+          The iceberg reminds us:
+          If we want real change, we can't just react to the events at the top.
+          We need to understand—and maybe shift—the beliefs and systems underneath them.
+          
+          The deeper you go, the more power you might have to create change. `
+              },
         ]
       },
       // ── Submodule 7: Draw Your Own Climate Iceberg ────────────────────
@@ -1608,7 +1634,14 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
           {
             type: 'text',
             title: '✏️ Draw Your Own Climate Iceberg',
-            content: "It's time to now draw your own systems iceberg. You may create your iceberg individually or as a team.\n\nThink about a current issue related to climate change that matters to you.\n\nDraw each of the layers of the iceberg and make notes about what is happening at each level."
+            content: ''
+          },
+          {
+          type: 'text-with-image',
+          imageUrl: systemsIcebergImg,
+          alt: 'Systems Iceberg Model showing Events, Behavioral Patterns, Underlying Structures, Mental Models, and Artifacts',
+          content: "It's time to now draw your own systems iceberg. You may create your iceberg individually or as a team.\n\nThink about a current issue related to climate change that matters to you. You might reflect or do research about what is happening locally in your community.\n\nDraw each of the layers of the iceberg and make notes about what is happening at each level.",
+          imageSide: 'left' // or 'right'
           },
           {
             type: 'reflection',
@@ -1632,23 +1665,6 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
           }
         ]
       },
-      // ── Submodule 8: Let's Reflect ────────────────────────────────────
-      {
-        type: 'block',
-        colorTheme: 'teal',
-        content: [
-          {
-            type: 'text',
-            title: '💭 Let\'s Reflect',
-            content: 'Share your iceberg experience:'
-          },
-          {
-            type: 'reflection',
-            prompt: 'What behaviors and patterns over time are contributing to the event you chose?\n\nWhat underlying structures (mental models and artifacts) are driving those behaviors and patterns?\n\nWhere do you see opportunity or leverage for change?',
-            id: 'm4-final-reflection'
-          }
-        ]
-      },
       // ── Submodule 9: Why the Systems Iceberg Matters for Climate Change ─
       {
         type: 'block',
@@ -1656,8 +1672,8 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
         content: [
           {
             type: 'text',
-            title: '🌍 Why the Systems Iceberg Matters for Climate Change',
-            content: "When we look at climate issues only at the \"events\" level (heat waves, storms, fires), we feel:\n\n• Overwhelmed\n• Hopeless\n• Reactive\n\nBut when we look deeper:\n\n• We see patterns\n• We understand underlying structures\n• We change artifacts\n• We question mental models\n\nAnd suddenly, real solutions become possible.\n\nThe iceberg helps us shift from:\n\n❌ *\"This problem is too big.\"*\n\nto\n\n✅ *\"I can understand how the system works—and help change it.\"*"
+            title: 'Why the Systems Iceberg Matters for Climate Change',
+            content: "When we look at climate issues only at the \"events\" level (heat waves, storms, fires), we might feel:\n\n• Overwhelmed\n• Hopeless\n• Reactive\n\nBut when we look deeper:\n\n• We see **patterns of behaviour**\n• We understand **underlying structures**\n• We change **artifacts**\n• We question **mental models**\n\nThe iceberg can bring insight into a complex problem, help us see their systemic nature, and help us shift from:\n\n❌ *\"This problem is too big.\"*\n\nto\n\n✅ *\"I can understand how the system works—and help change it.\"*"
           }
         ]
       },
@@ -1695,8 +1711,21 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
             type: 'text',
             title: 'Holding Creative Tension',
             hideIcon: true,
-            content: "In this program, we’ve practiced **creative tension:**\n\n• **Current Reality:** what the data and your En‑ROADS simulations show.\n• **Vision:** the healthier, fairer future you believe is possible.\n\nThe space **between** those two is not a void—it’s **energy**. When we face the truth and keep our vision alive, that tension fuels **focused, courageous action.** This module helps you channel that energy into **levers of change**—places in the system where smart, well‑designed actions can shift outcomes."
+            content: "In this program, we’ve practiced **creative tension:**\n\n• **Current Reality:** where we are now, and what the data and your En‑ROADS simulations show.\n• **Vision:** the healthier, fairer future you want to see."
           },
+          {
+            type: 'image',
+            imageUrl: creativeTensionImg,
+            alt: 'Creative Tension',
+            width: '60%'
+          },
+          {
+            type: 'text',
+            title: '',
+            hideIcon: true,
+            content: "The space **between** those two is not a void—it’s **energy**. When we face the truth and keep our vision alive, that tension fuels **focused, courageous action.** This module helps you channel that energy into **levers of change**—places in the system where smart, well‑designed actions can shift outcomes."
+          },
+          
         ]
       },
       {
@@ -1758,11 +1787,15 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
             newTab: true,
             url: 'https://www.thelancet.com/journals/lanplh/article/PIIS2542-5196%2821%2900278-3/fulltext'
           },
+        ]
+      },
+      {
+        type: 'block',
+        colorTheme: 'pink',
+        content: [
           {
-            type: 'image',
-            imageUrl: leadershipImg,
-            alt: 'A red figure leading a group of yellow figures',
-            width: '80%'
+            type: 'video',
+            videoUrl: 'https://player.vimeo.com/video/738821349?h=5b8d752b65'
           },
           {
             type: 'text',
@@ -1777,20 +1810,43 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
         colorTheme: 'pink',
         content: [
           {
+            type: 'image',
+            imageUrl: breatheImg,
+            alt: 'A person with arms outstretched in a forest',
+            title: '',
+            width: '100%'
+          },
+          {
+            type: 'text',
+            title: 'Caring for Your Energy (So You Can Sustain Action)',
+            hideIcon: true,
+            content: 'Courage isn’t just intensity—it’s also **regulation**. To hold creative tension without burning out, you’ll need practices that **refill your “hope stock”** and steady your nervous system.\n\nTry this **60‑second reset** before hard conversations or decision‑making:\n\n 1. **Breathe:** Inhale for 4 counts, exhale for 6 counts (3 rounds).\n2. **Name it:** Quietly name one feeling you’re having—just to notice it.\n3.**Refocus:** Ask, “What’s one small, meaningful change I can try next?”\n4. **Re‑enter:** Carry one clear action into the next step.'
+          },
+        ]
+      },
+      {
+        type: 'block',
+        colorTheme: 'pink',
+        content: [
+          {
             type: 'text',
             title: '2. Finding Your Climate Action',
             hideIcon: true,
-            content: "**Where can you have an impact in climate action?**\n\n Dr. Ayana Elizabeth Johnson, a marine biologist, policy expert, writer, and climate solution advocate, has an inspiring way to think about this very question."
-          },
-          {
-            type: 'video',
-            title: 'Watch as Dr. Johnson shares “How to Find Joy in Climate Action”',
-            videoUrl: 'https://www.youtube.com/embed/VsOJR40M0as?si=4wHcfG7r6kODHJV5',
-            description: 'A video by Dr. Johnson discussing the importance of finding joy in climate action.'
+            content: `
+            **Where can you have an impact in climate action?**
+      
+            Dr. Ayana Elizabeth Johnson, a marine biologist, policy expert, writer, and climate solution advocate, has an inspiring way to think about this very question. through her Climate Action Venn Diagram:
+            
+            • **What are you good at?** Think about your sources of satisfaction and delight.
+            • **What needs doing?** What climate and justice solutions do you know about?
+            • **What brings you joy?** What skills, resources and networks do you have?
+
+            She writes, "The goal is to be in the heart of your Venn diagram, where these three circles overlap, for as many minutes of your life as you can. That will create way more progress on climate solutions than if each of us get sucked into obsessing only about our individual carbon footprints."
+            `
           },
           {
             type: 'text',
-            title: 'Draw your own venn diagram inspired by Dr. Johnson’s talk.',
+            title: 'Draw your own Climate Action Venn Diagram inspired by Dr. Johnson’s talk.',
             content: ""
           },
           {
@@ -1872,40 +1928,22 @@ We need to understand—and maybe shift—the beliefs and systems underneath the
         colorTheme: 'pink',
         content: [
           {
-            type: 'image',
-            imageUrl: breatheImg,
-            alt: 'A person with arms outstretched in a forest',
-            title: '',
-            width: '100%'
-          },
-          {
-            type: 'text',
-            title: 'Caring for Your Energy (So You Can Sustain Action)',
-            hideIcon: true,
-            content: "Courage isn’t just intensity—it’s also regulation. To hold creative tension without burning out, you’ll need practices that refill your “hope stock” and steady your nervous system."
-          },
-          {
-            type: 'text',
-            title: '',
-            hideIcon: true,
-            content: "Try this 60‑second reset before hard conversations or decision‑making: \n\n 1. **Breathe:** Inhale for 4 counts, exhale for 6 counts (3 rounds). \n 2. **Name it:** Quietly name one feeling you’re having—just to notice it. \n 3. **Refocus:** Ask, “What’s one small, meaningful change I can try next?” \n 4. **Re‑enter:** Carry one clear action into the next step."
-          }
-        ]
-      },
-      {
-        type: 'block',
-        colorTheme: 'pink',
-        content: [
-          {
             type: 'reflection',
             prompt: 'As we close these activities, consider what you have learned and been inspired by. \n\n What is one climate action or change you feel motivated to try?',
             id: 'module-5-reflection-2'
           },
           {
+            type: 'image',
+            imageUrl: systemsDontChangeImg,
+            alt: 'Systems don’t change themselves—people change them.',
+            title: '',
+            width: '80%'
+          },
+          {
             type: 'text',
             title: 'The Big Idea',
             hideIcon: true,
-            content: "**Systems don’t change themselves—people change them.** \n With clear vision, honest data, a global understanding, and steady hearts, you can help move this system toward a future that’s livable and just. \n\n **Let's begin!**"
+            content: "*With clear vision, honest data, a global understanding, and steady hearts, you can help move this system toward a future that’s livable and just. \n\n **Let's begin!**"
           }
         ]
       },
