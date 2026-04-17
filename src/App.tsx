@@ -34,7 +34,7 @@ function App() {
   return (
     <ThemeProvider>
       <LanguageProvider>
-        <BrowserRouter basename="/adaptive-climate-change-app">
+        <BrowserRouter>
           <div
             className="min-h-screen transition-colors"
             style={{
