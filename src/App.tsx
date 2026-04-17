@@ -44,7 +44,7 @@ function AppContent() {
   const { theme } = useTheme();
 
   return (
-    <BrowserRouter basename="/adaptive-climate-change-app">
+    <BrowserRouter>
       <div
         className="min-h-screen transition-colors"
         style={{ backgroundColor: theme === 'dark' ? '#153833' : '#e8f6d1' }}
