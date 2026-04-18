@@ -3,8 +3,6 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { Button } from './ui/button';
 import { Link } from 'react-router-dom';
 import { Linkedin } from 'lucide-react';
-import aboutDayOfClimate from '../assets/about_dayofclimate.jpeg';
-import aboutSystemsLab from '../assets/about_systemslab.jpeg';
 import tibyanPhoto from '../assets/team_photos/tibyan.png';
 import yevheniaPhoto from '../assets/team_photos/yevhenia.png';
 import karimPhoto from '../assets/team_photos/karim.png';
@@ -125,10 +123,10 @@ export function AboutPage() {
             <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed mb-4">
               This curriculum draws from the MIT Systems Awareness Lab’s research and the Center for Systems Awareness’ work  the “Compassionate Systems Framework.” This educational framework brings together tools and practices designed to develop students’ understanding of and efficacy in navigating complex change across interconnecting systems:
             </p>
-            <ol className="list-decimal pl-8 text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed space-y-2">
-              <li>1. self: personal, emotional, individual;</li>
-              <li>2. relational: self and others;</li>
-              <li>3. collective: larger societal, political, ecological and economic realities.</li>
+            <ol className="list-decimal list-outside pl-14 sm:pl-16 text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed space-y-2">
+              <li className="pl-2"><em>1. self:</em> personal, emotional, individual;</li>
+              <li className="pl-2"><em>2. relational:</em> self and others;</li>
+              <li className="pl-2"><em>3. collective:</em> larger societal, political,ecological and economic realities.</li>
             </ol>
           </div>
           
@@ -154,11 +152,6 @@ export function AboutPage() {
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-green-600 mb-3">
               Day of Climate
             </h2>
-            <img 
-              src={aboutDayOfClimate} 
-              alt="A crowd at a climate protest holding signs, with the most prominent reading There Is No Planet B above a drawing of Earth" 
-              className="w-full rounded-xl mb-6 object-cover"
-            />
             <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
               The pK-12 Initiative's Day of Climate at the Massachusetts Institute of Technology (MIT) equips learners and educators with hands-on educational materials and tools to better understand climate change, its impacts, and potential solutions. 
             </p>
@@ -193,11 +186,6 @@ export function AboutPage() {
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-green-600 mb-3">
               MIT Systems Awareness Lab
             </h2>
-            <img 
-              src={aboutSystemsLab} 
-              alt="MIT Systems Awareness Lab Team" 
-              className="w-full rounded-xl mb-6 object-cover"
-            />
             <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
               Bringing together researchers, educators, policymakers, and practitioners dedicated to the study of systems change.            </p>
             
@@ -254,14 +242,15 @@ export function AboutPage() {
               Climate Interactive
             </h2>
             <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
-              At Climate Interactive, their mission is to create and share tools that drive effective and equitable action. Developed by Climate Interactive, MIT Sloan School of Management, and Ventana Systems, the En-ROADS Climate Solutions Simulator is based on best-available science and carefully compared with other major climate and energy models. En‑ROADS is free to use online and is available in more than a dozen languages, making it accessible to people all over the world.
+              At Climate Interactive, their mission is to create and share tools that drive effective and equitable action. Developed by Climate Interactive, MIT Sloan School of Management, and Ventana Systems, the En-ROADS Climate Solutions Simulator is based on best-available science and carefully compared with other major climate and energy models. En‑ROADS is free to use online and is available in more than a dozen languages, making it accessible to people all over the world. Climate Interactive offers climate simulators, learning experiences, research insights, and programs to become an En-ROADS Climate Ambassador through their facilitator training. 
             </p>
-            <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed mt-4 leading-loose">
+            <div className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed mt-4 leading-loose flex flex-wrap items-center gap-2">
+              <span>To learn more,</span>
               <a 
                 href="https://www.climateinteractive.org" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="inline-block mr-2 align-middle"
+                className="inline-block align-middle"
               >
                 <Button 
                   variant="outline"
@@ -270,8 +259,7 @@ export function AboutPage() {
                   Visit Climate Interactive →
                 </Button>
               </a>
-              to learn more about their climate simulators, experiences, insights and research, and how to become an En-ROADS Climate Ambassador through their facilitator training.
-            </p>
+            </div>
           </div>
 
           {/*SPACER*/}
@@ -283,18 +271,19 @@ export function AboutPage() {
               Center for Systems Awareness
             </h2>
             <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed mb-4">
-              The vision of the <a href="https://systemsawareness.org/youth-leadership-team/" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">Center for Systems Awareness Youth Leadership Team</a> is to increase the capacity for compassion, systems awareness, and self-mastery by training students worldwide and to develop compassionate leaders of the future.
+              The vision of the Center for Systems Awareness Youth Leadership Team is to increase the capacity for compassion, systems awareness, and self-mastery by training students worldwide and to develop compassionate leaders of the future.
             </p>
             <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
               For a decade, this team has been designing highly efficient and meaningful learning experiences in which the pursuit of knowledge, social and emotional literacy, self-agency, collaborative skills, and personal growth may be discovered and embodied using the Compassionate Systems Framework.
             </p>
 
-            <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed mt-4 leading-loose">
+            <div className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed mt-4 leading-loose flex flex-wrap items-center gap-2">
+              <span>To learn more about upcoming programs,</span>
               <a 
                 href="https://systemsawareness.org" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="inline-block mr-2 align-middle"
+                className="inline-block align-middle"
               >
                 <Button 
                   variant="outline"
@@ -303,8 +292,7 @@ export function AboutPage() {
                   Visit the Center for Systems Awareness →
                 </Button>
               </a>
-              to learn more about upcoming programs.
-            </p>
+            </div>
           </div>
 
           {/*SPACER*/}
@@ -369,7 +357,7 @@ export function AboutPage() {
                   photo={fiorellaPhoto}
                   name="Fiorella Massa"
                   role="Graphic Designer"
-                  bio="Graphic Designer"
+                  bio="Freelance graphic designer and photographer"
                   linkedinLink="https://www.behance.net/fiorellamassa"
                   compact
                 />
@@ -381,7 +369,7 @@ export function AboutPage() {
           <div className="h-6 sm:h-16 w-full block"></div>
 
           {/* Contributors Link */}
-          <div className="flex justify-start">
+          <div className="flex justify-center">
             <Link to="/contributors">
               <Button 
                 variant="outline"
