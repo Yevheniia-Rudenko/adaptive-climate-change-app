@@ -47,10 +47,11 @@ export function PrivacyPolicyPage() {
                         <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mt-8 mb-4">3. How We Use the Data</h2>
                         <p className="mb-4">The collected inputs are used solely to:</p>
                         <ul className="list-disc pl-6 mb-6 space-y-2">
-                            <li>Improve product functionality</li>
+                            <li>Improve site functionality</li>
                             <li>Analyze usage patterns</li>
-                            <li>Enhance user experience</li>
-                            <li>Improve the overall quality of the application</li>
+                            <li>Enhance learner experience</li>
+                            <li>Improve the overall quality of the curriculum</li>
+                            <li>Research on perceptions and knowledge about climate change</li>
                         </ul>
                         <p className="mb-6">All data is processed in an aggregated and anonymized form.</p>
 
@@ -78,7 +79,7 @@ export function PrivacyPolicyPage() {
 
                         <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mt-8 mb-4">7. Contact</h2>
                         <p className="mb-6">
-                            If you have any questions about this Privacy Policy or data usage, you can contact us through the application.
+                            If you have any questions about this Privacy Policy or data usage, you can contact us by email.
                         </p>
                     </div>
                 </div>
