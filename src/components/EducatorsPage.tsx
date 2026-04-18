@@ -150,8 +150,8 @@ const sections: Section[] = [
         "Understanding Climate Drivers and Impacts",
         "Exercise 1: Nature-Based Carbon Dioxide Removal",
         "Exercise 2: Renewable Energy",
-        "Exercise 3 — Fossil Fuels",
-        "Exercise 4 — Carbon Price",
+        "Exercise 3: Fossil Fuels",
+        "Exercise 4: Carbon Price",
         "The Practice of Hope",
         "Module end"
       ]
@@ -161,11 +161,11 @@ const sections: Section[] = [
       id: 2,
       subsections: [
         "About this Module",
-        "🌍 Why This Matters for Climate Change",
+        "Why This Matters for Climate Change",
         "Understanding CO₂ Removals",
-        "🎛️ How this works in the simulation",
-        "🌍 Why This Matters for Climate Change",
-        "🌍 The Vision of “Net‑Zero Emissions”",
+        "How this works in the simulation",
+        "Why This Matters for Climate Change",
+        "The Vision of “Net‑Zero Emissions”",
         "Hope As A Stock",
         "Module end"
       ]
@@ -177,9 +177,9 @@ const sections: Section[] = [
         "About this Module",
         "Group Activity",
         "Explore the Scenario in En‑ROADS",
-        "❓So here’s the big question:",
+        "So here’s the big question:",
         "Create Your Own Climate Policy Scenario in En‑ROADS",
-        "👋 Welcome back! ",
+        "Welcome back! ",
         "Imagining the Future",
         "Module end"
       ]
@@ -189,14 +189,14 @@ const sections: Section[] = [
       id: 4,
       subsections: [
         "About this Module",
-        "❄️ Top of the Iceberg: Events",
-        "🔁 Just Below the Surface: Patterns & Trends",
-        "⚙️ Deeper: Underlying Systemic Structures",
-        "🧠 Deepest Level: Mental Models",
+        "Top of the Iceberg: Events",
+        "Just Below the Surface: Patterns & Trends",
+        "Deeper: Underlying Systemic Structures",
+        "Deepest Level: Mental Models",
         "Why Think About Climate Systems Using the Iceberg Model?",
-        "✏️ Draw Your Own Climate Iceberg",
-        "💭 Let's Reflect",
-        "🌍 Why the Systems Iceberg Matters for Climate Change",
+        "Draw Your Own Climate Iceberg",
+        "Let's Reflect",
+        "Why the Systems Iceberg Matters for Climate Change",
         "Module end"
       ]
     },
@@ -209,7 +209,7 @@ const sections: Section[] = [
         "Finding Your Climate Action",
         "Designing for Systems Change",
         "Caring for Your Energy (So You Can Sustain Action)",
-        "💭Let’s Reflect",
+        "Let's Reflect",
         "Module end"
       ]
     }
@@ -244,8 +244,8 @@ const sections: Section[] = [
               Educator Guide
             </h1>
             <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base max-w-3xl">
-              Welcome! This guide supports you in teaching and facilitating the climate systems curriculum.
-              Here you'll find everything you need to effectively use this platform in your classroom or workshop settings.
+              Welcome! This guide supports you in teaching and facilitating “The Systems that Shape Climate Change” curriculum.
+              Here you'll find guidance on how  to effectively use this platform and resources in your classroom or workshop settings.
             </p>
           </div>
 
@@ -306,6 +306,13 @@ const sections: Section[] = [
                   </div>
                 ))}
               </div>
+              <div className="mt-4">
+                <Link to="/resources" className="block">
+                  <Button variant="outline" size="sm" className="w-full">
+                    Resources
+                  </Button>
+                </Link>
+              </div>
             </div>
           </aside>
 
@@ -328,7 +335,7 @@ const sections: Section[] = [
                 </div>
 
                 <p className="text-gray-600 dark:text-gray-300 mb-6">
-                  This curriculum is designed to help students aged 14-18 develop systems thinking skills
+                  This curriculum is designed to help students aged 12-18+ develop systems thinking skills
                   and understand climate change through interactive modules and simulations.
                 </p>
 
@@ -338,13 +345,13 @@ const sections: Section[] = [
                     <Clock size={24} className="text-green-600 dark:text-green-400 mb-2" />
                     <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">Estimated Time</h4>
                     <p className="text-gray-600 dark:text-gray-400 text-sm">5-6 hours total</p>
-                    <p className="text-gray-500 dark:text-gray-500 text-xs">45-60 min per module</p>
+                    <p className="text-gray-500 dark:text-gray-500 text-xs">20-40 min per module</p>
                   </div>
                   <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
                     <Users size={24} className="text-green-600 dark:text-green-400 mb-2" />
                     <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">Target Audience</h4>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">Ages 14-18+</p>
-                    <p className="text-gray-500 dark:text-gray-500 text-xs">High school level, college or above</p>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm">Ages 12+</p>
+                    <p className="text-gray-500 dark:text-gray-500 text-xs">Upper primary (middle school), High school or secondary level, college or above</p>
                   </div>
                   <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
                     <FileText size={24} className="text-green-600 dark:text-green-400 mb-2" />
@@ -355,7 +362,7 @@ const sections: Section[] = [
                   <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
                     <Monitor size={24} className="text-green-600 dark:text-green-400 mb-2" />
                     <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">Tech Requirements</h4>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">Modern browser</p>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm">Modern browser: Google Chrome, Safari, Firefox</p>
                     <p className="text-gray-500 dark:text-gray-500 text-xs">Desktop, tablet, or mobile</p>
                   </div>
                 </div>
@@ -391,7 +398,18 @@ const sections: Section[] = [
                       <li>Review all 5 modules to understand the content flow</li>
                       <li>Explore the <strong>Glossary</strong> tab for key terminology</li>
                       <li>Check the <strong>Resources</strong> section for supplementary materials</li>
-                      <li>Try the interactive En-ROADS dashboard yourself</li>
+                      <li>
+                        Try the interactive{' '}
+                        <a
+                          href="https://en-roads.climateinteractive.org/scenario.html?v=26.4.0"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 dark:text-blue-400 underline hover:text-blue-700 dark:hover:text-blue-300"
+                        >
+                          En-ROADS Climate Policy Simulator
+                        </a>{' '}
+                        yourself
+                      </li>
                     </ul>
                   </CollapsibleSection>
 
@@ -417,7 +435,7 @@ const sections: Section[] = [
                     <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 text-sm">
                       <li>Guide students through modules at an appropriate pace</li>
                       <li>Pause for discussion at key points</li>
-                      <li>Encourage use of reflection prompts</li>
+                      <li>Encourage use of the reflection prompts either individually or as small group discussion.</li>
                       <li>Connect concepts to local and global contexts</li>
                     </ul>
                   </CollapsibleSection>
@@ -451,36 +469,29 @@ const sections: Section[] = [
                   <div className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
                     <CheckCircle size={20} className="text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
                     <div>
-                      <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">Systems Thinking</h4>
+                      <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">1.Systems Awareness & Thinking</h4>
                       <p className="text-gray-600 dark:text-gray-400 text-sm">Identify feedback loops, leverage points, and interconnections in climate systems</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
                     <CheckCircle size={20} className="text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
                     <div>
-                      <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">Climate Science Understanding</h4>
+                      <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">2.Climate Science & Interdependence</h4>
                       <p className="text-gray-600 dark:text-gray-400 text-sm">Explain the greenhouse effect, climate drivers, and projected impacts</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
                     <CheckCircle size={20} className="text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
                     <div>
-                      <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">Solution Evaluation</h4>
+                      <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">3.Applied Tools & Solution Evaluation</h4>
                       <p className="text-gray-600 dark:text-gray-400 text-sm">Analyze and compare different climate solutions using simulation tools</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
                     <CheckCircle size={20} className="text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
                     <div>
-                      <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">Discussion Skills</h4>
+                      <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">4.Agency, Dialogue, & Action</h4>
                       <p className="text-gray-600 dark:text-gray-400 text-sm">Engage in constructive dialogue about climate policy and personal action</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                    <CheckCircle size={20} className="text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
-                    <div>
-                      <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">Agency & Action</h4>
-                      <p className="text-gray-600 dark:text-gray-400 text-sm">Identify personal and collective actions to address climate change</p>
                     </div>
                   </div>
                 </div>
@@ -629,7 +640,7 @@ const sections: Section[] = [
                 <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">About En-ROADS</h3>
                 <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm">
                   <a
-                    href="https://en-roads.climateinteractive.org/"
+                    href="https://en-roads.climateinteractive.org/scenario.html?v=26.4.0"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-600 dark:text-blue-400 underline hover:text-blue-700 dark:hover:text-blue-300"
@@ -698,7 +709,7 @@ const sections: Section[] = [
                     className="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border border-indigo-300 dark:border-indigo-600 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-colors text-sm font-medium"
                   >
                     <ExternalLink size={16} />
-                    Endorsements of En-ROADS
+                    How People Use En-ROADS
                   </a>
                 </div>
 
@@ -723,8 +734,7 @@ const sections: Section[] = [
                 </div>
 
                 <p className="text-gray-600 dark:text-gray-300 mb-6 text-sm">
-                  Download these resources to support your teaching and facilitation. All materials are free to use and adapt
-                  for educational purposes under a Creative Commons licence.
+                  Download these resources to support your teaching and facilitation. All materials are free to use and adapt for educational purposes under a Creative Commons Attribution - NonCommercial 4.0 International License.
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -732,10 +742,17 @@ const sections: Section[] = [
                     <FileText size={32} className="text-red-500 mb-3" />
                     <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-1">Student Worksheets</h4>
                     <p className="text-gray-500 dark:text-gray-400 text-xs mb-3">PDF - Printable worksheets for each module</p>
-                    <Button variant="outline" size="sm" className="w-full" disabled>
-                      <Download size={14} className="mr-2" />
-                      Coming Soon
-                    </Button>
+                    <a
+                      href="https://drive.google.com/file/d/1VlDmsX8SJUJk2d6uRX6yxf6XWMixppdQ/view"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full"
+                    >
+                      <Button variant="outline" size="sm" className="w-full">
+                        <Download size={14} className="mr-2" />
+                        Open PDF
+                      </Button>
+                    </a>
                   </div>
                   <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
                     <FileText size={32} className="text-blue-500 mb-3" />
@@ -776,11 +793,7 @@ const sections: Section[] = [
                   <CollapsibleSection title="Different Age Groups" defaultOpen={true}>
                     <div className="space-y-3 text-sm">
                       <div>
-                        <h5 className="font-medium text-gray-900 dark:text-gray-100">Ages 11-14</h5>
-                        <p className="text-gray-600 dark:text-gray-400">Build foundational climate and systems awareness through age-appropriate examples, visual storytelling, and guided activities that allow extra time for reflection and discussion.</p>
-                      </div>
-                      <div>
-                        <h5 className="font-medium text-gray-900 dark:text-gray-100">Ages 14-15</h5>
+                        <h5 className="font-medium text-gray-900 dark:text-gray-100">Ages 12-15</h5>
                         <p className="text-gray-600 dark:text-gray-400">Focus on foundational concepts, use more visual aids, allow more time for activities, pair with guided worksheets</p>
                       </div>
                       <div>
@@ -866,7 +879,7 @@ const sections: Section[] = [
                       <div className="w-20 flex-shrink-0 text-gray-500 dark:text-gray-400">30 min</div>
                       <div>
                         <h4 className="font-medium text-gray-900 dark:text-gray-100">Introduction to Systems Thinking</h4>
-                        <p className="text-gray-600 dark:text-gray-400">Overview of systems thinking concepts and why they matter for climate education</p>
+                        <p className="text-gray-600 dark:text-gray-400">Overview of systems thinking concepts and why they matter for climate education. See Facilitator Guide and Slide Deck</p>
                       </div>
                     </div>
                     <div className="flex gap-3">
@@ -904,6 +917,48 @@ const sections: Section[] = [
                   The best way to prepare educators is to let them experience the curriculum as learners first.
                   This builds empathy for student experiences and surfaces potential challenges.
                 </CalloutBox>
+
+                <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-5 mt-4">
+                  <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">Professional Development Opportunities</h3>
+                  <div className="space-y-3 text-sm text-gray-600 dark:text-gray-300">
+                    <p>
+                      <a
+                        href="https://dayofclimate.mit.edu"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 dark:text-blue-400 underline hover:text-blue-700 dark:hover:text-blue-300 font-medium"
+                      >
+                        MIT Day of Climate
+                      </a>
+                    </p>
+                    <p>
+                      <strong>
+                        <a
+                          href="https://systemsawareness.org/what-we-do/#programs"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 dark:text-blue-400 underline hover:text-blue-700 dark:hover:text-blue-300"
+                        >
+                          “Introduction to the Compassionate Systems Framework”
+                        </a>
+                      </strong>{' '}
+                      – hands-on workshop on systems leadership offered by the Center for Systems Awareness.
+                    </p>
+                    <p>
+                      <strong>
+                        <a
+                          href="https://systemsawareness.org/youth-leadership-team/compassionate-climate-community/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 dark:text-blue-400 underline hover:text-blue-700 dark:hover:text-blue-300"
+                        >
+                          Compassionate Climate Community
+                        </a>
+                      </strong>{' '}
+                      – a program to create a space for an international, multi-generational group of like-minded individuals seeking to improve their knowledge and capacities to mitigate climate change. The overarching goals of this program are to bring these vital capacities into school sites and foster an international community of change-makers. Custom program offerings available through the Center for Systems Awareness.
+                    </p>
+                  </div>
+                </div>
               </section>
 
 
