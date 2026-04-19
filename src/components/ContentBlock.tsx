@@ -166,7 +166,7 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
         {block.question.split('\n').map((line, i) => {
           const boldMatch = line.match(/^\*\*(.+?)\*\*$/);
           if (boldMatch) {
-            return <h3 key={i} className="text-gray-900 dark:text-gray-100 text-base sm:text-lg md:text-xl font-bold mb-2">{boldMatch[1]}</h3>;
+            return <h3 key={i} className="text-gray-900 dark:text-gray-100 text-xl sm:text-2xl md:text-3xl font-extrabold mb-2">{boldMatch[1]}</h3>;
           }
           return <p key={i} className="text-gray-900 dark:text-gray-100 text-sm sm:text-base md:text-lg">{line}</p>;
         })}
@@ -489,7 +489,9 @@ function ReflectionBlock({ block, moduleId }: { block: Extract<ContentBlockType,
 
   return (
     <div className="bg-gradient-to-br from-blue-50 to-green-50 dark:from-blue-900/20 dark:to-green-900/20 rounded-2xl p-4 sm:p-6 md:p-8 mb-6 sm:mb-8 font-sora">
-      <h3 className="text-gray-900 dark:text-gray-100 mb-2 sm:mb-3 text-base sm:text-lg font-bold">{t.reflection}</h3>
+      {!block.hideLabel && (
+        <h3 className="text-gray-900 dark:text-gray-100 mb-2 sm:mb-3 text-xl sm:text-2xl font-extrabold">{t.reflection}</h3>
+      )}
       <p className="text-gray-700 dark:text-gray-300 mb-3 sm:mb-4 leading-relaxed text-sm sm:text-base whitespace-pre-line">
         {block.prompt}
       </p>
@@ -690,7 +692,7 @@ function QuoteCarouselBlock({ block }: { block: Extract<ContentBlockType, { type
       {block.title && (
         <div className="flex items-center gap-2 mb-3 sm:mb-4">
           <Quote className="text-blue-600 dark:text-blue-400 flex-shrink-0" size={20} />
-          <h3 className="text-gray-900 dark:text-gray-100 text-base sm:text-lg font-bold">{formatTitle(block.title)}</h3>
+          <h3 className="text-gray-900 dark:text-gray-100 text-xl sm:text-2xl font-extrabold">{formatTitle(block.title)}</h3>
         </div>
       )}
 
@@ -768,7 +770,7 @@ function ImageCollageBlock({ block }: { block: Extract<ContentBlockType, { type:
       {block.title && (
         <div className="flex items-center gap-2 mb-3 sm:mb-4">
           <Layers className="text-blue-600 dark:text-blue-400 flex-shrink-0" size={20} />
-          <h3 className="text-gray-900 dark:text-gray-100 text-base sm:text-lg font-bold">{formatTitle(block.title)}</h3>
+          <h3 className="text-gray-900 dark:text-gray-100 text-xl sm:text-2xl font-extrabold">{formatTitle(block.title)}</h3>
         </div>
       )}
 
@@ -802,7 +804,7 @@ function TextWithImageBlock({ block }: { block: Extract<ContentBlockType, { type
       {block.title && (
         <div className="flex items-center gap-2 mb-3 sm:mb-4">
           <BookOpen className="text-blue-600 dark:text-blue-400 flex-shrink-0" size={20} />
-          <h3 className="text-gray-900 dark:text-gray-100 text-base sm:text-lg font-bold">{formatTitle(block.title)}</h3>
+          <h3 className="text-gray-900 dark:text-gray-100 text-xl sm:text-2xl font-extrabold">{formatTitle(block.title)}</h3>
         </div>
       )}
 
@@ -871,7 +873,7 @@ function LottieBlock({ block }: { block: Extract<ContentBlockType, { type: 'lott
       {block.title && (
         <div className="flex items-center gap-2 mb-2">
           <Sparkles className="text-blue-600 dark:text-blue-400 flex-shrink-0" size={20} />
-          <h3 className="text-gray-900 dark:text-gray-100 text-base sm:text-lg font-bold">{formatTitle(block.title)}</h3>
+          <h3 className="text-gray-900 dark:text-gray-100 text-xl sm:text-2xl font-extrabold">{formatTitle(block.title)}</h3>
         </div>
       )}
 
@@ -933,7 +935,7 @@ export function ContentBlock({
           {block.title && (
             <div className="flex items-center gap-2 mb-3 sm:mb-4">
               {!block.hideIcon && <BookOpen className="text-blue-600 dark:text-blue-400 flex-shrink-0" size={20} />}
-              <h2 className="text-gray-900 dark:text-gray-100 text-base sm:text-lg md:text-xl font-bold">{formatTitle(block.title)}</h2>
+              <h2 className="text-gray-900 dark:text-gray-100 text-xl sm:text-2xl md:text-3xl font-extrabold">{formatTitle(block.title)}</h2>
             </div>
           )}
           <TextWithGlossary
@@ -964,7 +966,7 @@ export function ContentBlock({
           {block.title && (
             <div className="flex items-center gap-2 mb-3 sm:mb-4">
               {!block.hideIcon && <Layers className="text-blue-600 dark:text-blue-400 flex-shrink-0" size={20} />}
-              <h2 className="text-gray-900 dark:text-gray-100 text-base sm:text-lg md:text-xl font-bold">{formatTitle(block.title)}</h2>
+              <h2 className="text-gray-900 dark:text-gray-100 text-xl sm:text-2xl md:text-3xl font-extrabold">{formatTitle(block.title)}</h2>
             </div>
           )}
 
@@ -1056,7 +1058,7 @@ export function ContentBlock({
           {block.title && (
             <div className="flex items-center gap-2 mb-3 sm:mb-4">
               {!block.hideIcon && <Quote className="text-blue-600 dark:text-blue-400 flex-shrink-0" size={20} />}
-              <h2 className="text-gray-900 dark:text-gray-100 text-base sm:text-lg md:text-xl font-bold">{formatTitle(block.title)}</h2>
+              <h2 className="text-gray-900 dark:text-gray-100 text-xl sm:text-2xl md:text-3xl font-extrabold">{formatTitle(block.title)}</h2>
             </div>
           )}
 
@@ -1111,7 +1113,7 @@ export function ContentBlock({
                 alt="Audio"
                 className="h-14 w-auto sm:h-14 object-contain flex-shrink-0"
               />
-              <h3 className="text-gray-900 dark:text-gray-100 text-base sm:text-lg font-bold">{formatTitle(block.title)}</h3>
+              <h3 className="text-gray-900 dark:text-gray-100 text-xl sm:text-2xl font-extrabold">{formatTitle(block.title)}</h3>
             </div>
           )}
           {!block.title && (
@@ -1182,7 +1184,7 @@ export function ContentBlock({
           {block.title && (
             <div className="flex items-center gap-2 mb-3 sm:mb-4">
               <Play className="text-blue-600 dark:text-blue-400 flex-shrink-0" size={20} />
-              <h2 className="text-gray-900 dark:text-gray-100 text-base sm:text-lg md:text-xl font-bold">{formatTitle(block.title)}</h2>
+              <h2 className="text-gray-900 dark:text-gray-100 text-xl sm:text-2xl md:text-3xl font-extrabold">{formatTitle(block.title)}</h2>
             </div>
           )}
           {block.description && (
@@ -1207,7 +1209,7 @@ export function ContentBlock({
           {block.title && (
             <div className="flex items-center gap-2 mb-3 sm:mb-4">
               <BookOpen className="text-blue-600 dark:text-blue-400 flex-shrink-0" size={20} />
-              <h3 className="text-gray-900 dark:text-gray-100 text-base sm:text-lg font-bold">{formatTitle(block.title)}</h3>
+              <h3 className="text-gray-900 dark:text-gray-100 text-xl sm:text-2xl font-extrabold">{formatTitle(block.title)}</h3>
             </div>
           )}
           <div className="rounded-xl sm:rounded-2xl overflow-hidden shadow-lg" style={block.width ? { maxWidth: block.width, margin: '0 auto' } : undefined}>
@@ -1296,7 +1298,7 @@ export function ContentBlock({
               ) : block.iconAsset ? (
                 <img src={block.iconAsset} alt="" className="w-5 h-5 object-contain flex-shrink-0" />
               ) : null}
-              <h3 className="text-gray-900 dark:text-gray-100 text-base sm:text-lg font-bold">{formatTitle(block.title)}</h3>
+              <h3 className="text-gray-900 dark:text-gray-100 text-xl sm:text-2xl font-extrabold">{formatTitle(block.title)}</h3>
             </div>
           )}
           <div className="flex justify-center py-2">
@@ -1349,7 +1351,7 @@ export function ContentBlock({
         <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-2xl p-4 sm:p-6 md:p-8 mb-6 sm:mb-8 font-sora">
           <div className="flex items-center gap-2 mb-3 sm:mb-4">
             <Sparkles className="text-purple-600 dark:text-purple-400 flex-shrink-0" size={20} />
-            <h3 className="text-gray-900 dark:text-gray-100 text-base sm:text-lg font-bold">{formatTitle(t.guidedReflection)}</h3>
+            <h3 className="text-gray-900 dark:text-gray-100 text-xl sm:text-2xl font-extrabold">{formatTitle(t.guidedReflection)}</h3>
           </div>
           <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line text-sm sm:text-base">
             {block.content}
@@ -1363,7 +1365,7 @@ export function ContentBlock({
           {block.title && (
             <div className="flex items-center gap-2 mb-3 sm:mb-4">
               <Layers className="text-blue-600 dark:text-blue-400 flex-shrink-0" size={20} />
-              <h2 className="text-gray-900 dark:text-gray-100 text-base sm:text-lg md:text-xl font-bold">{formatTitle(block.title)}</h2>
+              <h2 className="text-gray-900 dark:text-gray-100 text-xl sm:text-2xl md:text-3xl font-extrabold">{formatTitle(block.title)}</h2>
             </div>
           )}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -1389,7 +1391,7 @@ export function ContentBlock({
           {block.title && (
             <div className="flex items-center gap-2 mb-3 sm:mb-4">
               <BookOpen className="text-blue-600 dark:text-blue-400 flex-shrink-0" size={20} />
-              <h3 className="text-gray-900 dark:text-gray-100 text-base sm:text-lg font-bold">{formatTitle(block.title)}</h3>
+              <h3 className="text-gray-900 dark:text-gray-100 text-xl sm:text-2xl font-extrabold">{formatTitle(block.title)}</h3>
             </div>
           )}
           <div className="rounded-xl sm:rounded-2xl overflow-hidden shadow-lg bg-white dark:bg-gray-800">
