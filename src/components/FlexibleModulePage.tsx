@@ -481,7 +481,7 @@ export function FlexibleModulePage({
                         ? groupModule2Content(section.content).map((group, groupIndex) => (
                           <div
                             key={groupIndex}
-                            className="mb-4 sm:mb-5 rounded-2xl border border-green-200/80 dark:border-green-700/50 bg-[#EBF7D8]/70 dark:bg-green-900/20 p-4 sm:p-5 shadow-sm"
+                            className="mb-4 sm:mb-5"
                           >
                             {group.map((block, blockIndex) => (
                               <ContentBlock

@@ -112,17 +112,17 @@ export const moduleStructures: ModuleStructure[] = [
         colorTheme: 'teal',
         content: [
           {
-            type: 'text',
-            title: '**About this Module**',
-            content: "Climate change isn't just about science and data—it's also deeply personal.\n\n Understanding how climate futures affect you, your community, and the world helps build meaningful connections to the issue. This module explores how we emotionally and intellectually relate to our current climate situation, how we imagine different possible futures, and why these connections matter for understanding these complex global challenges and feeling empowered to take effective action"
-          },
-          {
             type: 'button',
             label: 'Open Glossary',
             url: '/glossary',
             variant: 'outline',
             iconName: 'BookOpen',
             newTab: true
+          },
+          {
+            type: 'text',
+            title: '**About this Module**',
+            content: "Climate change isn't just about science and data—it's also deeply personal.\n\n Understanding how climate futures affect you, your community, and the world helps build meaningful connections to the issue. This module explores how we emotionally and intellectually relate to our current climate situation, how we imagine different possible futures, and why these connections matter for understanding these complex global challenges and feeling empowered to take effective action"
           },
           {
             type: 'text',
@@ -677,17 +677,17 @@ Thank you for practicing.`
         colorTheme: 'teal',
         content: [
           {
-            type: 'text',
-            title: '**About this Module**',
-            content: "Some things build up slowly — and that changes everything. "
-          },
-          {
             type: 'button',
             label: 'Open Glossary',
             url: '/glossary',
             variant: 'outline',
             iconName: 'BookOpen',
             newTab: true
+          },
+          {
+            type: 'text',
+            title: '**About this Module**',
+            content: "Some things build up slowly — and that changes everything. "
           },
           {
             type: 'image',
@@ -739,8 +739,8 @@ Thank you for practicing.`
           },
           {
             type: 'text',
-            title: '**Step One:** Draw a Stock and Flow diagram like in the image below.',
-            content: "*You will need a paper and a pen or pencil to draw the Stock and Flow. Or you can also download and print this Stock and Flow worksheet*",
+            title: '',
+            content: "**Step One:** Draw a Stock and Flow diagram like in the image below.\n\n*You will need a paper and a pen or pencil to draw the Stock and Flow. Or you can also download and print this Stock and Flow worksheet*",
             hideIcon: true
           },
           {
@@ -750,26 +750,26 @@ Thank you for practicing.`
           },
           {
             type: 'text',
-            title: '**Step Two:** Pick a stock that you care about. Think about something that can rise or fall depending on what flows in or out of it. Some \"stock\" examples could be:',
-            content: "-My level of well-being\n- My money\n- My level of motivation in my academics\n- The level of trust I have in my relationships\n- The level of hope I have in a positive future",
+            title: '',
+            content: "**Step Two:** Pick a stock that you care about. Think about something that can rise or fall depending on what flows in or out of it. Some \"stock\" examples could be:\n\n-My level of well-being\n- My money\n- My level of motivation in my academics\n- The level of trust I have in my relationships\n- The level of hope I have in a positive future",
             hideIcon: true
           },
           {
             type: 'text',
-            title: '**Step Three:** Draw the in-flows to your chosen stock example. What is adding to or filling up your stock? Try to identify at least three in-flows to your stock.',
-            content: "",
+            title: '',
+            content: "**Step Three:** Draw the in-flows to your chosen stock example. What is adding to or filling up your stock? Try to identify at least three in-flows to your stock.",
             hideIcon: true
           },
           {
             type: 'text',
-            title: '**Step Four:** Draw the out-flows. What depletes or diminishes your stock? Remember, these in- and out-flows describe factors that change your stock over time. Try to identify at least 3 out-flows from your stock.',
-            content: "",
+            title: '',
+            content: "**Step Four:** Draw the out-flows. What depletes or diminishes your stock? Remember, these in- and out-flows describe factors that change your stock over time. Try to identify at least 3 out-flows from your stock.",
             hideIcon: true
           },
           {
             type: 'text',
-            title: '**Step Five:** Share your Stock and Flow with a partner or in a small group.',
-            content: "",
+            title: '',
+            content: "**Step Five:** Share your Stock and Flow with a partner or in a small group.",
             hideIcon: true
           },
           {
@@ -1055,17 +1055,17 @@ Thank you for practicing.`
         colorTheme: 'amber',
         content: [
           {
-            type: 'text',
-            title: '**About this Module**',
-            content: "So far, we’ve explored several high‑leverage climate solutions—policies and actions that can significantly reduce net emissions and slow the rise in global temperature.\n\n Now we’re going to ask an important question:"
-          },
-          {
             type: 'button',
             label: 'Open Glossary',
             url: '/glossary',
             variant: 'outline',
             iconName: 'BookOpen',
             newTab: true
+          },
+          {
+            type: 'text',
+            title: '**About this Module**',
+            content: "So far, we’ve explored several high‑leverage climate solutions—policies and actions that can significantly reduce net emissions and slow the rise in global temperature.\n\n Now we’re going to ask an important question:"
           },
           {
             type: 'lottie',
@@ -1447,17 +1447,17 @@ If a government wants people to support a carbon price, it has to think carefull
         colorTheme: 'blue',
         content: [
           {
-            type: 'text',
-            title: '**About this Module**',
-            content: "To change outcomes, we need to look beneath the surface at systems.\n\nWe need systems awareness to understand climate change because it's not caused by one thing—it's shaped by many interconnected systems like energy, transportation, food, economics, and politics that all influence one another.\n\nSystems awareness, a combination of *systems thinking and systems sensing*, helps us see these connections clearly, so we can design climate solutions that are effective, fair, and avoid unintended consequences."
-          },
-          {
             type: 'button',
             label: 'Open Glossary',
             url: '/glossary',
             variant: 'outline',
             iconName: 'BookOpen',
             newTab: true
+          },
+          {
+            type: 'text',
+            title: '**About this Module**',
+            content: "To change outcomes, we need to look beneath the surface at systems.\n\nWe need systems awareness to understand climate change because it's not caused by one thing—it's shaped by many interconnected systems like energy, transportation, food, economics, and politics that all influence one another.\n\nSystems awareness, a combination of *systems thinking and systems sensing*, helps us see these connections clearly, so we can design climate solutions that are effective, fair, and avoid unintended consequences."
           },
           {
             type: 'text',
@@ -1718,17 +1718,17 @@ We need to understand—and shift—the beliefs and structures underneath them.`
         colorTheme: 'pink',
         content: [
           {
-            type: 'text',
-            title: '',
-            content: "**You have a role to play.** \n\n By now, you’ve seen both the **gravity** of the climate crisis and the **real reasons for hope**—from powerful policy tools to nature‑based solutions, from systems thinking to community action. This final module is about turning what you’ve learned into **impact.**\n"
-          },
-          {
             type: 'button',
             label: 'Open Glossary',
             url: '/glossary',
             variant: 'outline',
             iconName: 'BookOpen',
             newTab: true
+          },
+          {
+            type: 'text',
+            title: '',
+            content: "**You have a role to play.** \n\n By now, you’ve seen both the **gravity** of the climate crisis and the **real reasons for hope**—from powerful policy tools to nature‑based solutions, from systems thinking to community action. This final module is about turning what you’ve learned into **impact.**\n"
           },
           {
             type: 'lottie',

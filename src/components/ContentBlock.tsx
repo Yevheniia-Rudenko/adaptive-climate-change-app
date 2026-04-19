@@ -24,7 +24,7 @@ import { Carousel, type CarouselApi, CarouselContent, CarouselItem } from './ui/
 import { Link } from 'react-router-dom';
 import * as RechartsPrimitive from 'recharts';
 
-const audioLandscapeImage = '/src/assets/AudioLandscape (1).png';
+const audioLandscapeImage = new URL('../assets/AudioLandscape (1).png', import.meta.url).href;
 
 
 function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { type: 'poll' }>; moduleId: number }) {
