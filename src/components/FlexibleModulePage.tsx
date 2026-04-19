@@ -256,10 +256,12 @@ export function FlexibleModulePage({
     const groups: ModuleContentBlock[][] = [];
     let currentGroup: ModuleContentBlock[] = [];
     let inDrawYourOwnStockFlow = false;
+    let inCo2RemovalsSection = false;
 
     const normalizeTitle = (value: string) =>
       value
         .replace(/\*\*/g, '')
+        .replace(/₂/g, '2')
         .replace(/[’']/g, "'")
         .trim()
         .toLowerCase();
@@ -271,6 +273,14 @@ export function FlexibleModulePage({
       const isDrawYourOwnHeading = normalizedTitle.includes('draw your own stock & flow');
       const isStepHeading = /^step\s+/i.test(normalizedTitle);
       const isReflectHeading = normalizedTitle.includes("let's reflect") || normalizedTitle.includes('let’s reflect');
+      const isCo2RemovalsHeading = normalizedTitle.includes('what are co2 removals?');
+      const isNaturalCo2Heading = normalizedTitle.includes('natural co2 removals include');
+      const isTechnologicalCo2Heading = normalizedTitle.includes('technological co2 removals include');
+      const isNetCo2Heading = normalizedTitle.includes('why we talk about "net" co2 removals');
+      const isCo2RemovalImage =
+        block.type === 'image' &&
+        typeof block.alt === 'string' &&
+        block.alt.replace(/₂/g, '2').toLowerCase().includes('co2 removal');
       const isUntitledTextAfterVideo =
         block.type === 'text' &&
         title.length === 0 &&
@@ -291,6 +301,18 @@ export function FlexibleModulePage({
       if (inDrawYourOwnStockFlow && isReflectHeading) {
         startsNewSection = true;
         inDrawYourOwnStockFlow = false;
+      }
+
+      // Keep the CO2 removals explanation + natural + technological subsections in one card.
+      if (isCo2RemovalsHeading) {
+        inCo2RemovalsSection = true;
+      }
+      if (inCo2RemovalsSection && (isNaturalCo2Heading || isTechnologicalCo2Heading || isCo2RemovalImage)) {
+        startsNewSection = false;
+      }
+      if (inCo2RemovalsSection && isNetCo2Heading) {
+        startsNewSection = true;
+        inCo2RemovalsSection = false;
       }
 
       // For Module 2 layout: keep title+video together, then start a new card for explanatory text.

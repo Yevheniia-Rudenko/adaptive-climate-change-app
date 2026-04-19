@@ -445,7 +445,7 @@ export default function Module1RenewablesDashboard() {
                   <select
                     value={selectedSecondaryGraphId}
                     onChange={(e) => setSelectedSecondaryGraphId(e.target.value)}
-                    className="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm rounded-lg block p-2.5 font-bold"
+                    className="bg-blue-100 dark:bg-blue-900/50 border border-blue-300 dark:border-blue-500 text-blue-900 dark:text-blue-100 text-base sm:text-lg rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block p-3 font-bold"
                   >
                     {SECONDARY_GRAPHS.map(g => <option key={g.id} value={g.id}>{g.label}</option>)}
                   </select>
@@ -535,7 +535,7 @@ export default function Module1RenewablesDashboard() {
                   <select
                     value={selectedSecondaryGraphId}
                     onChange={(e) => setSelectedSecondaryGraphId(e.target.value)}
-                    className="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm rounded-lg block p-2.5 font-bold"
+                    className="bg-blue-100 dark:bg-blue-900/50 border border-blue-300 dark:border-blue-500 text-blue-900 dark:text-blue-100 text-base sm:text-lg rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block p-3 font-bold"
                   >
                     {SECONDARY_GRAPHS.map(g => <option key={g.id} value={g.id}>{g.label}</option>)}
                   </select>

@@ -79,7 +79,7 @@ export type ContentBlock =
   | { type: 'module2-exercise'; }
   | { type: 'module2-removals'; }
   | { type: 'html-embed'; htmlFile: string; title?: string }
-  | { type: 'reflection'; prompt: string; id: string }
+  | { type: 'reflection'; prompt: string; id: string; hideLabel?: boolean }
   | { type: 'poll'; question: string; options: string[]; id: string; singleSelect?: boolean }
   | { type: 'numeric-prediction'; question: string; id: string; unit?: string }
   | { type: 'meditation'; title: string; content: string }
@@ -682,6 +682,14 @@ Thank you for practicing.`
             content: "Some things build up slowly — and that changes everything. "
           },
           {
+            type: 'button',
+            label: 'Open Glossary',
+            url: '/glossary',
+            variant: 'outline',
+            iconName: 'BookOpen',
+            newTab: true
+          },
+          {
             type: 'image',
             imageUrl: stockFlowExample,
             alt: "Diagram of a bathtub model showing a faucet filling a water tank, with arrows indicating water Inflow entering from the tap and Outflow draining from the bottom."},
@@ -854,25 +862,27 @@ Thank you for practicing.`
           {
             type: 'text',
             title: '**🌱 What are CO₂ removals?**',
-            content: 'CO₂ removals are natural or technological processes that take carbon dioxide out of the air and store it somewhere else.\n\n **Think of CO₂ as the outflow.**'
+            content: 'CO₂ removals are natural or technological processes that take carbon dioxide out of the air and store it somewhere else.\n\nThink of CO₂ as the outflow.'
+          },
+          {
+            type: 'text',
+            title: '**Natural CO₂ removals include:**',
+            content: '- Trees and plants absorbing CO₂ as they grow\n- Soil storing carbon from dead plant material\n- The ocean absorbing CO₂ from the air (which unfortunately also makes the water more acidic)'
           },
           {
             type: 'image',
             imageUrl: co2Removal1,
-            alt: 'A person standing among massive old-growth trees in a forest'
+            alt: 'Natural CO₂ removal processes'
           },
           {
             type: 'text',
-            content: '**Natural CO₂ removals include:**\n\n- Trees and plants absorbing CO₂ as they grow\n- Soil storing carbon from dead plant material\n- The ocean absorbing CO₂ from the air (which unfortunately also makes the water more acidic)'
+            title: '**Technological CO₂ removals include:**',
+            content: '- Direct Air Capture (DACCS): Machines that pull CO₂ from the air and store it deep underground in rock\n- Enhanced mineralization: Spreading special kinds of rock on land so they naturally absorb CO₂ faster than normal'
           },
           {
             type: 'image',
             imageUrl: co2Removal2,
-            alt: 'Illustration of a coastal industrial port with wind turbines'
-          },
-          {
-            type: 'text',
-            content: '**Technological CO₂ removals include:**\n\n- **Direct Air Capture (DACCS):** Machines that pull CO₂ from the air and store it deep underground in rock\n- **Enhanced mineralization:** Spreading special kinds of rock on land so they naturally absorb CO₂ faster than normal'
+            alt: 'Technological CO₂ removal processes'
           },
           {
             type: 'text',
@@ -888,7 +898,7 @@ Thank you for practicing.`
           {
             type: 'text',
             title: '**🎛️ How this works in the simulation**',
-            content: "We can change how much CO₂ is removed from the atmosphere through policies like encouraging farmers to reforest parts of their farmland, or by investing in technological carbon removal.\n\nThe two new En‑ROADS sliders below let you increase:\n\n- **Nature‑based CO₂ removal** (like reforestation)\n- **Technological CO₂ removal** (like direct air capture)\n\nWhen you adjust these sliders, you'll see a new graph called \"**CO₂ Emissions and Removals.**\"\n\nIt shows:\n- Emissions (what we add: the \"inflow\")\n- Removals (what we take out: the \"outflow\")\n\nAnd, as before, you'll still see the **CO₂ concentration graph** so you can watch how the total stock in the atmosphere changes."
+            content: "We can change how much CO₂ is removed from the atmosphere through policies like encouraging farmers to reforest parts of their farmland, or by investing in technological carbon removal.\n\nThe two new En‑ROADS sliders below let you increase:\n\n- **Nature‑based CO₂ removal** (like reforestation)\n- **Technological CO₂ removal** (like direct air capture)\n\nWhen you adjust these sliders, you'll see a new graph called \"**CO₂ Emissions and Removals.**\"\n\nIt shows:\n- Emissions (what we add: the \"inflow\")\n- Removals (what we take out: the \"outflow\")\n\nAnd, as before, you'll still see the **CO₂ concentration graph** so you can watch how the total “stock” in the atmosphere changes."
           },
           {
             type: 'text',
@@ -974,7 +984,8 @@ Thank you for practicing.`
           {
             type: 'image',
             imageUrl: netZeroImg,
-            alt: 'Net zero = emissions in – removals out = 0'
+            alt: 'Net zero = emissions in – removals out = 0',
+            width: '60%'
           },
           {
             type: 'text',
@@ -1004,7 +1015,8 @@ Thank you for practicing.`
           {
             type: 'image',
             imageUrl: hopeOrientationImg,
-            alt: '"Hope as a Stock" — a quote by Krista Tippett: I\'m talking about hope as an orientation really more than a virtue, a way of seeing and moving through the world. And it is a choice. In the face of profound, reasonable despair, it is a calling, it is a practice, a muscle. And, like any muscle, it can be flexed and strengthened. Illustrated with hands holding a heart-shaped globe with leaves.'
+            alt: '"Hope as a Stock" — a quote by Krista Tippett: I\'m talking about hope as an orientation really more than a virtue, a way of seeing and moving through the world. And it is a choice. In the face of profound, reasonable despair, it is a calling, it is a practice, a muscle. And, like any muscle, it can be flexed and strengthened. Illustrated with hands holding a heart-shaped globe with leaves.',
+            width: '55%'
           },
           {
             type: 'text',
@@ -1046,6 +1058,14 @@ Thank you for practicing.`
             type: 'text',
             title: '**About this Module**',
             content: "So far, we’ve explored several high‑leverage climate solutions—policies and actions that can significantly reduce net emissions and slow the rise in global temperature.\n\n Now we’re going to ask an important question:"
+          },
+          {
+            type: 'button',
+            label: 'Open Glossary',
+            url: '/glossary',
+            variant: 'outline',
+            iconName: 'BookOpen',
+            newTab: true
           },
           {
             type: 'lottie',
@@ -1108,7 +1128,7 @@ Thank you for practicing.`
           },
           {
             type: 'text',
-            content: '1. **What positive side‑effects could a carbon price create?** \n (Think: health, transportation, jobs, air quality, etc.) \n\n 2.**What potential harms could it cause?** \n How might these harms show up in different communities? \n\n 3.**How could we reduce or prevent those harms?** \n (Hint: government support, rebates, investments, equity policies)',
+            content: '**1. What positive side‑effects could a carbon​ price create?**\n(Think: health, transportation, jobs, air quality, etc.)\n\n**2. What potential harms could it cause?**\nHow might these harms show up in different communities?\n\n**3. How could we reduce or prevent those harms?**\n(Hint: government support, rebates, investments, equity policies)',
           },
           {
             type: 'text',
@@ -1131,12 +1151,6 @@ Thank you for practicing.`
         type: 'block',
         colorTheme: 'green',
         content: [
-          {
-            type: 'image',
-            imageUrl: enroadsScreenshot,
-            alt: 'En-ROADS climate simulation tool dashboard with policy sliders and graphs displaying projected climate outcomes, including a dropdown to switch between different graph views.',
-            width: '100%'
-          },
           {
             type: 'text',
             title: '**Explore the Scenario in En‑ROADS**',
@@ -1210,7 +1224,7 @@ Thank you for practicing.`
           {
             type: 'audio',
             audioUrl: carbonEquityAudio,
-            title: 'Understanding Trade-offs',
+            title: '**Understanding Trade-offs**',
             transcript: `By now, we know that a carbon price basically makes it more expensive to release carbon into the atmosphere. So if an energy source gives off more CO₂ for every unit of energy it produces, it becomes more expensive under a carbon price. In this case, energy sources that release less carbon would stay cheaper.
 Among the fossil fuels, coal produces the most CO₂ per unit of energy, and it also creates the worst air pollution. That means when we raise the carbon price, coal gets much more expensive compared to cleaner options. As a result, people and companies would use way less of it.
 And when coal use drops, air pollution drops too—by a lot.
@@ -1312,7 +1326,8 @@ If a government wants people to support a carbon price, it has to think carefull
           {
             type: 'reflection',
             prompt: 'Paste your En-ROADS Scenario link here:',
-            id: 'en-roads-scenario-1'
+            id: 'en-roads-scenario-1',
+            hideLabel: true
           },
           {
             type: 'image',
@@ -1435,6 +1450,14 @@ If a government wants people to support a carbon price, it has to think carefull
             type: 'text',
             title: '**About this Module**',
             content: "To change outcomes, we need to look beneath the surface at systems.\n\nWe need systems awareness to understand climate change because it's not caused by one thing—it's shaped by many interconnected systems like energy, transportation, food, economics, and politics that all influence one another.\n\nSystems awareness, a combination of *systems thinking and systems sensing*, helps us see these connections clearly, so we can design climate solutions that are effective, fair, and avoid unintended consequences."
+          },
+          {
+            type: 'button',
+            label: 'Open Glossary',
+            url: '/glossary',
+            variant: 'outline',
+            iconName: 'BookOpen',
+            newTab: true
           },
           {
             type: 'text',
@@ -1698,6 +1721,14 @@ We need to understand—and shift—the beliefs and structures underneath them.`
             type: 'text',
             title: '',
             content: "**You have a role to play.** \n\n By now, you’ve seen both the **gravity** of the climate crisis and the **real reasons for hope**—from powerful policy tools to nature‑based solutions, from systems thinking to community action. This final module is about turning what you’ve learned into **impact.**\n"
+          },
+          {
+            type: 'button',
+            label: 'Open Glossary',
+            url: '/glossary',
+            variant: 'outline',
+            iconName: 'BookOpen',
+            newTab: true
           },
           {
             type: 'lottie',

@@ -16,6 +16,7 @@ export function FlipCard({
 }: FlipCardProps) {
     const [isFlipped, setIsFlipped] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
+    const resolvedBackTitle = backTitle?.trim().toLowerCase() === 'definition' ? frontTitle : backTitle;
 
     // We flip on click
     const handleFlip = () => {
@@ -31,10 +32,10 @@ export function FlipCard({
             style={{ perspective: '1000px' }}
         >
             <motion.div
-                className="relative w-full h-full transition-all duration-500 preserve-3d"
+                className="relative w-full h-full preserve-3d"
                 initial={false}
                 animate={{ rotateY: isFlipped ? 180 : 0 }}
-                transition={{ duration: 0.3, type: "spring", stiffness: 260, damping: 20 }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
                 style={{
                     transformStyle: 'preserve-3d',
                 }}
@@ -68,9 +69,9 @@ export function FlipCard({
                     }}
                 >
                     <div className="flex flex-col items-center justify-center h-full p-6 text-center bg-gradient-to-br from-green-50 to-teal-100 dark:from-green-900/20 dark:to-teal-900/20">
-                        {backTitle && (
+                        {resolvedBackTitle && (
                             <h3 className="text-lg font-bold text-green-800 dark:text-green-300 mb-2">
-                                {backTitle}
+                                {resolvedBackTitle}
                             </h3>
                         )}
                         <p className="text-gray-700 dark:text-gray-200 text-base leading-relaxed">
