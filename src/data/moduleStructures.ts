@@ -974,7 +974,8 @@ Thank you for practicing.`
           {
             type: 'image',
             imageUrl: netZeroImg,
-            alt: 'Net zero = emissions in – removals out = 0'
+            alt: 'Net zero = emissions in – removals out = 0',
+            width: '60%'
           },
           {
             type: 'text',
@@ -1004,7 +1005,8 @@ Thank you for practicing.`
           {
             type: 'image',
             imageUrl: hopeOrientationImg,
-            alt: '"Hope as a Stock" — a quote by Krista Tippett: I\'m talking about hope as an orientation really more than a virtue, a way of seeing and moving through the world. And it is a choice. In the face of profound, reasonable despair, it is a calling, it is a practice, a muscle. And, like any muscle, it can be flexed and strengthened. Illustrated with hands holding a heart-shaped globe with leaves.'
+            alt: '"Hope as a Stock" — a quote by Krista Tippett: I\'m talking about hope as an orientation really more than a virtue, a way of seeing and moving through the world. And it is a choice. In the face of profound, reasonable despair, it is a calling, it is a practice, a muscle. And, like any muscle, it can be flexed and strengthened. Illustrated with hands holding a heart-shaped globe with leaves.',
+            width: '55%'
           },
           {
             type: 'text',
@@ -1131,12 +1133,6 @@ Thank you for practicing.`
         type: 'block',
         colorTheme: 'green',
         content: [
-          {
-            type: 'image',
-            imageUrl: enroadsScreenshot,
-            alt: 'En-ROADS climate simulation tool dashboard with policy sliders and graphs displaying projected climate outcomes, including a dropdown to switch between different graph views.',
-            width: '100%'
-          },
           {
             type: 'text',
             title: '**Explore the Scenario in En‑ROADS**',
