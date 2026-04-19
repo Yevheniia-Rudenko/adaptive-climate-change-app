@@ -125,6 +125,13 @@ function CalloutBox({
 export function EducatorsPage() {
   const { t } = useLanguage();
   const [activeSection, setActiveSection] = useState('overview');
+  const [openTocModules, setOpenTocModules] = useState<Record<number, boolean>>({
+    1: true,
+    2: true,
+    3: true,
+    4: true,
+    5: true,
+  });
   const sectionRefs = useRef<{ [key: string]: HTMLElement | null }>({});
   const sectionCardClass = 'scroll-mt-6 rounded-2xl p-6 sm:p-8 mb-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-md';
 
@@ -222,6 +229,13 @@ const sections: Section[] = [
     }
   };
 
+  const toggleTocModule = (moduleId: number) => {
+    setOpenTocModules((prev) => ({
+      ...prev,
+      [moduleId]: !prev[moduleId],
+    }));
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 pt-20 font-sora">
       <div className="max-w-4xl w-full">
@@ -280,29 +294,38 @@ const sections: Section[] = [
 
             {/* Table of Contents Container */}
             <div className="rounded-2xl p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-md">
-              <h2 className="text-xl font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-4 flex items-center gap-2">
-                <BookOpen size={20} className="text-gray-500" />
-                Curriculum
+              <h2 className="text-xl font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-4">
+                Table of Contents
               </h2>
               <div className="space-y-3">
                 {tocData.map((module) => (
                   <div key={module.id} className="border border-gray-100 dark:border-gray-700 rounded-xl overflow-hidden bg-gray-50 dark:bg-gray-800/50">
-                    <div className="bg-gray-100/80 dark:bg-gray-700/80 px-3 py-2.5 font-semibold text-gray-800 dark:text-gray-200 text-sm border-b border-gray-200 dark:border-gray-600 leading-snug">
-                      {module.module}
-                    </div>
-                    <ul className="p-3 space-y-2.5">
-                      {module.subsections.map((sub, index) => (
-                        <li key={index} className="text-xs">
-                          <Link 
-                            to={`/module/${module.id}?block=${index + 1}`}
-                            className="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors flex items-start gap-2"
-                          >
-                            <span className="text-green-600/70 dark:text-green-500/70 font-semibold min-w-[1.2rem]">{index + 1}.</span>
-                            <span className="leading-snug">{sub}</span>
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
+                    <button
+                      onClick={() => toggleTocModule(module.id)}
+                      className="w-full bg-gray-100/80 dark:bg-gray-700/80 px-3 py-3 font-semibold text-gray-800 dark:text-gray-200 text-base border-b border-gray-200 dark:border-gray-600 leading-snug flex items-center justify-between text-left hover:bg-gray-200/80 dark:hover:bg-gray-700 transition-colors"
+                    >
+                      <span>{module.module}</span>
+                      {openTocModules[module.id] ? (
+                        <ChevronDown size={18} className="text-gray-500 dark:text-gray-400 flex-shrink-0" />
+                      ) : (
+                        <ChevronRight size={18} className="text-gray-500 dark:text-gray-400 flex-shrink-0" />
+                      )}
+                    </button>
+                    {openTocModules[module.id] && (
+                      <ul className="p-3 space-y-2.5">
+                        {module.subsections.map((sub, index) => (
+                          <li key={index} className="text-sm">
+                            <Link 
+                              to={`/module/${module.id}?block=${index + 1}`}
+                              className="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors flex items-start gap-2"
+                            >
+                              <span className="text-green-600/70 dark:text-green-500/70 font-semibold min-w-[1.4rem]">{index + 1}.</span>
+                              <span className="leading-snug">{sub}</span>
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
                 ))}
               </div>
