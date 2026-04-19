@@ -53,7 +53,7 @@ export const glossary: GlossaryData = {
     {
       term: 'Dr. Ayana Elizabeth Johnson',
       variants: ['Ayana Elizabeth Johnson'],
-      definition: 'Dr. Ayana Elizabeth Johnson is co-founder of the non-profit think tank Urban Ocean Lab, co-editor of the bestselling climate anthology All We Can Save, and author of What If We Get it Right?: Visions of Climate Futures.'
+      definition: 'Dr. Ayana Elizabeth Johnson is co-founder of the non-profit think tank Urban Ocean Lab, co-editor of the bestselling climate anthology *All We Can Save*, and author of *What If We Get it Right?: Visions of Climate Futures*.'
     },
     {
       term: 'drivers',
@@ -84,6 +84,16 @@ export const glossary: GlossaryData = {
       term: 'nature-based solution to carbon dioxide removal',
       variants: ['nature-based solutions', 'nature-based carbon removal', 'afforestation', 'reforestation'],
       definition: 'Encourage the expansion of forests (afforestation), the restoration of former or degraded forests (reforestation), the implementation of agricultural practices that capture carbon, and the production of biochar. These nature-based methods can remove carbon dioxide from the atmosphere and store it in plants and soils. However, this carbon may be released again if the land is altered, whether through deliberate actions like farming or accidental events like wildfires.'
+    },
+    {
+      term: 'leverage points',
+      variants: ['leverage point', 'high-leverage points', 'high leverage points'],
+      definition: 'Specific places within a complex system—such as a company, ecosystem, or economy—where a small, well-focused action can produce significant, lasting changes. Popularized by Donella Meadows, these interventions range from shallow (changing numbers) to deep (shifting paradigms), with the highest leverage often found in changing system goals, rules, or mindsets.'
+    },
+    {
+      term: 'direct air capture (DAC)',
+      variants: ['direct air capture', 'DAC'],
+      definition: 'A technology that removes CO₂ from the atmosphere using liquid solvents or solid sorbents, which can then be stored permanently underground or reused.'
     },
     {
       term: 'renewable energy',
