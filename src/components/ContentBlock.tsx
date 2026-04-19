@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import * as LucideIcons from 'lucide-react';
 import { trackEvent } from '../utils/analytics';
-import { Play, BookOpen, Sparkles, Layers, Headphones, ChevronDown, ChevronUp, Star, Quote, ArrowLeft, ArrowRight } from 'lucide-react';
+import { Play, BookOpen, Sparkles, Layers, ChevronDown, ChevronUp, Star, Quote, ArrowLeft, ArrowRight } from 'lucide-react';
 import Lottie from 'lottie-react';
 import { ContentBlock as ContentBlockType } from '../data/moduleStructures';
 import { InteractiveDashboard } from './InteractiveDashboard';
@@ -23,6 +23,8 @@ import { Button } from './ui/button';
 import { Carousel, type CarouselApi, CarouselContent, CarouselItem } from './ui/carousel';
 import { Link } from 'react-router-dom';
 import * as RechartsPrimitive from 'recharts';
+
+const audioLandscapeImage = '/src/assets/AudioLandscape (1).png';
 
 
 function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { type: 'poll' }>; moduleId: number }) {
@@ -1104,8 +1106,21 @@ export function ContentBlock({
         <div className="mb-6 sm:mb-8 font-sora">
           {block.title && (
             <div className="flex items-center gap-2 mb-2 sm:mb-3">
-              <Headphones className="text-blue-600 dark:text-blue-400 flex-shrink-0" size={20} />
+              <img
+                src={audioLandscapeImage}
+                alt="Audio"
+                className="h-14 w-auto sm:h-14 object-contain flex-shrink-0"
+              />
               <h3 className="text-gray-900 dark:text-gray-100 text-base sm:text-lg font-bold">{formatTitle(block.title)}</h3>
+            </div>
+          )}
+          {!block.title && (
+            <div className="flex justify-start mb-2 sm:mb-3">
+              <img
+                src={audioLandscapeImage}
+                alt="Audio"
+                className="h-14 w-auto sm:h-14 object-contain"
+              />
             </div>
           )}
           {block.description && (
