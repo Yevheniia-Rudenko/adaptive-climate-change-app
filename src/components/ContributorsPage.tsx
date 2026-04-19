@@ -165,6 +165,9 @@ export function ContributorsPage() {
 
                     {/* Footer Note */}
                     <div className="mt-10 pt-6 border-t border-gray-200 dark:border-gray-700">
+                        <p className="text-center text-sm text-gray-600 dark:text-gray-400 mb-2">
+                            All curriculum materials are licensed under a Creative Commons Attribution- NonCommercial 4.0 International License.
+                        </p>
                         <p className="text-center text-sm text-gray-600 dark:text-gray-400">
                             If you believe any attribution is incorrect or missing, please contact us so we can update it.
                         </p>

@@ -58,9 +58,9 @@ export function ResourcesPage() {
       icon: BookText,
     },
     {
-      id: 'external-links',
-      title: 'External Links',
-      description: 'Curated links to trusted climate organizations and resources.',
+      id: 'learning-opportunities',
+      title: 'Learning Opportunities',
+      description: 'Climate and educational organizations for further learning and professional development.',
       icon: ExternalLink,
     },
   ];

@@ -848,7 +848,7 @@ Thank you for practicing.`
           {
             type: 'text',
             title: '**🎛️ How this works in the simulation**',
-            content: "We can change how much CO₂ is removed from the atmosphere through policies like incentivizing farmers to reforest parts of their farmland, or by investing in technological carbon removal.\n\nThe two new En‑ROADS sliders below let you increase:\n\n- **Nature‑based CO₂ removal** (like reforestation)\n- **Technological CO₂ removal** (like direct air capture)\n\nWhen you adjust these sliders, you'll see a new graph called \"**CO₂ Emissions and Removals.**\"\n\nIt shows:\n- Emissions (what we add)\n- Removals (what we take out)\n\nAnd, as before, you'll still see the **CO₂ concentration graph** so you can watch how the total stock in the atmosphere changes."
+            content: "We can change how much CO₂ is removed from the atmosphere through policies like incentivizing farmers to reforest parts of their farmland, or by investing in technological carbon removal.\n\nThe two new En‑ROADS sliders below let you increase:\n\n- **Nature‑based CO₂ removal** (like reforestation)\n- **Technological CO₂ removal** (like direct air capture)\n\nWhen you adjust these sliders, you'll see a new graph called \"**CO₂ Emissions and Removals.**\"\n\nIt shows:\n- Emissions (what we add)\n- Removals (what we take out)\n\nAnd, as before, you'll still see the **CO₂ concentration graph** so you can watch how the total “stock” in the atmosphere changes."
           },
           {
             type: 'text',
