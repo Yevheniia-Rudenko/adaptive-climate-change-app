@@ -5,6 +5,25 @@ import { Search } from 'lucide-react';
 import { useState, useMemo, useRef } from 'react';
 import { glossary } from '../data/glossary';
 
+function renderFormattedDefinition(text: string) {
+  return text.split(/(https?:\/\/[^\s]+)/g).map((part, i) => {
+    if (/(https?:\/\/[^\s]+)/.test(part)) {
+      return (
+        <a key={`url-${i}`} href={part} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">
+          {part}
+        </a>
+      );
+    }
+
+    return part.split(/(\*[^*]+\*)/g).map((segment, j) => {
+      if (/^\*[^*]+\*$/.test(segment)) {
+        return <em key={`em-${i}-${j}`}>{segment.slice(1, -1)}</em>;
+      }
+      return <span key={`txt-${i}-${j}`}>{segment}</span>;
+    });
+  });
+}
+
 export function GlossaryPage() {
   const { t, language } = useLanguage();
   const [searchTerm, setSearchTerm] = useState('');
@@ -32,6 +51,11 @@ export function GlossaryPage() {
       }
       groups[firstLetter].push(entry);
     });
+
+    Object.keys(groups).forEach((letter) => {
+      groups[letter].sort((a, b) => a.term.localeCompare(b.term, undefined, { sensitivity: 'base' }));
+    });
+
     return groups;
   }, [filteredTerms]);
 
@@ -133,15 +157,7 @@ export function GlossaryPage() {
                         <div key={entry.term} className="border-b border-gray-200 dark:border-gray-700 pb-4 sm:pb-6 last:border-b-0">
                           <h3 className="text-green-700 dark:text-green-500 mb-2 text-base sm:text-lg font-medium">{entry.term}</h3>
                           <p className="text-gray-700 dark:text-gray-300 text-sm sm:text-base">
-                            {entry.definition.split(/(https?:\/\/[^\s]+)/g).map((part, i) => 
-                              /(https?:\/\/[^\s]+)/.test(part) ? (
-                                <a key={i} href={part} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">
-                                  {part}
-                                </a>
-                              ) : (
-                                part
-                              )
-                            )}
+                            {renderFormattedDefinition(entry.definition)}
                           </p>
                         </div>
                       ))}

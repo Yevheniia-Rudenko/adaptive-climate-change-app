@@ -12,6 +12,25 @@ type TermPopupProps = {
 
 export function TermPopup({ isOpen, onClose, term, definition }: TermPopupProps) {
   const { t } = useLanguage();
+
+  const renderFormattedDefinition = (text: string) => {
+    return text.split(/(https?:\/\/[^\s]+)/g).map((part, i) => {
+      if (/(https?:\/\/[^\s]+)/.test(part)) {
+        return (
+          <a key={`url-${i}`} href={part} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">
+            {part}
+          </a>
+        );
+      }
+
+      return part.split(/(\*[^*]+\*)/g).map((segment, j) => {
+        if (/^\*[^*]+\*$/.test(segment)) {
+          return <em key={`em-${i}-${j}`}>{segment.slice(1, -1)}</em>;
+        }
+        return <span key={`txt-${i}-${j}`}>{segment}</span>;
+      });
+    });
+  };
   
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -69,15 +88,7 @@ export function TermPopup({ isOpen, onClose, term, definition }: TermPopupProps)
               <div className="min-h-0 overflow-y-auto">
                 <div className="bg-gradient-to-br from-blue-50 to-green-50 dark:from-blue-900/20 dark:to-green-900/20 rounded-xl p-4 border border-blue-100 dark:border-blue-700/50">
                   <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-left break-words">
-                    {definition.split(/(https?:\/\/[^\s]+)/g).map((part, i) => 
-                      /(https?:\/\/[^\s]+)/.test(part) ? (
-                        <a key={i} href={part} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">
-                          {part}
-                        </a>
-                      ) : (
-                        part
-                      )
-                    )}
+                    {renderFormattedDefinition(definition)}
                   </p>
                 </div>
               </div>
