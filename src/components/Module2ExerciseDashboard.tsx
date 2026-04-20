@@ -50,8 +50,8 @@ export default function Module2ExerciseDashboard() {
   };
 
   const str = (key: string) => {
-    if (key === 'graph_104_title') return language === 'de' ? 'CO2-Nettoemissionen' : language === 'es' ? 'Emisiones netas de CO2' : 'CO₂ Net Emissions';
-    if (key === 'graph_88_title') return language === 'de' ? 'CO2-Konzentration' : language === 'es' ? 'Concentración de CO2' : 'CO₂ Concentration';
+    if (key === 'graph_104_title') return language === 'de' ? 'CO2-Nettoemissionen' : language === 'es' ? 'Emisiones netas de CO2' : language === 'tr' ? 'CO₂ net emisyonları' : 'CO₂ Net Emissions';
+    if (key === 'graph_88_title') return language === 'de' ? 'CO2-Konzentration' : language === 'es' ? 'Concentración de CO2' : language === 'tr' ? 'CO₂ konsantrasyonu' : 'CO₂ Concentration';
     return (getEnRoadsStrings() as any)[key] || key;
   };
 

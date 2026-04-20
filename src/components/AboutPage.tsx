@@ -129,6 +129,19 @@ export function AboutPage() {
       fullStackBio: 'Desarrollador full stack | MIT Systems Awareness Lab',
       fiorellaBio: 'Diseñadora gráfica y fotógrafa freelance',
     },
+    tr: {
+      lanaRole: 'Proje Lideri',
+      lanaBio: 'Yardımcı Direktör | MIT Systems Awareness Lab',
+      peterRole: 'Proje Danışmanı',
+      peterBio: 'Eş-Direktör, MIT Systems Awareness Lab | Kıdemli Öğretim Görevlisi, MIT Sloan',
+      jonasRole: 'Müfredat Tasarımı',
+      jonasBio: 'Gençlik Liderliği | Center for Systems Awareness',
+      webDeveloper: 'Web Geliştirici',
+      graphicDesigner: 'Grafik Tasarımcı',
+      tibyanBio: 'Matematik Mühendisliği Öğrencisi | YTÜ',
+      fullStackBio: 'Full Stack Geliştirici | MIT Systems Awareness Lab',
+      fiorellaBio: 'Serbest grafik tasarımcı ve fotoğrafçı',
+    },
   }[language];
 
   return (

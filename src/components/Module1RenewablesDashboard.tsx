@@ -51,12 +51,12 @@ export default function Module1RenewablesDashboard() {
   };
 
   const str = (key: string) => {
-    if (key === 'graph_62_title') return language === 'de' ? 'CO2-Emissionen' : language === 'es' ? 'Emisiones de CO2' : 'CO2 Emissions';
-    if (key === 'graph_90_title') return language === 'de' ? 'Meeresspiegelanstieg' : language === 'es' ? 'Aumento del nivel del mar' : 'Sea Level Rise';
-    if (key === 'graph_275_title') return language === 'de' ? 'Todesfälle durch extreme Hitze' : language === 'es' ? 'Muertes por calor extremo' : 'Deaths from Extreme Heat';
-    if (key === 'graph_279_title') return language === 'de' ? 'Artenverlust - Aussterben' : language === 'es' ? 'Pérdida de especies - extinción' : 'Species Loss - Extinction';
-    if (key === 'graph_183_title') return language === 'de' ? 'Ernteerträge' : language === 'es' ? 'Rendimiento de cultivos' : 'Crop Yield';
-    if (key === 'graph_112_title') return language === 'de' ? 'Luftverschmutzung aus der Energieerzeugung – PM2,5-Emissionen' : language === 'es' ? 'Contaminación del aire por energía - emisiones PM2,5' : 'Air Pollution';
+    if (key === 'graph_62_title') return language === 'de' ? 'CO2-Emissionen' : language === 'es' ? 'Emisiones de CO2' : language === 'tr' ? 'CO2 emisyonları' : 'CO2 Emissions';
+    if (key === 'graph_90_title') return language === 'de' ? 'Meeresspiegelanstieg' : language === 'es' ? 'Aumento del nivel del mar' : language === 'tr' ? 'Deniz seviyesi yükselmesi' : 'Sea Level Rise';
+    if (key === 'graph_275_title') return language === 'de' ? 'Todesfälle durch extreme Hitze' : language === 'es' ? 'Muertes por calor extremo' : language === 'tr' ? 'Aşırı sıcaklıktan ölümler' : 'Deaths from Extreme Heat';
+    if (key === 'graph_279_title') return language === 'de' ? 'Artenverlust - Aussterben' : language === 'es' ? 'Pérdida de especies - extinción' : language === 'tr' ? 'Tür kaybı - yok oluş' : 'Species Loss - Extinction';
+    if (key === 'graph_183_title') return language === 'de' ? 'Ernteerträge' : language === 'es' ? 'Rendimiento de cultivos' : language === 'tr' ? 'Ürün verimi' : 'Crop Yield';
+    if (key === 'graph_112_title') return language === 'de' ? 'Luftverschmutzung aus der Energieerzeugung – PM2,5-Emissionen' : language === 'es' ? 'Contaminación del aire por energía - emisiones PM2,5' : language === 'tr' ? 'Enerjiden kaynaklı hava kirliliği - PM2,5 emisyonları' : 'Air Pollution';
     return (getEnRoadsStrings() as any)[key] || key;
   };
 
@@ -159,6 +159,39 @@ export default function Module1RenewablesDashboard() {
       highlyEncouraged: 'Muy incentivado',
       loadingModel: 'Cargando modelo...',
       failedToLoad: 'Error al cargar el modelo En-ROADS.',
+    },
+    tr: {
+      intro: 'Bu modelde, yenilenebilir enerjinin küresel sıcaklık üzerindeki etkisini (1,5°C hedefimizi hatırla!) ve grafikteki açılır menüden seçebileceğin diğer etkileri keşfet.',
+      choose: 'Şunları seçebilirsin:',
+      statusTitle: 'Mevcut Durum:',
+      statusText: 'Yenilenebilir enerji kullanımının mevcut seviyelerini koru. Kaydırıcı burada başlar.',
+      encourageTitle: 'Teşvik Et:',
+      encourageText: 'Güneş panelleri, jeotermal ve rüzgar türbinlerinin kurulumu ve kullanımını; yenilenebilir enerji yatırımlarını mümkün kılan ve tüketici maliyetlerini düşüren kamu teşvikleriyle destekle.',
+      discourageTitle: 'Caydır:',
+      discourageText: 'Yenilenebilir enerji yatırımı ve kullanım maliyetlerini artıran vergiler, kamu politikaları veya iletişim yoluyla.',
+      dashboardTitle: 'En-ROADS Gösterge Paneli: Yenilenebilir Enerji',
+      openFullscreen: 'Tam ekran aç',
+      closeFullscreen: 'Tam ekranı kapat',
+      baseline: 'TEMEL SENARYO',
+      currentScenario: 'MEVCUT SENARYO',
+      co2Emissions: 'CO2 emisyonları',
+      seaLevelRise: 'Deniz seviyesi yükselmesi',
+      deathsExtremeHeat: 'Aşırı sıcaklıktan ölümler',
+      speciesLoss: 'Tür kaybı - yok oluş',
+      cropYield: 'Ürün verimi',
+      airPollution: 'Enerjiden kaynaklı hava kirliliği - PM2,5 emisyonları',
+      marineSpecies: 'DENİZ TÜRLERİ',
+      landSpecies: 'KARA TÜRLERİ',
+      dashedBaseline: 'Kesik çizgiler temel senaryoyu gösterir',
+      temperatureTitle: '2100 yılına kadar\nSıcaklık\nArtışı',
+      renewablesLabel: 'Yenilenebilirler',
+      highlyDiscouraged: 'Çok caydırılmış',
+      discouraged: 'Caydırılmış',
+      statusQuo: 'Mevcut durum',
+      moreEncouraged: 'Daha çok teşvik',
+      highlyEncouraged: 'Çok teşvik edilmiş',
+      loadingModel: 'Model yükleniyor...',
+      failedToLoad: 'En-ROADS modeli yüklenemedi.',
     }
   }[language] ?? {
     intro: 'In this model, explore the impact of renewables on global temperature (remember our goal of 1.5°C!) and other impacts, which you can select in the graph dropdown.',

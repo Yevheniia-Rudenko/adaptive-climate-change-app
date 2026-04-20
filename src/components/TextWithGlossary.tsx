@@ -12,7 +12,7 @@ type TextWithGlossaryProps = {
 
 export function TextWithGlossary({ text, className }: TextWithGlossaryProps) {
   const { language } = useLanguage();
-  const entries = glossary[language];
+  const entries = glossary[language as keyof typeof glossary] || glossary.en;
 
   // Helper to process bold text, italic text, and links within strings
   const formatText = (inputText: string, keyPrefix: string) => {

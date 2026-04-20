@@ -1,12 +1,11 @@
-import { Language } from './translations';
-
 export type GlossaryEntry = {
   term: string;
   definition: string;
   variants?: string[]; // Alternative forms of the term (e.g., plural, lowercase)
 };
 
-export type GlossaryData = Record<Language, GlossaryEntry[]>;
+type GlossaryLanguage = 'en' | 'es' | 'ar' | 'de' | 'ru' | 'uk' | 'tr';
+export type GlossaryData = Record<GlossaryLanguage, GlossaryEntry[]>;
 
 export const glossary: GlossaryData = {
   en: [
@@ -202,6 +201,104 @@ export const glossary: GlossaryData = {
       term: 'combustibles fósiles',
       variants: ['combustible fósil'],
       definition: 'Fuentes de energía formadas a partir de restos antiguos de plantas y animales, incluidos el carbón, el petróleo y el gas natural. Quemar combustibles fósiles libera dióxido de carbono que ha estado almacenado bajo tierra durante millones de años.'
+    }
+  ],
+
+  tr: [
+    {
+      term: 'karbondioksit',
+      variants: ['CO₂', 'CO2'],
+      definition: 'Kömür, petrol ve gaz gibi fosil yakıtlar yakıldığında açığa çıkan bir sera gazıdır. Dünya atmosferinde ısıyı tutarak küresel ısınmaya neden olur. CO₂ atmosferde yüzlerce yıl kalır.'
+    },
+    {
+      term: 'karbon fiyatı',
+      variants: ['karbon fiyatlandırması'],
+      definition: 'Hükümetlerin iklim değişikliğini azaltmak için sera gazı emisyonlarına parasal bir maliyet uyguladığı bir yöntemdir. Amaç, kirletici faaliyetleri azaltmayı ve daha temiz çözümleri teşvik etmektir.'
+    },
+    {
+      term: 'Climate Interactive',
+      variants: [],
+      definition: 'Etkili ve adil iklim eylemini destekleyen ileri düzey araçlar geliştiren ve paylaşan kâr amacı gütmeyen bir kuruluştur. Daha fazla bilgi: https://www.climateinteractive.org/'
+    },
+    {
+      term: 'iklim politikaları',
+      variants: ['iklim politikası'],
+      definition: 'Sera gazı emisyonlarını azaltmak ve iklim değişikliğinin etkilerine uyum sağlamak için hükümetler ve kurumlar tarafından geliştirilen strateji, yasa ve düzenlemelerdir.'
+    },
+    {
+      term: 'iklim sistemi',
+      variants: ['iklim sistemleri'],
+      definition: 'Dünya iklimini belirleyen atmosfer, okyanuslar, buzullar, kara ve canlılar arasındaki karmaşık etkileşimlerdir.'
+    },
+    {
+      term: 'co₂ konsantrasyonu',
+      variants: ['CO₂ Konsantrasyonu', 'co2 konsantrasyonu'],
+      definition: 'Belirli bir hava hacmindeki CO₂ molekülü miktarının ölçüsüdür ve genellikle milyon başına parça (ppm) olarak ifade edilir. İklim değişikliğinin temel göstergelerinden biridir.'
+    },
+    {
+      term: 'co₂ emisyonları',
+      variants: ['CO₂ Emisyonları'],
+      definition: 'Elektrik üretimi, sanayi, ulaşım ve ormansızlaşma gibi kaynaklardan atmosfere her yıl salınan toplam CO₂ miktarıdır.'
+    },
+    {
+      term: 'co₂ giderimi',
+      variants: ['CO2 giderimi', 'karbondioksit giderimi'],
+      definition: 'CO₂’yi atmosferden alıp başka yerlerde depolayan doğal ve teknolojik süreçlerdir.'
+    },
+    {
+      term: 'Dr. Ayana Elizabeth Johnson',
+      variants: ['Ayana Elizabeth Johnson'],
+      definition: 'Dr. Ayana Elizabeth Johnson, Urban Ocean Lab’in kurucu ortaklarındandır, çok satan *All We Can Save* iklim antolojisinin ortak editörüdür ve *What If We Get it Right?* kitabının yazarıdır.'
+    },
+    {
+      term: 'itici güçler',
+      variants: ['itici güç'],
+      definition: 'Bir şeyin gerçekleşmesini sağlayan temel nedenler veya kuvvetlerdir. İklim bağlamında fosil yakıt kullanımı, ormansızlaşma ve bazı sanayi süreçleri gibi etkenleri ifade eder.'
+    },
+    {
+      term: 'emisyonlar',
+      variants: ['emisyon'],
+      definition: 'Sera gazlarının (ör. karbondioksit ve metan) atmosfere salınmasıdır. Emisyonların azaltılması iklim değişikliğiyle mücadelede kritik öneme sahiptir.'
+    },
+    {
+      term: 'fosil yakıtlar',
+      variants: ['fosil yakıt'],
+      definition: 'Kömür, petrol ve doğal gaz gibi, eski bitki ve hayvan kalıntılarından oluşmuş enerji kaynaklarıdır. Yakıldıklarında milyonlarca yıl yer altında depolanmış CO₂’yi atmosfere salarlar.'
+    },
+    {
+      term: 'sera gazı',
+      variants: ['sera gazları'],
+      definition: 'Güneşten gelen ısıyı atmosferde tutarak gezegeni ısıtan gazlardır. Başlıca sera gazları karbondioksit, metan ve diazot monoksittir.'
+    },
+    {
+      term: 'dengelenmek',
+      variants: ['sabitlenmek'],
+      definition: 'Bir şeyin artmayı veya azalmayı bırakıp zamanla yaklaşık aynı seviyede kalmasıdır.'
+    },
+    {
+      term: 'karbondioksit giderimi için doğa temelli çözüm',
+      variants: ['doğa temelli çözümler', 'doğa temelli karbon giderimi', 'ağaçlandırma', 'yeniden ağaçlandırma'],
+      definition: 'Orman alanlarının artırılması, bozulmuş ormanların onarılması, karbon tutan tarım uygulamaları ve biyokömür üretimini içerir. Bu yöntemler CO₂’yi atmosferden çekip bitkilerde ve toprakta depolayabilir.'
+    },
+    {
+      term: 'kaldıraç noktaları',
+      variants: ['kaldıraç noktası', 'yüksek etkili kaldıraç noktaları'],
+      definition: 'Karmaşık bir sistem içinde küçük ama doğru hedeflenmiş bir müdahalenin büyük ve kalıcı değişimler yaratabildiği noktalardır.'
+    },
+    {
+      term: 'doğrudan hava yakalama (DAC)',
+      variants: ['doğrudan hava yakalama', 'DAC'],
+      definition: 'Sıvı çözücüler veya katı sorbentler kullanarak atmosferden CO₂ çıkaran, ardından bunu kalıcı olarak depolayan veya yeniden kullanan teknolojidir.'
+    },
+    {
+      term: 'yenilenebilir enerji',
+      variants: ['yenilenebilirler'],
+      definition: 'Güneş, rüzgâr, hidroelektrik ve jeotermal gibi doğal olarak yenilenen kaynaklardan elde edilen enerjidir. Fosil yakıtlardan farklı olarak sera gazı emisyonu üretmez.'
+    },
+    {
+      term: 'sistem farkındalığı',
+      variants: ['sistem bilinci'],
+      definition: 'Sistem farkındalığı; karmaşıklığı, karşılıklı bağımlılığı ve zaman içindeki değişimi algılama, hissetme ve düşünme kapasitesidir.'
     }
   ],
 
