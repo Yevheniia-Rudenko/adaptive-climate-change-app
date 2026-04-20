@@ -98,7 +98,7 @@ export function TermPopup({ isOpen, onClose, term, definition }: TermPopupProps)
                 onClick={onClose}
                 className="mt-4 w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex-shrink-0"
               >
-                {t.gotIt}
+                {t.common.gotIt}
               </button>
             </motion.div>
           </div>

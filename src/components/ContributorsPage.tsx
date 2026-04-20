@@ -20,12 +20,11 @@ export function ContributorsPage() {
                         <div className="flex items-center gap-3 mb-4">
                             <Heart className="text-red-500 flex-shrink-0" size={32} fill="currentColor" />
                             <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-100">
-                                Contributors & Credits
+                                {t.pages.contributors.title}
                             </h1>
                         </div>
                         <p className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed">
-                            This project is made possible by the contributions of many individuals and organizations.
-                            We are grateful for their support and dedication to climate education.
+                            {t.pages.contributors.description}
                         </p>
                     </div>
 
@@ -34,7 +33,7 @@ export function ContributorsPage() {
                         <div className="flex items-center gap-2 mb-6">
                             <Heart className="text-purple-600 dark:text-purple-400 flex-shrink-0" size={24} />
                             <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
-                                Development Team
+                                {t.pages.contributors.developmentTeam}
                             </h2>
                         </div>
                         <div className="grid gap-4 sm:gap-6">
@@ -67,11 +66,11 @@ export function ContributorsPage() {
                         <div className="flex items-center gap-2 mb-6">
                             <ImageIcon className="text-blue-600 dark:text-blue-400 flex-shrink-0" size={24} />
                             <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
-                                Image Credits
+                                {t.pages.contributors.imageCredits}
                             </h2>
                         </div>
                         <p className="text-gray-600 dark:text-gray-400 mb-6">
-                            We are grateful to the following creators and organizations for their images and graphics:
+                            {t.pages.contributors.imageCreditsDescription}
                         </p>
                         <div className="grid gap-4">
                             {imageAttributions.map((attribution, index) => (
@@ -95,7 +94,7 @@ export function ContributorsPage() {
 
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
                                         <div>
-                                            <span className="text-gray-500 dark:text-gray-400 font-medium">Author:</span>
+                                            <span className="text-gray-500 dark:text-gray-400 font-medium">{t.pages.contributors.labels.author}</span>
                                             {attribution.authorUrl ? (
                                                 <a
                                                     href={attribution.authorUrl}
@@ -114,7 +113,7 @@ export function ContributorsPage() {
                                         </div>
 
                                         <div>
-                                            <span className="text-gray-500 dark:text-gray-400 font-medium">Source:</span>
+                                            <span className="text-gray-500 dark:text-gray-400 font-medium">{t.pages.contributors.labels.source}</span>
                                             {attribution.sourceUrl ? (
                                                 <a
                                                     href={attribution.sourceUrl}
@@ -133,7 +132,7 @@ export function ContributorsPage() {
                                         </div>
 
                                         <div>
-                                            <span className="text-gray-500 dark:text-gray-400 font-medium">License:</span>
+                                            <span className="text-gray-500 dark:text-gray-400 font-medium">{t.pages.contributors.labels.license}</span>
                                             {attribution.licenseUrl ? (
                                                 <a
                                                     href={attribution.licenseUrl}
@@ -152,7 +151,7 @@ export function ContributorsPage() {
                                         </div>
 
                                         <div>
-                                            <span className="text-gray-500 dark:text-gray-400 font-medium">File:</span>
+                                            <span className="text-gray-500 dark:text-gray-400 font-medium">{t.pages.contributors.labels.file}</span>
                                             <code className="ml-2 text-xs text-gray-600 dark:text-gray-400 bg-gray-200 dark:bg-gray-600 px-2 py-0.5 rounded">
                                                 {attribution.filePath}
                                             </code>
@@ -166,10 +165,10 @@ export function ContributorsPage() {
                     {/* Footer Note */}
                     <div className="mt-10 pt-6 border-t border-gray-200 dark:border-gray-700">
                         <p className="text-center text-sm text-gray-600 dark:text-gray-400 mb-2">
-                            All curriculum materials are licensed under a Creative Commons Attribution- NonCommercial 4.0 International License.
+                            {t.pages.contributors.footerText1}
                         </p>
                         <p className="text-center text-sm text-gray-600 dark:text-gray-400">
-                            If you believe any attribution is incorrect or missing, please contact us so we can update it.
+                            {t.pages.contributors.footerText2}
                         </p>
                     </div>
                 </motion.div>

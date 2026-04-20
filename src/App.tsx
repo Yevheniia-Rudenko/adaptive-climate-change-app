@@ -86,7 +86,7 @@ function FlexibleModulePageWrapper() {
   // Add a key ensuring the component fully remounts when the ID changes
   return (
     <SessionProvider moduleId={id}>
-      <FlexibleModulePage key={id} module={module} moduleId={id} />
+      <FlexibleModulePage key={id} moduleId={id} />
     </SessionProvider>
   );
 }

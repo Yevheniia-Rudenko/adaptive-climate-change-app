@@ -17,50 +17,50 @@ export function ResourcesPage() {
   const categories: ResourceCategory[] = [
     {
       id: 'climate-basics',
-      title: 'Climate Basics',
-      description: 'Foundational knowledge about climate science and Earth systems.',
+      title: t.pages.resources.categories.climateBasics.title,
+      description: t.pages.resources.categories.climateBasics.description,
       icon: BookOpen,
     },
     {
       id: 'articles-publications',
-      title: 'Articles & Publications',
-      description: 'Research papers, reports, and in-depth reading materials.',
+      title: t.pages.resources.categories.articlesPublications.title,
+      description: t.pages.resources.categories.articlesPublications.description,
       icon: FileText,
     },
     {
       id: 'tools-frameworks',
-      title: 'Tools & Frameworks',
-      description: 'Interactive simulators and analytical tools for climate exploration.',
+      title: t.pages.resources.categories.toolsFrameworks.title,
+      description: t.pages.resources.categories.toolsFrameworks.description,
       icon: Wrench,
     },
     {
       id: 'videos-podcasts',
-      title: 'Videos & Podcasts',
-      description: 'Engaging multimedia content to learn about climate solutions.',
+      title: t.pages.resources.categories.videosPodcasts.title,
+      description: t.pages.resources.categories.videosPodcasts.description,
       icon: PlayCircle,
     },
     {
       id: 'case-studies',
-      title: 'Case Studies & Real-World Examples',
-      description: 'Practical examples of climate action and their outcomes.',
+      title: t.pages.resources.categories.caseStudies.title,
+      description: t.pages.resources.categories.caseStudies.description,
       icon: Globe,
     },
     {
       id: 'action-participation',
-      title: 'Action & Participation',
-      description: 'Opportunities to get involved and make a difference.',
+      title: t.pages.resources.categories.actionParticipation.title,
+      description: t.pages.resources.categories.actionParticipation.description,
       icon: Users,
     },
     {
       id: 'glossary',
-      title: 'Glossary',
-      description: 'Key terms and definitions for climate and systems thinking concepts.',
+      title: t.pages.resources.categories.glossary.title,
+      description: t.pages.resources.categories.glossary.description,
       icon: BookText,
     },
     {
       id: 'learning-opportunities',
-      title: 'Learning Opportunities',
-      description: 'Climate and educational organizations for further learning and professional development.',
+      title: t.pages.resources.categories.learningOpportunities.title,
+      description: t.pages.resources.categories.learningOpportunities.description,
       icon: ExternalLink,
     },
   ];
@@ -81,7 +81,7 @@ export function ResourcesPage() {
             variant="outline"
             className="mb-4 sm:mb-6 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-500 dark:hover:bg-gray-600"
           >
-            ← {t.backHome}
+            ← {t.nav.backToHome}
           </Button>
         </Link>
 
@@ -89,10 +89,9 @@ export function ResourcesPage() {
           <h1 
             className="font-bold text-gray-800 dark:text-gray-100 text-center mb-3 sm:mb-4"
             style={{ fontSize: '3rem', lineHeight: '1.2' }}
-          >{t.resources}</h1>
+          >{t.pages.resources.title}</h1>
           <p className="text-gray-600 dark:text-gray-300 mb-8 sm:mb-10 text-sm sm:text-base max-w-2xl">
-            Explore additional resources to deepen your understanding of climate systems
-            and climate action. Select a category to discover curated materials.
+            {t.pages.resources.description}
           </p>
 
           {/* Category Cards Grid */}
@@ -136,7 +135,7 @@ export function ResourcesPage() {
                     variant="outline"
                     className="w-full mt-auto group hover:bg-green-50 dark:hover:bg-green-900/20 hover:border-green-500 hover:text-green-700 dark:hover:text-green-400"
                   >
-                    <span>Explore</span>
+                    <span>{t.pages.resources.explore}</span>
                     <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </div>
@@ -146,7 +145,7 @@ export function ResourcesPage() {
 
           <div className="mt-8 sm:mt-10 pt-6 sm:pt-8 border-t border-gray-200 dark:border-gray-700">
             <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 text-center">
-              More categories and resources are being added regularly. Check back for updates!
+              {t.pages.resources.footerNote}
             </p>
           </div>
         </div>

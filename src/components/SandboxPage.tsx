@@ -1,6 +1,7 @@
 // ⚠️ TEMPORARY — delete this file and remove route from App.tsx when done
 
 import React, { useState, useRef } from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 import { BeforeAfterSlider } from './BeforeAfterSlider';
 
 import urmiaBeforeImg from '../assets/lake_urmia_june_2021_before.jpg';
@@ -26,164 +27,58 @@ import whalesUrl from '../assets/music/whales.mp3';
 
 
 // ─────────────────────────────────────────────────────────────────────────────
-// DATA
+// DATA FETCHING HOOK
 // ─────────────────────────────────────────────────────────────────────────────
 
-const SLIDERS = [
-    {
-        id: 1,
-        title: 'Lake Urmia, Iran',
-        beforeImage: urmiaBeforeImg,
-        beforeLabel: 'June 2021 — filled with water',
-        afterImage: urmiaAfterImg,
-        afterLabel: 'Nov 2021 — drying out',
-        caption: 'One of the world\'s largest hypersaline lakes has been shrinking rapidly since the 1990s.',
-    },
-    {
-        id: 2,
-        title: 'Beaufort Sea Ice',
-        beforeImage: beaufortBeforeImg,
-        beforeLabel: 'Before — solid ice',
-        afterImage: beaufortAfterImg,
-        afterLabel: 'After — ice breakup',
-        caption: 'Arctic sea ice is breaking up at an accelerating rate due to rising temperatures.',
-    },
-    {
-        id: 3,
-        title: 'Himalayas Glacier',
-        beforeImage: himalayasBeforeImg,
-        beforeLabel: 'Before — glaciers intact',
-        afterImage: himalayasAfterImg,
-        afterLabel: 'After — glaciers melting',
-        caption: 'Himalayan glaciers have lost over 40% of their ice volume in the last four decades.',
-    },
-];
+function useSandboxData() {
+    const { t } = useLanguage();
+    
+    // Sliders
+    const SLIDERS = (t.pages.sandbox?.sliders || []).map((s, i) => ({
+        ...s,
+        beforeImage: [urmiaBeforeImg, beaufortBeforeImg, himalayasBeforeImg][i],
+        afterImage: [urmiaAfterImg, beaufortAfterImg, himalayasAfterImg][i]
+    }));
 
-const STATS = [
-    { number: '1 million', unit: 'species', context: 'threatened with extinction due to climate & ecosystem destruction', color: '#ef4444', emoji: '🦋' },
-    { number: '11 years', unit: '', context: 'left to cut emissions in half before climate change becomes uncontrollable — the clock started in 2021', color: '#f97316', emoji: '⏱️' },
-    { number: '8×', unit: 'more likely', context: 'to experience a deadly heatwave if you\'re born today vs someone born in 1960', color: '#eab308', emoji: '🔥' },
-    { number: '20 million', unit: 'people/year', context: 'already displaced by extreme weather events — the real climate refugees', color: '#3b82f6', emoji: '🌊' },
-    { number: '1 football field', unit: 'every second', context: 'of forest is lost. Every. Second. While you read this, 4 fields disappeared.', color: '#22c55e', emoji: '🌳' },
-    { number: '100×', unit: 'faster', context: 'than natural — the current rate of species extinction caused by human activity', color: '#a855f7', emoji: '🐾' },
-];
+    // Stats, Quotes, Songs
+    const STATS = [
+        { ...t.pages.sandbox?.stats?.[0], color: '#ef4444', emoji: '🦋' },
+        { ...t.pages.sandbox?.stats?.[1], color: '#f97316', emoji: '⏱️' },
+        { ...t.pages.sandbox?.stats?.[2], color: '#eab308', emoji: '🔥' },
+        { ...t.pages.sandbox?.stats?.[3], color: '#3b82f6', emoji: '🌊' },
+        { ...t.pages.sandbox?.stats?.[4], color: '#22c55e', emoji: '🌳' },
+        { ...t.pages.sandbox?.stats?.[5], color: '#a855f7', emoji: '🐾' }
+    ];
 
-const QUIZ: { question: string; myth: boolean; explanation: string }[] = [
-    {
-        question: '"Recycling is the most important thing I can do for the climate."',
-        myth: true,
-        explanation: 'Myth! Recycling helps but it\'s tiny. What\'s 10× more impactful: eating less meat, flying less, and switching to clean energy. Don\'t let companies convince you it\'s all on you.',
-    },
-    {
-        question: '"Scientists actually disagree about whether climate change is real."',
-        myth: true,
-        explanation: 'Myth! 97% of climate scientists agree it\'s real and human-caused. The "debate" was largely manufactured by fossil fuel companies in the 1980s. Yes, really.',
-    },
-    {
-        question: '"Renewable energy is now cheaper than coal in most countries."',
-        myth: false,
-        explanation: 'TRUE! Solar and wind are now the cheapest electricity ever recorded in history — cheaper than new coal or gas in most of the world. The technology won.',
-    },
-    {
-        question: '"Trees alone can absorb all the CO₂ we produce."',
-        myth: true,
-        explanation: 'Myth! We\'d need to plant trees the size of the entire USA — every year — to absorb current emissions. Trees help, but we still need to cut emissions at the source.',
-    },
-    {
-        question: '"Young people\'s individual actions can\'t make a real difference."',
-        myth: true,
-        explanation: 'Myth! When young people elect climate-conscious leaders, push schools to divest, and shift culture — that\'s systemic change. The youth climate movement has already reshaped global policy.',
-    },
-    {
-        question: '"The oceans absorb about 90% of the excess heat from global warming."',
-        myth: false,
-        explanation: 'TRUE! The oceans are our biggest buffer. But it\'s making them warmer, more acidic, and killing ecosystems from the inside. The ocean is doing the heavy lifting — for now.',
-    },
-];
+    const QUIZ = (t.pages.sandbox?.quiz || []).map((q, i) => ({
+        ...q,
+        myth: [true, true, false, true, true, false][i]
+    }));
 
+    const QUOTES = (t.pages.sandbox?.quotes || []).map((q, i) => ({
+        ...q,
+        emoji: ['🌍', '🧒', '🔥', '🌊', '🌲', '🕊️'][i]
+    }));
 
-const QUOTES = [
-    { text: 'The Earth does not belong to us. We belong to the Earth.', author: 'Chief Seattle', emoji: '🌍' },
-    { text: 'We do not inherit the earth from our ancestors; we borrow it from our children.', author: 'Antoine de Saint-Exupéry', emoji: '🧒' },
-    { text: 'Our house is on fire. I want you to act as if the house is on fire, because it is.', author: 'Greta Thunberg', emoji: '🔥' },
-    { text: 'Climate change is the greatest threat to life on Earth. It has no borders, no passport.', author: 'David Attenborough', emoji: '🌊' },
-    { text: 'In every walk with nature, one receives far more than he seeks.', author: 'John Muir', emoji: '🌲' },
-    { text: 'The good man is the friend of all living things.', author: 'Mahatma Gandhi', emoji: '🕊️' },
-];
+    const SONGS = (t.pages.sandbox?.songs || []).map((s, i) => ({
+        ...s,
+        emoji: ['🐦', '🌿', '⛈️', '🐋'][i],
+        color: [
+            'linear-gradient(135deg, #bbf7d0 0%, #4ade80 100%)',
+            'linear-gradient(135deg, #6ee7b7 0%, #059669 100%)',
+            'linear-gradient(135deg, #c7d2fe 0%, #4f46e5 100%)',
+            'linear-gradient(135deg, #bae6fd 0%, #0369a1 100%)'
+        ][i],
+        src: [birdsUrl, forestUrl, stormUrl, whalesUrl][i]
+    }));
 
-const SONGS = [
-    {
-        title: 'Birds',
-        desc: 'Morning birdsong in a healthy forest',
-        emoji: '🐦',
-        color: 'linear-gradient(135deg, #bbf7d0 0%, #4ade80 100%)',
-        src: birdsUrl,
-    },
-    {
-        title: 'Forest',
-        desc: 'Deep rainforest sounds',
-        emoji: '🌿',
-        color: 'linear-gradient(135deg, #6ee7b7 0%, #059669 100%)',
-        src: forestUrl,
-    },
-    {
-        title: 'Storm',
-        desc: 'Thunder & rain — extreme weather',
-        emoji: '⛈️',
-        color: 'linear-gradient(135deg, #c7d2fe 0%, #4f46e5 100%)',
-        src: stormUrl,
-    },
-    {
-        title: 'Whales',
-        desc: 'Deep ocean whale songs',
-        emoji: '🐋',
-        color: 'linear-gradient(135deg, #bae6fd 0%, #0369a1 100%)',
-        src: whalesUrl,
-    },
-];
+    const MEMES = (t.pages.sandbox?.memes || []).map((m, i) => ({
+        ...m,
+        img: [memeNocap, memeIcecaps, memePinguin, memeScientist, memeMiami, memeGenz, memeCow, memeTiktok][i]
+    }));
 
-const MEMES: { img: string; meme: string; fact: string }[] = [
-    {
-        img: memeNocap,
-        meme: 'No cap, the planet is literally cooked rn',
-        fact: '2023 was the hottest year ever recorded on Earth. It was 1.45°C above pre-industrial levels. No cap.',
-    },
-    {
-        img: memeIcecaps,
-        meme: 'POV: the ice caps after one summer',
-        fact: 'Arctic sea ice is melting 3× faster than the global average. Some scientists predict ice-free summers by 2040.',
-    },
-    {
-        img: memePinguin,
-        meme: 'Penguin looking for its home after we messed up Antarctica',
-        fact: 'Emperor penguins could be near extinct by 2100 if emissions don\'t drop. They need sea ice to breed.',
-    },
-    {
-        img: memeScientist,
-        meme: 'Climate scientists: "This is fine." 🔬🔥',
-        fact: 'In 2024 alone, the world experienced 44 separate billion-dollar weather disasters. Fine.',
-    },
-    {
-        img: memeMiami,
-        meme: 'Miami in 2050 be like: underwater city, new aesthetic',
-        fact: 'Miami could face regular flooding by 2040. Sea levels around Miami are rising 3–5mm every year.',
-    },
-    {
-        img: memeGenz,
-        meme: 'Gen Z really said: okay fine, we\'ll fix it ourselves',
-        fact: 'Young people (under 35) report the highest levels of climate anxiety AND the highest rates of taking climate action. Let\'s go.',
-    },
-    {
-        img: memeCow,
-        meme: 'Every time someone orders a burger, a cow side-eyes the Amazon',
-        fact: 'Beef production is responsible for 80% of Amazon deforestation. One beef burger = 3kg of CO₂.',
-    },
-    {
-        img: memeTiktok,
-        meme: 'Me scrolling TikTok while the reef is bleaching again',
-        fact: 'The Great Barrier Reef has experienced 6 mass bleaching events since 1998. The last 4 happened after 2016.',
-    },
-];
+    return { t, SLIDERS, STATS, QUIZ, QUOTES, SONGS, MEMES };
+}
 
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -343,14 +238,15 @@ function ArcProgress({ current }: { current: number }) {
 
 /** 📊 Progress Showcase Section */
 function ProgressShowcase() {
+    const { t } = useSandboxData();
     const [step, setStep] = useState(3);
 
     const variants = [
-        { id: 'battery', label: 'A  Battery', component: <BatteryProgress current={step} /> },
-        { id: 'dots', label: 'B  Dots', component: <DotsProgress current={step} /> },
-        { id: 'pills', label: 'C  Pills', component: <PillProgress current={step} /> },
-        { id: 'leaf', label: 'D  Nature bar', component: <LeafProgress current={step} /> },
-        { id: 'arc', label: 'E  Arc', component: <ArcProgress current={step} /> },
+        { id: 'battery', label: t.pages.sandbox?.progressVariants?.battery || 'A  Battery', component: <BatteryProgress current={step} /> },
+        { id: 'dots', label: t.pages.sandbox?.progressVariants?.dots || 'B  Dots', component: <DotsProgress current={step} /> },
+        { id: 'pills', label: t.pages.sandbox?.progressVariants?.pills || 'C  Pills', component: <PillProgress current={step} /> },
+        { id: 'leaf', label: t.pages.sandbox?.progressVariants?.leaf || 'D  Nature bar', component: <LeafProgress current={step} /> },
+        { id: 'arc', label: t.pages.sandbox?.progressVariants?.arc || 'E  Arc', component: <ArcProgress current={step} /> },
     ];
 
     return (
@@ -361,13 +257,13 @@ function ProgressShowcase() {
                     onClick={() => setStep(s => Math.max(0, s - 1))}
                     disabled={step === 0}
                     className="px-3 py-1 rounded-lg border border-gray-200 dark:border-gray-700 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 disabled:opacity-30 transition-colors"
-                >← Prev block</button>
-                <span className="text-xs font-mono text-gray-500">block {step} / {TOTAL_BLOCKS}</span>
+                >{t.pages.sandbox?.progress?.prevBlock || '← Prev block'}</button>
+                <span className="text-xs font-mono text-gray-500">{t.pages.sandbox?.progress?.block || 'block'} {step} / {TOTAL_BLOCKS}</span>
                 <button
                     onClick={() => setStep(s => Math.min(TOTAL_BLOCKS, s + 1))}
                     disabled={step === TOTAL_BLOCKS}
                     className="px-3 py-1 rounded-lg border border-gray-200 dark:border-gray-700 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 disabled:opacity-30 transition-colors"
-                >Next block →</button>
+                >{t.pages.sandbox?.progress?.nextBlock || 'Next block →'}</button>
             </div>
 
             {/* Variants grid */}
@@ -389,6 +285,7 @@ function ProgressShowcase() {
 
 /** 💥 Shocking Stats */
 function ShockingStats() {
+    const { STATS } = useSandboxData();
     return (
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
             {STATS.map((s, i) => (
@@ -411,6 +308,7 @@ function ShockingStats() {
 
 /** ✅ True or Myth? Quiz */
 function TrueOrMyth() {
+    const { t, QUIZ } = useSandboxData();
     const [answers, setAnswers] = useState<{ [i: number]: boolean }>({});
     const [revealed, setRevealed] = useState<{ [i: number]: boolean }>({});
 
@@ -427,7 +325,7 @@ function TrueOrMyth() {
         <div className="space-y-2">
             {total > 0 && (
                 <div className="text-center text-xs font-semibold text-gray-500 dark:text-gray-400">
-                    Score: {score}/{total} correct
+                    {t.pages.sandbox?.quizUI?.score || 'Score'}: {score}/{total} {t.pages.sandbox?.quizUI?.correctText || 'correct'}
                 </div>
             )}
             {QUIZ.map((q, i) => {
@@ -443,18 +341,18 @@ function TrueOrMyth() {
                                         onClick={() => handleAnswer(i, false)}
                                         className="flex-1 py-1.5 rounded text-xs font-semibold bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 hover:bg-green-200 transition-colors"
                                     >
-                                        ✅ TRUE
+                                        {t.pages.sandbox?.quizUI?.trueBtn || '✅ TRUE'}
                                     </button>
                                     <button
                                         onClick={() => handleAnswer(i, true)}
                                         className="flex-1 py-1.5 rounded text-xs font-semibold bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 hover:bg-red-200 transition-colors"
                                     >
-                                        🚫 MYTH
+                                        {t.pages.sandbox?.quizUI?.mythBtn || '🚫 MYTH'}
                                     </button>
                                 </div>
                             ) : (
                                 <div className={`rounded p-2 text-xs ${correct ? 'bg-green-50 dark:bg-green-900/20 border-l-4 border-green-500' : 'bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500'}`}>
-                                    <span className="font-bold">{correct ? '🎉 Correct!' : '❌ Wrong!'} It\'s a {q.myth ? 'MYTH' : 'TRUE fact'}.</span>{' '}
+                                    <span className="font-bold">{correct ? (t.pages.sandbox?.quizUI?.correctAlert || '🎉 Correct!') : (t.pages.sandbox?.quizUI?.wrongAlert || '❌ Wrong!')} {t.pages.sandbox?.quizUI?.itsA || "It's a"} {q.myth ? (t.pages.sandbox?.quizUI?.mythFact || 'MYTH') : (t.pages.sandbox?.quizUI?.trueFact || 'TRUE fact')}.</span>{' '}
                                     <span className="text-gray-600 dark:text-gray-300">{q.explanation}</span>
                                 </div>
                             )}
@@ -468,11 +366,12 @@ function TrueOrMyth() {
 
 /** ✍️ Pledge Wall */
 function PledgeWall() {
+    const { t } = useSandboxData();
     const [pledge, setPledge] = useState('');
     const [pledges, setPledges] = useState<string[]>([]);
     const [submitted, setSubmitted] = useState(false);
 
-    const PROMPTS = [
+    const PROMPTS = t.pages.sandbox?.pledge?.prompts || [
         'I will eat one meat-free meal per week 🥗',
         'I will talk to one person about climate change 💬',
         'I will walk or cycle instead of getting a car ride 🚲',
@@ -491,7 +390,7 @@ function PledgeWall() {
     return (
         <div className="space-y-4">
             <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 space-y-4">
-                <p className="text-sm text-gray-600 dark:text-gray-400">Pick one or write your own:</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">{t.pages.sandbox?.pledge?.pickOne || 'Pick one or write your own:'}</p>
 
                 {/* Prompt chips */}
                 <div className="flex flex-wrap gap-2">
@@ -511,7 +410,7 @@ function PledgeWall() {
                     rows={2}
                     value={pledge}
                     onChange={e => setPledge(e.target.value)}
-                    placeholder="I will..."
+                    placeholder={t.pages.sandbox?.pledge?.placeholder || "I will..."}
                     className="w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-100 px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
                 <button
@@ -520,14 +419,14 @@ function PledgeWall() {
                     className="w-full py-2.5 rounded-lg text-white font-semibold text-sm transition-opacity disabled:opacity-40"
                     style={{ backgroundColor: '#2F8237' }}
                 >
-                    {submitted ? '🎉 Pledged!' : '✊ Take the pledge'}
+                    {submitted ? (t.pages.sandbox?.pledge?.pledgedBtn || '🎉 Pledged!') : (t.pages.sandbox?.pledge?.takePledgeBtn || '✊ Take the pledge')}
                 </button>
             </div>
 
             {/* Pledge list */}
             {pledges.length > 0 && (
                 <div className="space-y-2">
-                    <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">Pledges made this session ({pledges.length})</div>
+                    <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">{t.pages.sandbox?.pledge?.pledgesMade || 'Pledges made this session'} ({pledges.length})</div>
                     {pledges.map((p, i) => (
                         <div key={i} className="flex items-start gap-2 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 px-3 py-2 text-sm text-gray-800 dark:text-gray-200">
                             <span className="text-green-500 mt-0.5">✓</span> {p}
@@ -542,6 +441,7 @@ function PledgeWall() {
 
 /** 🤙 Memes & Relatable Phrases */
 function MemesWall() {
+    const { t, MEMES } = useSandboxData();
     const [flipped, setFlipped] = useState<number | null>(null);
 
     return (
@@ -558,9 +458,9 @@ function MemesWall() {
                         {flipped === i ? (
                             /* Fact side — full white card */
                             <div className="flex flex-col justify-between p-4" style={{ minHeight: 220 }}>
-                                <div className="text-[10px] font-bold text-indigo-500 uppercase tracking-widest">🔬 Real fact</div>
+                                <div className="text-[10px] font-bold text-indigo-500 uppercase tracking-widest">{t.pages.sandbox?.memeUI?.realFact || '🔬 Real fact'}</div>
                                 <p className="text-xs text-gray-700 leading-relaxed my-3">{m.fact}</p>
-                                <div className="text-[10px] text-gray-400">tap to flip back ↩</div>
+                                <div className="text-[10px] text-gray-400">{t.pages.sandbox?.memeUI?.tapToFlip || 'tap to flip back ↩'}</div>
                             </div>
                         ) : (
                             /* Image only — text already on the image */
@@ -584,6 +484,7 @@ function MemesWall() {
 
 /** 💬 Quote Carousel */
 function QuoteCarousel() {
+    const { QUOTES } = useSandboxData();
     const [idx, setIdx] = useState(0);
     const quote = QUOTES[idx];
 
@@ -619,6 +520,7 @@ function QuoteCarousel() {
 
 /** 🎵 Audio Player */
 function AudioPlayer() {
+    const { SONGS } = useSandboxData();
     const [playing, setPlaying] = useState<number | null>(null);
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -718,6 +620,8 @@ const SECTION_STYLES: Record<string, { accent: string; iconBg: string; iconColor
 };
 
 export function SandboxPage() {
+    const { SLIDERS } = useSandboxData();
+
     return (
         <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 font-sora">
             <div className="max-w-4xl mx-auto">

@@ -1,7 +1,10 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { createAsyncModel, createDefaultOutputs, getDefaultConfig } from '@climateinteractive/en-roads-core';
 import enStrings from '@climateinteractive/en-roads-core/strings/en';
+import deStrings from '@climateinteractive/en-roads-core/strings/de';
+import esStrings from '@climateinteractive/en-roads-core/strings/es';
 import { GraphView } from '@climateinteractive/sim-ui-graph';
+import { useLanguage } from '../../contexts/LanguageContext';
 import '../../styles/enroads-dashboard.css';
 
 const AIR_POLLUTION_GRAPH_ID = '112';
@@ -9,6 +12,7 @@ const AVG_ENERGY_PRICE_GRAPH_ID = '78';
 const CARBON_PRICE_INPUT_ID = '39';
 
 export default function Module3CarbonPriceDashboard() {
+  const { language, t } = useLanguage();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -33,7 +37,29 @@ export default function Module3CarbonPriceDashboard() {
 
   const carbonPriceInputRef = useRef<any>(null);
 
-  const str = (key: string) => (enStrings as any)[key] || key;
+  const ui = (t.data.modules as any)?.module3?.components?.carbonPriceDashboard ?? {
+    title: 'Make a Model: Carbon Price',
+    openFullscreen: 'Open Full Screen',
+    closeFullscreen: 'Close Full Screen',
+    temperatureTitle: 'Temperature\nIncrease by\n2100',
+    airPollution: 'Air Pollution',
+    averageEnergyPrice: 'Average Price of Energy to Consumers',
+    carbonPrice: 'Carbon Price',
+    loadingModel: 'Loading Model...',
+    failedToLoad: 'Failed to load En-ROADS model.',
+    baseline: 'BASELINE',
+    currentScenario: 'CURRENT SCENARIO'
+  };
+
+  const getEnRoadsStrings = () => {
+    switch (language) {
+      case 'de': return deStrings;
+      case 'es': return esStrings;
+      default: return enStrings;
+    }
+  };
+
+  const str = (key: string) => (getEnRoadsStrings() as any)[key] || key;
 
   const getCarbonPriceRangeLabel = (value: number) => {
     const spec = carbonPriceInputRef.current?.spec;
@@ -231,7 +257,7 @@ export default function Module3CarbonPriceDashboard() {
 
         setIsLoading(false);
       } catch {
-        setError('Failed to load En-ROADS model.');
+        setError(ui.failedToLoad);
         setIsLoading(false);
       }
     };
@@ -268,7 +294,7 @@ export default function Module3CarbonPriceDashboard() {
     };
   }, [isExpanded, isLoading]);
 
-  if (isLoading) return <div className="p-8 text-center text-gray-500">Loading Model...</div>;
+  if (isLoading) return <div className="p-8 text-center text-gray-500">{ui.loadingModel}</div>;
   if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
 
   // ─── Shared JSX pieces ────────────────────────────────────────────────────
@@ -292,9 +318,9 @@ export default function Module3CarbonPriceDashboard() {
         </span>
         <div
           className="mt-3 leading-tight text-gray-900 dark:text-gray-100"
-          style={{ fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)', fontWeight: 800 }}
+          style={{ fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)', fontWeight: 800, whiteSpace: 'pre-line' }}
         >
-          Temperature<br />Increase by<br />2100
+          {ui.temperatureTitle}
         </div>
       </div>
     </div>
@@ -303,8 +329,8 @@ export default function Module3CarbonPriceDashboard() {
   /** Legend badges */
   const Legend = (
     <div className="flex justify-center gap-3 mt-3">
-      <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
-      <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
+      <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>{ui.baseline}</span>
+      <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>{ui.currentScenario}</span>
     </div>
   );
 
@@ -319,7 +345,7 @@ export default function Module3CarbonPriceDashboard() {
         {isExpanded ? (
           <div className="relative px-4 pt-4 mb-4">
             <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200 text-center">
-              Make a Model: Carbon Price
+              {ui.title}
             </h2>
             <button
               type="button"
@@ -327,13 +353,13 @@ export default function Module3CarbonPriceDashboard() {
               className="absolute right-4 top-4 px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
               style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
             >
-              Close Full Screen
+              {ui.closeFullscreen}
             </button>
           </div>
         ) : (
           <div className="flex items-start justify-between gap-3 px-4 pt-4 mb-4">
             <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200">
-              Make a Model: Carbon Price
+              {ui.title}
             </h2>
             <button
               type="button"
@@ -341,7 +367,7 @@ export default function Module3CarbonPriceDashboard() {
               className="px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
               style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
             >
-              Open Full Screen
+              {ui.openFullscreen}
             </button>
           </div>
         )}
@@ -354,7 +380,7 @@ export default function Module3CarbonPriceDashboard() {
           <div className="overflow-x-auto mb-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 min-w-[980px]">
               <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
-                <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">Air Pollution</h3>
+                <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">{ui.airPollution}</h3>
                 <div className="relative w-full">
                   <canvas ref={airCanvasRef} className="w-full h-full" />
                 </div>
@@ -362,7 +388,7 @@ export default function Module3CarbonPriceDashboard() {
               </div>
 
               <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
-                <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">Average Price of Energy to Consumers</h3>
+                <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">{ui.averageEnergyPrice}</h3>
                 <div className="relative w-full">
                   <canvas ref={priceCanvasRef} className="w-full h-full" />
                 </div>
@@ -373,7 +399,7 @@ export default function Module3CarbonPriceDashboard() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
-              <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">Air Pollution</h3>
+              <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">{ui.airPollution}</h3>
               <div className="relative w-full">
                 <canvas ref={airCanvasRef} className="w-full h-full" />
               </div>
@@ -381,7 +407,7 @@ export default function Module3CarbonPriceDashboard() {
             </div>
 
             <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
-              <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">Average Price of Energy to Consumers</h3>
+              <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">{ui.averageEnergyPrice}</h3>
               <div className="relative w-full">
                 <canvas ref={priceCanvasRef} className="w-full h-full" />
               </div>
@@ -393,7 +419,7 @@ export default function Module3CarbonPriceDashboard() {
         {/* ── Carbon Price slider ── */}
         <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-2">
           <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
-            <label>Carbon Price</label>
+            <label>{ui.carbonPrice}</label>
             <span className="text-xs font-mono text-gray-500">{getCarbonPriceRangeLabel(carbonPriceValue)}</span>
           </div>
           <div className="enroads-range-wrap">

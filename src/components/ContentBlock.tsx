@@ -29,6 +29,13 @@ const audioLandscapeImage = new URL('../assets/AudioLandscape (1).png', import.m
 
 function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { type: 'poll' }>; moduleId: number }) {
   const { sessionId, studyConsent } = useSession();
+  const { t } = useLanguage();
+  const otherOptionValue = 'Other';
+  const otherLabel = (t.common as any)?.other ?? 'Other';
+  const pleaseSpecify = (t.common as any)?.pleaseSpecify ?? 'Please specify...';
+  const submittingText = (t.common as any)?.submitting ?? 'Submitting…';
+  const submittedText = (t.common as any)?.submitted ?? 'Submitted.';
+  const yourSubmittedResponseText = (t.common as any)?.yourSubmittedResponse ?? 'Your submitted response';
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [otherText, setOtherText] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -106,9 +113,9 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
       return;
     }
     const responseDisplay = (() => {
-      const parts = selectedOptions.filter(o => o !== 'Other');
-      if (selectedOptions.includes('Other') && otherText.trim() !== '') {
-        parts.push(`Other: ${otherText.trim()}`);
+      const parts = selectedOptions.filter(o => o !== otherOptionValue);
+      if (selectedOptions.includes(otherOptionValue) && otherText.trim() !== '') {
+        parts.push(`${otherLabel}: ${otherText.trim()}`);
       }
       return parts.join(', ');
     })();
@@ -153,12 +160,12 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
     }
   };
 
-  const canSubmit = selectedOptions.length > 0 && (!selectedOptions.includes('Other') || otherText.trim() !== '');
+  const canSubmit = selectedOptions.length > 0 && (!selectedOptions.includes(otherOptionValue) || otherText.trim() !== '');
   const hasCurrentDraft = selectedOptions.length > 0 || otherText.trim() !== '';
   const effectiveSelection = hasCurrentDraft ? { selectedOptions, otherText } : lastSubmittedSelection;
   const isSelected = (option: string) => !!effectiveSelection?.selectedOptions.includes(option);
   const showReadOnlyOtherText =
-    !hasCurrentDraft && !!lastSubmittedSelection?.selectedOptions.includes('Other') && lastSubmittedSelection.otherText.trim() !== '';
+    !hasCurrentDraft && !!lastSubmittedSelection?.selectedOptions.includes(otherOptionValue) && lastSubmittedSelection.otherText.trim() !== '';
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700 mb-8 font-sora">
@@ -174,7 +181,7 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
       <div className="mb-4 space-y-2">
         {isSubmitting && (
           <div role="status" aria-live="polite" className="text-sm text-gray-600 dark:text-gray-300">
-            Submitting…
+            {submittingText}
           </div>
         )}
         {submitError && (
@@ -184,7 +191,7 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
         )}
         {isSubmitted && !submitError && (
           <div role="status" aria-live="polite" className="text-sm text-green-700 dark:text-green-400">
-            Submitted.
+            {submittedText}
           </div>
         )}
       </div>
@@ -212,7 +219,7 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
             <span className="text-gray-700 dark:text-gray-300 text-sm sm:text-base" style={{ marginLeft: '3rem' }}>{option}</span>
           </label>
         ))}
-        <div className={`flex flex-col p-3 rounded-xl border-2 transition-all ${isSelected('Other')
+        <div className={`flex flex-col p-3 rounded-xl border-2 transition-all ${isSelected(otherOptionValue)
           ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
           : 'border-gray-200 dark:border-gray-700 hover:border-blue-200'
           }`}>
@@ -220,14 +227,14 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
             <input
               type={inputType}
               name={`poll-${block.id}`}
-              value="Other"
-              checked={isSelected('Other')}
-              onChange={() => toggleOption('Other')}
+              value={otherOptionValue}
+              checked={isSelected(otherOptionValue)}
+              onChange={() => toggleOption(otherOptionValue)}
               className="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500 rounded"
             />
-            <span className="text-gray-700 dark:text-gray-300 text-sm sm:text-base" style={{ marginLeft: '3rem' }}>Other</span>
+            <span className="text-gray-700 dark:text-gray-300 text-sm sm:text-base" style={{ marginLeft: '3rem' }}>{otherLabel}</span>
           </label>
-          {selectedOptions.includes('Other') && (
+          {selectedOptions.includes(otherOptionValue) && (
             <input
               type="text"
               value={otherText}
@@ -236,7 +243,7 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
                 setSubmitError(null);
                 setIsSubmitted(false);
               }}
-              placeholder="Please specify..."
+              placeholder={pleaseSpecify}
               className="mt-3 p-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
               style={{ marginLeft: '4.25rem' }}
               autoFocus
@@ -252,7 +259,7 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
       <SubmitButton onClick={handleSubmit} disabled={!canSubmit || isSubmitting} />
       {lastSubmittedResponse && (
         <div className="mt-2 text-sm text-gray-700 dark:text-gray-300">
-          <div className="font-semibold">Your submitted response</div>
+          <div className="font-semibold">{yourSubmittedResponseText}</div>
           <div className="mt-2 whitespace-pre-wrap break-words bg-gray-200 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl p-4 leading-relaxed shadow-sm">
             {lastSubmittedResponse}
           </div>
@@ -263,6 +270,7 @@ function PollBlock({ block, moduleId }: { block: Extract<ContentBlockType, { typ
 }
 
 function ModuleFeedbackBlock({ block, moduleId }: { block: Extract<ContentBlockType, { type: 'module-feedback' }>; moduleId: number }) {
+  const { t } = useLanguage();
   const { sessionId, studyConsent } = useSession();
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
@@ -273,11 +281,17 @@ function ModuleFeedbackBlock({ block, moduleId }: { block: Extract<ContentBlockT
   const [isExporting, setIsExporting] = useState(false);
   const [exportError, setExportError] = useState<string | null>(null);
 
+  const feedbackText = (t.pages.flexibleModule as any)?.feedback ?? {};
+  const moduleFeedbackMap = (t.pages.flexibleModule as any)?.moduleFeedback ?? {};
+  const localizedModuleFeedback = moduleFeedbackMap[moduleId] ?? null;
+  const titleText = localizedModuleFeedback?.title ?? block.title;
+  const descriptionText = localizedModuleFeedback?.description ?? block.description;
+
   const handleSubmit = async () => {
     if (isSubmitting) return;
     if (studyConsent === null) {
       window.dispatchEvent(new Event('study_consent_request'));
-      setSubmitError('Please choose Agree or Disagree before submitting.');
+      setSubmitError(feedbackText.consentRequiredSubmit ?? 'Please choose Agree or Disagree before submitting.');
       return;
     }
     const input = JSON.stringify({
@@ -305,7 +319,7 @@ function ModuleFeedbackBlock({ block, moduleId }: { block: Extract<ContentBlockT
       setFeedback('');
       setIsSubmitted(true);
     } catch (e) {
-      setSubmitError(e instanceof Error ? e.message : 'Failed to submit');
+      setSubmitError(e instanceof Error ? e.message : (feedbackText.failedToSubmit ?? 'Failed to submit'));
     } finally {
       setIsSubmitting(false);
     }
@@ -315,7 +329,7 @@ function ModuleFeedbackBlock({ block, moduleId }: { block: Extract<ContentBlockT
     if (isExporting) return;
     if (studyConsent === null) {
       window.dispatchEvent(new Event('study_consent_request'));
-      setExportError('Please choose Agree or Disagree before exporting.');
+      setExportError(feedbackText.consentRequiredExport ?? 'Please choose Agree or Disagree before exporting.');
       return;
     }
     trackEvent('download_pdf', { module_id: moduleId });
@@ -324,7 +338,7 @@ function ModuleFeedbackBlock({ block, moduleId }: { block: Extract<ContentBlockT
     try {
       await downloadInputsPdf(sessionId);
     } catch (e) {
-      setExportError(e instanceof Error ? e.message : 'Failed to export');
+      setExportError(e instanceof Error ? e.message : (feedbackText.failedToExport ?? 'Failed to export'));
     } finally {
       setIsExporting(false);
     }
@@ -335,16 +349,16 @@ function ModuleFeedbackBlock({ block, moduleId }: { block: Extract<ContentBlockT
   return (
     <div className="bg-gradient-to-br from-green-50 to-teal-50 dark:from-green-900/20 dark:to-teal-900/20 rounded-2xl p-6 sm:p-8 shadow-lg border-2 border-green-200 dark:border-green-700 mb-8 font-sora">
       <h2 className="text-gray-900 dark:text-gray-100 text-xl sm:text-2xl font-bold mb-3">
-        {block.title}
+        {titleText}
       </h2>
       <p className="text-gray-700 dark:text-gray-300 mb-6 text-sm sm:text-base">
-        {block.description}
+        {descriptionText}
       </p>
 
       {/* Star Rating */}
       <div className="mb-6">
         <p className="text-gray-900 dark:text-gray-100 font-semibold mb-3 text-sm sm:text-base">
-          Please rate below:
+          {feedbackText.pleaseRateBelow ?? 'Please rate below:'}
         </p>
         <div className="flex gap-2 items-center">
           {[1, 2, 3, 4, 5].map((star) => (
@@ -371,7 +385,15 @@ function ModuleFeedbackBlock({ block, moduleId }: { block: Extract<ContentBlockT
           ))}
           {rating > 0 && (
             <span className="ml-3 text-gray-600 dark:text-gray-400 text-sm font-medium">
-              {rating === 5 ? 'Excellent' : rating === 4 ? 'Very Good' : rating === 3 ? 'Good' : rating === 2 ? 'Poor' : 'Terrible'}
+              {rating === 5
+                ? (feedbackText?.ratingLabels?.excellent ?? 'Excellent')
+                : rating === 4
+                  ? (feedbackText?.ratingLabels?.veryGood ?? 'Very Good')
+                  : rating === 3
+                    ? (feedbackText?.ratingLabels?.good ?? 'Good')
+                    : rating === 2
+                      ? (feedbackText?.ratingLabels?.poor ?? 'Poor')
+                      : (feedbackText?.ratingLabels?.terrible ?? 'Terrible')}
             </span>
           )}
         </div>
@@ -380,7 +402,7 @@ function ModuleFeedbackBlock({ block, moduleId }: { block: Extract<ContentBlockT
       {/* Feedback Text */}
       <div className="mb-4">
         <label htmlFor={`feedback-${block.id}`} className="block text-gray-900 dark:text-gray-100 font-semibold mb-2 text-sm sm:text-base">
-          Any feedback?
+          {feedbackText.anyFeedback ?? 'Any feedback?'}
         </label>
         <textarea
           id={`feedback-${block.id}`}
@@ -390,21 +412,21 @@ function ModuleFeedbackBlock({ block, moduleId }: { block: Extract<ContentBlockT
             setSubmitError(null);
             setIsSubmitted(false);
           }}
-          placeholder="Share your thoughts about this module..."
+          placeholder={feedbackText.feedbackPlaceholder ?? 'Share your thoughts about this module...'}
           className="w-full p-3 sm:p-4 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:border-green-500 dark:focus:border-green-400 focus:outline-none min-h-[100px] sm:min-h-[120px] resize-y bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm sm:text-base placeholder-gray-400"
         />
       </div>
 
       <SubmitButton onClick={handleSubmit} disabled={!canSubmit || isSubmitting} />
-      {isSubmitting && <div className="mt-2 text-sm text-gray-600">Submitting…</div>}
+      {isSubmitting && <div className="mt-2 text-sm text-gray-600">{feedbackText.submitting ?? 'Submitting…'}</div>}
       {submitError && <div className="mt-2 text-sm text-red-600">{submitError}</div>}
-      {isSubmitted && !submitError && <div className="mt-2 text-sm text-green-700">Submitted.</div>}
+      {isSubmitted && !submitError && <div className="mt-2 text-sm text-green-700">{feedbackText.submitted ?? 'Submitted.'}</div>}
       <div className="mt-8 pt-6 border-t border-green-200/60 dark:border-green-700/60">
         <h3 className="text-gray-900 dark:text-gray-100 font-bold text-base sm:text-lg">
-          Export responses
+          {feedbackText.exportResponses ?? 'Export responses'}
         </h3>
         <p className="text-gray-700 dark:text-gray-300 mt-2 text-sm sm:text-base">
-          Download a PDF containing the responses from this session.
+          {feedbackText.exportDescription ?? 'Download a PDF containing the responses from this session.'}
         </p>
         <div className="flex mt-6" style={{ justifyContent: 'flex-end' }}>
           <button
@@ -412,7 +434,9 @@ function ModuleFeedbackBlock({ block, moduleId }: { block: Extract<ContentBlockT
             disabled={isExporting}
             className="px-4 py-2 bg-white dark:bg-gray-700 hover:bg-purple-50 dark:hover:bg-purple-900/30 disabled:bg-gray-200 disabled:cursor-not-allowed text-purple-600 dark:text-purple-400 border-2 border-purple-600 dark:border-purple-500 text-sm font-medium rounded-lg transition-colors duration-200 shadow-sm hover:shadow-md"
           >
-            {isExporting ? 'Generating PDF…' : 'Export responses'}
+            {isExporting
+              ? (feedbackText.generatingPdf ?? 'Generating PDF…')
+              : (feedbackText.exportResponses ?? 'Export responses')}
           </button>
         </div>
         {exportError && <div className="mt-2 text-sm text-red-600">{exportError}</div>}
@@ -424,6 +448,11 @@ function ModuleFeedbackBlock({ block, moduleId }: { block: Extract<ContentBlockT
 function ReflectionBlock({ block, moduleId }: { block: Extract<ContentBlockType, { type: 'reflection' }>; moduleId: number }) {
   const { sessionId, studyConsent } = useSession();
   const { t } = useLanguage();
+  const reflectionLabel = (t.common as any)?.reflection ?? 'Reflection';
+  const reflectionPlaceholder = (t.common as any)?.typeYourThoughts ?? 'Type your thoughts here...';
+  const submittingText = (t.common as any)?.submitting ?? 'Submitting…';
+  const submittedText = (t.common as any)?.submitted ?? 'Submitted.';
+  const yourReflectionText = (t.common as any)?.yourReflection ?? 'Your Reflection';
   const [reflectionText, setReflectionText] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -490,7 +519,7 @@ function ReflectionBlock({ block, moduleId }: { block: Extract<ContentBlockType,
   return (
     <div className="bg-gradient-to-br from-blue-50 to-green-50 dark:from-blue-900/20 dark:to-green-900/20 rounded-2xl p-4 sm:p-6 md:p-8 mb-6 sm:mb-8 font-sora">
       {!block.hideLabel && (
-        <h3 className="text-gray-900 dark:text-gray-100 mb-2 sm:mb-3 text-xl sm:text-2xl font-extrabold">{t.reflection}</h3>
+        <h3 className="text-gray-900 dark:text-gray-100 mb-2 sm:mb-3 text-xl sm:text-2xl font-extrabold">{reflectionLabel}</h3>
       )}
       <p className="text-gray-700 dark:text-gray-300 mb-3 sm:mb-4 leading-relaxed text-sm sm:text-base whitespace-pre-line">
         {block.prompt}
@@ -498,7 +527,7 @@ function ReflectionBlock({ block, moduleId }: { block: Extract<ContentBlockType,
       <div className="mb-3 sm:mb-4 space-y-2">
         {isSubmitting && (
           <div role="status" aria-live="polite" className="text-sm text-gray-600 dark:text-gray-300">
-            Submitting…
+            {submittingText}
           </div>
         )}
         {submitError && (
@@ -508,7 +537,7 @@ function ReflectionBlock({ block, moduleId }: { block: Extract<ContentBlockType,
         )}
         {isSubmitted && !submitError && (
           <div role="status" aria-live="polite" className="text-sm text-green-700 dark:text-green-400">
-            Submitted.
+            {submittedText}
           </div>
         )}
       </div>
@@ -519,14 +548,14 @@ function ReflectionBlock({ block, moduleId }: { block: Extract<ContentBlockType,
           setSubmitError(null);
           setIsSubmitted(false);
         }}
-        placeholder={t.typeYourThoughts}
+        placeholder={reflectionPlaceholder}
         className="w-full p-3 sm:p-4 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none min-h-[100px] sm:min-h-[120px] resize-y bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm sm:text-base"
       />
       <SubmitButton onClick={handleSubmit} disabled={!canSubmit || isSubmitting} />
       {lastSubmittedText && (
   <div className="mt-3 text-sm text-gray-700 dark:text-gray-300">
     <div className="font-semibold text-gray-900 dark:text-gray-100">
-      Your Reflection
+      {yourReflectionText}
     </div>
 
     <div className="mt-2 whitespace-pre-wrap break-words bg-gray-200 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl p-4 leading-relaxed shadow-sm">
@@ -926,6 +955,10 @@ export function ContentBlock({
 }: ContentBlockProps) {
   const { t } = useLanguage();
   const [isTranscriptOpen, setIsTranscriptOpen] = useState(false);
+  const transcriptLabel = (t.common as any)?.transcript ?? 'Transcript';
+  const guidedReflectionLabel = (t.common as any)?.guidedReflection ?? 'Guided Reflection';
+  const audioAlt = (t.common as any)?.audio ?? 'Audio';
+  const browserNoAudioText = (t.common as any)?.browserDoesNotSupportAudio ?? 'Your browser does not support the audio element.';
 
   switch (block.type) {
     case 'text':
@@ -1110,7 +1143,7 @@ export function ContentBlock({
             <div className="flex items-center gap-2 mb-2 sm:mb-3">
               <img
                 src={audioLandscapeImage}
-                alt="Audio"
+                alt={audioAlt}
                 className="h-14 w-auto sm:h-14 object-contain flex-shrink-0"
               />
               <h3 className="text-gray-900 dark:text-gray-100 text-xl sm:text-2xl font-extrabold">{formatTitle(block.title)}</h3>
@@ -1120,7 +1153,7 @@ export function ContentBlock({
             <div className="flex justify-start mb-2 sm:mb-3">
               <img
                 src={audioLandscapeImage}
-                alt="Audio"
+                alt={audioAlt}
                 className="h-14 w-auto sm:h-14 object-contain"
               />
             </div>
@@ -1130,14 +1163,14 @@ export function ContentBlock({
           )}
           <div className="relative rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 shadow-md border border-gray-200 dark:border-gray-700 p-4">
             {block.audioUrl.endsWith('.mp3') || block.audioUrl.endsWith('.m4a') ? (
-              <audio controls className="w-full" onPlay={() => trackEvent('audio_play', { module_id: moduleId, audio_title: block.title || 'Audio' })}>
+              <audio controls className="w-full" onPlay={() => trackEvent('audio_play', { module_id: moduleId, audio_title: block.title || audioAlt })}>
                 <source src={block.audioUrl} type={block.audioUrl.endsWith('.mp3') ? 'audio/mpeg' : 'audio/mp4'} />
-                Your browser does not support the audio element.
+                {browserNoAudioText}
               </audio>
             ) : (
               <iframe
                 src={block.audioUrl}
-                title={block.title || 'Audio'}
+                title={block.title || audioAlt}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
                 className="w-full h-32"
@@ -1152,7 +1185,7 @@ export function ContentBlock({
                 className="flex items-center text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors"
               >
                 {isTranscriptOpen ? <ChevronUp size={16} className="mr-1" /> : <ChevronDown size={16} className="mr-1" />}
-                {t.transcript || 'Transcript'}
+                {transcriptLabel}
               </button>
               {isTranscriptOpen && (
                 <div className="mt-2 p-4 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-300 whitespace-pre-line leading-relaxed">
@@ -1351,7 +1384,7 @@ export function ContentBlock({
         <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-2xl p-4 sm:p-6 md:p-8 mb-6 sm:mb-8 font-sora">
           <div className="flex items-center gap-2 mb-3 sm:mb-4">
             <Sparkles className="text-purple-600 dark:text-purple-400 flex-shrink-0" size={20} />
-            <h3 className="text-gray-900 dark:text-gray-100 text-xl sm:text-2xl font-extrabold">{formatTitle(t.guidedReflection)}</h3>
+            <h3 className="text-gray-900 dark:text-gray-100 text-xl sm:text-2xl font-extrabold">{formatTitle(guidedReflectionLabel)}</h3>
           </div>
           <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line text-sm sm:text-base">
             {block.content}

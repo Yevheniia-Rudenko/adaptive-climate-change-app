@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { moduleStructures, ModuleStructure, ContentBlock as ModuleContentBlock } from '../data/moduleStructures';
 import { ContentBlock } from './ContentBlock';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useLocalizedModule } from '../hooks/useLocalizedModule';
 import { GlossaryHighlightProvider } from '../contexts/GlossaryHighlightContext';
 import { Button } from './ui/button';
 import { trackEvent } from '../utils/analytics';
@@ -20,27 +21,12 @@ import {
   AlertDialogTitle,
 } from './ui/alert-dialog';
 
-const MODULE_QUOTES: Record<number, { text: string; author: string }> = {
-  1: {
-    text: 'We do not inherit the earth from our ancestors; we borrow it from our children.',
-    author: 'Antoine de Saint-Exupéry',
-  },
-  2: {
-    text: 'Our house is on fire. I want you to act as if the house is on fire, because it is.',
-    author: 'Greta Thunberg',
-  },
-  3: {
-    text: 'The good man is the friend of all living things.',
-    author: 'Mahatma Gandhi',
-  },
-  4: {
-    text: 'Just as no single policy will solve the climate crisis, it takes many people acting with conviction to grow a movement.',
-    author: 'Andrew Jones (Climate Interactive)',
-  },
-  5: {
-    text: 'When young people develop basic leadership and collaborative learning skills, they can be a formidable force for change.',
-    author: 'Peter M. Senge, The Fifth Discipline',
-  },
+const replaceValues = (str: string, values: Record<string, string | number>) => {
+  let result = str;
+  Object.entries(values).forEach(([key, value]) => {
+    result = result.replace(new RegExp(`\\{${key}\\}`, 'g'), value.toString());
+  });
+  return result;
 };
 
 type FlexibleModulePageProps = {
@@ -49,16 +35,20 @@ type FlexibleModulePageProps = {
 };
 
 export function FlexibleModulePage({
-  module,
   moduleId
 }: FlexibleModulePageProps) {
   const { t } = useLanguage();
+  const localizedModuleData = useLocalizedModule(moduleId);
+  // fallback if somehow wrong ID
+  const module = localizedModuleData || moduleStructures[0];
   const { theme } = useTheme();
   const navigate = useNavigate();
   const { search } = useLocation();
   const [currentBlock, setCurrentBlock] = useState(1);
   const [isConsentDialogOpen, setIsConsentDialogOpen] = useState(false);
   const { studyConsent, setStudyConsent } = useSession();
+  const fm = t.pages.flexibleModule;
+  const quote = fm.quotes[moduleId as keyof typeof fm.quotes];
   const totalModules = moduleStructures.length;
   const isLastModule = moduleId >= totalModules;
   const consentOpenTimeoutRef = useRef<number | null>(null);
@@ -257,6 +247,17 @@ export function FlexibleModulePage({
     let currentGroup: ModuleContentBlock[] = [];
     let inDrawYourOwnStockFlow = false;
     let inCo2RemovalsSection = false;
+    const defaultGroupingFilters = {
+      drawYourOwn: 'draw your own stock & flow',
+      step: 'step',
+      reflect: "let's reflect",
+      whatAreRemovals: 'what are co2 removals?',
+      naturalRemovals: 'natural co2 removals include',
+      technologicalRemovals: 'technological co2 removals include',
+      netRemovals: 'why we say net co2 removals',
+      co2Removal: 'co2 removals'
+    };
+    const filters = (t.data.modules.module2 as any)?.groupingFilters ?? defaultGroupingFilters;
 
     const normalizeTitle = (value: string) =>
       value
@@ -270,17 +271,20 @@ export function FlexibleModulePage({
       const title = 'title' in block && typeof block.title === 'string' ? block.title.trim() : '';
       const normalizedTitle = normalizeTitle(title);
       const previousBlock = index > 0 ? blocks[index - 1] : undefined;
-      const isDrawYourOwnHeading = normalizedTitle.includes('draw your own stock & flow');
-      const isStepHeading = /^step\s+/i.test(normalizedTitle);
-      const isReflectHeading = normalizedTitle.includes("let's reflect") || normalizedTitle.includes('let’s reflect');
-      const isCo2RemovalsHeading = normalizedTitle.includes('what are co2 removals?');
-      const isNaturalCo2Heading = normalizedTitle.includes('natural co2 removals include');
-      const isTechnologicalCo2Heading = normalizedTitle.includes('technological co2 removals include');
-      const isNetCo2Heading = normalizedTitle.includes('why we talk about "net" co2 removals');
+      
+      const isDrawYourOwnHeading = normalizedTitle.includes(filters.drawYourOwn);
+      const isStepHeading = normalizedTitle.includes(filters.step);
+      const isReflectHeading = normalizedTitle.includes(filters.reflect);
+      const isCo2RemovalsHeading = normalizedTitle.includes(filters.whatAreRemovals);
+      const isNaturalCo2Heading = normalizedTitle.includes(filters.naturalRemovals);
+      const isTechnologicalCo2Heading = normalizedTitle.includes(filters.technologicalRemovals);
+      const isNetCo2Heading = normalizedTitle.includes(filters.netRemovals);
+      
       const isCo2RemovalImage =
         block.type === 'image' &&
         typeof block.alt === 'string' &&
-        block.alt.replace(/₂/g, '2').toLowerCase().includes('co2 removal');
+        block.alt.replace(/₂/g, '2').toLowerCase().includes(filters.co2Removal);
+        
       const isUntitledTextAfterVideo =
         block.type === 'text' &&
         title.length === 0 &&
@@ -343,9 +347,9 @@ export function FlexibleModulePage({
       <AlertDialog open={isConsentDialogOpen} onOpenChange={setIsConsentDialogOpen}>
         <AlertDialogContent className="font-sora">
           <AlertDialogHeader>
-            <AlertDialogTitle>MIT Research Study</AlertDialogTitle>
+            <AlertDialogTitle>{fm.consentDialog.title}</AlertDialogTitle>
             <AlertDialogDescription>
-              Your responses will contribute to a MIT research study on how learners feel about climate change. All data is collected anonymously (you can choose to opt out of the study and your data will be deleted after your session). At the end of each module, you can download your responses for your own use.
+              {fm.consentDialog.description}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="justify-center sm:justify-center">
@@ -355,7 +359,7 @@ export function FlexibleModulePage({
                 setIsConsentDialogOpen(false);
               }}
             >
-              Disagree
+              {fm.consentDialog.disagree}
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={() => {
@@ -363,7 +367,7 @@ export function FlexibleModulePage({
                 setIsConsentDialogOpen(false);
               }}
             >
-              Agree
+              {fm.consentDialog.agree}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -381,7 +385,7 @@ export function FlexibleModulePage({
             <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 md:bottom-6 md:left-6 md:right-6">
               <div className="flex items-center gap-2 mb-1 sm:mb-2">
                 <span className="text-white/90 text-xs sm:text-sm uppercase tracking-wider">
-                  Module {moduleId} of {totalModules}
+                  {replaceValues(fm.progress.moduleOf, { current: moduleId, total: totalModules })}
                 </span>
               </div>
               <h1 className="text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl">
@@ -434,18 +438,20 @@ export function FlexibleModulePage({
                   {moduleId === 2 ? (
                     <div className="flex items-center justify-between gap-2 text-sm">
                       <span className="inline-flex items-center rounded-full border border-green-200 bg-green-50 px-3 py-1 font-semibold text-green-700 dark:border-green-700/60 dark:bg-green-900/30 dark:text-green-300">
-                        Step {currentBlock} of {totalBlocks}
+                        {replaceValues(fm.progress.stepOf, { current: currentBlock, total: totalBlocks })}
                       </span>
                       <span className="inline-flex items-center rounded-full border border-green-200 bg-green-50 px-3 py-1 font-bold text-green-700 dark:border-green-700/60 dark:bg-green-900/30 dark:text-green-300">
-                        {pct}% complete
+                        {replaceValues(fm.progress.percentComplete, { pct })}
                       </span>
                     </div>
                   ) : (
                     <div className="flex items-center justify-between text-sm">
                       <span className="font-semibold text-purple-600 dark:text-purple-400">
-                        🚀 Step {currentBlock} of {totalBlocks}
+                        {replaceValues(fm.progress.stepOfRocket, { current: currentBlock, total: totalBlocks })}
                       </span>
-                      <span className="font-bold text-green-600 dark:text-green-400">{pct}% complete!</span>
+                      <span className="font-bold text-green-600 dark:text-green-400">
+                        {replaceValues(fm.progress.percentCompleteExclaim, { pct })}
+                      </span>
                     </div>
                   )}
                 </div>
@@ -515,13 +521,13 @@ export function FlexibleModulePage({
             </GlossaryHighlightProvider>
 
             {/* Quote section — shown only on the last block of non-final modules */}
-            {(!isMultiBlock || currentBlock === totalBlocks) && !isLastModule && MODULE_QUOTES[moduleId] && (
+            {(!isMultiBlock || currentBlock === totalBlocks) && !isLastModule && quote && (
               <div className="mb-8 rounded-2xl bg-gradient-to-br from-green-50 to-teal-50 dark:from-green-900/20 dark:to-teal-900/20 border border-green-200 dark:border-green-700/60 p-6 sm:p-8 text-center shadow-sm">
                 <p className="text-gray-700 dark:text-gray-300 text-base sm:text-lg md:text-xl italic leading-relaxed mb-4">
-                  &ldquo;{MODULE_QUOTES[moduleId].text}&rdquo;
+                  &ldquo;{quote.text}&rdquo;
                 </p>
                 <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base font-semibold">
-                  — {MODULE_QUOTES[moduleId].author}
+                  — {quote.author}
                 </p>
               </div>
             )}
@@ -534,7 +540,7 @@ export function FlexibleModulePage({
                   className="w-full px-6 py-3 bg-white dark:bg-gray-700 hover:bg-purple-50 dark:hover:bg-purple-900/30 text-purple-600 dark:text-purple-400 border-2 border-purple-600 dark:border-purple-500 font-medium rounded-lg transition-colors duration-200 shadow-sm hover:shadow-md flex items-center justify-center gap-2"
                 >
                   <ExternalLink size={18} />
-                  <span className="font-semibold">Explore Resources</span>
+                  <span className="font-semibold">{fm.navigation.exploreResources}</span>
                 </Link>
               </div>
             )}
@@ -551,11 +557,8 @@ export function FlexibleModulePage({
                 }}
               >
                 <ArrowLeft size={18} />
-                <span>{t.back}</span>
+                <span>{t.common.back}</span>
               </Button>
-
-              {/* Debug / Fallback output */}
-              <div className="hidden">Debug: isLast={isLastModule ? 'true' : 'false'}, curr={currentBlock}, tot={totalBlocks}</div>
 
               {(!isLastModule) ? (
                 // --- MODULES 1-4 NAVIGATION ---
@@ -566,7 +569,7 @@ export function FlexibleModulePage({
                       className="order-3 sm:order-2 px-4 py-2 bg-white dark:bg-gray-700 hover:bg-purple-50 dark:hover:bg-purple-900/30 text-purple-600 dark:text-purple-400 border-2 border-purple-600 dark:border-purple-500 text-sm font-medium rounded-lg transition-colors duration-200 shadow-sm hover:shadow-md flex items-center justify-center gap-2 whitespace-nowrap"
                     >
                       <ExternalLink size={16} />
-                      <span>Go to Resources</span>
+                      <span>{fm.navigation.goToResources}</span>
                     </Link>
                   )}
                   <Button
@@ -576,8 +579,8 @@ export function FlexibleModulePage({
                   >
                     <span>
                       {isMultiBlock && currentBlock === totalBlocks
-                        ? `Continue to Module ${moduleId + 1}`
-                        : t.next}
+                        ? replaceValues(fm.navigation.continueToModule, { next: moduleId + 1 })
+                        : t.common.next}
                     </span>
                     <ArrowRight size={18} />
                   </Button>
@@ -591,7 +594,7 @@ export function FlexibleModulePage({
                     style={{ backgroundColor: '#8031C5', color: '#ffffff' }}
                     className="flex-1 order-1 sm:order-4 hover:brightness-90 border-0 flex justify-center items-center gap-2 py-2 px-4 rounded-md font-medium transition-all h-10"
                   >
-                    <span>Return to Main Menu</span>
+                    <span>{fm.navigation.returnToMainMenu}</span>
                     <ArrowRight size={18} />
                   </Link>
                 ) : (
@@ -601,7 +604,7 @@ export function FlexibleModulePage({
                     className="flex-1 order-1 sm:order-4 hover:brightness-90"
                     style={{ backgroundColor: '#7B2CBF', borderColor: '#7B2CBF', color: '#ffffff' }}
                   >
-                    <span>{t.next}</span>
+                    <span>{t.common.next}</span>
                     <ArrowRight size={18} />
                   </Button>
                 )

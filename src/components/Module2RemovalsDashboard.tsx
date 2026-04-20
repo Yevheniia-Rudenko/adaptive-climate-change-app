@@ -1,19 +1,22 @@
 import { useEffect, useRef, useState, ChangeEvent } from 'react';
 import { createAsyncModel, getDefaultConfig, createDefaultOutputs } from '@climateinteractive/en-roads-core';
 import enStrings from '@climateinteractive/en-roads-core/strings/en';
+import deStrings from '@climateinteractive/en-roads-core/strings/de';
+import esStrings from '@climateinteractive/en-roads-core/strings/es';
 import { GraphView } from '@climateinteractive/sim-ui-graph';
+import { useLanguage } from '../contexts/LanguageContext';
 import '../styles/enroads-dashboard.css';
 
 type GraphConfig = {
   id: string;
-  label: string;
+  labelKey: string;
   canvasId: string;
 };
 
 // Subsection 5 graphs: combined CO₂ Emissions and Removals, plus CO₂ Concentration
 const GRAPH_CONFIGS = [
-  { id: '57', label: 'CO₂ Emissions and Removals', canvasId: 'module2-removals-graph-emissions-removals' },
-  { id: '88', label: 'CO₂ Concentration', canvasId: 'module2-removals-graph-concentration' },
+  { id: '57', labelKey: 'graph_57_title', canvasId: 'module2-removals-graph-emissions-removals' },
+  { id: '88', labelKey: 'graph_88_title', canvasId: 'module2-removals-graph-concentration' },
 ] as const satisfies ReadonlyArray<GraphConfig>;
 
 const CARBON_PRICE_INPUT_ID = '39';
@@ -24,19 +27,23 @@ const TECHNOLOGICAL_REMOVALS_MODE_SWITCH_ID = '208';
 const NATURE_REMOVALS_MODE_SWITCH_ID = '418';
 
 export default function Module2RemovalsDashboard() {
+  const { language, t } = useLanguage();
+  const tx = t.data.modules.module2.components.removals;
+  const tc = t.data.modules.module2.components.exercise; // Shared UI strings
+
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
 
   // Slider states
   const [carbonPriceVal, setCarbonPriceVal] = useState(0);
-  const [carbonPriceText, setCarbonPriceText] = useState('$0 / ton CO₂');
+  const [carbonPriceText, setCarbonPriceText] = useState(tc.statusQuo);
   const [carbonPriceDefaultPct, setCarbonPriceDefaultPct] = useState<number | null>(null);
   const [natureVal, setNatureVal] = useState(0);
-  const [natureText, setNatureText] = useState('status quo');
+  const [natureText, setNatureText] = useState(tc.statusQuo);
   const [natureDefaultPct, setNatureDefaultPct] = useState<number | null>(null);
   const [techVal, setTechVal] = useState(0);
-  const [techText, setTechText] = useState('status quo');
+  const [techText, setTechText] = useState(tc.statusQuo);
   const [techDefaultPct, setTechDefaultPct] = useState<number | null>(null);
 
   // Temperature display
@@ -58,7 +65,20 @@ export default function Module2RemovalsDashboard() {
   const techModeSwitchRef = useRef<any>(null);
   const natureModeSwitchRef = useRef<any>(null);
 
-  const str = (key: string) => (enStrings as any)[key] || key;
+  const getEnRoadsStrings = () => {
+    switch (language) {
+      case 'de': return deStrings;
+      case 'es': return esStrings;
+      default: return enStrings;
+    }
+  };
+
+  const str = (key: string) => {
+    if (key === 'graph_57_title') return (tx as any)?.emissionsAndRemovalsTitle ?? 'CO₂ Emissions and Removals';
+    if (key === 'graph_88_title') return (tx as any)?.concentrationTitle ?? 'CO₂ Concentration';
+    return (getEnRoadsStrings() as any)[key] || key;
+  };
+  const emissionsBadge = (tx as any)?.emissions ?? 'CO₂ EMISSIONS';
 
   const getInputRangeLabel = (input: any, value: number) => {
     const rangeLabelKeys: string[] = input?.spec?.rangeLabelKeys ?? [
@@ -72,7 +92,17 @@ export default function Module2RemovalsDashboard() {
 
     let idx = rangeDividers.findIndex((d) => value < d);
     if (idx === -1) idx = rangeLabelKeys.length - 1;
-    return str(rangeLabelKeys[idx] ?? 'input_range__status_quo');
+    
+    // We map internal range keys to our localized component dictionary
+    const internalKey = rangeLabelKeys[idx] ?? 'input_range__status_quo';
+    switch (internalKey) {
+      case 'input_range__status_quo': return tc.statusQuo;
+      case 'input_range__low': return tc.low;
+      case 'input_range__medium': return tc.medium;
+      case 'input_range__high': return tc.high;
+      case 'input_range__very_high': return tc.veryHigh;
+      default: return str(internalKey);
+    }
   };
 
   const toSliderPos = (value: number, min: number, max: number) => {
@@ -322,7 +352,7 @@ export default function Module2RemovalsDashboard() {
         setIsLoading(false);
       } catch (err) {
         console.error(err);
-        setError('Failed to load En-ROADS model.');
+        setError(tc.failedToLoad);
         setIsLoading(false);
       }
     };
@@ -351,7 +381,7 @@ export default function Module2RemovalsDashboard() {
     };
   }, [isExpanded, isLoading]);
 
-  if (isLoading) return <div className="p-8 text-center text-gray-500">Loading Model...</div>;
+  if (isLoading) return <div className="p-8 text-center text-gray-500">{tc.loadingModel}</div>;
   if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
 
   return (
@@ -364,7 +394,7 @@ export default function Module2RemovalsDashboard() {
         {isExpanded ? (
           <div className="relative px-4 pt-4 mb-4">
             <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200 text-center">
-              ⚙️ Make a Model: Carbon Price + CO₂ Removals
+              {tx.title}
             </h2>
             <button
               type="button"
@@ -372,13 +402,13 @@ export default function Module2RemovalsDashboard() {
               className="absolute right-4 top-4 px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
               style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
             >
-              Close Full Screen
+              {tc.closeFullscreen}
             </button>
           </div>
         ) : (
           <div className="flex items-start justify-between gap-3 px-4 pt-4 mb-4">
             <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200">
-              ⚙️ Make a Model: Carbon Price + CO₂ Removals
+              {tx.title}
             </h2>
             <button
               type="button"
@@ -386,7 +416,7 @@ export default function Module2RemovalsDashboard() {
               className="px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
               style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
             >
-              Open Full Screen
+              {tc.openFullscreen}
             </button>
           </div>
         )}
@@ -399,20 +429,20 @@ export default function Module2RemovalsDashboard() {
                   key={cfg.canvasId}
                   className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 flex-1 min-w-0"
                 >
-                  <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">{cfg.label}</h3>
+                  <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">{str(cfg.labelKey)}</h3>
                   <div className="relative w-full">
                     <canvas id={cfg.canvasId} className="w-full h-full" />
                   </div>
                   <div className="flex justify-center gap-3 mt-3">
                     {cfg.id === '57' ? (
                       <>
-                        <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#cc3b09' }}>CO₂ EMISSIONS</span>
-                        <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#0063b0' }}>CO₂ REMOVALS</span>
+                        <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#cc3b09' }}>{emissionsBadge}</span>
+                        <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#0063b0' }}>{tx.removals}</span>
                       </>
                     ) : (
                       <>
-                        <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
-                        <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#00b6f1' }}>CURRENT SCENARIO</span>
+                        <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>{tc.baseline}</span>
+                        <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#00b6f1' }}>{tc.currentScenario}</span>
                       </>
                     )}
                   </div>
@@ -446,17 +476,13 @@ export default function Module2RemovalsDashboard() {
                     +{tempF.toFixed(1)}°F
                   </div>
                   <div
-                    className="mt-5 leading-tight text-gray-900 dark:text-gray-100"
+                    className="mt-5 whitespace-pre-line leading-tight text-gray-900 dark:text-gray-100"
                     style={{
                       fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)',
                       fontWeight: 800,
                     }}
                   >
-                    Temperature
-                    <br />
-                    Increase by
-                    <br />
-                    2100
+                    {tc.temperatureTitle}
                   </div>
                 </div>
               </div>
@@ -489,17 +515,13 @@ export default function Module2RemovalsDashboard() {
                   +{tempF.toFixed(1)}°F
                 </div>
                 <div
-                  className="mt-3 leading-tight text-gray-900 dark:text-gray-100"
+                  className="mt-3 whitespace-pre-line leading-tight text-gray-900 dark:text-gray-100"
                   style={{
                     fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)',
                     fontWeight: 800,
                   }}
                 >
-                  Temperature
-                  <br />
-                  Increase by
-                  <br />
-                  2100
+                  {tc.temperatureTitle}
                 </div>
               </div>
             </div>
@@ -511,20 +533,20 @@ export default function Module2RemovalsDashboard() {
                   key={cfg.canvasId}
                   className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600"
                 >
-                  <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">{cfg.label}</h3>
+                  <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">{str(cfg.labelKey)}</h3>
                   <div className="relative w-full">
                     <canvas id={cfg.canvasId} className="w-full h-full" />
                   </div>
                   <div className="flex justify-center gap-3 mt-3">
                     {cfg.id === '57' ? (
                       <>
-                        <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#cc3b09' }}>CO₂ EMISSIONS</span>
-                        <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#0063b0' }}>CO₂ REMOVALS</span>
+                        <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#cc3b09' }}>{emissionsBadge}</span>
+                        <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#0063b0' }}>{tx.removals}</span>
                       </>
                     ) : (
                       <>
-                        <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
-                        <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#00b6f1' }}>CURRENT SCENARIO</span>
+                        <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>{tc.baseline}</span>
+                        <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#00b6f1' }}>{tc.currentScenario}</span>
                       </>
                     )}
                   </div>
@@ -539,7 +561,7 @@ export default function Module2RemovalsDashboard() {
           {/* Carbon Price */}
           <div className="space-y-2">
             <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
-              <label>Carbon Price</label>
+              <label>{tx.carbonPrice}</label>
               <span className="text-xs font-mono text-gray-500">{carbonPriceText}</span>
             </div>
             <div className="enroads-range-wrap">
@@ -563,7 +585,7 @@ export default function Module2RemovalsDashboard() {
           {/* Nature-based Removals */}
           <div className="space-y-2">
             <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
-              <label>Nature-Based Removals</label>
+              <label>{tx.natureBasedRemovals}</label>
               <span className="text-xs font-mono text-gray-500">{natureText}</span>
             </div>
             <div className="enroads-range-wrap">
@@ -587,7 +609,7 @@ export default function Module2RemovalsDashboard() {
           {/* Technological Removals */}
           <div className="space-y-2">
             <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
-              <label>Technological Removals</label>
+              <label>{tx.technologicalRemovals}</label>
               <span className="text-xs font-mono text-gray-500">{techText}</span>
             </div>
             <div className="enroads-range-wrap">

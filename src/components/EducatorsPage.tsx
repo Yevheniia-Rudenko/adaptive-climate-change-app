@@ -99,7 +99,9 @@ function CalloutBox({
   };
 
   const style = styles[type];
-  const isFacilitatorTip = title === 'Facilitator Tip';
+  // We intentionally compare against the English string only as a style cue;
+  // the actual displayed title is always the prop passed in.
+  const isFacilitatorTip = title.toLowerCase().includes('tip') || title.toLowerCase().includes('tipp') || title.toLowerCase().includes('consejo');
 
   return (
     <div className={`${style.bg} ${style.border} border rounded-lg p-4 my-4`}>
@@ -136,19 +138,19 @@ export function EducatorsPage() {
   const sectionCardClass = 'scroll-mt-6 rounded-2xl p-6 sm:p-8 mb-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-md';
 
 const sections: Section[] = [
-    { id: 'overview', title: 'Overview', icon: BookOpen },
-    { id: 'how-to-use', title: 'How to Use', icon: Settings },
-    { id: 'learning-objectives', title: 'Learning Objectives', icon: Target },
-    { id: 'lesson-flow', title: 'Lesson Flow', icon: MessageSquare },
-    { id: 'formats', title: 'Class Formats', icon: Calendar },
-    { id: 'enroads', title: 'En-ROADS & Tools', icon: Layers },
-    { id: 'downloads', title: 'Downloads', icon: Download },
-    { id: 'adaptations', title: 'Adaptations', icon: Accessibility },
-    { id: 'professional-dev', title: 'Professional Dev', icon: Award },
-    { id: 'faqs', title: 'FAQs', icon: HelpCircle },
+    { id: 'overview', title: t.pages.educators.sections.overview.title, icon: BookOpen },
+    { id: 'how-to-use', title: t.pages.educators.sections.howToUse.title, icon: Settings },
+    { id: 'learning-objectives', title: t.pages.educators.sections.objectives.title, icon: Target },
+    { id: 'lesson-flow', title: t.pages.educators.sections.lessonFlow.title, icon: MessageSquare },
+    { id: 'formats', title: t.pages.educators.sections.formats.title, icon: Calendar },
+    { id: 'enroads', title: t.pages.educators.sections.enroads.title, icon: Layers },
+    { id: 'downloads', title: t.pages.educators.sections.downloads.title, icon: Download },
+    { id: 'adaptations', title: t.pages.educators.sections.adaptations.title, icon: Accessibility },
+    { id: 'professional-dev', title: t.pages.educators.sections.professionalDev.title, icon: Award },
+    { id: 'faqs', title: t.pages.educators.sections.faqs.title, icon: HelpCircle },
   ];
 
-  const tocData = [
+  const defaultTocData = [
     {
       module: "Module 1: Relating to Climate Futures",
       id: 1,
@@ -222,6 +224,8 @@ const sections: Section[] = [
     }
   ];
 
+  const tocData = ((t.pages.educators as any)?.tocModules as typeof defaultTocData | undefined) ?? defaultTocData;
+
   const scrollToSection = (sectionId: string) => {
     setActiveSection(sectionId);
     if (sectionRefs.current[sectionId]) {
@@ -244,7 +248,7 @@ const sections: Section[] = [
             variant="outline"
             className="mb-4 sm:mb-6 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-500 dark:hover:bg-gray-600"
           >
-            ← {t.backHome}
+            ← {t.nav.backToHome}
           </Button>
         </Link>
 
@@ -255,11 +259,10 @@ const sections: Section[] = [
               className="font-bold text-gray-800 dark:text-gray-100 text-center mb-3 sm:mb-4"
               style={{ fontSize: '3rem', lineHeight: '1.2' }}
             >
-              Educator Guide
+              {t.pages.educators.header.title}
             </h1>
             <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base max-w-3xl">
-              Welcome! This guide supports you in teaching and facilitating “The Systems that Shape Climate Change” curriculum.
-              Here you'll find guidance on how  to effectively use this platform and resources in your classroom or workshop settings.
+              {t.pages.educators.header.description}
             </p>
           </div>
 
@@ -270,7 +273,7 @@ const sections: Section[] = [
             {/* Sections Container */}
             <div className="rounded-2xl p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-md">
               <h2 className="text-2xl font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-4">
-                Sections
+                {t.pages.educators.sidebar.sections}
               </h2>
               <nav className="space-y-1">
                 {sections.map((section) => {
@@ -295,7 +298,7 @@ const sections: Section[] = [
             {/* Table of Contents Container */}
             <div className="rounded-2xl p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-md">
               <h2 className="text-xl font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-4">
-                Table of Contents
+                {t.pages.educators.sidebar.toc}
               </h2>
               <div className="space-y-3">
                 {tocData.map((module) => (
@@ -332,7 +335,7 @@ const sections: Section[] = [
               <div className="mt-4">
                 <Link to="/resources" className="block">
                   <Button variant="outline" size="sm" className="w-full">
-                    Resources
+                    {t.pages.educators.sidebar.resourcesBtn}
                   </Button>
                 </Link>
               </div>
@@ -353,47 +356,44 @@ const sections: Section[] = [
                     <BookOpen className="text-green-600 dark:text-green-400" size={20} />
                   </div>
                   <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-gray-100">
-                    Overview (At a Glance)
+                    {t.pages.educators.sections.overview.title}
                   </h2>
                 </div>
 
                 <p className="text-gray-600 dark:text-gray-300 mb-6">
-                  This curriculum is designed to help students aged 12-18+ develop systems thinking skills
-                  and understand climate change through interactive modules and simulations.
+                  {t.pages.educators.sections.overview.description}
                 </p>
 
                 {/* Key Info Cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                   <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
                     <Clock size={24} className="text-green-600 dark:text-green-400 mb-2" />
-                    <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">Estimated Time</h4>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">5-6 hours total</p>
-                    <p className="text-gray-500 dark:text-gray-500 text-xs">20-40 min per module</p>
+                    <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">{t.pages.educators.sections.overview.time.title}</h4>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm">{t.pages.educators.sections.overview.time.value}</p>
+                    <p className="text-gray-500 dark:text-gray-500 text-xs">{t.pages.educators.sections.overview.time.subtext}</p>
                   </div>
                   <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
                     <Users size={24} className="text-green-600 dark:text-green-400 mb-2" />
-                    <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">Target Audience</h4>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">Ages 12+</p>
-                    <p className="text-gray-500 dark:text-gray-500 text-xs">Upper primary (middle school), High school or secondary level, college or above</p>
+                    <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">{t.pages.educators.sections.overview.audience.title}</h4>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm">{t.pages.educators.sections.overview.audience.value}</p>
+                    <p className="text-gray-500 dark:text-gray-500 text-xs">{t.pages.educators.sections.overview.audience.subtext}</p>
                   </div>
                   <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
                     <FileText size={24} className="text-green-600 dark:text-green-400 mb-2" />
-                    <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">Materials Needed</h4>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">Internet access</p>
-                    <p className="text-gray-500 dark:text-gray-500 text-xs">Optional: worksheets</p>
+                    <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">{t.pages.educators.sections.overview.materials.title}</h4>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm">{t.pages.educators.sections.overview.materials.value}</p>
+                    <p className="text-gray-500 dark:text-gray-500 text-xs">{t.pages.educators.sections.overview.materials.subtext}</p>
                   </div>
                   <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
                     <Monitor size={24} className="text-green-600 dark:text-green-400 mb-2" />
-                    <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">Tech Requirements</h4>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">Modern browser: Google Chrome, Safari, Firefox</p>
-                    <p className="text-gray-500 dark:text-gray-500 text-xs">Desktop, tablet, or mobile</p>
+                    <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">{t.pages.educators.sections.overview.tech.title}</h4>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm">{t.pages.educators.sections.overview.tech.value}</p>
+                    <p className="text-gray-500 dark:text-gray-500 text-xs">{t.pages.educators.sections.overview.tech.subtext}</p>
                   </div>
                 </div>
 
-
-                <CalloutBox type="note" title="Flexible Design">
-                  The curriculum is modular—use all 5 modules sequentially or select specific modules
-                  that fit your teaching needs and available time.
+                <CalloutBox type="note" title={t.pages.educators.sections.overview.flexibleTip.title}>
+                  {t.pages.educators.sections.overview.flexibleTip.text}
                 </CalloutBox>
               </section>
 
@@ -407,66 +407,26 @@ const sections: Section[] = [
                     <Settings className="text-blue-600 dark:text-blue-400" size={20} />
                   </div>
                   <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-gray-100">
-                    How to Use This Curriculum
+                    {t.pages.educators.sections.howToUse.title}
                   </h2>
                 </div>
 
                 <p className="text-gray-600 dark:text-gray-300 mb-4">
-                  Here are some suggestions on ways of preparing to use this curriculum in your classroom or learning community.
+                  {t.pages.educators.sections.howToUse.description}
                 </p>
 
                 <div className="space-y-4">
-                  <CollapsibleSection title="Step 1: Familiarize Yourself" defaultOpen={true}>
-                    <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 text-sm">
-                      <li>Review all 5 modules to understand the content flow</li>
-                      <li>Explore the <strong>Glossary</strong> tab for key terminology</li>
-                      <li>Check the <strong>Resources</strong> section for supplementary materials</li>
-                      <li>
-                        Try the interactive{' '}
-                        <a
-                          href="https://en-roads.climateinteractive.org/scenario.html?v=26.4.0"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-600 dark:text-blue-400 underline hover:text-blue-700 dark:hover:text-blue-300"
-                        >
-                          En-ROADS Climate Policy Simulator
-                        </a>{' '}
-                        yourself
-                      </li>
-                    </ul>
-                  </CollapsibleSection>
-
-                  <CollapsibleSection title="Step 2: Plan Your Sessions">
-                    <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 text-sm">
-                      <li>Decide whether to use all modules or select specific ones</li>
-                      <li>Allocate 45-60 minutes per module</li>
-                      <li>Plan discussion time and reflection activities</li>
-                      <li>Prepare any supplementary materials (worksheets, slides)</li>
-                    </ul>
-                  </CollapsibleSection>
-
-                  <CollapsibleSection title="Step 3: Prepare Your Environment">
-                    <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 text-sm">
-                      <li>Ensure stable internet connection</li>
-                      <li>Test the platform on your classroom devices</li>
-                      <li>Prepare projection capability for group discussions</li>
-                      <li>Have backup materials ready in case of technical issues</li>
-                    </ul>
-                  </CollapsibleSection>
-
-                  <CollapsibleSection title="Step 4: Facilitate & Support">
-                    <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 text-sm">
-                      <li>Guide students through modules at an appropriate pace</li>
-                      <li>Pause for discussion at key points</li>
-                      <li>Encourage use of the reflection prompts either individually or as small group discussion.</li>
-                      <li>Connect concepts to local and global contexts</li>
-                    </ul>
-                  </CollapsibleSection>
+                  {t.pages.educators.sections.howToUse.steps.map((step, i) => (
+                    <CollapsibleSection key={i} title={step.title} defaultOpen={i === 0}>
+                      <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 text-sm">
+                        {step.items.map((item, j) => <li key={j}>{item}</li>)}
+                      </ul>
+                    </CollapsibleSection>
+                  ))}
                 </div>
                 <div className="mt-6" />
-                <CalloutBox type="tip" title="Facilitator Tip">
-                  Before your first session, work through one complete module as a student would.
-                  This helps you anticipate questions and identify good discussion points.
+                <CalloutBox type="tip" title={t.pages.educators.sections.howToUse.tip.title}>
+                  {t.pages.educators.sections.howToUse.tip.text}
                 </CalloutBox>
               </section>
 
@@ -480,43 +440,24 @@ const sections: Section[] = [
                     <Target className="text-teal-600 dark:text-teal-400" size={20} />
                   </div>
                   <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-gray-100">
-                    Learning Objectives
+                    {t.pages.educators.sections.objectives.title}
                   </h2>
                 </div>
 
                 <p className="text-gray-600 dark:text-gray-300 mb-4">
-                  By the end of this curriculum, students will be able to:
+                  {t.pages.educators.sections.objectives.description}
                 </p>
 
                 <div className="space-y-3">
-                  <div className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                    <CheckCircle size={20} className="text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
-                    <div>
-                      <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">1.Systems Awareness & Thinking</h4>
-                      <p className="text-gray-600 dark:text-gray-400 text-sm">Identify feedback loops, leverage points, and interconnections in climate systems</p>
+                  {t.pages.educators.sections.objectives.items.map((item, i) => (
+                    <div key={i} className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                      <CheckCircle size={20} className="text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+                      <div>
+                        <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">{item.title}</h4>
+                        <p className="text-gray-600 dark:text-gray-400 text-sm">{item.text}</p>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                    <CheckCircle size={20} className="text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
-                    <div>
-                      <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">2.Climate Science & Interdependence</h4>
-                      <p className="text-gray-600 dark:text-gray-400 text-sm">Explain the greenhouse effect, climate drivers, and projected impacts</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                    <CheckCircle size={20} className="text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
-                    <div>
-                      <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">3.Applied Tools & Solution Evaluation</h4>
-                      <p className="text-gray-600 dark:text-gray-400 text-sm">Analyze and compare different climate solutions using simulation tools</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                    <CheckCircle size={20} className="text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
-                    <div>
-                      <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">4.Agency, Dialogue, & Action</h4>
-                      <p className="text-gray-600 dark:text-gray-400 text-sm">Engage in constructive dialogue about climate policy and personal action</p>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </section>
 
@@ -530,59 +471,40 @@ const sections: Section[] = [
                     <MessageSquare className="text-purple-600 dark:text-purple-400" size={20} />
                   </div>
                   <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-gray-100">
-                    Lesson Flow & Facilitation
+                    {t.pages.educators.sections.lessonFlow.title}
                   </h2>
                 </div>
 
-                <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">Suggested Lesson Structure</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">{t.pages.educators.sections.lessonFlow.subtitle1}</h3>
 
                 <p className="text-gray-600 dark:text-gray-300 mb-4">
-                  This basic flow can work for each of the five modules and can be adjusted to the timing of your classroom or workshop.
+                  {t.pages.educators.sections.lessonFlow.description1}
                 </p>
 
                 <div className="space-y-4 mb-6">
-                  <CollapsibleSection title="5-10 min · Opening" defaultOpen={true}>
-                    <p className="text-sm text-gray-600 dark:text-gray-300">
-                      Warm-up question, connect to prior knowledge, introduce today's focus
-                    </p>
-                  </CollapsibleSection>
-
-                  <CollapsibleSection title="30-40 min · Core Activity">
-                    <p className="text-sm text-gray-600 dark:text-gray-300">
-                      Students work through module content, interact with simulations, pause for discussions
-                    </p>
-                  </CollapsibleSection>
-
-                  <CollapsibleSection title="10-15 min · Reflection & Debrief">
-                    <p className="text-sm text-gray-600 dark:text-gray-300">
-                      Written reflections, group discussion, connections to real world
-                    </p>
-                  </CollapsibleSection>
+                  {t.pages.educators.sections.lessonFlow.flowItems.map((item, i) => (
+                    <CollapsibleSection key={i} title={item.title} defaultOpen={i === 0}>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">{item.text}</p>
+                    </CollapsibleSection>
+                  ))}
                 </div>
 
-                <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">Sample Discussion Prompts</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">{t.pages.educators.sections.lessonFlow.subtitle2}</h3>
                 <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-4">
                   <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 text-sm">
-                    <li>What surprised you most about the simulation results?</li>
-                    <li>How do the solutions we explored connect to each other?</li>
-                    <li>What trade-offs did you notice between different approaches?</li>
-                    <li>How might this apply to our local community?</li>
-                    <li>What questions do you still have?</li>
+                    {t.pages.educators.sections.lessonFlow.prompts.map((p, i) => <li key={i}>{p}</li>)}
                   </ul>
                 </div>
 
-                <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">Reflection Questions</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">{t.pages.educators.sections.lessonFlow.subtitle3}</h3>
                 <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
                   <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 text-sm">
-                    <li>What is one thing you learned today that changed how you think about climate?</li>
-                    <li>What action could you take this week based on what you learned?</li>
-                    <li>What would you want to explore further?</li>
+                    {t.pages.educators.sections.lessonFlow.questions.map((q, i) => <li key={i}>{q}</li>)}
                   </ul>
                 </div>
                 <div className="mt-6" />
-                <CalloutBox type="tip" title="Facilitator Tip">
-                  Allow students to share reflections in pairs before whole-group discussion.
-                  This increases participation and helps students articulate their thoughts.
+                <CalloutBox type="tip" title={t.pages.educators.sections.lessonFlow.tip.title}>
+                  {t.pages.educators.sections.lessonFlow.tip.text}
                 </CalloutBox>
               </section>
 
@@ -596,52 +518,26 @@ const sections: Section[] = [
                     <Calendar className="text-orange-600 dark:text-orange-400" size={20} />
                   </div>
                   <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-gray-100">
-                    Classroom & Workshop Formats
+                    {t.pages.educators.sections.formats.title}
                   </h2>
                 </div>
 
                 <div className="space-y-4">
-                  <CollapsibleSection title="30-Minute Introduction" defaultOpen={true}>
-                    <div className="text-sm text-gray-600 dark:text-gray-300 space-y-2">
-                      <p className="font-medium">Best for: Assembly presentations, introductory sessions</p>
-                      <ul className="list-disc list-inside space-y-1 ml-2">
-                        <li>5 min: Introduction to climate systems thinking</li>
-                        <li>15 min: Quick demonstration of one module or simulation</li>
-                        <li>10 min: Q&A and next steps</li>
-                      </ul>
-                    </div>
-                  </CollapsibleSection>
-
-                  <CollapsibleSection title="60-90 Minute Class Session">
-                    <div className="text-sm text-gray-600 dark:text-gray-300 space-y-2">
-                      <p className="font-medium">Best for: Single-period classes, after-school programs</p>
-                      <ul className="list-disc list-inside space-y-1 ml-2">
-                        <li>10 min: Opening and context setting</li>
-                        <li>40-60 min: Complete one full module</li>
-                        <li>15-20 min: Discussion and reflection</li>
-                      </ul>
-                    </div>
-                  </CollapsibleSection>
-
-                  <CollapsibleSection title="Multi-Session Workshop (5+ Sessions)">
-                    <div className="text-sm text-gray-600 dark:text-gray-300 space-y-2">
-                      <p className="font-medium">Best for: Deep learning, comprehensive coverage</p>
-                      <ul className="list-disc list-inside space-y-1 ml-2">
-                        <li>Session 1: Introduction + Module 1 (Systems Basics)</li>
-                        <li>Session 2: Module 2 (Climate Science)</li>
-                        <li>Session 3: Module 3 (Solutions)</li>
-                        <li>Session 4: Module 4 (Taking Action)</li>
-                        <li>Session 5: Module 5 (Synthesis) + Final Reflection</li>
-                      </ul>
-                      <p className="mt-2 italic">Add extra sessions for deeper exploration of En-ROADS or project work.</p>
-                    </div>
-                  </CollapsibleSection>
+                  {t.pages.educators.sections.formats.items.map((fmt, i) => (
+                    <CollapsibleSection key={i} title={fmt.title} defaultOpen={i === 0}>
+                      <div className="text-sm text-gray-600 dark:text-gray-300 space-y-2">
+                        <p className="font-medium">{fmt.subtitle}</p>
+                        <ul className="list-disc list-inside space-y-1 ml-2">
+                          {fmt.bulletPoints.map((bp, j) => <li key={j}>{bp}</li>)}
+                        </ul>
+                      </div>
+                    </CollapsibleSection>
+                  ))}
                 </div>
 
                 <div className="mt-6">
-                  <CalloutBox type="tip" title="Facilitator Tip">
-                    Don't rush through simulations. Students need time to experiment, observe results,
-                    and discuss findings. It's better to cover less content deeply than to rush through everything.
+                  <CalloutBox type="tip" title={t.pages.educators.sections.formats.tip.title}>
+                    {t.pages.educators.sections.formats.tip.text}
                   </CalloutBox>
                 </div>
               </section>
@@ -656,11 +552,11 @@ const sections: Section[] = [
                     <Layers className="text-indigo-600 dark:text-indigo-400" size={20} />
                   </div>
                   <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-gray-100">
-                    En-ROADS & Systems Tools
+                    {t.pages.educators.sections.enroads.title}
                   </h2>
                 </div>
 
-                <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">About En-ROADS</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">{t.pages.educators.sections.enroads.subtitle1}</h3>
                 <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm">
                   <a
                     href="https://en-roads.climateinteractive.org/scenario.html?v=26.4.0"
@@ -670,7 +566,7 @@ const sections: Section[] = [
                   >
                     En-ROADS
                   </a>{' '}
-                  is a free, online climate simulation developed by{' '}
+                  {t.pages.educators.sections.enroads.p1}{' '}
                   <a
                     href="https://www.climateinteractive.org/"
                     target="_blank"
@@ -679,38 +575,31 @@ const sections: Section[] = [
                   >
                     Climate Interactive
                   </a>{' '}
-                  and MIT Sloan School of Management.
-                  It allows users to explore how different policies and actions affect global temperature,
-                  energy systems, and emissions over time.
+                  {t.pages.educators.sections.enroads.p2}
                 </p>
 
-                <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">Simplified vs. Full En-ROADS Models</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">{t.pages.educators.sections.enroads.subtitle2}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                   <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
-                    <h4 className="font-medium text-green-800 dark:text-green-300 mb-2">This Curriculum (Simplified)</h4>
+                    <h4 className="font-medium text-green-800 dark:text-green-300 mb-2">{t.pages.educators.sections.enroads.simplified.title}</h4>
                     <ul className="text-green-700 dark:text-green-400 text-sm space-y-1">
-                      <li>• Focused set of key sliders</li>
-                      <li>• Streamlined interface for learning</li>
-                      <li>• Guided exploration with prompts</li>
-                      <li>• Best for first-time users</li>
+                      {t.pages.educators.sections.enroads.simplified.items.map((item, i) => <li key={i}>{item}</li>)}
                     </ul>
                   </div>
                   <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-                    <h4 className="font-medium text-blue-800 dark:text-blue-300 mb-2">Full En-ROADS Model</h4>
+                    <h4 className="font-medium text-blue-800 dark:text-blue-300 mb-2">{t.pages.educators.sections.enroads.full.title}</h4>
                     <ul className="text-blue-700 dark:text-blue-400 text-sm space-y-1">
-                      <li>• 100+ policy levers</li>
-                      <li>• Detailed graphs and data</li>
-                      <li>• Advanced scenario building</li>
-                      <li>• For deeper exploration</li>
+                      {t.pages.educators.sections.enroads.full.items.map((item, i) => <li key={i}>{item}</li>)}
                     </ul>
                   </div>
                 </div>
 
-                <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">When to Use Each</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">{t.pages.educators.sections.enroads.subtitle3}</h3>
                 <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-4">
                   <ul className="text-gray-600 dark:text-gray-300 text-sm space-y-4">
-                    <li><strong>Use Simplified Version:</strong> For initial learning, younger students, shorter sessions, or when focusing on key concepts</li>
-                    <li><strong>Use Full Model:</strong> For advanced students, extended workshops, research projects, or when students are ready for more complexity</li>
+                    {t.pages.educators.sections.enroads.usage.map((u, i) => (
+                      <li key={i}><strong>{u.label}</strong> {u.text}</li>
+                    ))}
                   </ul>
                 </div>
 
@@ -722,7 +611,7 @@ const sections: Section[] = [
                     className="inline-flex w-fit items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border-2 border-indigo-600 dark:border-indigo-500 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-colors text-sm font-semibold"
                   >
                     <ExternalLink size={16} />
-                    Visit Climate Interactive En-ROADS
+                    {t.pages.educators.sections.enroads.visitLink}
                   </a>
 
                   <a
@@ -732,13 +621,12 @@ const sections: Section[] = [
                     className="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border border-indigo-300 dark:border-indigo-600 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-colors text-sm font-medium"
                   >
                     <ExternalLink size={16} />
-                    How People Use En-ROADS
+                    {t.pages.educators.sections.enroads.howPeopleUseLink}
                   </a>
                 </div>
 
-                <CalloutBox type="tip" title="Facilitator Tip">
-                  Start with the simplified version in this curriculum. Once students are comfortable,
-                  introduce the full En-ROADS model for advanced exploration or independent projects.
+                <CalloutBox type="tip" title={t.pages.educators.sections.enroads.tip.title}>
+                  {t.pages.educators.sections.enroads.tip.text}
                 </CalloutBox>
               </section>
 
@@ -752,19 +640,19 @@ const sections: Section[] = [
                     <Download className="text-pink-600 dark:text-pink-400" size={20} />
                   </div>
                   <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-gray-100">
-                    Downloadable Materials
+                    {t.pages.educators.sections.downloads.title}
                   </h2>
                 </div>
 
                 <p className="text-gray-600 dark:text-gray-300 mb-6 text-sm">
-                  Download these resources to support your teaching and facilitation. All materials are free to use and adapt for educational purposes under a Creative Commons Attribution - NonCommercial 4.0 International License.
+                  {t.pages.educators.sections.downloads.description}
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
                     <FileText size={32} className="text-red-500 mb-3" />
-                    <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-1">Student Worksheets</h4>
-                    <p className="text-gray-500 dark:text-gray-400 text-xs mb-3">PDF - Printable worksheets for each module</p>
+                    <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-1">{t.pages.educators.sections.downloads.worksheets.title}</h4>
+                    <p className="text-gray-500 dark:text-gray-400 text-xs mb-3">{t.pages.educators.sections.downloads.worksheets.desc}</p>
                     <a
                       href="https://drive.google.com/file/d/1VlDmsX8SJUJk2d6uRX6yxf6XWMixppdQ/view"
                       target="_blank"
@@ -773,26 +661,26 @@ const sections: Section[] = [
                     >
                       <Button variant="outline" size="sm" className="w-full">
                         <Download size={14} className="mr-2" />
-                        Open PDF
+                        {t.pages.educators.sections.downloads.worksheets.btn}
                       </Button>
                     </a>
                   </div>
                   <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
                     <FileText size={32} className="text-blue-500 mb-3" />
-                    <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-1">Facilitator Guide</h4>
-                    <p className="text-gray-500 dark:text-gray-400 text-xs mb-3">PDF - Detailed facilitation notes</p>
+                    <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-1">{t.pages.educators.sections.downloads.guide.title}</h4>
+                    <p className="text-gray-500 dark:text-gray-400 text-xs mb-3">{t.pages.educators.sections.downloads.guide.desc}</p>
                     <Button variant="outline" size="sm" className="w-full" disabled>
                       <Download size={14} className="mr-2" />
-                      Coming Soon
+                      {t.pages.educators.sections.downloads.guide.btn}
                     </Button>
                   </div>
                   <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
                     <FileText size={32} className="text-orange-500 mb-3" />
-                    <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-1">Slide Deck</h4>
-                    <p className="text-gray-500 dark:text-gray-400 text-xs mb-3">PPTX - Presentation slides</p>
+                    <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-1">{t.pages.educators.sections.downloads.slides.title}</h4>
+                    <p className="text-gray-500 dark:text-gray-400 text-xs mb-3">{t.pages.educators.sections.downloads.slides.desc}</p>
                     <Button variant="outline" size="sm" className="w-full" disabled>
                       <Download size={14} className="mr-2" />
-                      Coming Soon
+                      {t.pages.educators.sections.downloads.slides.btn}
                     </Button>
                   </div>
                 </div>
@@ -808,57 +696,36 @@ const sections: Section[] = [
                     <Accessibility className="text-cyan-600 dark:text-cyan-400" size={20} />
                   </div>
                   <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-gray-100">
-                    Adaptations for Learners
+                    {t.pages.educators.sections.adaptations.title}
                   </h2>
                 </div>
 
                 <div className="space-y-4">
-                  <CollapsibleSection title="Different Age Groups" defaultOpen={true}>
+                  <CollapsibleSection title={t.pages.educators.sections.adaptations.ageGroups.title} defaultOpen={true}>
                     <div className="space-y-3 text-sm">
-                      <div>
-                        <h5 className="font-medium text-gray-900 dark:text-gray-100">Ages 12-15</h5>
-                        <p className="text-gray-600 dark:text-gray-400">Focus on foundational concepts, use more visual aids, allow more time for activities, pair with guided worksheets</p>
-                      </div>
-                      <div>
-                        <h5 className="font-medium text-gray-900 dark:text-gray-100">Ages 16-18</h5>
-                        <p className="text-gray-600 dark:text-gray-400">Introduce more complexity, encourage independent exploration, connect to current events and policy</p>
-                      </div>
-                      <div>
-                        <h5 className="font-medium text-gray-900 dark:text-gray-100">Advanced/College</h5>
-                        <p className="text-gray-600 dark:text-gray-400">Use full En-ROADS model, assign research projects, facilitate debates on policy trade-offs</p>
-                      </div>
+                      {t.pages.educators.sections.adaptations.ageGroups.items.map((item, i) => (
+                        <div key={i}>
+                          <h5 className="font-medium text-gray-900 dark:text-gray-100">{item.title}</h5>
+                          <p className="text-gray-600 dark:text-gray-400">{item.text}</p>
+                        </div>
+                      ))}
                     </div>
                   </CollapsibleSection>
 
-                  <CollapsibleSection title="Accessibility Considerations">
+                  <CollapsibleSection title={t.pages.educators.sections.adaptations.accessibility.title}>
                     <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 text-sm">
-                      <li>Platform supports dark mode for reduced eye strain</li>
-                      <li>All content is keyboard navigable</li>
-                      <li>Text can be resized using browser zoom</li>
-                      <li>Provide printed materials for students who need them</li>
-                      <li>Allow extra time for students who need it</li>
-                      <li>Consider pairing students for collaborative support</li>
+                      {t.pages.educators.sections.adaptations.accessibility.items.map((item, i) => <li key={i}>{item}</li>)}
                     </ul>
                   </CollapsibleSection>
 
-                  <CollapsibleSection title="Different Learning Contexts">
+                  <CollapsibleSection title={t.pages.educators.sections.adaptations.contexts.title}>
                     <div className="space-y-3 text-sm">
-                      <div>
-                        <h5 className="font-medium text-gray-900 dark:text-gray-100">Formal Classroom</h5>
-                        <p className="text-gray-600 dark:text-gray-400">Follow structured lesson flow, use for assessment, integrate with existing curriculum</p>
-                      </div>
-                      <div>
-                        <h5 className="font-medium text-gray-900 dark:text-gray-100">After-School Programs</h5>
-                        <p className="text-gray-600 dark:text-gray-400">More flexible pacing, emphasis on engagement and discussion, project-based extensions</p>
-                      </div>
-                      <div>
-                        <h5 className="font-medium text-gray-900 dark:text-gray-100">Community Workshops</h5>
-                        <p className="text-gray-600 dark:text-gray-400">Mixed ages, focus on local relevance, action-oriented outcomes, shorter sessions</p>
-                      </div>
-                      <div>
-                        <h5 className="font-medium text-gray-900 dark:text-gray-100">Remote/Hybrid Learning</h5>
-                        <p className="text-gray-600 dark:text-gray-400">Students can work independently, use breakout rooms for discussions, screen share simulations</p>
-                      </div>
+                      {t.pages.educators.sections.adaptations.contexts.items.map((item, i) => (
+                        <div key={i}>
+                          <h5 className="font-medium text-gray-900 dark:text-gray-100">{item.title}</h5>
+                          <p className="text-gray-600 dark:text-gray-400">{item.text}</p>
+                        </div>
+                      ))}
                     </div>
                   </CollapsibleSection>
                 </div>
@@ -874,75 +741,67 @@ const sections: Section[] = [
                     <Award className="text-amber-600 dark:text-amber-400" size={20} />
                   </div>
                   <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-gray-100">
-                    Teacher Professional Development
+                    {t.pages.educators.sections.professionalDev.title}
                   </h2>
                 </div>
 
                 <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm">
-                  Use this outline to run a professional development session for fellow educators.
+                  {t.pages.educators.sections.professionalDev.description}
                 </p>
 
                 <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-5 mb-4">
-                  <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">MIT Day of Climate</h3>
+                  <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">{t.pages.educators.sections.professionalDev.block1.title}</h3>
                   <div className="space-y-3 text-sm text-gray-600 dark:text-gray-300">
                     <p>
-                      <strong>“Introduction to the Compassionate Systems Framework”</strong> – hands-on workshop on systems leadership offered by the Center for Systems Awareness.
+                      <strong>
+                        <a
+                          href="https://systemsawareness.org/what-we-do/#programs"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 dark:text-blue-400 underline hover:text-blue-700 dark:hover:text-blue-300"
+                        >
+                          {t.pages.educators.sections.professionalDev.block1.link1Title}
+                        </a>
+                      </strong>{' '}
+                      {t.pages.educators.sections.professionalDev.block1.p1}
                     </p>
                     <p>
-                      <strong>Compassionate Climate Community</strong> – a program to create a space for an international, multi-generational group of like-minded individuals seeking to improve their knowledge and capacities to mitigate climate change. The overarching goals of this program are to bring these vital capacities into school sites and foster an international community of change-makers. Custom program offerings available through the Center for Systems Awareness.
+                      <strong>
+                        <a
+                          href="https://systemsawareness.org/youth-leadership-team/compassionate-climate-community/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 dark:text-blue-400 underline hover:text-blue-700 dark:hover:text-blue-300"
+                        >
+                          {t.pages.educators.sections.professionalDev.block1.link2Title}
+                        </a>
+                      </strong>{' '}
+                      {t.pages.educators.sections.professionalDev.block1.p2}
                     </p>
                   </div>
                 </div>
 
                 <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-5 mb-4">
-                  <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">Suggested PD Session (2-3 hours)</h3>
-
+                  <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">{t.pages.educators.sections.professionalDev.block2.title}</h3>
                   <div className="space-y-4 text-sm">
-                    <div className="flex gap-3">
-                      <div className="w-20 flex-shrink-0 text-gray-500 dark:text-gray-400">30 min</div>
-                      <div>
-                        <h4 className="font-medium text-gray-900 dark:text-gray-100">Introduction to Systems Thinking</h4>
-                        <p className="text-gray-600 dark:text-gray-400">Overview of systems thinking concepts and why they matter for climate education. See Facilitator Guide and Slide Deck</p>
+                    {t.pages.educators.sections.professionalDev.block2.items.map((item, i) => (
+                      <div key={i} className="flex gap-3">
+                        <div className="w-20 flex-shrink-0 text-gray-500 dark:text-gray-400">{item.time}</div>
+                        <div>
+                          <h4 className="font-medium text-gray-900 dark:text-gray-100">{item.title}</h4>
+                          <p className="text-gray-600 dark:text-gray-400">{item.text}</p>
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex gap-3">
-                      <div className="w-20 flex-shrink-0 text-gray-500 dark:text-gray-400">45 min</div>
-                      <div>
-                        <h4 className="font-medium text-gray-900 dark:text-gray-100">Experience the Curriculum</h4>
-                        <p className="text-gray-600 dark:text-gray-400">Educators work through 1-2 modules as students would</p>
-                      </div>
-                    </div>
-                    <div className="flex gap-3">
-                      <div className="w-20 flex-shrink-0 text-gray-500 dark:text-gray-400">30 min</div>
-                      <div>
-                        <h4 className="font-medium text-gray-900 dark:text-gray-100">Exploring En-ROADS</h4>
-                        <p className="text-gray-600 dark:text-gray-400">Hands-on time with the simulation tool, guided exploration</p>
-                      </div>
-                    </div>
-                    <div className="flex gap-3">
-                      <div className="w-20 flex-shrink-0 text-gray-500 dark:text-gray-400">30 min</div>
-                      <div>
-                        <h4 className="font-medium text-gray-900 dark:text-gray-100">Facilitation Practice</h4>
-                        <p className="text-gray-600 dark:text-gray-400">Practice facilitating discussions, role-play challenging scenarios</p>
-                      </div>
-                    </div>
-                    <div className="flex gap-3">
-                      <div className="w-20 flex-shrink-0 text-gray-500 dark:text-gray-400">15 min</div>
-                      <div>
-                        <h4 className="font-medium text-gray-900 dark:text-gray-100">Implementation Planning</h4>
-                        <p className="text-gray-600 dark:text-gray-400">Educators plan how they'll use the curriculum in their context</p>
-                      </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
 
-                <CalloutBox type="tip" title="Facilitator Tip">
-                  The best way to prepare educators is to let them experience the curriculum as learners first.
-                  This builds empathy for student experiences and surfaces potential challenges.
+                <CalloutBox type="tip" title={t.pages.educators.sections.professionalDev.tip.title}>
+                  {t.pages.educators.sections.professionalDev.tip.text}
                 </CalloutBox>
 
                 <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-5 mt-4">
-                  <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">Professional Development Opportunities</h3>
+                  <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">{t.pages.educators.sections.professionalDev.opportunities.title}</h3>
                   <div className="space-y-3 text-sm text-gray-600 dark:text-gray-300">
                     <p>
                       <a
@@ -953,32 +812,6 @@ const sections: Section[] = [
                       >
                         MIT Day of Climate
                       </a>
-                    </p>
-                    <p>
-                      <strong>
-                        <a
-                          href="https://systemsawareness.org/what-we-do/#programs"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-600 dark:text-blue-400 underline hover:text-blue-700 dark:hover:text-blue-300"
-                        >
-                          “Introduction to the Compassionate Systems Framework”
-                        </a>
-                      </strong>{' '}
-                      – hands-on workshop on systems leadership offered by the Center for Systems Awareness.
-                    </p>
-                    <p>
-                      <strong>
-                        <a
-                          href="https://systemsawareness.org/youth-leadership-team/compassionate-climate-community/"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-600 dark:text-blue-400 underline hover:text-blue-700 dark:hover:text-blue-300"
-                        >
-                          Compassionate Climate Community
-                        </a>
-                      </strong>{' '}
-                      – a program to create a space for an international, multi-generational group of like-minded individuals seeking to improve their knowledge and capacities to mitigate climate change. The overarching goals of this program are to bring these vital capacities into school sites and foster an international community of change-makers. Custom program offerings available through the Center for Systems Awareness.
                     </p>
                   </div>
                 </div>
@@ -995,74 +828,23 @@ const sections: Section[] = [
                     <HelpCircle className="text-rose-600 dark:text-rose-400" size={20} />
                   </div>
                   <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-gray-100">
-                    FAQs & Troubleshooting
+                    {t.pages.educators.sections.faqs.title}
                   </h2>
                 </div>
 
                 <div className="space-y-3">
-                  <CollapsibleSection title="Classroom Challenges" defaultOpen={true}>
-                    <div className="space-y-4 text-sm">
-                      <div>
-                        <h5 className="font-medium text-gray-900 dark:text-gray-100">Q: Students finish at very different paces. How do I manage this?</h5>
-                        <p className="text-gray-600 dark:text-gray-400 mt-1">A: Build in extension activities for fast finishers (deeper exploration of En-ROADS, reflection journaling). Allow peer support where appropriate.</p>
+                  {t.pages.educators.sections.faqs.sections.map((section, i) => (
+                    <CollapsibleSection key={i} title={section.title} defaultOpen={i === 0}>
+                      <div className="space-y-4 text-sm">
+                        {section.items.map((item, j) => (
+                          <div key={j}>
+                            <h5 className="font-medium text-gray-900 dark:text-gray-100">{item.q}</h5>
+                            <p className="text-gray-600 dark:text-gray-400 mt-1">{item.a}</p>
+                          </div>
+                        ))}
                       </div>
-                      <div>
-                        <h5 className="font-medium text-gray-900 dark:text-gray-100">Q: Some students seem disengaged or skeptical about climate change.</h5>
-                        <p className="text-gray-600 dark:text-gray-400 mt-1">A: Focus on systems thinking as a skill rather than climate beliefs. Use the simulation to explore "what if" scenarios without judgment. Meet students where they are.</p>
-                      </div>
-                      <div>
-                        <h5 className="font-medium text-gray-900 dark:text-gray-100">Q: Discussions get heated or political. How do I navigate this?</h5>
-                        <p className="text-gray-600 dark:text-gray-400 mt-1">A: Establish discussion norms upfront. Focus on data and trade-offs rather than political positions. Acknowledge different perspectives while grounding in scientific evidence.</p>
-                      </div>
-                    </div>
-                  </CollapsibleSection>
-
-                  <CollapsibleSection title="Common Student Misconceptions">
-                    <div className="space-y-4 text-sm">
-                      <div>
-                        <h5 className="font-medium text-gray-900 dark:text-gray-100">"One big solution will fix everything"</h5>
-                        <p className="text-gray-600 dark:text-gray-400 mt-1">Use the simulation to show that no single lever dramatically changes outcomes—it takes a portfolio of solutions working together.</p>
-                      </div>
-                      <div>
-                        <h5 className="font-medium text-gray-900 dark:text-gray-100">"Individual actions don't matter"</h5>
-                        <p className="text-gray-600 dark:text-gray-400 mt-1">Discuss leverage points and how individual actions can influence systems (voting, consumer choices, community organizing).</p>
-                      </div>
-                      <div>
-                        <h5 className="font-medium text-gray-900 dark:text-gray-100">"Technology will save us without any changes"</h5>
-                        <p className="text-gray-600 dark:text-gray-400 mt-1">Show that even aggressive technology scenarios require behavior and policy changes to meet climate goals.</p>
-                      </div>
-                    </div>
-                  </CollapsibleSection>
-
-                  <CollapsibleSection title="Technical Issues">
-                    <div className="space-y-4 text-sm">
-                      <div>
-                        <h5 className="font-medium text-gray-900 dark:text-gray-100">Q: The simulation isn't loading or is slow.</h5>
-                        <p className="text-gray-600 dark:text-gray-400 mt-1">A: Check internet connection. Try refreshing the page. Use Chrome or Firefox for best performance. Close other browser tabs.</p>
-                      </div>
-                      <div>
-                        <h5 className="font-medium text-gray-900 dark:text-gray-100">Q: Student progress isn't saving.</h5>
-                        <p className="text-gray-600 dark:text-gray-400 mt-1">A: Progress is saved in browser local storage. Students should use the same browser and device. Private/incognito mode won't save progress.</p>
-                      </div>
-                      <div>
-                        <h5 className="font-medium text-gray-900 dark:text-gray-100">Q: We don't have enough devices for individual work.</h5>
-                        <p className="text-gray-600 dark:text-gray-400 mt-1">A: Use pair or small group work. Project the simulation for whole-class exploration with students voting on what to try next.</p>
-                      </div>
-                    </div>
-                  </CollapsibleSection>
-
-                  <CollapsibleSection title="Time Management">
-                    <div className="space-y-4 text-sm">
-                      <div>
-                        <h5 className="font-medium text-gray-900 dark:text-gray-100">Q: We're running out of time mid-module.</h5>
-                        <p className="text-gray-600 dark:text-gray-400 mt-1">A: It's okay to split modules across sessions. Build in natural stopping points. Prioritize quality engagement over completion.</p>
-                      </div>
-                      <div>
-                        <h5 className="font-medium text-gray-900 dark:text-gray-100">Q: How do I fit this into an already packed curriculum?</h5>
-                        <p className="text-gray-600 dark:text-gray-400 mt-1">A: Look for integration points with existing units (science, social studies, math). Use modules selectively. Consider after-school or advisory time.</p>
-                      </div>
-                    </div>
-                  </CollapsibleSection>
+                    </CollapsibleSection>
+                  ))}
                 </div>
               </section>
 
@@ -1071,8 +853,8 @@ const sections: Section[] = [
               {/* Footer */}
               <div className="mt-10 pt-6 border-t border-gray-200 dark:border-gray-700">
                 <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
-                  Have questions or feedback? We'd love to hear from you!<br />
-                  <span className="text-green-600 dark:text-green-400">systemsawareness@mit.edu</span>
+                  {t.pages.educators.footer.text1}<br />
+                  <span className="text-green-600 dark:text-green-400">{t.pages.educators.footer.email}</span>
                 </p>
               </div>
           </main>
