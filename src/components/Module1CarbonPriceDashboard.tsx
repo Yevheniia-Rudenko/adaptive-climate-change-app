@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState, ChangeEvent } from 'react';
 import { createAsyncModel, getDefaultConfig, createDefaultOutputs } from '@climateinteractive/en-roads-core';
 import enStrings from '@climateinteractive/en-roads-core/strings/en';
+import deStrings from '@climateinteractive/en-roads-core/strings/de';
+import esStrings from '@climateinteractive/en-roads-core/strings/es';
 import { GraphView } from '@climateinteractive/sim-ui-graph';
+import { useLanguage } from '../contexts/LanguageContext';
 import '../styles/enroads-dashboard.css';
 
 // Graph definitions with correct En-ROADS IDs
@@ -14,6 +17,64 @@ const GRAPHS = [
 ];
 
 export default function Module1CarbonPriceDashboard() {
+  const { language } = useLanguage();
+  const ui = {
+    en: {
+      title: 'Make a Model: Carbon Price',
+      loadingModel: 'Loading Model...',
+      failedToLoad: 'Failed to load En-ROADS model.',
+      temperatureTitle: 'Temperature\nIncrease by\n2100',
+      baseline: 'BASELINE',
+      currentScenario: 'CURRENT SCENARIO',
+      carbonPrice: 'Carbon Price',
+      seaLevelRise: 'Sea Level Rise',
+      deathsExtremeHeat: 'Deaths from Extreme Heat',
+      speciesLoss: 'Species Loss - Extinction',
+      cropYield: 'Crop Yield',
+      airPollution: 'Air Pollution',
+    },
+    de: {
+      title: 'Erstelle ein Modell: CO2-Preis',
+      loadingModel: 'Modell wird geladen...',
+      failedToLoad: 'En-ROADS-Modell konnte nicht geladen werden.',
+      temperatureTitle: 'Temperatur-\nanstieg bis\n2100',
+      baseline: 'BASISLINIE',
+      currentScenario: 'AKTUELLES SZENARIO',
+      carbonPrice: 'CO2-Preis',
+      seaLevelRise: 'Meeresspiegelanstieg',
+      deathsExtremeHeat: 'Todesfälle durch extreme Hitze',
+      speciesLoss: 'Artenverlust - Aussterben',
+      cropYield: 'Ernteertrag',
+      airPollution: 'Luftverschmutzung',
+    },
+    es: {
+      title: 'Crea un modelo: Precio al carbono',
+      loadingModel: 'Cargando modelo...',
+      failedToLoad: 'Error al cargar el modelo En-ROADS.',
+      temperatureTitle: 'Aumento de\ntemperatura\npara 2100',
+      baseline: 'LÍNEA DE BASE',
+      currentScenario: 'ESCENARIO ACTUAL',
+      carbonPrice: 'Precio al carbono',
+      seaLevelRise: 'Aumento del nivel del mar',
+      deathsExtremeHeat: 'Muertes por calor extremo',
+      speciesLoss: 'Pérdida de especies - Extinción',
+      cropYield: 'Rendimiento de cultivos',
+      airPollution: 'Contaminación del aire',
+    },
+  }[language] ?? {
+    title: 'Make a Model: Carbon Price',
+    loadingModel: 'Loading Model...',
+    failedToLoad: 'Failed to load En-ROADS model.',
+    temperatureTitle: 'Temperature\nIncrease by\n2100',
+    baseline: 'BASELINE',
+    currentScenario: 'CURRENT SCENARIO',
+    carbonPrice: 'Carbon Price',
+    seaLevelRise: 'Sea Level Rise',
+    deathsExtremeHeat: 'Deaths from Extreme Heat',
+    speciesLoss: 'Species Loss - Extinction',
+    cropYield: 'Crop Yield',
+    airPollution: 'Air Pollution',
+  };
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -37,8 +98,22 @@ export default function Module1CarbonPriceDashboard() {
   // Input ref for Carbon Price (ID 48 usually, check if fails)
   const carbonPriceInputRef = useRef<any>(null);
 
-  const str = (key: string) => {
-    return (enStrings as any)[key] || key;
+  const getEnRoadsStrings = () => {
+    switch (language) {
+      case 'de': return deStrings;
+      case 'es': return esStrings;
+      default: return enStrings;
+    }
+  };
+  const str = (key: string) => (getEnRoadsStrings() as any)[key] || key;
+
+  const graphLabel = (id: string) => {
+    if (id === '90') return ui.seaLevelRise;
+    if (id === '275') return ui.deathsExtremeHeat;
+    if (id === '279') return ui.speciesLoss;
+    if (id === '183') return ui.cropYield;
+    if (id === '112') return ui.airPollution;
+    return id;
   };
 
   const getRangeHighlightBackground = (currentPct: number, defaultPct: number | null, color: string) => {
@@ -324,7 +399,7 @@ export default function Module1CarbonPriceDashboard() {
         setIsLoading(false);
       } catch (err) {
         console.error(err);
-        setError('Failed to load En-ROADS model.');
+        setError(ui.failedToLoad);
         setIsLoading(false);
       }
     };
@@ -349,12 +424,12 @@ export default function Module1CarbonPriceDashboard() {
     return () => ro.disconnect();
   }, [isLoading]);
 
-  if (isLoading) return <div className="p-8 text-center text-gray-500">Loading Model...</div>;
+  if (isLoading) return <div className="p-8 text-center text-gray-500">{ui.loadingModel}</div>;
   if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
 
   return (
     <div className="bg-gray-50 dark:bg-gray-900 p-3 sm:p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora mb-24">
-      <h2 className="text-lg sm:text-xl px-3 sm:px-4 pt-3 sm:pt-4 mb-4 font-bold text-gray-800 dark:text-gray-200">Make a Model: Carbon Price</h2>
+      <h2 className="text-lg sm:text-xl px-3 sm:px-4 pt-3 sm:pt-4 mb-4 font-bold text-gray-800 dark:text-gray-200">{ui.title}</h2>
 
       {/* Temperature card — matches the design from other dashboards */}
       <div className="flex justify-center mb-4">
@@ -368,8 +443,8 @@ export default function Module1CarbonPriceDashboard() {
             ref={tempFRef}
             style={{ color: '#14a9df', fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)', fontWeight: 800, lineHeight: 1 }}
           >+5.9°F</span>
-          <div className="mt-3 leading-tight text-gray-900 dark:text-gray-100" style={{ fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)', fontWeight: 800 }}>
-            Temperature<br />Increase by<br />2100
+          <div className="mt-3 whitespace-pre-line leading-tight text-gray-900 dark:text-gray-100" style={{ fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)', fontWeight: 800 }}>
+            {ui.temperatureTitle}
           </div>
         </div>
       </div>
@@ -382,7 +457,7 @@ export default function Module1CarbonPriceDashboard() {
             onChange={(e) => setSelectedGraphId(e.target.value)}
             className="bg-blue-100 dark:bg-blue-900/50 border border-blue-300 dark:border-blue-500 text-blue-900 dark:text-blue-100 text-base sm:text-lg rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block p-3 font-bold"
           >
-            {GRAPHS.map(g => <option key={g.id} value={g.id}>{g.label}</option>)}
+            {GRAPHS.map(g => <option key={g.id} value={g.id}>{graphLabel(g.id)}</option>)}
           </select>
         </div>
         <div ref={graphContainerRef} style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
@@ -402,8 +477,8 @@ export default function Module1CarbonPriceDashboard() {
           </div>
         ) : (
           <div className="flex justify-center gap-3 mt-3">
-            <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
-            <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#00b6f1' }}>CURRENT SCENARIO</span>
+              <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>{ui.baseline}</span>
+              <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#00b6f1' }}>{ui.currentScenario}</span>
           </div>
         )}
       </div>
@@ -411,7 +486,7 @@ export default function Module1CarbonPriceDashboard() {
       <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-8">
         <div className="space-y-4">
           <div className="flex justify-between items-center font-bold text-gray-700 dark:text-gray-200">
-            <label>Carbon Price</label>
+            <label>{ui.carbonPrice}</label>
             <span className="text-sm font-mono text-gray-500">{carbonPriceText}</span>
           </div>
           <div className="enroads-range-wrap">

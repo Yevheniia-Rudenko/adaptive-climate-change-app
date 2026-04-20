@@ -13,6 +13,7 @@ type Parameter = {
 };
 
 type DashboardMetric = {
+  id: string;
   label: string;
   getValue: (params: { [key: string]: number }) => number;
   unit: string;
@@ -55,6 +56,7 @@ const moduleConfigs: {
     ],
     metrics: [
       {
+        id: 'temperature',
         label: 'Temperature by 2100',
         getValue: (p) => 3.5 - (p.renewableGrowth * 0.02) + (p.deforestation * 0.01),
         unit: '°C',
@@ -62,6 +64,7 @@ const moduleConfigs: {
         goodDirection: 'down'
       },
       {
+        id: 'optimism',
         label: 'Climate Optimism',
         getValue: (p) => 30 + (p.renewableGrowth * 0.5) - (p.deforestation * 0.3),
         unit: '%',
@@ -94,6 +97,7 @@ const moduleConfigs: {
     ],
     metrics: [
       {
+        id: 'stock',
         label: 'Atmospheric CO₂ Stock',
         getValue: (p) => 420 + ((p.emissions - p.carbonSinks) * 0.5),
         unit: 'ppm',
@@ -101,6 +105,7 @@ const moduleConfigs: {
         goodDirection: 'down'
       },
       {
+        id: 'netChange',
         label: 'Net Annual Change',
         getValue: (p) => (p.emissions * 0.4) - (p.carbonSinks * 0.3),
         unit: 'Gt/year',
@@ -142,6 +147,7 @@ const moduleConfigs: {
     ],
     metrics: [
       {
+        id: 'warming',
         label: 'Warming by 2050',
         getValue: (p) => 2.2 - (p.coalPhaseout * 0.008) - (p.electrification * 0.006) - (p.carbonPrice * 0.002),
         unit: '°C',
@@ -149,6 +155,7 @@ const moduleConfigs: {
         goodDirection: 'down'
       },
       {
+        id: 'risk',
         label: 'Pathway Risk Level',
         getValue: (p) => {
           const score = (p.coalPhaseout + p.electrification + p.carbonPrice) / 3;
@@ -193,6 +200,7 @@ const moduleConfigs: {
     ],
     metrics: [
       {
+        id: 'impact',
         label: 'Total System Impact',
         getValue: (p) => {
           // Synergy bonus when multiple solutions are high
@@ -205,6 +213,7 @@ const moduleConfigs: {
         goodDirection: 'up'
       },
       {
+        id: 'cobenefits',
         label: 'Co-benefits Score',
         getValue: (p) => {
           return (p.renewableEnergy * 0.4 + p.buildingEfficiency * 0.3 + p.landRestoration * 0.8) / 1.5;
@@ -248,6 +257,7 @@ const moduleConfigs: {
     ],
     metrics: [
       {
+        id: 'multiplier',
         label: 'Leverage Multiplier',
         getValue: (p) => {
           // These levers multiply each other's effects
@@ -258,6 +268,7 @@ const moduleConfigs: {
         goodDirection: 'up'
       },
       {
+        id: 'speed',
         label: 'System Change Speed',
         getValue: (p) => {
           const maxLever = Math.max(p.policyStrength, p.techInnovation, p.socialMovement);
@@ -273,8 +284,24 @@ const moduleConfigs: {
 };
 
 export function InteractiveDashboard({ moduleId }: InteractiveDashboardProps) {
-  const config = moduleConfigs[moduleId];
   const { t } = useLanguage();
+  const baseConfig = moduleConfigs[moduleId];
+  const tModule = t.interactiveDashboard.modules[moduleId as keyof typeof t.interactiveDashboard.modules];
+
+  const config = {
+    ...baseConfig,
+    title: tModule?.title || baseConfig.title,
+    parameters: baseConfig.parameters.map(p => ({
+      ...p,
+      label: (tModule?.params as any)?.[p.id]?.label || p.label,
+      description: (tModule?.params as any)?.[p.id]?.description || p.description,
+    })),
+    metrics: baseConfig.metrics.map(m => ({
+      ...m,
+      label: (tModule?.metrics as any)?.[m.id] || m.label,
+    }))
+  };
+
   const [params, setParams] = useState<{ [key: string]: number }>(() => {
     const initial: { [key: string]: number } = {};
     config.parameters.forEach(p => {
@@ -300,13 +327,13 @@ export function InteractiveDashboard({ moduleId }: InteractiveDashboardProps) {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-6">
         <div className="flex items-center gap-3">
           <Activity className="text-primary flex-shrink-0" size={24} />
-          <h2 className="text-gray-900 dark:text-gray-100 text-lg sm:text-xl">{config.title}</h2>
+          <h2 className="text-gray-900 dark:text-gray-100 text-lg sm:text-xl font-bold">{config.title}</h2>
         </div>
         <button
           onClick={resetParams}
           className="px-4 py-2 text-sm bg-white dark:bg-gray-700 hover:bg-purple-200 dark:hover:bg-purple-900/50 text-gray-700 dark:text-gray-200 hover:text-purple-900 dark:hover:text-purple-100 rounded-full transition-colors border-2 border-purple-300 dark:border-purple-600 hover:border-purple-500 dark:hover:border-purple-400 w-full sm:w-auto font-sora"
         >
-          {t.reset}
+          {t.interactiveDashboard.reset}
         </button>
       </div>
 
@@ -320,8 +347,8 @@ export function InteractiveDashboard({ moduleId }: InteractiveDashboardProps) {
           return (
             <div key={idx} className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-5 shadow-sm">
               <div className="flex items-start justify-between mb-2 sm:mb-3">
-                <span className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm pr-2">{metric.label}</span>
-                {metric.label.includes('Temperature') || metric.label.includes('Warming') ? (
+                <span className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm pr-2 font-bold">{metric.label}</span>
+                {metric.id.includes('temperature') || metric.id.includes('warming') ? (
                   <Thermometer className={isGood ? 'text-green-500' : 'text-red-500'} size={18} />
                 ) : isGood ? (
                   <TrendingUp className="text-green-500" size={18} />
@@ -330,16 +357,16 @@ export function InteractiveDashboard({ moduleId }: InteractiveDashboardProps) {
                 )}
               </div>
               <div className="flex items-baseline gap-2">
-                <span className="text-2xl sm:text-3xl text-gray-900 dark:text-gray-100">
+                <span className="text-2xl sm:text-3xl text-gray-900 dark:text-gray-100 font-bold">
                   {value.toFixed(1)}
                 </span>
                 <span className="text-sm sm:text-base text-gray-600 dark:text-gray-300">{metric.unit}</span>
               </div>
               <div className="mt-2 flex items-center gap-2">
-                <div className={`text-xs sm:text-sm ${isGood ? 'text-green-600' : 'text-red-600'}`}>
+                <div className={`text-xs sm:text-sm font-bold ${isGood ? 'text-green-600' : 'text-red-600'}`}>
                   {change > 0 ? '+' : ''}{change.toFixed(1)} {metric.unit}
                 </div>
-                <span className="text-xs text-gray-500 dark:text-gray-400">from baseline</span>
+                <span className="text-xs text-gray-500 dark:text-gray-400">{t.interactiveDashboard.fromBaseline}</span>
               </div>
             </div>
           );
@@ -352,13 +379,13 @@ export function InteractiveDashboard({ moduleId }: InteractiveDashboardProps) {
           <div key={param.id} className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-5">
             <div className="flex flex-col sm:flex-row items-start justify-between mb-3 gap-3">
               <div className="flex-1 w-full">
-                <label className="text-gray-900 dark:text-gray-100 block mb-1 text-sm sm:text-base">
+                <label className="text-gray-900 dark:text-gray-100 block mb-1 text-sm sm:text-base font-bold">
                   {param.label}
                 </label>
                 <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">{param.description}</p>
               </div>
               <div className="sm:ml-4 text-left sm:text-right w-full sm:w-auto">
-                <div className="text-xl sm:text-2xl text-indigo-600">
+                <div className="text-xl sm:text-2xl text-indigo-600 font-bold">
                   {params[param.id]}
                 </div>
                 <div className="text-xs text-gray-500 dark:text-gray-400">{param.unit}</div>

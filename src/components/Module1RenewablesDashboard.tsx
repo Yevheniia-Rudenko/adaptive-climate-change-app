@@ -1,23 +1,27 @@
 import { useEffect, useRef, useState, ChangeEvent } from 'react';
 import { createAsyncModel, getDefaultConfig, createDefaultOutputs } from '@climateinteractive/en-roads-core';
 import enStrings from '@climateinteractive/en-roads-core/strings/en';
+import deStrings from '@climateinteractive/en-roads-core/strings/de';
+import esStrings from '@climateinteractive/en-roads-core/strings/es';
 import { GraphView } from '@climateinteractive/sim-ui-graph';
+import { useLanguage } from '../contexts/LanguageContext';
 import '../styles/enroads-dashboard.css';
 
-const MAIN_GRAPH = { id: '62', label: 'CO2 Emissions', varId: '_co2_equivalent_net_emissions', canvasId: 'module1-renewables-graph-emissions' };
+const MAIN_GRAPH = { id: '62', labelKey: 'graph_62_title', varId: '_co2_equivalent_net_emissions', canvasId: 'module1-renewables-graph-emissions' };
 
 const SECONDARY_GRAPHS = [
-  { id: '90', label: 'Sea Level Rise', varId: '_slr_from_2000_in_meters' },
-  { id: '275', label: 'Deaths from Extreme Heat', varId: '_excess_deaths_from_extreme_heat_per_100k_people' },
-  { id: '279', label: 'Species Loss - Extinction', varId: '_percent_endemic_species_at_high_risk_of_extinction' },
-  { id: '183', label: 'Crop Yield', varId: '_crop_yield_per_hectare_kg_per_year_per_ha' },
-  { id: '112', label: 'Air Pollution', varId: '_pm2_5_emissions_from_energy_mt_per_year' }
+  { id: '90', labelKey: 'graph_90_title', varId: '_slr_from_2000_in_meters' },
+  { id: '275', labelKey: 'graph_275_title', varId: '_excess_deaths_from_extreme_heat_per_100k_people' },
+  { id: '279', labelKey: 'graph_279_title', varId: '_percent_endemic_species_at_high_risk_of_extinction' },
+  { id: '183', labelKey: 'graph_183_title', varId: '_crop_yield_per_hectare_kg_per_year_per_ha' },
+  { id: '112', labelKey: 'graph_112_title', varId: '_pm2_5_emissions_from_energy_mt_per_year' }
 ];
 
 const SECONDARY_GRAPH_CANVAS_ID = 'module1-renewables-graph-secondary';
 const ALL_GRAPH_DEFS = [MAIN_GRAPH, ...SECONDARY_GRAPHS];
 
 export default function Module1RenewablesDashboard() {
+  const { language } = useLanguage();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -38,15 +42,175 @@ export default function Module1RenewablesDashboard() {
   const coreConfigRef = useRef<any>(null);
   const renewablesInputRef = useRef<any>(null);
 
-  const str = (key: string) => (enStrings as any)[key] || key;
+  const getEnRoadsStrings = () => {
+    switch (language) {
+      case 'de': return deStrings;
+      case 'es': return esStrings;
+      default: return enStrings;
+    }
+  };
+
+  const str = (key: string) => {
+    if (key === 'graph_62_title') return language === 'de' ? 'CO2-Emissionen' : language === 'es' ? 'Emisiones de CO2' : 'CO2 Emissions';
+    if (key === 'graph_90_title') return language === 'de' ? 'Meeresspiegelanstieg' : language === 'es' ? 'Aumento del nivel del mar' : 'Sea Level Rise';
+    if (key === 'graph_275_title') return language === 'de' ? 'Todesfälle durch extreme Hitze' : language === 'es' ? 'Muertes por calor extremo' : 'Deaths from Extreme Heat';
+    if (key === 'graph_279_title') return language === 'de' ? 'Artenverlust - Aussterben' : language === 'es' ? 'Pérdida de especies - extinción' : 'Species Loss - Extinction';
+    if (key === 'graph_183_title') return language === 'de' ? 'Ernteerträge' : language === 'es' ? 'Rendimiento de cultivos' : 'Crop Yield';
+    if (key === 'graph_112_title') return language === 'de' ? 'Luftverschmutzung aus der Energieerzeugung – PM2,5-Emissionen' : language === 'es' ? 'Contaminación del aire por energía - emisiones PM2,5' : 'Air Pollution';
+    return (getEnRoadsStrings() as any)[key] || key;
+  };
+
+  const ui = {
+    en: {
+      intro: 'In this model, explore the impact of renewables on global temperature (remember our goal of 1.5°C!) and other impacts, which you can select in the graph dropdown.',
+      choose: 'You can choose:',
+      statusTitle: 'Status Quo:',
+      statusText: 'Maintain the current levels of use of renewable energy. This is where the slider starts.',
+      encourageTitle: 'Encourage:',
+      encourageText: 'Support building and use of solar panels, geothermal, and wind turbines through government subsidies that allow investment in renewable energy and lower costs for consumers.',
+      discourageTitle: 'Discourage:',
+      discourageText: 'Through taxes raising costs of renewable energy investment and use, through public policy, or communications.',
+      dashboardTitle: 'En-Roads Dashboard: Renewables',
+      openFullscreen: 'Open Full Screen',
+      closeFullscreen: 'Close Full Screen',
+      baseline: 'BASELINE',
+      currentScenario: 'CURRENT SCENARIO',
+      co2Emissions: 'CO2 Emissions',
+      seaLevelRise: 'Sea Level Rise',
+      deathsExtremeHeat: 'Deaths from Extreme Heat',
+      speciesLoss: 'Species Loss - Extinction',
+      cropYield: 'Crop Yield',
+      airPollution: 'Air Pollution',
+      marineSpecies: 'MARINE SPECIES',
+      landSpecies: 'LAND SPECIES',
+      dashedBaseline: 'Dashed lines represent Baseline',
+      temperatureTitle: 'Temperature\nIncrease by\n2100',
+      renewablesLabel: 'Renewables',
+      highlyDiscouraged: 'Highly discouraged',
+      discouraged: 'Discouraged',
+      statusQuo: 'Status quo',
+      moreEncouraged: 'More encouraged',
+      highlyEncouraged: 'Highly encouraged',
+      loadingModel: 'Loading Model...',
+      failedToLoad: 'Failed to load En-ROADS model.',
+    },
+    de: {
+      intro: 'In diesem Modell untersuchst du den Einfluss erneuerbarer Energien auf die globale Temperatur (denk an unser Ziel von 1,5°C!) und auf weitere Auswirkungen, die du im Diagramm-Dropdown auswählen kannst.',
+      choose: 'Du kannst wählen:',
+      statusTitle: 'Status Quo:',
+      statusText: 'Behalte das aktuelle Nutzungsniveau erneuerbarer Energien bei. Hier startet der Regler.',
+      encourageTitle: 'Fördern:',
+      encourageText: 'Unterstütze Ausbau und Nutzung von Solar, Geothermie und Wind über staatliche Förderungen, die Investitionen erleichtern und Kosten senken.',
+      discourageTitle: 'Bremsen:',
+      discourageText: 'Durch Steuern, politische Maßnahmen oder Kommunikation, die Investitionen und Nutzung erneuerbarer Energien verteuern.',
+      dashboardTitle: 'En-Roads Dashboard: Erneuerbare Energien',
+      openFullscreen: 'Vollbild öffnen',
+      closeFullscreen: 'Vollbild schließen',
+      baseline: 'BASISLINIE',
+      currentScenario: 'AKTUELLES SZENARIO',
+      co2Emissions: 'CO2-Emissionen',
+      seaLevelRise: 'Meeresspiegelanstieg',
+      deathsExtremeHeat: 'Todesfälle durch extreme Hitze',
+      speciesLoss: 'Artenverlust - Aussterben',
+      cropYield: 'Ernteerträge',
+      airPollution: 'Luftverschmutzung aus der Energieerzeugung – PM2,5-Emissionen',
+      marineSpecies: 'MEERESARTEN',
+      landSpecies: 'LANDARTEN',
+      dashedBaseline: 'Gestrichelte Linien zeigen die Basislinie',
+      temperatureTitle: 'Temperatur-\nanstieg bis\n2100',
+      renewablesLabel: 'Erneuerbare',
+      highlyDiscouraged: 'Stark gebremst',
+      discouraged: 'Gebremst',
+      statusQuo: 'Status quo',
+      moreEncouraged: 'Mehr gefördert',
+      highlyEncouraged: 'Stark gefördert',
+      loadingModel: 'Modell wird geladen...',
+      failedToLoad: 'En-ROADS-Modell konnte nicht geladen werden.',
+    },
+    es: {
+      intro: 'En este modelo, explora el impacto de las energías renovables en la temperatura global (¡recuerda nuestro objetivo de 1,5°C!) y otros impactos que puedes elegir en el menú del gráfico.',
+      choose: 'Puedes elegir:',
+      statusTitle: 'Status Quo:',
+      statusText: 'Mantener los niveles actuales de uso de energías renovables. Aquí empieza el control deslizante.',
+      encourageTitle: 'Fomentar:',
+      encourageText: 'Apoyar la construcción y uso de paneles solares, geotermia y turbinas eólicas mediante subsidios públicos que faciliten la inversión y reduzcan costos.',
+      discourageTitle: 'Desincentivar:',
+      discourageText: 'Mediante impuestos que aumenten los costos de inversión y uso de renovables, políticas públicas o comunicación.',
+      dashboardTitle: 'En-Roads Dashboard: Renovables',
+      openFullscreen: 'Abrir pantalla completa',
+      closeFullscreen: 'Cerrar pantalla completa',
+      baseline: 'LÍNEA DE BASE',
+      currentScenario: 'ESCENARIO ACTUAL',
+      co2Emissions: 'Emisiones de CO2',
+      seaLevelRise: 'Aumento del nivel del mar',
+      deathsExtremeHeat: 'Muertes por calor extremo',
+      speciesLoss: 'Pérdida de especies - extinción',
+      cropYield: 'Rendimiento de cultivos',
+      airPollution: 'Contaminación del aire por energía - emisiones PM2,5',
+      marineSpecies: 'ESPECIES MARINAS',
+      landSpecies: 'ESPECIES TERRESTRES',
+      dashedBaseline: 'Las líneas punteadas muestran la línea de base',
+      temperatureTitle: 'Aumento de\ntemperatura\npara 2100',
+      renewablesLabel: 'Renovables',
+      highlyDiscouraged: 'Muy desincentivado',
+      discouraged: 'Desincentivado',
+      statusQuo: 'Status quo',
+      moreEncouraged: 'Más incentivado',
+      highlyEncouraged: 'Muy incentivado',
+      loadingModel: 'Cargando modelo...',
+      failedToLoad: 'Error al cargar el modelo En-ROADS.',
+    }
+  }[language] ?? {
+    intro: 'In this model, explore the impact of renewables on global temperature (remember our goal of 1.5°C!) and other impacts, which you can select in the graph dropdown.',
+    choose: 'You can choose:',
+    statusTitle: 'Status Quo:',
+    statusText: 'Maintain the current levels of use of renewable energy. This is where the slider starts.',
+    encourageTitle: 'Encourage:',
+    encourageText: 'Support building and use of solar panels, geothermal, and wind turbines through government subsidies that allow investment in renewable energy and lower costs for consumers.',
+    discourageTitle: 'Discourage:',
+    discourageText: 'Through taxes raising costs of renewable energy investment and use, through public policy, or communications.',
+    dashboardTitle: 'En-Roads Dashboard: Renewables',
+    openFullscreen: 'Open Full Screen',
+    closeFullscreen: 'Close Full Screen',
+    baseline: 'BASELINE',
+    currentScenario: 'CURRENT SCENARIO',
+    co2Emissions: 'CO2 Emissions',
+    seaLevelRise: 'Sea Level Rise',
+    deathsExtremeHeat: 'Deaths from Extreme Heat',
+    speciesLoss: 'Species Loss - Extinction',
+    cropYield: 'Crop Yield',
+    airPollution: 'Air Pollution',
+    marineSpecies: 'MARINE SPECIES',
+    landSpecies: 'LAND SPECIES',
+    dashedBaseline: 'Dashed lines represent Baseline',
+    temperatureTitle: 'Temperature\nIncrease by\n2100',
+    renewablesLabel: 'Renewables',
+    highlyDiscouraged: 'Highly discouraged',
+    discouraged: 'Discouraged',
+    statusQuo: 'Status quo',
+    moreEncouraged: 'More encouraged',
+    highlyEncouraged: 'Highly encouraged',
+    loadingModel: 'Loading Model...',
+    failedToLoad: 'Failed to load En-ROADS model.',
+  };
 
   // Slider position: -50 (left, highly discouraged / tax) → 0 (status quo) → 100 (right, highly encouraged / subsidy)
   const getSliderText = (sliderPos: number) => {
-    if (sliderPos <= -25)  return 'Highly discouraged';
-    if (sliderPos <= -1)   return 'Discouraged';
-    if (sliderPos <= 30)   return 'Status quo';
-    if (sliderPos <= 65)   return 'More encouraged';
-    return 'Highly encouraged';
+    if (sliderPos <= -25)  return ui.highlyDiscouraged;
+    if (sliderPos <= -1)   return ui.discouraged;
+    if (sliderPos <= 30)   return ui.statusQuo;
+    if (sliderPos <= 65)   return ui.moreEncouraged;
+    return ui.highlyEncouraged;
+  };
+
+  const graphLabel = (id: string, labelKey: string) => {
+    if (id === '62') return ui.co2Emissions;
+    if (id === '90') return ui.seaLevelRise;
+    if (id === '275') return ui.deathsExtremeHeat;
+    if (id === '279') return ui.speciesLoss;
+    if (id === '183') return ui.cropYield;
+    if (id === '112') return ui.airPollution;
+    return str(labelKey);
   };
 
   const getRangeHighlightBackground = (currentPct: number, defaultPct: number | null, color: string) => {
@@ -156,7 +320,7 @@ export default function Module1RenewablesDashboard() {
 
     return {
       id: graphId,
-      title: graphDef.label,
+      title: graphLabel(graphDef.id, graphDef.labelKey),
       kind: 'line',
       datasets: [
         { varId: graphDef.varId, externalSourceName: 'Ref', label: 'Baseline', color: '#000000', lineStyle: 'thinline' },
@@ -335,7 +499,7 @@ export default function Module1RenewablesDashboard() {
         setIsLoading(false);
       } catch (err) {
         console.error(err);
-        setError('Failed to load En-ROADS model.');
+        setError(ui.failedToLoad);
         setIsLoading(false);
       }
     };
@@ -372,7 +536,7 @@ export default function Module1RenewablesDashboard() {
     return () => window.clearTimeout(timer);
   }, [selectedSecondaryGraphId, isLoading]);
 
-  if (isLoading) return <div className="p-8 text-center text-gray-500">Loading Model...</div>;
+  if (isLoading) return <div className="p-8 text-center text-gray-500">{ui.loadingModel}</div>;
   if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
 
   return (
@@ -384,44 +548,44 @@ export default function Module1RenewablesDashboard() {
       <div className={isExpanded ? 'w-full h-full' : ''}>
         <div className="px-4 mb-4 text-gray-700 dark:text-gray-300 leading-relaxed space-y-4">
           <p>
-            In this model, explore the impact of renewables on global temperature (remember our goal of 1.5°C!) and other impacts, which you can select in the graph dropdown.
+            {ui.intro}
           </p>
-          <p>You can choose:</p>
+          <p>{ui.choose}</p>
           <ul className="space-y-2" style={{ listStyleType: 'disc', paddingLeft: '1.5rem' }}>
             <li>
-              <strong>Status Quo:</strong> Maintain the current levels of use of renewable energy. This is where the slider starts.
+              <strong>{ui.statusTitle}</strong> {ui.statusText}
             </li>
             <li>
-              <strong>Encourage:</strong> Support building and use of solar panels, geothermal, and wind turbines through government subsidies that allow investment in renewable energy and lower costs for consumers.
+              <strong>{ui.encourageTitle}</strong> {ui.encourageText}
             </li>
             <li>
-              <strong>Discourage:</strong> Through taxes raising costs of renewable energy investment and use, through public policy, or communications.
+              <strong>{ui.discourageTitle}</strong> {ui.discourageText}
             </li>
           </ul>
         </div>
 
         {isExpanded ? (
           <div className="relative px-4 pt-4 mb-4">
-            <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200 text-center">En-Roads Dashboard: Renewables</h2>
+            <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200 text-center">{ui.dashboardTitle}</h2>
             <button
               type="button"
               onClick={() => setIsExpanded((v) => !v)}
               className="absolute right-4 top-4 px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
               style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
             >
-              Close Full Screen
+              {ui.closeFullscreen}
             </button>
           </div>
         ) : (
           <div className="flex items-start justify-between gap-3 px-4 pt-4 mb-4">
-            <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200">En-Roads Dashboard: Renewables</h2>
+            <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200">{ui.dashboardTitle}</h2>
             <button
               type="button"
               onClick={() => setIsExpanded((v) => !v)}
               className="px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
               style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
             >
-              Open Full Screen
+              {ui.openFullscreen}
             </button>
           </div>
         )}
@@ -430,13 +594,13 @@ export default function Module1RenewablesDashboard() {
           <div className="overflow-x-auto mb-4">
             <div className="flex items-stretch gap-4 min-w-[1800px]">
               <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 flex-1 min-w-0">
-                <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">CO2 Emissions</h3>
+                <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">{graphLabel(MAIN_GRAPH.id, MAIN_GRAPH.labelKey)}</h3>
                 <div className="relative w-full">
                   <canvas id={MAIN_GRAPH.canvasId} className="w-full h-full" style={{ display: 'block', pointerEvents: 'none' }} />
                 </div>
                 <div className="flex justify-center gap-3 mt-3">
-                  <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
-                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
+                  <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>{ui.baseline}</span>
+                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>{ui.currentScenario}</span>
                 </div>
               </div>
 
@@ -445,9 +609,10 @@ export default function Module1RenewablesDashboard() {
                   <select
                     value={selectedSecondaryGraphId}
                     onChange={(e) => setSelectedSecondaryGraphId(e.target.value)}
-                    className="bg-blue-100 dark:bg-blue-900/50 border border-blue-300 dark:border-blue-500 text-blue-900 dark:text-blue-100 text-base sm:text-lg rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block p-3 font-bold"
+                    className="w-full max-w-full bg-blue-100 dark:bg-blue-900/50 border border-blue-300 dark:border-blue-500 text-blue-900 dark:text-blue-100 text-sm sm:text-base rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block p-3 pr-8 font-bold shadow-sm truncate"
+                    style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden' }}
                   >
-                    {SECONDARY_GRAPHS.map(g => <option key={g.id} value={g.id}>{g.label}</option>)}
+                    {SECONDARY_GRAPHS.map(g => <option key={g.id} value={g.id}>{graphLabel(g.id, g.labelKey)}</option>)}
                   </select>
                 </div>
                 <div className="relative w-full">
@@ -456,15 +621,15 @@ export default function Module1RenewablesDashboard() {
                                 {selectedSecondaryGraphId === '279' ? (
                   <div className="mt-3 text-center">
                     <div className="flex justify-center gap-3 mb-1">
-                      <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#3385C6' }}>MARINE SPECIES</span>
-                      <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#843C0C' }}>LAND SPECIES</span>
+                      <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#3385C6' }}>{ui.marineSpecies}</span>
+                      <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#843C0C' }}>{ui.landSpecies}</span>
                     </div>
-                    <p className="text-xs text-gray-500 italic">Dashed lines represent Baseline</p>
+                    <p className="text-xs text-gray-500 italic">{ui.dashedBaseline}</p>
                   </div>
                 ) : (
                   <div className="flex justify-center gap-3 mt-3">
-                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
-                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>{ui.baseline}</span>
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>{ui.currentScenario}</span>
                   </div>
                 )}
               </div>
@@ -484,12 +649,8 @@ export default function Module1RenewablesDashboard() {
                   >
                     +5.9°F
                   </span>
-                  <div className="mt-5 leading-tight text-gray-900 dark:text-gray-100" style={{ fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)', fontWeight: 800 }}>
-                    Temperature
-                    <br />
-                    Increase by
-                    <br />
-                    2100
+                  <div className="mt-5 whitespace-pre-line leading-tight text-gray-900 dark:text-gray-100" style={{ fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)', fontWeight: 800 }}>
+                    {ui.temperatureTitle}
                   </div>
                 </div>
               </div>
@@ -509,24 +670,20 @@ export default function Module1RenewablesDashboard() {
                   style={{ color: '#14a9df', fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)', fontWeight: 800, lineHeight: 1 }}
                 >+5.9°F</span>
                 <div className="mt-3 leading-tight text-gray-900 dark:text-gray-100" style={{ fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)', fontWeight: 800 }}>
-                  Temperature
-                  <br />
-                  Increase by
-                  <br />
-                  2100
+                  {ui.temperatureTitle}
                 </div>
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
-                <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">CO2 Emissions</h3>
+                <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">{graphLabel(MAIN_GRAPH.id, MAIN_GRAPH.labelKey)}</h3>
                 <div className="relative w-full">
                   <canvas id={MAIN_GRAPH.canvasId} className="w-full h-full" style={{ display: 'block', pointerEvents: 'none' }} />
                 </div>
                 <div className="flex justify-center gap-3 mt-3">
-                  <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
-                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
+                  <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>{ui.baseline}</span>
+                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>{ui.currentScenario}</span>
                 </div>
               </div>
 
@@ -535,9 +692,10 @@ export default function Module1RenewablesDashboard() {
                   <select
                     value={selectedSecondaryGraphId}
                     onChange={(e) => setSelectedSecondaryGraphId(e.target.value)}
-                    className="bg-blue-100 dark:bg-blue-900/50 border border-blue-300 dark:border-blue-500 text-blue-900 dark:text-blue-100 text-base sm:text-lg rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block p-3 font-bold"
+                    className="w-full max-w-full bg-blue-100 dark:bg-blue-900/50 border border-blue-300 dark:border-blue-500 text-blue-900 dark:text-blue-100 text-sm sm:text-base rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block p-3 pr-8 font-bold shadow-sm truncate"
+                    style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden' }}
                   >
-                    {SECONDARY_GRAPHS.map(g => <option key={g.id} value={g.id}>{g.label}</option>)}
+                    {SECONDARY_GRAPHS.map(g => <option key={g.id} value={g.id}>{graphLabel(g.id, g.labelKey)}</option>)}
                   </select>
                 </div>
                 <div className="relative w-full">
@@ -546,15 +704,15 @@ export default function Module1RenewablesDashboard() {
                                 {selectedSecondaryGraphId === '279' ? (
                   <div className="mt-3 text-center">
                     <div className="flex justify-center gap-3 mb-1">
-                      <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#3385C6' }}>MARINE SPECIES</span>
-                      <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#843C0C' }}>LAND SPECIES</span>
+                      <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#3385C6' }}>{ui.marineSpecies}</span>
+                      <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#843C0C' }}>{ui.landSpecies}</span>
                     </div>
-                    <p className="text-xs text-gray-500 italic">Dashed lines represent Baseline</p>
+                    <p className="text-xs text-gray-500 italic">{ui.dashedBaseline}</p>
                   </div>
                 ) : (
                   <div className="flex justify-center gap-3 mt-3">
-                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
-                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>{ui.baseline}</span>
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>{ui.currentScenario}</span>
                   </div>
                 )}
               </div>
@@ -564,7 +722,7 @@ export default function Module1RenewablesDashboard() {
 
         <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-2">
           <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
-            <label>Renewables</label>
+            <label>{ui.renewablesLabel}</label>
             <span className="text-xs font-mono text-gray-500">{renewablesText}</span>
           </div>
           <div className="enroads-range-wrap">

@@ -1,5 +1,6 @@
 import { Globe, Mail, Youtube, Linkedin, Accessibility, Heart, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../contexts/LanguageContext';
 import systemsAwarenessLabLogoWhite from '../assets/logos/SAL_sub-brand_lockup_two-line_rgb_white.png';
 import dayOfClimateLogo from '../assets/day_of_climate.png';
 
@@ -14,56 +15,57 @@ type FooterSection = {
   links: FooterLink[];
 };
 
-const footerSections: FooterSection[] = [
-  {
-    title: 'MIT Systems Awareness Lab',
-    links: [
-      {
-        label: 'Website',
-        href: 'https://systemsawareness.mit.edu',
-        icon: <Globe size={18} />,
-      },
-      {
-        label: 'Email',
-        href: 'mailto:systemsawareness@mit.edu',
-        icon: <Mail size={18} />,
-      },
-      {
-        label: 'YouTube',
-        href: 'https://www.youtube.com/@mitsystemsawareness',
-        icon: <Youtube size={18} />,
-      },
-      {
-        label: 'LinkedIn',
-        href: 'https://www.linkedin.com/company/mit-systems-awareness-lab/',
-        icon: <Linkedin size={18} />,
-      },
-      {
-        label: 'MIT Accessibility',
-        href: 'https://www.mit.edu/accessibility/',
-        icon: <Accessibility size={18} />,
-      },
-    ],
-  },
-  {
-    title: 'Day of Climate',
-    links: [
-      {
-        label: 'Website',
-        href: 'https://dayofclimate.mit.edu',
-        icon: <Globe size={18} />,
-      },
-      {
-        label: 'Email',
-        href: 'mailto:day-of-climate-rfp@mit.edu',
-        icon: <Mail size={18} />,
-      },
-    ],
-  },
-];
-
 export function Footer() {
+  const { t } = useLanguage();
   const currentYear = new Date().getFullYear();
+
+  const footerSections: FooterSection[] = [
+    {
+      title: 'MIT Systems Awareness Lab',
+      links: [
+        {
+          label: t.nav.footer.website,
+          href: 'https://systemsawareness.mit.edu',
+          icon: <Globe size={18} />,
+        },
+        {
+          label: t.nav.footer.email,
+          href: 'mailto:systemsawareness@mit.edu',
+          icon: <Mail size={18} />,
+        },
+        {
+          label: t.nav.footer.youtube,
+          href: 'https://www.youtube.com/@mitsystemsawareness',
+          icon: <Youtube size={18} />,
+        },
+        {
+          label: t.nav.footer.linkedin,
+          href: 'https://www.linkedin.com/company/mit-systems-awareness-lab/',
+          icon: <Linkedin size={18} />,
+        },
+        {
+          label: t.nav.footer.accessibility,
+          href: 'https://www.mit.edu/accessibility/',
+          icon: <Accessibility size={18} />,
+        },
+      ],
+    },
+    {
+      title: 'Day of Climate',
+      links: [
+        {
+          label: t.nav.footer.website,
+          href: 'https://dayofclimate.mit.edu',
+          icon: <Globe size={18} />,
+        },
+        {
+          label: t.nav.footer.email,
+          href: 'mailto:day-of-climate-rfp@mit.edu',
+          icon: <Mail size={18} />,
+        },
+      ],
+    },
+  ];
 
   return (
     <div className="flex justify-center px-4 sm:px-6 pb-4 sm:pb-6">
@@ -113,7 +115,7 @@ export function Footer() {
             {/* About This App Section */}
             <div className="flex-1">
               <h3 className="text-2xl font-bold text-white mb-4">
-                About This App
+                {t.nav.footer.aboutApp}
               </h3>
               <ul className="space-y-3">
                 <li>
@@ -124,7 +126,7 @@ export function Footer() {
                     <span className="flex-shrink-0 text-white transition-colors duration-200">
                       <Heart size={18} />
                     </span>
-                    <span className="text-sm font-medium">Contributors & Credits</span>
+                    <span className="text-sm font-medium">{t.nav.footer.contributors}</span>
                   </Link>
                 </li>
                 <li>
@@ -135,7 +137,7 @@ export function Footer() {
                     <span className="flex-shrink-0 text-white transition-colors duration-200">
                       <Shield size={18} />
                     </span>
-                    <span className="text-sm font-medium">Privacy Policy</span>
+                    <span className="text-sm font-medium">{t.nav.footer.privacyPolicy}</span>
                   </Link>
                 </li>
               </ul>

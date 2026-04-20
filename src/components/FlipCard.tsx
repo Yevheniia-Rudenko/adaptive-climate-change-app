@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'motion/react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 type FlipCardProps = {
     frontTitle: string;
@@ -14,9 +15,24 @@ export function FlipCard({
     backTitle,
     backDescription,
 }: FlipCardProps) {
+    const { t } = useLanguage();
     const [isFlipped, setIsFlipped] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
-    const resolvedBackTitle = backTitle?.trim().toLowerCase() === 'definition' ? frontTitle : backTitle;
+    const genericDefinitionTitles = new Set([
+        'definition',
+        'definición',
+        'definicion',
+        'definição',
+        'definitionen',
+        'définition',
+        'определение',
+        'визначення',
+        'تعريف',
+    ]);
+    const normalizedBackTitle = backTitle?.trim().toLowerCase() ?? '';
+    const resolvedBackTitle = !backTitle || genericDefinitionTitles.has(normalizedBackTitle)
+        ? frontTitle
+        : backTitle;
 
     // We flip on click
     const handleFlip = () => {
@@ -55,7 +71,7 @@ export function FlipCard({
                             </p>
                         )}
                         <div className={`mt-4 text-xs font-semibold uppercase tracking-wider text-green-600 dark:text-green-400 transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
-                            Click to flip
+                            {(t.common as any)?.clickToFlip ?? 'Click to flip'}
                         </div>
                     </div>
                 </div>

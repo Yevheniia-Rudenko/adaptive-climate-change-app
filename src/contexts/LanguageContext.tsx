@@ -1,24 +1,26 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import { Language, translations, Translations } from '../data/translations';
+import { Language, getDictionary, TranslationDictionary, DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '../i18n';
 import { setUserProperties } from '../utils/analytics';
 
 type LanguageContextType = {
   language: Language;
   setLanguage: (lang: Language) => void;
-  t: Translations;
+  t: TranslationDictionary;
 };
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<Language>(() => {
-    // Try to load from localStorage
-    // const saved = localStorage.getItem('climateAppLanguage');
-    // if (saved && ['en', 'es', 'ar', 'de', 'ru', 'uk'].includes(saved)) {
-    //   return saved as Language;
-    // }
-    // Default to English
-    return 'en';
+    try {
+      const saved = localStorage.getItem('climateAppLanguage');
+      if (saved && (SUPPORTED_LANGUAGES as readonly string[]).includes(saved)) {
+        return saved as Language;
+      }
+    } catch {
+      // ignore storage access errors and fall back to default language
+    }
+    return DEFAULT_LANGUAGE;
   });
 
   useEffect(() => {
@@ -40,7 +42,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     setLanguageState(lang);
   };
 
-  const t = translations[language];
+  const t = getDictionary(language);
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage, t }}>

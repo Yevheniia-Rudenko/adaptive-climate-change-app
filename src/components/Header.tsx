@@ -57,11 +57,11 @@ export function Header() {
   }, [language]);
 
   const modules = [
-    { id: 1, label: t.module1 },
-    { id: 2, label: t.module2 },
-    { id: 3, label: t.module3 },
-    { id: 4, label: t.module4 },
-    { id: 5, label: t.module5 },
+    { id: 1, label: t.nav.module1 },
+    { id: 2, label: t.nav.module2 },
+    { id: 3, label: t.nav.module3 },
+    { id: 4, label: t.nav.module4 },
+    { id: 5, label: t.nav.module5 },
   ];
 
   const handleNavigate = (path: string) => {
@@ -104,7 +104,7 @@ export function Header() {
                 className="flex items-center gap-1 px-4 py-2 rounded-full text-white transition-colors"
                 style={{ backgroundColor: '#2F8237' }}
               >
-                <span>{t.modules}</span>
+                <span>{t.nav.modules}</span>
                 <ChevronDown size={16} className={`transition-transform ${modulesDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
 
@@ -119,7 +119,7 @@ export function Header() {
                         : 'text-foreground hover:bg-muted'
                         }`}
                     >
-                      <div className="text-sm text-gray-500 dark:text-gray-400">{t.modules} {module.id}</div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">{t.nav.modules} {module.id}</div>
                       <div className="font-medium">{module.label}</div>
                     </button>
                   ))}
@@ -134,7 +134,7 @@ export function Header() {
                 : 'text-gray-900 dark:text-gray-100 hover:text-green-600 dark:hover:text-green-400 hover:scale-105'
                 }`}
             >
-              {t.about}
+              {t.nav.about}
             </button>
 
             <button
@@ -144,7 +144,7 @@ export function Header() {
                 : 'text-gray-900 dark:text-gray-100 hover:text-green-600 dark:hover:text-green-400 hover:scale-105'
                 }`}
             >
-              {t.forEducators}
+              {t.nav.forEducators}
             </button>
 
             <button
@@ -154,7 +154,7 @@ export function Header() {
                 : 'text-gray-900 dark:text-gray-100 hover:text-green-600 dark:hover:text-green-400 hover:scale-105'
                 }`}
             >
-              {t.resources}
+              {t.nav.resources}
             </button>
 
             <button
@@ -164,7 +164,7 @@ export function Header() {
                 : 'text-gray-900 dark:text-gray-100 hover:text-green-600 dark:hover:text-green-400 hover:scale-105'
                 }`}
             >
-              {t.glossary}
+              {t.nav.glossary}
             </button>
 
             {/* <LanguageSwitcher /> */}
@@ -197,7 +197,7 @@ export function Header() {
                     : 'hover:bg-muted'
                     }`}
                 >
-                  <span>{t.modules}</span>
+                  <span>{t.nav.modules}</span>
                   <ChevronDown size={16} className={`transition-transform ${modulesDropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
 
@@ -212,7 +212,7 @@ export function Header() {
                           : 'text-foreground hover:bg-muted'
                           }`}
                       >
-                        <div className="text-sm text-gray-500 dark:text-gray-400">{t.modules} {module.id}</div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">{t.nav.modules} {module.id}</div>
                         <div className="font-medium">{module.label}</div>
                       </button>
                     ))}
@@ -227,7 +227,7 @@ export function Header() {
                   : 'hover:bg-muted'
                   }`}
               >
-                {t.about}
+                {t.nav.about}
               </button>
 
               <button
@@ -237,7 +237,7 @@ export function Header() {
                   : 'hover:bg-muted'
                   }`}
               >
-                {t.forEducators}
+                {t.nav.forEducators}
               </button>
 
               <button
@@ -247,7 +247,7 @@ export function Header() {
                   : 'hover:bg-muted'
                   }`}
               >
-                {t.resources}
+                {t.nav.resources}
               </button>
 
               <button
@@ -257,7 +257,7 @@ export function Header() {
                   : 'hover:bg-muted'
                   }`}
               >
-                {t.glossary}
+                {t.nav.glossary}
               </button>
 
               {/* Language Switcher in Mobile Menu */}

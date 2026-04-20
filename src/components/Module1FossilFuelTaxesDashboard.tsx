@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState, ChangeEvent } from 'react';
 import { createAsyncModel, getDefaultConfig, createDefaultOutputs } from '@climateinteractive/en-roads-core';
 import enStrings from '@climateinteractive/en-roads-core/strings/en';
+import deStrings from '@climateinteractive/en-roads-core/strings/de';
+import esStrings from '@climateinteractive/en-roads-core/strings/es';
 import { GraphView } from '@climateinteractive/sim-ui-graph';
+import { useLanguage } from '../contexts/LanguageContext';
 import '../styles/enroads-dashboard.css';
 
 // ── Only 2 data graphs — temperature is displayed as a live number card ───────
@@ -48,6 +51,105 @@ const rangeGrad = (v: number, def: number) => {
 };
 
 export default function Module1FossilFuelTaxesDashboard() {
+  const { language } = useLanguage();
+  const ui = {
+    en: {
+      title: 'En-ROADS Dashboard: Fossil Fuel Taxes',
+      openFullscreen: 'Open Full Screen',
+      closeFullscreen: 'Close Full Screen',
+      temperatureTitle: 'Temperature\nIncrease by\n2100',
+      co2NetEmissions: 'CO2 Net Emissions',
+      seaLevelRise: 'Sea Level Rise',
+      baseline: 'BASELINE',
+      currentScenario: 'CURRENT SCENARIO',
+      taxOnCoal: 'Tax on Coal',
+      taxOnOil: 'Tax on Oil',
+      taxOnGas: 'Tax on Gas',
+      highlyDiscouraged: 'Highly Discouraged',
+      discouraged: 'Discouraged',
+      lessEncouraged: 'Less Encouraged',
+      statusQuo: 'Status Quo',
+      moreEncouraged: 'More Encouraged',
+      encouraged: 'Encouraged',
+      highlyEncouraged: 'Highly Encouraged',
+    },
+    de: {
+      title: 'En-ROADS Dashboard: Steuern auf fossile Brennstoffe',
+      openFullscreen: 'Vollbild öffnen',
+      closeFullscreen: 'Vollbild schließen',
+      temperatureTitle: 'Temperatur-\nanstieg bis\n2100',
+      co2NetEmissions: 'CO2-Nettoemissionen',
+      seaLevelRise: 'Meeresspiegelanstieg',
+      baseline: 'BASISLINIE',
+      currentScenario: 'AKTUELLES SZENARIO',
+      taxOnCoal: 'Steuer auf Kohle',
+      taxOnOil: 'Steuer auf Öl',
+      taxOnGas: 'Steuer auf Gas',
+      highlyDiscouraged: 'Stark gebremst',
+      discouraged: 'Gebremst',
+      lessEncouraged: 'Weniger gefördert',
+      statusQuo: 'Status Quo',
+      moreEncouraged: 'Mehr gefördert',
+      encouraged: 'Gefördert',
+      highlyEncouraged: 'Stark gefördert',
+    },
+    es: {
+      title: 'En-ROADS Dashboard: Impuestos a combustibles fósiles',
+      openFullscreen: 'Abrir pantalla completa',
+      closeFullscreen: 'Cerrar pantalla completa',
+      temperatureTitle: 'Aumento de\ntemperatura\npara 2100',
+      co2NetEmissions: 'Emisiones netas de CO2',
+      seaLevelRise: 'Aumento del nivel del mar',
+      baseline: 'LÍNEA DE BASE',
+      currentScenario: 'ESCENARIO ACTUAL',
+      taxOnCoal: 'Impuesto al carbón',
+      taxOnOil: 'Impuesto al petróleo',
+      taxOnGas: 'Impuesto al gas',
+      highlyDiscouraged: 'Muy desincentivado',
+      discouraged: 'Desincentivado',
+      lessEncouraged: 'Menos incentivado',
+      statusQuo: 'Status Quo',
+      moreEncouraged: 'Más incentivado',
+      encouraged: 'Incentivado',
+      highlyEncouraged: 'Muy incentivado',
+    },
+  }[language] ?? {
+    title: 'En-ROADS Dashboard: Fossil Fuel Taxes',
+    openFullscreen: 'Open Full Screen',
+    closeFullscreen: 'Close Full Screen',
+    temperatureTitle: 'Temperature\nIncrease by\n2100',
+    co2NetEmissions: 'CO2 Net Emissions',
+    seaLevelRise: 'Sea Level Rise',
+    baseline: 'BASELINE',
+    currentScenario: 'CURRENT SCENARIO',
+    taxOnCoal: 'Tax on Coal',
+    taxOnOil: 'Tax on Oil',
+    taxOnGas: 'Tax on Gas',
+    highlyDiscouraged: 'Highly Discouraged',
+    discouraged: 'Discouraged',
+    lessEncouraged: 'Less Encouraged',
+    statusQuo: 'Status Quo',
+    moreEncouraged: 'More Encouraged',
+    encouraged: 'Encouraged',
+    highlyEncouraged: 'Highly Encouraged',
+  };
+
+  const getCoalGasLabelLocalized = (v: number): string => {
+    if (v >= 100) return ui.highlyDiscouraged;
+    if (v >= 1)   return ui.discouraged;
+    if (v >= -25) return ui.lessEncouraged;
+    if (v >= -35) return ui.statusQuo;
+    return         ui.moreEncouraged;
+  };
+
+  const getOilLabelLocalized = (v: number): string => {
+    if (v >= 100) return ui.highlyDiscouraged;
+    if (v >= 20)  return ui.discouraged;
+    if (v >= 0)   return ui.statusQuo;
+    if (v >= -25) return ui.encouraged;
+    return         ui.highlyEncouraged;
+  };
+
   const [isLoading,  setIsLoading]  = useState(true);
   const [error,      setError]      = useState<string | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -56,9 +158,9 @@ export default function Module1FossilFuelTaxesDashboard() {
   const [coalVal,  setCoalVal]  = useState(SQ_COAL);
   const [oilVal,   setOilVal]   = useState(SQ_OIL);
   const [gasVal,   setGasVal]   = useState(SQ_GAS);
-  const [coalText, setCoalText] = useState(getCoalGasLabel(SQ_COAL));  // 'Status Quo'
-  const [oilText,  setOilText]  = useState(getOilLabel(SQ_OIL));       // 'Status Quo'
-  const [gasText,  setGasText]  = useState(getCoalGasLabel(SQ_GAS));   // 'Status Quo'
+  const [coalText, setCoalText] = useState(getCoalGasLabelLocalized(SQ_COAL));
+  const [oilText,  setOilText]  = useState(getOilLabelLocalized(SQ_OIL));
+  const [gasText,  setGasText]  = useState(getCoalGasLabelLocalized(SQ_GAS));
 
   // ── Temperature — DOM refs to avoid re-renders that remount canvases ──────
   const tempCRef = useRef<HTMLElement | null>(null);
@@ -75,7 +177,14 @@ export default function Module1FossilFuelTaxesDashboard() {
   const oilInputRef     = useRef<any>(null);
   const gasInputRef     = useRef<any>(null);
 
-  const str = (key: string) => (enStrings as any)[key] || key;
+  const getEnRoadsStrings = () => {
+    switch (language) {
+      case 'de': return deStrings;
+      case 'es': return esStrings;
+      default: return enStrings;
+    }
+  };
+  const str = (key: string) => (getEnRoadsStrings() as any)[key] || key;
 
   // ── Safe 2-dataset graph spec ─────────────────────────────────────────────
   const getSafeSpec = (graphId: string) => {
@@ -198,13 +307,13 @@ export default function Module1FossilFuelTaxesDashboard() {
   const handleSliderChange = (type: 'coal' | 'oil' | 'gas', e: ChangeEvent<HTMLInputElement>) => {
     const v = parseFloat(e.target.value);
     if (type === 'coal') {
-      setCoalVal(v); setCoalText(getCoalGasLabel(v));
+      setCoalVal(v); setCoalText(getCoalGasLabelLocalized(v));
       if (coalInputRef.current) coalInputRef.current.set(v - SQ_COAL);
     } else if (type === 'oil') {
-      setOilVal(v);  setOilText(getOilLabel(v));
+      setOilVal(v);  setOilText(getOilLabelLocalized(v));
       if (oilInputRef.current)  oilInputRef.current.set(v - SQ_OIL);
     } else {
-      setGasVal(v);  setGasText(getCoalGasLabel(v));
+      setGasVal(v);  setGasText(getCoalGasLabelLocalized(v));
       if (gasInputRef.current)  gasInputRef.current.set(v - SQ_GAS);
     }
     setTimeout(() => updateDashboard(), 50);
@@ -230,7 +339,7 @@ export default function Module1FossilFuelTaxesDashboard() {
         setIsLoading(false);
       } catch (err) {
         console.error(err);
-        setError('Failed to load En-ROADS model.');
+        setError(language === 'de' ? 'En-ROADS-Modell konnte nicht geladen werden.' : language === 'es' ? 'Error al cargar el modelo En-ROADS.' : 'Failed to load En-ROADS model.');
         setIsLoading(false);
       }
     };
@@ -246,21 +355,20 @@ export default function Module1FossilFuelTaxesDashboard() {
     if (isLoading || !coreConfigRef.current) return;
     const prev = document.body.style.overflow;
     if (isExpanded) document.body.style.overflow = 'hidden';
-    const h = isExpanded ? 280 : 250;
     const t = window.setTimeout(() => {
-      for (const g of GRAPHS) loadGraph(g.canvasId, g.id, h);
+      for (const g of GRAPHS) loadGraph(g.canvasId, g.id);
       updateTemperatureDisplay();
     }, 120);
     return () => { window.clearTimeout(t); document.body.style.overflow = prev; };
   }, [isExpanded, isLoading]);
 
-  if (isLoading) return <div className="p-8 text-center text-gray-500">Loading Model...</div>;
+  if (isLoading) return <div className="p-8 text-center text-gray-500">{language === 'de' ? 'Modell wird geladen...' : language === 'es' ? 'Cargando modelo...' : 'Loading Model...'}</div>;
   if (error)     return <div className="p-8 text-center text-red-600">{error}</div>;
 
   const Legend = () => (
     <div className="flex justify-center gap-3 mt-3">
-      <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
-      <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
+      <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>{ui.baseline}</span>
+      <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>{ui.currentScenario}</span>
     </div>
   );
 
@@ -274,23 +382,23 @@ export default function Module1FossilFuelTaxesDashboard() {
       {isExpanded ? (
         <div className="relative px-4 pt-4 mb-6">
           <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200 text-center">
-            En-ROADS Dashboard: Fossil Fuel Taxes
+            {ui.title}
           </h2>
           <button type="button" onClick={() => setIsExpanded(v => !v)}
             className="absolute right-4 top-4 px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
             style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#fff' }}>
-            Close Full Screen
+            {ui.closeFullscreen}
           </button>
         </div>
       ) : (
         <div className="flex items-start justify-between gap-3 px-4 pt-4 mb-6">
           <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200">
-            En-ROADS Dashboard: Fossil Fuel Taxes
+            {ui.title}
           </h2>
           <button type="button" onClick={() => setIsExpanded(v => !v)}
             className="px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
             style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#fff' }}>
-            Open Full Screen
+            {ui.openFullscreen}
           </button>
         </div>
       )}
@@ -314,8 +422,8 @@ export default function Module1FossilFuelTaxesDashboard() {
               ref={el => { tempFRef.current = el; }}
               style={{ color: '#14a9df', fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)', fontWeight: 800, lineHeight: 1 }}
             >+5.9°F</span>
-            <div className="mt-3 leading-tight text-gray-900 dark:text-gray-100" style={{ fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)', fontWeight: 800 }}>
-              Temperature<br />Increase by<br />2100
+            <div className="mt-3 whitespace-pre-line leading-tight text-gray-900 dark:text-gray-100" style={{ fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)', fontWeight: 800 }}>
+              {ui.temperatureTitle}
             </div>
           </div>
         </div>
@@ -325,7 +433,7 @@ export default function Module1FossilFuelTaxesDashboard() {
 
           {/* CO2 Net Emissions */}
           <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
-            <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">CO2 Net Emissions</h3>
+            <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">{ui.co2NetEmissions}</h3>
             <div className="relative w-full">
               <canvas id="fft-graph-co2" className="w-full"
                 style={{ display: 'block', pointerEvents: 'none' }} />
@@ -335,7 +443,7 @@ export default function Module1FossilFuelTaxesDashboard() {
 
           {/* Sea Level Rise */}
           <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600">
-            <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">Sea Level Rise</h3>
+            <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">{ui.seaLevelRise}</h3>
             <div className="relative w-full">
               <canvas id="fft-graph-sea-level" className="w-full"
                 style={{ display: 'block', pointerEvents: 'none' }} />
@@ -352,7 +460,7 @@ export default function Module1FossilFuelTaxesDashboard() {
         {/* Coal */}
         <div className="space-y-2">
           <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
-            <label>Tax on Coal</label>
+            <label>{ui.taxOnCoal}</label>
             <span className="text-xs font-mono text-gray-500">{coalText}</span>
           </div>
           <div className="enroads-range-wrap" style={{ transform: 'scaleX(-1)' }}>
@@ -376,7 +484,7 @@ export default function Module1FossilFuelTaxesDashboard() {
         {/* Oil */}
         <div className="space-y-2">
           <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
-            <label>Tax on Oil</label>
+            <label>{ui.taxOnOil}</label>
             <span className="text-xs font-mono text-gray-500">{oilText}</span>
           </div>
           <div className="enroads-range-wrap" style={{ transform: 'scaleX(-1)' }}>
@@ -400,7 +508,7 @@ export default function Module1FossilFuelTaxesDashboard() {
         {/* Gas */}
         <div className="space-y-2">
           <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
-            <label>Tax on Gas</label>
+            <label>{ui.taxOnGas}</label>
             <span className="text-xs font-mono text-gray-500">{gasText}</span>
           </div>
           <div className="enroads-range-wrap" style={{ transform: 'scaleX(-1)' }}>

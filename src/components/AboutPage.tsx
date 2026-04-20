@@ -87,7 +87,49 @@ function TeamMemberCard({ photo, name, role, bio, linkedinLink, compact = false 
 }
 
 export function AboutPage() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+
+  const teamText = {
+    en: {
+      lanaRole: 'Project Lead',
+      lanaBio: 'Associate Director | MIT Systems Awareness Lab',
+      peterRole: 'Project Advisor',
+      peterBio: 'Co-Director, MIT Systems Awareness Lab | Senior Lecturer, MIT Sloan',
+      jonasRole: 'Curriculum Design',
+      jonasBio: 'Youth Leadership | Center for Systems Awareness',
+      webDeveloper: 'Web Developer',
+      graphicDesigner: 'Graphic Designer',
+      tibyanBio: 'Mathematical Engineering Student | YTÜ',
+      fullStackBio: 'Full Stack Developer | MIT Systems Awareness Lab',
+      fiorellaBio: 'Freelance graphic designer and photographer',
+    },
+    de: {
+      lanaRole: 'Projektleitung',
+      lanaBio: 'Stellvertretende Direktorin | MIT Systems Awareness Lab',
+      peterRole: 'Projektberater',
+      peterBio: 'Co-Direktor, MIT Systems Awareness Lab | Senior Lecturer, MIT Sloan',
+      jonasRole: 'Curriculum-Design',
+      jonasBio: 'Jugendführung | Center for Systems Awareness',
+      webDeveloper: 'Webentwickler',
+      graphicDesigner: 'Grafikdesignerin',
+      tibyanBio: 'Student der mathematischen Ingenieurwissenschaften | YTÜ',
+      fullStackBio: 'Full-Stack-Entwickler | MIT Systems Awareness Lab',
+      fiorellaBio: 'Freiberufliche Grafikdesignerin und Fotografin',
+    },
+    es: {
+      lanaRole: 'Líder del proyecto',
+      lanaBio: 'Directora asociada | MIT Systems Awareness Lab',
+      peterRole: 'Asesor del proyecto',
+      peterBio: 'Co-director, MIT Systems Awareness Lab | Profesor sénior, MIT Sloan',
+      jonasRole: 'Diseño curricular',
+      jonasBio: 'Liderazgo juvenil | Center for Systems Awareness',
+      webDeveloper: 'Desarrollador web',
+      graphicDesigner: 'Diseñadora gráfica',
+      tibyanBio: 'Estudiante de Ingeniería Matemática | YTÜ',
+      fullStackBio: 'Desarrollador full stack | MIT Systems Awareness Lab',
+      fiorellaBio: 'Diseñadora gráfica y fotógrafa freelance',
+    },
+  }[language];
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 pt-20 font-sora">
@@ -97,7 +139,7 @@ export function AboutPage() {
             variant="outline"
             className="mb-4 sm:mb-6 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-500 dark:hover:bg-gray-600"
           >
-            ← {t.backHome}
+            ← {t.nav.backToHome}
           </Button>
         </Link>
 
@@ -109,7 +151,7 @@ export function AboutPage() {
             className="font-bold text-gray-800 dark:text-gray-100 text-center mb-4"
             style={{ fontSize: '3rem', lineHeight: '1.2' }}
           >
-            About
+            {t.pages.about.title}
           </h1>
           
           {/* SPACER */}
@@ -118,15 +160,15 @@ export function AboutPage() {
           {/* Curriculum Overview Section */}
           <div>
             <h2 className="text-2xl sm:text-3xl md:text-3xl font-bold text-green-600 mb-3">
-              Curriculum Overview
+              {t.pages.about.curriculumOverview.title}
             </h2>
             <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed mb-4">
-              This curriculum draws from the MIT Systems Awareness Lab’s research and the Center for Systems Awareness’ work  the “Compassionate Systems Framework.” This educational framework brings together tools and practices designed to develop students’ understanding of and efficacy in navigating complex change across interconnecting systems:
+              {t.pages.about.curriculumOverview.p1}
             </p>
             <ol className="list-decimal list-outside pl-14 sm:pl-16 text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed space-y-2">
-              <li className="pl-2"><em>1. self:</em> personal, emotional, individual;</li>
-              <li className="pl-2"><em>2. relational:</em> self and others;</li>
-              <li className="pl-2"><em>3. collective:</em> larger societal, political,ecological and economic realities.</li>
+              <li className="pl-2"><em>{t.pages.about.curriculumOverview.list1}</em></li>
+              <li className="pl-2"><em>{t.pages.about.curriculumOverview.list2}</em></li>
+              <li className="pl-2"><em>{t.pages.about.curriculumOverview.list3}</em></li>
             </ol>
           </div>
           
@@ -134,15 +176,17 @@ export function AboutPage() {
           <div className="h-6 sm:h-24 w-full block"></div>
 
             <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed mb-4">
-             This curriculum also supports young people to learn about climate policies using <a href="https://www.climateinteractive.org" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 underline">Climate Interactive</a>’s En-ROADS climate policy simulator. En‑ROADS is a global climate simulator that lets you test how different climate solutions—like electrifying transportation, putting a price on carbon, or changing farming practices—affect things like temperature, air quality, sea level rise, and energy costs. In this combination of compassionate systems and En-ROADS, students learn about the inner and outer systems dynamics that underlie climate change, its drivers, and effects–from global energy policies, consumer behavior, to our sense of agency and hope in contributing to a more positive future.          
-             </p>
+              {t.pages.about.curriculumOverview.p2.split('En-ROADS')[0]}
+              <a href="https://www.climateinteractive.org" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 underline">Climate Interactive</a>
+              {t.pages.about.curriculumOverview.p2.split('Climate Interactive')[1]}
+            </p>
 
           {/* SPACER */}
           <div className="h-1 sm:h-24 w-full block"></div>
 
             <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed mb-4">
-             In this combination of compassionate systems and En-ROADS, students learn about the inner and outer systems dynamics that underlie climate change, its drivers, and effects–from global energy policies, consumer behavior, to our sense of agency and hope in contributing to a more positive future.          
-             </p>
+              {t.pages.about.curriculumOverview.p3}
+            </p>
 
           {/* SPACER */}
           <div className="h-6 sm:h-24 w-full block"></div>
@@ -150,18 +194,18 @@ export function AboutPage() {
           {/* About Day of Climate Section */}
           <div>
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-green-600 mb-3">
-              Day of Climate
+              {t.pages.about.dayOfClimate.title}
             </h2>
             <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
-              The pK-12 Initiative's Day of Climate at the Massachusetts Institute of Technology (MIT) equips learners and educators with hands-on educational materials and tools to better understand climate change, its impacts, and potential solutions. 
+              {t.pages.about.dayOfClimate.p1}
             </p>
 
           {/* SPACER */}
           <div className="h-6 sm:h-24 w-full block"></div>
 
             <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
-              Uniting the broader MIT community toward actionable, concrete solutions, the program provides elementary, middle, and high school-age learners and educators with free, high-quality, and accessible climate curriculum that can be used in and out of the classroom, year-round.           
-             </p>
+              {t.pages.about.dayOfClimate.p2}
+            </p>
             <div className="flex justify-start mt-6">
               <a 
                 href="https://dayofclimate.mit.edu" 
@@ -172,7 +216,7 @@ export function AboutPage() {
                   variant="outline"
                   className="text-gray-800 dark:text-gray-200 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 text-lg sm:text-sm font-semibold px-6 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all"
                 >
-                  Visit Day of Climate →
+                  {t.pages.about.dayOfClimate.button}
                 </Button>
               </a>
             </div>
@@ -184,37 +228,38 @@ export function AboutPage() {
           {/* About Systems Awareness Lab Section */}
           <div>
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-green-600 mb-3">
-              MIT Systems Awareness Lab
+              {t.pages.about.systemsAwarenessLab.title}
             </h2>
             <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
-              Bringing together researchers, educators, policymakers, and practitioners dedicated to the study of systems change.            </p>
+              {t.pages.about.systemsAwarenessLab.p1}
+            </p>
             
           {/*SPACER*/}
           <div className="h-6 sm:h-24 w-full block"></div>
 
             <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
-              At the MIT Systems Awareness Lab, our mission is to develop, investigate, and grow the conditions for greater human and planetary flourishing in response to the global poly-crisis, including the climate emergency, social inequities, and the youth mental health crisis.
+              {t.pages.about.systemsAwarenessLab.p2}
             </p>
 
           {/*SPACER*/}
           <div className="h-6 sm:h-24 w-full block"></div>
           
             <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
-             We believe meaningful change only occurs when we address both tangible artifacts, such as formal structures and policies, and intangible mental models, including the habits of thought, feeling, and action that shape how people engage with one another across the systems of all levels.
+             {t.pages.about.systemsAwarenessLab.p3}
             </p>
 
           {/*SPACER*/}
           <div className="h-6 sm:h-24 w-full block"></div>
 
             <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
-             Addressing the climate crisis requires a fundamental shift in our mental models from one of consumption and extraction toward a vision of collective responsibility action for planetary flourishing. 
+             {t.pages.about.systemsAwarenessLab.p4}
             </p>
 
           {/*SPACER*/}
           <div className="h-6 sm:h-24 w-full block"></div>
 
             <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
-             Our work explores how cultivating compassion and systems awareness can empower youth and educational communities to lead sustainable transformation in the face of global ecological and social challenges.
+             {t.pages.about.systemsAwarenessLab.p5}
             </p>
 
             <div className="flex justify-start mt-6">
@@ -227,7 +272,7 @@ export function AboutPage() {
                   variant="outline"
                   className="text-gray-800 dark:text-gray-200 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 text-lg sm:text-sm font-semibold px-6 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all"
                 >
-                  Visit Systems Awareness Lab →
+                  {t.pages.about.systemsAwarenessLab.button}
                 </Button>
               </a>
             </div>
@@ -239,13 +284,13 @@ export function AboutPage() {
           {/* About Climate Interactive Section */}
           <div>
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-green-600 mb-3">
-              Climate Interactive
+              {t.pages.about.climateInteractive.title}
             </h2>
             <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
-              At Climate Interactive, their mission is to create and share tools that drive effective and equitable action. Developed by Climate Interactive, MIT Sloan School of Management, and Ventana Systems, the En-ROADS Climate Solutions Simulator is based on best-available science and carefully compared with other major climate and energy models. En‑ROADS is free to use online and is available in more than a dozen languages, making it accessible to people all over the world. Climate Interactive offers climate simulators, learning experiences, research insights, and programs to become an En-ROADS Climate Ambassador through their facilitator training. 
+              {t.pages.about.climateInteractive.p1}
             </p>
             <div className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed mt-4 leading-loose flex flex-wrap items-center gap-2">
-              <span>To learn more,</span>
+              <span>{t.pages.about.climateInteractive.toLearnMore}</span>
               <a 
                 href="https://www.climateinteractive.org" 
                 target="_blank" 
@@ -256,7 +301,7 @@ export function AboutPage() {
                   variant="outline"
                   className="text-gray-800 dark:text-gray-200 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm sm:text-sm font-semibold px-4 py-2 rounded-xl shadow-md hover:shadow-lg transition-all h-auto"
                 >
-                  Visit Climate Interactive →
+                  {t.pages.about.climateInteractive.button}
                 </Button>
               </a>
             </div>
@@ -268,17 +313,17 @@ export function AboutPage() {
           {/* About the Center for Systems Awareness Section */}
           <div>
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-green-600 mb-3">
-              Center for Systems Awareness
+              {t.pages.about.centerForSystemsAwareness.title}
             </h2>
             <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed mb-4">
-              The vision of the Center for Systems Awareness Youth Leadership Team is to increase the capacity for compassion, systems awareness, and self-mastery by training students worldwide and to develop compassionate leaders of the future.
+              {t.pages.about.centerForSystemsAwareness.p1}
             </p>
             <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
-              For a decade, this team has been designing highly efficient and meaningful learning experiences in which the pursuit of knowledge, social and emotional literacy, self-agency, collaborative skills, and personal growth may be discovered and embodied using the Compassionate Systems Framework.
+              {t.pages.about.centerForSystemsAwareness.p2}
             </p>
 
             <div className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed mt-4 leading-loose flex flex-wrap items-center gap-2">
-              <span>To learn more about upcoming programs,</span>
+              <span>{t.pages.about.centerForSystemsAwareness.toLearnMore}</span>
               <a 
                 href="https://systemsawareness.org" 
                 target="_blank" 
@@ -289,7 +334,7 @@ export function AboutPage() {
                   variant="outline"
                   className="text-gray-800 dark:text-gray-200 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm sm:text-sm font-semibold px-4 py-2 rounded-xl shadow-md hover:shadow-lg transition-all h-auto"
                 >
-                  Visit the Center for Systems Awareness →
+                  {t.pages.about.centerForSystemsAwareness.button}
                 </Button>
               </a>
             </div>
@@ -301,29 +346,29 @@ export function AboutPage() {
           {/* Meet Our Team Section */}
           <div>
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-green-600 mb-4">
-              Project Team
+              {t.pages.about.projectTeam.title}
             </h2>
             <div className="space-y-4">
               <div className="flex flex-row gap-2">
                 <TeamMemberCard
                   photo={lanaCookPhoto}
                   name="Dr. Lana Cook"
-                  role="Project Lead"
-                  bio="Associate Director | MIT Systems Awareness Lab"
+                  role={teamText.lanaRole}
+                  bio={teamText.lanaBio}
                   linkedinLink="https://www.linkedin.com/in/lanacook/"
                 />
                 <TeamMemberCard
                   photo={peterSengePhoto}
                   name="Dr. Peter Senge"
-                  role="Project Advisor"
-                  bio="Co-Director, MIT Systems Awareness Lab | Senior Lecturer, MIT Sloan"
+                  role={teamText.peterRole}
+                  bio={teamText.peterBio}
                   linkedinLink="https://mitsloan.mit.edu/faculty/directory/peter-m-senge"
                 />
                 <TeamMemberCard
                   photo={jonasJebrilPhoto}
                   name="Jonas Jebril"
-                  role="Curriculum Design"
-                  bio="Youth Leadership | Center for Systems Awareness"
+                  role={teamText.jonasRole}
+                  bio={teamText.jonasBio}
                   linkedinLink="https://systemsawareness.org/person/jonas-jebril/"
                 />
               </div>
@@ -332,32 +377,32 @@ export function AboutPage() {
                 <TeamMemberCard 
                   photo={tibyanPhoto} 
                   name="Tibyan Bilal" 
-                  role="Web Developer" 
-                  bio="Mathematical Engineering Student | YTÜ" 
+                  role={teamText.webDeveloper} 
+                  bio={teamText.tibyanBio} 
                   linkedinLink="https://www.linkedin.com/in/tibyankhalid/"
                   compact
                 />
                 <TeamMemberCard 
                   photo={yevheniaPhoto} 
                   name="Yevheniia Rudenko" 
-                  role="Web Developer" 
-                  bio="Full Stack Developer | MIT Systems Awareness Lab" 
+                  role={teamText.webDeveloper} 
+                  bio={teamText.fullStackBio} 
                   linkedinLink="https://www.linkedin.com/in/yevheniia-rudenko/"
                   compact
                 />
                 <TeamMemberCard 
                   photo={karimPhoto} 
                   name="Karim Makie" 
-                  role="Web Developer" 
-                  bio="Full Stack Developer | MIT Systems Awareness Lab" 
+                  role={teamText.webDeveloper} 
+                  bio={teamText.fullStackBio} 
                   linkedinLink="https://www.linkedin.com/in/karim-makie/"
                   compact
                 />
                 <TeamMemberCard
                   photo={fiorellaPhoto}
                   name="Fiorella Massa"
-                  role="Graphic Designer"
-                  bio="Freelance graphic designer and photographer"
+                  role={teamText.graphicDesigner}
+                  bio={teamText.fiorellaBio}
                   linkedinLink="https://www.behance.net/fiorellamassa"
                   compact
                 />
@@ -375,7 +420,7 @@ export function AboutPage() {
                 variant="outline"
                 className="text-gray-800 dark:text-gray-200 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 text-lg sm:text-xl font-semibold px-8 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all"
               >
-                View Our Contributors & Credits →
+                {(t.pages.about as any).viewContributors ?? (t.pages.about as any).contributorsLink ?? 'View Our Contributors & Credits →'}
               </Button>
             </Link>
           </div>

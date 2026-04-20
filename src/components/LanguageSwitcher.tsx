@@ -1,6 +1,6 @@
 import { Globe } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
-import { Language } from '../data/translations';
+import { Language, LANGUAGE_NAMES, SUPPORTED_LANGUAGES } from '../i18n';
 import {
   Popover,
   PopoverContent,
@@ -10,10 +10,10 @@ import {
 export function LanguageSwitcher() {
   const { language, setLanguage } = useLanguage();
 
-  // Only English is currently available - other translations need to be updated
-  const languages: { code: Language; name: string }[] = [
-    { code: 'en', name: 'English' },
-  ];
+  const languages = SUPPORTED_LANGUAGES.map(code => ({
+    code,
+    name: LANGUAGE_NAMES[code],
+  }));
 
   return (
     <Popover>

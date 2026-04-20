@@ -38,63 +38,63 @@ export function IntroPage() {
   const moduleCards = [
     {
       id: 1,
-      label: t.module1,
+      label: t.pages.intro.cards.module1.title,
       Icon: Sparkles,
       iconImage: module1Icon,
       gradient: 'from-emerald-500 via-teal-400 to-sky-400',
       gradientStyle: 'linear-gradient(135deg, #526c63 0%, #14b8a6 45%, #4b6e7d 100%)',
-      chips: ['Climate futures', 'Feelings'],
-      backText: 'Explore different climate scenarios and understand how our choices today shape tomorrow. Connect with the emotions that can arise as we witness climate effects and imagine potential futures.',
+      chips: t.pages.intro.cards.module1.chips,
+      backText: t.pages.intro.cards.module1.backText,
     },
     {
       id: 2,
-      label: t.module2,
+      label: t.pages.intro.cards.module2.title,
       Icon: Droplets,
       iconImage: module2Icon,
       gradient: 'from-cyan-500 via-sky-400 to-blue-500',
       gradientStyle: 'linear-gradient(135deg, #06b6d4 0%, #38bdf8 50%, #4d6a99 100%)',
-      chips: ['Flows', 'Balance'],
-      backText: 'Learn how systems accumulate and deplete over time. Understand the balance between inflows and outflows in climate systems.',
+      chips: t.pages.intro.cards.module2.chips,
+      backText: t.pages.intro.cards.module2.backText,
     },
     {
       id: 3,
-      label: t.module3,
+      label: t.pages.intro.cards.module3.title,
       Icon: Map,
       iconImage: module3Icon,
       gradient: 'from-amber-400 via-orange-400 to-pink-500',
       gradientStyle: 'linear-gradient(135deg, #f59e0b 0%, #fb923c 45%, #7e6270 100%)',
-      chips: ['Pathways', 'Scenarios'],
-      backText: 'Navigate through various climate policy pathways by building scenarios. Discover the multiple routes we can take toward sustainability.',
+      chips: t.pages.intro.cards.module3.chips,
+      backText: t.pages.intro.cards.module3.backText,
     },
     {
       id: 4,
-      label: t.module4,
+      label: t.pages.intro.cards.module4.title,
       Icon: Network,
       iconImage: module4Icon,
       gradient: 'from-lime-400 via-green-500 to-emerald-600',
       gradientStyle: 'linear-gradient(135deg, #a3e635 0%, #22c55e 45%, #059669 100%)',
-      chips: ['Systems', 'Ripple effects'],
-      backText: 'See how climate solutions interconnect in complex systems. Understand the ripple effects of interventions across multiple domains.',
+      chips: t.pages.intro.cards.module4.chips,
+      backText: t.pages.intro.cards.module4.backText,
     },
     {
       id: 5,
-      label: t.module5,
+      label: t.pages.intro.cards.module5.title,
       Icon: Rocket,
       iconImage: module5Icon,
       gradient: 'from-purple-500 via-indigo-500 to-blue-600',
       gradientStyle: 'linear-gradient(135deg, #a855f7 0%, #6366f1 50%, #2563eb 100%)',
-      chips: ['Leverage', 'Momentum'],
-      backText: 'Identify high-leverage points for climate action. Discover your space of climate agency and how youth can lead lasting change.',
+      chips: t.pages.intro.cards.module5.chips,
+      backText: t.pages.intro.cards.module5.backText,
     },
     {
       id: 6,
-      label: t.module6,
+      label: t.pages.intro.cards.module6.title,
       Icon: BookOpen,
       iconImage: resourcesIcon,
       gradient: 'from-rose-500 via-pink-500 to-purple-500',
       gradientStyle: 'linear-gradient(135deg, #f43f5e 0%, #ec4899 50%, #a855f7 100%)',
-      chips: ['Resources', 'Learn More'],
-      backText: 'Access additional learning materials, research, and tools to deepen your understanding of climate systems.',
+      chips: t.pages.intro.cards.module6.chips,
+      backText: t.pages.intro.cards.module6.backText,
     },
   ];
 
@@ -120,10 +120,10 @@ export function IntroPage() {
             <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6">
               <div className="flex items-center gap-2 mb-2">
                 <Sprout className="text-green-400 flex-shrink-0" size={24} />
-                <span className="text-green-400 uppercase tracking-wider text-xs sm:text-sm">{t.climateEducation}</span>
+                <span className="text-green-400 uppercase tracking-wider text-xs sm:text-sm">{t.pages.intro.climateEducation}</span>
               </div>
               <h1 className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
-                {t.mainTitle}
+                {t.pages.intro.mainTitle}
               </h1>
             </div>
           </div>
@@ -132,13 +132,13 @@ export function IntroPage() {
           <div className="p-4 sm:p-6 md:p-8 lg:p-10">
             <div className="mb-6 sm:mb-8">
               <p className="text-gray-700 dark:text-gray-300 text-base sm:text-lg leading-relaxed mb-4">
-                {t.introP1_1}
+                {t.pages.intro.introP1_1}
               </p>
               <p className="text-gray-700 dark:text-gray-300 text-base sm:text-lg leading-relaxed mb-4">
-                {t.introP1_2}
+                {t.pages.intro.introP1_2}
               </p>
               <p className="text-gray-700 dark:text-gray-300 text-base sm:text-lg leading-relaxed">
-                {t.introP1_3}
+                {t.pages.intro.introP1_3}
               </p>
             </div>
 
@@ -146,7 +146,7 @@ export function IntroPage() {
             <div className="mb-6 sm:mb-8">
               <div className="flex items-center gap-2 mb-4">
                 <BookOpen className="text-purple-600 dark:text-purple-400 flex-shrink-0" size={20} />
-                <h2 className="text-gray-900 dark:text-gray-100">{t.whatYouLearn}</h2>
+                <h2 className="text-gray-900 dark:text-gray-100">{t.pages.intro.whatYouLearn}</h2>
               </div>
               <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 auto-rows-fr max-w-3xl mx-auto">
                 {moduleCards.map(({ id, label, Icon, iconImage, gradient, gradientStyle, chips, backText }, index) => (
@@ -213,7 +213,7 @@ export function IntroPage() {
                                 className="absolute top-3 left-3 px-2 py-1.5 rounded-full shadow-md z-20 pointer-events-none"
                                 style={{ backgroundColor: '#153833', transform: 'translateZ(1px)' }}
                               >
-                                <span className="text-lg font-bold text-white tracking-wide">Module {id}</span>
+                                <span className="text-lg font-bold text-white tracking-wide">{t.pages.intro.modulePrefix} {id}</span>
                               </div>
                             )}
                           </div>
@@ -249,7 +249,7 @@ export function IntroPage() {
                               {backText}
                             </p>
                             <div className="mt-auto pt-4 flex items-center gap-2 text-sm font-semibold">
-                              <span>Explore Module</span>
+                              <span>{t.pages.intro.exploreModule}</span>
                               <ArrowRight size={16} />
                             </div>
                           </div>
@@ -272,7 +272,7 @@ export function IntroPage() {
                 className="w-full hover:brightness-90"
                 style={{ backgroundColor: '#7B2CBF', borderColor: '#7B2CBF', color: '#ffffff' }}
               >
-                <span>{t.startJourney}</span>
+                <span>{t.pages.intro.startJourney}</span>
                 <ArrowRight size={20} />
               </Button>
             </motion.div>

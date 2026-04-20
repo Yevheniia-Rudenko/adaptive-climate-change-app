@@ -14,11 +14,11 @@ export function EndingPage({ progress, onRestart, onBackToHome }: EndingPageProp
   const { t } = useLanguage();
 
   const moduleNames: { [key: string]: string } = {
-    '1': t.module1,
-    '2': t.module2,
-    '3': t.module3,
-    '4': t.module4,
-    '5': t.module5
+    '1': t.nav.module1,
+    '2': t.nav.module2,
+    '3': t.nav.module3,
+    '4': t.nav.module4,
+    '5': t.nav.module5
   };
 
   return (
@@ -40,19 +40,19 @@ export function EndingPage({ progress, onRestart, onBackToHome }: EndingPageProp
             </div>
             
             <h1 className="text-3xl sm:text-5xl mb-4">
-              {allCompleted ? t.congratulations : 'Great Progress!'}
+              {allCompleted ? t.pages.ending.congratulations : t.pages.ending.greatProgress}
             </h1>
             
             <p className="text-xl sm:text-2xl text-white/90 mb-4">
               {allCompleted 
-                ? t.journeyComplete 
-                : `${completedCount} / 5 ${t.completedModules}`}
+                ? t.pages.ending.journeyComplete 
+                : t.pages.ending.completedModulesCount.replace('{count}', String(completedCount))}
             </p>
             
             <p className="text-white/80 max-w-2xl mx-auto">
               {allCompleted 
-                ? t.completedAllModules
-                : `Keep going! Every module brings you closer to understanding how you can be part of climate solutions.`}
+                ? t.pages.ending.completedAllModules
+                : t.pages.ending.keepGoing}
             </p>
           </div>
 
@@ -61,11 +61,11 @@ export function EndingPage({ progress, onRestart, onBackToHome }: EndingPageProp
             <div className="mb-8">
               <div className="flex items-center gap-2 mb-4">
                 <Heart className="text-red-500" size={24} />
-                <h2 className="text-gray-900 dark:text-gray-100">{t.yourReflections}</h2>
+                <h2 className="text-gray-900 dark:text-gray-100">{t.pages.ending.yourReflections}</h2>
               </div>
               
               <p className="text-gray-700 dark:text-gray-300 mb-6">
-                Here&apos;s a summary of your journey through the climate systems modules:
+                {t.pages.ending.summaryText}
               </p>
 
               <div className="space-y-4">
@@ -103,24 +103,14 @@ export function EndingPage({ progress, onRestart, onBackToHome }: EndingPageProp
 
             {allCompleted && (
               <div className="bg-yellow-50 dark:bg-gray-700 border-2 border-yellow-200 dark:border-yellow-800 rounded-2xl p-6 mb-8">
-                <h3 className="text-gray-900 dark:text-gray-100 mb-3">What&apos;s Next?</h3>
+                <h3 className="text-gray-900 dark:text-gray-100 mb-3">{t.pages.ending.whatsNext}</h3>
                 <ul className="space-y-2 text-gray-700 dark:text-gray-300">
-                  <li className="flex items-start gap-2">
-                    <span className="text-green-600 flex-shrink-0 mt-1">✓</span>
-                    <span>Share what you&apos;ve learned with friends and family</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-green-600 flex-shrink-0 mt-1">✓</span>
-                    <span>Look for opportunities to apply systems thinking in your community</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-green-600 flex-shrink-0 mt-1">✓</span>
-                    <span>Identify your lever of change and take action</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-green-600 flex-shrink-0 mt-1">✓</span>
-                    <span>Stay informed and engaged with climate solutions</span>
-                  </li>
+                  {t.pages.ending.nextSteps.map((step, index) => (
+                    <li key={index} className="flex items-start gap-2">
+                      <span className="text-green-600 flex-shrink-0 mt-1">✓</span>
+                      <span>{step}</span>
+                    </li>
+                  ))}
                 </ul>
               </div>
             )}
@@ -132,7 +122,7 @@ export function EndingPage({ progress, onRestart, onBackToHome }: EndingPageProp
                 className="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white rounded-xl transition-all shadow-lg"
               >
                 <Home size={20} />
-                <span>{t.backHome}</span>
+                <span>{t.pages.ending.backHome}</span>
               </button>
               
               <button
@@ -140,7 +130,7 @@ export function EndingPage({ progress, onRestart, onBackToHome }: EndingPageProp
                 className="flex items-center justify-center gap-2 px-6 py-4 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-xl transition-colors"
               >
                 <RotateCcw size={20} />
-                <span>{t.restartJourney}</span>
+                <span>{t.pages.ending.restartJourney}</span>
               </button>
             </div>
           </div>

@@ -1,23 +1,29 @@
 import { useEffect, useRef, useState, ChangeEvent } from 'react';
 import { createAsyncModel, getDefaultConfig, createDefaultOutputs } from '@climateinteractive/en-roads-core';
 import enStrings from '@climateinteractive/en-roads-core/strings/en';
+import deStrings from '@climateinteractive/en-roads-core/strings/de';
+import esStrings from '@climateinteractive/en-roads-core/strings/es';
 import { GraphView } from '@climateinteractive/sim-ui-graph';
+import { useLanguage } from '../contexts/LanguageContext';
 import '../styles/enroads-dashboard.css';
 
 // Two fixed graphs for Module 2 — Temperature is shown via the side card only
 const GRAPH_CONFIGS = [
-  { id: '104', label: 'CO₂ Net Emissions', canvasId: 'module2-graph-emissions' },
-  { id: '88', label: 'CO₂ Concentration', canvasId: 'module2-graph-concentration' },
+  { id: '104', labelKey: 'graph_104_title', canvasId: 'module2-graph-emissions' },
+  { id: '88', labelKey: 'graph_88_title', canvasId: 'module2-graph-concentration' },
 ];
 
 export default function Module2ExerciseDashboard() {
+  const { language, t } = useLanguage();
+  const tx = t.data.modules.module2.components.exercise;
+  
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
 
   // Carbon Price slider state
   const [carbonPriceVal, setCarbonPriceVal] = useState(0);
-  const [sliderText, setSliderText] = useState('status quo');
+  const [sliderText, setSliderText] = useState(tx.statusQuo);
   const [carbonPriceDefaultPct, setCarbonPriceDefaultPct] = useState<number | null>(null);
 
   // Temperature display
@@ -35,15 +41,27 @@ export default function Module2ExerciseDashboard() {
   const carbonPriceInputRef = useRef<any>(null);
   const carbonPriceFinalRef = useRef<any>(null);
 
-  const str = (key: string) => (enStrings as any)[key] || key;
+  const getEnRoadsStrings = () => {
+    switch (language) {
+      case 'de': return deStrings;
+      case 'es': return esStrings;
+      default: return enStrings;
+    }
+  };
+
+  const str = (key: string) => {
+    if (key === 'graph_104_title') return language === 'de' ? 'CO2-Nettoemissionen' : language === 'es' ? 'Emisiones netas de CO2' : 'CO₂ Net Emissions';
+    if (key === 'graph_88_title') return language === 'de' ? 'CO2-Konzentration' : language === 'es' ? 'Concentración de CO2' : 'CO₂ Concentration';
+    return (getEnRoadsStrings() as any)[key] || key;
+  };
 
   const getSliderText = (modelVal: number, max: number) => {
     const pct = max > 0 ? modelVal / max : 0;
-    if (pct <= 0) return 'status quo';
-    if (pct < 0.15) return 'low';
-    if (pct < 0.4) return 'medium';
-    if (pct < 0.7) return 'high';
-    return 'very high';
+    if (pct <= 0) return tx.statusQuo;
+    if (pct < 0.15) return tx.low;
+    if (pct < 0.4) return tx.medium;
+    if (pct < 0.7) return tx.high;
+    return tx.veryHigh;
   };
 
   const getRangeHighlightBackground = (currentPct: number, defaultPct: number | null, color: string) => {
@@ -177,7 +195,7 @@ export default function Module2ExerciseDashboard() {
         carbonPriceFinalRef.current.set(modelVal);
       }
 
-      setSliderText(val === 0 ? 'status quo' : getSliderText(modelVal, 250));
+      setSliderText(val === 0 ? tx.statusQuo : getSliderText(modelVal, 250));
       setTimeout(() => updateAllGraphs(), 100);
     }
   };
@@ -201,7 +219,7 @@ export default function Module2ExerciseDashboard() {
           const pos = Math.max(0, Math.min(100, (current / 250) * 100));
           setCarbonPriceVal(pos);
           setCarbonPriceDefaultPct(pos);
-          setSliderText(pos === 0 ? 'status quo' : getSliderText(current, 250));
+          setSliderText(pos === 0 ? tx.statusQuo : getSliderText(current, 250));
         }
 
         modelContextRef.current.onOutputsChanged = () => updateAllGraphs();
@@ -216,7 +234,7 @@ export default function Module2ExerciseDashboard() {
         setIsLoading(false);
       } catch (err) {
         console.error(err);
-        setError('Failed to load En-ROADS model.');
+        setError(tx.failedToLoad);
         setIsLoading(false);
       }
     };
@@ -249,7 +267,7 @@ export default function Module2ExerciseDashboard() {
     return (
       <div className="enroads-loading">
         <div className="loading-spinner"></div>
-        <p>Loading En-ROADS model...</p>
+        <p>{tx.loadingModel}</p>
       </div>
     );
   }
@@ -266,7 +284,7 @@ export default function Module2ExerciseDashboard() {
         {isExpanded ? (
           <div className="relative px-4 pt-4 mb-4">
             <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200 text-center">
-              Test Your Predictions: Carbon Price Simulation
+              {tx.title}
             </h2>
             <button
               type="button"
@@ -274,13 +292,13 @@ export default function Module2ExerciseDashboard() {
               className="absolute right-4 top-4 px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
               style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
             >
-              Close Full Screen
+              {tx.closeFullscreen}
             </button>
           </div>
         ) : (
           <div className="flex items-start justify-between gap-3 px-4 pt-4 mb-4">
             <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200">
-              Test Your Predictions: Carbon Price Simulation
+              {tx.title}
             </h2>
             <button
               type="button"
@@ -288,7 +306,7 @@ export default function Module2ExerciseDashboard() {
               className="px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
               style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
             >
-              Open Full Screen
+              {tx.openFullscreen}
             </button>
           </div>
         )}
@@ -301,13 +319,13 @@ export default function Module2ExerciseDashboard() {
                   key={cfg.canvasId}
                   className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 flex-1 min-w-0"
                 >
-                  <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">{cfg.label}</h3>
+                  <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">{str(cfg.labelKey)}</h3>
                   <div className="relative w-full">
                     <canvas id={cfg.canvasId} className="w-full h-full" />
                   </div>
                   <div className="flex justify-center gap-3 mt-3">
-                    <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
-                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>{tx.baseline}</span>
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>{tx.currentScenario}</span>
                   </div>
                 </div>
               ))}
@@ -339,17 +357,13 @@ export default function Module2ExerciseDashboard() {
                     +{tempF.toFixed(1)}°F
                   </div>
                   <div
-                    className="mt-5 leading-tight text-gray-900 dark:text-gray-100"
+                    className="mt-5 whitespace-pre-line leading-tight text-gray-900 dark:text-gray-100"
                     style={{
                       fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)',
                       fontWeight: 800,
                     }}
                   >
-                    Temperature
-                    <br />
-                    Increase by
-                    <br />
-                    2100
+                    {tx.temperatureTitle}
                   </div>
                 </div>
               </div>
@@ -382,17 +396,13 @@ export default function Module2ExerciseDashboard() {
                   +{tempF.toFixed(1)}°F
                 </div>
                 <div
-                  className="mt-3 leading-tight text-gray-900 dark:text-gray-100"
+                  className="mt-3 whitespace-pre-line leading-tight text-gray-900 dark:text-gray-100"
                   style={{
                     fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)',
                     fontWeight: 800,
                   }}
                 >
-                  Temperature
-                  <br />
-                  Increase by
-                  <br />
-                  2100
+                  {tx.temperatureTitle}
                 </div>
               </div>
             </div>
@@ -404,14 +414,14 @@ export default function Module2ExerciseDashboard() {
                   key={cfg.canvasId}
                   className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600"
                 >
-                  <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">{cfg.label}</h3>
+                  <h3 className="text-xl font-extrabold text-gray-700 dark:text-gray-200 mb-2">{str(cfg.labelKey)}</h3>
                   <div className="relative w-full">
                     <canvas id={cfg.canvasId} className="w-full h-full" />
                   </div>
                   {/* Legend badges */}
                   <div className="flex justify-center gap-3 mt-3">
-                    <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
-                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>{tx.baseline}</span>
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>{tx.currentScenario}</span>
                   </div>
                 </div>
               ))}
@@ -422,7 +432,7 @@ export default function Module2ExerciseDashboard() {
         {/* Carbon Price slider */}
         <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-2">
           <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
-            <label>Carbon Price</label>
+            <label>{tx.carbonPrice}</label>
             <span className="text-xs font-mono text-gray-500">{sliderText}</span>
           </div>
           <div className="enroads-range-wrap">

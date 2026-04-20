@@ -18,7 +18,7 @@ export function ProgressBar({ completedCount, percentComplete, onNavigateHome }:
           <button
             onClick={onNavigateHome}
             className="flex-shrink-0 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
-            aria-label={t.backToHome}
+            aria-label={t.nav.backToHome}
           >
             <Home size={24} className="text-gray-700 dark:text-gray-300" />
           </button>
@@ -28,7 +28,7 @@ export function ProgressBar({ completedCount, percentComplete, onNavigateHome }:
               <div className="flex items-center gap-2">
                 <CheckCircle2 size={18} className="text-green-600" />
                 <span className="text-sm text-gray-600">
-                  {completedCount} / 5 {t.completedModules}
+                  {completedCount} / 5 {t.nav.completedModules}
                 </span>
               </div>
               <span className="text-sm">{percentComplete}%</span>

@@ -1,29 +1,36 @@
 import { useEffect, useRef, useState, ChangeEvent } from 'react';
 import { createAsyncModel, getDefaultConfig, createDefaultOutputs } from '@climateinteractive/en-roads-core';
 import enStrings from '@climateinteractive/en-roads-core/strings/en';
+import deStrings from '@climateinteractive/en-roads-core/strings/de';
+import esStrings from '@climateinteractive/en-roads-core/strings/es';
 import { GraphView } from '@climateinteractive/sim-ui-graph';
+import { useLanguage } from '../contexts/LanguageContext';
 import '../styles/enroads-dashboard.css';
 
 // Graph definitions for Section 1 dropdown
 const SECTION1_GRAPHS = [
-  { id: '90', label: 'Sea Level Rise', varId: '_slr_from_2000_in_meters' },
-  { id: '169', label: 'Deforestation', varId: '_global_deforestation_mha' },
-  { id: '275', label: 'Deaths from Extreme Heat', varId: '_excess_deaths_from_extreme_heat_per_100k_people' },
-  { id: '279', label: 'Species Loss - Extinction', varId: '_percent_endemic_species_at_high_risk_of_extinction' },
-  { id: '183', label: 'Crop Yield', varId: '_crop_yield_per_hectare_kg_per_year_per_ha' },
-  { id: '112', label: 'Air Pollution', varId: '_pm2_5_emissions_from_energy_mt_per_year' }
+  { id: '90', labelKey: 'graph_90_title', varId: '_slr_from_2000_in_meters' },
+  { id: '169', labelKey: 'graph_169_title', varId: '_global_deforestation_mha' },
+  { id: '275', labelKey: 'graph_275_title', varId: '_excess_deaths_from_extreme_heat_per_100k_people' },
+  { id: '279', labelKey: 'graph_279_title', varId: '_percent_endemic_species_at_high_risk_of_extinction' },
+  { id: '183', labelKey: 'graph_183_title', varId: '_crop_yield_per_hectare_kg_per_year_per_ha' },
+  { id: '112', labelKey: 'graph_112_title', varId: '_pm2_5_emissions_from_energy_mt_per_year' }
 ];
 
 // Graph definitions for Section 2 dropdown
 const SECTION2_GRAPHS = [
-  { id: '62', label: 'CO2 Net Emissions', varId: '_co2_equivalent_net_emissions' },
-  { id: '169', label: 'Deforestation', varId: '_global_deforestation_mha' }
+  { id: '62', labelKey: 'graph_62_title', varId: '_co2_equivalent_net_emissions' },
+  { id: '169', labelKey: 'graph_169_title', varId: '_global_deforestation_mha' }
 ];
 
 const NATURE_REMOVALS_INPUT_ID = '417';
 const NATURE_REMOVALS_MODE_SWITCH_ID = '418';
 
 export default function Module1CarbonRemovalDashboard() {
+  const { language, t } = useLanguage();
+  const tx = t.data.modules.module1.components.carbonRemoval;
+  const tc = t.data.modules.module2.components.exercise; // Also used in Module 1 for consistency
+
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isSection1Expanded, setIsSection1Expanded] = useState(false);
@@ -31,19 +38,19 @@ export default function Module1CarbonRemovalDashboard() {
 
   // Section 1 states
   const [section1SliderValue, setSection1SliderValue] = useState(0);
-  const [section1SliderText, setSection1SliderText] = useState('status quo');
+  const [section1SliderText, setSection1SliderText] = useState(tc.statusQuo);
   const [section1DefaultPct, setSection1DefaultPct] = useState<number | null>(null);
   const [selectedGraphId, setSelectedGraphId] = useState('90');
   const [section2SelectedGraphId, setSection2SelectedGraphId] = useState('62');
 
   // Section 2 states
   const [section2DeforestationValue, setSection2DeforestationValue] = useState(0);
-  const [section2DeforestationText, setSection2DeforestationText] = useState('status quo');
+  const [section2DeforestationText, setSection2DeforestationText] = useState(tc.statusQuo);
   const [section2DeforestationDefaultPct, setSection2DeforestationDefaultPct] = useState<number | null>(null);
 
   // Temperature display — use refs + direct DOM to avoid React re-renders that reset canvas
-  const tempCRef = useRef<HTMLSpanElement>(null);
-  const tempFRef = useRef<HTMLSpanElement>(null);
+  const tempCRef = useRef<HTMLDivElement>(null);
+  const tempFRef = useRef<HTMLDivElement>(null);
   const section1TempCOutsideRef = useRef<HTMLDivElement>(null);
   const section1TempFOutsideRef = useRef<HTMLDivElement>(null);
   const section2TempCOutsideRef = useRef<HTMLDivElement>(null);
@@ -69,8 +76,37 @@ export default function Module1CarbonRemovalDashboard() {
   const natureModeSwitchRef = useRef<any>(null);
   const deforestationInputRef = useRef<any>(null);
 
+  const getEnRoadsStrings = () => {
+    switch (language) {
+      case 'de': return deStrings;
+      case 'es': return esStrings;
+      default: return enStrings;
+    }
+  };
+
   const str = (key: string) => {
-    return (enStrings as any)[key] || key;
+    if (key === 'graph_62_title') {
+      return (tx as any)?.co2NetEmissions ?? 'CO2 Net Emissions';
+    }
+    if (key === 'graph_90_title') {
+      return language === 'de' ? 'Meeresspiegelanstieg' : language === 'es' ? 'Aumento del nivel del mar' : 'Sea Level Rise';
+    }
+    if (key === 'graph_169_title') {
+      return language === 'de' ? 'Entwaldung' : language === 'es' ? 'Deforestación' : 'Deforestation';
+    }
+    if (key === 'graph_275_title') {
+      return language === 'de' ? 'Todesfälle durch extreme Hitze' : language === 'es' ? 'Muertes por calor extremo' : 'Deaths from Extreme Heat';
+    }
+    if (key === 'graph_279_title') {
+      return language === 'de' ? 'Artenverlust - Aussterben' : language === 'es' ? 'Pérdida de especies - extinción' : 'Species Loss - Extinction';
+    }
+    if (key === 'graph_183_title') {
+      return language === 'de' ? 'Ernteerträge' : language === 'es' ? 'Rendimiento de cultivos' : 'Crop Yield';
+    }
+    if (key === 'graph_112_title') {
+      return language === 'de' ? 'Luftverschmutzung aus der Energieerzeugung – PM2,5-Emissionen' : language === 'es' ? 'Contaminación del aire por energía – emisiones PM2,5' : 'Air Pollution from Energy - PM2.5 Emissions';
+    }
+    return (getEnRoadsStrings() as any)[key] || key;
   };
 
   const getRangeHighlightBackground = (currentPct: number, defaultPct: number | null, color: string) => {
@@ -86,33 +122,18 @@ export default function Module1CarbonRemovalDashboard() {
     return `linear-gradient(to right, ${track} 0%, ${track} ${a}%, ${color} ${a}%, ${color} ${b}%, ${track} ${b}%, ${track} 100%)`;
   };
 
-  const getInputRangeLabel = (input: any, value: number) => {
-    const rangeLabelKeys: string[] = input?.spec?.rangeLabelKeys ?? [
-      'input_range__status_quo',
-      'input_range__low',
-      'input_range__medium',
-      'input_range__high',
-      'input_range__very_high'
-    ];
-    const rangeDividers: number[] = input?.spec?.rangeDividers ?? [6, 20, 60, 100];
-
-    let idx = rangeDividers.findIndex((d) => value < d);
-    if (idx === -1) idx = rangeLabelKeys.length - 1;
-    return str(rangeLabelKeys[idx] ?? 'input_range__status_quo');
-  };
-
   const getCarbonRemovalText = (value: number) => {
-    if (value >= 70) return 'high growth';
-    if (value >= 40) return 'medium growth';
-    if (value >= 15) return 'low growth';
-    return 'status quo';
+    if (value >= 70) return tx.highGrowth;
+    if (value >= 40) return tx.mediumGrowth;
+    if (value >= 15) return tx.lowGrowth;
+    return tc.statusQuo;
   };
 
   const getDeforestationText = (value: number) => {
-    if (value >= 0.1) return 'increased';
-    if (value >= -1.0) return 'status quo';
-    if (value >= -4.0) return 'reduced';
-    return 'highly reduced';
+    if (value >= 0.1) return tx.increased;
+    if (value >= -1.0) return tc.statusQuo;
+    if (value >= -4.0) return tx.reduced;
+    return tx.highlyReduced;
   };
 
   const createGraphViewModel = (graphSpec: any) => {
@@ -250,7 +271,7 @@ export default function Module1CarbonRemovalDashboard() {
   };
 
   const getSafeLineGraphSpec = (
-    graphDefs: Array<{ id: string; label: string; varId: string }>,
+    graphDefs: Array<{ id: string; labelKey: string; varId: string }>,
     graphId: string
   ) => {
     const graphDef = graphDefs.find((g) => g.id === graphId);
@@ -289,13 +310,13 @@ export default function Module1CarbonRemovalDashboard() {
           datasets: [
             {
               ...baselineDataset,
-              label: 'Baseline',
+              label: tx.baseline,
               color: '#000000',
               lineStyle: baselineDataset.lineStyle || 'thinline'
             },
             {
               ...currentDataset,
-              label: 'Current',
+              label: tx.currentScenario,
               color: '#00b6f1',
               lineStyle: currentDataset.lineStyle || 'line'
             }
@@ -307,19 +328,19 @@ export default function Module1CarbonRemovalDashboard() {
       return {
         ...fromConfig,
         datasets: [
-          { varId: graphDef.varId, externalSourceName: 'Ref', label: 'Baseline', color: '#000000', lineStyle: 'thinline' },
-          { varId: graphDef.varId, label: 'Current', color: '#00b6f1', lineStyle: 'line' }
+          { varId: graphDef.varId, externalSourceName: 'Ref', label: tx.baseline, color: '#000000', lineStyle: 'thinline' },
+          { varId: graphDef.varId, label: tx.currentScenario, color: '#00b6f1', lineStyle: 'line' }
         ]
       };
     }
 
     return {
       id: graphDef.id,
-      title: graphDef.label,
+      title: str(graphDef.labelKey),
       kind: 'line',
       datasets: [
-        { varId: graphDef.varId, externalSourceName: 'Ref', label: 'Baseline', color: '#000000', lineStyle: 'thinline' },
-        { varId: graphDef.varId, label: 'Current', color: '#00b6f1', lineStyle: 'line' }
+        { varId: graphDef.varId, externalSourceName: 'Ref', label: tx.baseline, color: '#000000', lineStyle: 'thinline' },
+        { varId: graphDef.varId, label: tx.currentScenario, color: '#00b6f1', lineStyle: 'line' }
       ]
     };
   };
@@ -328,7 +349,7 @@ export default function Module1CarbonRemovalDashboard() {
     containerRef: React.RefObject<HTMLDivElement | null>,
     canvasRef: React.RefObject<HTMLCanvasElement | null>,
     graphId: string,
-    graphDefs: Array<{ id: string; label: string; varId: string }>
+    graphDefs: Array<{ id: string; labelKey: string; varId: string }>
   ) => {
     if (!canvasRef.current || !containerRef.current || !coreConfigRef.current) return null;
 
@@ -528,7 +549,7 @@ export default function Module1CarbonRemovalDashboard() {
         setIsLoading(false);
       } catch (err) {
         console.error('Failed to initialize dashboard:', err);
-        setError('Failed to load the En-ROADS model. Please refresh the page.');
+        setError(tc.failedToLoad);
         setIsLoading(false);
       }
     };
@@ -603,7 +624,7 @@ export default function Module1CarbonRemovalDashboard() {
     return (
       <div className="enroads-loading">
         <div className="loading-spinner"></div>
-        <p>Loading En-ROADS model...</p>
+        <p>{tc.loadingModel}</p>
       </div>
     );
   }
@@ -621,35 +642,9 @@ export default function Module1CarbonRemovalDashboard() {
       <div className="font-sora mb-24 space-y-6">
           {/* MODEL 1: Nature-Based Carbon Removal */}
           <div className="bg-gray-50 dark:bg-gray-900 p-3 sm:p-4 rounded-xl border border-gray-200 dark:border-gray-700">
-            <div className="px-3 sm:px-4 mb-4 text-gray-700 dark:text-gray-300 leading-relaxed space-y-4">
-              <h3 className="text-base sm:text-lg font-extrabold text-gray-800 dark:text-gray-200">
-                En-ROADS Simplified Dashboard
-              </h3>
-              <p>
-                Now let&apos;s see what effect nature-based carbon-dioxide removal (aka planting more trees) has on global temperature increase (remember the goal to keep the increase at no more than 1.5 degrees Celsius or 2.7 degrees Fahrenheit).
-              </p>
-              <p>
-                In Exercise 1, you will adjust the amount that nature-based Carbon-Dioxide Removal is implemented as a policy by moving the slider. You can choose:
-              </p>
-              <ul className="space-y-2" style={{ listStyleType: 'disc', paddingLeft: '1.5rem' }}>
-                <li>
-                  <strong>Status Quo:</strong> Maintain the current levels of natural and cultivated forests. This is where the slider starts.
-                </li>
-                <li>
-                  <strong>Subsidize:</strong> Increase the amount of trees planted by providing governmental or private funding to support the planting and maintenance of forests and wooded areas.
-                </li>
-                <li>
-                  <strong>Tax:</strong> Decrease the amount of trees planted by charging governmental taxes or fees (ex. Taxes that increase the cost of purchasing trees)
-                </li>
-              </ul>
-              <p>
-                You can also explore other climate impacts like sea level rise, air pollution, crop yield and others using the dropdown option on the graphs.
-              </p>
-            </div>
-
             <div className="flex items-start justify-between gap-3 px-3 sm:px-4 pt-3 sm:pt-4 mb-4">
               <h2 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-gray-200">
-                Model 1: Nature-Based Carbon Removal
+                {tx.title1}
               </h2>
               <button
                 type="button"
@@ -660,7 +655,7 @@ export default function Module1CarbonRemovalDashboard() {
                 className="px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
                 style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
               >
-                Open Full Screen
+                {tc.openFullscreen}
               </button>
             </div>
 
@@ -691,17 +686,13 @@ export default function Module1CarbonRemovalDashboard() {
                   +5.7°F
                 </div>
                 <div
-                  className="mt-3 leading-tight text-gray-900 dark:text-gray-100"
+                  className="mt-3 whitespace-pre-line leading-tight text-gray-900 dark:text-gray-100"
                   style={{
                     fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)',
                     fontWeight: 800,
                   }}
                 >
-                  Temperature
-                  <br />
-                  Increase by
-                  <br />
-                  2100
+                  {tc.temperatureTitle}
                 </div>
               </div>
             </div>
@@ -713,7 +704,7 @@ export default function Module1CarbonRemovalDashboard() {
                   onChange={(e) => setSelectedGraphId(e.target.value)}
                   className="bg-blue-100 dark:bg-blue-900/50 border border-blue-300 dark:border-blue-500 text-blue-900 dark:text-blue-100 text-base sm:text-lg rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block p-3 font-bold"
                 >
-                  {SECTION1_GRAPHS.map(g => <option key={g.id} value={g.id}>{g.label}</option>)}
+                  {SECTION1_GRAPHS.map(g => <option key={g.id} value={g.id}>{str(g.labelKey)}</option>)}
                 </select>
               </div>
               <div ref={section1GraphContainerRef} className="relative w-full">
@@ -723,18 +714,18 @@ export default function Module1CarbonRemovalDashboard() {
                 />
               </div>
               {/* Dynamic legend — species graph gets marine/land badges */}
-                            {selectedGraphId === '279' ? (
+              {selectedGraphId === '279' ? (
                 <div className="mt-3 text-center">
                   <div className="flex justify-center gap-3 mb-1">
-                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#3385C6' }}>MARINE SPECIES</span>
-                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#843C0C' }}>LAND SPECIES</span>
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#3385C6' }}>{tx.marineSpecies}</span>
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#843C0C' }}>{tx.landSpecies}</span>
                   </div>
-                  <p className="text-xs text-gray-500 italic">Dashed lines represent Baseline</p>
+                  <p className="text-xs text-gray-500 italic">{tx.dashedBaseline}</p>
                 </div>
               ) : (
                 <div className="flex justify-center gap-3 mt-3">
-                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
-                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#00b6f1' }}>CURRENT SCENARIO</span>
+                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>{tx.baseline}</span>
+                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#00b6f1' }}>{tx.currentScenario}</span>
                 </div>
               )}
             </div>
@@ -742,7 +733,7 @@ export default function Module1CarbonRemovalDashboard() {
             <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-6">
               <div className="space-y-4">
                 <div className="flex justify-between items-center font-bold text-gray-700 dark:text-gray-200">
-                  <label>Carbon-Dioxide Removal - Nature Based</label>
+                  <label>{tx.natureLabel}</label>
                   <span className="text-sm font-mono text-gray-500">{section1SliderText}</span>
                 </div>
                 <div className="enroads-range-wrap">
@@ -768,28 +759,9 @@ export default function Module1CarbonRemovalDashboard() {
 
           {/* SECTION 2: Deforestation Analysis */}
           <div className="bg-gray-50 dark:bg-gray-900 p-3 sm:p-4 rounded-xl border border-gray-200 dark:border-gray-700">
-            <div className="px-3 sm:px-4 mb-4 text-gray-700 dark:text-gray-300 leading-relaxed space-y-4">
-              <p>
-                Planting more trees in this model is different from saving existing forests. Let&apos;s also see what happens when we look at policies around deforestation—the intentional and large-scale clearing of forests for agriculture, building construction, and livestock.
-              </p>
-              <p>In Exercise 2, adjust the amount that Deforestation is happening globally by moving the slider. You can choose:</p>
-              <ul className="space-y-2" style={{ listStyleType: 'disc', paddingLeft: '1.5rem' }}>
-                <li>
-                  <strong>Status Quo:</strong> Maintain the current levels of natural and cultivated forests. This is where the slider starts.
-                </li>
-                <li>
-                  <strong>Reforestation:</strong> Encourage the protection of forests, preserving current forests and allowing areas to re-grow after human disturbance. For example, letting a grass yard grow into a meadow and eventually into a forest.
-                </li>
-                <li>
-                  <strong>Deforestation:</strong> Discourage the protection of forests and increase the use of forest land for other uses, primarily for plant and animal agriculture and livestock, harvesting for wood products or bioenergy.
-                </li>
-              </ul>
-              <p>Let&apos;s try it out!</p>
-            </div>
-
             <div className="flex items-start justify-between gap-3 px-3 sm:px-4 pt-3 sm:pt-4 mb-4">
               <h2 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-gray-200">
-                Model 2: Deforestation
+                {tx.title2}
               </h2>
               <button
                 type="button"
@@ -800,7 +772,7 @@ export default function Module1CarbonRemovalDashboard() {
                 className="px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
                 style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
               >
-                Open Full Screen
+                {tc.openFullscreen}
               </button>
             </div>
 
@@ -831,17 +803,13 @@ export default function Module1CarbonRemovalDashboard() {
                   +5.7°F
                 </div>
                 <div
-                  className="mt-3 leading-tight text-gray-900 dark:text-gray-100"
+                  className="mt-3 whitespace-pre-line leading-tight text-gray-900 dark:text-gray-100"
                   style={{
                     fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)',
                     fontWeight: 800,
                   }}
                 >
-                  Temperature
-                  <br />
-                  Increase by
-                  <br />
-                  2100
+                  {tc.temperatureTitle}
                 </div>
               </div>
             </div>
@@ -853,7 +821,7 @@ export default function Module1CarbonRemovalDashboard() {
                   onChange={(e) => setSection2SelectedGraphId(e.target.value)}
                   className="bg-blue-100 dark:bg-blue-900/50 border border-blue-300 dark:border-blue-500 text-blue-900 dark:text-blue-100 text-base sm:text-lg rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block p-3 font-bold"
                 >
-                  {SECTION2_GRAPHS.map(g => <option key={g.id} value={g.id}>{g.label}</option>)}
+                  {SECTION2_GRAPHS.map(g => <option key={g.id} value={g.id}>{str(g.labelKey)}</option>)}
                 </select>
               </div>
               <div ref={section2GraphContainerRef} className="relative w-full">
@@ -862,51 +830,16 @@ export default function Module1CarbonRemovalDashboard() {
                   style={{ display: 'block', width: '100%', height: '100%', pointerEvents: 'none' }}
                 />
               </div>
-              {/* Dynamic legend — species graph gets marine/land badges */}
-                            {section2SelectedGraphId === '279' ? (
-                <div className="mt-3 text-center">
-                  <div className="flex justify-center gap-3 mb-1">
-                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#3385C6' }}>MARINE SPECIES</span>
-                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#843C0C' }}>LAND SPECIES</span>
-                  </div>
-                  <p className="text-xs text-gray-500 italic">Dashed lines represent Baseline</p>
-                </div>
-              ) : (
-                <div className="flex justify-center gap-3 mt-3">
-                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
-                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#00b6f1' }}>CURRENT SCENARIO</span>
-                </div>
-              )}
+              <div className="flex justify-center gap-3 mt-3">
+                <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>{tx.baseline}</span>
+                <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#00b6f1' }}>{tx.currentScenario}</span>
+              </div>
             </div>
 
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-8">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-6">
               <div className="space-y-4">
                 <div className="flex justify-between items-center font-bold text-gray-700 dark:text-gray-200">
-                  <label>Carbon-Dioxide Removal - Nature Based</label>
-                  <span className="text-sm font-mono text-gray-500">{section1SliderText}</span>
-                </div>
-                <div className="enroads-range-wrap">
-                  {section1DefaultPct !== null && (
-                    <div className="enroads-range-tick" style={{ ['--tick-frac' as any]: String(section1DefaultPct / 100) }} />
-                  )}
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    step="1"
-                    value={section1SliderValue}
-                    onChange={handleSection1SliderChange}
-                    className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-                    style={{
-                      background: getRangeHighlightBackground(section1SliderValue, section1DefaultPct, '#53B1E8')
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <div className="flex justify-between items-center font-bold text-gray-700 dark:text-gray-200">
-                  <label>Deforestation</label>
+                  <label>{tx.deforestationLabel}</label>
                   <span className="text-sm font-mono text-gray-500">{section2DeforestationText}</span>
                 </div>
                 <div className="enroads-range-wrap">
@@ -931,231 +864,175 @@ export default function Module1CarbonRemovalDashboard() {
           </div>
       </div>
 
+      {/* MODALS / FULL SCREEN */}
       {isSection1Expanded && (
-        <div className="fixed inset-0 z-50 bg-white p-4 md:p-6 overflow-y-auto font-sora">
-          <div className="px-4 mb-4 text-gray-700 dark:text-gray-300 leading-relaxed space-y-4">
-            <h3 className="text-lg font-extrabold text-gray-800 dark:text-gray-200">
-              En-ROADS Simplified Dashboard
-            </h3>
-            <p>
-              Now let&apos;s see what effect nature-based carbon-dioxide removal (aka planting more trees) has on global temperature increase (remember the goal to keep the increase at no more than 1.5 degrees Celsius or 2.7 degrees Fahrenheit).
-            </p>
-            <p>
-              In Exercise 1, you will adjust the amount that nature-based Carbon-Dioxide Removal is implemented as a policy by moving the slider. You can choose:
-            </p>
-            <ul className="space-y-2" style={{ listStyleType: 'disc', paddingLeft: '1.5rem' }}>
-              <li>
-                <strong>Status Quo:</strong> Maintain the current levels of natural and cultivated forests. This is where the slider starts.
-              </li>
-              <li>
-                <strong>Subsidize:</strong> Increase the amount of trees planted by providing governmental or private funding to support the planting and maintenance of forests and wooded areas.
-              </li>
-              <li>
-                <strong>Tax:</strong> Decrease the amount of trees planted by charging governmental taxes or fees (ex. Taxes that increase the cost of purchasing trees)
-              </li>
-            </ul>
-            <p>
-              You can also explore other climate impacts like sea level rise, air pollution, crop yield and others using the dropdown option on the graphs.
-            </p>
-          </div>
-
-          <div className="relative px-4 pt-4 mb-4">
-            <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200 text-center">
-              Section 1: Nature-Based Carbon Removal &amp; Impacts
-            </h2>
-            <button
-              type="button"
-              onClick={() => setIsSection1Expanded(false)}
-              className="absolute right-4 top-4 px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
-              style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
-            >
-              Close Full Screen
-            </button>
-          </div>
-
-          <div className="overflow-x-auto mb-4">
-            <div className="flex items-stretch gap-4 min-w-[1320px]">
-              <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 flex-1 min-w-0">
-                <div className="flex justify-start items-center mb-2">
-                  <select
-                    value={selectedGraphId}
-                    onChange={(e) => setSelectedGraphId(e.target.value)}
-                    className="bg-blue-100 dark:bg-blue-900/50 border border-blue-300 dark:border-blue-500 text-blue-900 dark:text-blue-100 text-base sm:text-lg rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block p-3 font-bold"
-                  >
-                    {SECTION1_GRAPHS.map(g => <option key={g.id} value={g.id}>{g.label}</option>)}
-                  </select>
+        <div className="fixed inset-0 z-[100] bg-white dark:bg-gray-900 overflow-y-auto p-4 sm:p-6 font-sora">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl sm:text-2xl font-bold dark:text-white">{tx.title1}</h2>
+              <button
+                onClick={() => setIsSection1Expanded(false)}
+                className="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-lg font-bold dark:text-white"
+              >
+                {tc.closeFullscreen}
+              </button>
+            </div>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+              {/* Temperature Display Column */}
+              <div className="bg-blue-50 dark:bg-blue-900/20 p-8 rounded-2xl border border-blue-100 dark:border-blue-800 flex flex-col items-center justify-center text-center">
+                <div className="space-y-2">
+                  <div className="text-6xl sm:text-7xl font-extrabold text-[#14a9df]" ref={tempCRef}>+3.2°C</div>
+                  <div className="w-48 h-1 bg-gray-900 dark:bg-gray-100 mx-auto opacity-20"></div>
+                  <div className="text-3xl sm:text-4xl font-extrabold text-[#14a9df]" ref={tempFRef}>+5.7°F</div>
                 </div>
-                <div ref={section1GraphContainerRef} className="relative w-full">
-                  <canvas ref={section1CanvasRef} style={{ display: 'block', width: '100%', pointerEvents: 'none' }} />
-                </div>
-                <div className="flex justify-center gap-3 mt-3">
-                  <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
-                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
+                <div className="mt-8 text-2xl sm:text-3xl font-extrabold dark:text-white leading-tight">
+                  {tc.temperatureTitle}
                 </div>
               </div>
 
-              <div className="shrink-0 w-fit">
-                <div className="px-6 pb-4 text-center inline-flex flex-col items-center w-fit h-fit" style={{ transform: 'translateY(110px)' }}>
-                  <span ref={tempCRef} style={{ color: '#14a9df', fontSize: 'clamp(3rem, 3vw, 3rem)', fontWeight: 800, lineHeight: 1.5 }}>+3.2°C</span>
-                  <div className="mx-auto my-4 h-[2px] w-[72%] bg-black" />
-                  <span ref={tempFRef} style={{ color: '#14a9df', fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)', fontWeight: 800, lineHeight: 1 }}>+5.7°F</span>
-                  <div className="mt-5 leading-tight text-gray-900 dark:text-gray-100" style={{ fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)', fontWeight: 800 }}>
-                    Temperature
-                    <br />
-                    Increase by
-                    <br />
-                    2100
+              {/* Graph & Controls Column */}
+              <div className="space-y-6">
+                <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700">
+                  <div className="flex justify-between items-center mb-6">
+                    <select
+                      value={selectedGraphId}
+                      onChange={(e) => setSelectedGraphId(e.target.value)}
+                      className="bg-blue-50 dark:bg-blue-900/40 border border-blue-200 dark:border-blue-700 text-blue-900 dark:text-blue-100 text-lg rounded-xl block p-4 font-bold focus:ring-4 focus:ring-blue-100"
+                    >
+                      {SECTION1_GRAPHS.map(g => <option key={g.id} value={g.id}>{str(g.labelKey)}</option>)}
+                    </select>
+                  </div>
+                  <div className="aspect-[16/9] w-full" ref={section1GraphContainerRef}>
+                    <canvas ref={section1CanvasRef} className="w-full h-full" />
+                  </div>
+                  {selectedGraphId === '279' ? (
+                    <div className="mt-6 text-center">
+                      <div className="flex justify-center gap-4 mb-2">
+                        <span className="px-4 py-2 text-sm font-bold uppercase text-white rounded-lg shadow-sm" style={{ backgroundColor: '#3385C6' }}>{tx.marineSpecies}</span>
+                        <span className="px-4 py-2 text-sm font-bold uppercase text-white rounded-lg shadow-sm" style={{ backgroundColor: '#843C0C' }}>{tx.landSpecies}</span>
+                      </div>
+                      <p className="text-sm text-gray-500 italic dark:text-gray-400">{tx.dashedBaseline}</p>
+                    </div>
+                  ) : (
+                    <div className="flex justify-center gap-6 mt-6">
+                      <div className="flex items-center gap-2">
+                        <div className="w-4 h-4 rounded shadow-sm" style={{ backgroundColor: '#000000' }}></div>
+                        <span className="text-sm font-bold uppercase dark:text-gray-300">{tx.baseline}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-4 h-4 rounded shadow-sm" style={{ backgroundColor: '#00b6f1' }}></div>
+                        <span className="text-sm font-bold uppercase dark:text-gray-300">{tx.currentScenario}</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700">
+                  <div className="flex justify-between items-center mb-6">
+                    <label className="text-xl font-bold dark:text-white">{tx.natureLabel}</label>
+                    <span className="px-4 py-1 bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-200 rounded-full font-bold">{section1SliderText}</span>
+                  </div>
+                  <div className="enroads-range-wrap py-4">
+                    {section1DefaultPct !== null && (
+                      <div className="enroads-range-tick" style={{ ['--tick-frac' as any]: String(section1DefaultPct / 100) }} />
+                    )}
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      step="1"
+                      value={section1SliderValue}
+                      onChange={handleSection1SliderChange}
+                      className="w-full h-3 rounded-full appearance-none cursor-pointer bg-gray-200 dark:bg-gray-700"
+                      style={{
+                        background: getRangeHighlightBackground(section1SliderValue, section1DefaultPct, '#53B1E8')
+                      }}
+                    />
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-2">
-            <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
-              <label>Carbon-Dioxide Removal - Nature Based</label>
-              <span className="text-xs font-mono text-gray-500">{section1SliderText}</span>
-            </div>
-            <div className="enroads-range-wrap">
-              {section1DefaultPct !== null && (
-                <div className="enroads-range-tick" style={{ ['--tick-frac' as any]: String(section1DefaultPct / 100) }} />
-              )}
-              <input
-                type="range"
-                min="0"
-                max="100"
-                step="1"
-                value={section1SliderValue}
-                onChange={handleSection1SliderChange}
-                className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-                style={{
-                  background: getRangeHighlightBackground(section1SliderValue, section1DefaultPct, '#53B1E8')
-                }}
-              />
             </div>
           </div>
         </div>
       )}
 
       {isSection2Expanded && (
-        <div className="fixed inset-0 z-50 bg-white p-4 md:p-6 overflow-y-auto font-sora">
-          <div className="px-4 mb-4 text-gray-700 dark:text-gray-300 leading-relaxed space-y-4">
-            <p>
-              Planting more trees in this model is different from saving existing forests. Let&apos;s also see what happens when we look at policies around deforestation—the intentional and large-scale clearing of forests for agriculture, building construction, and livestock.
-            </p>
-            <p>In Exercise 2, adjust the amount that Deforestation is happening globally by moving the slider. You can choose:</p>
-            <ul className="space-y-2" style={{ listStyleType: 'disc', paddingLeft: '1.5rem' }}>
-              <li>
-                <strong>Status Quo:</strong> Maintain the current levels of natural and cultivated forests. This is where the slider starts.
-              </li>
-              <li>
-                <strong>Reforestation:</strong> Encourage the protection of forests, preserving current forests and allowing areas to re-grow after human disturbance. For example, letting a grass yard grow into a meadow and eventually into a forest.
-              </li>
-              <li>
-                <strong>Deforestation:</strong> Discourage the protection of forests and increase the use of forest land for other uses, primarily for plant and animal agriculture and livestock, harvesting for wood products or bioenergy.
-              </li>
-            </ul>
-            <p>Let&apos;s try it out!</p>
-          </div>
-
-          <div className="relative px-4 pt-4 mb-4">
-            <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200 text-center">
-              Section 2: Deforestation Analysis
-            </h2>
-            <button
-              type="button"
-              onClick={() => setIsSection2Expanded(false)}
-              className="absolute right-4 top-4 px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
-              style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
-            >
-              Close Full Screen
-            </button>
-          </div>
-
-          <div className="overflow-x-auto mb-4">
-            <div className="flex items-stretch gap-4 min-w-[1320px]">
-              <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 flex-1 min-w-0">
-                <div className="flex justify-start items-center mb-2">
-                  <select
-                    value={section2SelectedGraphId}
-                    onChange={(e) => setSection2SelectedGraphId(e.target.value)}
-                    className="bg-blue-100 dark:bg-blue-900/50 border border-blue-300 dark:border-blue-500 text-blue-900 dark:text-blue-100 text-base sm:text-lg rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block p-3 font-bold"
-                  >
-                    {SECTION2_GRAPHS.map(g => <option key={g.id} value={g.id}>{g.label}</option>)}
-                  </select>
+        <div className="fixed inset-0 z-[100] bg-white dark:bg-gray-900 overflow-y-auto p-4 sm:p-6 font-sora">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl sm:text-2xl font-bold dark:text-white">{tx.title2}</h2>
+              <button
+                onClick={() => setIsSection2Expanded(false)}
+                className="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-lg font-bold dark:text-white"
+              >
+                {tc.closeFullscreen}
+              </button>
+            </div>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+              {/* Temperature Display Column */}
+              <div className="bg-green-50 dark:bg-green-900/20 p-8 rounded-2xl border border-green-100 dark:border-green-800 flex flex-col items-center justify-center text-center">
+                <div className="space-y-2">
+                  <div className="text-6xl sm:text-7xl font-extrabold text-[#14a9df]" ref={tempCRef}>+3.2°C</div>
+                  <div className="w-48 h-1 bg-gray-900 dark:bg-gray-100 mx-auto opacity-20"></div>
+                  <div className="text-3xl sm:text-4xl font-extrabold text-[#14a9df]" ref={tempFRef}>+5.7°F</div>
                 </div>
-                <div ref={section2GraphContainerRef} className="relative w-full">
-                  <canvas ref={section2CanvasRef} style={{ display: 'block', width: '100%', pointerEvents: 'none' }} />
-                </div>
-                <div className="flex justify-center gap-3 mt-3">
-                  <span className="px-3 py-1 text-xs font-bold uppercase text-white bg-black rounded" style={{ backgroundColor: '#000000' }}>BASELINE</span>
-                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO</span>
+                <div className="mt-8 text-2xl sm:text-3xl font-extrabold dark:text-white leading-tight">
+                  {tc.temperatureTitle}
                 </div>
               </div>
 
-              <div className="shrink-0 w-fit">
-                <div className="px-6 pb-4 text-center inline-flex flex-col items-center w-fit h-fit" style={{ transform: 'translateY(110px)' }}>
-                  <span ref={tempCRef} style={{ color: '#14a9df', fontSize: 'clamp(3rem, 3vw, 3rem)', fontWeight: 800, lineHeight: 1.5 }}>+3.2°C</span>
-                  <div className="mx-auto my-4 h-[2px] w-[72%] bg-black" />
-                  <span ref={tempFRef} style={{ color: '#14a9df', fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)', fontWeight: 800, lineHeight: 1 }}>+5.7°F</span>
-                  <div className="mt-5 leading-tight text-gray-900 dark:text-gray-100" style={{ fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)', fontWeight: 800 }}>
-                    Temperature
-                    <br />
-                    Increase by
-                    <br />
-                    2100
+              {/* Graph & Controls Column */}
+              <div className="space-y-6">
+                <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700">
+                  <div className="flex justify-between items-center mb-6">
+                    <select
+                      value={section2SelectedGraphId}
+                      onChange={(e) => setSection2SelectedGraphId(e.target.value)}
+                      className="bg-green-50 dark:bg-green-900/40 border border-green-200 dark:border-green-700 text-green-900 dark:text-green-100 text-lg rounded-xl block p-4 font-bold focus:ring-4 focus:ring-green-100"
+                    >
+                      {SECTION2_GRAPHS.map(g => <option key={g.id} value={g.id}>{str(g.labelKey)}</option>)}
+                    </select>
+                  </div>
+                  <div className="aspect-[16/9] w-full" ref={section2GraphContainerRef}>
+                    <canvas ref={section2CanvasRef} className="w-full h-full" />
+                  </div>
+                  <div className="flex justify-center gap-6 mt-6">
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 rounded shadow-sm" style={{ backgroundColor: '#000000' }}></div>
+                      <span className="text-sm font-bold uppercase dark:text-gray-300">{tx.baseline}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 rounded shadow-sm" style={{ backgroundColor: '#00b6f1' }}></div>
+                      <span className="text-sm font-bold uppercase dark:text-gray-300">{tx.currentScenario}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
 
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-6">
-            <div className="space-y-2">
-              <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
-                <label>Carbon-Dioxide Removal - Nature Based</label>
-                <span className="text-xs font-mono text-gray-500">{section1SliderText}</span>
-              </div>
-              <div className="enroads-range-wrap">
-                {section1DefaultPct !== null && (
-                  <div className="enroads-range-tick" style={{ ['--tick-frac' as any]: String(section1DefaultPct / 100) }} />
-                )}
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  step="1"
-                  value={section1SliderValue}
-                  onChange={handleSection1SliderChange}
-                  className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-                  style={{
-                    background: getRangeHighlightBackground(section1SliderValue, section1DefaultPct, '#53B1E8')
-                  }}
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
-                <label>Deforestation</label>
-                <span className="text-xs font-mono text-gray-500">{section2DeforestationText}</span>
-              </div>
-              <div className="enroads-range-wrap">
-                {section2DeforestationDefaultPct !== null && (
-                  <div className="enroads-range-tick" style={{ ['--tick-frac' as any]: String(section2DeforestationDefaultPct / 100) }} />
-                )}
-                <input
-                  type="range"
-                  min="-10"
-                  max="1"
-                  step="0.1"
-                  value={section2DeforestationValue}
-                  onChange={handleSection2DeforestationChange}
-                  className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-                  style={{
-                    background: getRangeHighlightBackground(((section2DeforestationValue + 10) / 11) * 100, section2DeforestationDefaultPct, '#53B1E8')
-                  }}
-                />
+                <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700">
+                  <div className="flex justify-between items-center mb-6">
+                    <label className="text-xl font-bold dark:text-white">{tx.deforestationLabel}</label>
+                    <span className="px-4 py-1 bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-200 rounded-full font-bold">{section2DeforestationText}</span>
+                  </div>
+                  <div className="enroads-range-wrap py-4">
+                    {section2DeforestationDefaultPct !== null && (
+                      <div className="enroads-range-tick" style={{ ['--tick-frac' as any]: String(section2DeforestationDefaultPct / 100) }} />
+                    )}
+                    <input
+                      type="range"
+                      min="-10"
+                      max="1"
+                      step="0.1"
+                      value={section2DeforestationValue}
+                      onChange={handleSection2DeforestationChange}
+                      className="w-full h-3 rounded-full appearance-none cursor-pointer bg-gray-200 dark:bg-gray-700"
+                      style={{
+                        background: getRangeHighlightBackground(((section2DeforestationValue + 10) / 11) * 100, section2DeforestationDefaultPct, '#53B1E8')
+                      }}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
