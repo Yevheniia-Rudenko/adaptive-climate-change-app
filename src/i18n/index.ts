@@ -3,6 +3,7 @@ import { TranslationDictionary, PartialTranslationDictionary } from './types';
 import { en } from './locales/en';
 import { es } from './locales/es';
 import { de } from './locales/de';
+import { tr } from './locales/tr';
 
 // Utility to recursively merge translated keys with English fallbacks
 function deepMerge(base: any, partial: any): any {
@@ -31,6 +32,7 @@ const dictionaries: Record<Language, PartialTranslationDictionary> = {
   en, // EN is the full dictionary, but PartialTranslationDictionary accommodates it
   es,
   de,
+  tr,
 };
 
 export function getDictionary(lang: Language): TranslationDictionary {
@@ -40,4 +42,4 @@ export function getDictionary(lang: Language): TranslationDictionary {
 
 export * from './config';
 export * from './types';
-export { en, es, de };
+export { en, es, de, tr };

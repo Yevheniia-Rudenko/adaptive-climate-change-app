@@ -89,22 +89,22 @@ export default function Module1CarbonRemovalDashboard() {
       return (tx as any)?.co2NetEmissions ?? 'CO2 Net Emissions';
     }
     if (key === 'graph_90_title') {
-      return language === 'de' ? 'Meeresspiegelanstieg' : language === 'es' ? 'Aumento del nivel del mar' : 'Sea Level Rise';
+      return language === 'de' ? 'Meeresspiegelanstieg' : language === 'es' ? 'Aumento del nivel del mar' : language === 'tr' ? 'Deniz seviyesi yükselmesi' : 'Sea Level Rise';
     }
     if (key === 'graph_169_title') {
-      return language === 'de' ? 'Entwaldung' : language === 'es' ? 'Deforestación' : 'Deforestation';
+      return language === 'de' ? 'Entwaldung' : language === 'es' ? 'Deforestación' : language === 'tr' ? 'Ormansızlaşma' : 'Deforestation';
     }
     if (key === 'graph_275_title') {
-      return language === 'de' ? 'Todesfälle durch extreme Hitze' : language === 'es' ? 'Muertes por calor extremo' : 'Deaths from Extreme Heat';
+      return language === 'de' ? 'Todesfälle durch extreme Hitze' : language === 'es' ? 'Muertes por calor extremo' : language === 'tr' ? 'Aşırı sıcaktan ölümler' : 'Deaths from Extreme Heat';
     }
     if (key === 'graph_279_title') {
-      return language === 'de' ? 'Artenverlust - Aussterben' : language === 'es' ? 'Pérdida de especies - extinción' : 'Species Loss - Extinction';
+      return language === 'de' ? 'Artenverlust - Aussterben' : language === 'es' ? 'Pérdida de especies - extinción' : language === 'tr' ? 'Tür kaybı - yok oluş' : 'Species Loss - Extinction';
     }
     if (key === 'graph_183_title') {
-      return language === 'de' ? 'Ernteerträge' : language === 'es' ? 'Rendimiento de cultivos' : 'Crop Yield';
+      return language === 'de' ? 'Ernteerträge' : language === 'es' ? 'Rendimiento de cultivos' : language === 'tr' ? 'Ürün verimi' : 'Crop Yield';
     }
     if (key === 'graph_112_title') {
-      return language === 'de' ? 'Luftverschmutzung aus der Energieerzeugung – PM2,5-Emissionen' : language === 'es' ? 'Contaminación del aire por energía – emisiones PM2,5' : 'Air Pollution from Energy - PM2.5 Emissions';
+      return language === 'de' ? 'Luftverschmutzung aus der Energieerzeugung – PM2,5-Emissionen' : language === 'es' ? 'Contaminación del aire por energía – emisiones PM2,5' : language === 'tr' ? 'Enerjiden kaynaklanan hava kirliliği - PM2.5 emisyonları' : 'Air Pollution from Energy - PM2.5 Emissions';
     }
     return (getEnRoadsStrings() as any)[key] || key;
   };
