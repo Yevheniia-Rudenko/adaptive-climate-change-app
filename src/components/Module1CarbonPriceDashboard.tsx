@@ -24,6 +24,8 @@ export default function Module1CarbonPriceDashboard() {
       loadingModel: 'Loading Model...',
       failedToLoad: 'Failed to load En-ROADS model.',
       temperatureTitle: 'Temperature\nIncrease by\n2100',
+      openFullscreen: 'Open Full Screen',
+      closeFullscreen: 'Close Full Screen',
       baseline: 'BASELINE',
       currentScenario: 'CURRENT SCENARIO',
       carbonPrice: 'Carbon Price',
@@ -38,6 +40,8 @@ export default function Module1CarbonPriceDashboard() {
       loadingModel: 'Modell wird geladen...',
       failedToLoad: 'En-ROADS-Modell konnte nicht geladen werden.',
       temperatureTitle: 'Temperatur-\nanstieg bis\n2100',
+      openFullscreen: 'Vollbild öffnen',
+      closeFullscreen: 'Vollbild schließen',
       baseline: 'BASISLINIE',
       currentScenario: 'AKTUELLES SZENARIO',
       carbonPrice: 'CO2-Preis',
@@ -52,6 +56,8 @@ export default function Module1CarbonPriceDashboard() {
       loadingModel: 'Cargando modelo...',
       failedToLoad: 'Error al cargar el modelo En-ROADS.',
       temperatureTitle: 'Aumento de\ntemperatura\npara 2100',
+      openFullscreen: 'Abrir pantalla completa',
+      closeFullscreen: 'Cerrar pantalla completa',
       baseline: 'LÍNEA DE BASE',
       currentScenario: 'ESCENARIO ACTUAL',
       carbonPrice: 'Precio al carbono',
@@ -66,6 +72,8 @@ export default function Module1CarbonPriceDashboard() {
       loadingModel: 'Model yükleniyor...',
       failedToLoad: 'En-ROADS modeli yüklenemedi.',
       temperatureTitle: '2100 yılına kadar\nSıcaklık\nArtışı',
+      openFullscreen: 'Tam ekran aç',
+      closeFullscreen: 'Tam ekranı kapat',
       baseline: 'TEMEL SENARYO',
       currentScenario: 'MEVCUT SENARYO',
       carbonPrice: 'Karbon Fiyatı',
@@ -80,6 +88,8 @@ export default function Module1CarbonPriceDashboard() {
     loadingModel: 'Loading Model...',
     failedToLoad: 'Failed to load En-ROADS model.',
     temperatureTitle: 'Temperature\nIncrease by\n2100',
+    openFullscreen: 'Open Full Screen',
+    closeFullscreen: 'Close Full Screen',
     baseline: 'BASELINE',
     currentScenario: 'CURRENT SCENARIO',
     carbonPrice: 'Carbon Price',
@@ -91,6 +101,7 @@ export default function Module1CarbonPriceDashboard() {
   };
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   // Carbon Price Slider state
   const [carbonPriceVal, setCarbonPriceVal] = useState(0); // 0-100 range for slider
@@ -438,26 +449,79 @@ export default function Module1CarbonPriceDashboard() {
     return () => ro.disconnect();
   }, [isLoading]);
 
+  useEffect(() => {
+    const previousBodyOverflow = document.body.style.overflow;
+    if (isExpanded) {
+      document.body.style.overflow = 'hidden';
+      document.body.classList.add('module-fullscreen-active');
+      document.documentElement.classList.add('module-fullscreen-active');
+    }
+
+    const timer = window.setTimeout(() => {
+      loadGraph(selectedGraphId);
+      updateTemperatureDisplay();
+    }, 120);
+
+    return () => {
+      window.clearTimeout(timer);
+      document.body.style.overflow = previousBodyOverflow;
+      document.body.classList.remove('module-fullscreen-active');
+      document.documentElement.classList.remove('module-fullscreen-active');
+    };
+  }, [isExpanded, isLoading]);
+
   if (isLoading) return <div className="p-8 text-center text-gray-500">{ui.loadingModel}</div>;
   if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-900 p-3 sm:p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora mb-24">
-      <h2 className="text-lg sm:text-xl px-3 sm:px-4 pt-3 sm:pt-4 mb-4 font-bold text-gray-800 dark:text-gray-200">{ui.title}</h2>
+    <div
+      className={isExpanded
+        ? 'fixed inset-0 bg-white dark:bg-gray-900 p-4 sm:p-6 overflow-y-auto font-sora'
+        : 'bg-gray-50 dark:bg-gray-900 p-3 sm:p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora mb-24'}
+      style={isExpanded ? { zIndex: 2147483647 } : undefined}
+    >
+      {isExpanded ? (
+        <div className="relative px-4 pt-4 mb-4">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-gray-200 text-center">{ui.title}</h2>
+          <button
+            type="button"
+            onClick={() => setIsExpanded((v) => !v)}
+            className="absolute right-4 top-4 px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
+            style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
+          >
+            {ui.closeFullscreen}
+          </button>
+        </div>
+      ) : (
+        <div className="flex items-start justify-between gap-3 px-3 sm:px-4 pt-3 sm:pt-4 mb-4">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-gray-200">{ui.title}</h2>
+          <button
+            type="button"
+            onClick={() => setIsExpanded((v) => !v)}
+            className="px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
+            style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
+          >
+            {ui.openFullscreen}
+          </button>
+        </div>
+      )}
 
       {/* Temperature card — matches the design from other dashboards */}
       <div className="flex justify-center mb-4">
         <div className="bg-white dark:bg-gray-800 px-6 py-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 text-center inline-flex flex-col items-center w-fit mx-auto">
-          <span
+          <div
             ref={tempCRef}
             style={{ color: '#14a9df', fontSize: 'clamp(3rem, 3vw, 3rem)', fontWeight: 800, lineHeight: 1.5 }}
-          >+3.3°C</span>
+          >+3.3°C</div>
           <div className="mx-auto my-4 h-[2px] w-[72%] bg-black" />
-          <span
+          <div
             ref={tempFRef}
             style={{ color: '#14a9df', fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)', fontWeight: 800, lineHeight: 1 }}
-          >+5.9°F</span>
-          <div className="mt-3 whitespace-pre-line leading-tight text-gray-900 dark:text-gray-100" style={{ fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)', fontWeight: 800 }}>
+          >+5.9°F</div>
+          <div
+            className="mt-3 whitespace-pre-line leading-tight text-gray-900 dark:text-gray-100"
+            style={{ fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)', fontWeight: 800 }}
+          >
             {ui.temperatureTitle}
           </div>
         </div>

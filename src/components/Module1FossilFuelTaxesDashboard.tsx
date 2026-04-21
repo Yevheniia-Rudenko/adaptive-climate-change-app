@@ -374,12 +374,21 @@ export default function Module1FossilFuelTaxesDashboard() {
   useEffect(() => {
     if (isLoading || !coreConfigRef.current) return;
     const prev = document.body.style.overflow;
-    if (isExpanded) document.body.style.overflow = 'hidden';
+    if (isExpanded) {
+      document.body.style.overflow = 'hidden';
+      document.body.classList.add('module-fullscreen-active');
+      document.documentElement.classList.add('module-fullscreen-active');
+    }
     const t = window.setTimeout(() => {
       for (const g of GRAPHS) loadGraph(g.canvasId, g.id);
       updateTemperatureDisplay();
     }, 120);
-    return () => { window.clearTimeout(t); document.body.style.overflow = prev; };
+    return () => {
+      window.clearTimeout(t);
+      document.body.style.overflow = prev;
+      document.body.classList.remove('module-fullscreen-active');
+      document.documentElement.classList.remove('module-fullscreen-active');
+    };
   }, [isExpanded, isLoading]);
 
   if (isLoading) return <div className="p-8 text-center text-gray-500">{language === 'de' ? 'Modell wird geladen...' : language === 'es' ? 'Cargando modelo...' : 'Loading Model...'}</div>;
@@ -395,8 +404,9 @@ export default function Module1FossilFuelTaxesDashboard() {
   return (
     <div
       className={isExpanded
-        ? 'fixed inset-0 z-50 bg-white dark:bg-gray-900 p-4 md:p-6 overflow-y-auto font-sora'
+        ? 'fixed inset-0 bg-white dark:bg-gray-900 p-4 md:p-6 overflow-y-auto font-sora'
         : 'bg-gray-50 dark:bg-gray-900 p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora mb-24'}
+      style={isExpanded ? { zIndex: 2147483647 } : undefined}
     >
       {/* ── Header ── */}
       {isExpanded ? (
