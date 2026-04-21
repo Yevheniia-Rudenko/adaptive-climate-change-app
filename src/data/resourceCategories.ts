@@ -424,25 +424,6 @@ export const resourceCategoriesData: Record<string, ResourceCategoryData> = {
           },
         ],
       },
-      {
-        title: 'Donations & Support',
-        items: [
-          {
-            title: 'Cool Earth',
-            description: 'Donate to support rainforest protection.',
-            type: 'Website',
-            duration: 'Self-paced',
-            url: 'https://www.coolearth.org/',
-          },
-          {
-            title: 'The Equity Fund',
-            description: 'Support initiatives that center equity and justice in climate and community-driven transitions.',
-            type: 'Website',
-            duration: 'Self-paced',
-            url: 'https://theequityfund.org/',
-          },
-        ],
-      },
     ],
   },
   'learning-opportunities': {

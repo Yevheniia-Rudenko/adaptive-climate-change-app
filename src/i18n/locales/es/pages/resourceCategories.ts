@@ -189,13 +189,6 @@ export const resourceCategories = {
             { title: 'Good Energy Collective (Good Power)', description: 'Recursos de política y educación sobre transiciones equitativas de energía limpia y acción climática.' },
           ],
         },
-        {
-          title: 'Donaciones y Apoyo',
-          items: [
-            { title: 'Cool Earth', description: 'Dona para apoyar la protección de la selva tropical.' },
-            { title: 'The Equity Fund', description: 'Apoya iniciativas que centran la equidad y la justicia en las transiciones climáticas y comunitarias.' },
-          ],
-        },
       ],
     },
     'learning-opportunities': {

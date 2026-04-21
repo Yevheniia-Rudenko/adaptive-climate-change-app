@@ -189,13 +189,6 @@ export const resourceCategories = {
             { title: 'Good Energy Collective (Good Power)', description: 'Policy and education resources on equitable clean energy transitions and climate action.' },
           ],
         },
-        {
-          title: 'Donations & Support',
-          items: [
-            { title: 'Cool Earth', description: 'Donate to support rainforest protection.' },
-            { title: 'The Equity Fund', description: 'Support initiatives that center equity and justice in climate and community-driven transitions.' },
-          ],
-        },
       ],
     },
     'learning-opportunities': {

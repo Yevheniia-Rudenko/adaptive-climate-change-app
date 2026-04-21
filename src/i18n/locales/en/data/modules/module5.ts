@@ -127,49 +127,81 @@ export const module5 = {
         },
         {
           title: '',
-          content: 'A “mandala” is a circle made of different parts that work together.\n\n In this model, the parts show what we need inside ourselves and around us in the world to create meaningful change.\n\nThink of it like a balanced recipe:'
+          content: 'A “mandala” is a circle made of different parts that work together. It’s a way of holding the whole. \n\n In this model, the parts show what we need inside ourselves and around us in the world to create meaningful change.\n\nThink of it like a balanced recipe:'
         },
         {
           cards: [
             {
               frontTitle: 'Practice',
               frontDescription: '',
-              backTitle: 'Consider',
+              backTitle: 'Practice',
               backDescription: 'What do you want to do or accomplish?'
             },
             {
               frontTitle: 'Research',
               frontDescription: '',
-              backTitle: 'Consider',
+              backTitle: 'Research',
               backDescription: ' How will you know its working? How will you  reflect, document, measure or track your progress, learning and development?'
             },
             {
               frontTitle: 'Community Building',
               frontDescription: '',
-              backTitle: 'Consider',
+              backTitle: 'Community Building',
               backDescription: 'Who is the ‘we’? What communities or stakeholders need to be involved?'
             },
             {
               frontTitle: 'Capacity Building',
               frontDescription: '',
-              backTitle: 'Consider',
+              backTitle: 'Capacity Building',
               backDescription: 'What skills, knowledge or resources will we need to move these changes forward?'
             }
           ]
+        },
+        {
+          title: 'Draw Your Own Mandala for Systems Change',
+          content: ""
+        },
+        {
+          alt: 'Draw Your Own Mandala for Systems Change'
+        },
+        {
+          content: 'Now draw your own mandala for systems change–either on a piece of paper or filling out the questions below.\n\nChoose a climate action that you would like to try– one you already feel passionate about or even one you’re curious about.\n\nYou could check out the vetted climate change solutions from Project Drawdown or think of actions you see in your community.\n\nYou can do this exercise individually or as a team.'
+        },
+        {
+          prompt: 'Practice – What do you want to do, try or accomplish?'
+        },
+        {
+          prompt: 'Research – How will you know it is working? How will you reflect, document, measure or track your progress, learning and development?'
+        },
+        {
+          prompt: 'Community Building – Who is the ‘we’?  What communities or stakeholders need to be involved?'
+        },
+        {
+          prompt: 'Capacity Building – What skills, knowledge or resources will we need to move these actions forward?'
+        },
+        {
+          content: 'The Mandala for Systems Change reminds us to hold the whole, meaning we need to be balanced in our approach, attending to not only what we are doing but what we are learning along the way. It reminds us that we need others–and that collectively we can build our capacities and skills to address complex challenges.'
+        },
+        {
+          prompt: '💭Let’s Reflect\n\nAs you look over your Mandala, what’s one small step you can take tomorrow to move this vision forward?'
         }
       ]
     },
     {
       content: [
         {
-          prompt: 'As we close these activities, consider what you have learned and been inspired by. \n\n What is one climate action or change you feel motivated to try?'
+          title: 'The Big Idea',
+          content: ""
         },
         {
           alt: 'Systems don’t change themselves—people change them.',
           title: ''
         },
         {
-          title: 'The Big Idea',
+          prompt: '💭Let’s Reflect\n\nAs we close these activities, consider what you have learned and been inspired by.\n\nWhat is one climate action or change you feel motivated to try?'
+        },
+        {
+          title: '',
           content: '*With clear vision, honest data, a global understanding, and steady hearts, you can help move this system toward a future that’s livable and just. \n\n **Let\'s begin!**'
         }
       ]

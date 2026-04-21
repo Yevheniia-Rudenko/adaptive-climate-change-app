@@ -189,13 +189,6 @@ export const resourceCategories = {
             { title: 'Good Energy Collective (Good Power)', description: 'Politik- und Bildungsressourcen zu gerechten Übergängen zur sauberen Energie und Klimamaßnahmen.' },
           ],
         },
-        {
-          title: 'Spenden & Unterstützung',
-          items: [
-            { title: 'Cool Earth', description: 'Spende zum Schutz des Regenwalds.' },
-            { title: 'The Equity Fund', description: 'Unterstütze Initiativen, die Gerechtigkeit in Klima und gemeinschaftsgetriebenen Übergängen in den Mittelpunkt stellen.' },
-          ],
-        },
       ],
     },
     'learning-opportunities': {
