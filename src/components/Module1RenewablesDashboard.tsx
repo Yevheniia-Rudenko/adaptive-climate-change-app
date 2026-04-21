@@ -546,7 +546,11 @@ export default function Module1RenewablesDashboard() {
     if (isLoading || !coreConfigRef.current) return;
 
     const previousBodyOverflow = document.body.style.overflow;
-    if (isExpanded) document.body.style.overflow = 'hidden';
+    if (isExpanded) {
+      document.body.style.overflow = 'hidden';
+      document.body.classList.add('module-fullscreen-active');
+      document.documentElement.classList.add('module-fullscreen-active');
+    }
 
     const timer = window.setTimeout(() => {
       loadGraph(MAIN_GRAPH.canvasId, MAIN_GRAPH.id, isExpanded ? 300 : 250);
@@ -557,6 +561,8 @@ export default function Module1RenewablesDashboard() {
     return () => {
       window.clearTimeout(timer);
       document.body.style.overflow = previousBodyOverflow;
+      document.body.classList.remove('module-fullscreen-active');
+      document.documentElement.classList.remove('module-fullscreen-active');
     };
   }, [isExpanded, isLoading]); // ← selectedSecondaryGraphId intentionally removed
 
@@ -575,8 +581,9 @@ export default function Module1RenewablesDashboard() {
   return (
     <div
       className={isExpanded
-        ? 'fixed inset-0 z-50 bg-white p-4 md:p-6 overflow-y-auto font-sora'
+        ? 'fixed inset-0 bg-white dark:bg-gray-900 p-4 sm:p-6 overflow-y-auto font-sora'
         : 'bg-gray-50 dark:bg-gray-900 p-4 rounded-xl border border-gray-200 dark:border-gray-700 font-sora mb-24'}
+      style={isExpanded ? { zIndex: 2147483647 } : undefined}
     >
       <div className={isExpanded ? 'w-full h-full' : ''}>
         <div className="px-4 mb-4 text-gray-700 dark:text-gray-300 leading-relaxed space-y-4">

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, ChangeEvent } from 'react';
+import { createPortal } from 'react-dom';
 import { createAsyncModel, getDefaultConfig, createDefaultOutputs } from '@climateinteractive/en-roads-core';
 import enStrings from '@climateinteractive/en-roads-core/strings/en';
 import deStrings from '@climateinteractive/en-roads-core/strings/de';
@@ -30,11 +31,54 @@ export default function Module1CarbonRemovalDashboard() {
   const { language, t } = useLanguage();
   const tx = t.data.modules.module1.components.carbonRemoval;
   const tc = t.data.modules.module2.components.exercise; // Also used in Module 1 for consistency
+  const model1IntroText = (tx as any).model1IntroText as string | undefined;
+  const model2IntroText = (tx as any).model2IntroText as string | undefined;
 
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isSection1Expanded, setIsSection1Expanded] = useState(false);
   const [isSection2Expanded, setIsSection2Expanded] = useState(false);
+
+  const renderModelIntro = (text?: string) => {
+    if (!text) return null;
+
+    const lines = text
+      .split('\n')
+      .map((line) => line.trim())
+      .filter((line) => line.length > 0);
+
+    const optionRegex = /^(Status Quo|Subsidize|Tax|Reforestation|Deforestation):\s*(.+)$/i;
+    const options: Array<{ label: string; body: string }> = [];
+    const paragraphs: string[] = [];
+
+    for (const line of lines) {
+      const match = line.match(optionRegex);
+      if (match) {
+        options.push({ label: `${match[1]}:`, body: match[2] });
+      } else {
+        paragraphs.push(line);
+      }
+    }
+
+    return (
+      <div className="text-sm sm:text-base text-gray-700 dark:text-gray-200 leading-relaxed space-y-3">
+        {paragraphs.map((line, idx) => (
+          <p key={`${line}-${idx}`} className={idx === 0 ? 'font-semibold' : ''}>
+            {line}
+          </p>
+        ))}
+        {options.length > 0 && (
+          <ul className="space-y-2" style={{ listStyleType: 'disc', paddingLeft: '1.5rem' }}>
+            {options.map((option) => (
+              <li key={option.label}>
+                <strong>{option.label}</strong> {option.body}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    );
+  };
 
   // Section 1 states
   const [section1SliderValue, setSection1SliderValue] = useState(0);
@@ -601,10 +645,14 @@ export default function Module1CarbonRemovalDashboard() {
     const previousBodyOverflow = document.body.style.overflow;
     if (isSection1Expanded || isSection2Expanded) {
       document.body.style.overflow = 'hidden';
+      document.body.classList.add('module-fullscreen-active');
+      document.documentElement.classList.add('module-fullscreen-active');
     }
 
     return () => {
       document.body.style.overflow = previousBodyOverflow;
+      document.body.classList.remove('module-fullscreen-active');
+      document.documentElement.classList.remove('module-fullscreen-active');
     };
   }, [isSection1Expanded, isSection2Expanded]);
 
@@ -642,6 +690,12 @@ export default function Module1CarbonRemovalDashboard() {
       <div className="font-sora mb-24 space-y-6">
           {/* MODEL 1: Nature-Based Carbon Removal */}
           <div className="bg-gray-50 dark:bg-gray-900 p-3 sm:p-4 rounded-xl border border-gray-200 dark:border-gray-700">
+            {model1IntroText && (
+              <div className="px-4 mb-4">
+                {renderModelIntro(model1IntroText)}
+              </div>
+            )}
+
             <div className="flex items-start justify-between gap-3 px-3 sm:px-4 pt-3 sm:pt-4 mb-4">
               <h2 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-gray-200">
                 {tx.title1}
@@ -759,6 +813,12 @@ export default function Module1CarbonRemovalDashboard() {
 
           {/* SECTION 2: Deforestation Analysis */}
           <div className="bg-gray-50 dark:bg-gray-900 p-3 sm:p-4 rounded-xl border border-gray-200 dark:border-gray-700">
+            {model2IntroText && (
+              <div className="px-4 mb-4">
+                {renderModelIntro(model2IntroText)}
+              </div>
+            )}
+
             <div className="flex items-start justify-between gap-3 px-3 sm:px-4 pt-3 sm:pt-4 mb-4">
               <h2 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-gray-200">
                 {tx.title2}
@@ -865,179 +925,255 @@ export default function Module1CarbonRemovalDashboard() {
       </div>
 
       {/* MODALS / FULL SCREEN */}
-      {isSection1Expanded && (
-        <div className="fixed inset-0 z-[100] bg-white dark:bg-gray-900 overflow-y-auto p-4 sm:p-6 font-sora">
+      {isSection1Expanded && createPortal((
+        <div
+          className="fixed inset-0 bg-white dark:bg-gray-900 overflow-y-auto p-4 sm:p-6 font-sora"
+          style={{ zIndex: 2147483647 }}
+        >
           <div className="max-w-7xl mx-auto">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl sm:text-2xl font-bold dark:text-white">{tx.title1}</h2>
+            <div className="relative px-4 pt-4 mb-6">
+              <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200 text-center">{tx.title1}</h2>
               <button
                 onClick={() => setIsSection1Expanded(false)}
-                className="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-lg font-bold dark:text-white"
+                className="absolute right-4 top-4 px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
+                style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
               >
                 {tc.closeFullscreen}
               </button>
             </div>
-            
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
-              {/* Temperature Display Column */}
-              <div className="bg-blue-50 dark:bg-blue-900/20 p-8 rounded-2xl border border-blue-100 dark:border-blue-800 flex flex-col items-center justify-center text-center">
-                <div className="space-y-2">
-                  <div className="text-6xl sm:text-7xl font-extrabold text-[#14a9df]" ref={tempCRef}>+3.2°C</div>
-                  <div className="w-48 h-1 bg-gray-900 dark:bg-gray-100 mx-auto opacity-20"></div>
-                  <div className="text-3xl sm:text-4xl font-extrabold text-[#14a9df]" ref={tempFRef}>+5.7°F</div>
-                </div>
-                <div className="mt-8 text-2xl sm:text-3xl font-extrabold dark:text-white leading-tight">
-                  {tc.temperatureTitle}
-                </div>
-              </div>
 
-              {/* Graph & Controls Column */}
-              <div className="space-y-6">
-                <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700">
-                  <div className="flex justify-between items-center mb-6">
+            {model1IntroText && (
+              <div className="px-4 mb-4">
+                {renderModelIntro(model1IntroText)}
+              </div>
+            )}
+            
+            <div className="overflow-x-auto mb-6">
+              <div className="flex items-stretch gap-4 min-w-[1800px]">
+                <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 flex-1 min-w-0">
+                  <div className="flex justify-start items-center mb-2">
                     <select
                       value={selectedGraphId}
                       onChange={(e) => setSelectedGraphId(e.target.value)}
-                      className="bg-blue-50 dark:bg-blue-900/40 border border-blue-200 dark:border-blue-700 text-blue-900 dark:text-blue-100 text-lg rounded-xl block p-4 font-bold focus:ring-4 focus:ring-blue-100"
+                      className="w-full max-w-full bg-blue-100 dark:bg-blue-900/50 border border-blue-300 dark:border-blue-500 text-blue-900 dark:text-blue-100 text-sm sm:text-base rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block p-3 pr-8 font-bold shadow-sm truncate"
+                      style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden' }}
                     >
                       {SECTION1_GRAPHS.map(g => <option key={g.id} value={g.id}>{str(g.labelKey)}</option>)}
                     </select>
                   </div>
-                  <div className="aspect-[16/9] w-full" ref={section1GraphContainerRef}>
-                    <canvas ref={section1CanvasRef} className="w-full h-full" />
+                  <div className="relative w-full" ref={section1GraphContainerRef}>
+                    <canvas ref={section1CanvasRef} className="w-full h-full" style={{ display: 'block', pointerEvents: 'none' }} />
                   </div>
                   {selectedGraphId === '279' ? (
-                    <div className="mt-6 text-center">
-                      <div className="flex justify-center gap-4 mb-2">
-                        <span className="px-4 py-2 text-sm font-bold uppercase text-white rounded-lg shadow-sm" style={{ backgroundColor: '#3385C6' }}>{tx.marineSpecies}</span>
-                        <span className="px-4 py-2 text-sm font-bold uppercase text-white rounded-lg shadow-sm" style={{ backgroundColor: '#843C0C' }}>{tx.landSpecies}</span>
+                    <div className="mt-3 text-center">
+                      <div className="flex justify-center gap-3 mb-1">
+                        <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#3385C6' }}>{tx.marineSpecies}</span>
+                        <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#843C0C' }}>{tx.landSpecies}</span>
                       </div>
-                      <p className="text-sm text-gray-500 italic dark:text-gray-400">{tx.dashedBaseline}</p>
+                      <p className="text-xs text-gray-500 italic">{tx.dashedBaseline}</p>
                     </div>
                   ) : (
-                    <div className="flex justify-center gap-6 mt-6">
-                      <div className="flex items-center gap-2">
-                        <div className="w-4 h-4 rounded shadow-sm" style={{ backgroundColor: '#000000' }}></div>
-                        <span className="text-sm font-bold uppercase dark:text-gray-300">{tx.baseline}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-4 h-4 rounded shadow-sm" style={{ backgroundColor: '#00b6f1' }}></div>
-                        <span className="text-sm font-bold uppercase dark:text-gray-300">{tx.currentScenario}</span>
-                      </div>
+                    <div className="flex justify-center gap-3 mt-3">
+                      <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>{tx.baseline}</span>
+                      <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#00b6f1' }}>{tx.currentScenario}</span>
                     </div>
                   )}
                 </div>
 
-                <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700">
-                  <div className="flex justify-between items-center mb-6">
-                    <label className="text-xl font-bold dark:text-white">{tx.natureLabel}</label>
-                    <span className="px-4 py-1 bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-200 rounded-full font-bold">{section1SliderText}</span>
-                  </div>
-                  <div className="enroads-range-wrap py-4">
-                    {section1DefaultPct !== null && (
-                      <div className="enroads-range-tick" style={{ ['--tick-frac' as any]: String(section1DefaultPct / 100) }} />
-                    )}
-                    <input
-                      type="range"
-                      min="0"
-                      max="100"
-                      step="1"
-                      value={section1SliderValue}
-                      onChange={handleSection1SliderChange}
-                      className="w-full h-3 rounded-full appearance-none cursor-pointer bg-gray-200 dark:bg-gray-700"
-                      style={{
-                        background: getRangeHighlightBackground(section1SliderValue, section1DefaultPct, '#53B1E8')
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {isSection2Expanded && (
-        <div className="fixed inset-0 z-[100] bg-white dark:bg-gray-900 overflow-y-auto p-4 sm:p-6 font-sora">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl sm:text-2xl font-bold dark:text-white">{tx.title2}</h2>
-              <button
-                onClick={() => setIsSection2Expanded(false)}
-                className="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-lg font-bold dark:text-white"
-              >
-                {tc.closeFullscreen}
-              </button>
-            </div>
-            
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
-              {/* Temperature Display Column */}
-              <div className="bg-green-50 dark:bg-green-900/20 p-8 rounded-2xl border border-green-100 dark:border-green-800 flex flex-col items-center justify-center text-center">
-                <div className="space-y-2">
-                  <div className="text-6xl sm:text-7xl font-extrabold text-[#14a9df]" ref={tempCRef}>+3.2°C</div>
-                  <div className="w-48 h-1 bg-gray-900 dark:bg-gray-100 mx-auto opacity-20"></div>
-                  <div className="text-3xl sm:text-4xl font-extrabold text-[#14a9df]" ref={tempFRef}>+5.7°F</div>
-                </div>
-                <div className="mt-8 text-2xl sm:text-3xl font-extrabold dark:text-white leading-tight">
-                  {tc.temperatureTitle}
-                </div>
-              </div>
-
-              {/* Graph & Controls Column */}
-              <div className="space-y-6">
-                <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700">
-                  <div className="flex justify-between items-center mb-6">
+                <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 flex-1 min-w-0">
+                  <div className="flex justify-start items-center mb-2">
                     <select
                       value={section2SelectedGraphId}
                       onChange={(e) => setSection2SelectedGraphId(e.target.value)}
-                      className="bg-green-50 dark:bg-green-900/40 border border-green-200 dark:border-green-700 text-green-900 dark:text-green-100 text-lg rounded-xl block p-4 font-bold focus:ring-4 focus:ring-green-100"
+                      className="w-full max-w-full bg-blue-100 dark:bg-blue-900/50 border border-blue-300 dark:border-blue-500 text-blue-900 dark:text-blue-100 text-sm sm:text-base rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block p-3 pr-8 font-bold shadow-sm truncate"
+                      style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden' }}
                     >
                       {SECTION2_GRAPHS.map(g => <option key={g.id} value={g.id}>{str(g.labelKey)}</option>)}
                     </select>
                   </div>
-                  <div className="aspect-[16/9] w-full" ref={section2GraphContainerRef}>
-                    <canvas ref={section2CanvasRef} className="w-full h-full" />
+                  <div className="relative w-full" ref={section2GraphContainerRef}>
+                    <canvas ref={section2CanvasRef} className="w-full h-full" style={{ display: 'block', pointerEvents: 'none' }} />
                   </div>
-                  <div className="flex justify-center gap-6 mt-6">
-                    <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 rounded shadow-sm" style={{ backgroundColor: '#000000' }}></div>
-                      <span className="text-sm font-bold uppercase dark:text-gray-300">{tx.baseline}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 rounded shadow-sm" style={{ backgroundColor: '#00b6f1' }}></div>
-                      <span className="text-sm font-bold uppercase dark:text-gray-300">{tx.currentScenario}</span>
-                    </div>
+                  <div className="flex justify-center gap-3 mt-3">
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>{tx.baseline}</span>
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#00b6f1' }}>{tx.currentScenario}</span>
                   </div>
                 </div>
 
-                <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700">
-                  <div className="flex justify-between items-center mb-6">
-                    <label className="text-xl font-bold dark:text-white">{tx.deforestationLabel}</label>
-                    <span className="px-4 py-1 bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-200 rounded-full font-bold">{section2DeforestationText}</span>
-                  </div>
-                  <div className="enroads-range-wrap py-4">
-                    {section2DeforestationDefaultPct !== null && (
-                      <div className="enroads-range-tick" style={{ ['--tick-frac' as any]: String(section2DeforestationDefaultPct / 100) }} />
-                    )}
-                    <input
-                      type="range"
-                      min="-10"
-                      max="1"
-                      step="0.1"
-                      value={section2DeforestationValue}
-                      onChange={handleSection2DeforestationChange}
-                      className="w-full h-3 rounded-full appearance-none cursor-pointer bg-gray-200 dark:bg-gray-700"
-                      style={{
-                        background: getRangeHighlightBackground(((section2DeforestationValue + 10) / 11) * 100, section2DeforestationDefaultPct, '#53B1E8')
-                      }}
-                    />
+                <div className="shrink-0 w-fit">
+                  <div className="px-6 pb-4 text-center inline-flex flex-col items-center w-fit h-fit" style={{ transform: 'translateY(80px)' }}>
+                    <span
+                      ref={tempCRef}
+                      style={{ color: '#14a9df', fontSize: 'clamp(3rem, 3vw, 3rem)', fontWeight: 800, lineHeight: 1.5 }}
+                    >
+                      +3.3°C
+                    </span>
+                    <div className="mx-auto my-4 h-[2px] w-[72%] bg-black" />
+                    <span
+                      ref={tempFRef}
+                      style={{ color: '#14a9df', fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)', fontWeight: 800, lineHeight: 1 }}
+                    >
+                      +5.9°F
+                    </span>
+                    <div className="mt-5 whitespace-pre-line leading-tight text-gray-900 dark:text-gray-100" style={{ fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)', fontWeight: 800 }}>
+                      {tc.temperatureTitle}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-2">
+              <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
+                <label>{tx.natureLabel}</label>
+                <span className="text-xs font-mono text-gray-500">{section1SliderText}</span>
+              </div>
+              <div className="enroads-range-wrap">
+                {section1DefaultPct !== null && (
+                  <div className="enroads-range-tick" style={{ ['--tick-frac' as any]: String(section1DefaultPct / 100) }} />
+                )}
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="1"
+                  value={section1SliderValue}
+                  onChange={handleSection1SliderChange}
+                  className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+                  style={{
+                    background: getRangeHighlightBackground(section1SliderValue, section1DefaultPct, '#53B1E8')
+                  }}
+                />
+              </div>
+            </div>
           </div>
         </div>
-      )}
+      ), document.body)}
+
+      {isSection2Expanded && createPortal((
+        <div
+          className="fixed inset-0 bg-white dark:bg-gray-900 overflow-y-auto p-4 sm:p-6 font-sora"
+          style={{ zIndex: 2147483647 }}
+        >
+          <div className="max-w-7xl mx-auto">
+            <div className="relative px-4 pt-4 mb-6">
+              <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200 text-center">{tx.title2}</h2>
+              <button
+                onClick={() => setIsSection2Expanded(false)}
+                className="absolute right-4 top-4 px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
+                style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
+              >
+                {tc.closeFullscreen}
+              </button>
+            </div>
+
+            {model2IntroText && (
+              <div className="px-4 mb-4">
+                {renderModelIntro(model2IntroText)}
+              </div>
+            )}
+
+            <div className="overflow-x-auto mb-6">
+              <div className="flex items-stretch gap-4 min-w-[1800px]">
+                <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 flex-1 min-w-0">
+                  <div className="flex justify-start items-center mb-2">
+                    <select
+                      value={section2SelectedGraphId}
+                      onChange={(e) => setSection2SelectedGraphId(e.target.value)}
+                      className="w-full max-w-full bg-blue-100 dark:bg-blue-900/50 border border-blue-300 dark:border-blue-500 text-blue-900 dark:text-blue-100 text-sm sm:text-base rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block p-3 pr-8 font-bold shadow-sm truncate"
+                      style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden' }}
+                    >
+                      {SECTION2_GRAPHS.map(g => <option key={g.id} value={g.id}>{str(g.labelKey)}</option>)}
+                    </select>
+                  </div>
+                  <div className="relative w-full" ref={section2GraphContainerRef}>
+                    <canvas ref={section2CanvasRef} className="w-full h-full" style={{ display: 'block', pointerEvents: 'none' }} />
+                  </div>
+                  <div className="flex justify-center gap-3 mt-3">
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>{tx.baseline}</span>
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#00b6f1' }}>{tx.currentScenario}</span>
+                  </div>
+                </div>
+
+                <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 flex-1 min-w-0">
+                  <div className="flex justify-start items-center mb-2">
+                    <select
+                      value={selectedGraphId}
+                      onChange={(e) => setSelectedGraphId(e.target.value)}
+                      className="w-full max-w-full bg-blue-100 dark:bg-blue-900/50 border border-blue-300 dark:border-blue-500 text-blue-900 dark:text-blue-100 text-sm sm:text-base rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block p-3 pr-8 font-bold shadow-sm truncate"
+                      style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden' }}
+                    >
+                      {SECTION1_GRAPHS.map(g => <option key={g.id} value={g.id}>{str(g.labelKey)}</option>)}
+                    </select>
+                  </div>
+                  <div className="relative w-full" ref={section1GraphContainerRef}>
+                    <canvas ref={section1CanvasRef} className="w-full h-full" style={{ display: 'block', pointerEvents: 'none' }} />
+                  </div>
+                  {selectedGraphId === '279' ? (
+                    <div className="mt-3 text-center">
+                      <div className="flex justify-center gap-3 mb-1">
+                        <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#3385C6' }}>{tx.marineSpecies}</span>
+                        <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#843C0C' }}>{tx.landSpecies}</span>
+                      </div>
+                      <p className="text-xs text-gray-500 italic">{tx.dashedBaseline}</p>
+                    </div>
+                  ) : (
+                    <div className="flex justify-center gap-3 mt-3">
+                      <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>{tx.baseline}</span>
+                      <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#00b6f1' }}>{tx.currentScenario}</span>
+                    </div>
+                  )}
+                </div>
+
+                <div className="shrink-0 w-fit">
+                  <div className="px-6 pb-4 text-center inline-flex flex-col items-center w-fit h-fit" style={{ transform: 'translateY(80px)' }}>
+                    <span
+                      ref={tempCRef}
+                      style={{ color: '#14a9df', fontSize: 'clamp(3rem, 3vw, 3rem)', fontWeight: 800, lineHeight: 1.5 }}
+                    >
+                      +3.3°C
+                    </span>
+                    <div className="mx-auto my-4 h-[2px] w-[72%] bg-black" />
+                    <span
+                      ref={tempFRef}
+                      style={{ color: '#14a9df', fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)', fontWeight: 800, lineHeight: 1 }}
+                    >
+                      +5.9°F
+                    </span>
+                    <div className="mt-5 whitespace-pre-line leading-tight text-gray-900 dark:text-gray-100" style={{ fontSize: 'clamp(1.5rem, 1.5vw, 1.5rem)', fontWeight: 800 }}>
+                      {tc.temperatureTitle}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 space-y-2">
+              <div className="flex justify-between font-bold text-gray-700 dark:text-gray-200">
+                <label>{tx.deforestationLabel}</label>
+                <span className="text-xs font-mono text-gray-500">{section2DeforestationText}</span>
+              </div>
+              <div className="enroads-range-wrap">
+                {section2DeforestationDefaultPct !== null && (
+                  <div className="enroads-range-tick" style={{ ['--tick-frac' as any]: String(section2DeforestationDefaultPct / 100) }} />
+                )}
+                <input
+                  type="range"
+                  min="-10"
+                  max="1"
+                  step="0.1"
+                  value={section2DeforestationValue}
+                  onChange={handleSection2DeforestationChange}
+                  className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+                  style={{
+                    background: getRangeHighlightBackground(((section2DeforestationValue + 10) / 11) * 100, section2DeforestationDefaultPct, '#53B1E8')
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      ), document.body)}
     </>
   );
 }

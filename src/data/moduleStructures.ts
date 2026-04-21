@@ -154,19 +154,19 @@ export const moduleStructures: ModuleStructure[] = [
                 frontTitle: 'Systems Sensing',
                 frontDescription: 'Paying close attention',
                 backTitle: 'Definition',
-                backDescription: 'The skill of paying close attention to what\'s happening in a system using all our senses, emotions, and lived experience. It helps us notice patterns, relationships, and changes to better understand how everything is connected.'
+                backDescription: 'Systems sensing is the skill of paying close attention using all our senses, emotions and lived experience–to what\'s happening in a system, like a school, a community, or even the climate–and noticing patterns, emotions, relationships, and changes so you can better understand how everything is connected.'
               },
               {
                 frontTitle: 'Emotional Literacy',
                 frontDescription: 'Feelings you experience',
                 backTitle: 'Definition',
-                backDescription: 'Emotions are the feelings you experience in response to what\’s happening around you or inside you. They can range from joy,excitement and anger, or more complex emotional states like stress, confusion or happiness. Emotional literacy is learning how these feelings show up in your body, your thoughts, and your behaviors, and help you understand your experiences and needs.'
+                backDescription: 'Emotions are the feelings you experience in response to what\'s happening around you or inside you. They can range from joy, excitement and anger, or states like stress, confusion or happiness. Emotional literacy is learning how these feelings show up in your body, thoughts, and behaviors.'
               },
               {
                 frontTitle: 'Awareness',
                 frontDescription: 'Noticing and understanding',
                 backTitle: 'Definition',
-                backDescription: 'Awareness means being able to notice and understand what you\’re feeling, thinking, or experiencing in the moment. By learning to pay attention to your emotions without judging them, you can begin to recognize how they affect your choices, your relationships, and your overall well‑being.'
+                backDescription: 'Being able to notice what you\'re feeling, thinking, or experiencing in the moment. By learning to pay attention to emotions without judging them, you can recognize how they affect your choices, relationships, and wellbeing.'
               }
             ]
           },
