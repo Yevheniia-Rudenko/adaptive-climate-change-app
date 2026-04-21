@@ -1,7 +1,7 @@
-import { ExternalLink, Heart, Image as ImageIcon } from 'lucide-react';
+import { ExternalLink, Image as ImageIcon } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { motion } from 'motion/react';
-import { imageAttributions, contributors } from '../data/imageAttribution';
+import { imageAttributions } from '../data/imageAttribution';
 
 export function ContributorsPage() {
     const { t } = useLanguage();
@@ -17,49 +17,16 @@ export function ContributorsPage() {
                 >
                     {/* Header */}
                     <div className="mb-8">
-                        <div className="flex items-center gap-3 mb-4">
-                            <Heart className="text-red-500 flex-shrink-0" size={32} fill="currentColor" />
-                            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-100">
-                                {t.pages.contributors.title}
-                            </h1>
-                        </div>
+                        <h1
+                            className="font-bold text-gray-800 dark:text-gray-100 text-center mb-3 sm:mb-4"
+                            style={{ fontSize: '3rem', lineHeight: '1.2' }}
+                        >
+                            {t.pages.contributors.title}
+                        </h1>
                         <p className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed">
                             {t.pages.contributors.description}
                         </p>
                     </div>
-
-                    {/* Contributors Section */}
-                    <section className="mb-10">
-                        <div className="flex items-center gap-2 mb-6">
-                            <Heart className="text-purple-600 dark:text-purple-400 flex-shrink-0" size={24} />
-                            <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
-                                {t.pages.contributors.developmentTeam}
-                            </h2>
-                        </div>
-                        <div className="grid gap-4 sm:gap-6">
-                            {contributors.map((contributor, index) => (
-                                <motion.div
-                                    key={index}
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ duration: 0.4, delay: index * 0.1 }}
-                                    className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-2xl p-6 border border-purple-200 dark:border-purple-700"
-                                >
-                                    <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-1">
-                                        {contributor.name}
-                                    </h3>
-                                    <p className="text-purple-600 dark:text-purple-400 font-medium mb-2">
-                                        {contributor.role}
-                                    </p>
-                                    {contributor.description && (
-                                        <p className="text-gray-700 dark:text-gray-300">
-                                            {contributor.description}
-                                        </p>
-                                    )}
-                                </motion.div>
-                            ))}
-                        </div>
-                    </section>
 
                     {/* Image Credits Section */}
                     <section>
