@@ -189,13 +189,6 @@ export const resourceCategories = {
             { title: 'Good Energy Collective (Good Power)', description: 'Adil temiz enerji geçişleri ve iklim eylemi üzerine politika ve eğitim kaynakları.' },
           ],
         },
-        {
-          title: 'Bağış ve Destek',
-          items: [
-            { title: 'Cool Earth', description: 'Yağmur ormanlarının korunmasını desteklemek için bağış yap.' },
-            { title: 'The Equity Fund', description: 'İklim ve topluluk geçişlerinde eşitlik ve adaleti merkeze alan girişimleri destekle.' },
-          ],
-        },
       ],
     },
     'learning-opportunities': {

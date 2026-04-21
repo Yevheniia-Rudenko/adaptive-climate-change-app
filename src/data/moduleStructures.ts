@@ -44,9 +44,10 @@ import module4Background from '../assets/module_4_background.webp';
 import module5Background from '../assets/module_5_background.webp';
 import airPollutionImg from '../assets/module_3/air_pollution.webp';
 import pumpingGasImg from '../assets/module_3/pumping_gas.webp';
-import shareScenarioImg from '../assets/module_3/share-scenario.webp';
+import shareScenarioImg from '../assets/en_roads_scenario.png';
 import creativeTensionImg from '../assets/module_5/tension.webp';
 import systemsDontChangeImg from '../assets/module_5/systems-dont-change-themselves.png';
+import mandalaForSystemsChange1 from '../assets/mandala-for-systems-change_1.png';
 
 
 export type FlipCardData = {
@@ -270,7 +271,7 @@ Thank you for practicing with me.
             alt: 'Animation of Thermometer filling to max degree with climate change text',
             width: '33%'
           },
-                    {
+          {
             type: 'text',
             title: '',
             content: 'Even small changes in Earth\’s average temperature can cause big changes in weather and ecosystems—just like how a small change in body temperature can make a human very sick.',
@@ -612,7 +613,7 @@ Advocates say carbon pricing creates a clear signal: if you pollute more, you pa
       {
         type: 'fourth-exercise'
       },
-            {
+      {
         type: 'text',
         title: '**Let\'s Reflect**',
         content: '',
@@ -692,7 +693,8 @@ Thank you for practicing.`
           {
             type: 'image',
             imageUrl: stockFlowExample,
-            alt: "Diagram of a bathtub model showing a faucet filling a water tank, with arrows indicating water Inflow entering from the tap and Outflow draining from the bottom."},
+            alt: "Diagram of a bathtub model showing a faucet filling a water tank, with arrows indicating water Inflow entering from the tap and Outflow draining from the bottom."
+          },
           {
             type: 'text',
             title: '',
@@ -1215,11 +1217,11 @@ Thank you for practicing.`
           },
         ]
       },
-                {
-            type: 'block',
-            colorTheme: 'blue',
-            content: [
-             
+      {
+        type: 'block',
+        colorTheme: 'blue',
+        content: [
+
 
           {
             type: 'audio',
@@ -1254,8 +1256,8 @@ If a government wants people to support a carbon price, it has to think carefull
             prompt: 'What policies or government or community efforts could help achieve this goal? Think at any level: local, state or ministry, national, regional or global.',
             id: 'prediction-reflection-5'
           }
-            ]
-          },
+        ]
+      },
       {
         type: 'block',
         colorTheme: 'green',
@@ -1290,7 +1292,7 @@ If a government wants people to support a carbon price, it has to think carefull
             content: 'Once you finish in En-ROADS, click the “Share Your Scenario” button, copy the link, and **return back here** to finish the module.'
           },
           {
-            type:'image',
+            type: 'image',
             imageUrl: enroadsScreenshot,
             alt: 'En-ROADS Scenario Screenshot',
             width: '100%'
@@ -1330,11 +1332,14 @@ If a government wants people to support a carbon price, it has to think carefull
             hideLabel: true
           },
           {
+            type: 'text',
+            content: 'Hint: You can find the Share Your Scenario link in the upper right hand corner of En-ROADS.'
+          },
+          {
             type: 'image',
             imageUrl: shareScenarioImg,
             alt: 'Share Scenario Image',
             width: '100%',
-            title: 'Hint: You can find the Share Your Scenario link in the upper right hand corner of En-ROADS.'
           },
           {
             type: 'text',
@@ -1400,7 +1405,7 @@ If a government wants people to support a carbon price, it has to think carefull
             type: 'text',
             title: '',
             hideIcon: true,
-            content: 'Seeing these scenarios of the future, and creating your own, might evoke a lot–from hope to discouragement, optimism to despair.\n\n We might begin to think about all the policies, collaborations, and societal changes needed. \n\n We might imagine what these futures would look like and wonder what we or our communities might be doing in that future. \n\n Let’s take a moment to pause, take a breath, and check in with yourselves.'
+            content: 'Seeing these scenarios of the future, and creating your own, might evoke a lot–from hope to discouragement, optimism to despair.\n\n We might begin to think about all the policies, collaborations, and societal changes needed. \n\n We might imagine what these futures would look like and wonder what we or our communities might be doing in that future. \n\n Let’s take a moment to pause, take a breath, and check in with ourselves.'
           },
           {
             type: 'image',
@@ -1481,18 +1486,18 @@ If a government wants people to support a carbon price, it has to think carefull
         type: 'block',
         colorTheme: 'teal',
         content: [
-                    {
+          {
             type: 'text',
             title: 'Top of the Iceberg: Events',
             content: ''
           },
           {
-  type: 'text-with-image',
-  imageUrl: systemsIcebergImg,
-  alt: 'Systems Iceberg Model showing Events, Behavioral Patterns, Underlying Structures, Mental Models, and Artifacts',
-  content: 'The top of the iceberg is what you see. These are things that happen right in front of you.\n\n**Examples:**\n• A heat wave\n• A wildfire\n• A spike in energy prices\n• Protests about pollution\n• The latest climate news headline\n\nEvents are important, but they\'re only the surface. If we pay attention only to events, we can feel overwhelmed and think the world is random or chaotic.',
-  imageSide: 'left' // or 'right'
-},
+            type: 'text-with-image',
+            imageUrl: systemsIcebergImg,
+            alt: 'Systems Iceberg Model showing Events, Behavioral Patterns, Underlying Structures, Mental Models, and Artifacts',
+            content: 'The top of the iceberg is what you see. These are things that happen right in front of you.\n\n**Examples:**\n• A heat wave\n• A wildfire\n• A spike in energy prices\n• Protests about pollution\n• The latest climate news headline\n\nEvents are important, but they\'re only the surface. If we pay attention only to events, we can feel overwhelmed and think the world is random or chaotic.',
+            imageSide: 'left' // or 'right'
+          },
           {
             type: 'reflection',
             prompt: 'What climate "events" do you notice or see in your life?',
@@ -1510,13 +1515,13 @@ If a government wants people to support a carbon price, it has to think carefull
             title: 'Just Below the Surface: Behavioral Patterns',
             content: ''
           },
-                    {
-  type: 'text-with-image',
-  imageUrl: systemsIcebergImg,
-  alt: 'Systems Iceberg Model showing Events, Behavioral Patterns, Underlying Structures, Mental Models, and Artifacts',
-  content: "If you zoom out in time, events start forming **behavioural patterns and trends.**\n\n**Examples:**\n• Heat waves happening more often\n• Wildfires getting bigger\n• Energy prices rising faster in certain communities\n• Air pollution affecting the same neighborhoods again and again\n• Consumers buying\n\nPatterns show us:\n\n This isn't random—**something is repeating.**",
-  imageSide: 'left' // or 'right'
-},
+          {
+            type: 'text-with-image',
+            imageUrl: systemsIcebergImg,
+            alt: 'Systems Iceberg Model showing Events, Behavioral Patterns, Underlying Structures, Mental Models, and Artifacts',
+            content: "If you zoom out in time, events start forming **behavioural patterns and trends.**\n\n**Examples:**\n• Heat waves happening more often\n• Wildfires getting bigger\n• Energy prices rising faster in certain communities\n• Air pollution affecting the same neighborhoods again and again\n• Consumers buying\n\nPatterns show us:\n\n This isn't random—**something is repeating.**",
+            imageSide: 'left' // or 'right'
+          },
           {
             type: 'reflection',
             prompt: 'What climate "patterns" do you see in your life?',
@@ -1528,21 +1533,21 @@ If a government wants people to support a carbon price, it has to think carefull
       {
         type: 'block',
         colorTheme: 'amber',
-        content: [ 
-                    {
+        content: [
+          {
             type: 'text-with-image',
             imageUrl: systemsIcebergImg,
             alt: 'Systems Iceberg Model showing Events, Behavioral Patterns, Underlying Structures, Mental Models, and Artifacts',
             title: 'Artifacts',
             content: "The underlying structures are the **artifacts** and **mental models** that shape patterns and events.\n\nFirst, let's look at the artifacts — these are the often tangible and visible structures that shape our systems like:\n\n• Infrastructure: How our energy system is built\n• Space and Place; Which communities live near highways or factories\n• Financials: Fossil fuel prices\n• Governance: Who makes policy decisions\n\nThese artifacts create the **conditions** that make certain behaviors and events more likely than others.\n\nIf we want to change patterns of behaviour, we need to understand and redesign **these artifacts**, not just react to events.",
             imageSide: 'left' // or 'right'
-          },          
+          },
           {
             type: 'reflection',
             prompt: 'What artifacts related to climate do you see in your life?',
             id: 'm4-artifacts-reflection'
           },
-                    {
+          {
             type: 'text',
             title: 'Mental Models',
             content: "Also at the bottom of the iceberg are **mental models**—the values, worldviews, beliefs, assumptions, and stories people hold about how the world works.\n\n**Examples:**\n• \"The earth is a resource for humans.\"\n• \"Fossil fuels are necessary for economic growth.\"\n• \"Some communities can handle more pollution than others.\"\n• \"Technology will fix everything.\"\n• \"My actions don't matter.\"\n• \"Climate solutions help everyone equally.\"\n\nThese beliefs shape the choices (behaviours) we make, and those choices shape the artifacts and structures we build.\n\nAs the environmental scientist and educator Donella Meadows once said, “Remember, always, that everything you know, and everything everyone knows, is only a model. Get your model out there where it can be viewed. Invite others to challenge your assumptions and add their own.“\n\nChanging mental models is slow and hard—but it's where the most meaningful, lasting change begins."
@@ -1638,15 +1643,15 @@ We need to understand—and shift—the beliefs and structures underneath them.`
             ]
           },
           {
-          type: 'text',
-          title: '',
-          content: `
+            type: 'text',
+            title: '',
+            content: `
           The iceberg reminds us:
           If we want real change, we can't just react to the events at the top.
           We need to understand—and maybe shift—the beliefs and systems underneath them.
           
           The deeper you go, the more power you might have to create change. `
-              },
+          },
         ]
       },
       // ── Submodule 7: Draw Your Own Climate Iceberg ────────────────────
@@ -1660,11 +1665,11 @@ We need to understand—and shift—the beliefs and structures underneath them.`
             content: ''
           },
           {
-          type: 'text-with-image',
-          imageUrl: systemsIcebergImg,
-          alt: 'Systems Iceberg Model showing Events, Behavioral Patterns, Underlying Structures, Mental Models, and Artifacts',
-          content: "It's time to now draw your own systems iceberg. You may create your iceberg individually or as a team.\n\nThink about a current issue related to climate change that matters to you. You might reflect or do research about what is happening locally in your community.\n\nDraw each of the layers of the iceberg and make notes about what is happening at each level.",
-          imageSide: 'left' // or 'right'
+            type: 'text-with-image',
+            imageUrl: systemsIcebergImg,
+            alt: 'Systems Iceberg Model showing Events, Behavioral Patterns, Underlying Structures, Mental Models, and Artifacts',
+            content: "It's time to now draw your own systems iceberg. You may create your iceberg individually or as a team.\n\nThink about a current issue related to climate change that matters to you. You might reflect or do research about what is happening locally in your community.\n\nDraw each of the layers of the iceberg and make notes about what is happening at each level.",
+            imageSide: 'left' // or 'right'
           },
           {
             type: 'reflection',
@@ -1756,7 +1761,7 @@ We need to understand—and shift—the beliefs and structures underneath them.`
             hideIcon: true,
             content: "The space **between** those two is not a void—it’s **energy**. When we face the truth and keep our vision alive, that tension fuels **focused, courageous action.** This module helps you channel that energy into **levers of change**—places in the system where smart, well‑designed actions can shift outcomes."
           },
-          
+
         ]
       },
       {
@@ -1902,7 +1907,7 @@ We need to understand—and shift—the beliefs and structures underneath them.`
           {
             type: 'text',
             title: '3. Designing for Systems Change',
-            content: "Inspired by the last exercise of discovering your climate action, let’s plan your action out further. \n\n This systems tool can help give the understanding of what is needed to accomplish this my goals"
+            content: "Inspired by the last exercise of discovering your climate action, let’s plan your action out further. \n\n This systems tool can help give the understanding of what is needed to accomplish my goals"
           },
           {
             type: 'text',
@@ -1915,13 +1920,13 @@ We need to understand—and shift—the beliefs and structures underneath them.`
             imageUrl: mandalaForSystemsChangeImg,
             alt: 'Mandala for Systems Change diagram showing a circular model with four outer sections — Capacity Building, Practice, Community Building, and Research surrounding inner sections of reflective questions',
             title: 'Mandala for Systems Change',
-            width: '100%'
+            width: '60%'
           },
           {
             type: 'text',
             title: '',
             hideIcon: true,
-            content: "A “mandala” is a circle made of different parts that work together.\n\n In this model, the parts show what we need inside ourselves and around us in the world to create meaningful change.\n\nThink of it like a balanced recipe:"
+            content: "A “mandala” is a circle made of different parts that work together. It’s a way of holding the whole. \n\n In this model, the parts show what we need inside ourselves and around us in the world to create meaningful change.\n\nThink of it like a balanced recipe:"
           },
           {
             type: 'flip-cards',
@@ -1929,39 +1934,87 @@ We need to understand—and shift—the beliefs and structures underneath them.`
               {
                 frontTitle: 'Practice',
                 frontDescription: '',
-                backTitle: 'Consider',
+                backTitle: 'Practice',
                 backDescription: 'What do you want to do or accomplish?'
               },
               {
                 frontTitle: 'Research',
                 frontDescription: '',
-                backTitle: 'Consider',
+                backTitle: 'Research',
                 backDescription: ' How will you know its working? How will you  reflect, document, measure or track your progress, learning and development?'
               },
               {
                 frontTitle: 'Community Building',
                 frontDescription: '',
-                backTitle: 'Consider',
+                backTitle: 'Community Building',
                 backDescription: 'Who is the ‘we’? What communities or stakeholders need to be involved?'
               },
               {
                 frontTitle: 'Capacity Building',
                 frontDescription: '',
-                backTitle: 'Consider',
+                backTitle: 'Capacity Building',
                 backDescription: 'What skills, knowledge or resources will we need to move these changes forward?'
               }
             ]
           },
+          {
+            type: 'text',
+            title: 'Draw Your Own Mandala for Systems Change',
+            hideIcon: true,
+            content: ""
+          },
+          {
+            type: 'image',
+            imageUrl: mandalaForSystemsChange1,
+            alt: 'Draw Your Own Mandala for Systems Change',
+            width: '60%'
+          },
+          {
+            type: 'text',
+            hideIcon: true,
+            content: 'Now draw your own mandala for systems change–either on a piece of paper or filling out the questions below.\n\nChoose a climate action that you would like to try– one you already feel passionate about or even one you’re curious about.\n\nYou could check out the vetted climate change solutions from Project Drawdown or think of actions you see in your community.\n\nYou can do this exercise individually or as a team.'
+          },
+          {
+            type: 'reflection',
+            prompt: 'Practice – What do you want to do, try or accomplish?',
+            id: 'mandala-practice'
+          },
+          {
+            type: 'reflection',
+            prompt: 'Research – How will you know it is working? How will you reflect, document, measure or track your progress, learning and development?',
+            id: 'mandala-research'
+          },
+          {
+            type: 'reflection',
+            prompt: 'Community Building – Who is the ‘we’?  What communities or stakeholders need to be involved?',
+            id: 'mandala-community'
+          },
+          {
+            type: 'reflection',
+            prompt: 'Capacity Building – What skills, knowledge or resources will we need to move these actions forward?',
+            id: 'mandala-capacity'
+          },
+          {
+            type: 'text',
+            hideIcon: true,
+            content: 'The Mandala for Systems Change reminds us to hold the whole, meaning we need to be balanced in our approach, attending to not only what we are doing but what we are learning along the way. It reminds us that we need others–and that collectively we can build our capacities and skills to address complex challenges.'
+          },
+          {
+            type: 'reflection',
+            prompt: '💭Let’s Reflect\n\nAs you look over your Mandala, what’s one small step you can take tomorrow to move this vision forward?',
+            id: 'mandala-reflection'
+          },
         ]
       },
-      {
+    {
         type: 'block',
         colorTheme: 'pink',
         content: [
           {
-            type: 'reflection',
-            prompt: 'As we close these activities, consider what you have learned and been inspired by. \n\n What is one climate action or change you feel motivated to try?',
-            id: 'module-5-reflection-2'
+            type: 'text',
+            title: 'The Big Idea',
+            content: "",
+            hideIcon: true
           },
           {
             type: 'image',
@@ -1971,8 +2024,13 @@ We need to understand—and shift—the beliefs and structures underneath them.`
             width: '80%'
           },
           {
+            type: 'reflection',
+            prompt: '💭Let’s Reflect\n\nAs we close these activities, consider what you have learned and been inspired by.\n\nWhat is one climate action or change you feel motivated to try?',
+            id: 'module-5-final-reflection'
+          },
+          {
             type: 'text',
-            title: 'The Big Idea',
+            title: '',
             hideIcon: true,
             content: "*With clear vision, honest data, a global understanding, and steady hearts, you can help move this system toward a future that’s livable and just. \n\n **Let's begin!**"
           }
