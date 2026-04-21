@@ -78,7 +78,7 @@ export function Header() {
           {/* Logo */}
           <button
             onClick={() => handleNavigate('/')}
-            className="flex items-center gap-3 sm:gap-4 hover:opacity-80 transition-opacity"
+            className="flex items-center gap-3 sm:gap-4 hover:opacity-80 transition-opacity cursor-pointer"
             aria-label="Home"
           >
             <div className="flex items-center gap-4 sm:gap-6">
@@ -101,7 +101,7 @@ export function Header() {
             <div className="relative" ref={desktopDropdownRef}>
               <button
                 onClick={() => setModulesDropdownOpen(!modulesDropdownOpen)}
-                className="flex items-center gap-1 px-4 py-2 rounded-full text-white transition-colors"
+                className="flex items-center gap-1 px-4 py-2 rounded-full text-white transition-opacity duration-200 hover:opacity-80 cursor-pointer"
                 style={{ backgroundColor: '#2F8237' }}
               >
                 <span>{t.nav.modules}</span>
@@ -114,7 +114,7 @@ export function Header() {
                     <button
                       key={module.id}
                       onClick={() => handleNavigate(`/module/${module.id}`)}
-                      className={`w-full text-left px-4 py-2 transition-colors ${isSpecificModuleActive(module.id)
+                      className={`w-full text-left px-4 py-2 transition-opacity duration-200 hover:opacity-80 cursor-pointer ${isSpecificModuleActive(module.id)
                         ? 'bg-primary/15 dark:bg-primary/25 text-primary'
                         : 'text-foreground hover:bg-muted'
                         }`}
@@ -129,9 +129,9 @@ export function Header() {
 
             <button
               onClick={() => handleNavigate('/about')}
-              className={`px-3 py-2 rounded-full transition-all duration-200 font-bold ${pathname === '/about'
+              className={`px-3 py-2 rounded-full transition-opacity duration-200 hover:opacity-80 font-bold cursor-pointer ${pathname === '/about'
                 ? 'text-green-500 dark:text-green-400'
-                : 'text-gray-900 dark:text-gray-100 hover:text-green-600 dark:hover:text-green-400 hover:scale-105'
+                : 'text-gray-900 dark:text-gray-100'
                 }`}
             >
               {t.nav.about}
@@ -139,9 +139,9 @@ export function Header() {
 
             <button
               onClick={() => handleNavigate('/educators')}
-              className={`px-3 py-2 rounded-full transition-all duration-200 font-bold ${pathname === '/educators'
+              className={`px-3 py-2 rounded-full transition-opacity duration-200 hover:opacity-80 font-bold cursor-pointer ${pathname === '/educators'
                 ? 'text-green-500 dark:text-green-400'
-                : 'text-gray-900 dark:text-gray-100 hover:text-green-600 dark:hover:text-green-400 hover:scale-105'
+                : 'text-gray-900 dark:text-gray-100'
                 }`}
             >
               {t.nav.forEducators}
@@ -149,9 +149,9 @@ export function Header() {
 
             <button
               onClick={() => handleNavigate('/resources')}
-              className={`px-3 py-2 rounded-full transition-all duration-200 font-bold ${pathname.startsWith('/resources')
+              className={`px-3 py-2 rounded-full transition-opacity duration-200 hover:opacity-80 font-bold cursor-pointer ${pathname.startsWith('/resources')
                 ? 'text-green-500 dark:text-green-400'
-                : 'text-gray-900 dark:text-gray-100 hover:text-green-600 dark:hover:text-green-400 hover:scale-105'
+                : 'text-gray-900 dark:text-gray-100'
                 }`}
             >
               {t.nav.resources}
@@ -159,9 +159,9 @@ export function Header() {
 
             <button
               onClick={() => handleNavigate('/glossary')}
-              className={`px-3 py-2 rounded-full transition-all duration-200 font-bold ${pathname === '/glossary'
+              className={`px-3 py-2 rounded-full transition-opacity duration-200 hover:opacity-80 font-bold cursor-pointer ${pathname === '/glossary'
                 ? 'text-green-500 dark:text-green-400'
-                : 'text-gray-900 dark:text-gray-100 hover:text-green-600 dark:hover:text-green-400 hover:scale-105'
+                : 'text-gray-900 dark:text-gray-100'
                 }`}
             >
               {t.nav.glossary}
@@ -176,7 +176,7 @@ export function Header() {
           <div className="md:hidden flex items-center gap-3">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 transition-colors"
+              className="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 hover:opacity-80 text-gray-900 dark:text-gray-100 transition-opacity duration-200 cursor-pointer"
               aria-label="Menu"
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -192,7 +192,7 @@ export function Header() {
               <div className="border-b pb-2 mb-2" ref={mobileDropdownRef} style={{ borderBottomColor: mobileSeparatorColor }}>
                 <button
                   onClick={() => setModulesDropdownOpen(!modulesDropdownOpen)}
-                  className={`w-full flex items-center justify-between px-4 py-2 rounded-md transition-colors ${isModuleActive
+                  className={`w-full flex items-center justify-between px-4 py-2 rounded-md transition-opacity duration-200 hover:opacity-80 cursor-pointer ${isModuleActive
                     ? 'bg-primary/10 dark:bg-primary/20 text-primary'
                     : 'hover:bg-muted'
                     }`}
@@ -207,7 +207,7 @@ export function Header() {
                       <button
                         key={module.id}
                         onClick={() => handleNavigate(`/module/${module.id}`)}
-                        className={`w-full text-left px-4 py-2 rounded-md transition-colors ${isSpecificModuleActive(module.id)
+                        className={`w-full text-left px-4 py-2 rounded-md transition-opacity duration-200 hover:opacity-80 cursor-pointer ${isSpecificModuleActive(module.id)
                           ? 'bg-primary/15 dark:bg-primary/25 text-primary'
                           : 'text-foreground hover:bg-muted'
                           }`}
@@ -222,7 +222,7 @@ export function Header() {
 
               <button
                 onClick={() => handleNavigate('/about')}
-                className={`px-4 py-2 text-left rounded-md transition-colors ${pathname === '/about'
+                className={`px-4 py-2 text-left rounded-md transition-opacity duration-200 hover:opacity-80 cursor-pointer ${pathname === '/about'
                   ? 'bg-primary/10 dark:bg-primary/20 text-primary'
                   : 'hover:bg-muted'
                   }`}
@@ -232,7 +232,7 @@ export function Header() {
 
               <button
                 onClick={() => handleNavigate('/educators')}
-                className={`px-4 py-2 text-left rounded-md transition-colors ${pathname === '/educators'
+                className={`px-4 py-2 text-left rounded-md transition-opacity duration-200 hover:opacity-80 cursor-pointer ${pathname === '/educators'
                   ? 'bg-primary/10 dark:bg-primary/20 text-primary'
                   : 'hover:bg-muted'
                   }`}
@@ -242,7 +242,7 @@ export function Header() {
 
               <button
                 onClick={() => handleNavigate('/resources')}
-                className={`px-4 py-2 text-left rounded-md transition-colors ${pathname.startsWith('/resources')
+                className={`px-4 py-2 text-left rounded-md transition-opacity duration-200 hover:opacity-80 cursor-pointer ${pathname.startsWith('/resources')
                   ? 'bg-primary/10 dark:bg-primary/20 text-primary'
                   : 'hover:bg-muted'
                   }`}
@@ -252,7 +252,7 @@ export function Header() {
 
               <button
                 onClick={() => handleNavigate('/glossary')}
-                className={`px-4 py-2 text-left rounded-md transition-colors ${pathname === '/glossary'
+                className={`px-4 py-2 text-left rounded-md transition-opacity duration-200 hover:opacity-80 cursor-pointer ${pathname === '/glossary'
                   ? 'bg-primary/10 dark:bg-primary/20 text-primary'
                   : 'hover:bg-muted'
                   }`}
@@ -262,7 +262,7 @@ export function Header() {
 
               {/* Language Switcher in Mobile Menu */}
               <div className="px-4 py-2 mt-2 border-t pt-4 flex items-center gap-3" style={{ borderTopColor: mobileSeparatorColor }}>
-                {/* <LanguageSwitcher /> */}
+                <LanguageSwitcher />
                 <ThemeToggle />
               </div>
             </nav>

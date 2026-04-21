@@ -1,6 +1,5 @@
-import { Globe } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
-import { Language, LANGUAGE_NAMES, SUPPORTED_LANGUAGES } from '../i18n';
+import { LANGUAGE_NAMES, SUPPORTED_LANGUAGES } from '../i18n';
 import {
   Popover,
   PopoverContent,
@@ -9,6 +8,7 @@ import {
 
 export function LanguageSwitcher() {
   const { language, setLanguage } = useLanguage();
+  const activeLanguageLabel = language.toUpperCase();
 
   const languages = SUPPORTED_LANGUAGES.map(code => ({
     code,
@@ -19,10 +19,10 @@ export function LanguageSwitcher() {
     <Popover>
       <PopoverTrigger asChild>
         <button
-          className="p-2 rounded-full hover:bg-white/20 transition-colors"
+          className="px-3 py-1.5 rounded-full border border-gray-300 dark:border-gray-600 text-xs font-semibold tracking-wide text-gray-900 dark:text-gray-100 hover:bg-white/20 dark:hover:bg-gray-700 hover:opacity-80 transition-opacity duration-200 cursor-pointer"
           aria-label="Select language"
         >
-           <Globe className="text-black" size={20} />
+          {activeLanguageLabel}
         </button>
       </PopoverTrigger>
       <PopoverContent className="w-40 p-2" align="end">

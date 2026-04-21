@@ -210,8 +210,13 @@ export function IntroPage() {
                             )}
                             {id !== 6 && (
                               <div
-                                className="absolute top-3 left-3 px-2 py-1.5 rounded-full shadow-md z-20 pointer-events-none"
-                                style={{ backgroundColor: '#153833', transform: 'translateZ(1px)' }}
+                                className="absolute px-3 py-2 rounded-full shadow-md z-20 pointer-events-none"
+                                style={{
+                                  top: '0.6rem',
+                                  left: '0.9rem',
+                                  backgroundColor: '#123A2B',
+                                  transform: 'translateZ(1px)'
+                                }}
                               >
                                 <span className="text-lg font-bold text-white tracking-wide">{t.pages.intro.modulePrefix} {id}</span>
                               </div>
@@ -220,7 +225,7 @@ export function IntroPage() {
 
                           {/* Title Bar */}
                           <div className="px-6 py-4 min-h-16 flex items-center justify-center flex-shrink-0 rounded-b-[2rem]" style={{
-                            backgroundColor: '#153833',
+                            backgroundColor: '#123A2B',
                             borderBottomLeftRadius: moduleCardRadius,
                             borderBottomRightRadius: moduleCardRadius
                           }}>
