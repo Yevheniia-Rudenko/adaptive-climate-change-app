@@ -19,15 +19,23 @@ export const module1 = {
               explanation: 'Recycling hilft, aber der Effekt ist gering. Was 10-mal wirkungsvoller ist: weniger Fleisch essen, weniger fliegen und auf saubere Energie umsteigen.'
             },
             {
-              statement: 'Man muss ein Experte sein, um beim Klimawandel etwas zu bewirken.',
-              explanation: 'Jeder kann eine Rolle spielen. Manchmal ist es das Wirkungsvollste, einfach mit Freunden und Familie darüber zu sprechen.'
+              statement: 'Wissenschaftler sind sich uneinig darüber, ob der Klimawandel real ist.',
+              explanation: '97 % der Klimawissenschaftler stimmen darin überein, dass er real und vom Menschen verursacht ist.'
+            },
+            {
+              statement: 'Erneuerbare Energien sind heute in den meisten Ländern billiger als Kohle.',
+              explanation: 'Solar- und Windenergie sind heute in den meisten Teilen der Welt der günstigste Strom.'
             }
           ]
         }, // 3: true-or-myth
         {
+          content: 'Der Klimawandel wird oft missverstanden.\n\nIn diesem Modul werden wir nicht nur die Fakten erforschen, sondern auch, wie wir uns zu ihnen verhalten.',
+          hideIcon: true
+        }, // 4: text
+        {
           title: '**Kernkonzepte**',
           content: 'Um zu beginnen, lassen Sie uns einige der folgenden Kernkonzepte untersuchen. Nehmen Sie sich einen Moment Zeit, um die folgenden Karten durchzusehen und dabei auch Ihre eigenen Definitionen zu berücksichtigen.'
-        }, // 4: text
+        }, // 5: text
         {
           title: '', // 5: flip-cards
           cards: [

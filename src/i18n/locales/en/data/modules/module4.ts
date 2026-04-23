@@ -9,6 +9,21 @@ export const module4 = {
           content: "To change outcomes, we need to look beneath the surface at systems.\n\nWe need systems awareness to understand climate change because it's not caused by one thing—it's shaped by many interconnected systems like energy, transportation, food, economics, and politics that all influence one another.\n\nSystems awareness, a combination of *systems thinking and systems sensing*, helps us see these connections clearly, so we can design climate solutions that are effective, fair, and avoid unintended consequences."
         },
         {
+          content: "What we see is only part of the system—or is it?"
+        },
+        {
+          items: [
+            {
+              statement: 'Climate change is mainly caused by individual choices.',
+              explanation: 'Individual actions matter, but systems, policies, and infrastructure shape the biggest outcomes.'
+            },
+            {
+              statement: 'Changing beliefs and mindsets can influence real-world systems.',
+              explanation: 'Mental models shape decisions, which shape systems.'
+            }
+          ]
+        },
+        {
           title: '🌊 The Systems Iceberg',
           content: 'The Systems Iceberg Model is a way of looking at the world that helps us understand *why* things happen—not just *what* happens on the surface.'
         },

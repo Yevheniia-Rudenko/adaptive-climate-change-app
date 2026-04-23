@@ -19,15 +19,23 @@ export const module1 = {
               explanation: 'Geri dönüşüm yardımcı olur ancak etkisi küçüktür. 10 kat daha etkili olan şeyler: daha az et yemek, daha az uçmak ve temiz enerjiye geçmektir.'
             },
             {
-              statement: 'İklim değişikliği konusunda fark yaratmak için uzman olmanız gerekir.',
-              explanation: 'Herkesin oynayacağı bir rol vardır. Bazen, sadece arkadaşlarınızla ve ailenizle bu konuyu konuşmak bile yapabileceğiniz en güçlü şeydir.'
+              statement: 'Bilim insanları iklim değişikliğinin gerçek olup olmadığı konusunda gerçekte fikir ayrılığına düşüyorlar.',
+              explanation: "İklim bilimcilerin %97'si bunun gerçek ve insan kaynaklı olduğu konusunda hemfikir."
+            },
+            {
+              statement: 'Yenilenebilir enerji artık çoğu ülkede kömürden daha ucuz.',
+              explanation: 'Güneş ve rüzgâr artık dünyanın çoğunda en ucuz elektriktir.'
             }
           ]
         }, // 3: true-or-myth
         {
+          content: 'İklim değişikliği genellikle yanlış anlaşılır.\n\nBu modülde sadece gerçekleri değil, onlarla nasıl ilişki kurduğumuzu da keşfedeceğiz.',
+          hideIcon: true
+        }, // 4: text
+        {
           title: '**Temel Kavramlar**',
           content: 'Başlamak için aşağıdaki temel kavramlardan bazılarını keşfedelim. Kendi tanımlarını da düşünerek aşağıdaki kartları gözden geçirmeye biraz zaman ayır.'
-        }, // 4: text
+        }, // 5: text
         {
           title: '', // 5: flip-cards
           cards: [

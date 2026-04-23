@@ -60,6 +60,14 @@ export function useLocalizedModule(moduleId: number): ModuleStructure | undefine
               }));
             }
 
+            // Preserve quiz answers for true-or-myth blocks when translation provides statement/explanation
+            if (Array.isArray((block as any).items) && Array.isArray((translatedBlock as any).items) && block.type === 'true-or-myth') {
+              mergedBlock.items = (block as any).items.map((baseItem: any, itemIdx: number) => ({
+                ...baseItem,
+                ...((translatedBlock as any).items?.[itemIdx] ?? {}),
+              }));
+            }
+
             return mergedBlock as any;
           })
         };

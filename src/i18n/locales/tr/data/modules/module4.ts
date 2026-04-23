@@ -9,6 +9,21 @@ export const module4 = {
           content: 'Sonuçları değiştirmek için yüzeyin altına bakmalı ve sistemleri anlamalıyız.\n\nİklim değişikliğini anlamak için sistem farkındalığına ihtiyacımız var; çünkü iklim değişikliğine tek bir neden yol açmaz. Enerji, ulaşım, gıda, ekonomi ve politika gibi birbirini etkileyen çok sayıda bağlantılı sistem tarafından şekillenir.\n\n*Sistem düşüncesi* ve *sistem algısının* birleşimi olan sistem farkındalığı, bu bağlantıları net görmemize yardımcı olur; böylece etkili, adil ve istenmeyen sonuçlardan kaçınan iklim çözümleri tasarlayabiliriz.'
         },
         {
+          content: "Gördüğümüz şey sistemin sadece bir parçası mı, yoksa daha fazlası mı?"
+        },
+        {
+          items: [
+            {
+              statement: 'İklim değişikliğine temel olarak bireysel seçimler neden olur.',
+              explanation: 'Bireysel eylemler önemlidir, ancak en büyük sonuçları sistemler, politikalar ve altyapı şekillendirir.'
+            },
+            {
+              statement: 'İnançları ve zihniyetleri değiştirmek, gerçek dünyadaki sistemleri etkileyebilir.',
+              explanation: 'Zihinsel modeller kararları, kararlar da sistemleri şekillendirir.'
+            }
+          ]
+        },
+        {
           title: '🌊 Sistem buzdağı',
           content: 'Sistem buzdağı modeli, dünyaya bakmanın; yalnızca yüzeyde *ne* olduğuna değil, olayların *neden* olduğuna odaklanan bir yoludur.'
         },

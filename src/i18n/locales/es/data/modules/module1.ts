@@ -19,15 +19,23 @@ export const module1 = {
               explanation: 'El reciclaje ayuda, pero su impacto es pequeño. Lo que tiene 10 veces más impacto: comer menos carne, volar menos y cambiar a energía limpia.'
             },
             {
-              statement: 'Tienes que ser un experto para marcar la diferencia en el cambio climático.',
-              explanation: 'Todos tenemos un papel que jugar. A veces, el simple hecho de hablar de ello con amigos y familiares es lo más poderoso que puedes hacer.'
+              statement: 'Los científicos en realidad no se ponen de acuerdo sobre si el cambio climático es real.',
+              explanation: 'El 97% de los científicos del clima coinciden en que es real y causado por el hombre.'
+            },
+            {
+              statement: 'La energía renovable es ahora más barata que el carbón en la mayoría de los países.',
+              explanation: 'La energía solar y la eólica son ahora la electricidad más barata en la mayor parte del mundo.'
             }
           ]
         }, // 3: true-or-myth
         {
+          content: 'El cambio climático a menudo se malinterpreta.\n\nEn este módulo exploraremos no solo los hechos, sino cómo nos relacionamos con ellos.',
+          hideIcon: true
+        }, // 4: text
+        {
           title: '**Conceptos Clave**',
           content: 'Para empezar, exploremos algunos de los siguientes conceptos clave. Tómate un momento para revisar las siguientes tarjetas, considerando también tus propias definiciones.'
-        }, // 4: text
+        }, // 5: text
         {
           title: '', // 5: flip-cards
           cards: [

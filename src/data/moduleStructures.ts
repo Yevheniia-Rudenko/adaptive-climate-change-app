@@ -1563,6 +1563,26 @@ If a government wants people to support a carbon price, it has to think carefull
           },
           {
             type: 'text',
+            content: "What we see is only part of the system—or is it?",
+            hideIcon: true
+          },
+          {
+            type: 'true-or-myth',
+            items: [
+              {
+                statement: 'Climate change is mainly caused by individual choices.',
+                answer: 'MYTH',
+                explanation: 'Individual actions matter, but systems, policies, and infrastructure shape the biggest outcomes.'
+              },
+              {
+                statement: 'Changing beliefs and mindsets can influence real-world systems.',
+                answer: 'TRUE',
+                explanation: 'Mental models shape decisions, which shape systems.'
+              }
+            ]
+          },
+          {
+            type: 'text',
             title: '🌊 The Systems Iceberg',
             content: "The Systems Iceberg Model is a way of looking at the world that helps us understand *why* things happen—not just *what* happens on the surface."
           },
