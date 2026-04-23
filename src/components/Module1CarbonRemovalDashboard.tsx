@@ -87,6 +87,7 @@ export default function Module1CarbonRemovalDashboard() {
   const [section1DefaultPct, setSection1DefaultPct] = useState<number | null>(null);
   const [selectedGraphId, setSelectedGraphId] = useState('62');
   const [section2SelectedGraphId, setSection2SelectedGraphId] = useState('62');
+  const [cropYieldData, setCropYieldData] = useState<{name: string, baseline: number, current: number}[]>([]);
 
   // Section 2 states
   const [section2DeforestationValue, setSection2DeforestationValue] = useState(0);
@@ -281,6 +282,27 @@ export default function Module1CarbonRemovalDashboard() {
     }
   };
 
+  const readCropYield143 = () => {
+    if (!modelContextRef.current) return;
+    const crops = [
+      { name: 'Maize',   varId: '_change_in_global_crop_yield[_maize]'   },
+      { name: 'Wheat',   varId: '_change_in_global_crop_yield[_wheat]'   },
+      { name: 'Rice',    varId: '_change_in_global_crop_yield[_rice]'    },
+      { name: 'Soybean', varId: '_change_in_global_crop_yield[_soybean]' },
+    ];
+    const data = crops.map(({ name, varId }) => {
+      const refS = modelContextRef.current.getSeriesForVar(varId, 'Ref')
+               || modelContextRef.current.getSeriesForVar(varId, 'baseline');
+      const curS = modelContextRef.current.getSeriesForVar(varId);
+      return {
+        name,
+        baseline: Math.abs(refS?.getValueAtTime?.(2100) ?? 0),
+        current:  Math.abs(curS?.getValueAtTime?.(2100) ?? 0),
+      };
+    });
+    setCropYieldData(data);
+  };
+
   const updateAllGraphs = () => {
     // Update Section 1 graph
     if (section1GraphViewRef.current) {
@@ -293,6 +315,7 @@ export default function Module1CarbonRemovalDashboard() {
     }
 
     updateTemperatureDisplay();
+    readCropYield143();
   };
 
   const getGraphHeight = (containerWidth: number, graphId: string) => {
@@ -772,12 +795,42 @@ export default function Module1CarbonRemovalDashboard() {
                   {SECTION1_GRAPHS.map(g => <option key={g.id} value={g.id}>{str(g.labelKey)}</option>)}
                 </select>
               </div>
-              <div ref={section1GraphContainerRef} className="relative w-full">
-                <canvas
-                  ref={section1CanvasRef}
-                  style={{ display: 'block', width: '100%', height: '100%', pointerEvents: 'none' }}
-                />
-              </div>
+              {/* Custom HTML chart for graph 143, canvas for all others */}
+              {selectedGraphId === '143' ? (
+                <div style={{ padding: '8px 4px 4px' }}>
+                  {(() => {
+                    const maxVal = Math.max(...cropYieldData.map(d => Math.max(d.baseline, d.current)), 1);
+                    const isDark = document.documentElement.classList.contains('dark');
+                    const labelColor = isDark ? '#d1d5db' : '#374151';
+                    return cropYieldData.map(({ name, baseline, current }) => (
+                      <div key={name} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px', gap: '8px' }}>
+                        <span style={{ width: '58px', fontSize: '12px', fontWeight: 700, color: labelColor, flexShrink: 0, textAlign: 'right' }}>{name}</span>
+                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '3px', minWidth: 0 }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                            <div style={{ flex: 1, position: 'relative', height: '22px', background: '#e5e7eb', borderRadius: '2px', overflow: 'hidden' }}>
+                              <div style={{ width: `${(baseline / maxVal) * 100}%`, height: '100%', background: '#000000', borderRadius: '2px' }} />
+                            </div>
+                            <span style={{ width: '42px', fontSize: '12px', fontWeight: 700, color: labelColor, flexShrink: 0 }}>{baseline.toFixed(1)}%</span>
+                          </div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                            <div style={{ flex: 1, position: 'relative', height: '22px', background: '#e5e7eb', borderRadius: '2px', overflow: 'hidden' }}>
+                              <div style={{ width: `${(current / maxVal) * 100}%`, height: '100%', background: '#00b6f1', borderRadius: '2px' }} />
+                            </div>
+                            <span style={{ width: '42px', fontSize: '12px', fontWeight: 700, color: labelColor, flexShrink: 0 }}>{current.toFixed(1)}%</span>
+                          </div>
+                        </div>
+                      </div>
+                    ));
+                  })()}
+                </div>
+              ) : (
+                <div ref={section1GraphContainerRef} className="relative w-full">
+                  <canvas
+                    ref={section1CanvasRef}
+                    style={{ display: 'block', width: '100%', height: '100%', pointerEvents: 'none' }}
+                  />
+                </div>
+              )}
               {/* Dynamic legend — species graph gets marine/land badges, crop yield gets 3-part legend */}
               {selectedGraphId === '279' ? (
                 <div className="mt-3 text-center">

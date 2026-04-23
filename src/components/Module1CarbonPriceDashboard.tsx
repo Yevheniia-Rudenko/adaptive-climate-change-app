@@ -112,6 +112,7 @@ export default function Module1CarbonPriceDashboard() {
   const tempCRef = useRef<HTMLSpanElement>(null);
   const tempFRef = useRef<HTMLSpanElement>(null);
   const [selectedGraphId, setSelectedGraphId] = useState('90');
+  const [cropYieldData, setCropYieldData] = useState<{name: string, baseline: number, current: number}[]>([]);
 
   const modelRef = useRef<any>(null);
   const modelContextRef = useRef<any>(null);
@@ -223,9 +224,31 @@ export default function Module1CarbonPriceDashboard() {
     }
   };
 
+  const readCropYield143 = () => {
+    if (!modelContextRef.current) return;
+    const crops = [
+      { name: 'Maize',   varId: '_change_in_global_crop_yield[_maize]'   },
+      { name: 'Wheat',   varId: '_change_in_global_crop_yield[_wheat]'   },
+      { name: 'Rice',    varId: '_change_in_global_crop_yield[_rice]'    },
+      { name: 'Soybean', varId: '_change_in_global_crop_yield[_soybean]' },
+    ];
+    const data = crops.map(({ name, varId }) => {
+      const refS = modelContextRef.current.getSeriesForVar(varId, 'Ref')
+               || modelContextRef.current.getSeriesForVar(varId, 'baseline');
+      const curS = modelContextRef.current.getSeriesForVar(varId);
+      return {
+        name,
+        baseline: Math.abs(refS?.getValueAtTime?.(2100) ?? 0),
+        current:  Math.abs(curS?.getValueAtTime?.(2100) ?? 0),
+      };
+    });
+    setCropYieldData(data);
+  };
+
   const updateDashboard = () => {
     if (graphViewRef.current) updateGraphData(graphViewRef.current);
     updateTemperatureDisplay();
+    readCropYield143();
   };
 
   const getGraphHeight = (containerWidth: number, graphId: string) => {
@@ -542,12 +565,39 @@ export default function Module1CarbonPriceDashboard() {
             {GRAPHS.map(g => <option key={g.id} value={g.id}>{graphLabel(g.id)}</option>)}
           </select>
         </div>
-        <div ref={graphContainerRef} style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
-          <canvas
-            ref={canvasRef}
-            style={{ display: 'block', width: '100%', pointerEvents: 'none' }}
-          />
-        </div>
+        {/* Graph or custom chart */}
+        {selectedGraphId === '143' ? (
+          <div style={{ padding: '8px 4px 4px' }}>
+            {(() => {
+              const maxVal = Math.max(...cropYieldData.map(d => Math.max(d.baseline, d.current)), 1);
+              const isDark = document.documentElement.classList.contains('dark');
+              const labelColor = isDark ? '#d1d5db' : '#374151';
+              return cropYieldData.map(({ name, baseline, current }) => (
+                <div key={name} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px', gap: '8px' }}>
+                  <span style={{ width: '58px', fontSize: '12px', fontWeight: 700, color: labelColor, flexShrink: 0, textAlign: 'right' }}>{name}</span>
+                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '3px', minWidth: 0 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <div style={{ flex: 1, position: 'relative', height: '22px', background: '#e5e7eb', borderRadius: '2px', overflow: 'hidden' }}>
+                        <div style={{ width: `${(baseline / maxVal) * 100}%`, height: '100%', background: '#000000', borderRadius: '2px' }} />
+                      </div>
+                      <span style={{ width: '42px', fontSize: '12px', fontWeight: 700, color: labelColor, flexShrink: 0 }}>{baseline.toFixed(1)}%</span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <div style={{ flex: 1, position: 'relative', height: '22px', background: '#e5e7eb', borderRadius: '2px', overflow: 'hidden' }}>
+                        <div style={{ width: `${(current / maxVal) * 100}%`, height: '100%', background: '#00b6f1', borderRadius: '2px' }} />
+                      </div>
+                      <span style={{ width: '42px', fontSize: '12px', fontWeight: 700, color: labelColor, flexShrink: 0 }}>{current.toFixed(1)}%</span>
+                    </div>
+                  </div>
+                </div>
+              ));
+            })()}
+          </div>
+        ) : (
+          <div ref={graphContainerRef} style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
+            <canvas ref={canvasRef} style={{ display: 'block', width: '100%', pointerEvents: 'none' }} />
+          </div>
+        )}
         {/* Dynamic legend */}
                 {selectedGraphId === '279' ? (
           <div className="mt-3 text-center">
