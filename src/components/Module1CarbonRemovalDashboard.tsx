@@ -10,11 +10,12 @@ import '../styles/enroads-dashboard.css';
 
 // Graph definitions for Section 1 dropdown
 const SECTION1_GRAPHS = [
-  { id: '90', labelKey: 'graph_90_title', varId: '_slr_from_2000_in_meters' },
+  { id: '62',  labelKey: 'graph_62_title',  varId: '_co2_equivalent_net_emissions' },
+  { id: '90',  labelKey: 'graph_90_title',  varId: '_slr_from_2000_in_meters' },
   { id: '169', labelKey: 'graph_169_title', varId: '_global_deforestation_mha' },
   { id: '275', labelKey: 'graph_275_title', varId: '_excess_deaths_from_extreme_heat_per_100k_people' },
   { id: '279', labelKey: 'graph_279_title', varId: '_percent_endemic_species_at_high_risk_of_extinction' },
-  { id: '183', labelKey: 'graph_183_title', varId: '_crop_yield_per_hectare_kg_per_year_per_ha' },
+  { id: '143', labelKey: 'graph_143_title', varId: '_change_in_global_crop_yield[_maize]' },
   { id: '112', labelKey: 'graph_112_title', varId: '_pm2_5_emissions_from_energy_mt_per_year' }
 ];
 
@@ -84,8 +85,9 @@ export default function Module1CarbonRemovalDashboard() {
   const [section1SliderValue, setSection1SliderValue] = useState(0);
   const [section1SliderText, setSection1SliderText] = useState(tc.statusQuo);
   const [section1DefaultPct, setSection1DefaultPct] = useState<number | null>(null);
-  const [selectedGraphId, setSelectedGraphId] = useState('90');
+  const [selectedGraphId, setSelectedGraphId] = useState('62');
   const [section2SelectedGraphId, setSection2SelectedGraphId] = useState('62');
+  const [cropYieldData, setCropYieldData] = useState<{name: string, baseline: number, current: number}[]>([]);
 
   // Section 2 states
   const [section2DeforestationValue, setSection2DeforestationValue] = useState(0);
@@ -144,8 +146,8 @@ export default function Module1CarbonRemovalDashboard() {
     if (key === 'graph_279_title') {
       return language === 'de' ? 'Artenverlust - Aussterben' : language === 'es' ? 'Pérdida de especies - extinción' : language === 'tr' ? 'Tür kaybı - yok oluş' : 'Species Loss - Extinction';
     }
-    if (key === 'graph_183_title') {
-      return language === 'de' ? 'Ernteerträge' : language === 'es' ? 'Rendimiento de cultivos' : language === 'tr' ? 'Ürün verimi' : 'Crop Yield';
+    if (key === 'graph_143_title') {
+      return language === 'de' ? 'Ertragsrückgang durch Erwärmung' : language === 'es' ? 'Disminución del rendimiento de cultivos por calentamiento' : language === 'tr' ? 'Isınmadan kaynaklanan ürün verimi azalması' : 'Crop Yield Decrease from Warming';
     }
     if (key === 'graph_112_title') {
       return language === 'de' ? 'Luftverschmutzung aus der Energieerzeugung – PM2,5-Emissionen' : language === 'es' ? 'Contaminación del aire por energía – emisiones PM2,5' : language === 'tr' ? 'Enerjiden kaynaklanan hava kirliliği - PM2.5 emisyonları' : 'Air Pollution from Energy - PM2.5 Emissions';
@@ -280,6 +282,27 @@ export default function Module1CarbonRemovalDashboard() {
     }
   };
 
+  const readCropYield143 = () => {
+    if (!modelContextRef.current) return;
+    const crops = [
+      { name: 'Maize',   varId: '_change_in_global_crop_yield[_maize]'   },
+      { name: 'Wheat',   varId: '_change_in_global_crop_yield[_wheat]'   },
+      { name: 'Rice',    varId: '_change_in_global_crop_yield[_rice]'    },
+      { name: 'Soybean', varId: '_change_in_global_crop_yield[_soybean]' },
+    ];
+    const data = crops.map(({ name, varId }) => {
+      const refS = modelContextRef.current.getSeriesForVar(varId, 'Ref')
+               || modelContextRef.current.getSeriesForVar(varId, 'baseline');
+      const curS = modelContextRef.current.getSeriesForVar(varId);
+      return {
+        name,
+        baseline: Math.abs(refS?.getValueAtTime?.(2100) ?? 0),
+        current:  Math.abs(curS?.getValueAtTime?.(2100) ?? 0),
+      };
+    });
+    setCropYieldData(data);
+  };
+
   const updateAllGraphs = () => {
     // Update Section 1 graph
     if (section1GraphViewRef.current) {
@@ -292,21 +315,25 @@ export default function Module1CarbonRemovalDashboard() {
     }
 
     updateTemperatureDisplay();
+    readCropYield143();
   };
 
-  const getGraphHeight = (containerWidth: number) => {
+  const getGraphHeight = (containerWidth: number, graphId: string) => {
+    if (graphId === '143') {
+      return 560;
+    }
     const height = containerWidth * 0.55;
     return Math.max(220, Math.min(320, Math.round(height)));
   };
 
-  const resizeCanvasToContainer = (containerRef: React.RefObject<HTMLDivElement | null>, canvasRef: React.RefObject<HTMLCanvasElement | null>) => {
+  const resizeCanvasToContainer = (containerRef: React.RefObject<HTMLDivElement | null>, canvasRef: React.RefObject<HTMLCanvasElement | null>, graphId: string) => {
     const container = containerRef.current;
     const canvas = canvasRef.current;
     if (!container || !canvas) return;
 
     const rect = container.getBoundingClientRect();
     const dpr = window.devicePixelRatio || 1;
-    const height = getGraphHeight(rect.width);
+    const height = getGraphHeight(rect.width, graphId);
 
     canvas.width = Math.floor(rect.width * dpr);
     canvas.height = Math.floor(height * dpr);
@@ -339,6 +366,13 @@ export default function Module1CarbonRemovalDashboard() {
             ...curr.slice(0, 2).map((d: any, i: number) => ({ ...d, color: [MARINE, LAND][i] }))
           ]
         };
+      }
+
+      // Graph 143 (Crop Yield Decrease from Warming) is an h-bar with 8 datasets:
+      // Maize, Wheat, Rice, Soybean × (Ref + Current). Return the full raw config so
+      // all four crops render — matching the En-ROADS reference view.
+      if (graphId === '143') {
+        return fromConfig;
       }
 
       const baselineDataset = fromConfig.datasets?.find(
@@ -404,7 +438,7 @@ export default function Module1CarbonRemovalDashboard() {
     }
 
     const canvas = canvasRef.current;
-    resizeCanvasToContainer(containerRef, canvasRef);
+    resizeCanvasToContainer(containerRef, canvasRef, graphId);
 
     const viewModel = createGraphViewModel(graphSpec);
 
@@ -624,12 +658,12 @@ export default function Module1CarbonRemovalDashboard() {
 
     const ro = new ResizeObserver(() => {
       if (section1GraphContainerRef.current && section1CanvasRef.current) {
-        resizeCanvasToContainer(section1GraphContainerRef, section1CanvasRef);
+        resizeCanvasToContainer(section1GraphContainerRef, section1CanvasRef, selectedGraphId);
         if (section1GraphViewRef.current) section1GraphViewRef.current.updateData(false);
       }
 
       if (section2GraphContainerRef.current && section2CanvasRef.current) {
-        resizeCanvasToContainer(section2GraphContainerRef, section2CanvasRef);
+        resizeCanvasToContainer(section2GraphContainerRef, section2CanvasRef, section2SelectedGraphId);
         if (section2GraphViewRef.current) section2GraphViewRef.current.updateData(false);
       }
     });
@@ -639,7 +673,7 @@ export default function Module1CarbonRemovalDashboard() {
     if (!container1 && !container2) return () => ro.disconnect();
 
     return () => ro.disconnect();
-  }, [isLoading]);
+  }, [isLoading, selectedGraphId, section2SelectedGraphId]);
 
   useEffect(() => {
     const previousBodyOverflow = document.body.style.overflow;
@@ -761,13 +795,43 @@ export default function Module1CarbonRemovalDashboard() {
                   {SECTION1_GRAPHS.map(g => <option key={g.id} value={g.id}>{str(g.labelKey)}</option>)}
                 </select>
               </div>
-              <div ref={section1GraphContainerRef} className="relative w-full">
-                <canvas
-                  ref={section1CanvasRef}
-                  style={{ display: 'block', width: '100%', height: '100%', pointerEvents: 'none' }}
-                />
-              </div>
-              {/* Dynamic legend — species graph gets marine/land badges */}
+              {/* Custom HTML chart for graph 143, canvas for all others */}
+              {selectedGraphId === '143' ? (
+                <div style={{ padding: '8px 4px 4px' }}>
+                  {(() => {
+                    const maxVal = Math.max(...cropYieldData.map(d => Math.max(d.baseline, d.current)), 1);
+                    const isDark = document.documentElement.classList.contains('dark');
+                    const labelColor = isDark ? '#d1d5db' : '#374151';
+                    return cropYieldData.map(({ name, baseline, current }) => (
+                      <div key={name} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px', gap: '8px' }}>
+                        <span style={{ width: '58px', fontSize: '12px', fontWeight: 700, color: labelColor, flexShrink: 0, textAlign: 'right' }}>{name}</span>
+                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '3px', minWidth: 0 }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                            <div style={{ flex: 1, position: 'relative', height: '22px', background: '#e5e7eb', borderRadius: '2px', overflow: 'hidden' }}>
+                              <div style={{ width: `${(baseline / maxVal) * 100}%`, height: '100%', background: '#000000', borderRadius: '2px' }} />
+                            </div>
+                            <span style={{ width: '42px', fontSize: '12px', fontWeight: 700, color: labelColor, flexShrink: 0 }}>{baseline.toFixed(1)}%</span>
+                          </div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                            <div style={{ flex: 1, position: 'relative', height: '22px', background: '#e5e7eb', borderRadius: '2px', overflow: 'hidden' }}>
+                              <div style={{ width: `${(current / maxVal) * 100}%`, height: '100%', background: '#00b6f1', borderRadius: '2px' }} />
+                            </div>
+                            <span style={{ width: '42px', fontSize: '12px', fontWeight: 700, color: labelColor, flexShrink: 0 }}>{current.toFixed(1)}%</span>
+                          </div>
+                        </div>
+                      </div>
+                    ));
+                  })()}
+                </div>
+              ) : (
+                <div ref={section1GraphContainerRef} className="relative w-full">
+                  <canvas
+                    ref={section1CanvasRef}
+                    style={{ display: 'block', width: '100%', height: '100%', pointerEvents: 'none' }}
+                  />
+                </div>
+              )}
+              {/* Dynamic legend — species graph gets marine/land badges, crop yield gets 3-part legend */}
               {selectedGraphId === '279' ? (
                 <div className="mt-3 text-center">
                   <div className="flex justify-center gap-3 mb-1">
@@ -775,6 +839,12 @@ export default function Module1CarbonRemovalDashboard() {
                     <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#843C0C' }}>{tx.landSpecies}</span>
                   </div>
                   <p className="text-xs text-gray-500 italic">{tx.dashedBaseline}</p>
+                </div>
+              ) : selectedGraphId === '143' ? (
+                <div className="flex justify-center gap-2 mt-3 flex-wrap">
+                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#6b7280' }}>TODAY</span>
+                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE IN 2100</span>
+                  <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#00b6f1' }}>CURRENT SCENARIO IN 2100</span>
                 </div>
               ) : (
                 <div className="flex justify-center gap-3 mt-3">
