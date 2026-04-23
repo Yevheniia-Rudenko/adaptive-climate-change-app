@@ -11,7 +11,18 @@ export const module3 = {
         {
           content: 'Las soluciones climáticas a menudo parecen sencillas, ¿pero lo son realmente?'
         }, // 2: Intro teaser
-        {}, // 3: true-or-myth (items live in moduleStructures.ts — do not override)
+        {
+          items: [
+            {
+              statement: 'Una política climática fuerte puede resolver la crisis climática por sí sola.',
+              explanation: 'Ninguna solución única es suficiente; múltiples políticas deben trabajar juntas.'
+            },
+            {
+              statement: 'Las políticas climáticas pueden tener efectos negativos no deseados.',
+              explanation: 'Las políticas pueden aumentar los costos o afectar de manera desigual a diferentes comunidades.'
+            }
+          ]
+        }, // 3: true-or-myth
         {
           content: 'Ahora vamos a plantear una pregunta importante:'
         }, // 4: Important question text

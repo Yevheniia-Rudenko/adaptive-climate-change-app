@@ -33,7 +33,18 @@ export const module2 = {
           ]
         },
         { title: '**Comprobemos tu intuición sobre cómo se comportan los sistemas.**', content: '' }, // 7: text (quiz intro)
-        {}, // 8: true-or-myth (quiz items live in moduleStructures.ts — do not override)
+        {
+          items: [
+            {
+              statement: 'Si las emisiones dejan de aumentar, los niveles de CO₂ en la atmósfera dejarán de subir.',
+              explanation: 'Incluso si las emisiones se mantienen constantes, el CO₂ sigue acumulándose porque el flujo de entrada sigue superando al de salida.'
+            },
+            {
+              statement: 'Las emisiones de CO₂ deben ser menores que las eliminaciones para que los niveles atmosféricos disminuyan.',
+              explanation: 'Solo cuando las eliminaciones superan a las emisiones es cuando la concentración total baja.'
+            }
+          ]
+        }, // 8: true-or-myth
         { title: '**🛁 Dibuja tus propios Existencia y Flujo**', content: "Para explorar cómo funcionan las \"Existencias y Flujos\", empecemos con un ejemplo personal. Elige un ejemplo de una existencia que te importe." }, // 9: text
         { title: '', content: "**Paso Uno:** Dibuja un diagrama de Existencia y Flujo como en la imagen de abajo.\n\n*Necesitarás papel y un bolígrafo o lápiz para dibujar la Existencia y el Flujo. O también puedes descargar e imprimir esta hoja de trabajo de Existencia y Flujo.*" }, // 10: text
         { alt: 'Diagrama de un modelo de bañera que muestra un grifo llenando un tanque de agua.' }, // 9: image

@@ -11,7 +11,18 @@ export const module3 = {
         {
           content: 'Klimaschutzlösungen erscheinen oft einfach – aber stimmt das wirklich?'
         }, // 2: Intro teaser
-        {}, // 3: true-or-myth (items live in moduleStructures.ts — do not override)
+        {
+          items: [
+            {
+              statement: 'Eine starke Klimapolitik kann die Klimakrise allein lösen.',
+              explanation: 'Keine Einzellösung reicht aus – mehrere politische Maßnahmen müssen zusammenwirken.'
+            },
+            {
+              statement: 'Klimapolitik kann unbeabsichtigte negative Auswirkungen haben.',
+              explanation: 'Maßnahmen können Kosten erhöhen oder unterschiedliche Gemeinschaften ungleich betreffen.'
+            }
+          ]
+        }, // 3: true-or-myth
         {
           content: 'Jetzt stellen wir eine wichtige Frage:'
         }, // 4: Important question text

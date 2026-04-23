@@ -33,7 +33,18 @@ export const module2 = {
           ]
         },
         { title: '**Sistemlerin nasıl davrandığına dair sezgini test edelim.**', content: '' }, // 7: text (quiz intro)
-        {}, // 8: true-or-myth (quiz items live in moduleStructures.ts — do not override)
+        {
+          items: [
+            {
+              statement: 'Emisyonların artması durursa, atmosferdeki CO₂ seviyeleri de yükselmeyi durdurur.',
+              explanation: 'Emisyonlar sabit kalsa bile CO₂ birikmeye devam eder; çünkü içeri giren miktar, çıkan miktardan hâlâ fazladır.'
+            },
+            {
+              statement: 'Atmosferik seviyelerin düşmesi için CO₂ emisyonlarının giderimlerden düşük olması gerekir.',
+              explanation: 'Ancak giderimler (karbon çekilimi) emisyonları aştığında toplam yoğunluk azalır.'
+            }
+          ]
+        }, // 8: true-or-myth
         { title: '**🛁 Kendi Stok ve Akışını Çiz**', content: '"Stoklar ve Akışlar"ın nasıl çalıştığını keşfetmek için kişisel bir örnekle başlayalım. Senin için önemli olan bir stok örneği seç.' }, // 9: text
         { title: '', content: '**Birinci Adım:** Aşağıdaki görseldeki gibi bir Stok ve Akış diyagramı çiz.\n\n*Stok ve Akışı çizmek için kâğıt ve kalem gerekir. İstersen bu Stok ve Akış çalışma kâğıdını indirip yazdırabilirsin.*' }, // 10: text
         { alt: 'Bir musluğun su tankını doldurduğu küvet modeli diyagramı.' }, // 9: image

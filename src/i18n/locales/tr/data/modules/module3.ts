@@ -11,7 +11,18 @@ export const module3 = {
         {
           content: 'İklim çözümleri çoğu zaman basit görünür — ama gerçekten öyle mi?'
         }, // 2: Intro teaser
-        {}, // 3: true-or-myth (items live in moduleStructures.ts — do not override)
+        {
+          items: [
+            {
+              statement: 'Tek bir güçlü iklim politikası, iklim krizini tek başına çözebilir.',
+              explanation: 'Hiçbir çözüm tek başına yeterli değildir; birden fazla politikanın birlikte uygulanması gerekir.'
+            },
+            {
+              statement: 'İklim politikalarının istenmeyen olumsuz etkileri olabilir.',
+              explanation: 'Politikalar maliyetleri artırabilir veya farklı toplulukları eşitsiz bir şekilde etkileyebilir.'
+            }
+          ]
+        }, // 3: true-or-myth
         {
           content: 'Şimdi önemli bir soru soracağız:'
         }, // 4: Important question text
