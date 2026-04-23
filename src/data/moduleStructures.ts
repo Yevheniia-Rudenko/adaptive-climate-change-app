@@ -788,6 +788,26 @@ Thank you for practicing.`
           },
           {
             type: 'text',
+            title: "**Let's check your intuition about how systems behave.**",
+            content: ''
+          },
+          {
+            type: 'true-or-myth',
+            items: [
+              {
+                statement: 'If emissions stop increasing, CO₂ levels in the atmosphere will stop rising.',
+                answer: 'MYTH',
+                explanation: 'Even if emissions stay constant, CO₂ keeps accumulating because inflow still exceeds outflow.'
+              },
+              {
+                statement: 'CO₂ must be lower than removals for atmospheric levels to decrease.',
+                answer: 'TRUE',
+                explanation: 'Only when removals exceed emissions does the total concentration go down.'
+              }
+            ]
+          },
+          {
+            type: 'text',
             title: '**🛁 Draw Your Own Stock & Flow**',
             content: "To explore how \"Stock and Flow\" works, let's start with a personal example. Pick an example of a Stock that you care about."
           },

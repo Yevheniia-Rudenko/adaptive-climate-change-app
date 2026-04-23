@@ -32,8 +32,10 @@ export const module2 = {
             }
           ]
         },
-        { title: '**🛁 Kendi Stok ve Akışını Çiz**', content: '"Stoklar ve Akışlar"ın nasıl çalıştığını keşfetmek için kişisel bir örnekle başlayalım. Senin için önemli olan bir stok örneği seç.' }, // 7: text
-        { title: '', content: '**Birinci Adım:** Aşağıdaki görseldeki gibi bir Stok ve Akış diyagramı çiz.\n\n*Stok ve Akışı çizmek için kâğıt ve kalem gerekir. İstersen bu Stok ve Akış çalışma kâğıdını indirip yazdırabilirsin.*' }, // 8: text
+        { title: '**Sistemlerin nasıl davrandığına dair sezgini test edelim.**', content: '' }, // 7: text (quiz intro)
+        {}, // 8: true-or-myth (quiz items live in moduleStructures.ts — do not override)
+        { title: '**🛁 Kendi Stok ve Akışını Çiz**', content: '"Stoklar ve Akışlar"ın nasıl çalıştığını keşfetmek için kişisel bir örnekle başlayalım. Senin için önemli olan bir stok örneği seç.' }, // 9: text
+        { title: '', content: '**Birinci Adım:** Aşağıdaki görseldeki gibi bir Stok ve Akış diyagramı çiz.\n\n*Stok ve Akışı çizmek için kâğıt ve kalem gerekir. İstersen bu Stok ve Akış çalışma kâğıdını indirip yazdırabilirsin.*' }, // 10: text
         { alt: 'Bir musluğun su tankını doldurduğu küvet modeli diyagramı.' }, // 9: image
         { title: '', content: '**İkinci Adım:** Senin için önemli bir stok seç. İçine giren ya da çıkan şeylere bağlı olarak artıp azalabilen bir şey düşün. "Stok" örnekleri şöyle olabilir:\n\n- İyi oluş düzeyim\n- Param\n- Akademik motivasyon düzeyim\n- İlişkilerimde hissettiğim güven düzeyi\n- Olumlu bir geleceğe dair sahip olduğum umut düzeyi' }, // 10: text
         { title: '', content: '**Üçüncü Adım:** Seçtiğin stok örneği için giriş akışlarını çiz. Stokunu ne ekliyor ya da dolduruyor? En az üç giriş akışı belirlemeye çalış.' }, // 11: text

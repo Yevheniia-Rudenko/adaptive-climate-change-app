@@ -324,6 +324,11 @@ export function FlexibleModulePage({
         startsNewSection = true;
       }
 
+      // True-or-myth quizzes always get their own card.
+      if (block.type === 'true-or-myth') {
+        startsNewSection = true;
+      }
+
       if (startsNewSection) {
         if (currentGroup.length > 0) {
           groups.push(currentGroup);

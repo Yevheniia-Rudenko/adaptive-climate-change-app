@@ -32,8 +32,10 @@ export const module2 = {
             }
           ]
         },
-        { title: '**🛁 Dibuja tus propios Existencia y Flujo**', content: "Para explorar cómo funcionan las \"Existencias y Flujos\", empecemos con un ejemplo personal. Elige un ejemplo de una existencia que te importe." }, // 7: text
-        { title: '', content: "**Paso Uno:** Dibuja un diagrama de Existencia y Flujo como en la imagen de abajo.\n\n*Necesitarás papel y un bolígrafo o lápiz para dibujar la Existencia y el Flujo. O también puedes descargar e imprimir esta hoja de trabajo de Existencia y Flujo.*" }, // 8: text
+        { title: '**Comprobemos tu intuición sobre cómo se comportan los sistemas.**', content: '' }, // 7: text (quiz intro)
+        {}, // 8: true-or-myth (quiz items live in moduleStructures.ts — do not override)
+        { title: '**🛁 Dibuja tus propios Existencia y Flujo**', content: "Para explorar cómo funcionan las \"Existencias y Flujos\", empecemos con un ejemplo personal. Elige un ejemplo de una existencia que te importe." }, // 9: text
+        { title: '', content: "**Paso Uno:** Dibuja un diagrama de Existencia y Flujo como en la imagen de abajo.\n\n*Necesitarás papel y un bolígrafo o lápiz para dibujar la Existencia y el Flujo. O también puedes descargar e imprimir esta hoja de trabajo de Existencia y Flujo.*" }, // 10: text
         { alt: 'Diagrama de un modelo de bañera que muestra un grifo llenando un tanque de agua.' }, // 9: image
         { title: '', content: "**Paso Dos:** Elige una existencia que te importe. Piensa en algo que pueda subir o bajar dependiendo de lo que entre o salga de ello. Algunos ejemplos de \"existencias\" podrían ser:\n\n- Mi nivel de bienestar\n- Mi dinero\n- Mi nivel de motivación académica\n- El nivel de confianza que tengo en mis relaciones\n- El nivel de esperanza que tengo en un futuro positivo" }, // 10: text
         { title: '', content: "**Paso Tres:** Dibuja los flujos de entrada para tu ejemplo de existencia elegido. ¿Qué está añadiendo o llenando tu existencia? Intenta identificar al menos tres flujos de entrada." }, // 11: text
