@@ -10,11 +10,26 @@ export const module1 = {
           content: "Der Klimawandel ist nicht nur ein Thema der Wissenschaft und Daten – er ist auch zutiefst persönlich.\n\n Zu verstehen, wie Klimazukünfte dich, deine Gemeinschaft und die Welt beeinflussen, hilft dabei, eine bedeutungsvolle Verbindung zu diesem Thema aufzubauen. Dieses Modul untersucht, wie wir emotional und intellektuell zu unserer aktuellen Klimasituation stehen, wie wir uns verschiedene mögliche Zukünfte vorstellen und warum diese Verbindungen wichtig sind, um diese komplexen globalen Herausforderungen zu verstehen und uns befähigt zu fühlen, wirksame Maßnahmen zu ergreifen."
         }, // 1: text
         {
-          title: '**Kernkonzepte**',
-          content: 'Um zu beginnen, lassen Sie uns einige der folgenden Kernkonzepte untersuchen. Nehmen Sie sich einen Moment Zeit, um die folgenden Karten durchzusehen und dabei auch Ihre eigenen Definitionen zu berücksichtigen.'
+          content: 'Bevor wir beginnen, lassen Sie uns testen, was wir zu wissen glauben.'
         }, // 2: text
         {
-          title: '', // 3: flip-cards
+          items: [
+            {
+              statement: 'Recycling ist das Wichtigste, was ich für das Klima tun kann.',
+              explanation: 'Recycling hilft, aber der Effekt ist gering. Was 10-mal wirkungsvoller ist: weniger Fleisch essen, weniger fliegen und auf saubere Energie umsteigen.'
+            },
+            {
+              statement: 'Man muss ein Experte sein, um beim Klimawandel etwas zu bewirken.',
+              explanation: 'Jeder kann eine Rolle spielen. Manchmal ist es das Wirkungsvollste, einfach mit Freunden und Familie darüber zu sprechen.'
+            }
+          ]
+        }, // 3: true-or-myth
+        {
+          title: '**Kernkonzepte**',
+          content: 'Um zu beginnen, lassen Sie uns einige der folgenden Kernkonzepte untersuchen. Nehmen Sie sich einen Moment Zeit, um die folgenden Karten durchzusehen und dabei auch Ihre eigenen Definitionen zu berücksichtigen.'
+        }, // 4: text
+        {
+          title: '', // 5: flip-cards
           cards: [
             {
               frontTitle: 'Klimawandel',
@@ -57,7 +72,7 @@ export const module1 = {
         {
           title: '**Reflexion**',
           content: "Nachdenken über den Klimawandel ruft viele Emotionen, Gefühle und Meinungen hervor, die auf unseren Erfahrungen und unserem Kontext basieren.\n\nWie kommen wir mit dieser emotionalen Landschaft in Kontakt?"
-        }, // 4: text
+        }, // 6: text
         {
           title: 'Hören Sie sich die Audioaufnahme an',
           transcript: `Nehmen Sie eine bequeme Sitzposition ein.
@@ -83,18 +98,18 @@ Sie dürfen lernen und Sie dürfen menschlich sein.
 Nehmen Sie noch einen langsamen Atemzug.
 Wenn Sie bereit sind, kehren Sie sanft in den Raum zurück.
 Vielen Dank für das gemeinsame Üben.`
-        }, // 5: audio
+        }, // 7: audio
         {
           title: '**Lernen, unsere Emotionen zu benennen**',
           content: "Das Rad der Emotionen, entwickelt vom Psychologen Robert Plutchik, ist ein Werkzeug, das dir helfen kann, deine Gefühle zu verstehen.\n\nStell es dir wie eine Landkarte der Gefühle vor: Es zeigt acht Grundgefühle – wie Freude, Angst, Wut und Überraschung – und wie sie sich verändern, stärker werden oder sich mit anderen Emotionen vermischen.\n\nWenn du einen harten Tag hast, dich gestresst fühlst oder einfach nur eine Stimmungsänderung bemerkst, kann das Rad dir helfen, dem Geschehen in deinem Inneren einen Namen zu geben und manchmal sogar dessen Intensität zu verringern. Je klarer du deine Emotionen identifizieren kannst, desto einfacher wird es, mit anderen zu kommunizieren, durchdachte Entscheidungen zu treffen und dich selbst besser zu verstehen.\n\nDie Verwendung dieses Werkzeugs ist eine einfache Möglichkeit, emotionales Bewusstsein aufzubauen und dein allgemeines Wohlbefinden zu stärken.\n\nSchau dir das Rad der Emotionen an und identifiziere alle Emotionen, mit denen du dich verbindest, wenn du an den Klimawandel denkst."
-        }, // 6: text
+        }, // 8: text
         {
           title: 'Rad der Emotionen',
           alt: "Plutchiks Rad der Emotionen, ein kreisförmiges Diagramm, das 8 Grundemotionen und ihre Intensitätsvariationen zeigt"
-        }, // 7: image
+        }, // 9: image
         {
           prompt: 'Welche Emotionen fühlst du, wenn du an den Klimawandel denkst?'
-        } // 8: reflection
+        } // 10: reflection
       ]
     },
     {
@@ -102,31 +117,42 @@ Vielen Dank für das gemeinsame Üben.`
       content: [
         {
           title: '**Klimatreiber und Auswirkungen verstehen**',
-          content: "Denken Sie über die aktuellen und möglichen Auswirkungen des Klimawandels nach – ob sie jetzt oder in der Zukunft auftreten. Was liegt Ihnen am meisten am Herzen?"
+          content: "Klimaauswirkungen sind nicht nur mögliche Zukünfte – sie sind heute schon sichtbar."
         }, // 0: text
+        {
+          beforeLabel: 'Davor — intakte Gletscher',
+          afterLabel: 'Danach — schmelzende Gletscher',
+          title: 'Himalaya-Gletscher',
+          subtitle: 'Herbst, ca. 1956 — 18. Oktober 2007',
+          caption: 'Die Himalaya-Gletscher haben in den letzten vier Jahrzehnten über 40 % ihres Eisvolumens verloren. Schmelze des Imja-Gletschers, Himalaya.',
+          imageDetails: 'Der Imja-See, der grauliche Gletschersee, der in der Aufnahme von 2007 über dem Amphu-See zu sehen ist, droht unterliegende Gemeinden zu überfluten, falls sein instabiler natürlicher Damm — bestehend aus Erde und Gestein, das durch Eis zementiert ist — nachgibt. Er überstand das Erdbeben in Nepal 2015, bleibt aber gefährlich. Der Imja-See entstand aus einer Reihe von Schmelztümpeln, die sich um 1960 auf dem Imja-Gletscher nahe dem Mount Everest im Himalaya bildeten. Mitte der 1970er Jahre hatten sich die Tümpel zu einem einzigen Gewässer vereinigt, das im Zuge des Rückzugs und der Ausdünnung der ihn speisenden Gletscher weiter angewachsen ist. Das Entwicklungsprogramm der Vereinten Nationen hat ein Projekt in die Wege geleitet, um den Seespiegel zu senken und die Überflutungsgefahr zu verringern.'
+        }, // 1: before-after-slider
+        {
+          content: "Denken Sie über die aktuellen und möglichen Auswirkungen des Klimawandels nach – ob sie jetzt oder in der Zukunft auftreten. Was liegt Ihnen am meisten am Herzen?"
+        }, // 2: text
         {
           question: 'Was liegt Ihnen am meisten am Herzen?',
           options: ['Überschwemmungen', 'Brände', 'Artenverlust', 'Extreme Hitze']
-        }, // 1: poll
+        }, // 3: poll
         {
           title: '**Was wäre wenn?**',
           content: "Wir werden uns ansehen, was den Klimawandel antreibt, und untersuchen, wie verschiedene Politiken und Maßnahmen die Zukunft gestalten könnten, die wir alle teilen.\n\nWir werden beginnen, einige dieser Haupttreiber durch ein leistungsstarkes Werkzeug namens En-ROADS zu erkunden, einen interaktiven Klimalösungssimulator, der von Climate Interactive und MIT Sloan auf der Grundlage echter wissenschaftlicher Forschung entwickelt wurde.\nStell es dir wie einen realen „Was-wäre-wenn“-Simulator für die Zukunft der Erde vor."
-        }, // 2: text
-        { alt: 'Climate Interactive Logo' }, // 3: image
-        { alt: 'En-ROADS Klimalösungssimulator-Dashboard mit Politkschiebern und Diagrammen, die projizierte Klimaergebnisse anzeigen, einschließlich eines Dropdown-Menüs zum Wechseln zwischen verschiedenen Diagrammansichten.' }, // 4: image
+        }, // 4: text
+        { alt: 'Climate Interactive Logo' }, // 5: image
+        { alt: 'En-ROADS Klimalösungssimulator-Dashboard mit Politkschiebern und Diagrammen, die projizierte Klimaergebnisse anzeigen, einschließlich eines Dropdown-Menüs zum Wechseln zwischen verschiedenen Diagrammansichten.' }, // 6: image
         {
           content: "**Mit En-ROADS kannst du Fragen untersuchen wie:**\n\n• Was passiert, wenn wir mehr erneuerbare Energien nutzen?\n• Was, wenn Autos und Gebäude energieeffizienter werden, sodass sie weniger Gas oder Strom benötigen?\n• Was, wenn Länder einen Preis auf Verschmutzung erheben?\n\nDu bewegst Schieberegler, die reale globale Politikentscheidungen repräsentieren – Energie, Transport, Lebensmittel, Wälder und Technologie – und der Simulator zeigt sofort, wie sich diese Entscheidungen auswirken auf:\n\n• Globale Temperatur\n• Meeresspiegelanstieg\n• Luftverschmutzung\n• Energieverbrauch\n• Wirtschaftliche Ergebnisse"
-        }, // 5: text
-        { title: '**Warum ist die globale Temperatur wichtig?**' }, // 6: text
-        { alt: 'Animation eines Thermometers, das sich bis zum Höchstwert füllt, mit Text zum Klimawandel' }, // 7: image
-        { content: 'Schon kleine Änderungen der Durchschnittstemperatur der Erde können große Veränderungen des Wetters und der Ökosysteme bewirken – genau wie eine kleine Änderung der Körpertemperatur einen Menschen sehr krank machen kann.' }, // 8: text
+        }, // 7: text
+        { title: '**Warum ist die globale Temperatur wichtig?**' }, // 8: text
+        { alt: 'Animation eines Thermometers, das sich bis zum Höchstwert füllt, mit Text zum Klimawandel' }, // 9: image
+        { content: 'Schon kleine Änderungen der Durchschnittstemperatur der Erde können große Veränderungen des Wetters und der Ökosysteme bewirken – genau wie eine kleine Änderung der Körpertemperatur einen Menschen sehr krank machen kann.' }, // 10: text
         {
           title: '**Was bedeutet der Anstieg der globalen Temperatur?**',
           transcript: "Wenn Wissenschaftler über den globalen Temperaturanstieg sprechen, vergleichen sie die heutige durchschnittliche Erdtemperatur mit der vor der Industriellen Revolution um 1850 – bevor Autos, Fabriken und Kraftwerke große Mengen fossiler Brennstoffe verbrannten.\n\nIm Moment hat sich die Erde bereits um etwa 1,2 Grad Celsius oder 2,2 Grad Fahrenheit erwärmt. Das mag nach nicht viel klingen, aber schon kleine Änderungen der Durchschnittstemperatur der Erde können große Änderungen von Wetter und Ökosystemen verursachen – genau wie eine kleine Änderung der Körpertemperatur einen Menschen sehr krank machen kann.\n\nDas Pariser Klimaabkommen hat zwei wichtige Temperaturziele festgelegt. Das Hauptziel ist es, die globale Erwärmung deutlich unter zwei Grad Celsius zu halten. Das sicherere Ziel, zu dem die Länder ermutigt werden, ist die Begrenzung der Erwärmung auf 1,5 Grad Celsius.\n\nBei 1,5 Grad gibt es weniger tödliche Hitzewellen, weniger Meeresspiegelanstieg und ein geringeres Risiko für extremes Wetter. Bei zwei Grad oder mehr werden Stürme und Überschwemmungen viel stärker, viele Korallenriffe sterben ab und mehr Menschen sind extremer Hitze sowie Lebensmittel- und Wasserknappheit ausgesetzt.\n\nObwohl also beide Erwärmungsstufen gefährlich sind, ist die Begrenzung der Erwärmung auf 1,5 Grad viel sicherer als das Erreichen von zwei Grad."
-        }, // 9: audio
-        { content: "In En-ROADS beträgt der Anstieg der globalen Temperatur bis zum Jahr 2100 bei der derzeitigen Projektion, wenn die globale Politik und das kollektive Verhalten so bleiben wie heute, 3,3 Grad Celsius oder 5,9 Grad Fahrenheit." }, // 10: text
-        { alt: 'Projizierter Anstieg der globalen Temperatur um +3,3 °C (+5,9 °F) bis 2100.' }, // 11: image
-        { content: "Das übersteigt das 1,5-Grad-Celsius-Ziel (oder 2,7 Grad Fahrenheit) bei weitem. Was können wir also tun?" } // 12: text
+        }, // 11: audio
+        { content: "In En-ROADS beträgt der Anstieg der globalen Temperatur bis zum Jahr 2100 bei der derzeitigen Projektion, wenn die globale Politik und das kollektive Verhalten so bleiben wie heute, 3,3 Grad Celsius oder 5,9 Grad Fahrenheit." }, // 12: text
+        { alt: 'Projizierter Anstieg der globalen Temperatur um +3,3 °C (+5,9 °F) bis 2100.' }, // 13: image
+        { content: "Das übersteigt das 1,5-Grad-Celsius-Ziel (oder 2,7 Grad Fahrenheit) bei weitem. Was können wir also tun?" } // 14: text
       ]
     },
     {

@@ -1139,7 +1139,32 @@ Thank you for practicing.`
           {
             type: 'text',
             title: '**About this Module**',
-            content: "So far, we’ve explored several high‑leverage climate solutions—policies and actions that can significantly reduce net emissions and slow the rise in global temperature.\n\n Now we’re going to ask an important question:"
+            content: "So far, we’ve explored several high‑leverage climate solutions—policies and actions that can significantly reduce net emissions and slow the rise in global temperature."
+          },
+          {
+            type: 'text',
+            content: 'Climate solutions often seem straightforward—but are they?',
+            hideIcon: true
+          },
+          {
+            type: 'true-or-myth',
+            items: [
+              {
+                statement: 'One strong climate policy can solve the climate crisis on its own.',
+                answer: 'MYTH',
+                explanation: 'No single solution is enough—multiple policies must work together.'
+              },
+              {
+                statement: 'Climate policies can have unintended negative effects.',
+                answer: 'TRUE',
+                explanation: 'Policies can increase costs or affect different communities unequally.'
+              }
+            ]
+          },
+          {
+            type: 'text',
+            content: "Now we're going to ask an important question:",
+            hideIcon: true
           },
           {
             type: 'lottie',

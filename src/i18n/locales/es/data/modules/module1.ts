@@ -10,11 +10,26 @@ export const module1 = {
           content: "El cambio climático no se trata solo de ciencia y datos; también es profundamente personal.\n\n Comprender cómo los futuros climáticos te afectan a ti, a tu comunidad y al mundo ayuda a construir conexiones significativas con el problema. Este módulo explora cómo nos relacionamos emocional e intelectualmente con nuestra situación climática actual, cómo imaginamos diferentes futuros posibles y por qué estas conexiones importan para comprender estos complejos desafíos globales y sentirnos empoderados para tomar medidas efectivas."
         }, // 1: text
         {
-          title: '**Conceptos Clave**',
-          content: 'Para empezar, exploremos algunos de los siguientes conceptos clave. Tómate un momento para revisar las siguientes tarjetas, considerando también tus propias definiciones.'
+          content: 'Antes de comenzar, pongamos a prueba lo que creemos saber.'
         }, // 2: text
         {
-          title: '', // 3: flip-cards
+          items: [
+            {
+              statement: 'El reciclaje es lo más importante que puedo hacer por el clima.',
+              explanation: 'El reciclaje ayuda, pero su impacto es pequeño. Lo que tiene 10 veces más impacto: comer menos carne, volar menos y cambiar a energía limpia.'
+            },
+            {
+              statement: 'Tienes que ser un experto para marcar la diferencia en el cambio climático.',
+              explanation: 'Todos tenemos un papel que jugar. A veces, el simple hecho de hablar de ello con amigos y familiares es lo más poderoso que puedes hacer.'
+            }
+          ]
+        }, // 3: true-or-myth
+        {
+          title: '**Conceptos Clave**',
+          content: 'Para empezar, exploremos algunos de los siguientes conceptos clave. Tómate un momento para revisar las siguientes tarjetas, considerando también tus propias definiciones.'
+        }, // 4: text
+        {
+          title: '', // 5: flip-cards
           cards: [
             {
               frontTitle: 'Cambio Climático',
@@ -57,7 +72,7 @@ export const module1 = {
         {
           title: '**Reflexión**',
           content: "Pensar en el cambio climático evoca muchas emociones, sentimientos y opiniones basados en nuestra experiencia y contexto.\n\n¿Cómo nos ponemos en contacto con este paisaje emocional?"
-        }, // 4: text
+        }, // 6: text
         {
           title: 'Escucha la grabación de audio',
           transcript: `Toma asiento cómodamente.
@@ -83,18 +98,18 @@ Tienes permitido aprender y ser humano.
 Toma una respiración lenta más.
 Cuando estés listo, regresa suavemente a la habitación.
 Gracias por practicar conmigo.`
-        }, // 5: audio
+        }, // 7: audio
         {
           title: '**Aprendiendo a Nombrar Nuestras Emociones**',
           content: "La Rueda de las Emociones, creada por el psicólogo Robert Plutchik, es una herramienta que puede ayudarte a dar sentido a lo que sientes.\n\nPiensa en ella como un mapa de emociones: muestra ocho sentimientos básicos —como alegría, miedo, ira y sorpresa— y cómo se desplazan, se fortalecen o se mezclan con otras emociones.\n\nCuando estés teniendo un día difícil, te sientas estresado o incluso simplemente notes un cambio de humor, la rueda puede ayudarte a ponerle nombre a lo que sucede en tu interior y, a veces, incluso a disminuir su intensidad. Cuanto más claramente puedas identificar tus emociones, más fácil será comunicarte con los demás, tomar decisiones reflexivas y comprenderte mejor a ti mismo.\n\nUsar esta herramienta es una forma sencilla de desarrollar la conciencia emocional y fortalecer tu bienestar general.\n\nEcha un vistazo a la Rueda de las Emociones e identifica cualquier emoción con la que te conectes cuando pienses en el cambio climático."
-        }, // 6: text
+        }, // 8: text
         {
           title: 'Rueda de las Emociones',
           alt: "Rueda de las Emociones de Plutchik, un diagrama circular que muestra 8 emociones básicas y sus variaciones en intensidad"
-        }, // 7: image
+        }, // 9: image
         {
           prompt: '¿Qué emociones sientes cuando piensas en el cambio climático?'
-        } // 8: reflection
+        } // 10: reflection
       ]
     },
     {
@@ -102,31 +117,42 @@ Gracias por practicar conmigo.`
       content: [
         {
           title: '**Comprendiendo los Motores e Impactos Climáticos**',
-          content: "Piensa en los impactos actuales y posibles del cambio climático, ya sea los que ocurren ahora mismo o los del futuro. ¿Qué es lo que más te importa?"
+          content: "Los impactos climáticos no son solo posibilidades futuras; ya son visibles hoy en día."
         }, // 0: text
+        {
+          beforeLabel: 'Antes — glaciares intactos',
+          afterLabel: 'Después — glaciares derritiéndose',
+          title: 'Glaciares del Himalaya',
+          subtitle: 'Otoño, aprox. 1956 — 18 de octubre de 2007',
+          caption: 'Los glaciares del Himalaya han perdido más del 40% de su volumen de hielo en las últimas cuatro décadas. Deshielo del glaciar Imja, Himalayas.',
+          imageDetails: 'El lago Imja, el lago glaciar grisáceo que se ve encima del lago Amphu en la imagen de 2007, amenaza con inundar las comunidades río abajo si su represa natural inestable (que consiste en tierra y rocas unidas por hielo) cede. Sobrevivió al terremoto de Nepal de 2015, pero sigue siendo un peligro. El lago Imja se formó a partir de una serie de pozas de deshielo que comenzaron a formarse en el glaciar Imja, cerca del monte Everest en el Himalaya, alrededor de 1960. Para mediados de la década de 1970, las pozas se habían fusionado en un solo cuerpo de agua, que ha crecido a medida que los glaciares que lo alimentan se han retirado y adelgazado. El Programa de las Naciones Unidas para el Desarrollo ha emprendido un proyecto para reducir el nivel del lago y reducir el riesgo de inundación.'
+        }, // 1: before-after-slider
+        {
+          content: "Piensa en los impactos actuales y posibles del cambio climático, ya sea los que ocurren ahora mismo o los del futuro. ¿Qué es lo que más te importa?"
+        }, // 2: text
         {
           question: '¿Qué es lo que más te importa?',
           options: ['Inundaciones', 'Incendios', 'Pérdida de especies', 'Calor extremo']
-        }, // 1: poll
+        }, // 3: poll
         {
           title: '**¿Qué pasaría si...?**',
           content: "Vamos a observar qué está impulsando el cambio climático y a explorar cómo las diferentes políticas y acciones podrían dar forma al futuro que todos compartimos.\n\nComenzaremos a explorar algunos de estos motores principales a través de una poderosa herramienta llamada En-ROADS, un simulador interactivo de soluciones climáticas creado por Climate Interactive y MIT Sloan basado en investigaciones científicas reales.\nPiensa en ello como un simulador de la vida real de \"¿qué pasaría si?\" para el futuro de la Tierra."
-        }, // 2: text
-        { alt: 'Logotipo de Climate Interactive' }, // 3: image
-        { alt: 'Panel de control de la herramienta de simulación climática En-ROADS con controles deslizantes de políticas y gráficos que muestran los resultados climáticos proyectados, incluido un menú desplegable para cambiar entre diferentes vistas de gráficos.' }, // 4: image
+        }, // 4: text
+        { alt: 'Logotipo de Climate Interactive' }, // 5: image
+        { alt: 'Panel de control de la herramienta de simulación climática En-ROADS con controles deslizantes de políticas y gráficos que muestran los resultados climáticos proyectados, incluido un menú desplegable para cambiar entre diferentes vistas de gráficos.' }, // 6: image
         {
           content: "**En-ROADS te permite explorar preguntas como:**\n\n• ¿Qué sucede si usamos más energía renovable?\n• ¿Qué pasa si los automóviles y los edificios se vuelven más eficientes energéticamente, como necesitar menos gas o electricidad para funcionar?\n• ¿Qué pasa si los países ponen un precio a la contaminación?\n\nMueves controles deslizantes que representan opciones de política global del mundo real (energía, transporte, alimentos, bosques y tecnología) y el simulador muestra instantáneamente cómo esas opciones afectan:\n\n• Temperatura global\n• Aumento del nivel del mar\n• Contaminación del aire\n• Uso de energía\n• Resultados económicos"
-        }, // 5: text
-        { title: '**¿Por qué importa la temperatura global?**' }, // 6: text
-        { alt: 'Animación de un termómetro llenándose al grado máximo con texto sobre el cambio climático' }, // 7: image
-        { content: 'Incluso pequeños cambios en la temperatura promedio de la Tierra pueden causar grandes cambios en el clima y los ecosistemas, al igual que un pequeño cambio en la temperatura corporal puede hacer que un ser humano se enferme gravemente.' }, // 8: text
+        }, // 7: text
+        { title: '**¿Por qué importa la temperatura global?**' }, // 8: text
+        { alt: 'Animación de un termómetro llenándose al grado máximo con texto sobre el cambio climático' }, // 9: image
+        { content: 'Incluso pequeños cambios en la temperatura promedio de la Tierra pueden causar grandes cambios en el clima y los ecosistemas, al igual que un pequeño cambio en la temperatura corporal puede hacer que un ser humano se enferme gravemente.' }, // 10: text
         {
           title: '**¿Qué significa el aumento de la temperatura global?**',
           transcript: "Cuando los científicos hablan del aumento de la temperatura global, comparan la temperatura promedio actual de la Tierra con la que había antes de la Revolución Industrial, alrededor de mil ochocientos cincuenta, antes de que los automóviles, las fábricas y las centrales eléctricas quemaran grandes cantidades de combustibles fósiles.\n\nEn este momento, la Tierra ya se ha calentado aproximadamente uno punto dos grados Celsius, o dos punto dos grados Fahrenheit. Puede que no parezca mucho, pero incluso pequeños cambios en la temperatura promedio de la Tierra pueden causar grandes cambios en el clima y los ecosistemas, al igual que un pequeño cambio en la temperatura corporal puede hacer que un ser humano se enferme gravemente.\n\nEl Acuerdo Climático de París estableció dos objetivos clave de temperatura. El objetivo principal es mantener el calentamiento global muy por debajo de los dos grados Celsius. El objetivo más seguro, al que se anima a los países a aspirar, es limitar el calentamiento a uno punto cinco grados Celsius.\n\nA uno punto cinco grados, hay menos olas de calor mortales, menos aumento del nivel del mar y un menor riesgo de clima extremo. A dos grados o más, las tormentas e inundaciones se vuelven mucho más fuertes, muchos arrecifes de coral mueren y más personas se enfrentan al calor extremo y a la escasez de alimentos y agua.\n\nPor lo tanto, si bien ambos niveles de calentamiento son peligrosos, limitar el calentamiento a uno punto cinco grados es mucho más seguro que alcanzar los dos grados."
-        }, // 9: audio
-        { content: "En En-ROADS, la proyección actual si las políticas globales y el comportamiento colectivo siguen siendo los mismos que en el presente, el aumento de la temperatura global para 2100 será de 3.3 grados Celsius o 5.9 grados Fahrenheit." }, // 10: text
-        { alt: 'Aumento proyectado de la temperatura global de +3.3 °C (+5.9 °F) para 2100.' }, // 11: image
-        { content: "Eso supera con creces el objetivo de 1.5 grados Celsius (o 2.7 grados Fahrenheit). Entonces, ¿qué podemos hacer?" } // 12: text
+        }, // 11: audio
+        { content: "En En-ROADS, la proyección actual si las políticas globales y el comportamiento colectivo siguen siendo los mismos que en el presente, el aumento de la temperatura global para 2100 será de 3.3 grados Celsius o 5.9 grados Fahrenheit." }, // 12: text
+        { alt: 'Aumento proyectado de la temperatura global de +3.3 °C (+5.9 °F) para 2100.' }, // 13: image
+        { content: "Eso supera con creces el objetivo de 1.5 grados Celsius (o 2.7 grados Fahrenheit). Entonces, ¿qué podemos hacer?" } // 14: text
       ]
     },
     {
