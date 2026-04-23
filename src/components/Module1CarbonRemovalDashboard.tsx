@@ -297,7 +297,7 @@ export default function Module1CarbonRemovalDashboard() {
 
   const getGraphHeight = (containerWidth: number, graphId: string) => {
     if (graphId === '143') {
-      return Math.max(380, Math.min(480, Math.round(containerWidth * 0.8)));
+      return 560;
     }
     const height = containerWidth * 0.55;
     return Math.max(220, Math.min(320, Math.round(height)));

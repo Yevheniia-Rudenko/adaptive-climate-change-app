@@ -12,7 +12,7 @@ const GRAPHS = [
   { id: '90',  label: 'Sea Level Rise',                varId: '_slr_from_2000_in_meters' },
   { id: '275', label: 'Deaths from Extreme Heat',      varId: '_excess_deaths_from_extreme_heat_per_100k_people' },
   { id: '279', label: 'Species Loss - Extinction',     varId: '_percent_endemic_species_at_high_risk_of_extinction' },
-  { id: '183', label: 'Crop Yield',                    varId: '_crop_yield_per_hectare_kg_per_year_per_ha' },
+  { id: '143', label: 'Crop Yield Decrease from Warming', varId: '_change_in_global_crop_yield[_maize]' },
   { id: '112', label: 'Air Pollution',                 varId: '_pm2_5_emissions_from_energy_mt_per_year' },
 ];
 
@@ -32,7 +32,7 @@ export default function Module1CarbonPriceDashboard() {
       seaLevelRise: 'Sea Level Rise',
       deathsExtremeHeat: 'Deaths from Extreme Heat',
       speciesLoss: 'Species Loss - Extinction',
-      cropYield: 'Crop Yield',
+      cropYield: 'Crop Yield Decrease from Warming',
       airPollution: 'Air Pollution',
     },
     de: {
@@ -48,7 +48,7 @@ export default function Module1CarbonPriceDashboard() {
       seaLevelRise: 'Meeresspiegelanstieg',
       deathsExtremeHeat: 'Todesfälle durch extreme Hitze',
       speciesLoss: 'Artenverlust - Aussterben',
-      cropYield: 'Ernteertrag',
+      cropYield: 'Ertragsrückgang durch Erwärmung',
       airPollution: 'Luftverschmutzung',
     },
     es: {
@@ -64,7 +64,7 @@ export default function Module1CarbonPriceDashboard() {
       seaLevelRise: 'Aumento del nivel del mar',
       deathsExtremeHeat: 'Muertes por calor extremo',
       speciesLoss: 'Pérdida de especies - Extinción',
-      cropYield: 'Rendimiento de cultivos',
+      cropYield: 'Disminución del rendimiento de cultivos por calentamiento',
       airPollution: 'Contaminación del aire',
     },
     tr: {
@@ -80,7 +80,7 @@ export default function Module1CarbonPriceDashboard() {
       seaLevelRise: 'Deniz seviyesi yükselmesi',
       deathsExtremeHeat: 'Aşırı sıcaklıktan ölümler',
       speciesLoss: 'Tür kaybı - yok oluş',
-      cropYield: 'Ürün verimi',
+      cropYield: 'Isınmadan kaynaklanan ürün verimi azalması',
       airPollution: 'Hava kirliliği',
     },
   }[language] ?? {
@@ -96,7 +96,7 @@ export default function Module1CarbonPriceDashboard() {
     seaLevelRise: 'Sea Level Rise',
     deathsExtremeHeat: 'Deaths from Extreme Heat',
     speciesLoss: 'Species Loss - Extinction',
-    cropYield: 'Crop Yield',
+    cropYield: 'Crop Yield Decrease from Warming',
     airPollution: 'Air Pollution',
   };
   const [isLoading, setIsLoading] = useState(true);
@@ -136,7 +136,7 @@ export default function Module1CarbonPriceDashboard() {
     if (id === '90') return ui.seaLevelRise;
     if (id === '275') return ui.deathsExtremeHeat;
     if (id === '279') return ui.speciesLoss;
-    if (id === '183') return ui.cropYield;
+    if (id === '143') return ui.cropYield;
     if (id === '112') return ui.airPollution;
     return id;
   };
@@ -228,19 +228,20 @@ export default function Module1CarbonPriceDashboard() {
     updateTemperatureDisplay();
   };
 
-  const getGraphHeight = (containerWidth: number) => {
+  const getGraphHeight = (containerWidth: number, graphId: string) => {
+    if (graphId === '143') return 560;
     const height = containerWidth * 0.55;
     return Math.max(220, Math.min(320, Math.round(height)));
   };
 
-  const resizeCanvasToContainer = () => {
+  const resizeCanvasToContainer = (graphId: string) => {
     const container = graphContainerRef.current;
     const canvas = canvasRef.current;
     if (!container || !canvas) return;
 
     const rect = container.getBoundingClientRect();
     const dpr = window.devicePixelRatio || 1;
-    const height = getGraphHeight(rect.width);
+    const height = getGraphHeight(rect.width, graphId);
 
     canvas.width = Math.floor(rect.width * dpr);
     canvas.height = Math.floor(height * dpr);
@@ -256,7 +257,10 @@ export default function Module1CarbonPriceDashboard() {
     let graphSpec: any;
     const rawConfig = coreConfigRef.current.graphs.get(graphId);
     if (rawConfig) {
-      if (graphId === '279') {
+      // Graph 143 (Crop Yield Decrease from Warming): h-bar with all 4 crops — pass through raw config.
+      if (graphId === '143') {
+        graphSpec = rawConfig;
+      } else if (graphId === '279') {
         const MARINE = '#3385C6';
         const LAND   = '#843C0C';
         const curr = (rawConfig.datasets || []).filter((d: any) => !d.externalSourceName);
@@ -309,7 +313,7 @@ export default function Module1CarbonPriceDashboard() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    resizeCanvasToContainer();
+    resizeCanvasToContainer(graphId);
 
     try {
       const viewModel = createGraphViewModel(graphSpec);
@@ -441,7 +445,7 @@ export default function Module1CarbonPriceDashboard() {
     if (!container) return;
 
     const ro = new ResizeObserver(() => {
-      resizeCanvasToContainer();
+      resizeCanvasToContainer(selectedGraphId);
       if (graphViewRef.current) graphViewRef.current.updateData(false);
     });
 
@@ -552,6 +556,12 @@ export default function Module1CarbonPriceDashboard() {
               <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#843C0C' }}>LAND SPECIES</span>
             </div>
             <p className="text-xs text-gray-500 italic">Dashed lines represent Baseline</p>
+          </div>
+        ) : selectedGraphId === '143' ? (
+          <div className="flex justify-center gap-2 mt-3 flex-wrap">
+            <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#6b7280' }}>TODAY</span>
+            <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE IN 2100</span>
+            <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#00b6f1' }}>CURRENT SCENARIO IN 2100</span>
           </div>
         ) : (
           <div className="flex justify-center gap-3 mt-3">

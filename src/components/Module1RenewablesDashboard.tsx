@@ -320,6 +320,7 @@ export default function Module1RenewablesDashboard() {
         };
       }
 
+
       // For all other graphs, filter to 2 datasets (baseline + current).
       // Without this, raw config datasets with unknown externalSourceName values
       // return empty series → hidden by the ≤2-point guard → blank chart.
@@ -570,7 +571,8 @@ export default function Module1RenewablesDashboard() {
   useEffect(() => {
     if (isLoading || !coreConfigRef.current) return;
     const timer = window.setTimeout(() => {
-      loadGraph(SECONDARY_GRAPH_CANVAS_ID, selectedSecondaryGraphId, isExpanded ? 300 : 250);
+      const secondaryHeight = isExpanded ? 300 : 250;
+      loadGraph(SECONDARY_GRAPH_CANVAS_ID, selectedSecondaryGraphId, secondaryHeight);
     }, 120);
     return () => window.clearTimeout(timer);
   }, [selectedSecondaryGraphId, isLoading]);
@@ -666,6 +668,12 @@ export default function Module1RenewablesDashboard() {
                     </div>
                     <p className="text-xs text-gray-500 italic">{ui.dashedBaseline}</p>
                   </div>
+                ) : selectedSecondaryGraphId === '143' ? (
+                  <div className="flex justify-center gap-2 mt-3 flex-wrap">
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#6b7280' }}>TODAY</span>
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE IN 2100</span>
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO IN 2100</span>
+                  </div>
                 ) : (
                   <div className="flex justify-center gap-3 mt-3">
                     <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>{ui.baseline}</span>
@@ -748,6 +756,12 @@ export default function Module1RenewablesDashboard() {
                       <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#843C0C' }}>{ui.landSpecies}</span>
                     </div>
                     <p className="text-xs text-gray-500 italic">{ui.dashedBaseline}</p>
+                  </div>
+                ) : selectedSecondaryGraphId === '143' ? (
+                  <div className="flex justify-center gap-2 mt-3 flex-wrap">
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#6b7280' }}>TODAY</span>
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#000000' }}>BASELINE IN 2100</span>
+                    <span className="px-3 py-1 text-xs font-bold uppercase text-white rounded" style={{ backgroundColor: '#53B1E8' }}>CURRENT SCENARIO IN 2100</span>
                   </div>
                 ) : (
                   <div className="flex justify-center gap-3 mt-3">
