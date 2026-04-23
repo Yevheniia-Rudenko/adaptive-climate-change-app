@@ -6,9 +6,27 @@ export const module3 = {
         { label: 'Abrir Glosario' },
         {
           title: '**Sobre este módulo**',
-          content: 'Hasta ahora, hemos explorado varias soluciones climáticas de alto impacto: políticas y acciones que pueden reducir significativamente las emisiones netas y desacelerar el aumento de la temperatura global.\n\n Ahora vamos a plantear una pregunta importante:'
-        },
-        {},
+          content: 'Hasta ahora, hemos explorado varias soluciones climáticas de alto impacto: políticas y acciones que pueden reducir significativamente las emisiones netas y desacelerar el aumento de la temperatura global.'
+        }, // 1: About this Module
+        {
+          content: 'Las soluciones climáticas a menudo parecen sencillas, ¿pero lo son realmente?'
+        }, // 2: Intro teaser
+        {
+          items: [
+            {
+              statement: 'Una política climática fuerte puede resolver la crisis climática por sí sola.',
+              explanation: 'Ninguna solución única es suficiente; múltiples políticas deben trabajar juntas.'
+            },
+            {
+              statement: 'Las políticas climáticas pueden tener efectos negativos no deseados.',
+              explanation: 'Las políticas pueden aumentar los costos o afectar de manera desigual a diferentes comunidades.'
+            }
+          ]
+        }, // 3: true-or-myth
+        {
+          content: 'Ahora vamos a plantear una pregunta importante:'
+        }, // 4: Important question text
+        {}, // 4: lottie placeholder
         {
           title: '**¿Qué pasa cuando combinamos soluciones?**',
           content: 'Algunas políticas de alto impacto —como un precio al carbono— son extremadamente efectivas para reducir emisiones. Pero en un sistema donde todo está conectado, cada solución tiene consecuencias, tanto positivas como negativas.\n\n En este módulo, veremos más de cerca los efectos éticos, ecológicos y económicos que pueden generar distintas políticas climáticas.'

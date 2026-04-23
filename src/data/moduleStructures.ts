@@ -48,6 +48,8 @@ import shareScenarioImg from '../assets/en_roads_scenario.png';
 import creativeTensionImg from '../assets/module_5/tension.webp';
 import systemsDontChangeImg from '../assets/module_5/systems-dont-change-themselves.png';
 import mandalaForSystemsChange1 from '../assets/mandala-for-systems-change_1.png';
+import himalayasBeforeImg from '../assets/before_and_after/Icemelt_Himalayas-A-3.jpg';
+import himalayasAfterImg from '../assets/before_and_after/Icemelt_Himalayas-B-2.jpg';
 
 
 export type FlipCardData = {
@@ -84,7 +86,9 @@ export type ContentBlock =
   | { type: 'poll'; question: string; options: string[]; id: string; singleSelect?: boolean }
   | { type: 'numeric-prediction'; question: string; id: string; unit?: string }
   | { type: 'meditation'; title: string; content: string }
-  | { type: 'module-feedback'; title: string; description: string; id: string };
+  | { type: 'module-feedback'; title: string; description: string; id: string }
+  | { type: 'true-or-myth'; items: { statement: string; answer: 'TRUE' | 'MYTH'; explanation: string }[] }
+  | { type: 'before-after-slider'; beforeImage: string; afterImage: string; beforeLabel?: string; afterLabel?: string; caption?: string; title?: string; subtitle?: string; imageDetails?: string; initialPosition?: number };
 
 export type BlockWrapper = {
   type: 'block';
@@ -123,7 +127,37 @@ export const moduleStructures: ModuleStructure[] = [
           {
             type: 'text',
             title: '**About this Module**',
-            content: "Climate change isn't just about science and data—it's also deeply personal.\n\n Understanding how climate futures affect you, your community, and the world helps build meaningful connections to the issue. This module explores how we emotionally and intellectually relate to our current climate situation, how we imagine different possible futures, and why these connections matter for understanding these complex global challenges and feeling empowered to take effective action"
+            content: "Climate change isn't just about science and data—it's also deeply personal.\n\n Understanding how climate futures affect you, your community, and the world helps build meaningful connections to the issue. This module explores how we emotionally and intellectually relate to our current climate situation, how we imagine different possible futures, and why these connections matter for understanding these complex global challenges and feeling empowered to take effective action."
+          },
+          {
+            type: 'text',
+            content: "Before we begin, let's test what we think we know.",
+            hideIcon: true
+          },
+          {
+            type: 'true-or-myth',
+            items: [
+              {
+                statement: 'Recycling is the most important thing I can do for the climate.',
+                answer: 'MYTH',
+                explanation: 'Recycling helps but it\'s tiny. What\'s 10× more impactful: eating less meat, flying less, and switching to clean energy.'
+              },
+              {
+                statement: 'Scientists actually disagree about whether climate change is real.',
+                answer: 'MYTH',
+                explanation: '97% of climate scientists agree it\'s real and human-caused.'
+              },
+              {
+                statement: 'Renewable energy is now cheaper than coal in most countries.',
+                answer: 'TRUE',
+                explanation: 'Solar and wind are now the cheapest electricity in most of the world.'
+              }
+            ]
+          },
+          {
+            type: 'text',
+            content: 'Climate change is often misunderstood.\n\nIn this module, we\'ll explore not just the facts—but how we relate to them.',
+            hideIcon: true
           },
           {
             type: 'text',
@@ -231,7 +265,25 @@ Thank you for practicing with me.
           {
             type: 'text',
             title: '**Understanding Climate Drivers and Impacts**',
-            content: "Think about the current and possible impacts of climate change–whether those occurring right now or those in the future. What do you care about most?"
+            content: "Climate impacts are not just future possibilities — they are already visible today."
+          },
+          {
+            type: 'before-after-slider',
+            beforeImage: himalayasBeforeImg,
+            afterImage: himalayasAfterImg,
+            beforeLabel: 'Before — glaciers intact',
+            afterLabel: 'After — glaciers melting',
+            title: 'Himalayas Glacier',
+            subtitle: 'Autumn, circa 1956 — October 18, 2007',
+            caption: 'Himalayan glaciers have lost over 40% of their ice volume in the last four decades.    Imja Glacier melt, Himalayas',
+            imageDetails: 'Imja Lake, the grayish glacial lake seen above Amphu Lake in the 2007 image, threatens to flood downstream communities if its unstable natural dam—consisting of dirt and rocks cemented by ice—gives way. It survived the Nepal earthquake of 2015 but remains hazardous. Imja Lake coalesced from a series of melt ponds that began forming on Imja Glacier, near Mt. Everest in the Himalayas, around 1960. By the mid-1970s, the ponds had merged into a single body of water, which has grown as the glaciers feeding it have retreated and thinned. The United Nations Development Programme has embarked on a project to lower the lake level and reduce the flood potential. Images: 1956 picture courtesy of the Association for Comparative Alpine Research, Munich; photo taken by Erwin Schneider. 2007 picture courtesy of the Archives of Alton Byers and the Mountain Institute; photo taken by Alton Byers. Sources for text: ["Nepal\'s Imja Lake, Khumbu Region, Appears Resilient Against Gorkha Quake"](https://www.nasa.gov/image-article/nepals-imja-lake-khumbu-region-appears-resilient-against-gorkha-quake/) and [United Nations Development Programme](https://www.undp.org/content/nepal/en/home/operations/projects/environment_and_energy/cfgorrp/home)',
+            initialPosition: 50
+          },
+
+          {
+            type: 'text',
+            content: "Think about the current and possible impacts of climate change–whether those occurring right now or those in the future. What do you care about most?",
+            hideIcon: true
           },
           {
             type: 'poll',
@@ -736,6 +788,26 @@ Thank you for practicing.`
           },
           {
             type: 'text',
+            title: "**Let's check your intuition about how systems behave.**",
+            content: ''
+          },
+          {
+            type: 'true-or-myth',
+            items: [
+              {
+                statement: 'If emissions stop increasing, CO₂ levels in the atmosphere will stop rising.',
+                answer: 'MYTH',
+                explanation: 'Even if emissions stay constant, CO₂ keeps accumulating because inflow still exceeds outflow.'
+              },
+              {
+                statement: 'CO₂ must be lower than removals for atmospheric levels to decrease.',
+                answer: 'TRUE',
+                explanation: 'Only when removals exceed emissions does the total concentration go down.'
+              }
+            ]
+          },
+          {
+            type: 'text',
             title: '**🛁 Draw Your Own Stock & Flow**',
             content: "To explore how \"Stock and Flow\" works, let's start with a personal example. Pick an example of a Stock that you care about."
           },
@@ -1067,7 +1139,32 @@ Thank you for practicing.`
           {
             type: 'text',
             title: '**About this Module**',
-            content: "So far, we’ve explored several high‑leverage climate solutions—policies and actions that can significantly reduce net emissions and slow the rise in global temperature.\n\n Now we’re going to ask an important question:"
+            content: "So far, we’ve explored several high‑leverage climate solutions—policies and actions that can significantly reduce net emissions and slow the rise in global temperature."
+          },
+          {
+            type: 'text',
+            content: 'Climate solutions often seem straightforward—but are they?',
+            hideIcon: true
+          },
+          {
+            type: 'true-or-myth',
+            items: [
+              {
+                statement: 'One strong climate policy can solve the climate crisis on its own.',
+                answer: 'MYTH',
+                explanation: 'No single solution is enough—multiple policies must work together.'
+              },
+              {
+                statement: 'Climate policies can have unintended negative effects.',
+                answer: 'TRUE',
+                explanation: 'Policies can increase costs or affect different communities unequally.'
+              }
+            ]
+          },
+          {
+            type: 'text',
+            content: "Now we're going to ask an important question:",
+            hideIcon: true
           },
           {
             type: 'lottie',
@@ -1463,6 +1560,26 @@ If a government wants people to support a carbon price, it has to think carefull
             type: 'text',
             title: '**About this Module**',
             content: "To change outcomes, we need to look beneath the surface at systems.\n\nWe need systems awareness to understand climate change because it's not caused by one thing—it's shaped by many interconnected systems like energy, transportation, food, economics, and politics that all influence one another.\n\nSystems awareness, a combination of *systems thinking and systems sensing*, helps us see these connections clearly, so we can design climate solutions that are effective, fair, and avoid unintended consequences."
+          },
+          {
+            type: 'text',
+            content: "What we see is only part of the system—or is it?",
+            hideIcon: true
+          },
+          {
+            type: 'true-or-myth',
+            items: [
+              {
+                statement: 'Climate change is mainly caused by individual choices.',
+                answer: 'MYTH',
+                explanation: 'Individual actions matter, but systems, policies, and infrastructure shape the biggest outcomes.'
+              },
+              {
+                statement: 'Changing beliefs and mindsets can influence real-world systems.',
+                answer: 'TRUE',
+                explanation: 'Mental models shape decisions, which shape systems.'
+              }
+            ]
           },
           {
             type: 'text',
@@ -2006,7 +2123,7 @@ We need to understand—and shift—the beliefs and structures underneath them.`
           },
         ]
       },
-    {
+      {
         type: 'block',
         colorTheme: 'pink',
         content: [

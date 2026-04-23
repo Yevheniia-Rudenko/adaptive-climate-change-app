@@ -83,4 +83,11 @@ export const flexibleModule = {
       description: 'Before you depart–hopefully to start your climate action–we’d love your feedback on this learning experience.',
     },
   },
+  trueOrMyth: {
+    label: 'TRUE OR MYTH',
+    trueButton: 'True',
+    mythButton: 'Myth',
+    correct: 'Correct',
+    incorrect: 'Not quite',
+  },
 };

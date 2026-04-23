@@ -6,9 +6,27 @@ export const module3 = {
         { label: 'Sözlüğü Aç' },
         {
           title: '**Bu modül hakkında**',
-          content: 'Şimdiye kadar yüksek etkili çeşitli iklim çözümlerini inceledik: net emisyonları önemli ölçüde azaltabilen ve küresel sıcaklık artışını yavaşlatabilen politika ve eylemler.\n\n Şimdi önemli bir soru soracağız:'
-        },
-        {},
+          content: 'Şimdiye kadar yüksek etkili çeşitli iklim çözümlerini inceledik: net emisyonları önemli ölçüde azaltabilen ve küresel sıcaklık artışını yavaşlatabilen politika ve eylemler.'
+        }, // 1: About this module
+        {
+          content: 'İklim çözümleri çoğu zaman basit görünür — ama gerçekten öyle mi?'
+        }, // 2: Intro teaser
+        {
+          items: [
+            {
+              statement: 'Tek bir güçlü iklim politikası, iklim krizini tek başına çözebilir.',
+              explanation: 'Hiçbir çözüm tek başına yeterli değildir; birden fazla politikanın birlikte uygulanması gerekir.'
+            },
+            {
+              statement: 'İklim politikalarının istenmeyen olumsuz etkileri olabilir.',
+              explanation: 'Politikalar maliyetleri artırabilir veya farklı toplulukları eşitsiz bir şekilde etkileyebilir.'
+            }
+          ]
+        }, // 3: true-or-myth
+        {
+          content: 'Şimdi önemli bir soru soracağız:'
+        }, // 4: Important question text
+        {}, // 4: lottie placeholder
         {
           title: '**Çözümleri birleştirdiğimizde ne olur?**',
           content: 'Karbon fiyatı gibi bazı yüksek etkili politikalar emisyonları azaltmada son derece etkilidir. Ancak her şeyin bağlı olduğu bir sistemde, her çözümün hem olumlu hem olumsuz sonuçları vardır.\n\n Bu modülde, farklı iklim politikalarının doğurabileceği etik, ekolojik ve ekonomik etkileri daha yakından inceleyeceğiz.'

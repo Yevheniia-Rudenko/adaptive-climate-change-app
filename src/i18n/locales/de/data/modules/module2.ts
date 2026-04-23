@@ -32,8 +32,21 @@ export const module2 = {
             }
           ]
         },
-        { title: '**🛁 Zeichne deinen eigenen Bestand & Fluss**', content: "Um zu erkunden, wie \"Bestand und Fluss\" funktioniert, fangen wir mit einem persönlichen Beispiel an. Wähle ein Beispiel für einen Bestand, der dir wichtig ist." }, // 7: text
-        { title: '', content: "**Erster Schritt:** Zeichne ein Bestand-und-Fluss-Diagramm wie im Bild unten.\n\n*Du benötigst Papier und einen Stift, um den Bestand und Fluss zu zeichnen. Oder du kannst dieses Arbeitsblatt herunterladen und ausdrucken.*" }, // 8: text
+        { title: '**Lass uns deine Intuition darüber testen, wie Systeme sich verhalten.**', content: '' }, // 7: text (quiz intro)
+        {
+          items: [
+            {
+              statement: 'Wenn die Emissionen nicht mehr steigen, wird der CO₂-Gehalt in der Atmosphäre nicht mehr ansteigen.',
+              explanation: 'Selbst wenn die Emissionen konstant bleiben, baut sich CO₂ weiter auf, weil der Zufluss immer noch größer als der Abfluss ist.'
+            },
+            {
+              statement: 'Die CO₂-Emissionen müssen geringer als die Entnahmen sein, damit die Konzentration in der Atmosphäre sinkt.',
+              explanation: 'Nur wenn die Entnahmen die Emissionen übersteigen, sinkt die Gesamtkonzentration.'
+            }
+          ]
+        }, // 8: true-or-myth
+        { title: '**🛁 Zeichne deinen eigenen Bestand & Fluss**', content: "Um zu erkunden, wie \"Bestand und Fluss\" funktioniert, fangen wir mit einem persönlichen Beispiel an. Wähle ein Beispiel für einen Bestand, der dir wichtig ist." }, // 9: text
+        { title: '', content: "**Erster Schritt:** Zeichne ein Bestand-und-Fluss-Diagramm wie im Bild unten.\n\n*Du benötigst Papier und einen Stift, um den Bestand und Fluss zu zeichnen. Oder du kannst dieses Arbeitsblatt herunterladen und ausdrucken.*" }, // 10: text
         { alt: 'Diagramm eines Badewannenmodells mit einem Wasserhahn und einem Abfluss.' }, // 9: image
         { title: '', content: "**Zweiter Schritt:** Wähle einen Bestand, der dir wichtig ist. Überlege dir etwas, das steigen oder fallen kann, je nachdem, was hinein- oder herausfließt. Einige Beispiele für einen „Bestand“ könnten sein:\n\n- Mein Wohlbefinden\n- Mein Geld\n- Meine Motivation im Studium/Schule\n- Das Vertrauen in meinen Beziehungen\n- Die Hoffnung, die ich für eine positive Zukunft habe" }, // 10: text
         { title: '', content: "**Dritter Schritt:** Zeichne die Zuflüsse für dein gewähltes Bestandsbeispiel ein. Was füllt deinen Bestand auf? Versuche, mindestens drei Zuflüsse zu identifizieren." }, // 11: text

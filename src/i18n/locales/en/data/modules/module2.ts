@@ -32,8 +32,10 @@ export const module2 = {
             }
           ]
         },
-        { title: '**🛁 Draw Your Own Stock & Flow**', content: "To explore how \"Stock and Flow\" works, let's start with a personal example. Pick an example of a Stock that you care about." }, // 7: text
-        { title: '', content: "**Step One:** Draw a Stock and Flow diagram like in the image below.\n\n*You will need a paper and a pen or pencil to draw the Stock and Flow. Or you can also download and print this Stock and Flow worksheet*" }, // 8: text
+        { title: "**Let's check your intuition about how systems behave.**", content: '' }, // 7: text (quiz intro)
+        {}, // 8: true-or-myth (quiz items live in moduleStructures.ts — do not override)
+        { title: '**🛁 Draw Your Own Stock & Flow**', content: "To explore how \"Stock and Flow\" works, let's start with a personal example. Pick an example of a Stock that you care about." }, // 9: text
+        { title: '', content: "**Step One:** Draw a Stock and Flow diagram like in the image below.\n\n*You will need a paper and a pen or pencil to draw the Stock and Flow. Or you can also download and print this Stock and Flow worksheet*" }, // 10: text
         { alt: 'Diagram of a bathtub model showing a faucet filling a water tank, with arrows indicating water Inflow entering from the tap and Outflow draining from the bottom.' }, // 9: image
         { title: '', content: "**Step Two:** Pick a stock that you care about. Think about something that can rise or fall depending on what flows in or out of it. Some \"stock\" examples could be:\n\n-My level of well-being\n- My money\n- My level of motivation in my academics\n- The level of trust I have in my relationships\n- The level of hope I have in a positive future" }, // 10: text
         { title: '', content: "**Step Three:** Draw the in-flows to your chosen stock example. What is adding to or filling up your stock? Try to identify at least three in-flows to your stock." }, // 11: text

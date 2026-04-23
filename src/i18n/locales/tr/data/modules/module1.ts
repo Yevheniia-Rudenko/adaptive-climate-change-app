@@ -10,11 +10,34 @@ export const module1 = {
           content: 'İklim değişikliği yalnızca bilim ve verilerden ibaret değildir; aynı zamanda derinden kişiseldir.\n\n İklim geleceklerinin seni, topluluğunu ve dünyayı nasıl etkilediğini anlamak; sorunla anlamlı bağlar kurmaya yardımcı olur. Bu modül, mevcut iklim durumumuzla duygusal ve entelektüel olarak nasıl ilişki kurduğumuzu, farklı olası gelecekleri nasıl hayal ettiğimizi ve bu bağlantıların bu karmaşık küresel zorlukları anlamak ve etkili adımlar atmak için güçlenmiş hissetmek açısından neden önemli olduğunu inceler.'
         }, // 1: text
         {
-          title: '**Temel Kavramlar**',
-          content: 'Başlamak için aşağıdaki temel kavramlardan bazılarını keşfedelim. Kendi tanımlarını da düşünerek aşağıdaki kartları gözden geçirmeye biraz zaman ayır.'
+          content: 'Başlamadan önce, bildiğimizi sandığımız şeyleri bir test edelim.'
         }, // 2: text
         {
-          title: '', // 3: flip-cards
+          items: [
+            {
+              statement: 'Geri dönüşüm, iklim için yapabileceğim en önemli şeydir.',
+              explanation: 'Geri dönüşüm yardımcı olur ancak etkisi küçüktür. 10 kat daha etkili olan şeyler: daha az et yemek, daha az uçmak ve temiz enerjiye geçmektir.'
+            },
+            {
+              statement: 'Bilim insanları iklim değişikliğinin gerçek olup olmadığı konusunda gerçekte fikir ayrılığına düşüyorlar.',
+              explanation: "İklim bilimcilerin %97'si bunun gerçek ve insan kaynaklı olduğu konusunda hemfikir."
+            },
+            {
+              statement: 'Yenilenebilir enerji artık çoğu ülkede kömürden daha ucuz.',
+              explanation: 'Güneş ve rüzgâr artık dünyanın çoğunda en ucuz elektriktir.'
+            }
+          ]
+        }, // 3: true-or-myth
+        {
+          content: 'İklim değişikliği genellikle yanlış anlaşılır.\n\nBu modülde sadece gerçekleri değil, onlarla nasıl ilişki kurduğumuzu da keşfedeceğiz.',
+          hideIcon: true
+        }, // 4: text
+        {
+          title: '**Temel Kavramlar**',
+          content: 'Başlamak için aşağıdaki temel kavramlardan bazılarını keşfedelim. Kendi tanımlarını da düşünerek aşağıdaki kartları gözden geçirmeye biraz zaman ayır.'
+        }, // 5: text
+        {
+          title: '', // 5: flip-cards
           cards: [
             {
               frontTitle: 'İklim Değişikliği',
@@ -57,7 +80,7 @@ export const module1 = {
         {
           title: '**Yansıtma**',
           content: 'İklim değişikliği hakkında düşünmek; deneyimimize ve bağlamımıza dayalı çok sayıda duygu, his ve görüşü ortaya çıkarır.\n\nBu duygusal manzarayla nasıl temas kurarız?'
-        }, // 4: text
+        }, // 6: text
         {
           title: 'Ses kaydını dinle',
           transcript: `Rahat bir şekilde otur.
@@ -83,18 +106,18 @@ Unutma:
 Bir yavaş nefes daha al.
 Hazır olduğunda, nazikçe bulunduğun odaya geri dön.
 Benimle pratik yaptığın için teşekkür ederim.`
-        }, // 5: audio
+        }, // 7: audio
         {
           title: '**Duygularımızı Adlandırmayı Öğrenmek**',
           content: 'Psikolog Robert Plutchik tarafından oluşturulan Duygular Çarkı, ne hissettiğini anlamlandırmana yardımcı olabilecek bir araçtır.\n\nBunu bir duygu haritası gibi düşün: sevinç, korku, öfke ve şaşkınlık gibi sekiz temel duyguyu ve bu duyguların nasıl yer değiştirdiğini, güçlendiğini veya diğer duygularla karıştığını gösterir.\n\nZor bir gün geçirirken, stresliyken ya da yalnızca ruh hâlindeki bir değişimi fark ettiğinde, bu çark içindeki olan bitene isim koymana ve bazen yoğunluğunu azaltmana yardımcı olabilir. Duygularını ne kadar net tanımlayabilirsen, başkalarıyla iletişim kurman, düşünceli kararlar alman ve kendini anlaman o kadar kolaylaşır.\n\nBu aracı kullanmak, duygusal farkındalığı geliştirmek ve genel iyi oluşunu güçlendirmek için basit bir yoldur.\n\nDuygular Çarkına bak ve iklim değişikliğini düşündüğünde bağ kurduğun duyguları belirle.'
-        }, // 6: text
+        }, // 8: text
         {
           title: 'Duygular Çarkı',
           alt: 'Plutchik Duygular Çarkı: 8 temel duyguyu ve bunların yoğunluk değişimlerini gösteren dairesel diyagram'
-        }, // 7: image
+        }, // 9: image
         {
           prompt: 'İklim değişikliğini düşündüğünde hangi duyguları hissediyorsun?'
-        } // 8: reflection
+        } // 10: reflection
       ]
     },
     {
@@ -102,31 +125,42 @@ Benimle pratik yaptığın için teşekkür ederim.`
       content: [
         {
           title: '**İklim Etkenlerini ve Etkilerini Anlamak**',
-          content: 'İklim değişikliğinin mevcut ve olası etkilerini düşün; ister şu anda yaşananlar ister gelecekte olabilecekler. Senin için en çok ne önemli?'
+          content: 'İklim etkileri yalnızca gelecekteki olasılıklar değildir — bugün zaten görünür hâldedirler.'
         }, // 0: text
+        {
+          beforeLabel: 'Öncesi — buzullar sağlam',
+          afterLabel: 'Sonrası — buzullar eriyor',
+          title: 'Himalayalar Buzulu',
+          subtitle: 'Sonbahar, yaklaşık 1956 — 18 Ekim 2007',
+          caption: 'Himalaya buzulları son kırk yılda buz hacimlerinin %40\'ından fazlasını kaybetti. Imja Buzulu erimesi, Himalayalar',
+          imageDetails: '2007 görüntüsünde Amphu Gölü\'nün üzerinde görülen grimsi buzul gölü olan Imja Gölü, buzla çimentolanmış çamur ve kayalardan oluşan kararsız doğal barajı çökerse aşağıdaki toplulukları sular altında bırakma tehdidi oluşturuyor. 2015 Nepal depreminden sağ kurtuldu, ancak tehlikesini koruyor. Imja Gölü, 1960 civarında Himalayalar\'daki Everest Dağı yakınlarındaki Imja Buzulu\'nda oluşmaya başlayan bir dizi erime göletinden birleşerek oluştu. 1970\'lerin ortalarına gelindiğinde, göletler tek bir su kütlesine dönüşmüştü ve beslendiği buzullar geri çekildikçe ve inceldikçe göl büyümüştü. Birleşmiş Milletler Kalkınma Programı, göl seviyesini düşürmek ve taşkın potansiyelini azaltmak için bir proje başlattı.'
+        }, // 1: before-after-slider
+        {
+          content: 'İklim değişikliğinin mevcut ve olası etkilerini düşün; ister şu anda yaşananlar ister gelecekte olabilecekler. Senin için en çok ne önemli?'
+        }, // 2: text
         {
           question: 'Senin için en çok ne önemli?',
           options: ['Sel', 'Yangınlar', 'Tür kaybı', 'Aşırı sıcak']
-        }, // 1: poll
+        }, // 3: poll
         {
           title: '**Ya şöyle olsaydı…?**',
           content: 'İklim değişikliğini neyin tetiklediğine bakalım ve farklı politika ve eylemlerin hepimizin paylaştığı geleceği nasıl şekillendirebileceğini keşfedelim.\n\nBu temel etkenlerden bazılarını, Climate Interactive ve MIT Sloan tarafından gerçek bilimsel araştırmalara dayanarak geliştirilen güçlü bir etkileşimli iklim çözümleri simülatörü olan En-ROADS aracılığıyla incelemeye başlayacağız.\nBunu Dünya\'nın geleceği için gerçek yaşamda bir "ya şöyle olsaydı?" simülatörü gibi düşünebilirsin.'
-        }, // 2: text
-        { alt: 'Climate Interactive logosu' }, // 3: image
-        { alt: 'En-ROADS iklim simülasyon aracının politika kaydırıcıları ve öngörülen iklim sonuçlarını gösteren grafiklerden oluşan kontrol paneli; farklı grafik görünümleri arasında geçiş için açılır menü içerir.' }, // 4: image
+        }, // 4: text
+        { alt: 'Climate Interactive logosu' }, // 5: image
+        { alt: 'En-ROADS iklim simülasyon aracının politika kaydırıcıları ve öngörülen iklim sonuçlarını gösteren grafiklerden oluşan kontrol paneli; farklı grafik görünümleri arasında geçiş için açılır menü içerir.' }, // 6: image
         {
           content: '**En-ROADS şu tür soruları keşfetmeni sağlar:**\n\n• Daha fazla yenilenebilir enerji kullanırsak ne olur?\n• Arabalar ve binalar daha enerji verimli olursa, yani çalışmak için daha az gaz veya elektrik gerekirse ne olur?\n• Ülkeler kirliliğe bir fiyat koyarsa ne olur?\n\nEnerji, ulaşım, gıda, ormanlar ve teknoloji gibi gerçek dünyadaki küresel politika seçeneklerini temsil eden kaydırıcıları hareket ettirirsin; simülatör de bu seçeneklerin şunları nasıl etkilediğini anında gösterir:\n\n• Küresel sıcaklık\n• Deniz seviyesi yükselmesi\n• Hava kirliliği\n• Enerji kullanımı\n• Ekonomik sonuçlar'
-        }, // 5: text
-        { title: '**Küresel sıcaklık neden önemlidir?**' }, // 6: text
-        { alt: 'İklim değişikliği hakkında metin içeren ve maksimum dereceye doğru dolan termometre animasyonu' }, // 7: image
-        { content: 'Dünya\'nın ortalama sıcaklığındaki küçük değişimler bile, tıpkı vücut sıcaklığındaki küçük bir değişimin insanı ciddi biçimde hasta edebilmesi gibi, iklimde ve ekosistemlerde büyük değişimlere yol açabilir.' }, // 8: text
+        }, // 7: text
+        { title: '**Küresel sıcaklık neden önemlidir?**' }, // 8: text
+        { alt: 'İklim değişikliği hakkında metin içeren ve maksimum dereceye doğru dolan termometre animasyonu' }, // 9: image
+        { content: 'Dünya\'nın ortalama sıcaklığındaki küçük değişimler bile, tıpkı vücut sıcaklığındaki küçük bir değişimin insanı ciddi biçimde hasta edebilmesi gibi, iklimde ve ekosistemlerde büyük değişimlere yol açabilir.' }, // 10: text
         {
           title: '**Küresel sıcaklık artışı ne anlama gelir?**',
           transcript: 'Bilim insanları küresel sıcaklık artışından söz ettiğinde, Dünya\'nın bugünkü ortalama sıcaklığını Sanayi Devrimi öncesindeki, yaklaşık bin sekiz yüz elli yılı civarındaki sıcaklıkla karşılaştırır; yani otomobiller, fabrikalar ve santraller büyük miktarda fosil yakıt yakmadan önceki dönemle.\n\nŞu anda Dünya yaklaşık bir nokta iki derece Celsius ya da iki nokta iki derece Fahrenheit kadar ısınmış durumda. Bu çok görünmeyebilir; ancak Dünya\'nın ortalama sıcaklığındaki küçük değişimler bile, tıpkı vücut sıcaklığındaki küçük değişimin insanı ciddi biçimde hasta edebilmesi gibi, iklimde ve ekosistemlerde büyük değişikliklere neden olabilir.\n\nParis İklim Anlaşması iki temel sıcaklık hedefi belirledi. Ana hedef, küresel ısınmayı iki derece Celsius\'un oldukça altında tutmaktır. Ülkelerin hedeflemesi teşvik edilen daha güvenli hedef ise ısınmayı bir nokta beş derece Celsius ile sınırlamaktır.\n\nBir nokta beş derecede ölümcül sıcak hava dalgaları daha az, deniz seviyesi artışı daha düşük ve aşırı hava olayları riski daha az olur. İki derece veya üzerinde ise fırtınalar ve seller çok daha şiddetli hâle gelir, pek çok mercan resifi ölür ve daha fazla insan aşırı sıcaklık ile gıda ve su kıtlığıyla karşı karşıya kalır.\n\nDolayısıyla her iki ısınma düzeyi de tehlikelidir; ancak ısınmayı bir nokta beş dereceyle sınırlamak, iki dereceye ulaşmaktan çok daha güvenlidir.'
-        }, // 9: audio
-        { content: 'En-ROADS\'ta, küresel politikalar ve kolektif davranışlar bugün olduğu gibi kalırsa 2100 yılı için öngörülen küresel sıcaklık artışı 3.3 derece Celsius veya 5.9 derece Fahrenheit olacaktır.' }, // 10: text
-        { alt: '2100 yılı için öngörülen küresel sıcaklık artışı: +3.3 °C (+5.9 °F).' }, // 11: image
-        { content: 'Bu, 1.5 derece Celsius (veya 2.7 derece Fahrenheit) hedefinin çok üzerindedir. Peki ne yapabiliriz?' } // 12: text
+        }, // 11: audio
+        { content: 'En-ROADS\'ta, küresel politikalar ve kolektif davranışlar bugün olduğu gibi kalırsa 2100 yılı için öngörülen küresel sıcaklık artışı 3.3 derece Celsius veya 5.9 derece Fahrenheit olacaktır.' }, // 12: text
+        { alt: '2100 yılı için öngörülen küresel sıcaklık artışı: +3.3 °C (+5.9 °F).' }, // 13: image
+        { content: 'Bu, 1.5 derece Celsius (veya 2.7 derece Fahrenheit) hedefinin çok üzerindedir. Peki ne yapabiliriz?' } // 14: text
       ]
     },
     {

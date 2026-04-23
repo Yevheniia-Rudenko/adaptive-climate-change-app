@@ -9,6 +9,21 @@ export const module4 = {
           content: 'Para cambiar resultados, necesitamos mirar por debajo de la superficie y entender los sistemas.\n\nNecesitamos conciencia de sistemas para comprender el cambio climático, porque no está causado por una sola cosa: está moldeado por muchos sistemas interconectados como energía, transporte, alimentación, economía y política, que se influyen entre sí.\n\nLa conciencia de sistemas, combinación de *pensamiento sistémico* y *percepción de sistemas*, nos ayuda a ver estas conexiones con claridad, para diseñar soluciones climáticas efectivas, justas y que eviten consecuencias no deseadas.'
         },
         {
+          content: "¿Lo que vemos es solo parte del sistema o no?"
+        },
+        {
+          items: [
+            {
+              statement: 'El cambio climático es causado principalmente por elecciones individuales.',
+              explanation: 'Las acciones individuales importan, pero los sistemas, las políticas y la infraestructura dan forma a los resultados más importantes.'
+            },
+            {
+              statement: 'Cambiar las creencias y mentalidades puede influir en los sistemas del mundo real.',
+              explanation: 'Los modelos mentales dan forma a las decisiones, que a su vez dan forma a los sistemas.'
+            }
+          ]
+        },
+        {
           title: '🌊 El iceberg de sistemas',
           content: 'El modelo del iceberg de sistemas es una forma de mirar el mundo que nos ayuda a entender *por qué* pasan las cosas, no solo *qué* pasa en la superficie.'
         },

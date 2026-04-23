@@ -6,9 +6,27 @@ export const module3 = {
         { label: 'Glossar öffnen' },
         {
           title: '**Über dieses Modul**',
-          content: 'Bisher haben wir mehrere hochwirksame Klimaschutzlösungen untersucht – politische Maßnahmen und Handlungen, die Nettoemissionen deutlich senken und den Anstieg der globalen Temperatur verlangsamen können.\n\n Jetzt stellen wir eine wichtige Frage:'
-        },
-        {},
+          content: 'Bisher haben wir mehrere hochwirksame Klimaschutzlösungen untersucht – politische Maßnahmen und Handlungen, die Nettoemissionen deutlich senken und den Anstieg der globalen Temperatur verlangsamen können.'
+        }, // 1: About this module
+        {
+          content: 'Klimaschutzlösungen erscheinen oft einfach – aber stimmt das wirklich?'
+        }, // 2: Intro teaser
+        {
+          items: [
+            {
+              statement: 'Eine starke Klimapolitik kann die Klimakrise allein lösen.',
+              explanation: 'Keine Einzellösung reicht aus – mehrere politische Maßnahmen müssen zusammenwirken.'
+            },
+            {
+              statement: 'Klimapolitik kann unbeabsichtigte negative Auswirkungen haben.',
+              explanation: 'Maßnahmen können Kosten erhöhen oder unterschiedliche Gemeinschaften ungleich betreffen.'
+            }
+          ]
+        }, // 3: true-or-myth
+        {
+          content: 'Jetzt stellen wir eine wichtige Frage:'
+        }, // 4: Important question text
+        {}, // 4: lottie placeholder
         {
           title: '**Was passiert, wenn wir Lösungen kombinieren?**',
           content: 'Einige hochwirksame Maßnahmen – wie ein CO2-Preis – sind äußerst effektiv bei der Senkung von Emissionen. Aber in einem vernetzten System hat jede Lösung Folgen, sowohl positive als auch negative.\n\n In diesem Modul schauen wir genauer auf die ethischen, ökologischen und wirtschaftlichen Auswirkungen verschiedener Klimapolitiken.'

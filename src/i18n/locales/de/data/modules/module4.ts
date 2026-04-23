@@ -9,6 +9,21 @@ export const module4 = {
           content: 'Um Ergebnisse zu verändern, müssen wir unter die Oberfläche schauen und Systeme verstehen.\n\nWir brauchen Systembewusstsein, um den Klimawandel zu verstehen, weil er nicht durch eine einzelne Ursache entsteht – er wird von vielen vernetzten Systemen geprägt, etwa Energie, Verkehr, Ernährung, Wirtschaft und Politik, die sich gegenseitig beeinflussen.\n\nSystembewusstsein – als Verbindung von *systemischem Denken* und *systemischem Wahrnehmen* – hilft uns, diese Zusammenhänge klar zu sehen, damit wir wirksame, faire Klimaschutzlösungen gestalten und unbeabsichtigte Folgen vermeiden können.'
         },
         {
+          content: "Ist das, was wir sehen, nur ein Teil des Systems – oder etwa nicht?"
+        },
+        {
+          items: [
+            {
+              statement: 'Der Klimawandel wird hauptsächlich durch individuelle Entscheidungen verursacht.',
+              explanation: 'Individuelle Handlungen sind wichtig, aber Systeme, Politiken und Infrastrukturen prägen die größten Auswirkungen.'
+            },
+            {
+              statement: 'Die Änderung von Überzeugungen und Denkweisen kann reale Systeme beeinflussen.',
+              explanation: 'Mentale Modelle prägen Entscheidungen, die wiederum Systeme prägen.'
+            }
+          ]
+        },
+        {
           title: '🌊 Das System-Eisbergmodell',
           content: 'Das System-Eisbergmodell ist eine Sichtweise auf die Welt, die uns hilft zu verstehen, *warum* Dinge passieren – nicht nur *was* an der Oberfläche passiert.'
         },
