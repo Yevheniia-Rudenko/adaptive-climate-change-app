@@ -48,6 +48,8 @@ import shareScenarioImg from '../assets/en_roads_scenario.png';
 import creativeTensionImg from '../assets/module_5/tension.webp';
 import systemsDontChangeImg from '../assets/module_5/systems-dont-change-themselves.png';
 import mandalaForSystemsChange1 from '../assets/mandala-for-systems-change_1.png';
+import himalayasBeforeImg from '../assets/before_and_after/Icemelt_Himalayas-A-3.jpg';
+import himalayasAfterImg from '../assets/before_and_after/Icemelt_Himalayas-B-2.jpg';
 
 
 export type FlipCardData = {
@@ -85,7 +87,8 @@ export type ContentBlock =
   | { type: 'numeric-prediction'; question: string; id: string; unit?: string }
   | { type: 'meditation'; title: string; content: string }
   | { type: 'module-feedback'; title: string; description: string; id: string }
-  | { type: 'true-or-myth'; items: { statement: string; answer: 'TRUE' | 'MYTH'; explanation: string }[] };
+  | { type: 'true-or-myth'; items: { statement: string; answer: 'TRUE' | 'MYTH'; explanation: string }[] }
+  | { type: 'before-after-slider'; beforeImage: string; afterImage: string; beforeLabel?: string; afterLabel?: string; caption?: string; title?: string; subtitle?: string; imageDetails?: string; initialPosition?: number };
 
 export type BlockWrapper = {
   type: 'block';
@@ -262,7 +265,25 @@ Thank you for practicing with me.
           {
             type: 'text',
             title: '**Understanding Climate Drivers and Impacts**',
-            content: "Think about the current and possible impacts of climate change–whether those occurring right now or those in the future. What do you care about most?"
+            content: "Climate impacts are not just future possibilities — they are already visible today."
+          },
+          {
+            type: 'before-after-slider',
+            beforeImage: himalayasBeforeImg,
+            afterImage: himalayasAfterImg,
+            beforeLabel: 'Before — glaciers intact',
+            afterLabel: 'After — glaciers melting',
+            title: 'Himalayas Glacier',
+            subtitle: 'Autumn, circa 1956 — October 18, 2007',
+            caption: 'Himalayan glaciers have lost over 40% of their ice volume in the last four decades.    Imja Glacier melt, Himalayas',
+            imageDetails: 'Imja Lake, the grayish glacial lake seen above Amphu Lake in the 2007 image, threatens to flood downstream communities if its unstable natural dam—consisting of dirt and rocks cemented by ice—gives way. It survived the Nepal earthquake of 2015 but remains hazardous. Imja Lake coalesced from a series of melt ponds that began forming on Imja Glacier, near Mt. Everest in the Himalayas, around 1960. By the mid-1970s, the ponds had merged into a single body of water, which has grown as the glaciers feeding it have retreated and thinned. The United Nations Development Programme has embarked on a project to lower the lake level and reduce the flood potential. Images: 1956 picture courtesy of the Association for Comparative Alpine Research, Munich; photo taken by Erwin Schneider. 2007 picture courtesy of the Archives of Alton Byers and the Mountain Institute; photo taken by Alton Byers. Sources for text: ["Nepal\'s Imja Lake, Khumbu Region, Appears Resilient Against Gorkha Quake"](https://www.nasa.gov/image-article/nepals-imja-lake-khumbu-region-appears-resilient-against-gorkha-quake/) and [United Nations Development Programme](https://www.undp.org/content/nepal/en/home/operations/projects/environment_and_energy/cfgorrp/home)',
+            initialPosition: 50
+          },
+
+          {
+            type: 'text',
+            content: "Think about the current and possible impacts of climate change–whether those occurring right now or those in the future. What do you care about most?",
+            hideIcon: true
           },
           {
             type: 'poll',
@@ -2037,7 +2058,7 @@ We need to understand—and shift—the beliefs and structures underneath them.`
           },
         ]
       },
-    {
+      {
         type: 'block',
         colorTheme: 'pink',
         content: [

@@ -24,6 +24,8 @@ import { Button } from './ui/button';
 import { Carousel, type CarouselApi, CarouselContent, CarouselItem } from './ui/carousel';
 import { Link } from 'react-router-dom';
 import * as RechartsPrimitive from 'recharts';
+import { BeforeAfterSlider } from './BeforeAfterSlider';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
 
 const audioLandscapeImage = new URL('../assets/AudioLandscape (1).png', import.meta.url).href;
 
@@ -1444,6 +1446,97 @@ export function ContentBlock({
 
     case 'quote-carousel':
       return <QuoteCarouselBlock block={block} />;
+
+    case 'before-after-slider': {
+      // Parses markdown [text](url) links and raw (url) patterns into <a> elements
+      const renderWithLinks = (text: string) => {
+        const parts: React.ReactNode[] = [];
+        // Matches [label](url) OR trailing (url) after plain text
+        const linkRegex = /\[([^\]]+)\]\((https?:\/\/[^)]+)\)|\((https?:\/\/[^)]+)\)/g;
+        let lastIndex = 0;
+        let match: RegExpExecArray | null;
+        while ((match = linkRegex.exec(text)) !== null) {
+          if (match.index > lastIndex) {
+            parts.push(text.slice(lastIndex, match.index));
+          }
+          if (match[1] && match[2]) {
+            // [label](url)
+            parts.push(
+              <a key={match.index} href={match[2]} target="_blank" rel="noopener noreferrer"
+                className="underline text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300">
+                {match[1]}
+              </a>
+            );
+          } else if (match[3]) {
+            // raw (url) — render as linked "(link)"
+            parts.push(
+              <a key={match.index} href={match[3]} target="_blank" rel="noopener noreferrer"
+                className="underline text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300">
+                (link)
+              </a>
+            );
+          }
+          lastIndex = match.index + match[0].length;
+        }
+        if (lastIndex < text.length) {
+          parts.push(text.slice(lastIndex));
+        }
+        return parts;
+      };
+
+      return (
+        <div className="mb-6 sm:mb-8 font-sora">
+          <div className="max-w-3xl mx-auto">
+            <BeforeAfterSlider
+              beforeImage={block.beforeImage}
+              afterImage={block.afterImage}
+              beforeLabel={block.beforeLabel}
+              afterLabel={block.afterLabel}
+              initialPosition={block.initialPosition}
+            />
+
+            {/* Title + date line */}
+            {(block.title || block.subtitle) && (
+              <div className="mt-4 text-center space-y-1">
+                {block.title && (
+                  <h4 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+                    {block.title}
+                  </h4>
+                )}
+                {block.subtitle && (
+                  <p className="text-gray-600 dark:text-gray-400 font-medium text-sm">
+                    {block.subtitle}
+                  </p>
+                )}
+              </div>
+            )}
+
+            {/* Caption */}
+            {block.caption && (
+              <p className="mt-3 text-xs text-center text-gray-500 dark:text-gray-400 italic px-4">
+                {block.caption}
+              </p>
+            )}
+
+            {/* Expandable Image Details */}
+            {block.imageDetails && (
+              <div className="mt-1">
+                <Accordion type="single" collapsible className="w-full">
+                  <AccordionItem value="details" className="border-b-0">
+                    <AccordionTrigger className="text-xs font-bold uppercase tracking-wider text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 py-3">
+                      Image Details
+                    </AccordionTrigger>
+                    <AccordionContent className="text-gray-700 dark:text-gray-300 leading-relaxed pb-5 text-left text-sm sm:text-base">
+                      {renderWithLinks(block.imageDetails)}
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    }
 
     case 'true-or-myth':
       return <TrueOrMythBlock items={block.items} />;

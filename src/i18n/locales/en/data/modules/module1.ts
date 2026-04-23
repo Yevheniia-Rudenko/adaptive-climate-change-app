@@ -109,31 +109,35 @@ Thank you for practicing with me.`
       content: [
         {
           title: '**Understanding Climate Drivers and Impacts**',
-          content: "Think about the current and possible impacts of climate change–whether those occurring right now or those in the future. What do you care about most?"
+          content: "Climate impacts are not just future possibilities—they are already visible today."
         }, // 0: text
+        {}, // 1: before-after-slider (no locale override needed)
+        {
+          content: "Think about the current and possible impacts of climate change–whether those occurring right now or those in the future. What do you care about most?"
+        }, // 2: text
         {
           question: 'What do you care about most?',
           options: ['Flooding', 'Fires', 'Species loss', 'Extreme Heat']
-        }, // 1: poll
+        }, // 3: poll
         {
           title: '**What If?**',
-          content: "We are going to look at what’s driving climate change and explore how different policies and actions could shape the future we all share.\n\nWe will begin to explore some of these primary drivers through a powerful tool called En-ROADS, an interactive climate solutions simulator made by Climate Interactive and MIT Sloan based on real scientific research.\nThink of it like a real‑life \"what if?\" simulator for the Earth's future."
-        }, // 2: text
-        { alt: 'Climate Interactive Logo' }, // 3: image
-        { alt: 'En-ROADS climate simulation tool dashboard with policy sliders and graphs displaying projected climate outcomes, including a dropdown to switch between different graph views.' }, // 4: image
+          content: "We are going to look at what's driving climate change and explore how different policies and actions could shape the future we all share.\n\nWe will begin to explore some of these primary drivers through a powerful tool called En-ROADS, an interactive climate solutions simulator made by Climate Interactive and MIT Sloan based on real scientific research.\nThink of it like a real\u2011life \"what if?\" simulator for the Earth's future."
+        }, // 4: text
+        { alt: 'Climate Interactive Logo' }, // 5: image
+        { alt: 'En-ROADS climate simulation tool dashboard with policy sliders and graphs displaying projected climate outcomes, including a dropdown to switch between different graph views.' }, // 6: image
         {
           content: "**En-ROADS lets you explore questions like:**\n\n• What happens if we use more renewable energy?\n• What if cars and buildings become more energy efficient, such as needing less gas or electricity to fuel them?\n• What if countries put a price on pollution?\n\nYou move sliders that represent real-world global policy choices—energy, transportation, food, forests, and technology—and the simulator instantly shows how those choices affect:\n\n• Global temperature\n• Sea level rise\n• Air pollution\n• Energy use\n• Economic outcomes"
-        }, // 5: text
-        { title: '**Why does global temperature matter?**' }, // 6: text
-        { alt: 'Animation of Thermometer filling to max degree with climate change text' }, // 7: image
-        { content: 'Even small changes in Earth\’s average temperature can cause big changes in weather and ecosystems—just like how a small change in body temperature can make a human very sick.' }, // 8: text
+        }, // 7: text
+        { title: '**Why does global temperature matter?**' }, // 8: text
+        { alt: 'Animation of Thermometer filling to max degree with climate change text' }, // 9: image
+        { content: 'Even small changes in Earth\'s average temperature can cause big changes in weather and ecosystems—just like how a small change in body temperature can make a human very sick.' }, // 10: text
         {
           title: '**What does global temperature increase mean?**',
           transcript: "When scientists talk about global temperature increase, they are comparing today's average Earth temperature to what it was before the Industrial Revolution, around eighteen fifty—before cars, factories, and power plants burned large amounts of fossil fuels.\n\nRight now, Earth has already warmed by about one point two degrees Celsius, or two point two degrees Fahrenheit. That may not sound like much, but even small changes in Earth's average temperature can cause big changes in weather and ecosystems—just like how a small change in body temperature can make a human very sick.\n\nThe Paris Climate Agreement set two key temperature goals. The main goal is to keep global warming well below two degrees Celsius. The safer goal, which countries are encouraged to aim for, is limiting warming to one point five degrees Celsius.\n\nAt one point five degrees, there are fewer deadly heat waves, less sea level rise, and a lower risk of extreme weather. At two degrees or more, storms and floods become much stronger, many coral reefs die, and more people face extreme heat and food and water shortages.\n\nSo while both levels of warming are dangerous, limiting warming to one point five degrees is much safer than reaching two degrees."
-        }, // 9: audio
-        { content: "In En-ROADS, the current projection if global policies and collective behavior remain the same as present, the global temperature increase by 2100 will be 3.3 degrees Celsius or 5.9 degrees Fahrenheit." }, // 10: text
-        { alt: 'Projected global temperature increase of +3.3°C (+5.9°F) by 2100.' }, // 11: image
-        { content: "That far exceeds the 1.5 degree Celsius (or 2.7 degrees Fahrenheit) goal. So what can we do?" } // 12: text
+        }, // 11: audio
+        { content: "In En-ROADS, the current projection if global policies and collective behavior remain the same as present, the global temperature increase by 2100 will be 3.3 degrees Celsius or 5.9 degrees Fahrenheit." }, // 12: text
+        { alt: 'Projected global temperature increase of +3.3°C (+5.9°F) by 2100.' }, // 13: image
+        { content: "That far exceeds the 1.5 degree Celsius (or 2.7 degrees Fahrenheit) goal. So what can we do?" } // 14: text
       ]
     },
     {
