@@ -13,6 +13,15 @@ import module4Icon from '../assets/module_4_card.webp';
 import module5Icon from '../assets/module_5_card.webp';
 import resourcesIcon from '../assets/resources_card.webp';
 import earthImage from '../assets/systems_cover.webp';
+import { BeforeAfterSlider } from './BeforeAfterSlider';
+import greatSaltLakeBefore from '../assets/before_and_after/great-salt-lake-before-2048x1536-80.jpg';
+import greatSaltLakeAfter from '../assets/before_and_after/great-salt-lake-after-2048x1536-80.jpg';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "./ui/accordion";
 
 export function IntroPage() {
   const { t } = useLanguage();
@@ -99,7 +108,7 @@ export function IntroPage() {
   ];
 
   return (
-    <div 
+    <div
       className="min-h-screen flex items-center justify-center p-4 sm:p-6 pt-20 font-sora"
     >
       <div className="max-w-4xl w-full">
@@ -142,11 +151,73 @@ export function IntroPage() {
               </p>
             </div>
 
+            {/* Before After Slider Section */}
+            <div className="mb-10 sm:mb-12">
+              <div className="max-w-3xl mx-auto mb-6">
+                <BeforeAfterSlider
+                  beforeImage={greatSaltLakeBefore}
+                  afterImage={greatSaltLakeAfter}
+                  beforeLabel="Before — higher water levels"
+                  afterLabel="After — significant shrinkage"
+                />
+
+                {/* Title and date text below the image */}
+                <div className="mt-4 text-center space-y-1">
+                  <h4 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+                    Shrinking Great Salt Lake, Utah
+                  </h4>
+                  <p className="text-gray-600 dark:text-gray-400 font-medium text-sm">
+                    November 2, 2011 - November 13, 2015
+                  </p>
+                </div>
+
+                {/* Expandable Image Details */}
+                <div className="mt-0 max-w-3xl mx-auto">
+                  <Accordion type="single" collapsible className="w-full">
+                    <AccordionItem value="details" className="border-b-0">
+                      <AccordionTrigger className="text-xs font-bold uppercase tracking-wider text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 py-3">
+                        Image Details
+                      </AccordionTrigger>
+                      <AccordionContent className="text-gray-700 dark:text-gray-300 leading-relaxed pb-5 text-left text-sm sm:text-base">
+                        The water level of the north arm of Great Salt Lake, Utah, has reached a record low of 4,191.6 feet because the smaller snowpack of recent years has reduced the spring runoff that feeds the lake. The south arm's water has dropped below the level where it could cross the breach that separates the arms. Water from the north arm is pumped to evaporation ponds, seen on the right side of these images, from which salt, potassium and other minerals are extracted. Also see this{' '}
+                        <a
+                          href="https://www.usgs.gov/programs/national-land-imaging-program#510"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 transition-colors underline underline-offset-2 font-semibold"
+                        >
+                          USGS article
+                        </a>
+                        . Images taken by the Thematic Mapper sensor onboard Landsat 5 and the Operational Land Imager onboard Landsat 8. Source:{' '}
+                        <a
+                          href="https://www.usgs.gov/programs/national-land-imaging-program#510"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 transition-colors underline underline-offset-2 font-semibold"
+                        >
+                          Landsat Missions Gallery
+                        </a>
+                        , "Great Salt Lake North Arm Reaches Record Low." U.S. Department of the Interior / USGS and NASA; and USGS Newsroom.
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+                </div>
+              </div>
+              <div className="mb-4 text-center">
+                <p className="text-gray-700 dark:text-gray-300 text-base sm:text-lg leading-relaxed">
+                  What you're about to explore isn't abstract. <br className="hidden sm:block" />
+                  These changes are already happening — right now, in real places around the world.
+                </p>
+              </div>
+
+
+            </div>
+
             {/* Module List */}
             <div className="mb-6 sm:mb-8">
-              <div className="flex items-center gap-2 mb-4">
-                <BookOpen className="text-purple-600 dark:text-purple-400 flex-shrink-0" size={20} />
-                <h2 className="text-gray-900 dark:text-gray-100">{t.pages.intro.whatYouLearn}</h2>
+              <div className="flex items-center gap-3 mb-6">
+                <BookOpen className="text-purple-600 dark:text-purple-400 flex-shrink-0" size={32} />
+                <h2 className="text-gray-900 dark:text-gray-100 text-xl sm:text-2xl md:text-3xl font-extrabold">{t.pages.intro.whatYouLearn}</h2>
               </div>
               <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 auto-rows-fr max-w-3xl mx-auto">
                 {moduleCards.map(({ id, label, Icon, iconImage, gradient, gradientStyle, chips, backText }, index) => (
@@ -181,58 +252,58 @@ export function IntroPage() {
                           borderRadius: moduleCardRadius
                         }}
                       >
-                          {/* Image Area */}
-                          <div
-                            className="min-h-44 sm:min-h-52 w-full relative overflow-hidden flex-1 rounded-t-[2rem]"
-                            style={{
-                              background: iconImage ? '#000000' : gradientStyle,
-                              borderTopLeftRadius: moduleCardRadius,
-                              borderTopRightRadius: moduleCardRadius
-                            }}
-                          >
-                            {iconImage ? (
-                              <>
-                                <img
-                                  src={iconImage}
-                                  alt={label}
-                                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110 z-0"
-                                  style={{ opacity: 0.95 }}
-                                />
-                                <div
-                                  className="absolute inset-0 z-10"
-                                  style={{ background: 'linear-gradient(0deg, rgba(0,0,0,0.28), rgba(0,0,0,0.06))' }}
-                                />
-                              </>
-                            ) : (
-                              <div className="absolute inset-0 flex items-center justify-center p-4 sm:p-6">
-                                <Icon size={56} strokeWidth={1.5} className="text-white/90" />
-                              </div>
-                            )}
-                            {id !== 6 && (
+                        {/* Image Area */}
+                        <div
+                          className="min-h-44 sm:min-h-52 w-full relative overflow-hidden flex-1 rounded-t-[2rem]"
+                          style={{
+                            background: iconImage ? '#000000' : gradientStyle,
+                            borderTopLeftRadius: moduleCardRadius,
+                            borderTopRightRadius: moduleCardRadius
+                          }}
+                        >
+                          {iconImage ? (
+                            <>
+                              <img
+                                src={iconImage}
+                                alt={label}
+                                className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110 z-0"
+                                style={{ opacity: 0.95 }}
+                              />
                               <div
-                                className="absolute px-3 py-2 rounded-full shadow-md z-20 pointer-events-none"
-                                style={{
-                                  top: '0.6rem',
-                                  left: '0.9rem',
-                                  backgroundColor: '#123A2B',
-                                  transform: 'translateZ(1px)'
-                                }}
-                              >
-                                <span className="text-lg font-bold text-white tracking-wide">{t.pages.intro.modulePrefix} {id}</span>
-                              </div>
-                            )}
-                          </div>
+                                className="absolute inset-0 z-10"
+                                style={{ background: 'linear-gradient(0deg, rgba(0,0,0,0.28), rgba(0,0,0,0.06))' }}
+                              />
+                            </>
+                          ) : (
+                            <div className="absolute inset-0 flex items-center justify-center p-4 sm:p-6">
+                              <Icon size={56} strokeWidth={1.5} className="text-white/90" />
+                            </div>
+                          )}
+                          {id !== 6 && (
+                            <div
+                              className="absolute px-3 py-2 rounded-full shadow-md z-20 pointer-events-none"
+                              style={{
+                                top: '0.6rem',
+                                left: '0.9rem',
+                                backgroundColor: '#123A2B',
+                                transform: 'translateZ(1px)'
+                              }}
+                            >
+                              <span className="text-lg font-bold text-white tracking-wide">{t.pages.intro.modulePrefix} {id}</span>
+                            </div>
+                          )}
+                        </div>
 
-                          {/* Title Bar */}
-                          <div className="px-6 py-4 min-h-16 flex items-center justify-center flex-shrink-0 rounded-b-[2rem]" style={{
-                            backgroundColor: '#123A2B',
-                            borderBottomLeftRadius: moduleCardRadius,
-                            borderBottomRightRadius: moduleCardRadius
-                          }}>
-                            <h3 className="text-xl sm:text-2xl md:text-2xl leading-snug line-clamp-3 w-full text-center" style={{ color: '#ffffff', fontWeight: '900' }}>
-                              {label}
-                            </h3>
-                          </div>
+                        {/* Title Bar */}
+                        <div className="px-6 py-4 min-h-16 flex items-center justify-center flex-shrink-0 rounded-b-[2rem]" style={{
+                          backgroundColor: '#123A2B',
+                          borderBottomLeftRadius: moduleCardRadius,
+                          borderBottomRightRadius: moduleCardRadius
+                        }}>
+                          <h3 className="text-xl sm:text-2xl md:text-2xl leading-snug line-clamp-3 w-full text-center" style={{ color: '#ffffff', fontWeight: '900' }}>
+                            {label}
+                          </h3>
+                        </div>
                       </div>
 
                       {/* Back of card */}
@@ -248,16 +319,16 @@ export function IntroPage() {
                         }}
                         onClick={() => onNavigateToModule(id === 6 ? 'resources' : id)}
                       >
-                          <div className="h-full flex flex-col items-center justify-center p-6 text-white overflow-hidden rounded-[2rem]" style={{ borderRadius: moduleCardRadius }}>
-                            <Icon size={48} strokeWidth={1.5} className="mb-4 opacity-80" />
-                            <p className="text-center text-sm leading-relaxed mb-4">
-                              {backText}
-                            </p>
-                            <div className="mt-auto pt-4 flex items-center gap-2 text-sm font-semibold">
-                              <span>{t.pages.intro.exploreModule}</span>
-                              <ArrowRight size={16} />
-                            </div>
+                        <div className="h-full flex flex-col items-center justify-center p-6 text-white overflow-hidden rounded-[2rem]" style={{ borderRadius: moduleCardRadius }}>
+                          <Icon size={48} strokeWidth={1.5} className="mb-4 opacity-80" />
+                          <p className="text-center text-sm leading-relaxed mb-4">
+                            {backText}
+                          </p>
+                          <div className="mt-auto pt-4 flex items-center gap-2 text-sm font-semibold">
+                            <span>{t.pages.intro.exploreModule}</span>
+                            <ArrowRight size={16} />
                           </div>
+                        </div>
                       </div>
                     </div>
                   </motion.div>
