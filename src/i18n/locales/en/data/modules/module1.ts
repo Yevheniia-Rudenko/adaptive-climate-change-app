@@ -7,12 +7,19 @@ export const module1 = {
         { label: 'Open Glossary' }, // 0: button
         {
           title: '**About this Module**',
-          content: "Climate change isn't just about science and data—it's also deeply personal.\n\n Understanding how climate futures affect you, your community, and the world helps build meaningful connections to the issue. This module explores how we emotionally and intellectually relate to our current climate situation, how we imagine different possible futures, and why these connections matter for understanding these complex global challenges and feeling empowered to take effective action"
-        }, // 1: text
+          content: "Climate change isn't just about science and data—it's also deeply personal.\n\n Understanding how climate futures affect you, your community, and the world helps build meaningful connections to the issue. This module explores how we emotionally and intellectually relate to our current climate situation, how we imagine different possible futures, and why these connections matter for understanding these complex global challenges and feeling empowered to take effective action."
+        }, // 1: text (About this Module)
+        {
+          content: "Before we begin, let's test what we think we know."
+        }, // 2: text (quiz intro)
+        {}, // 3: true-or-myth quiz (no locale override needed)
+        {
+          content: "Climate change is often misunderstood.\n\nIn this module, we'll explore not just the facts—but how we relate to them."
+        }, // 4: text (transition)
         {
           title: '**Key Concepts**',
           content: 'To start us off, let\'s explore some of the following key concepts. Take a moment to review the following cards, considering your own definitions as well.'
-        }, // 2: text
+        }, // 5: text (Key Concepts)
         {
           title: '', // 3: flip-cards (optional title)
           cards: [

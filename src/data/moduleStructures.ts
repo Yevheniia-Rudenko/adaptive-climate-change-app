@@ -84,7 +84,8 @@ export type ContentBlock =
   | { type: 'poll'; question: string; options: string[]; id: string; singleSelect?: boolean }
   | { type: 'numeric-prediction'; question: string; id: string; unit?: string }
   | { type: 'meditation'; title: string; content: string }
-  | { type: 'module-feedback'; title: string; description: string; id: string };
+  | { type: 'module-feedback'; title: string; description: string; id: string }
+  | { type: 'true-or-myth'; items: { statement: string; answer: 'TRUE' | 'MYTH'; explanation: string }[] };
 
 export type BlockWrapper = {
   type: 'block';
@@ -123,7 +124,37 @@ export const moduleStructures: ModuleStructure[] = [
           {
             type: 'text',
             title: '**About this Module**',
-            content: "Climate change isn't just about science and data—it's also deeply personal.\n\n Understanding how climate futures affect you, your community, and the world helps build meaningful connections to the issue. This module explores how we emotionally and intellectually relate to our current climate situation, how we imagine different possible futures, and why these connections matter for understanding these complex global challenges and feeling empowered to take effective action"
+            content: "Climate change isn't just about science and data—it's also deeply personal.\n\n Understanding how climate futures affect you, your community, and the world helps build meaningful connections to the issue. This module explores how we emotionally and intellectually relate to our current climate situation, how we imagine different possible futures, and why these connections matter for understanding these complex global challenges and feeling empowered to take effective action."
+          },
+          {
+            type: 'text',
+            content: "Before we begin, let's test what we think we know.",
+            hideIcon: true
+          },
+          {
+            type: 'true-or-myth',
+            items: [
+              {
+                statement: 'Recycling is the most important thing I can do for the climate.',
+                answer: 'MYTH',
+                explanation: 'Recycling helps but it\'s tiny. What\'s 10× more impactful: eating less meat, flying less, and switching to clean energy.'
+              },
+              {
+                statement: 'Scientists actually disagree about whether climate change is real.',
+                answer: 'MYTH',
+                explanation: '97% of climate scientists agree it\'s real and human-caused.'
+              },
+              {
+                statement: 'Renewable energy is now cheaper than coal in most countries.',
+                answer: 'TRUE',
+                explanation: 'Solar and wind are now the cheapest electricity in most of the world.'
+              }
+            ]
+          },
+          {
+            type: 'text',
+            content: 'Climate change is often misunderstood.\n\nIn this module, we\'ll explore not just the facts—but how we relate to them.',
+            hideIcon: true
           },
           {
             type: 'text',

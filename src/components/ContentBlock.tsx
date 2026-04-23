@@ -15,6 +15,7 @@ import Module3CarbonPriceDashboard from './module_3/Module3CarbonPriceDashboard'
 import Module2ExerciseDashboard from './Module2ExerciseDashboard';
 import Module2RemovalsDashboard from './Module2RemovalsDashboard';
 import { FlipCard } from './FlipCard';
+import { TrueOrMythBlock } from './TrueOrMythBlock';
 import { SubmitButton } from './SubmitButton';
 import { postInput } from '../api/postInput';
 import { downloadInputsPdf } from '../api/getInputsPdf';
@@ -1443,6 +1444,9 @@ export function ContentBlock({
 
     case 'quote-carousel':
       return <QuoteCarouselBlock block={block} />;
+
+    case 'true-or-myth':
+      return <TrueOrMythBlock items={block.items} />;
 
     case 'module-feedback':
       return <ModuleFeedbackBlock block={block} moduleId={moduleId} />;
