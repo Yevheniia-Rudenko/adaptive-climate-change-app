@@ -1,9 +1,9 @@
 export const intro = {
   climateEducation: 'İklim Eğitimi',
   mainTitle: 'İklim Değişimini Şekillendiren Sistemler',
-  introP1_1: 'Senin gibi genç değişim öncüleri için tasarlanmış etkileşimli bir öğrenme yolculuğuna hoş geldin. İklim değişikliği yalnızca bilimle ilgili değildir; dünyamızı şekillendiren sistemleri anlamak ve nerede fark yaratabileceğini keşfetmekle ilgilidir.',
-  introP1_2: '5 etkileşimli modül boyunca iklim sistemlerinin nasıl çalıştığını, hangi geleceklerin mümkün olduğunu ve değişimi yaratma gücünün nerede olduğunu keşfedeceksin.',
-  introP1_3: 'Her modülde öğrenme materyalleri, videolar ve kişisel yansımaların için alan bulunur.',
+  introP1_1: 'Senin gibi değişim öncüleri için tasarlanmış etkileşimli bir öğrenme yolculuğuna hoş geldin.',
+  introP1_2: 'İklim değişikliği; sosyal, ekonomik, teknolojik ve ekolojik birçok birbiriyle bağlantılı sistem tarafından şekillenir. Hem küresel hem yerel, hatta kişiseldir. İklim değişikliği yalnızca bilimle ilgili değildir; dünyamızı şekillendiren sistemleri anlamak ve nerede fark yaratabileceğini keşfetmekle ilgilidir.',
+  introP1_3: 'Bu etkileşimli müfredat, bu sistemlerin nasıl çalıştığını keşfetmenize, iklim değişikliğinin itici güçlerini anlamanıza, bu karmaşık sistemlere müdahale etme fırsatlarını belirlemenize ve nasıl değişim yaratabileceğinizi öğrenmenize yardımcı olur.',
   whatYouLearn: 'Neler Öğreneceksin',
   startJourney: 'Yolculuğunu Başlat',
   continueJourney: 'Öğrenmeye Devam Et',
