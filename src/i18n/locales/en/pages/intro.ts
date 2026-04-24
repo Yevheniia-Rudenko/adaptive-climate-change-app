@@ -2,7 +2,7 @@ export const intro = {
   climateEducation: 'Climate Awareness',
   mainTitle: 'The Systems that Shape Climate Change',
   introP1_1: 'Welcome to an interactive learning journey designed for changemakers like you.',
-  introP1_2: 'Climate change is shaped by many interconnected systems —social, economic, technological, and ecological. It is both global and local, and even personal.',
+  introP1_2: 'Climate change is shaped by many interconnected systems —social, economic, technological, and ecological. It is both global and local, and even personal. Climate change isn\'t just about science—it\'s about understanding the systems that shape our world and discovering where you can make a difference.',
   introP1_3: 'This interactive curriculum helps you explore how these systems work, understand the drivers of climate change, identify where there are opportunities to intervene within these complex systems, and how you can create change.',
   whatYouLearn: 'What You\'ll Learn',
   startJourney: 'Start Your Journey',

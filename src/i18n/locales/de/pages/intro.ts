@@ -2,7 +2,7 @@ export const intro = {
   climateEducation: 'Klimabildung',
   mainTitle: 'Die Systeme, die den Klimawandel prägen',
   introP1_1: 'Willkommen zu einer interaktiven Lernreise, die für junge Changemaker wie dich entwickelt wurde.',
-  introP1_2: 'Klimawandel geht nicht nur um Wissenschaft – es geht darum, die Systeme zu verstehen, die unsere Welt formen, und zu entdecken, wo du einen Unterschied machen kannst.',
+  introP1_2: 'Der Klimawandel wird durch viele miteinander verbundene Systeme geprägt – soziale, wirtschaftliche, technologische und ökologische. Er ist sowohl global als auch lokal und sogar persönlich. Beim Klimawandel geht es nicht nur um Wissenschaft – es geht darum, die Systeme zu verstehen, die unsere Welt formen, und zu entdecken, wo du einen Unterschied machen kannst.',
   introP1_3: 'In 5 interaktiven Modulen erkundest du, wie Klimasysteme funktionieren, welche Zukünfte möglich sind und wo du die Macht hast, Veränderungen zu schaffen. Jedes Modul enthält Lernmaterialien, Videos und Raum für deine persönlichen Reflexionen.',
   whatYouLearn: 'Was Du Lernen Wirst',
   startJourney: 'Beginne Deine Reise',

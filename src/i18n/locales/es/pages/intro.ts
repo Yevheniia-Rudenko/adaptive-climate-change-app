@@ -1,9 +1,9 @@
 export const intro = {
   climateEducation: 'Educación Climática',
   mainTitle: 'Los Sistemas que Dan Forma al Cambio Climático',
-  introP1_1: 'Bienvenido a un viaje de aprendizaje interactivo diseñado para jóvenes agentes de cambio como tú. El cambio climático no se trata solo de ciencia, se trata de entender los sistemas que dan forma a nuestro mundo y descubrir dónde puedes marcar la diferencia.',
-  introP1_2: 'A través de 5 módulos interactivos, explorarás cómo funcionan los sistemas climáticos, qué futuros son posibles y dónde tienes el poder de crear cambios.',
-  introP1_3: 'Cada módulo incluye materiales de aprendizaje, videos y espacio para tus reflexiones personales.',
+  introP1_1: 'Bienvenido a un viaje de aprendizaje interactivo diseñado para agentes de cambio como tú.',
+  introP1_2: 'El cambio climático está moldeado por muchos sistemas interconectados: sociales, económicos, tecnológicos y ecológicos. Es a la vez global y local, e incluso personal. El cambio climático no se trata solo de ciencia, se trata de entender los sistemas que dan forma a nuestro mundo y descubrir dónde puedes marcar la diferencia.',
+  introP1_3: 'Este currículo interactivo te ayuda a explorar cómo funcionan estos sistemas, comprender los impulsores del cambio climático, identificar dónde existen oportunidades para intervenir dentro de estos sistemas complejos y cómo puedes crear el cambio.',
   whatYouLearn: 'Lo Que Aprenderás',
   startJourney: 'Comienza Tu Viaje',
   continueJourney: 'Continuar Aprendiendo',

@@ -3313,3 +3313,13 @@ p.leading-relaxed:has-text("•") {
   padding-left: 2rem;
   margin-bottom: 0.5rem;
 }
+
+/* Additional margin utilities */
+.mb-10 { margin-bottom: calc(var(--spacing) * 10); }
+.mb-12 { margin-bottom: calc(var(--spacing) * 12); }
+.mb-16 { margin-bottom: calc(var(--spacing) * 16); }
+.mb-24 { margin-bottom: calc(var(--spacing) * 24); }
+
+@media (min-width: 640px) {
+  .sm\:mb-12 { margin-bottom: calc(var(--spacing) * 12); }
+}

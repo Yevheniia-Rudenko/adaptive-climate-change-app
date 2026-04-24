@@ -143,11 +143,8 @@ export function IntroPage() {
               <p className="text-gray-700 dark:text-gray-300 text-base sm:text-lg leading-relaxed mb-4">
                 {t.pages.intro.introP1_1}
               </p>
-              <p className="text-gray-700 dark:text-gray-300 text-base sm:text-lg leading-relaxed mb-4">
-                {t.pages.intro.introP1_2}
-              </p>
               <p className="text-gray-700 dark:text-gray-300 text-base sm:text-lg leading-relaxed">
-                {t.pages.intro.introP1_3}
+                {t.pages.intro.introP1_2}
               </p>
             </div>
 
@@ -203,12 +200,16 @@ export function IntroPage() {
                   </Accordion>
                 </div>
               </div>
-              <div className="mb-4 text-center">
+              <div className="mb-8">
                 <p className="text-gray-700 dark:text-gray-300 text-base sm:text-lg leading-relaxed">
-                  What you're about to explore isn't abstract. <br className="hidden sm:block" />
-                  These changes are already happening — right now, in real places around the world.
+                  What you’re about to explore isn’t abstract. <br className="hidden sm:block" />
+                  These changes are already happening—right now, in real places around the world.
                 </p>
               </div>
+
+              <p className="text-gray-700 dark:text-gray-300 text-base sm:text-lg leading-relaxed mb-10">
+                {t.pages.intro.introP1_3}
+              </p>
 
 
             </div>
