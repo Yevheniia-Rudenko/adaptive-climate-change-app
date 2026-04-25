@@ -8,7 +8,6 @@ export const module2 = {
         { title: '**Über dieses Modul**', content: 'Manche Dinge bauen sich langsam auf – und das verändert alles.' }, // 1: text
         { alt: 'Diagramm eines Badewannenmodells mit einem Wasserhahn, der ein Wasserbecken füllt, mit Pfeilen, die den Zufluss (Inflow) vom Hahn und den Abfluss (Outflow) am Boden anzeigen.' }, // 2: image
         { title: '', content: "Stell dir vor, du hast ein **Spülbecken**.\n\n- Das **Wasser, das bereits im Becken ist**, ist der **Bestand** (Stock).\n- Das **Wasser, das aus dem Hahn kommt**, ist ein **Zufluss** (Flow).\n- Das **Wasser, das abfließt**, ist ein weiterer **Fluss** (Flow).\n\n Die Größe des Bestands (wie viel Wasser im Becken ist) hängt von den Flüssen ab (wie schnell Wasser hinein- oder herausfließt).\n\nWenn das Wasser aus dem Hahn schneller fließt als der Abfluss?\n➡️ Das Becken füllt sich.\n\nWenn der Abfluss schneller ist als das Wasser aus dem Hahn?\n➡️ Das Becken leert sich.\n\nWenn sie gleich schnell sind?\n➡️ Der Wasserstand bleibt gleich." }, // 3: text
-        { title: '**Was sind Bestand und Fluss?**', description: '' }, // 4: video
         { title: '**Kernkonzepte**', content: '' }, // 5: text
         { // 6: flip-cards
           cards: [
@@ -89,7 +88,6 @@ export const module2 = {
       // Section 6 (blue block)
       content: [
         { title: '**🌍 Warum das für den Klimawandel wichtig ist**', content: '' }, // 0: text
-        { description: 'Den Klimawandel durch die Badewannen-Analogie verstehen' }, // 1: video
         { content: "Erinnere dich an den Bestand & Fluss. Denke bei Kohlendioxid (CO2) an das Gleiche.\n-Die **Atmosphäre** ist wie das Becken – dies ist der **Bestand**.\n-Das Verbrennen von fossilen Brennstoffen (Autos, Fabriken usw.) ist wie das Wasser, das aus dem Hahn kommt – das ist ein **Zufluss**, der CO2 hinzufügt.\n-Bäume und Ozeane, die CO2 absorbieren, sind wie der Abfluss – das ist ein **Abfluss**, der CO2 entfernt.\n\nIm Moment läuft der **Hahn auf Hochtouren** und der **Abfluss ist langsam**, sodass der „CO2-Spiegel“ weiter ansteigt.\n\nSelbst wenn wir den Hahn zudrehen, wird sich das Becken **weiter füllen**, es sei denn, der Abfluss ist ebenso schnell.\n\nDies hilft zu erklären, warum es so schwer ist, die Emissionen anzugehen, die den Klimawandel verursachen:\n\nUm den CO2-Spiegel am Steigen zu hindern, müssen Zuflüsse und Abflüsse im Gleichgewicht sein.\n\nDas Verständnis von „Bestand und Fluss“ hilft dir zu sehen, dass es beim Klimawandel nicht nur darum geht, weniger fossile Brennstoffe zu verbrauchen – es geht darum, das ganze System zu ändern, damit wir das atmosphärische „Becken“ nicht weiter überfüllen.\n\nEs geht nicht nur um eine gute Tat.\n\nEs geht darum, wie alle unsere kollektiven Handlungen die **Gesamtmenge** über die Zeit beeinflussen." } // 2: text
       ]
     },

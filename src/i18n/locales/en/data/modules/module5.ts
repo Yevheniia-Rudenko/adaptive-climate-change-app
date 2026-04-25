@@ -165,7 +165,7 @@ export const module5 = {
           alt: 'Draw Your Own Mandala for Systems Change'
         },
         {
-          content: 'Now draw your own mandala for systems change–either on a piece of paper or filling out the questions below.\n\nChoose a climate action that you would like to try– one you already feel passionate about or even one you’re curious about.\n\nYou could check out the vetted climate change solutions from Project Drawdown or think of actions you see in your community.\n\nYou can do this exercise individually or as a team.'
+          content: 'Now draw your own mandala for systems change–either on a piece of paper or filling out the questions below.\n\nChoose a climate action that you would like to try– one you already feel passionate about or even one you’re curious about.\n\nYou could check out the vetted climate change solutions from [Project Drawdown](https://drawdown.org/explorer) or think of actions you see in your community.\n\nYou can do this exercise individually or as a team.'
         },
         {
           prompt: 'Practice – What do you want to do, try or accomplish?'

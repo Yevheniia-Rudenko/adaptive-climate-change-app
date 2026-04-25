@@ -8,7 +8,6 @@ export const module2 = {
         { title: '**Sobre este Módulo**', content: 'Algunas cosas se acumulan lentamente, y eso lo cambia todo.' }, // 1: text
         { alt: 'Diagrama de un modelo de bañera que muestra un grifo llenando un tanque de agua, con flechas que indican el flujo de entrada (Inflow) desde el grifo y el flujo de salida (Outflow) drenando por el fondo.' }, // 2: image
         { title: '', content: "Imagina que tienes un **fregadero**.\n\n- El **agua que ya está en el fregadero** son las **existencias** (stock).\n- El **agua que entra por el grifo** es un **flujo** (flow).\n- El **agua que sale por el desagüe** es otro **flujo** (flow).\n\n El tamaño de las existencias (cuánta agua hay en el fregadero) depende de los flujos (qué tan rápido entra o sale el agua).\n\n¿Y si el agua del grifo corre más rápido que el desagüe?\n➡️ El fregadero se llena.\n\n¿Si el desagüe es más rápido que el agua del grifo?\n➡️ El fregadero se vacía.\n\n¿Si son iguales?\n➡️ El nivel del agua se mantiene igual." }, // 3: text
-        { title: '**¿Qué son las Existencias y los Flujos?**', description: '' }, // 4: video
         { title: '**Conceptos Clave**', content: '' }, // 5: text
         { // 6: flip-cards
           cards: [
@@ -89,7 +88,6 @@ export const module2 = {
       // Section 6 (blue block)
       content: [
         { title: '**🌍 Por qué esto es importante para el Cambio Climático**', content: '' }, // 0: text
-        { description: 'Entendiendo el cambio climático a través de la analogía de la bañera' }, // 1: video
         { content: "Recuerda las Existencias y los Flujos. Piensa en el dióxido de carbono (CO₂) de la misma manera.\n-La **atmósfera** es como el fregadero — estas son las **existencias**.\n-Quemar combustibles fósiles (coches, fábricas, etc.) es como el agua que sale del grifo — eso es un **flujo de entrada** añadiendo CO₂.\n-Los árboles y los océanos absorbiendo CO₂ son como el desagüe — eso es un **flujo de salida** eliminando CO₂.\n\nAhora mismo, el **grifo está a tope**, y el **desagüe es lento**, por lo que el \"fregadero\" de CO₂ sigue subiendo.\n\nIncluso si cerramos un poco el grifo, el fregadero se **seguirá llenando** a menos que el desagüe sea igual de rápido.\n\nEsto ayuda a explicar por qué abordar las emisiones que causan el cambio climático es tan difícil:\n\nPara que el nivel de CO₂ deje de subir, las entradas y salidas tienen que equilibrarse.\n\nComprender las \"existencias y flujos\" te ayuda a ver que el cambio climático no se trata solo de usar menos combustibles fósiles, sino de cambiar todo el sistema para que dejemos de llenar en exceso el \"fregadero\" atmosférico.\n\nNo se trata solo de una buena acción.\n\nSe trata de cómo todas nuestras acciones colectivas afectan a la **cantidad total** a lo largo del tiempo." } // 2: text
       ]
     },

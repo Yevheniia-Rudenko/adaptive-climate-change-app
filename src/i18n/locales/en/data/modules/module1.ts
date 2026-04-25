@@ -38,13 +38,13 @@ export const module1 = {
               frontTitle: 'Systems Sensing',
               frontDescription: 'Paying close attention',
               backTitle: 'Definition',
-              backDescription: 'Systems sensing is the skill of paying close attention using all our senses, emotions and lived experience–to what\'s happening in a system, like a school, a community, or even the climate–and noticing patterns, emotions, relationships, and changes so you can better understand how everything is connected.'
+              backDescription: 'The skill of paying attention using all our senses, emotions and experience–to what’s happening in a system, like a school, a community, or even the climate–and noticing patterns so you can better understand how everything is connected.'
             },
             {
               frontTitle: 'Emotional Literacy',
               frontDescription: 'Feelings you experience',
               backTitle: 'Definition',
-              backDescription: 'Emotions are the feelings you experience in response to what\'s happening around you or inside you. They can range from joy, excitement and anger, or states like stress, confusion or happiness. Emotional literacy is learning how these feelings show up in your body, thoughts, and behaviors.'
+              backDescription: 'Emotions are feelings you experience in response to what’s happening around or inside you. Emotional literacy is learning how these feelings and states show up in your body, thoughts, and behaviors.'
             },
             {
               frontTitle: 'Awareness',
@@ -276,14 +276,14 @@ To reduce use of fossil fuels–oil, gas and coal–one strategy is to place hig
     carbonRemoval: {
       title1: 'Model 1: Nature-Based Carbon Removal',
       title2: 'Model 2: Deforestation',
-    model1IntroText: `En-ROADS Simplified Dashboard
+      model1IntroText: `En-ROADS Simplified Dashboard
   Now let’s see what effect nature-based carbon-dioxide removal (aka planting more trees) has on global temperature increase (remember the goal to keep the increase at no more than 1.5 degrees Celsius or 2.7 degrees Fahrenheit).
   In Exercise 1, you will adjust the amount that nature-based Carbon-Dioxide Removal is implemented as a policy by moving the slider. You can choose:
   Status Quo: Maintain the current levels of natural and cultivated forests. This is where the slider starts.
   Subsidize: Increase the amount of trees planted by providing governmental or private funding to support the planting and maintenance of forests and wooded areas.
   Tax: Decrease the amount of trees planted by charging governmental taxes or fees (ex. Taxes that increase the cost of purchasing trees)
   You can also explore other climate impacts like sea level rise, air pollution, crop yield and others using the dropdown option on the graphs.`,
-    model2IntroText: `Planting more trees in this model is different from saving existing forests. Let’s also see what happens when we look at policies around deforestation–the intentional and large-scale clearing of forests for agriculture, building construction, and livestock.
+      model2IntroText: `Planting more trees in this model is different from saving existing forests. Let’s also see what happens when we look at policies around deforestation–the intentional and large-scale clearing of forests for agriculture, building construction, and livestock.
   In Exercise 2, adjust the amount that Deforestation is happening globally by moving the slider. You can choose:
   Status Quo: Maintain the current levels of natural and cultivated forests. This is where the slider starts.
   Reforestation: Encourage the protection of forests, preserving current forests and allowing areas to re-grow after human disturbance. For example, letting a grass yard grow into a meadow and eventually into a forest.

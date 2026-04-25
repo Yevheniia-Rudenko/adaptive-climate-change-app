@@ -144,7 +144,7 @@ export const educators = {
           title: 'Step 4: Facilitate & Support',
           items: [
             'Guide students through modules at an appropriate pace',
-            'Pause for discussion at key points',
+            'Pause for discussion at key points: the reflection boxes can work as partner/small group discussions in addition to a text entry',
             'Encourage use of the reflection prompts either individually or as small group discussion.',
             'Connect concepts to local and global contexts'
           ]
