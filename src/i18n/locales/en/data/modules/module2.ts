@@ -8,7 +8,6 @@ export const module2 = {
         { title: '**About this Module**', content: 'Some things build up slowly — and that changes everything.' }, // 1: text
         { alt: 'Diagram of a bathtub model showing a faucet filling a water tank, with arrows indicating water Inflow entering from the tap and Outflow draining from the bottom.' }, // 2: image
         { title: '', content: "So imagine you've got a **sink**.\n\n- The **water already in the sink** is the **stock**.\n- The **water coming in from the faucet** is a **flow**.\n- The **water draining out** is another **flow**.\n\n The size of the stock (how much water is in the sink) depends on the flows (how fast water enters or leaves).\n\nSo if the water in the faucet is running faster than the drain?\n➡️ The sink fills up.\n\nIf the drain is faster than the water in the faucet?\n➡️ The sink empties.\n\nIf they're equal?\n➡️ The water level stays the same." }, // 3: text
-        { title: '**What is Stock and Flow?**', description: '' }, // 4: video
         { title: '**Key Concepts**', content: '' }, // 5: text
         { // 6: flip-cards
           cards: [
@@ -91,7 +90,6 @@ export const module2 = {
       // Section 6 (blue block)
       content: [
         { title: '**🌍 Why This Matters for Climate Change**', content: '' }, // 0: text
-        { description: 'Understanding climate change through the bathtub analogy' }, // 1: video
         { content: "Remember the Stock & Flow. Think of carbon dioxide (CO₂) the same way.\n-The **atmosphere** is like the sink—this is the **stock**.\n-Burning fossil fuels (cars, factories, etc.) is like the water coming out of the faucet—that's an **inflow** adding CO₂.\n-Trees and oceans absorbing CO₂ is like the drain—that's an **outflow** removing CO₂.\n\nRight now, the **faucet is on full blast**, and the **drain is slow**, so the \"sink\" of CO₂ keeps rising.\n\nEven if we slow down the faucet, the sink will **keep filling** unless the drain is equally fast.\n\nThis helps explain why addressing emissions causing climate change is so hard:\n\nTo stop the CO₂ level from rising, the inflows and outflows have to balance.\n\nUnderstanding \"stock and flow\" helps you see that climate change isn't just about using fewer fossil fuels—it's about changing the whole system so we stop overfilling the atmospheric \"sink.\"\n\nIt's not just about one good action.\n\nIt's about how all our collective actions affect the **total amount** over time." } // 2: text
       ]
     },

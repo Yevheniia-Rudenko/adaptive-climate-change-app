@@ -113,13 +113,13 @@ export const moduleStructures: ModuleStructure[] = [
                 frontTitle: 'Systems Sensing',
                 frontDescription: 'Paying close attention',
                 backTitle: 'Definition',
-                backDescription: 'Systems sensing is the skill of paying close attention using all our senses, emotions and lived experience–to what\'s happening in a system, like a school, a community, or even the climate–and noticing patterns, emotions, relationships, and changes so you can better understand how everything is connected.'
+                backDescription: 'The skill of paying attention using all our senses, emotions and experience–to what’s happening in a system, like a school, a community, or even the climate–and noticing patterns so you can better understand how everything is connected.'
               },
               {
                 frontTitle: 'Emotional Literacy',
                 frontDescription: 'Feelings you experience',
                 backTitle: 'Definition',
-                backDescription: 'Emotions are the feelings you experience in response to what\'s happening around you or inside you. They can range from joy, excitement and anger, or states like stress, confusion or happiness. Emotional literacy is learning how these feelings show up in your body, thoughts, and behaviors.'
+                backDescription: 'Emotions are feelings you experience in response to what’s happening around or inside you. Emotional literacy is learning how these feelings and states show up in your body, thoughts, and behaviors.'
               },
               {
                 frontTitle: 'Awareness',
@@ -646,12 +646,6 @@ Thank you for practicing.`
             title: '',
             content: "So imagine you've got a **bathtub**.\n- The **water already in the tub** is the **stock**.\n- The **water coming in from the faucet** is a **flow**.\n- The **water draining out** is another **flow**.\n\nThe size of the stock (how much water is in the tub) depends on the flows (how fast water enters or leaves).\n\nSo if the faucet is running faster than the drain?\n➡️ The tub fills up.\n\nIf the drain is faster than the faucet?\n➡️ The tub empties.\n\nIf they're equal?\n➡️ The water level stays the same."
           },
-{
-            type: 'video',
-            title: '**What is Stock and Flow?**',
-            videoUrl: 'https://www.youtube.com/embed/nRlYGDBGcRA',
-            description: ''
-          },
           {
             type: 'text',
             title: '**Key Concepts**',
@@ -894,12 +888,6 @@ Thank you for practicing.`
             type: 'text',
             title: '**🌍 Why This Matters for Climate Change**',
             content: ""
-          },
-          {
-            type: 'video',
-            title: 'Think Like A Bathtub – COP26',
-            videoUrl: 'https://www.youtube.com/embed/7WAMnt8thGs',
-            description: 'Understanding climate change through the bathtub analogy'
           },
           {
             type: 'text',

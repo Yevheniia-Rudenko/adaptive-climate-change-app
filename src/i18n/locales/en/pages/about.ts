@@ -2,7 +2,7 @@ export const about = {
   title: 'About',
   curriculumOverview: {
     title: 'Curriculum Overview',
-    p1: 'This curriculum draws from the MIT Systems Awareness Lab’s research and the Center for Systems Awareness’ work the “Compassionate Systems Framework.” This educational framework brings together tools and practices designed to develop students’ understanding of and efficacy in navigating complex change across interconnecting systems:',
+    p1: 'This curriculum draws from the MIT Systems Awareness Lab’s research and the Center for Systems Awareness’ work on the “Compassionate Systems Framework.” This educational framework brings together tools and practices designed to develop students’ understanding of and efficacy in navigating complex change across interconnecting systems:',
     list1: '1. self: personal, emotional, individual;',
     list2: '2. relational: self and others;',
     list3: '3. collective: larger societal, political,ecological and economic realities.',

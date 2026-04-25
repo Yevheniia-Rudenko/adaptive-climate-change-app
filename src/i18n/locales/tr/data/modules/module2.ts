@@ -8,7 +8,6 @@ export const module2 = {
         { title: '**Bu Modül Hakkında**', content: 'Bazı şeyler yavaşça birikir ve bu her şeyi değiştirir.' }, // 1: text
         { alt: 'Bir musluğun bir su tankını doldurduğu, musluktan gelen giriş akışını (Inflow) ve alttan boşalan çıkış akışını (Outflow) gösteren küvet modeli diyagramı.' }, // 2: image
         { title: '', content: 'Bir **lavabon** olduğunu hayal et.\n\n- **Lavaboda zaten bulunan su**, **stoktur** (stock).\n- **Musluktan giren su**, bir **akıştır** (flow).\n- **Giderden çıkan su**, başka bir **akıştır** (flow).\n\n Stokun büyüklüğü (lavaboda ne kadar su olduğu), akışlara (suyun ne kadar hızlı girip çıktığına) bağlıdır.\n\nYa musluktan gelen su giderden hızlıysa?\n➡️ Lavabo dolar.\n\nYa gider, musluktan gelen sudan hızlıysa?\n➡️ Lavabo boşalır.\n\nYa ikisi eşitse?\n➡️ Su seviyesi aynı kalır.' }, // 3: text
-        { title: '**Stoklar ve Akışlar Nedir?**', description: '' }, // 4: video
         { title: '**Temel Kavramlar**', content: '' }, // 5: text
         { // 6: flip-cards
           cards: [
@@ -102,7 +101,6 @@ export const module2 = {
       // Section 6 (blue block)
       content: [
         { title: '**🌍 Bunun İklim Değişikliği İçin Önemi**', content: '' }, // 0: text
-        { description: 'Küvet benzetimiyle iklim değişikliğini anlamak' }, // 1: video
         { content: 'Stoklar ve Akışları hatırla. Karbondioksiti (CO₂) de aynı şekilde düşün.\n- **Atmosfer** lavabo gibidir — bu **stoktur**.\n- Fosil yakıt yakmak (arabalar, fabrikalar vb.) musluktan gelen su gibidir — bu CO₂ ekleyen bir **giriş akışıdır**.\n- Ağaçların ve okyanusların CO₂ emmesi gider gibidir — bu CO₂ çıkaran bir **çıkış akışıdır**.\n\nŞu anda **musluk sonuna kadar açık** ve **gider yavaş**, bu yüzden CO₂ "lavabosu" yükselmeye devam ediyor.\n\nMusluğu biraz kıssak bile, gider aynı hızda değilse lavabo **dolmaya devam eder**.\n\nBu, iklim değişikliğine neden olan emisyonları azaltmanın neden zor olduğunu açıklar:\n\nCO₂ seviyesinin yükselmeyi bırakması için girişlerin ve çıkışların dengelenmesi gerekir.\n\n"Stoklar ve akışları" anlamak, iklim değişikliğinin yalnızca daha az fosil yakıt kullanmakla ilgili olmadığını; atmosferik "lavaboyu" taşırmayı bırakacak şekilde tüm sistemi dönüştürmekle ilgili olduğunu görmene yardımcı olur.\n\nBu sadece tek bir iyi eylem meselesi değildir.\n\nTüm kolektif eylemlerimizin zaman içinde **toplam miktarı** nasıl etkilediğiyle ilgilidir.' } // 2: text
       ]
     },
