@@ -26,6 +26,7 @@ import { Link } from 'react-router-dom';
 import * as RechartsPrimitive from 'recharts';
 import { BeforeAfterSlider } from './BeforeAfterSlider';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
+import { Slider } from './ui/slider';
 
 const audioLandscapeImage = new URL('../assets/AudioLandscape (1).png', import.meta.url).href;
 
@@ -572,11 +573,15 @@ function ReflectionBlock({ block, moduleId }: { block: Extract<ContentBlockType,
 
 function NumericPredictionBlock({ block, moduleId }: { block: Extract<ContentBlockType, { type: 'numeric-prediction' }>; moduleId: number }) {
   const { sessionId, studyConsent } = useSession();
-  const [valueText, setValueText] = useState('');
+  const minValue = 0;
+  const maxValue = 4.0;
+  const stepValue = 0.1;
+  const [value, setValue] = useState(minValue);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [lastSubmittedValue, setLastSubmittedValue] = useState<string | null>(null);
+  const valueText = value.toFixed(1);
 
   useEffect(() => {
     try {
@@ -599,16 +604,16 @@ function NumericPredictionBlock({ block, moduleId }: { block: Extract<ContentBlo
       setSubmitError('Please choose Agree or Disagree before submitting.');
       return;
     }
-    const valueNumber = valueText.trim() === '' ? null : Number(valueText);
-    const submittedValue = valueText.trim() === '' ? '' : `${valueText.trim()}${block.unit ? ` ${block.unit}` : ''}`;
+    const clampedValue = Math.min(maxValue, Math.max(minValue, value));
+    const submittedValue = `${clampedValue.toFixed(1)}${block.unit ? ` ${block.unit}` : ''}`;
 
     const input = JSON.stringify({
       type: block.type,
       question: block.question,
       response: {
-        value: Number.isFinite(valueNumber as number) ? valueNumber : null,
+        value: Number.isFinite(clampedValue) ? clampedValue : null,
         unit: block.unit,
-        raw: valueText,
+        raw: clampedValue.toFixed(1),
       },
     });
 
@@ -628,7 +633,7 @@ function NumericPredictionBlock({ block, moduleId }: { block: Extract<ContentBlo
         sessionStorage.setItem(`numeric-prediction:${sessionId}:${moduleId}:${block.id}`, submittedValue);
       } catch {
       }
-      setValueText('');
+      setValue(minValue);
       setIsSubmitted(true);
     } catch (e) {
       setSubmitError(e instanceof Error ? e.message : 'Failed to submit');
@@ -637,7 +642,7 @@ function NumericPredictionBlock({ block, moduleId }: { block: Extract<ContentBlo
     }
   };
 
-  const canSubmit = valueText.trim() !== '' && Number.isFinite(Number(valueText));
+  const canSubmit = Number.isFinite(value) && value >= minValue && value <= maxValue;
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700 mb-8 font-sora">
@@ -659,24 +664,30 @@ function NumericPredictionBlock({ block, moduleId }: { block: Extract<ContentBlo
           </div>
         )}
       </div>
-      <div className="flex flex-col sm:flex-row sm:items-center gap-3 min-w-0">
-        <div className="w-full sm:w-32 min-w-0">
-          <div className="flex items-center w-full min-w-0 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-900 focus-within:border-blue-500">
-            <input
-              type="number"
-              step="0.1"
-              value={valueText}
-              onChange={(e) => {
-                setValueText(e.target.value);
-                setSubmitError(null);
-                setIsSubmitted(false);
-              }}
-              placeholder="0.0"
-              className="w-full min-w-0 p-3 sm:p-2 text-lg sm:text-xl font-bold text-right focus:outline-none bg-transparent text-gray-900 dark:text-gray-100 placeholder-gray-300"
-            />
-            {block.unit && <span className="pr-3 pl-2 text-base sm:text-lg font-bold text-gray-500 whitespace-nowrap">{block.unit}</span>}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between gap-3">
+          <div className="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-100 tabular-nums">
+            {valueText}
+            {block.unit ? ` ${block.unit}` : ''}
+          </div>
+          <div className="text-xs text-gray-500 dark:text-gray-400 tabular-nums">
+            {minValue.toFixed(1)}–{maxValue.toFixed(1)}
+            {block.unit ? ` ${block.unit}` : ''}
           </div>
         </div>
+        <Slider
+          value={[value]}
+          min={minValue}
+          max={maxValue}
+          step={stepValue}
+          onValueChange={(next) => {
+            const nextValue = next[0] ?? minValue;
+            setValue(nextValue);
+            setSubmitError(null);
+            setIsSubmitted(false);
+          }}
+          aria-label={block.question}
+        />
       </div>
       <SubmitButton onClick={handleSubmit} disabled={!canSubmit || isSubmitting} />
       {lastSubmittedValue && (
