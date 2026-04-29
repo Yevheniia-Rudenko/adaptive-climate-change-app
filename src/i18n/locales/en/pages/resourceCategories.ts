@@ -26,7 +26,7 @@ export const resourceCategories = {
         {
           title: 'Introductory',
           items: [
-            { title: 'Climate Change Explained', description: 'A simple, visual explanation of what climate change is, why it\'s happening, and why it matters.' },
+            { title: 'Climate Science: What You Need To Know', description: 'A simple, visual explanation of what climate change is, why it\'s happening, and why it matters.' },
             { title: 'NASA Earth for Kids', description: 'Climate science resources for young learners.' },
             { title: 'MIT Climate Primer', description: 'Climate Science, Risk & Solutions Explained' },
           ],

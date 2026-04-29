@@ -10,7 +10,7 @@ export const resourceCategoriesData: Record<string, ResourceCategoryData> = {
         title: 'Introductory',
         items: [
           {
-            title: 'Climate Change Explained',
+            title: 'Climate Science: What You Need To Know',
             description: 'A simple, visual explanation of what climate change is, why it\'s happening, and why it matters.',
             type: 'video',
             duration: '6 min',
@@ -46,14 +46,14 @@ export const resourceCategoriesData: Record<string, ResourceCategoryData> = {
             title: 'MIT Open CourseWare',
             description: 'Search MIT’s free and open access courses on climate change',
             type: 'Website',
-            duration: 'Varies',
+            duration: 'Interactive',
             url: 'https://ocw.mit.edu/search/?q=climate',
           },
           {
             title: 'MIT Learn',
             description: 'Search for MIT’online courses and resources on climate change',
             type: 'Website',
-            duration: 'Varies',
+            duration: 'Interactive',
             url: 'https://learn.mit.edu/search?q=climate',
           },
         ],
@@ -220,7 +220,7 @@ export const resourceCategoriesData: Record<string, ResourceCategoryData> = {
             title: 'MIT Climate Explainers',
             description: 'Short explainers on climate science and solutions.',
             type: 'Article',
-            duration: '5 min',
+            duration: 'Self-paced',
             url: 'https://climate.mit.edu/explainers',
           },
           {
@@ -267,7 +267,7 @@ export const resourceCategoriesData: Record<string, ResourceCategoryData> = {
             title: 'Think Like A Bathtub COP26',
             description: 'The video shows how an everyday object - a bathtub - can help more people understand climate change and inspire us to take climate action.',
             type: 'video',
-            duration: 'Varies',
+            duration: '4 min',
             url: 'https://pie.yt/?v=https://youtu.be/7WAMnt8thGs?si=eTqeh4BF850UNqbG&pieshare=1',
           },
           {
@@ -466,14 +466,14 @@ export const resourceCategoriesData: Record<string, ResourceCategoryData> = {
             title: 'Compassionate Climate Program',
             description: 'Youth led climate education program with the Center for Systems Awareness',
             type: 'Case Study',
-            duration: 'Varies',
+            duration: 'self-paced',
             url: 'https://systemsawareness.org/youth-leadership-team/compassionate-climate-community/',
           },
           {
             title: 'Compassionate Systems Framework',
             description: 'Hands-on workshop on systems leadership offered by the Center for Systems Awareness',
             type: 'Website',
-            duration: 'Varies',
+            duration: 'Self-paced',
             url: 'https://systemsawareness.org/what-we-do/#programs',
           },
           {
