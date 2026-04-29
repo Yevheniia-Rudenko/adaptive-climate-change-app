@@ -28,12 +28,15 @@ export const resourceCategories = {
           items: [
             { title: 'Klimawandel erklärt', description: 'Eine einfache, visuelle Erklärung, was Klimawandel ist, warum er passiert und warum er wichtig ist.' },
             { title: 'NASA Erde für Kinder', description: 'Klimawissenschaftliche Ressourcen für junge Lernende.' },
+            { title: 'MIT Climate Primer', description: 'Climate Science, Risk & Solutions Explained' },
           ],
         },
         {
           title: 'Fortgeschritten',
           items: [
             { title: 'NASA Klimawandel', description: 'NASAs Zentrum für Klimawissenschaft und Forschung.' },
+            { title: 'MIT Open CourseWare', description: 'Search MIT’s free and open access courses on climate change' },
+            { title: 'MIT Learn', description: 'Search for MIT’online courses and resources on climate change' },
           ],
         },
         {
@@ -47,7 +50,6 @@ export const resourceCategories = {
           items: [
             { title: '10 Mythen über den Klimawandel', description: 'Häufige Missverständnisse über den Klimawandel, widerlegt durch Fakten.' },
             { title: 'Klimawandel-Leugnungsmythen', description: 'Eine Aufschlüsselung von Leugnungsmythen und der Wissenschaft, die sie widerlegt.' },
-            { title: 'Plutchik-Rad der Emotionen', description: 'Ein praktischer Leitfaden zu Plutchiks Emotionsmodell, der Reflexion und emotionale Kompetenz im Klimakontext unterstützt.' },
           ],
         },
       ],
@@ -86,6 +88,7 @@ export const resourceCategories = {
           items: [
             { title: 'Climate Mental Health Network: Klimaemotionsrad', description: 'Erkunde das Klimaemotionsrad zur Unterstützung von Reflexion, emotionalem Bewusstsein und Klimagesprächen.' },
             { title: 'Climate Mental Health Network: Ein Leitfaden zu Klimaemotionen', description: 'Erkunde den K-12-Lehrplan und das Toolkit des Climate Mental Health Network zum Thema Klimaemotionen.' },
+            { title: 'Plutchik-Rad der Emotionen', description: 'Ein praktischer Leitfaden zu Plutchiks Emotionsmodell, der Reflexion und emotionale Kompetenz im Klimakontext unterstützt.' },
           ],
         },
         {
@@ -193,14 +196,17 @@ export const resourceCategories = {
     },
     'learning-opportunities': {
       title: 'Lernmöglichkeiten',
-      description: 'Kuratierte Links zu vertrauenswürdigen Klimaorganisationen und Ressourcen für weitere Erkundungen.',
+      description: 'Climate and educational organizations for further learning and professional development.',
       sections: [
-        { title: 'Wissenschaftliche Einrichtungen', items: [] },
-        { title: 'Daten- & Forschungsplattformen', items: [] },
         {
-          title: 'Bildungsorganisationen',
+          title: '',
           items: [
-            { title: 'Teach Climate', description: 'Bildungsressourcen und Programme für das Klimalernen.' },
+            { title: 'Teach Climate', description: 'Educational resources and programs for climate learning.' },
+            { title: 'Compassionate Climate Program', description: 'Youth led climate education program with the Center for Systems Awareness' },
+            { title: 'Compassionate Systems Framework', description: 'Hands-on workshop on systems leadership offered by the Center for Systems Awareness' },
+            { title: 'MIT Day of Climate', description: 'Educational resources and activities for teaching climate change.' },
+            { title: 'MIT Climate Action through Education', description: 'Interdisciplinary, modular, standards-aligned climate change curricula for U.S. high school teachers' },
+            { title: 'Subject to Climate', description: 'Free climate resources for all K-12 subjects' },
           ],
         },
       ],

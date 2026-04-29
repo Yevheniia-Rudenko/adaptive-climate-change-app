@@ -296,13 +296,6 @@ export const educators = {
     professionalDev: {
       title: 'Lehrerfortbildung',
       description: 'Nutzen Sie diese Gliederung, um eine Fortbildungsveranstaltung für Kolleginnen und Kollegen durchzuführen.',
-      block1: {
-        title: 'MIT Day of Climate',
-        p1: '– praxisorientierter Workshop zur Systemführung, angeboten vom Center for Systems Awareness.',
-        p2: '– ein Programm, das einen Raum für eine internationale, generationsübergreifende Gruppe Gleichgesinnter schafft, die ihr Wissen und ihre Fähigkeiten zur Eindämmung des Klimawandels verbessern möchten. Die übergeordneten Ziele dieses Programms sind, diese wesentlichen Fähigkeiten an Schulen zu verankern und eine internationale Gemeinschaft von Veränderungsgestaltern zu fördern. Individuelle Programmangebote über das Center for Systems Awareness erhältlich.',
-        link1Title: '„Einführung in das Compassionate Systems Framework"',
-        link2Title: 'Compassionate Climate Community'
-      },
       block2: {
         title: 'Empfohlene Fortbildungssitzung (2–3 Stunden)',
         items: [
@@ -317,9 +310,6 @@ export const educators = {
         title: 'Tipp für Facilitators',
         text: 'Der beste Weg, Lehrkräfte vorzubereiten, ist, sie den Lehrplan zuerst als Lernende erleben zu lassen. Das fördert Empathie für die Erfahrungen der Schüler und deckt potenzielle Herausforderungen auf.'
       },
-      opportunities: {
-        title: 'Fortbildungsmöglichkeiten'
-      }
     },
     faqs: {
       title: 'FAQs & Fehlerbehebung',

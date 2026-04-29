@@ -296,13 +296,6 @@ export const educators = {
     professionalDev: {
       title: 'Teacher Professional Development',
       description: 'Use this outline to run a professional development session for fellow educators.',
-      block1: {
-        title: 'MIT Day of Climate',
-        p1: '– hands-on workshop on systems leadership offered by the Center for Systems Awareness.',
-        p2: '– a program to create a space for an international, multi-generational group of like-minded individuals seeking to improve their knowledge and capacities to mitigate climate change. The overarching goals of this program are to bring these vital capacities into school sites and foster an international community of change-makers. Custom program offerings available through the Center for Systems Awareness.',
-        link1Title: '“Introduction to the Compassionate Systems Framework”',
-        link2Title: 'Compassionate Climate Community'
-      },
       block2: {
         title: 'Suggested PD Session (2-3 hours)',
         items: [
@@ -317,9 +310,6 @@ export const educators = {
         title: 'Facilitator Tip',
         text: 'The best way to prepare educators is to let them experience the curriculum as learners first. This builds empathy for student experiences and surfaces potential challenges.'
       },
-      opportunities: {
-        title: 'Professional Development Opportunities'
-      }
     },
     faqs: {
       title: 'FAQs & Troubleshooting',

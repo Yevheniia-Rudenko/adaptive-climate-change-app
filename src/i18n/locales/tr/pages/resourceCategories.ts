@@ -28,12 +28,15 @@ export const resourceCategories = {
           items: [
             { title: 'İklim Değişikliği Açıklaması', description: 'İklim değişikliğinin ne olduğu, neden gerçekleştiği ve neden önemli olduğuna dair basit ve görsel bir açıklama.' },
             { title: 'NASA Earth for Kids', description: 'Genç öğrenenler için iklim bilimi kaynakları.' },
+            { title: 'MIT Climate Primer', description: 'Climate Science, Risk & Solutions Explained' },
           ],
         },
         {
           title: 'İleri seviye',
           items: [
             { title: 'NASA Climate Change', description: 'NASA\'nın iklim bilimi ve araştırma merkezi.' },
+            { title: 'MIT Open CourseWare', description: 'Search MIT’s free and open access courses on climate change' },
+            { title: 'MIT Learn', description: 'Search for MIT’online courses and resources on climate change' },
           ],
         },
         {
@@ -47,7 +50,6 @@ export const resourceCategories = {
           items: [
             { title: 'İklim Değişikliği Hakkında 10 Mit', description: 'İklim değişikliğiyle ilgili yaygın yanlış inanışlar, gerçeklerle çürütülüyor.' },
             { title: 'İklim Değişikliği İnkârı Mitleri', description: 'İnkâr mitlerinin ve bunları çürüten bilimin analizi.' },
-            { title: 'Plutchik Duygular Çarkı', description: 'İklim öğrenimi bağlamında yansıtmayı ve duygusal okuryazarlığı destekleyen Plutchik duygu modeline pratik bir rehber.' },
           ],
         },
       ],
@@ -86,6 +88,7 @@ export const resourceCategories = {
           items: [
             { title: 'Climate Mental Health Network: Climate Emotions Wheel', description: 'Yansıtma, duygusal farkındalık ve iklim sohbetlerini desteklemek için İklim Duyguları Çarkını keşfet.' },
             { title: 'Climate Mental Health Network: Climate Emotions Guide', description: 'İklim duyguları öğrenimi için Climate Mental Health Network\'ün K-12 eğitim müfredatını ve araç setini keşfet.' },
+            { title: 'Plutchik Duygular Çarkı', description: 'İklim öğrenimi bağlamında yansıtmayı ve duygusal okuryazarlığı destekleyen Plutchik duygu modeline pratik bir rehber.' },
           ],
         },
         {
@@ -193,14 +196,17 @@ export const resourceCategories = {
     },
     'learning-opportunities': {
       title: 'Öğrenme Fırsatları',
-      description: 'Daha fazla keşif için güvenilir iklim kuruluşlarına ve kaynaklara seçilmiş bağlantılar.',
+      description: 'Climate and educational organizations for further learning and professional development.',
       sections: [
-        { title: 'Bilim Kurumları', items: [] },
-        { title: 'Veri ve Araştırma Platformları', items: [] },
         {
-          title: 'Eğitim Kuruluşları',
+          title: '',
           items: [
-            { title: 'Teach Climate', description: 'İklim öğrenimi için eğitim kaynakları ve programlar.' },
+            { title: 'Teach Climate', description: 'Educational resources and programs for climate learning.' },
+            { title: 'Compassionate Climate Program', description: 'Youth led climate education program with the Center for Systems Awareness' },
+            { title: 'Compassionate Systems Framework', description: 'Hands-on workshop on systems leadership offered by the Center for Systems Awareness' },
+            { title: 'MIT Day of Climate', description: 'Educational resources and activities for teaching climate change.' },
+            { title: 'MIT Climate Action through Education', description: 'Interdisciplinary, modular, standards-aligned climate change curricula for U.S. high school teachers' },
+            { title: 'Subject to Climate', description: 'Free climate resources for all K-12 subjects' },
           ],
         },
       ],

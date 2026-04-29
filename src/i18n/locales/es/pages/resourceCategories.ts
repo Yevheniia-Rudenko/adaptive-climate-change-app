@@ -28,12 +28,15 @@ export const resourceCategories = {
           items: [
             { title: 'El Cambio Climático Explicado', description: 'Una explicación simple y visual de qué es el cambio climático, por qué está sucediendo y por qué importa.' },
             { title: 'NASA Tierra para Niños', description: 'Recursos de ciencias del clima para jóvenes aprendices.' },
+            { title: 'MIT Climate Primer', description: 'Climate Science, Risk & Solutions Explained' },
           ],
         },
         {
           title: 'Avanzado',
           items: [
             { title: 'NASA Cambio Climático', description: 'El centro de ciencias del clima e investigación de la NASA.' },
+            { title: 'MIT Open CourseWare', description: 'Search MIT’s free and open access courses on climate change' },
+            { title: 'MIT Learn', description: 'Search for MIT’online courses and resources on climate change' },
           ],
         },
         {
@@ -47,7 +50,6 @@ export const resourceCategories = {
           items: [
             { title: '10 Mitos sobre el Cambio Climático', description: 'Conceptos erróneos comunes sobre el cambio climático, refutados con hechos.' },
             { title: 'Mitos de Negación del Cambio Climático', description: 'Un análisis de los mitos de negación y la ciencia que los refuta.' },
-            { title: 'Rueda de Emociones de Plutchik', description: 'Una guía práctica del modelo de emociones de Plutchik que apoya la reflexión y la alfabetización emocional en contextos de aprendizaje climático.' },
           ],
         },
       ],
@@ -86,6 +88,7 @@ export const resourceCategories = {
           items: [
             { title: 'Red de Salud Mental Climática: Rueda de Emociones Climáticas', description: 'Explora la Rueda de Emociones Climáticas para apoyar la reflexión, la conciencia emocional y las conversaciones sobre el clima.' },
             { title: 'Red de Salud Mental Climática: Guía de Emociones Climáticas', description: 'Explora el currículo educativo K-12 y el kit de herramientas de la Red de Salud Mental Climática para el aprendizaje de emociones climáticas.' },
+            { title: 'Rueda de Emociones de Plutchik', description: 'Una guía práctica del modelo de emociones de Plutchik que apoya la reflexión y la alfabetización emocional en contextos de aprendizaje climático.' },
           ],
         },
         {
@@ -193,14 +196,17 @@ export const resourceCategories = {
     },
     'learning-opportunities': {
       title: 'Oportunidades de Aprendizaje',
-      description: 'Enlaces seleccionados a organizaciones climáticas de confianza y recursos para mayor exploración.',
+      description: 'Climate and educational organizations for further learning and professional development.',
       sections: [
-        { title: 'Instituciones Científicas', items: [] },
-        { title: 'Plataformas de Datos e Investigación', items: [] },
         {
-          title: 'Organizaciones Educativas',
+          title: '',
           items: [
-            { title: 'Teach Climate', description: 'Recursos educativos y programas para el aprendizaje climático.' },
+            { title: 'Teach Climate', description: 'Educational resources and programs for climate learning.' },
+            { title: 'Compassionate Climate Program', description: 'Youth led climate education program with the Center for Systems Awareness' },
+            { title: 'Compassionate Systems Framework', description: 'Hands-on workshop on systems leadership offered by the Center for Systems Awareness' },
+            { title: 'MIT Day of Climate', description: 'Educational resources and activities for teaching climate change.' },
+            { title: 'MIT Climate Action through Education', description: 'Interdisciplinary, modular, standards-aligned climate change curricula for U.S. high school teachers' },
+            { title: 'Subject to Climate', description: 'Free climate resources for all K-12 subjects' },
           ],
         },
       ],

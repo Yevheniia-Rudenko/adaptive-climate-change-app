@@ -749,37 +749,6 @@ const sections: Section[] = [
                   {t.pages.educators.sections.professionalDev.description}
                 </p>
 
-                <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-5 mb-4">
-                  <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">{t.pages.educators.sections.professionalDev.block1.title}</h3>
-                  <div className="space-y-3 text-sm text-gray-600 dark:text-gray-300">
-                    <p>
-                      <strong>
-                        <a
-                          href="https://systemsawareness.org/what-we-do/#programs"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-600 dark:text-blue-400 underline hover:text-blue-700 dark:hover:text-blue-300"
-                        >
-                          {t.pages.educators.sections.professionalDev.block1.link1Title}
-                        </a>
-                      </strong>{' '}
-                      {t.pages.educators.sections.professionalDev.block1.p1}
-                    </p>
-                    <p>
-                      <strong>
-                        <a
-                          href="https://systemsawareness.org/youth-leadership-team/compassionate-climate-community/"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-600 dark:text-blue-400 underline hover:text-blue-700 dark:hover:text-blue-300"
-                        >
-                          {t.pages.educators.sections.professionalDev.block1.link2Title}
-                        </a>
-                      </strong>{' '}
-                      {t.pages.educators.sections.professionalDev.block1.p2}
-                    </p>
-                  </div>
-                </div>
 
                 <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-5 mb-4">
                   <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">{t.pages.educators.sections.professionalDev.block2.title}</h3>
@@ -800,21 +769,6 @@ const sections: Section[] = [
                   {t.pages.educators.sections.professionalDev.tip.text}
                 </CalloutBox>
 
-                <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-5 mt-4">
-                  <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">{t.pages.educators.sections.professionalDev.opportunities.title}</h3>
-                  <div className="space-y-3 text-sm text-gray-600 dark:text-gray-300">
-                    <p>
-                      <a
-                        href="https://dayofclimate.mit.edu"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 dark:text-blue-400 underline hover:text-blue-700 dark:hover:text-blue-300 font-medium"
-                      >
-                        MIT Day of Climate
-                      </a>
-                    </p>
-                  </div>
-                </div>
               </section>
 
 

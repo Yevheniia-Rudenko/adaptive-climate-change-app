@@ -28,12 +28,15 @@ export const resourceCategories = {
           items: [
             { title: 'Climate Change Explained', description: 'A simple, visual explanation of what climate change is, why it\'s happening, and why it matters.' },
             { title: 'NASA Earth for Kids', description: 'Climate science resources for young learners.' },
+            { title: 'MIT Climate Primer', description: 'Climate Science, Risk & Solutions Explained' },
           ],
         },
         {
           title: 'Advanced',
           items: [
             { title: 'NASA Climate Change', description: 'NASA\'s hub for climate science and research.' },
+            { title: 'MIT Open CourseWare', description: 'Search MIT’s free and open access courses on climate change' },
+            { title: 'MIT Learn', description: 'Search for MIT’online courses and resources on climate change' },
           ],
         },
         {
@@ -47,7 +50,6 @@ export const resourceCategories = {
           items: [
             { title: '10 Myths About Climate Change', description: 'Common misconceptions about climate change, debunked with facts.' },
             { title: 'Climate Change Denial Myths', description: 'A breakdown of denial myths and the science that disproves them.' },
-            { title: 'Plutchik Wheel of Emotions', description: 'A practical guide to Plutchik\'s model of emotions that supports reflection and emotional literacy in climate learning contexts.' },
           ],
         },
       ],
@@ -86,6 +88,7 @@ export const resourceCategories = {
           items: [
             { title: 'Climate Mental Health Network: Climate Emotions Wheel', description: 'Explore the Climate Emotions Wheel to support reflection, emotional awareness, and climate conversations.' },
             { title: 'Climate Mental Health Network: A Guide to Climate Emotions', description: 'Explore the Climate Mental Health Network K-12 education curriculum and toolkit for climate emotions learning.' },
+            { title: 'Plutchik Wheel of Emotions', description: 'A practical guide to Plutchik\'s model of emotions that supports reflection and emotional literacy in climate learning contexts.' },
           ],
         },
         {
@@ -193,14 +196,17 @@ export const resourceCategories = {
     },
     'learning-opportunities': {
       title: 'Learning Opportunities',
-      description: 'Curated links to trusted climate organizations and resources for further exploration.',
+      description: 'Climate and educational organizations for further learning and professional development.',
       sections: [
-        { title: 'Scientific Institutions', items: [] },
-        { title: 'Data & Research Platforms', items: [] },
         {
-          title: 'Educational Organizations',
+          title: '',
           items: [
             { title: 'Teach Climate', description: 'Educational resources and programs for climate learning.' },
+            { title: 'Compassionate Climate Program', description: 'Youth led climate education program with the Center for Systems Awareness' },
+            { title: 'Compassionate Systems Framework', description: 'Hands-on workshop on systems leadership offered by the Center for Systems Awareness' },
+            { title: 'MIT Day of Climate', description: 'Educational resources and activities for teaching climate change.' },
+            { title: 'MIT Climate Action through Education', description: 'Interdisciplinary, modular, standards-aligned climate change curricula for U.S. high school teachers' },
+            { title: 'Subject to Climate', description: 'Free climate resources for all K-12 subjects' },
           ],
         },
       ],

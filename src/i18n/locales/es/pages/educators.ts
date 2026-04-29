@@ -296,13 +296,6 @@ export const educators = {
     professionalDev: {
       title: 'Desarrollo profesional docente',
       description: 'Usa este esquema para dirigir una sesión de desarrollo profesional para colegas educadores.',
-      block1: {
-        title: 'MIT Day of Climate',
-        p1: '– taller práctico sobre liderazgo sistémico ofrecido por el Center for Systems Awareness.',
-        p2: '– un programa para crear un espacio para un grupo internacional y multigeneracional de personas afines que buscan mejorar sus conocimientos y capacidades para mitigar el cambio climático. Los objetivos generales de este programa son llevar estas capacidades vitales a los centros escolares y fomentar una comunidad internacional de agentes de cambio. Ofertas de programas personalizados disponibles a través del Center for Systems Awareness.',
-        link1Title: '"Introducción al Compassionate Systems Framework"',
-        link2Title: 'Compassionate Climate Community'
-      },
       block2: {
         title: 'Sesión de DP sugerida (2–3 horas)',
         items: [
@@ -317,9 +310,6 @@ export const educators = {
         title: 'Consejo para facilitadores',
         text: 'La mejor manera de preparar a los educadores es dejarlos experimentar el currículo como aprendices primero. Esto genera empatía por las experiencias de los estudiantes y saca a la luz desafíos potenciales.'
       },
-      opportunities: {
-        title: 'Oportunidades de desarrollo profesional'
-      }
     },
     faqs: {
       title: 'Preguntas frecuentes y solución de problemas',
