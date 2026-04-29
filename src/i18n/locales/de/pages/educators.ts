@@ -126,9 +126,9 @@ export const educators = {
           title: 'Schritt 2: Planen Sie Ihre Sitzungen',
           items: [
             'Entscheiden Sie, ob Sie alle Module oder nur bestimmte nutzen möchten',
-            'Planen Sie 45–60 Minuten pro Modul ein',
+            'Planen Sie 20–40 Minuten pro Modul ein',
             'Planen Sie Diskussionszeit und Reflexionsaktivitäten',
-            'Bereiten Sie ergänzende Materialien vor (Arbeitsblätter, Folien)'
+            'Bereiten Sie ergänzende Materialien vor (Arbeitsblätter, [Folien](https://docs.google.com/presentation/d/1umatC5r_7w39ZlDvg5TLfvuHEbTseCqS2Vx2zOAU0dw/edit?usp=drive_link) )'
           ]
         },
         {
@@ -136,8 +136,8 @@ export const educators = {
           items: [
             'Stellen Sie eine stabile Internetverbindung sicher',
             'Testen Sie die Plattform auf den Geräten Ihres Unterrichtsraums',
-            'Bereiten Sie eine Projektionsmöglichkeit für Gruppenentscheidungen vor',
-            'Halten Sie Backup-Materialien bereit, falls technische Probleme auftreten'
+            'Bereiten Sie eine Projektionsmöglichkeit (Bildschirmfreigabe) für Gruppenentscheidungen vor, falls gewünscht',
+            'Halten Sie [Backup-Materialien](https://drive.google.com/file/d/1VlDmsX8SJUJk2d6uRX6yxf6XWMixppdQ/view?usp=drive_link) bereit, falls technische Probleme auftreten'
           ]
         },
         {
@@ -160,20 +160,20 @@ export const educators = {
       description: 'Am Ende dieses Lehrplans werden die Schülerinnen und Schüler in der Lage sein:',
       items: [
         {
-          title: '1. Systembewusstsein & systemisches Denken',
-          text: 'Rückkopplungsschleifen, Hebelpunkte und Vernetzungen in Klimasystemen zu identifizieren'
+          title: '1. Systems Awareness & Thinking',
+          text: 'Develop dual-capacity systems awareness: Integrate systems thinking (identifying complex behaviors, interconnections, feedback loops, and leverage points) with systems sensing (acknowledging one’s lived, somatic, and emotional experience within a system).\n\nAnalyze complex drivers: Understand how interacting societal, technological, ecological, and cultural systems shape and drive the climate crisis.'
         },
         {
-          title: '2. Klimawissenschaft & Interdependenz',
-          text: 'Den Treibhauseffekt, Klimatreiber und prognostizierte Auswirkungen zu erklären'
+          title: '2. Climate Science & Interdependence',
+          text: 'Grasp climate fundamentals: Explain core climate science concepts, including the greenhouse effect, primary climate drivers, and projected environmental impacts.\n\nRecognize ecological interdependence: Gain a deep understanding of interdependence and how dynamic changes ripple across interconnected climate systems.'
         },
         {
-          title: '3. Werkzeuge anwenden & Lösungen bewerten',
-          text: 'Verschiedene Klimalösungen mithilfe von Simulationswerkzeugen zu analysieren und zu vergleichen'
+          title: '3. Applied Tools & Solution Evaluation',
+          text: 'Utilize systems tools: Demonstrate efficacy and confidence in using simulations and systems practices to approach complex problems.\n\nEvaluate solutions: Analyze, compare, and test different climate mitigation strategies and solutions using simulation tools.'
         },
         {
-          title: '4. Handlungsfähigkeit, Dialog & Aktion',
-          text: 'An konstruktiven Dialogen über Klimapolitik und persönliches Handeln teilzunehmen'
+          title: '4. Agency, Dialogue, & Action',
+          text: 'Communicate effectively: Engage in constructive, informed personal reflection and dialogue regarding climate policy, personal responsibility, and community impact.\n\nCultivate climate agency: Explore and solidify a personal sense of agency by identifying actionable, scalable steps for both individual and collective climate action.'
         }
       ]
     },
@@ -253,13 +253,13 @@ export const educators = {
       },
       guide: {
         title: 'Facilitator-Leitfaden',
-        desc: 'PDF – Detaillierte Moderationsnotizen',
-        btn: 'Demnächst verfügbar'
+        desc: 'PDF – [Detaillierte Moderationsnotizen](https://docs.google.com/document/d/1VBAsgn1bI3qElLKjSzrpaPxjv7Xp71APCIApMFSXkEI/edit?usp=sharing)',
+        btn: 'Leitfaden öffnen'
       },
       slides: {
         title: 'Präsentationsfolien',
-        desc: 'PPTX – Präsentationsfolien',
-        btn: 'Demnächst verfügbar'
+        desc: 'PPTX – [Präsentationsfolien](https://docs.google.com/presentation/d/1umatC5r_7w39ZlDvg5TLfvuHEbTseCqS2Vx2zOAU0dw/edit?usp=sharing)',
+        btn: 'Folien öffnen'
       }
     },
     adaptations: {
@@ -299,7 +299,7 @@ export const educators = {
       block2: {
         title: 'Empfohlene Fortbildungssitzung (2–3 Stunden)',
         items: [
-          { title: 'Einführung in systemisches Denken', time: '30 Min.', text: 'Überblick über Konzepte des systemischen Denkens und warum sie für die Klimabildung wichtig sind. Siehe Facilitator-Leitfaden und Präsentationsfolien' },
+          { title: 'Einführung in systemisches Denken', time: '45 Min.', text: 'Überblick über Konzepte des systemischen Denkens und warum sie für die Klimabildung wichtig sind. Siehe [Facilitator Guide](https://docs.google.com/document/d/1VBAsgn1bI3qElLKjSzrpaPxjv7Xp71APCIApMFSXkEI/edit?usp=sharing) und [Slide Deck](https://docs.google.com/presentation/d/1umatC5r_7w39ZlDvg5TLfvuHEbTseCqS2Vx2zOAU0dw/edit?usp=sharing)' },
           { title: 'Den Lehrplan erleben', time: '45 Min.', text: 'Lehrkräfte arbeiten 1–2 Module durch, so wie Schüler es tun würden' },
           { title: 'En-ROADS erkunden', time: '30 Min.', text: 'Praktische Zeit mit dem Simulationswerkzeug, geführte Erkundung' },
           { title: 'Moderationsübung', time: '30 Min.', text: 'Diskussionen moderieren üben, herausfordernde Szenarien durchspielen' },

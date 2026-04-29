@@ -8,9 +8,11 @@ import { glossary, createTermPattern, findDefinition } from '../data/glossary';
 type TextWithGlossaryProps = {
   text: string;
   className?: string;
+  as?: 'p' | 'span' | 'div';
+  disableGlossary?: boolean;
 };
 
-export function TextWithGlossary({ text, className }: TextWithGlossaryProps) {
+export function TextWithGlossary({ text, className, as: Component = 'p', disableGlossary = false }: TextWithGlossaryProps) {
   const { language } = useLanguage();
   const entries = glossary[language as keyof typeof glossary] || glossary.en;
 
@@ -133,8 +135,8 @@ export function TextWithGlossary({ text, className }: TextWithGlossaryProps) {
     });
   };
 
-  if (!entries || entries.length === 0) {
-    return <p className={className}>{formatText(text, 'simple')}</p>;
+  if (!entries || entries.length === 0 || disableGlossary) {
+    return <Component className={className}>{formatText(text, 'simple')}</Component>;
   }
 
   const pattern = createTermPattern(entries);
@@ -220,8 +222,8 @@ export function TextWithGlossary({ text, className }: TextWithGlossaryProps) {
   }
 
   return (
-    <p className={className}>
+    <Component className={className}>
       {parts.length > 0 ? parts : formatText(text, 'fallback')}
-    </p>
+    </Component>
   );
 }

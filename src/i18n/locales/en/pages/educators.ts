@@ -126,9 +126,9 @@ export const educators = {
           title: 'Step 2: Plan Your Sessions',
           items: [
             'Decide whether to use all modules or select specific ones',
-            'Allocate 45-60 minutes per module',
+            'Allocate 20-40 minutes per module',
             'Plan discussion time and reflection activities',
-            'Prepare any supplementary materials (worksheets, slides)'
+            'Prepare any supplementary materials (worksheets, [slides](https://docs.google.com/presentation/d/1umatC5r_7w39ZlDvg5TLfvuHEbTseCqS2Vx2zOAU0dw/edit?usp=drive_link) )'
           ]
         },
         {
@@ -136,8 +136,8 @@ export const educators = {
           items: [
             'Ensure stable internet connection',
             'Test the platform on your classroom devices',
-            'Prepare projection capability for group discussions',
-            'Have backup materials ready in case of technical issues'
+            'Prepare projection capability (screen share) for group discussions, if desired',
+            'Have [backup materials](https://drive.google.com/file/d/1VlDmsX8SJUJk2d6uRX6yxf6XWMixppdQ/view?usp=drive_link) ready in case of technical issues'
           ]
         },
         {
@@ -160,20 +160,20 @@ export const educators = {
       description: 'By the end of this curriculum, students will be able to:',
       items: [
         {
-          title: '1.Systems Awareness & Thinking',
-          text: 'Identify feedback loops, leverage points, and interconnections in climate systems'
+          title: '1. Systems Awareness & Thinking',
+          text: 'Develop dual-capacity systems awareness: Integrate systems thinking (identifying complex behaviors, interconnections, feedback loops, and leverage points) with systems sensing (acknowledging one’s lived, somatic, and emotional experience within a system).\n\nAnalyze complex drivers: Understand how interacting societal, technological, ecological, and cultural systems shape and drive the climate crisis.'
         },
         {
-          title: '2.Climate Science & Interdependence',
-          text: 'Explain the greenhouse effect, climate drivers, and projected impacts'
+          title: '2. Climate Science & Interdependence',
+          text: 'Grasp climate fundamentals: Explain core climate science concepts, including the greenhouse effect, primary climate drivers, and projected environmental impacts.\n\nRecognize ecological interdependence: Gain a deep understanding of interdependence and how dynamic changes ripple across interconnected climate systems.'
         },
         {
-          title: '3.Applied Tools & Solution Evaluation',
-          text: 'Analyze and compare different climate solutions using simulation tools'
+          title: '3. Applied Tools & Solution Evaluation',
+          text: 'Utilize systems tools: Demonstrate efficacy and confidence in using simulations and systems practices to approach complex problems.\n\nEvaluate solutions: Analyze, compare, and test different climate mitigation strategies and solutions using simulation tools.'
         },
         {
-          title: '4.Agency, Dialogue, & Action',
-          text: 'Engage in constructive dialogue about climate policy and personal action'
+          title: '4. Agency, Dialogue, & Action',
+          text: 'Communicate effectively: Engage in constructive, informed personal reflection and dialogue regarding climate policy, personal responsibility, and community impact.\n\nCultivate climate agency: Explore and solidify a personal sense of agency by identifying actionable, scalable steps for both individual and collective climate action.'
         }
       ]
     },
@@ -253,13 +253,13 @@ export const educators = {
       },
       guide: {
         title: 'Facilitator Guide',
-        desc: 'PDF - Detailed facilitation notes',
-        btn: 'Coming Soon'
+        desc: 'PDF - [Detailed facilitation notes](https://docs.google.com/document/d/1VBAsgn1bI3qElLKjSzrpaPxjv7Xp71APCIApMFSXkEI/edit?usp=sharing)',
+        btn: 'Open Guide'
       },
       slides: {
         title: 'Slide Deck',
-        desc: 'PPTX - Presentation slides',
-        btn: 'Coming Soon'
+        desc: 'PPTX - [Presentation slides](https://docs.google.com/presentation/d/1umatC5r_7w39ZlDvg5TLfvuHEbTseCqS2Vx2zOAU0dw/edit?usp=sharing)',
+        btn: 'Open Slides'
       }
     },
     adaptations: {
@@ -299,7 +299,7 @@ export const educators = {
       block2: {
         title: 'Suggested PD Session (2-3 hours)',
         items: [
-          { title: 'Introduction to Systems Thinking', time: '30 min', text: 'Overview of systems thinking concepts and why they matter for climate education. See Facilitator Guide and Slide Deck' },
+          { title: 'Introduction to Systems Thinking', time: '45 min', text: 'Overview of systems thinking concepts and why they matter for climate education. See [Facilitator Guide](https://docs.google.com/document/d/1VBAsgn1bI3qElLKjSzrpaPxjv7Xp71APCIApMFSXkEI/edit?usp=sharing) and [Slide Deck](https://docs.google.com/presentation/d/1umatC5r_7w39ZlDvg5TLfvuHEbTseCqS2Vx2zOAU0dw/edit?usp=sharing)' },
           { title: 'Experience the Curriculum', time: '45 min', text: 'Educators work through 1-2 modules as students would' },
           { title: 'Exploring En-ROADS', time: '30 min', text: 'Hands-on time with the simulation tool, guided exploration' },
           { title: 'Facilitation Practice', time: '30 min', text: 'Practice facilitating discussions, role-play challenging scenarios' },

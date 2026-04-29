@@ -126,9 +126,9 @@ export const educators = {
           title: 'Paso 2: Planifica tus sesiones',
           items: [
             'Decide si usar todos los módulos o seleccionar algunos específicos',
-            'Asigna 45–60 minutos por módulo',
+            'Asigna 20–40 minutos por módulo',
             'Planifica tiempo de discusión y actividades de reflexión',
-            'Prepara materiales complementarios (hojas de trabajo, diapositivas)'
+            'Prepara materiales complementarios (hojas de trabajo, [diapositivas](https://docs.google.com/presentation/d/1umatC5r_7w39ZlDvg5TLfvuHEbTseCqS2Vx2zOAU0dw/edit?usp=drive_link) )'
           ]
         },
         {
@@ -136,8 +136,8 @@ export const educators = {
           items: [
             'Asegura una conexión a internet estable',
             'Prueba la plataforma en los dispositivos de tu aula',
-            'Prepara la capacidad de proyección para discusiones grupales',
-            'Ten materiales de respaldo listos en caso de problemas técnicos'
+            'Prepara la capacidad de proyección (compartir pantalla) para discusiones grupales, si se desea',
+            'Ten [materiales de respaldo](https://drive.google.com/file/d/1VlDmsX8SJUJk2d6uRX6yxf6XWMixppdQ/view?usp=drive_link) listos en caso de problemas técnicos'
           ]
         },
         {
@@ -160,20 +160,20 @@ export const educators = {
       description: 'Al final de este currículo, los estudiantes serán capaces de:',
       items: [
         {
-          title: '1. Conciencia sistémica y pensamiento sistémico',
-          text: 'Identificar bucles de retroalimentación, puntos de apalancamiento e interconexiones en los sistemas climáticos'
+          title: '1. Systems Awareness & Thinking',
+          text: 'Develop dual-capacity systems awareness: Integrate systems thinking (identifying complex behaviors, interconnections, feedback loops, and leverage points) with systems sensing (acknowledging one’s lived, somatic, and emotional experience within a system).\n\nAnalyze complex drivers: Understand how interacting societal, technological, ecological, and cultural systems shape and drive the climate crisis.'
         },
         {
-          title: '2. Ciencia del clima e interdependencia',
-          text: 'Explicar el efecto invernadero, los impulsores climáticos y los impactos proyectados'
+          title: '2. Climate Science & Interdependence',
+          text: 'Grasp climate fundamentals: Explain core climate science concepts, including the greenhouse effect, primary climate drivers, and projected environmental impacts.\n\nRecognize ecological interdependence: Gain a deep understanding of interdependence and how dynamic changes ripple across interconnected climate systems.'
         },
         {
-          title: '3. Herramientas aplicadas y evaluación de soluciones',
-          text: 'Analizar y comparar diferentes soluciones climáticas usando herramientas de simulación'
+          title: '3. Applied Tools & Solution Evaluation',
+          text: 'Utilize systems tools: Demonstrate efficacy and confidence in using simulations and systems practices to approach complex problems.\n\nEvaluate solutions: Analyze, compare, and test different climate mitigation strategies and solutions using simulation tools.'
         },
         {
-          title: '4. Agencia, diálogo y acción',
-          text: 'Participar en un diálogo constructivo sobre política climática y acción personal'
+          title: '4. Agency, Dialogue, & Action',
+          text: 'Communicate effectively: Engage in constructive, informed personal reflection and dialogue regarding climate policy, personal responsibility, and community impact.\n\nCultivate climate agency: Explore and solidify a personal sense of agency by identifying actionable, scalable steps for both individual and collective climate action.'
         }
       ]
     },
@@ -253,13 +253,13 @@ export const educators = {
       },
       guide: {
         title: 'Guía para facilitadores',
-        desc: 'PDF - Notas detalladas de facilitación',
-        btn: 'Próximamente'
+        desc: 'PDF - [Notas detalladas de facilitación](https://docs.google.com/document/d/1VBAsgn1bI3qElLKjSzrpaPxjv7Xp71APCIApMFSXkEI/edit?usp=sharing)',
+        btn: 'Abrir Guía'
       },
       slides: {
         title: 'Presentación de diapositivas',
-        desc: 'PPTX - Diapositivas de presentación',
-        btn: 'Próximamente'
+        desc: 'PPTX - [Diapositivas de presentación](https://docs.google.com/presentation/d/1umatC5r_7w39ZlDvg5TLfvuHEbTseCqS2Vx2zOAU0dw/edit?usp=sharing)',
+        btn: 'Abrir Diapositivas'
       }
     },
     adaptations: {
@@ -299,7 +299,7 @@ export const educators = {
       block2: {
         title: 'Sesión de DP sugerida (2–3 horas)',
         items: [
-          { title: 'Introducción al pensamiento sistémico', time: '30 min', text: 'Descripción general de los conceptos de pensamiento sistémico y por qué importan para la educación climática. Ver Guía para facilitadores y Presentación' },
+          { title: 'Introducción al pensamiento sistémico', time: '45 min', text: 'Descripción general de los conceptos de pensamiento sistémico y por qué importan para la educación climática. Ver [Facilitator Guide](https://docs.google.com/document/d/1VBAsgn1bI3qElLKjSzrpaPxjv7Xp71APCIApMFSXkEI/edit?usp=sharing) y [Slide Deck](https://docs.google.com/presentation/d/1umatC5r_7w39ZlDvg5TLfvuHEbTseCqS2Vx2zOAU0dw/edit?usp=sharing)' },
           { title: 'Experimentar el currículo', time: '45 min', text: 'Los educadores trabajan 1–2 módulos como lo harían los estudiantes' },
           { title: 'Explorar En-ROADS', time: '30 min', text: 'Tiempo práctico con la herramienta de simulación, exploración guiada' },
           { title: 'Práctica de facilitación', time: '30 min', text: 'Practicar la facilitación de discusiones, juego de roles con escenarios desafiantes' },
