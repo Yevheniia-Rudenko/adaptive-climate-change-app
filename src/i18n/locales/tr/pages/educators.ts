@@ -126,9 +126,9 @@ export const educators = {
           title: 'Adım 2: Oturumlarınızı planlayın',
           items: [
             'Tüm modülleri mi kullanacağınıza yoksa belirli modülleri mi seçeceğinize karar verin',
-            'Modül başına 45–60 dakika ayırın',
+            'Modül başına 20–40 dakika ayırın',
             'Tartışma ve yansıtma etkinlikleri için zaman planlayın',
-            'Destek materyallerini hazırlayın (çalışma kâğıtları, sunumlar)'
+            'Destek materyallerini hazırlayın (çalışma kâğıtları, [sunumlar](https://docs.google.com/presentation/d/1umatC5r_7w39ZlDvg5TLfvuHEbTseCqS2Vx2zOAU0dw/edit?usp=drive_link) )'
           ]
         },
         {
@@ -136,8 +136,8 @@ export const educators = {
           items: [
             'Kararlı bir internet bağlantısı sağlayın',
             'Platformu sınıf cihazlarında test edin',
-            'Grup tartışmaları için yansıtma olanaklarını hazırlayın',
-            'Teknik sorunlara karşı yedek materyalleri hazır bulundurun'
+            'Grup tartışmaları için yansıtma olanaklarını (ekran paylaşımı) hazırlayın, isterseniz',
+            'Teknik sorunlara karşı [yedek materyalleri](https://drive.google.com/file/d/1VlDmsX8SJUJk2d6uRX6yxf6XWMixppdQ/view?usp=drive_link) hazır bulundurun'
           ]
         },
         {
@@ -160,20 +160,20 @@ export const educators = {
       description: 'Bu müfredatın sonunda öğrenciler şunları yapabilecekler:',
       items: [
         {
-          title: '1. Sistem farkındalığı ve sistem düşüncesi',
-          text: 'İklim sistemlerindeki geri bildirim döngülerini, kaldıraç noktalarını ve karşılıklı bağlantıları belirlemek'
+          title: '1. Systems Awareness & Thinking',
+          text: 'Develop dual-capacity systems awareness: Integrate systems thinking (identifying complex behaviors, interconnections, feedback loops, and leverage points) with systems sensing (acknowledging one’s lived, somatic, and emotional experience within a system).\n\nAnalyze complex drivers: Understand how interacting societal, technological, ecological, and cultural systems shape and drive the climate crisis.'
         },
         {
-          title: '2. İklim bilimi ve karşılıklı bağımlılık',
-          text: 'Sera etkisini, iklim etkenlerini ve öngörülen etkileri açıklamak'
+          title: '2. Climate Science & Interdependence',
+          text: 'Grasp climate fundamentals: Explain core climate science concepts, including the greenhouse effect, primary climate drivers, and projected environmental impacts.\n\nRecognize ecological interdependence: Gain a deep understanding of interdependence and how dynamic changes ripple across interconnected climate systems.'
         },
         {
-          title: '3. Uygulamalı araçlar ve çözüm değerlendirmesi',
-          text: 'Simülasyon araçlarını kullanarak farklı iklim çözümlerini analiz etmek ve karşılaştırmak'
+          title: '3. Applied Tools & Solution Evaluation',
+          text: 'Utilize systems tools: Demonstrate efficacy and confidence in using simulations and systems practices to approach complex problems.\n\nEvaluate solutions: Analyze, compare, and test different climate mitigation strategies and solutions using simulation tools.'
         },
         {
-          title: '4. Öznellik, diyalog ve eylem',
-          text: 'İklim politikası ve kişisel eylem hakkında yapıcı diyaloga katılmak'
+          title: '4. Agency, Dialogue, & Action',
+          text: 'Communicate effectively: Engage in constructive, informed personal reflection and dialogue regarding climate policy, personal responsibility, and community impact.\n\nCultivate climate agency: Explore and solidify a personal sense of agency by identifying actionable, scalable steps for both individual and collective climate action.'
         }
       ]
     },
@@ -253,13 +253,13 @@ export const educators = {
       },
       guide: {
         title: 'Kolaylaştırıcı rehberi',
-        desc: 'PDF - Ayrıntılı kolaylaştırma notları',
-        btn: 'Yakında'
+        desc: 'PDF - [Ayrıntılı kolaylaştırma notları](https://docs.google.com/document/d/1VBAsgn1bI3qElLKjSzrpaPxjv7Xp71APCIApMFSXkEI/edit?usp=sharing)',
+        btn: 'Rehberi Aç'
       },
       slides: {
         title: 'Slayt sunumu',
-        desc: 'PPTX - Sunum slaytları',
-        btn: 'Yakında'
+        desc: 'PPTX - [Sunum slaytları](https://docs.google.com/presentation/d/1umatC5r_7w39ZlDvg5TLfvuHEbTseCqS2Vx2zOAU0dw/edit?usp=sharing)',
+        btn: 'Slaytları Aç'
       }
     },
     adaptations: {
@@ -299,7 +299,7 @@ export const educators = {
       block2: {
         title: 'Önerilen MG oturumu (2–3 saat)',
         items: [
-          { title: 'Sistem düşüncesine giriş', time: '30 dk', text: 'Sistem düşüncesi kavramlarına genel bakış ve iklim eğitimi için neden önemli oldukları. Kolaylaştırıcı Rehberi ve Sunuma bakın' },
+          { title: 'Sistem düşüncesine giriş', time: '45 dk', text: 'Sistem düşüncesi kavramlarına genel bakış ve iklim eğitimi için neden önemli oldukları. Bakınız: [Kolaylaştırıcı Rehberi](https://docs.google.com/document/d/1VBAsgn1bI3qElLKjSzrpaPxjv7Xp71APCIApMFSXkEI/edit?usp=sharing) ve [Sunum Dosyası](https://docs.google.com/presentation/d/1umatC5r_7w39ZlDvg5TLfvuHEbTseCqS2Vx2zOAU0dw/edit?usp=sharing)' },
           { title: 'Müfredatı deneyimleme', time: '45 dk', text: 'Eğitimciler, öğrencilerin yapacağı şekilde 1–2 modülü tamamlar' },
           { title: 'En-ROADS\'u keşfetme', time: '30 dk', text: 'Simülasyon aracıyla uygulamalı zaman, rehberli keşif' },
           { title: 'Kolaylaştırma pratiği', time: '30 dk', text: 'Tartışma kolaylaştırma pratiği, zorlayıcı senaryolarla rol oynama' },

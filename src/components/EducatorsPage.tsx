@@ -24,6 +24,7 @@ import {
   Monitor,
   Layers
 } from 'lucide-react';
+import { TextWithGlossary } from './TextWithGlossary';
 import { useState, useRef } from 'react';
 
 // Section type definition
@@ -419,7 +420,11 @@ const sections: Section[] = [
                   {t.pages.educators.sections.howToUse.steps.map((step, i) => (
                     <CollapsibleSection key={i} title={step.title} defaultOpen={i === 0}>
                       <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 text-sm">
-                        {step.items.map((item, j) => <li key={j}>{item}</li>)}
+                        {step.items.map((item, j) => (
+                          <li key={j} className="inline-block w-full">
+                            <TextWithGlossary text={item} as="span" disableGlossary={true} />
+                          </li>
+                        ))}
                       </ul>
                     </CollapsibleSection>
                   ))}
@@ -454,7 +459,7 @@ const sections: Section[] = [
                       <CheckCircle size={20} className="text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
                       <div>
                         <h4 className="font-medium text-gray-900 dark:text-gray-100 text-sm">{item.title}</h4>
-                        <p className="text-gray-600 dark:text-gray-400 text-sm">{item.text}</p>
+                        <TextWithGlossary text={item.text} as="p" className="text-gray-600 dark:text-gray-400 text-sm whitespace-pre-line" disableGlossary={true} />
                       </div>
                     </div>
                   ))}
@@ -652,7 +657,7 @@ const sections: Section[] = [
                   <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
                     <FileText size={32} className="text-red-500 mb-3" />
                     <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-1">{t.pages.educators.sections.downloads.worksheets.title}</h4>
-                    <p className="text-gray-500 dark:text-gray-400 text-xs mb-3">{t.pages.educators.sections.downloads.worksheets.desc}</p>
+                    <TextWithGlossary text={t.pages.educators.sections.downloads.worksheets.desc} as="p" className="text-gray-500 dark:text-gray-400 text-xs mb-3" disableGlossary={true} />
                     <a
                       href="https://drive.google.com/file/d/1VlDmsX8SJUJk2d6uRX6yxf6XWMixppdQ/view"
                       target="_blank"
@@ -668,20 +673,34 @@ const sections: Section[] = [
                   <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
                     <FileText size={32} className="text-blue-500 mb-3" />
                     <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-1">{t.pages.educators.sections.downloads.guide.title}</h4>
-                    <p className="text-gray-500 dark:text-gray-400 text-xs mb-3">{t.pages.educators.sections.downloads.guide.desc}</p>
-                    <Button variant="outline" size="sm" className="w-full" disabled>
-                      <Download size={14} className="mr-2" />
-                      {t.pages.educators.sections.downloads.guide.btn}
-                    </Button>
+                    <TextWithGlossary text={t.pages.educators.sections.downloads.guide.desc} as="p" className="text-gray-500 dark:text-gray-400 text-xs mb-3" disableGlossary={true} />
+                    <a
+                      href="https://docs.google.com/document/d/1VBAsgn1bI3qElLKjSzrpaPxjv7Xp71APCIApMFSXkEI/edit?usp=sharing"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full"
+                    >
+                      <Button variant="outline" size="sm" className="w-full">
+                        <Download size={14} className="mr-2" />
+                        {t.pages.educators.sections.downloads.guide.btn}
+                      </Button>
+                    </a>
                   </div>
                   <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
                     <FileText size={32} className="text-orange-500 mb-3" />
                     <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-1">{t.pages.educators.sections.downloads.slides.title}</h4>
-                    <p className="text-gray-500 dark:text-gray-400 text-xs mb-3">{t.pages.educators.sections.downloads.slides.desc}</p>
-                    <Button variant="outline" size="sm" className="w-full" disabled>
-                      <Download size={14} className="mr-2" />
-                      {t.pages.educators.sections.downloads.slides.btn}
-                    </Button>
+                    <TextWithGlossary text={t.pages.educators.sections.downloads.slides.desc} as="p" className="text-gray-500 dark:text-gray-400 text-xs mb-3" disableGlossary={true} />
+                    <a
+                      href="https://docs.google.com/presentation/d/1umatC5r_7w39ZlDvg5TLfvuHEbTseCqS2Vx2zOAU0dw/edit?usp=sharing"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full"
+                    >
+                      <Button variant="outline" size="sm" className="w-full">
+                        <Download size={14} className="mr-2" />
+                        {t.pages.educators.sections.downloads.slides.btn}
+                      </Button>
+                    </a>
                   </div>
                 </div>
               </section>
@@ -706,7 +725,7 @@ const sections: Section[] = [
                       {t.pages.educators.sections.adaptations.ageGroups.items.map((item, i) => (
                         <div key={i}>
                           <h5 className="font-medium text-gray-900 dark:text-gray-100">{item.title}</h5>
-                          <p className="text-gray-600 dark:text-gray-400">{item.text}</p>
+                          <TextWithGlossary text={item.text} as="p" className="text-gray-600 dark:text-gray-400" disableGlossary={true} />
                         </div>
                       ))}
                     </div>
@@ -714,7 +733,11 @@ const sections: Section[] = [
 
                   <CollapsibleSection title={t.pages.educators.sections.adaptations.accessibility.title}>
                     <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 text-sm">
-                      {t.pages.educators.sections.adaptations.accessibility.items.map((item, i) => <li key={i}>{item}</li>)}
+                      {t.pages.educators.sections.adaptations.accessibility.items.map((item, i) => (
+                        <li key={i} className="inline-block w-full">
+                          <TextWithGlossary text={item} as="span" disableGlossary={true} />
+                        </li>
+                      ))}
                     </ul>
                   </CollapsibleSection>
 
@@ -723,7 +746,7 @@ const sections: Section[] = [
                       {t.pages.educators.sections.adaptations.contexts.items.map((item, i) => (
                         <div key={i}>
                           <h5 className="font-medium text-gray-900 dark:text-gray-100">{item.title}</h5>
-                          <p className="text-gray-600 dark:text-gray-400">{item.text}</p>
+                          <TextWithGlossary text={item.text} as="p" className="text-gray-600 dark:text-gray-400" disableGlossary={true} />
                         </div>
                       ))}
                     </div>
@@ -758,7 +781,7 @@ const sections: Section[] = [
                         <div className="w-20 flex-shrink-0 text-gray-500 dark:text-gray-400">{item.time}</div>
                         <div>
                           <h4 className="font-medium text-gray-900 dark:text-gray-100">{item.title}</h4>
-                          <p className="text-gray-600 dark:text-gray-400">{item.text}</p>
+                          <TextWithGlossary text={item.text} as="p" className="text-gray-600 dark:text-gray-400" disableGlossary={true} />
                         </div>
                       </div>
                     ))}
