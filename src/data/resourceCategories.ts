@@ -10,7 +10,7 @@ export const resourceCategoriesData: Record<string, ResourceCategoryData> = {
         title: 'Introductory',
         items: [
           {
-            title: 'Climate Change Explained',
+            title: 'Climate Science: What You Need To Know',
             description: 'A simple, visual explanation of what climate change is, why it\'s happening, and why it matters.',
             type: 'video',
             duration: '6 min',
@@ -23,6 +23,13 @@ export const resourceCategoriesData: Record<string, ResourceCategoryData> = {
             duration: 'Interactive',
             url: 'https://science.nasa.gov/kids/earth/',
           },
+          {
+            title: 'MIT Climate Primer',
+            description: 'Climate Science, Risk & Solutions Explained',
+            type: 'Website',
+            duration: 'Interactive',
+            url: 'https://climateprimer.mit.edu/',
+          },
         ],
       },
       {
@@ -34,6 +41,20 @@ export const resourceCategoriesData: Record<string, ResourceCategoryData> = {
             type: 'Website',
             duration: 'Interactive',
             url: 'https://science.nasa.gov/climate-change/',
+          },
+          {
+            title: 'MIT Open CourseWare',
+            description: 'Search MIT’s free and open access courses on climate change',
+            type: 'Website',
+            duration: 'Interactive',
+            url: 'https://ocw.mit.edu/search/?q=climate',
+          },
+          {
+            title: 'MIT Learn',
+            description: 'Search for MIT’online courses and resources on climate change',
+            type: 'Website',
+            duration: 'Interactive',
+            url: 'https://learn.mit.edu/search?q=climate',
           },
         ],
       },
@@ -65,13 +86,6 @@ export const resourceCategoriesData: Record<string, ResourceCategoryData> = {
             type: 'Article',
             duration: '6-8 min',
             url: 'https://www.ube.ac.uk/whats-happening/articles/climate-change-denial-myths/',
-          },
-          {
-            title: 'Plutchik Wheel of Emotions',
-            description: 'A practical guide to Plutchik’s model of emotions that supports reflection and emotional literacy in climate learning contexts.',
-            type: 'Article',
-            duration: '8 min',
-            url: 'https://www.6seconds.org/2025/02/06/plutchik-wheel-emotions/',
           },
         ],
       },
@@ -150,6 +164,13 @@ export const resourceCategoriesData: Record<string, ResourceCategoryData> = {
             duration: 'Self-paced',
             url: 'https://www.climatementalhealth.net/_files/ugd/be8092_ef3abbb96dd04130835b06eae6550b0e.pdf',
           },
+          {
+            title: 'Plutchik Wheel of Emotions',
+            description: 'A practical guide to Plutchik’s model of emotions that supports reflection and emotional literacy in climate learning contexts.',
+            type: 'Article',
+            duration: '8 min',
+            url: 'https://www.6seconds.org/2025/02/06/plutchik-wheel-emotions/',
+          },
         ],
       },
       {
@@ -199,7 +220,7 @@ export const resourceCategoriesData: Record<string, ResourceCategoryData> = {
             title: 'MIT Climate Explainers',
             description: 'Short explainers on climate science and solutions.',
             type: 'Article',
-            duration: '5 min',
+            duration: 'Self-paced',
             url: 'https://climate.mit.edu/explainers',
           },
           {
@@ -246,7 +267,7 @@ export const resourceCategoriesData: Record<string, ResourceCategoryData> = {
             title: 'Think Like A Bathtub COP26',
             description: 'The video shows how an everyday object - a bathtub - can help more people understand climate change and inspire us to take climate action.',
             type: 'video',
-            duration: 'Varies',
+            duration: '4 min',
             url: 'https://pie.yt/?v=https://youtu.be/7WAMnt8thGs?si=eTqeh4BF850UNqbG&pieshare=1',
           },
           {
@@ -429,28 +450,52 @@ export const resourceCategoriesData: Record<string, ResourceCategoryData> = {
   'learning-opportunities': {
     id: 'learning-opportunities',
     title: 'Learning Opportunities',
-    description: 'Curated links to trusted climate organizations and resources for further exploration.',
+    description: 'Climate and educational organizations for further learning and professional development.',
     sections: [
       {
-        title: 'Scientific Institutions',
-        items: [
-
-        ],
-      },
-      {
-        title: 'Data & Research Platforms',
-        items: [
-        ],
-      },
-      {
-        title: 'Educational Organizations',
+        title: '',
         items: [
           {
             title: 'Teach Climate',
             description: 'Educational resources and programs for climate learning.',
             type: 'Website',
-            duration: 'Self-paced',
+            duration: 'Interactive',
             url: 'https://www.teachclimate.org/',
+          },
+          {
+            title: 'Compassionate Climate Program',
+            description: 'Youth led climate education program with the Center for Systems Awareness',
+            type: 'Case Study',
+            duration: 'self-paced',
+            url: 'https://systemsawareness.org/youth-leadership-team/compassionate-climate-community/',
+          },
+          {
+            title: 'Compassionate Systems Framework',
+            description: 'Hands-on workshop on systems leadership offered by the Center for Systems Awareness',
+            type: 'Website',
+            duration: 'Self-paced',
+            url: 'https://systemsawareness.org/what-we-do/#programs',
+          },
+          {
+            title: 'MIT Day of Climate',
+            description: 'Educational resources and activities for teaching climate change.',
+            type: 'Website',
+            duration: 'Interactive',
+            url: 'https://dayofclimate.mit.edu/',
+          },
+          {
+            title: 'MIT Climate Action through Education',
+            description: 'Interdisciplinary, modular, standards-aligned climate change curricula for U.S. high school teachers',
+            type: 'Website',
+            duration: 'Interactive',
+            url: 'https://cate.mit.edu/',
+          },
+          {
+            title: 'Subject to Climate',
+            description: 'Free climate resources for all K-12 subjects',
+            type: 'Website',
+            duration: 'Interactive',
+            url: 'https://subjecttoclimate.org/',
           },
         ],
       },

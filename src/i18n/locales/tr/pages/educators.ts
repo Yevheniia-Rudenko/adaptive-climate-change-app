@@ -296,13 +296,6 @@ export const educators = {
     professionalDev: {
       title: 'Öğretmen mesleki gelişimi',
       description: 'Meslektaş eğitimciler için bir mesleki gelişim oturumu yürütmek üzere bu taslağı kullanın.',
-      block1: {
-        title: 'MIT Day of Climate',
-        p1: '– Center for Systems Awareness tarafından sunulan sistem liderliği üzerine uygulamalı atölye.',
-        p2: '– iklim değişikliğini azaltmaya yönelik bilgi ve kapasitesini artırmak isteyen benzer düşünen uluslararası ve çok kuşaklı bir grup için alan oluşturmayı amaçlayan bir program. Programın genel hedefleri, bu yaşamsal kapasiteyi okul merkezlerine taşımak ve uluslararası bir değişim öncüleri topluluğu geliştirmektir. Özelleştirilmiş programlar Center for Systems Awareness aracılığıyla sunulmaktadır.',
-        link1Title: '"Compassionate Systems Framework\'e Giriş"',
-        link2Title: 'Compassionate Climate Community'
-      },
       block2: {
         title: 'Önerilen MG oturumu (2–3 saat)',
         items: [
@@ -317,9 +310,6 @@ export const educators = {
         title: 'Kolaylaştırıcı ipucu',
         text: 'Eğitimcileri hazırlamanın en iyi yolu, önce müfredatı öğrenen olarak deneyimlemelerini sağlamaktır. Bu, öğrenci deneyimlerine empati geliştirir ve olası zorlukları görünür kılar.'
       },
-      opportunities: {
-        title: 'Mesleki gelişim fırsatları'
-      }
     },
     faqs: {
       title: 'Sık sorulan sorular ve sorun giderme',

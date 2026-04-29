@@ -106,9 +106,11 @@ export function ResourceCategoryPage({ category }: ResourceCategoryPageProps) {
               return (
               <div key={section.title}>
                 {/* Section Title */}
-                <h2 className={`text-gray-900 dark:text-gray-100 text-lg sm:text-xl font-semibold mb-4 sm:mb-6 pb-2 border-b border-gray-200 dark:border-gray-700 ${sectionIndex > 0 ? 'mt-4' : ''}`}>
-                  {sectionTitle}
-                </h2>
+                {sectionTitle && (
+                  <h2 className={`text-gray-900 dark:text-gray-100 text-lg sm:text-xl font-semibold mb-4 sm:mb-6 pb-2 border-b border-gray-200 dark:border-gray-700 ${sectionIndex > 0 ? 'mt-4' : ''}`}>
+                    {sectionTitle}
+                  </h2>
+                )}
 
                 {/* Resource Items */}
                 <div className="space-y-6">
