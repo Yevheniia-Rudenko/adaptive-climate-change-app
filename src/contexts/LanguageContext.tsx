@@ -28,13 +28,13 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     localStorage.setItem('climateAppLanguage', language);
 
     // Set direction for RTL languages
-    // if (language === 'ar') {
-    //   document.documentElement.dir = 'rtl';
-    //   document.documentElement.lang = 'ar';
-    // } else {
-    document.documentElement.dir = 'ltr';
-    document.documentElement.lang = language;
-    // }
+    if (language === 'ar') {
+      document.documentElement.dir = 'rtl';
+      document.documentElement.lang = 'ar';
+    } else {
+      document.documentElement.dir = 'ltr';
+      document.documentElement.lang = language;
+    }
     setUserProperties({ language });
   }, [language]);
 

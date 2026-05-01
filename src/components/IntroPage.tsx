@@ -25,6 +25,7 @@ import {
 
 export function IntroPage() {
   const { t } = useLanguage();
+  const greatSaltLake = t.pages.intro.greatSaltLake;
   const { theme } = useTheme();
   const navigate = useNavigate();
   const [flippedCard, setFlippedCard] = useState<number | null>(null);
@@ -154,17 +155,17 @@ export function IntroPage() {
                 <BeforeAfterSlider
                   beforeImage={greatSaltLakeBefore}
                   afterImage={greatSaltLakeAfter}
-                  beforeLabel="Before — higher water levels"
-                  afterLabel="After — significant shrinkage"
+                  beforeLabel={greatSaltLake.beforeLabel}
+                  afterLabel={greatSaltLake.afterLabel}
                 />
 
                 {/* Title and date text below the image */}
                 <div className="mt-4 text-center space-y-1">
                   <h4 className="text-xl font-bold text-gray-900 dark:text-gray-100">
-                    Shrinking Great Salt Lake, Utah
+                    {greatSaltLake.title}
                   </h4>
                   <p className="text-gray-600 dark:text-gray-400 font-medium text-sm">
-                    November 2, 2011 - November 13, 2015
+                    {greatSaltLake.date}
                   </p>
                 </div>
 
@@ -173,28 +174,28 @@ export function IntroPage() {
                   <Accordion type="single" collapsible className="w-full">
                     <AccordionItem value="details" className="border-b-0">
                       <AccordionTrigger className="text-xs font-bold uppercase tracking-wider text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 py-3">
-                        Image Details
+                        {greatSaltLake.detailsLabel}
                       </AccordionTrigger>
                       <AccordionContent className="text-gray-700 dark:text-gray-300 leading-relaxed pb-5 text-left text-sm sm:text-base">
-                        The water level of the north arm of Great Salt Lake, Utah, has reached a record low of 4,191.6 feet because the smaller snowpack of recent years has reduced the spring runoff that feeds the lake. The south arm's water has dropped below the level where it could cross the breach that separates the arms. Water from the north arm is pumped to evaporation ponds, seen on the right side of these images, from which salt, potassium and other minerals are extracted. Also see this{' '}
+                        {greatSaltLake.detailsTextStart}{' '}
                         <a
                           href="https://www.usgs.gov/programs/national-land-imaging-program#510"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 transition-colors underline underline-offset-2 font-semibold"
                         >
-                          USGS article
+                          {greatSaltLake.detailsLinkText1}
                         </a>
-                        . Images taken by the Thematic Mapper sensor onboard Landsat 5 and the Operational Land Imager onboard Landsat 8. Source:{' '}
+                        {greatSaltLake.detailsTextMiddle}{' '}
                         <a
                           href="https://www.usgs.gov/programs/national-land-imaging-program#510"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 transition-colors underline underline-offset-2 font-semibold"
                         >
-                          Landsat Missions Gallery
+                          {greatSaltLake.detailsLinkText2}
                         </a>
-                        , "Great Salt Lake North Arm Reaches Record Low." U.S. Department of the Interior / USGS and NASA; and USGS Newsroom.
+                        {greatSaltLake.detailsTextEnd}
                       </AccordionContent>
                     </AccordionItem>
                   </Accordion>
@@ -202,8 +203,7 @@ export function IntroPage() {
               </div>
               <div className="mb-8">
                 <p className="text-gray-700 dark:text-gray-300 text-base sm:text-lg leading-relaxed">
-                  What you’re about to explore isn’t abstract. <br className="hidden sm:block" />
-                  These changes are already happening—right now, in real places around the world.
+                  {greatSaltLake.exploreText}
                 </p>
               </div>
 
