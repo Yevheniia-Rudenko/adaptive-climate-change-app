@@ -282,6 +282,75 @@ For at reducere brugen af fossile brændstoffer — olie, gas og kul — er en s
         { prompt: 'Hold en pause for at se nærmere på disse grafer. Hvad lægger du mærke til? Hvad tænker du over?\n\nHvilke antagelser har du fået udfordret? Hvad overrasker dig?' } // 10: reflection
       ]
     },
+    // Section 5: Exercise 4 — Carbon Price (flat sections)
+    {
+      title: '**Øvelse 4 — Kulstofpris**',
+      content: ' '
+    },
+    {
+      alt: 'En person holder en hvid t-shirt med teksten «Sæt en #PrisPåKulstof» ved Kulstofpris Koalitionens ledelsesmøde'
+    },
+    {
+      content: 'Bør vi opkræve dem, der forurener? Kunne vi beskatte virksomheder eller nationer, der udleder mere kuldioxid i atmosfæren? Mange samfund undersøger netop denne løsning, og fortalere argumenterer for, at en kulstofpris er en stærk strategi til at reducere udledninger og fremskynde overgangen til renere energi.'
+    },
+    {
+      title: 'Hvad er en kulstofpris?',
+      transcript: `En kulstofpris er et politisk værktøj, der sætter en pris på at udlede kuldioxid i atmosfæren. Tænk på det som en måde at gøre forurening dyrere og ren energi mere attraktiv. Når en kulstofpris er på plads, bliver energikilder, der producerer meget kulstof — som kul, olie og naturgas — dyrere end renere alternativer som vind, sol eller geotermisk energi.
+
+Der er flere måder, lande kan gøre dette på. Én tilgang er at sætte en global kulstofpris, så uanset hvor du er, betaler virksomheder baseret på, hvor meget de forurener. En anden mulighed er en standard for ren elektricitet eller en standard for udledningspræstation, som i bund og grund siger: «Du må kun producere elektricitet op til denne mængde kulstof pr. enhed.» Alt, der er mere forurenende, bliver sværere eller dyrere at bruge.
+
+Fortalere siger, at kulstofprissætning skaber et tydeligt signal: hvis du forurener mere, betaler du mere. Det motiverer virksomheder til at indføre renere teknologier og reducere udledninger. Men der er endnu et vigtigt aspekt: når energiselskaber står over for højere omkostninger, kan de vælte disse omkostninger over på kunderne. Derfor skal enhver kulstofprispolitik designes omhyggeligt — for at sikre, at den ikke lægger en uretfærdig byrde på familier og samfund med lav indkomst.`
+    },
+    {
+      content: 'Skal vi prøve det? Du ved, hvad vi skal gøre nu.'
+    },
+    {
+      title: '**Lad os lave en forudsigelse**'
+    },
+    {
+      question: 'Hvor effektiv tror du, denne løsning vil være?',
+      options: ['Meget effektiv', 'Moderat effektiv', 'Ikke særlig effektiv']
+    },
+    {
+      question: 'Hvis vi implementerer denne løsning, hvad tror du den globale temperaturstigning vil være i 2100? Bliver den på 3,3 grader Celsius? Vil den stige eller falde?'
+    },
+    {}, // fourth-exercise
+    {
+      title: '**Lad os reflektere**'
+    },
+    {
+      prompt: 'Hold en pause og reflektér over graferne for kulstofpris. Hvad lægger du mærke til? Hvad tænker du over?'
+    },
+    {
+      prompt: 'Tænk tilbage på alle fire øvelser. Hvad lagde du mærke til på tværs af disse forskellige scenarier? Hvad var skuffende? Hvad gav dig mest håb? Er nogen af disse eksempler — skove, vedvarende energi, olie, gas og kul, eller kulstofpris — forbundet med noget, der sker lokalt, hvor du bor?'
+    },
+    {
+      // Section 17: Practice of Hope (teal block)
+      content: [
+        {
+          title: '**Praktiseringen af håb**',
+          content: "Forandring tager tid. Vi kan holde fast i både dagens virkelighed og en vision for fremtiden. Vi startede dette modul med at udforske de komplekse følelser, vi kan have om klimaforandringer. Derefter udforskede vi forskellige mulige globale løsninger og deres konsekvenser, mens vi reflekterede over fremtiden.\n\nHvordan har vi det nu? Hvad føler dit indre system (dine følelser, krop og tanker), når du overvejer disse ydre udfordringer?"
+        },
+        {
+          title: 'Meditation: Håb som en aktiv muskel',
+          transcript: `Jeg inviterer dig til at tage et øjeblik til at stoppe op og reflektere over din oplevelse i de seneste par minutter.
+
+Du kan lukke øjnene og lægge mærke til dit åndedræt. Invitér en bevidsthed om, hvordan du har det lige nu.
+
+Når du reflekterer over de seneste øvelser, læg mærke til alle de følelser, der blev vakt. At konfrontere klimaforandringernes realiteter kan være overvældende. Vi kan lære at være med de vanskeligheder, der opstår gennem refleksion og gennem fællesskab og forbindelse.
+
+Vi har også brug for en vision om, hvad der er muligt, en vision om vores fremtid, som vi kan bidrage positivt til.
+
+Håb er en muskel, en vi kan styrke med øvelse.
+
+Mens du fortsætter med at trække vejret, reflektér: Hvad er din vision om en bedre fremtid? Hvad giver dig håb? Hvor kan du mærke følelsen af håb i din krop, dit sind eller dit hjerte?
+
+Gennem disse øvelser inviterer vi dig til at holde pause og genfinde den følelse af mulighed, den følelse af håb, mens vi sammen styrker vores muskler og nærer en bedre verden.
+
+Tak fordi du øvede dig.`
+        }
+      ]
+    },
   ],
   components: {
     carbonRemoval: {
