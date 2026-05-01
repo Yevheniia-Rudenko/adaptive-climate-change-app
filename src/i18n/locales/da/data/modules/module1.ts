@@ -12,7 +12,22 @@ export const module1 = {
         {
           content: "Før vi dykker ned i det, lad os tjekke ind på, hvad vi tror, vi ved."
         }, // 2: text (quiz intro)
-        {}, // 3: true-or-myth quiz
+        {
+          items: [
+            {
+              statement: 'Genbrug er det vigtigste, jeg kan gøre for klimaet.',
+              explanation: 'Genbrug hjælper, men det er en lille del. Omtrent 10× mere effektfuldt er: at spise mindre kød, flyve mindre og skifte til ren energi.'
+            },
+            {
+              statement: 'Forskere er faktisk uenige om, hvorvidt klimaforandringer er virkelige.',
+              explanation: '97 % af klimaforskerne er enige om, at det er virkeligt og menneskeskabt.'
+            },
+            {
+              statement: 'Vedvarende energi er nu billigere end kul i de fleste lande.',
+              explanation: 'Sol- og vindenergi er nu den billigste elektricitet i det meste af verden.'
+            }
+          ]
+        }, // 3: true-or-myth quiz
         {
           content: "Klimaforandringer bliver ofte misforstået.\n\nI dette modul vil vi ikke kun undersøge kendsgerningerne, men også, hvordan vi forholder os til dem."
         }, // 4: text (transition)
@@ -111,7 +126,14 @@ Tak fordi du øvede dig sammen med mig.`
           title: '**Forståelse af årsagerne til og konsekvenserne af klimaforandringer**',
           content: "Klimapåvirkninger er ikke kun fremtidige muligheder; de kan allerede ses i dag."
         }, // 0: text
-        {}, // 1: before-after-slider
+        {
+          beforeLabel: 'Før — gletsjere intakte',
+          afterLabel: 'Efter — gletsjere smelter',
+          title: 'Himalaya‑gletsjer',
+          subtitle: 'Efterår, ca. 1956 — 18. oktober 2007',
+          caption: 'Himalayas gletsjere har mistet over 40% af deres isvolumen i de sidste fire årtier. Smeltning af Imja-gletsjeren, Himalaya',
+          imageDetails: 'Imja-søen, den grålige gletsjersø, der ses over Amphu-søen på billedet fra 2007, truer med at oversvømme nedstrøms samfund, hvis dens ustabile naturlige dæmning — bestående af jord og sten cementeret af is — giver efter. Den overlevede Nepal‑jordskælvet i 2015, men er stadig farlig. Imja-søen opstod fra en række smeltevandspytter, der begyndte at danne sig på Imja-gletsjeren nær Mount Everest i Himalaya omkring 1960. I midten af 1970’erne var pletterne smeltet sammen til ét vandområde, som er vokset i takt med at gletsjerne, der fodrer det, har trukket sig tilbage og blevet tyndere. FN’s Udviklingsprogram har igangsat et projekt for at sænke søens niveau og reducere oversvømmelsesrisikoen. Billeder: 1956‑foto med tilladelse fra Association for Comparative Alpine Research, München; foto af Erwin Schneider. 2007‑foto med tilladelse fra Archives of Alton Byers og Mountain Institute; foto af Alton Byers. Tekstkilder: ["Nepal\'s Imja Lake, Khumbu Region, Appears Resilient Against Gorkha Quake"](https://www.nasa.gov/image-article/nepals-imja-lake-khumbu-region-appears-resilient-against-gorkha-quake/) og [United Nations Development Programme](https://www.undp.org/content/nepal/en/home/operations/projects/environment_and_energy/cfgorrp/home)'
+        }, // 1: before-after-slider
         {
           content: "Tænk på de nuværende og mulige fremtidige konsekvenser af klimaforandringer – hvad enten de sker lige nu eller forventes at ske i fremtiden. Hvad bekymrer dig mest?"
         }, // 2: text
