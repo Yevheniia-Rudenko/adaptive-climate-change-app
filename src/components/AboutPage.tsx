@@ -89,7 +89,19 @@ function TeamMemberCard({ photo, name, role, bio, linkedinLink, compact = false 
 export function AboutPage() {
   const { t, language } = useLanguage();
 
-  const teamText = {
+  const teamTextMap: Record<string, {
+    lanaRole: string;
+    lanaBio: string;
+    peterRole: string;
+    peterBio: string;
+    jonasRole: string;
+    jonasBio: string;
+    webDeveloper: string;
+    graphicDesigner: string;
+    tibyanBio: string;
+    fullStackBio: string;
+    fiorellaBio: string;
+  }> = {
     en: {
       lanaRole: 'Project Lead',
       lanaBio: 'Associate Director | MIT Systems Awareness Lab',
@@ -102,6 +114,32 @@ export function AboutPage() {
       tibyanBio: 'Mathematical Engineering Student | YTÜ',
       fullStackBio: 'Full Stack Developer | MIT Systems Awareness Lab',
       fiorellaBio: 'Freelance graphic designer and photographer',
+    },
+    ar: {
+      lanaRole: 'قائدة المشروع',
+      lanaBio: 'مديرة مساعدة | مختبر الوعي النظمي في MIT',
+      peterRole: 'مستشار المشروع',
+      peterBio: 'مدير مشارك، مختبر الوعي النظمي في MIT | محاضر أول، MIT Sloan',
+      jonasRole: 'تصميم المنهج الدراسي',
+      jonasBio: 'قيادة الشباب | مركز الوعي النظمي',
+      webDeveloper: 'مطوّر ويب',
+      graphicDesigner: 'مصممة جرافيك',
+      tibyanBio: 'طالبة هندسة رياضية | YTÜ',
+      fullStackBio: 'مطوّر متكامل | مختبر الوعي النظمي في MIT',
+      fiorellaBio: 'مصممة جرافيك ومصوّرة مستقلة',
+    },
+    da: {
+      lanaRole: 'Projektleder',
+      lanaBio: 'Associeret direktør | MIT Systems Awareness Lab',
+      peterRole: 'Projektrådgiver',
+      peterBio: 'Co-direktør, MIT Systems Awareness Lab | Seniorlektor, MIT Sloan',
+      jonasRole: 'Curriculum-design',
+      jonasBio: 'Ungdomslederskab | Center for Systems Awareness',
+      webDeveloper: 'Webudvikler',
+      graphicDesigner: 'Grafisk designer',
+      tibyanBio: 'Studerende i matematisk ingeniørvidenskab | YTÜ',
+      fullStackBio: 'Full-stack-udvikler | MIT Systems Awareness Lab',
+      fiorellaBio: 'Freelance grafisk designer og fotograf',
     },
     de: {
       lanaRole: 'Projektleitung',
@@ -129,6 +167,19 @@ export function AboutPage() {
       fullStackBio: 'Desarrollador full stack | MIT Systems Awareness Lab',
       fiorellaBio: 'Diseñadora gráfica y fotógrafa freelance',
     },
+    ru: {
+      lanaRole: 'Руководитель проекта',
+      lanaBio: 'Заместитель директора | MIT Systems Awareness Lab',
+      peterRole: 'Консультант проекта',
+      peterBio: 'Со-директор, MIT Systems Awareness Lab | Старший преподаватель, MIT Sloan',
+      jonasRole: 'Разработка учебной программы',
+      jonasBio: 'Молодёжное лидерство | Center for Systems Awareness',
+      webDeveloper: 'Веб-разработчик',
+      graphicDesigner: 'Графический дизайнер',
+      tibyanBio: 'Студентка математической инженерии | YTÜ',
+      fullStackBio: 'Full-stack-разработчик | MIT Systems Awareness Lab',
+      fiorellaBio: 'Графический дизайнер-фрилансер и фотограф',
+    },
     tr: {
       lanaRole: 'Proje Lideri',
       lanaBio: 'Yardımcı Direktör | MIT Systems Awareness Lab',
@@ -142,7 +193,21 @@ export function AboutPage() {
       fullStackBio: 'Full Stack Geliştirici | MIT Systems Awareness Lab',
       fiorellaBio: 'Serbest grafik tasarımcı ve fotoğrafçı',
     },
-  }[language];
+    uk: {
+      lanaRole: 'Керівниця проєкту',
+      lanaBio: 'Заступниця директора | MIT Systems Awareness Lab',
+      peterRole: 'Консультант проєкту',
+      peterBio: 'Співдиректор, MIT Systems Awareness Lab | Старший викладач, MIT Sloan',
+      jonasRole: 'Розробка навчальної програми',
+      jonasBio: 'Молодіжне лідерство | Center for Systems Awareness',
+      webDeveloper: 'Веб-розробник',
+      graphicDesigner: 'Графічна дизайнерка',
+      tibyanBio: 'Студентка математичної інженерії | YTÜ',
+      fullStackBio: 'Full-stack-розробник | MIT Systems Awareness Lab',
+      fiorellaBio: 'Графічна дизайнерка-фрілансерка та фотографиня',
+    },
+  };
+  const teamText = teamTextMap[language] || teamTextMap['en'];
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 pt-20 font-sora">
