@@ -4,10 +4,103 @@ export type GlossaryEntry = {
   variants?: string[]; // Alternative forms of the term (e.g., plural, lowercase)
 };
 
-type GlossaryLanguage = 'en' | 'es' | 'ar' | 'de' | 'ru' | 'uk' | 'tr';
+type GlossaryLanguage = 'en' | 'es' | 'ar' | 'de' | 'ru' | 'uk' | 'tr' | 'da';
 export type GlossaryData = Record<GlossaryLanguage, GlossaryEntry[]>;
 
 export const glossary: GlossaryData = {
+  da: [
+    {
+      term: 'kuldioxid',
+      variants: ['CO₂', 'CO2'],
+      definition: 'En drivhusgas, der frigives, når vi brænder fossile brændstoffer som kul, olie og gas. Den fanger varme i Jordens atmosfære og forårsager global opvarmning. CO₂ forbliver i atmosfæren i hundreder af år.'
+    },
+    {
+      term: 'kulstofpris',
+      variants: ['kulstofpris', 'kulstofprissætning', 'kulstofafgift'],
+      definition: 'En metode for regeringer til at afbøde klimaforandringer, hvor der pålægges en økonomisk omkostning på drivhusgasudledninger. Dette gøres for at opmuntre forurenere til at reducere forbrænding af fossile brændstoffer, hovedårsagen til klimaforandringer.'
+    },
+    {
+      term: 'Climate Interactive',
+      variants: [],
+      definition: 'En non-profit organisation, der skaber og deler banebrydende værktøjer, som driver effektiv og retfærdig klimahandling. Du kan lære mere om deres arbejde her: https://www.climateinteractive.org/'
+    },
+    {
+      term: 'klimapolitikker',
+      variants: ['klimapolitikker', 'klimapolitik'],
+      definition: 'Strategier, love og regler udviklet af regeringer og institutioner for at reducere drivhusgasudledninger og tilpasse sig konsekvenserne af klimaforandringer.'
+    },
+    {
+      term: 'klimasystem',
+      variants: ['klimasystemer'],
+      definition: 'De komplekse interaktioner mellem atmosfæren, oceanerne, is, land og levende ting, der bestemmer Jordens klima. At forstå disse systemer hjælper os med at se, hvordan ændringer i et område påvirker hele planeten.'
+    },
+    {
+      term: 'co₂-koncentration',
+      variants: ['CO₂-koncentration', 'CO₂ koncentration'],
+      definition: 'Mål for kuldioxidmolekyler til stede i en bestemt mængde luft, almindeligvis udtrykt i parts per million (ppm). Det tjener som en nøgleindikator for klimaforandringer, hvor stigende niveauer fanger mere varme i atmosfæren. Siden vi begyndte at brænde fossile brændstoffer, er CO₂-koncentrationen steget mere end 50% fra 280 ppm til omkring 428 ppm i dag.'
+    },
+    {
+      term: 'co₂-udledninger',
+      variants: ['CO₂-udledninger', 'CO₂ udledninger'],
+      definition: 'Samlet mængde CO₂, der årligt frigives til atmosfæren fra alle kilder såsom elproduktion, industrielle processer, transport, skovrydning osv. Dette måles oftest i gigaton (10^9 tons) om året.'
+    },
+    {
+      term: 'co₂-fjernelser',
+      variants: ['CO₂-fjernelser', 'CO2 fjernelser', 'kuldioxidfjernelser'],
+      definition: 'Naturlige og teknologiske processer, der tager CO₂ ud af atmosfæren og lagrer det et andet sted.'
+    },
+    {
+      term: 'Dr. Ayana Elizabeth Johnson',
+      variants: ['Ayana Elizabeth Johnson'],
+      definition: 'Dr. Ayana Elizabeth Johnson er medstifter af non-profit tænketanken Urban Ocean Lab, medredaktør af den bedst sælgende klimaantologi *All We Can Save*, og forfatter til *What If We Get it Right?: Visions of Climate Futures*.'
+    },
+    {
+      term: 'drivkræfter',
+      variants: ['drivkraft'],
+      definition: 'De vigtigste årsager eller kræfter, der skubber noget til at ske. I forbindelse med klimaforandringer er drivkræfter de nøgleaktiviteter eller systemer—som at brænde fossile brændstoffer, skovrydning og visse industrielle processer—der frigiver store mængder drivhusgasser og fremskynder global opvarmning. Med andre ord er drivkræfter de store ting bag kulisserne, der sætter store ændringer i gang.'
+    },
+    {
+      term: 'udledninger',
+      variants: ['udledning', 'indstrømningen', 'indstrømninger'],
+      definition: 'Frigivelsen af drivhusgasser (som kuldioxid og metan) til atmosfæren, primært fra afbrænding af fossile brændstoffer, skovrydning og industrielle processer. Reduktion af udledninger er nøglen til at bekæmpe klimaforandringer.'
+    },
+    {
+      term: 'fossile brændstoffer',
+      variants: ['fossilt brændstof'],
+      definition: 'Energikilder dannet af gamle plante- og dyrerester, herunder kul, olie og naturgas. Afbrænding af fossile brændstoffer frigiver kuldioxid, der har været lagret under jorden i millioner af år.'
+    },
+    {
+      term: 'drivhusgas',
+      variants: ['drivhusgasser'],
+      definition: 'Gasser i atmosfæren, der fanger varme fra solen og opvarmer planeten. De vigtigste drivhusgasser er kuldioxid, metan og lattergas. Mens nogle drivhusgasser er naturlige, har menneskelige aktiviteter øget deres koncentration dramatisk.'
+    },
+    {
+      term: 'udjævnes',
+      variants: ['udjævne'],
+      definition: 'At udjævne betyder, at noget stopper med at gå op eller ned og forbliver nogenlunde det samme over tid. Du kan tænke på det som en linje på en graf, der bliver flad.'
+    },
+    {
+      term: 'naturbaseret co₂-fjernelse',
+      variants: ['naturbaserede løsninger', 'naturbaseret kulstoffjernelse', 'skovrejsning', 'genplantning af skov'],
+      definition: 'Opmuntre til udvidelse af skove (skovrejsning), genopretning af tidligere eller forringede skove (genplantning af skov), implementering af landbrugspraksis, der fanger kulstof, og produktion af biokul. Disse naturbaserede metoder kan fjerne kuldioxid fra atmosfæren og lagre det i planter og jord. Dette kulstof kan dog frigives igen, hvis jorden ændres, enten gennem bevidste handlinger som landbrug eller utilsigtede begivenheder som skovbrande.'
+    },
+    {
+      term: 'leverage points',
+      variants: ['leverage point', 'løftestænger', 'løftestang'],
+      definition: 'Specifikke steder i et komplekst system—såsom en virksomhed, et økosystem eller en økonomi—hvor en lille, vel fokuseret handling kan producere betydelige, varige ændringer. Populariseret af Donella Meadows, spænder disse interventioner fra overfladiske (ændring af tal) til dybe (ændring af paradigmer), med den højeste løftestang ofte fundet i at ændre systemmål, regler eller tankegange.'
+    },
+    {
+      term: 'direkte luftopsamling (DAC)',
+      variants: ['direkte luftopsamling', 'DAC', 'DACCS', 'teknologisk co₂-fjernelse'],
+      definition: 'En teknologi, der fjerner CO₂ fra atmosfæren ved hjælp af flydende opløsningsmidler eller faste sorbenter, som derefter kan lagres permanent under jorden eller genbruges.'
+    },
+    {
+      term: 'vedvarende energi',
+      variants: ['vedvarende energikilder'],
+      definition: 'Energi fra kilder, der naturligt genopfylder sig selv, som sol-, vind-, vand- og geotermisk energi. I modsætning til fossile brændstoffer producerer vedvarende energi ikke drivhusgasudledninger og løber ikke tør.'
+    }
+  ],
+
   en: [
     {
       term: 'carbon dioxide',

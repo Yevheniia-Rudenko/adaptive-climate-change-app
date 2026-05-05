@@ -703,6 +703,8 @@ function NumericPredictionBlock({ block, moduleId }: { block: Extract<ContentBlo
 }
 
 function QuoteCarouselBlock({ block }: { block: Extract<ContentBlockType, { type: 'quote-carousel' }> }) {
+  const { language } = useLanguage();
+  const isRtl = language === 'ar';
   const hasMultiple = block.quotes.length > 1;
   const [api, setApi] = useState<CarouselApi | null>(null);
   const [current, setCurrent] = useState(1);
@@ -739,7 +741,7 @@ function QuoteCarouselBlock({ block }: { block: Extract<ContentBlockType, { type
         </div>
       )}
 
-      <Carousel setApi={(nextApi) => setApi(nextApi)} opts={{ loop: hasMultiple }} className="w-full">
+      <Carousel setApi={(nextApi) => setApi(nextApi)} opts={{ loop: hasMultiple, direction: isRtl ? 'rtl' : 'ltr' }} className="w-full">
         <CarouselContent>
           {block.quotes.map((q, idx) => (
             <CarouselItem key={idx} className="w-full">
