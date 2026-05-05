@@ -114,8 +114,8 @@ export const module3 = {
       content: [
         { title: '**Crea tu propio escenario de política climática en En-ROADS**', content: '' },
         {
-          title: '**✏️ ¡Ahora te toca diseñar un futuro climático!**',
-          content: 'Usarás el simulador completo de políticas climáticas de En-ROADS para crear un escenario que refleje **el tipo de mundo que quieres ayudar a construir.**\n\nMientras experimentas con los controles, intenta cumplir estas tres metas **al mismo tiempo:**'
+          hideIcon: true,
+          content: '✏️ ¡Ahora te toca diseñar un futuro climático!\n\nUsarás el simulador completo de políticas climáticas de En-ROADS para crear un escenario que refleje **el tipo de mundo que quieres ayudar a construir.**\n\nMientras experimentas con los controles, intenta cumplir estas tres metas al mismo tiempo:'
         },
         {
           title: '**Tu desafío**',
@@ -138,7 +138,8 @@ export const module3 = {
         { title: '**👋 ¡Bienvenida/o de nuevo!**', content: '¿Cómo te fue en En-ROADS? Nos encantaría conocer tu experiencia.' },
         { title: '**Comparte tu escenario**', content: '' },
         { prompt: 'Pega aquí el enlace de tu escenario de En-ROADS:' },
-        { alt: 'Imagen de compartir escenario', title: 'Pista: puedes encontrar el enlace “Share Your Scenario” en la esquina superior derecha de En-ROADS.' },
+        { content: 'Pista: puedes encontrar el enlace “Share Your Scenario” en la esquina superior derecha de En-ROADS.' },
+        { alt: 'Imagen de compartir escenario' },
         { title: '**Reflexionemos:**', content: '' },
         { prompt: '• ¿Qué políticas elegiste y por qué? \n • ¿Cómo mantuvo tu escenario el calentamiento por debajo de 2°C? \n • ¿Qué decisiones tomaste para reducir desigualdades o proteger comunidades vulnerables? \n • ¿Cómo pensaste sobre justicia y costos? \n • ¿Qué te sorprendió al diseñar tu escenario?' }
       ]
@@ -146,7 +147,26 @@ export const module3 = {
     {
       content: [
         { title: '**Imaginar el futuro**', content: '🎉 Acabas de unirte a más de 492,000+ personas en el mundo que han creado escenarios climáticos con En-ROADS.' },
-        { title: '**Lo que líderes dicen sobre En-ROADS**' },
+                {
+          title: '**Lo que los líderes dicen sobre En-ROADS**',
+          quotes: [
+            {
+              quote: 'En-ROADS es sencillamente un punto de inflexión en la crisis climática para los responsables políticos y las personas de todo el país. Todos escuchan cada vez más acerca de la ciencia, pero a veces se necesita una herramienta de demostración como En-ROADS para que la gente vea de primera mano que cada uno de nosotros debe estar en pie de guerra y movilizarse para combatir esta crisis de frente. Nuestro objetivo con World War Zero es impulsar al menos diez millones de conversaciones sobre la crisis climática: En-ROADS es el iniciador de conversaciones definitivo.',
+              author: 'John Kerry',
+              subtitle: 'Enviado Presidencial Especial de EE. UU. para el Clima (2021-2024), Secretario de Estado de EE. UU. (2013-2017)'
+            },
+            {
+              quote: 'En medio de un problema complejo y urgente, En-ROADS emerge como un faro de comprensión y dirección. El simulador conecta la investigación científica con vías de acción tangibles, empoderando a los líderes para tomar decisiones informadas que den forma a estrategias climáticas efectivas. Es hora de actuar, y En-ROADS pone en nuestras manos el poder de actuar con decisión.',
+              author: 'Sissi Knispel de Acosta',
+              subtitle: 'Secretaria Ejecutiva, Alianza Europea de Investigación Climática (ECRA). Bruselas, Bélgica'
+            },
+            {
+              quote: 'EN-ROADS me iluminó el cerebro... en una sola pantalla, el modelo comunica la urgencia de la amenaza del cambio climático, desmiente poderosamente mitos arraigados, confirma la importancia de los compromisos actuales y enfatiza cuánto más tenemos que hacer.',
+              author: 'Roberta Barbieri',
+              subtitle: 'Vicepresidenta de Sostenibilidad Global, PepsiCo, Estados Unidos'
+            }
+          ]
+        },
         { content: 'Hay varias rutas hacia nuestro posible futuro compartido. Abajo verás algunos futuros climáticos que otras personas aprendices como tú han creado.' },
         {
           title: '**Instantáneas de escenarios**',

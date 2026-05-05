@@ -703,6 +703,8 @@ function NumericPredictionBlock({ block, moduleId }: { block: Extract<ContentBlo
 }
 
 function QuoteCarouselBlock({ block }: { block: Extract<ContentBlockType, { type: 'quote-carousel' }> }) {
+  const { language } = useLanguage();
+  const isRtl = language === 'ar';
   const hasMultiple = block.quotes.length > 1;
   const [api, setApi] = useState<CarouselApi | null>(null);
   const [current, setCurrent] = useState(1);
@@ -739,7 +741,7 @@ function QuoteCarouselBlock({ block }: { block: Extract<ContentBlockType, { type
         </div>
       )}
 
-      <Carousel setApi={(nextApi) => setApi(nextApi)} opts={{ loop: hasMultiple }} className="w-full">
+      <Carousel setApi={(nextApi) => setApi(nextApi)} opts={{ loop: hasMultiple, direction: isRtl ? 'rtl' : 'ltr' }} className="w-full">
         <CarouselContent>
           {block.quotes.map((q, idx) => (
             <CarouselItem key={idx} className="w-full">
@@ -987,6 +989,7 @@ export function ContentBlock({
           )}
           <TextWithGlossary
             text={block.content}
+            disableGlossary={block.disableGlossary}
             className="text-gray-700 dark:text-gray-300 text-sm sm:text-base md:text-lg leading-relaxed whitespace-pre-line"
           />
         </div>
@@ -1250,7 +1253,17 @@ export function ContentBlock({
       );
     }
 
-    case 'image':
+    case 'image': {
+      const imageElement = (
+        <div className="rounded-xl sm:rounded-2xl overflow-hidden shadow-lg" style={block.width ? { maxWidth: block.width, margin: '0 auto' } : undefined}>
+          <img
+            src={block.imageUrl}
+            alt={block.alt}
+            className="w-full h-auto"
+          />
+        </div>
+      );
+
       return (
         <div className="mb-6 sm:mb-8 font-sora">
           {block.title && (
@@ -1259,15 +1272,21 @@ export function ContentBlock({
               <h3 className="text-gray-900 dark:text-gray-100 text-xl sm:text-2xl font-extrabold">{formatTitle(block.title)}</h3>
             </div>
           )}
-          <div className="rounded-xl sm:rounded-2xl overflow-hidden shadow-lg" style={block.width ? { maxWidth: block.width, margin: '0 auto' } : undefined}>
-            <img
-              src={block.imageUrl}
-              alt={block.alt}
-              className="w-full h-auto"
-            />
-          </div>
+          {block.url ? (
+            <a
+              href={block.url}
+              target={block.newTab ? '_blank' : undefined}
+              rel={block.newTab ? 'noopener noreferrer' : undefined}
+              className="block hover:opacity-90 transition-opacity"
+            >
+              {imageElement}
+            </a>
+          ) : (
+            imageElement
+          )}
         </div>
       );
+    }
 
     case 'text-with-image':
       return <TextWithImageBlock block={block} />;
@@ -1535,7 +1554,7 @@ export function ContentBlock({
                 <Accordion type="single" collapsible className="w-full">
                   <AccordionItem value="details" className="border-b-0">
                     <AccordionTrigger className="text-xs font-bold uppercase tracking-wider text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 py-3">
-                      Image Details
+                      {t.pages.intro?.greatSaltLake?.detailsLabel || 'Image Details'}
                     </AccordionTrigger>
                     <AccordionContent className="text-gray-700 dark:text-gray-300 leading-relaxed pb-5 text-left text-sm sm:text-base">
                       {renderWithLinks(block.imageDetails)}

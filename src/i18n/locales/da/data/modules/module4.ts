@@ -1,71 +1,146 @@
 export const module4 = {
-  title: "Et systemperspektiv på klimaløsninger",
+  title: 'Et systemperspektiv på klimaløsninger',
   sections: [
     {
-      // Section 0 (teal block)
       content: [
+        { label: 'Åbn ordliste' },
         {
           title: '**Om dette modul**',
-          content: "I dette modul vil vi zoome ud. For at forstå hvorfor klimaforandringer sker, og hvordan vi kan skabe varige løsninger, er vi nødt til at tænke i systemer.\n\nEt nyttigt værktøj til dette er Isbjerg-modellen. Den hjælper os med at se under overfladen af det, vi observerer i verden (som oversvømmelser eller skovbrande), for at forstå de skjulte årsager og overbevisninger, der driver dem."
-        }, // 0: text
-        { alt: 'Illustration af et isbjerg i systemtænkning' }, // 1: image
-        { title: '**Toppen af isbjerget: Begivenheder**' }, // 2: text
-        { alt: 'Toppen af isbjerget, der viser Begivenheder' }, // 3: image
+          content: 'For at ændre udfald er vi nødt til at se under overfladen og forstå systemer.\n\nVi har brug for systembevidsthed for at forstå klimaforandringer, fordi de ikke forårsages af én ting – de er formet af mange indbyrdes forbundne systemer som energi, transport, mad, økonomi og politik, der alle påvirker hinanden.\n\nSystembevidsthed, en kombination af *systemtænkning* og *systemfølelse*, hjælper os med at se disse forbindelser klart, så vi kan designe klimaløsninger, der er effektive, retfærdige og undgår utilsigtede konsekvenser.'
+        },
         {
-          content: "Det vi nemt ser er ofte bare 'toppen af isbjerget'."
-        }, // 4: text
+          content: "Er det vi ser kun en del af systemet – eller er det?"
+        },
         {
-          transcript: `Toppen af isbjerget repræsenterer begivenheder – det er de ting, vi kan se, høre eller direkte opleve hver dag. For eksempel kunne en begivenhed være: "I går var den varmeste dag nogensinde målt i min by," eller "Vejen blev oversvømmet på grund af den kraftige regn."
-
-Begivenheder er det, der rapporteres om i nyhederne. De fanger vores opmærksomhed og får os til at reagere. Men kun at reagere på begivenheder er som at sætte et plaster på et dybt sår. Det håndterer problemet for en stund, men det forhindrer ikke, at problemet opstår igen.`
-        }, // 5: audio
-        { prompt: 'Hvilken klima- eller miljøbegivenhed har du for nylig lagt mærke til i dit lokalsamfund eller i nyhederne?' } // 6: reflection
+          items: [
+            {
+              statement: 'Klimaforandringer er primært forårsaget af individuelle valg.',
+              explanation: 'Individuelle handlinger betyder noget, men systemer, politikker og infrastruktur former de største resultater.'
+            },
+            {
+              statement: 'At ændre overbevisninger og tankegange kan påvirke systemer i den virkelige verden.',
+              explanation: 'Mentale modeller former beslutninger, som former systemer.'
+            }
+          ]
+        },
+        {
+          title: '🌊 System-isbjerget',
+          content: 'System-isbjergsmodellen er en måde at se verden på, som hjælper os med at forstå *hvorfor* ting sker – ikke kun *hvad* der sker på overfladen.'
+        },
+        {
+          alt: 'System-isbjergsmodel der viser begivenheder, adfærdsmønstre, underliggende strukturer, mentale modeller og artefakter'
+        },
+        {
+          content: 'Den kommer fra feltet systemdynamik og bruges til at hjælpe folk med at forstå komplekse problemstillinger.\n\n**Det vi ser ske, er kun toppen af isbjerget.**\n\nDe fleste af grundene til, at ting sker, er skjult *under overfladen.*\n\nLad os bryde det ned.'
+        }
       ]
     },
     {
-      // Section 1 (green block)
       content: [
-        { title: '**Lige under overfladen: Mønstre i adfærd**' }, // 0: text
-        { alt: 'Midten af isbjerget, der viser Mønstre' }, // 1: image
+        { title: 'Toppen af isbjerget: Begivenheder', content: '' },
         {
-          transcript: `Kigger vi lidt under overfladen, finder vi mønstre og tendenser. Det er begivenheder, der gentager sig over tid.
-
-For eksempel, hvis en enkelt hedebølge er en begivenhed, vil mønsteret være, at "hver sommer i de sidste ti år har været varmere end den forrige". Når vi begynder at lægge mærke til disse mønstre, forstår vi, at begivenhederne ikke er tilfældige; de hænger sammen og fortæller en større historie om, hvordan et system opfører sig over tid.`
-        }, // 2: audio
-        { prompt: 'Tænk på den begivenhed, du identificerede tidligere. Hvad er et mønster knyttet til den begivenhed (sker den f.eks. oftere eller med større intensitet over tid)?' }, // 3: reflection
+          alt: 'System-isbjergsmodel der viser begivenheder, adfærdsmønstre, underliggende strukturer, mentale modeller og artefakter',
+          content: 'Toppen af isbjerget er det, du ser. Det er ting, der sker lige foran dig.\n\n**Eksempler:**\n• En hedebølge\n• En skovbrand\n• En stigning i energipriserne\n• Protester over forurening\n• Den seneste klimanyhedsoverskrift\n\nBegivenheder er vigtige, men de er kun overfladen. Hvis vi kun fokuserer på begivenheder, kan vi føle os overvældede og tro, at verden er tilfældig eller kaotisk.'
+        },
+        { prompt: 'Hvilke klima-"begivenheder" lægger du mærke til eller ser i dit liv?' }
       ]
     },
     {
-      // Section 2 (amber block)
       content: [
-        { title: '**Strukturer og Mentale Modeller**' }, // 0: text
-        { alt: 'Bunden af isbjerget, der viser Systemstrukturer / Artefakter og Mentale Modeller' }, // 1: image
+        { title: 'Lige under overfladen: Adfærdsmønstre', content: '' },
         {
-          transcript: `Bevæger vi os dybere ned i System-isbjerget, møder vi strukturer – også kendt som artefakter – og mentale modeller. Dette er de fundamentale årsager til, hvorfor mønstrene eksisterer, og hvorfor begivenhederne opstår.
-
-Strukturer er de regler, politikker og fysiske systemer, der organiserer vores samfund. For eksempel er en by bygget med mange motorveje og lidt offentlig transport en struktur, der fører til det mønster, at folk kører mere i bil. Eller love, der subsidierer fossile brændstoffer frem for vedvarende energi, er strukturer, der opretholder mønstre af høje emissioner.
-
-Under strukturerne ligger mentale modeller. Disse er vores dybt forankrede overbevisninger, værdier og antagelser om, hvordan verden fungerer. En mental model kunne for eksempel være, "naturen er en ressource, der i det uendelige kan udnyttes til menneskelig vækst," eller "succes betyder at have flere ting." Disse overbevisninger former de strukturer, vi bygger, som til gengæld skaber de mønstre og begivenheder, vi ser over overfladen.
-
-For at skabe varige forandringer er vi ofte nødt til at udfordre disse mentale modeller og bygge nye strukturer, der afspejler mere bæredygtige værdier.`
-        }, // 2: audio
-        { prompt: 'Kan du komme i tanke om en politik eller uskreven regel (struktur/artefakt), der bidrager til et klimaproblem i dit lokalsamfund? Hvilken overbevisning (mental model) ligger måske bag det?' } // 3: reflection
+          alt: 'System-isbjergsmodel der viser begivenheder, adfærdsmønstre, underliggende strukturer, mentale modeller og artefakter',
+          content: 'Hvis du zoomer ud i tid, begynder begivenheder at danne **adfærdsmønstre og tendenser.**\n\n**Eksempler:**\n• Hedebølger sker oftere\n• Skovbrande bliver større\n• Energipriser stiger hurtigere i visse samfund\n• Luftforurening påvirker de samme nabolag igen og igen\n\nMønstre viser os:\n\n Dette er ikke tilfældigt—**noget gentager sig.**'
+        },
+        { prompt: 'Hvilke klima-"mønstre" ser du i dit liv?' }
       ]
     },
     {
-      // Section 3 (purple block)
       content: [
         {
-          title: '**Hvorfor tænke over klimasystemer med isbjerget?**',
-          content: "Forståelse af isbjerget hjælper os til at se, at den stærkeste måde at skabe forandring på ikke kun er ved at reagere på begivenhederne på toppen. Den største virkning sker, når vi ændrer strukturerne og de mentale modeller i bunden."
-        }, // 0: text
-        { alt: 'En ung pige, der tegner sit eget system-isbjerg' }, // 1: image
-        { title: '**Tegn dit eget klimaisbjerg**' }, // 2: text
-        { prompt: 'Brug et stykke papir eller en notesbog til at tegne dit eget isbjerg og vælg et specifikt klimaproblem (f.eks. plastikforurening, oversvømmelser, skovrydning).\n\nHvad er på toppen (begivenhederne)? Hvad ligger nedenunder (mønstre, strukturer, mentale modeller)?\n\nTag et billede af din tegning, eller beskriv den kort her.' }, // 3: reflection
+          title: 'Artefakter',
+          alt: 'System-isbjergsmodel der viser begivenheder, adfærdsmønstre, underliggende strukturer, mentale modeller og artefakter',
+          content: 'De underliggende strukturer er de **artefakter** og **mentale modeller**, der former mønstre og begivenheder.\n\nLad os først se på artefakterne — det er de ofte håndgribelige og synlige strukturer, der former vores systemer, såsom:\n\n• Infrastruktur: Hvordan vores energisystem er bygget\n• Rum og sted: Hvilke samfund bor i nærheden af motorveje eller fabrikker\n• Økonomi: Priser på fossile brændstoffer\n• Governance: Hvem træffer politiske beslutninger\n\nDisse artefakter skaber de **betingelser**, der gør bestemte adfærdsmønstre og begivenheder mere sandsynlige end andre.\n\nHvis vi ønsker at ændre adfærdsmønstre, er vi nødt til at forstå og redesigne **disse artefakter**, og ikke kun reagere på begivenheder.'
+        },
+        { prompt: 'Hvilke artefakter relateret til klima ser du i dit liv?' },
         {
-          title: '**Hvorfor System-isbjerget er vigtigt for klimaforandringerne**',
-          content: "Som vi har set, er det vigtigt at reagere på begivenheder, men det er ikke nok. At ændre vores mentale modeller er vejen til at ændre hele systemer.\n\nNår vi anerkender, at 'vores handlinger former fremtiden' eller 'vi er forbundet med naturen', begynder vi at bygge nye strukturer, og til sidst skaber vi bedre begivenheder."
-        } // 4: text
+          title: 'Mentale Modeller',
+          content: 'Helt i bunden af isbjerget finder vi også **mentale modeller**—de værdier, verdensbilleder, overbevisninger, antagelser og historier, som folk har om, hvordan verden fungerer.\n\n**Eksempler:**\n• "Jorden er en ressource for mennesker."\n• "Fossile brændstoffer er nødvendige for økonomisk vækst."\n• "Nogle samfund kan klare mere forurening end andre."\n• "Teknologi vil ordne alt."\n• "Mine handlinger betyder ikke noget."\n• "Klimaløsninger hjælper alle lige meget."\n\nDisse overbevisninger former de valg (adfærd) vi træffer, og disse valg former de artefakter og strukturer, vi bygger.\n\nSom miljøforsker og pædagog Donella Meadows engang sagde: “Husk altid, at alt hvad du ved, og alt hvad alle ved, kun er en model. Få din model frem i lyset, hvor den kan ses. Inviter andre til at udfordre dine antagelser og tilføje deres egne.”\n\nAt ændre mentale modeller er langsomt og svært—men det er her, den mest meningsfulde og varige forandring begynder.'
+        },
+        {
+          prompt: 'Hvilke mentale modeller har du om klimaforandringer? Hvilke mentale modeller ser du eller forestiller du dig hos andre, som du måske er uenig med?'
+        }
+      ]
+    },
+    {
+      content: [
+        { title: 'Hvorfor tænke over klimasystemer med isbjergsmodellen?', content: '' },
+        { alt: 'System-isbjergsmodel — begivenheder, adfærdsmønstre, underliggende strukturer, mentale modeller og artefakter' },
+        { title: 'Lyt: Isbjerget & En-ROADS' },
+        {
+          title: '**Konceptkort**',
+          content: 'Lad os gennemgå elementerne i system-isbjerget.\n\n**Jo dybere du går, jo mere magt har du til at skabe forandring.**'
+        },
+        {
+          cards: [
+            {
+              frontTitle: '🏔️ Begivenheder',
+              frontDescription: 'Hvad skete der?',
+              backTitle: 'Begivenheder',
+              backDescription: 'De synlige hændelser vi bemærker fra dag til dag — en skovbrand, en oversvømmelse, en stigning i energipriserne. At reagere udelukkende på begivenheder holder os på overfladen.'
+            },
+            {
+              frontTitle: '📈 Adfærdsmønstre',
+              frontDescription: 'Hvad er der sket over tid? Hvad gør folk i dette system?',
+              backTitle: 'Adfærdsmønstre',
+              backDescription: 'Tendenser og tilbagevendende adfærd vi bemærker over tid — stigende temperaturer årti efter årti, eller de samme nabolag der oplever gentagne oversvømmelsesskader.'
+            },
+            {
+              frontTitle: '⚙️ Artefakter',
+              frontDescription: 'Hvilke politikker, regler eller teknologier former den adfærd?',
+              backTitle: 'Artefakter',
+              backDescription: 'De håndgribelige strukturer der former resultater — energiinfrastruktur, zonelove, prissystemer, hvem der har beslutningsmagt, hvor penge og ressourcer flyder hen.'
+            },
+            {
+              frontTitle: '🧠 Mentale Modeller',
+              frontDescription: 'Hvilke overbevisninger holder dette system på plads?',
+              backTitle: 'Mentale Modeller',
+              backDescription: 'Det dybeste niveau — de overbevisninger, antagelser og historier, der oprindeligt formede strukturerne. At ændre mentale modeller er langsomt, men det er her, den mest varige forandring begynder.'
+            }
+          ]
+        },
+        {
+          content: '\n          Isbjerget minder os om:\n          Hvis vi vil have reel forandring, kan vi ikke bare reagere på begivenhederne i toppen.\n          Vi er nødt til at forstå – og måske ændre – overbevisningerne og systemerne nedenunder.\n          \n          Jo dybere du går, jo mere magt kan du have til at skabe forandring. '
+        }
+      ]
+    },
+    {
+      content: [
+        { title: '✏️ Tegn dit eget klimaisbjerg', content: '' },
+        {
+          alt: 'System-isbjergsmodel der viser begivenheder, adfærdsmønstre, underliggende strukturer, mentale modeller og artefakter',
+          content: 'Det er nu tid til at tegne dit eget system-isbjerg. Du kan skabe dit isbjerg individuelt eller som et hold.\n\nTænk på et aktuelt problem relateret til klimaforandringer, der betyder noget for dig. Du kan reflektere over eller undersøge, hvad der sker lokalt i dit samfund.\n\nTegn hvert af lagene i isbjerget og lav noter om, hvad der sker på hvert niveau.'
+        },
+        { prompt: '🏔️ Begivenhed\n\nVælg en begivenhed relateret til et klimaproblem, der er specifik, meningsfuld for dig, og som du gerne vil forstå bedre.' },
+        { prompt: '📈 Adfærdsmønstre\n\nHvad er der sket over tid for at forme denne begivenhed?' },
+        { prompt: '⚙️ Artefakter\n\nHvilken infrastruktur, politikker, regler, teknologier eller bestemmelser skaber disse mønstre?' },
+        { prompt: '🧠 Mentale Modeller\n\nHvilke overbevisninger eller antagelser former folks adfærd og holder dette system på plads?' }
+      ]
+    },
+    {
+      content: [
+        {
+          title: 'Hvorfor System-isbjerget er vigtigt for klimaforandringerne',
+          content: 'Når vi kun ser på klimaproblemer på niveau med "begivenheder" (hedebølger, storme, skovbrande), kan vi føle os:\n\n• Overvældede\n• Håbløse\n• Reaktive\n\nMen når vi ser dybere:\n\n• Ser vi **adfærdsmønstre**\n• Forstår vi **underliggende strukturer**\n• Ændrer vi **artefakter**\n• Udfordrer vi **mentale modeller**\n\nIsbjerget kan skabe klarhed over et komplekst problem, hjælpe os med at se dets systemiske natur og hjælpe os med at skifte fra:\n\n❌ *"Dette problem er for stort."*\n\ntil\n\n✅ *"Jeg kan forstå, hvordan systemet fungerer og hjælpe med at ændre det."*'
+        }
+      ]
+    },
+    {
+      content: [
+        {
+          title: '🎉 Tillykke med at have gennemført Modul 4: Et systemperspektiv på klimaløsninger!',
+          description: 'Inden du starter på det næste, vil vi meget gerne have din feedback på denne læringsoplevelse.'
+        }
       ]
     }
   ]

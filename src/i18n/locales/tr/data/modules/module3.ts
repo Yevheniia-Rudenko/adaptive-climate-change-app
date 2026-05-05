@@ -114,8 +114,8 @@ export const module3 = {
       content: [
         { title: '**En-ROADS\'ta kendi iklim politika senaryonu oluştur**', content: '' },
         {
-          title: '**✏️ Şimdi sıra sende: bir iklim geleceği tasarla!**',
-          content: 'Kurmak istediğin **dünya türünü yansıtan** bir senaryo oluşturmak için En-ROADS\'un tam iklim politika simülatörünü kullanacaksın.\n\nKontrollerle oynarken bu üç hedefi **aynı anda** karşılamaya çalış:'
+          hideIcon: true,
+          content: "✏️ Şimdi sıra sende: bir iklim geleceği tasarla!\n\nKurmak istediğin **dünya türünü yansıtan** bir senaryo oluşturmak için En-ROADS'un tam iklim politika simülatörünü kullanacaksın.\n\nKontrollerle oynarken bu üç hedefi aynı anda karşılamaya çalış:"
         },
         {
           title: '**Görevin**',
@@ -146,7 +146,26 @@ export const module3 = {
     {
       content: [
         { title: '**Geleceği hayal etmek**', content: '🎉 En-ROADS ile iklim senaryoları oluşturan dünya çapında 492,000+ kişiye sen de katıldın.' },
-        { title: '**Liderler En-ROADS hakkında ne söylüyor**' },
+        {
+          title: '**Liderler En-ROADS hakkında ne söylüyor**',
+          quotes: [
+            {
+              quote: 'En-ROADS, politika yapıcılar ve ülke genelindeki insanlar için iklim krizinde tam anlamıyla oyunun kurallarını değiştiren bir araç. Herkes bilim hakkında giderek daha fazla şey duyuyor, ancak bazen insanların her birimizin savaş hazırlığında olması ve bu krizle kafa kafaya mücadele etmek için seferber olması gerektiğini ilk elden görmesi için En-ROADS gibi bir gösterim aracına ihtiyaç oluyor. World War Zero ile hedefimiz, iklim krizi hakkında en az on milyon konuşmayı teşvik etmektir: En-ROADS, mükemmel bir sohbet başlatıcıdır.',
+              author: 'John Kerry',
+              subtitle: 'ABD İklim Özel Temsilcisi (2021-2024), ABD Dışişleri Bakanı (2013-2017)'
+            },
+            {
+              quote: 'Karmaşık ve acil bir meselenin ortasında, En-ROADS bir anlayış ve yön feneri olarak ortaya çıkıyor. Simülatör, bilimsel araştırmaları somut eylem yollarıyla birleştiriyor ve liderleri etkili iklim stratejilerini şekillendiren bilinçli kararlar almaları için güçlendiriyor. Harekete geçme zamanı, ve En-ROADS kararlı bir şekilde hareket etme gücünü ellerimize veriyor.',
+              author: 'Sissi Knispel de Acosta',
+              subtitle: 'Yönetici Sekreter, Avrupa İklim Araştırmaları İttifakı (ECRA). Brüksel, Belçika'
+            },
+            {
+              quote: 'EN-ROADS beynimi ateşledi... tek bir ekranda model, iklim değişikliği tehdidinin aciliyetini iletiyor, el üstünde tutulan mitleri güçlü bir şekilde çürütüyor, mevcut taahhütlerin önemini doğruluyor ve daha ne kadar çok şey yapmamız gerektiğini vurguluyor.',
+              author: 'Roberta Barbieri',
+              subtitle: 'Küresel Sürdürülebilirlik Başkan Yardımcısı, PepsiCo, ABD'
+            }
+          ]
+        },
         { content: 'Paylaşılan olası geleceğimize giden birden çok yol var. Aşağıda senin gibi öğrenenlerin oluşturduğu bazı iklim geleceklerini göreceksin.' },
         {
           title: '**Senaryo anlık görüntüleri**',

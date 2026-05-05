@@ -142,8 +142,8 @@ export const module3 = {
           content: ''
         },
         {
-          title: '**✏️ Jetzt bist du dran: Gestalte eine Klimazukunft!**',
-          content: 'Nutze den vollständigen En-ROADS-Klimapolitik-Simulator, um ein Szenario zu erstellen, das **die Welt widerspiegelt, die du mitgestalten willst.**\n\nVersuche beim Experimentieren mit den Reglern, diese drei Ziele **gleichzeitig** zu erreichen:'
+          hideIcon: true,
+          content: '✏️ Jetzt bist du dran: Gestalte eine Klimazukunft!\n\nNutze den vollständigen En-ROADS-Klimapolitik-Simulator, um ein Szenario zu erstellen, das **die Welt widerspiegelt, die du mitgestalten willst.**\n\nVersuche beim Experimentieren mit den Reglern, diese drei Ziele gleichzeitig zu erreichen:'
         },
         {
           title: '**Deine Herausforderung**',
@@ -178,10 +178,8 @@ export const module3 = {
         {
           prompt: 'Füge hier deinen En-ROADS-Szenariolink ein:'
         },
-        {
-          alt: 'Szenario teilen Bild',
-          title: 'Hinweis: Du findest den Link „Share Your Scenario“ in der oberen rechten Ecke von En-ROADS.'
-        },
+        { content: 'Hinweis: Du findest den Link „Share Your Scenario“ in der oberen rechten Ecke von En-ROADS.' },
+        { alt: 'Szenario teilen Bild' },
         {
           title: '**Lass uns reflektieren:**',
           content: ''
@@ -198,7 +196,24 @@ export const module3 = {
           content: '🎉 Du gehörst jetzt zu den über 492.000+ Menschen weltweit, die mit En-ROADS Klimaszenarien erstellt haben.'
         },
         {
-          title: '**Was Führungspersönlichkeiten über En-ROADS sagen**'
+          title: '**Was Führungspersönlichkeiten über En-ROADS sagen**',
+          quotes: [
+            {
+              quote: 'En-ROADS ist ganz einfach ein Game-Changer in der Klimakrise für politische Entscheidungsträger und Menschen im ganzen Land. Jeder hört immer mehr über die Wissenschaft, aber manchmal bedarf es eines Demonstrationswerkzeugs wie En-ROADS, damit die Menschen aus erster Hand sehen, dass jeder von uns auf Kriegsfuß stehen und sich mobilisieren muss, um diese Krise direkt zu bekämpfen. Unser Ziel mit World War Zero ist es, mindestens zehn Millionen Gespräche über die Klimakrise anzustoßen: En-ROADS ist der ultimative Gesprächsstarter.',
+              author: 'John Kerry',
+              subtitle: 'Sondergesandter des US-Präsidenten für Klima (2021-2024), US-Außenminister (2013-2017)'
+            },
+            {
+              quote: 'Inmitten einer komplexen und drängenden Thematik erscheint En-ROADS als ein Leuchtturm des Verständnisses und der Orientierung. Der Simulator verbindet wissenschaftliche Forschung mit greifbaren Handlungspfaden und befähigt Führungskräfte, fundierte Entscheidungen zu treffen, die effektive Klimastrategien prägen. Es ist Zeit zu handeln, und En-ROADS legt die Macht, entschlossen zu handeln, in unsere Hände.',
+              author: 'Sissi Knispel de Acosta',
+              subtitle: 'Generalsekretärin, European Climate Research Alliance (ECRA). Brüssel, Belgien'
+            },
+            {
+              quote: 'EN-ROADS hat mir die Augen geöffnet…. auf einem einzigen Bildschirm vermittelt das Modell die Dringlichkeit der Bedrohung durch den Klimawandel, entlarvt kraftvoll liebgewonnene Mythen, bestätigt die Bedeutung aktueller Verpflichtungen und unterstreicht, wie viel mehr wir noch tun müssen.',
+              author: 'Roberta Barbieri',
+              subtitle: 'Vizepräsidentin, Global Sustainability, PepsiCo, USA'
+            }
+          ]
         },
         {
           content: 'Es gibt viele Wege in unsere mögliche gemeinsame Zukunft. Unten siehst du einige Klimazukünfte, die andere Lernende wie du erstellt haben.'

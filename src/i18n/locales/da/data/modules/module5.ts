@@ -1,78 +1,179 @@
 export const module5 = {
-  title: "Løftestangen for forandring",
+  title: 'Løftestang for forandring',
   sections: [
     {
-      // Section 0 (teal block)
       content: [
+        { label: 'Åbn ordliste' },
         {
-          title: '**En rolle for dig at spille**',
-          content: "Vi har set, hvordan systemet fungerer, og hvad der skal til for at skabe en mere sikker klimafremtid. Det er let at føle sig lille i forhold til disse massive globale udfordringer.\n\nMen her er sagen: systemer ændrer sig ikke af sig selv. Mennesker ændrer dem. Og du er en af dem."
-        }, // 0: text
+          title: '',
+          content: '**Du har en rolle at spille.** \n\n Indtil nu har du set både **alvoren** af klimakrisen og de **reelle grunde til håb**—fra stærke politiske værktøjer til naturbaserede løsninger, fra systemtænkning til fællesskabshandling. Dette sidste modul handler om at omdanne det, du har lært, til **handling.**\n'
+        },
+        {}, // 2: lottie skyRocketAnimation
         {
-          title: '**Du er ikke alene: Kraften i kollektivt lederskab**',
-          content: "Vi har brug for alle til at finde deres plads i dette arbejde. Som klimastrateg Dr. Ayana Elizabeth Johnson siger: \"Klimabevægelsen er nødt til at fungere som en flok stære (en 'murmuration').\" Det handler ikke om, at alle gør det samme eller følger én perfekt leder. Det handler om at være opmærksom på dem omkring os, justere vores kurs og bevæge os sammen med et formål."
-        }, // 1: text
-        { alt: 'En flok stære (murmuration) der flyver sammen' }, // 2: image
+          title: 'At holde kreativ spænding',
+          content: 'I dette program har vi øvet **kreativ spænding:**\n\n• **Nuværende virkelighed:** hvor vi er nu, og hvad dataene og dine En-ROADS simuleringer viser.\n• **Vision:** den sundere, mere retfærdige fremtid, du ønsker at se.'
+        },
+        { alt: 'Kreativ spænding' }, // 4: image
         {
-          title: 'Et opkald til ungt lederskab',
-          transcript: `Når vi tænker på klimalederskab, forestiller vi os ofte politikere, videnskabsfolk eller administrerende direktører. Men over hele verden er nogle af de stærkeste ledere i klimahandling unge mennesker. Unge venter ikke bare på, at voksne ordner tingene – de kræver handling, skaber innovative løsninger og ændrer den kulturelle samtale om klimaet.
-
-Hvorfor er unge så vigtige for denne bevægelse? Fordi I har den største interesse i fremtiden. I bringer en frisk energi, kreativitet og en moralsk klarhed med jer, som ofte mangler i traditionelle magtrum.
-
-Du behøver ikke have en ph.d. eller et politisk embede for at være en leder. Lederskab kan se ud som at organisere en kampagne på din skole, bruge kunst til at sprede bevidsthed, eller endda bare starte samtaler om klimaet ved middagsbordet. Når unge mennesker organiserer sig, skaber de et pres, som institutioner ikke kan ignorere. I er den drivende kraft bag systemiske ændringer og beviser, at man aldrig er for ung til at gøre en forskel.`
-        }, // 3: audio
-        { prompt: 'Tænk på en ung person eller en gruppe af unge (det kan være en kendt aktivist eller en fra din skole), der inspirerer dig. Hvad gør deres lederskab effektivt?' } // 4: reflection
+          title: '',
+          content: 'Rummet **mellem** de to er ikke et tomrum—det er **energi**. Når vi ser sandheden i øjnene og holder vores vision i live, giver den spænding næring til **fokuseret, modig handling.** Dette modul hjælper dig med at kanalisere den energi ind i **løftestænger for forandring**—steder i systemet, hvor smarte, veldesignede handlinger kan ændre udfaldet.'
+        }
       ]
     },
     {
-      // Section 1 (green block)
       content: [
         {
-          title: '**Pas på din energi**',
-          content: "Klimaarbejde er et maraton, ikke en sprint. Hvis vi ikke tager os tid til at hvile og lade op, vil vi brænde ud.\n\nHusk: glæde, hvile og fællesskab er ikke forstyrrelser fra arbejdet; de er det, der gør arbejdet muligt."
-        }, // 0: text
-        { prompt: 'Hvad giver dig glæde og hjælper dig med at lade op, når du føler dig stresset eller træt?' }, // 1: reflection
+          title: 'Du er ikke alene: Kraften i kollektivt lederskab',
+          content: 'En stor global undersøgelse spurgte ==10.000== **unge mennesker (16-25 år)** i 10 lande om deres følelsesmæssige reaktioner på klimaforandringer. Resultaterne viser, at klimaangst er udbredt, intens og dybt forbundet med, hvordan unge ser på regeringers handlinger.'
+        },
         {
-          title: '**Find din klimahandling**',
-          content: "Klima Venn-diagrammet, der er skabt af Dr. Ayana Elizabeth Johnson, er et værktøj, der hjælper dig med at finde din plads i klimabevægelsen.\n\nDet stiller tre spørgsmål:\n1. Hvad er du god til?\n2. Hvad er det arbejde, der skal gøres?\n3. Hvad giver dig glæde?"
-        }, // 2: text
-        { alt: 'Klima Venn-diagram: Hvad kan du lide? Hvad er du god til? Hvad er der brug for at gøre?' }, // 3: image
-        { prompt: 'Brug Klima Venn-diagrammet til at skrive 2-3 færdigheder, du har, 2-3 ting, der giver dig glæde, og 1-2 klimahandlinger, du bekymrer dig om. \n\nHvor overlapper de?' } // 4: reflection
+          title: '😟 1. De fleste unge på tværs af alle lande er bekymrede for klimaforandringerne',
+          footer: 'Unge mennesker overalt—uanset land—bærer på stor bekymring for planetens fremtid.',
+          items: [
+            { label: 'Meget eller ekstremt bekymrede' },
+            { label: 'Mindst moderat bekymrede' }
+          ]
+        },
+        {
+          title: '💬 2. Mere end halvdelen rapporterede, at de følte en række svære følelser',
+          lead: 'Over 50% af respondenterne sagde, at de føler sig:',
+          items: ['Triste', 'Angste', 'Vrede', 'Magtesløse', 'Hjælpeløse', 'Skyldige'],
+          footer: 'Dette viser, at klimaforandringer ikke kun er et videnskabeligt eller politisk spørgsmål—det er et følelsesmæssigt spørgsmål.'
+        },
+        {
+          title: '🧠 3. Klimaangst påvirker dagliglivet og tankegangen for mange',
+          content: '• Mere end **45%** sagde, at klimarelaterede følelser **påvirker deres dagligliv og funktion negativt** \n• **75%** sagde, "fremtiden er skræmmende" \n• **83%** sagde, at "folk har undladt at passe på planeten"\n\nDette tyder på, at klimaangst former, hvordan unge ser deres fremtid og deres plads i den.'
+        },
+        {
+          title: '🏛️ 4. Unge mennesker vurderede regeringers klimahandlinger meget negativt',
+          content: 'Respondenterne sagde, at de følte:\n• **Mere svigt end tryghed**, når de tænker på regeringers handlinger\n• En følelse af, at ledere **ikke gør nok** for at beskytte dem\n\nDisse følelser af svigt var stærkere i lande, hvor klimakonsekvenserne er alvorlige.'
+        },
+        {
+          title: '🔗 5. Klimaangst er stærkt forbundet med at føle sig svigtet af regeringen',
+          content: 'Forskerne fandt en klar sammenhæng:\n\n• Når unge tror, at deres regering ikke reagerer tilstrækkeligt, **øges deres klimaangst og nød.**'
+        },
+        {
+          title: '',
+          content: 'Med andre ord, det er ikke kun selve klimakrisen—det er følelsen af, at voksne med magt ikke handler hurtigt nok.\n\nDenne undersøgelse viser, at **unge mennesker over hele verden er dybt bekymrede for klimaforandringerne**, og oplever stærke følelser, der påvirker deres dagligliv. Følelser af **frygt, tristhed og vrede** er almindelige. Vigtigst af alt viser forskningen, at **utilstrækkelig regeringshandling** gør disse følelser **værre**, hvilket fører til en følelse af svigt.\n\nUnges klimaangst er ikke irrationel—det er en **reel, evidensbaseret reaktion** på global passivitet.'
+        },
+        { label: 'Tjek undersøgelsen' }
       ]
     },
     {
-      // Section 2 (amber block)
+      content: [
+        {}, // 0: video
+        {
+          title: 'Et kald til ungt lederskab',
+          content: 'Reel forandring kræver **informerede, modige unge ledere**—folk, der kan:\n\n • Tænke i systemer, ikke hurtige løsninger\n • Overveje **lighed og retfærdighed**, ikke kun gennemsnit\n • Kommunikere med **klarhed og omsorg**\n • Handle med **vedholdenhed**, når arbejdet er svært\n\nDu behøver ikke at gøre alt. Men du **kan** gøre noget—strategisk, sammen.'
+        }
+      ]
+    },
+    {
+      content: [
+        { alt: 'En person med udstrakte arme i en skov' }, // 0: image
+        {
+          title: 'At drage omsorg for din energi (Så du kan opretholde handling)',
+          content: 'Mod er ikke kun intensitet—det er også **regulering**. For at holde kreativ spænding uden at brænde ud, får du brug for praksisser, der **fylder dit "håbslager" op** og beroliger dit nervesystem.\n\nPrøv denne **60-sekunders nulstilling** før svære samtaler eller beslutninger:\n\n 1. **Træk vejret:** Indånd i 4 tællinger, udånd i 6 tællinger (3 runder).\n2. **Sæt navn på det:** Sæt stille navn på én følelse, du har—bare for at bemærke den.\n3. **Fokuser:** Spørg, "Hvad er én lille, meningsfuld ændring, jeg kan prøve næste gang?"\n4. **Gå tilbage:** Tag én klar handling med ind i næste trin.'
+        }
+      ]
+    },
+    {
       content: [
         {
-          title: '**Design til systemisk forandring: Mandalaen for systemisk forandring**',
-          content: "Nu hvor vi har identificeret nogle af vores styrker og passioner, hvordan anvender vi dem så til at skabe indflydelse?\n\nForskere ved Center for Systems Awareness har udviklet en ramme kaldet 'Mandala for Systems Change' (Mandala for systemisk forandring). Denne ramme hjælper os med at se, at ægte systemisk forandring sker, når vi forbinder skift på tre overlappende niveauer: selvet, i relationer og på tværs af det større system."
-        }, // 0: text
-        { alt: 'Illustration af Mandala for systemisk forandring, der viser selvbevidsthed, relationer og systemet.' }, // 1: image
+          title: '2. At finde din klimahandling',
+          content: '**Hvor kan du have en indvirkning i klimahandling?**\n\nDr. Ayana Elizabeth Johnson, en havbiolog, politisk ekspert, forfatter og fortaler for klimaløsninger, har en inspirerende måde at tænke på netop dette spørgsmål gennem sit Venn-diagram for klimahandling:\n\n• **Hvad er du god til?** Tænk på dine kilder til tilfredshed og glæde.\n• **Hvad skal der gøres?** Hvilke klima- og retfærdighedsløsninger kender du til?\n• **Hvad giver dig glæde?** Hvilke færdigheder, ressourcer og netværk har du?\n\nHun skriver: "Målet er at være i hjertet af dit Venn-diagram, hvor disse tre cirkler overlapper hinanden, i så mange minutter af dit liv som muligt. Det vil skabe langt mere fremskridt for klimaløsninger, end hvis vi hver især bliver opslugt af at fokusere udelukkende på vores individuelle CO2-fodaftryk."'
+        },
         {
-          title: 'Det personlige niveau (Selvet)',
-          content: "Dette handler om din egen bevidsthed og dine færdigheder.\n*   Hvad er mine styrker, værdier og muligheder for at vokse?\n*   Hvordan kan jeg bruge min stemme og mine talenter til at støtte klimahandling?"
-        }, // 2: text
+          title: 'Tegn dit eget Venn-diagram for klimahandling inspireret af Dr. Johnsons foredrag.',
+          content: ''
+        },
+        { alt: 'Et Venn-diagram med tre overlappende cirkler mærket: "Hvad giver dig glæde?", "Hvad er du god til?", og "Hvad skal der gøres?"' }, // 2: image
+        { prompt: 'Hvad opdagede du i denne øvelse? Hvilke klimahandlinger kan det inspirere til?' }
+      ]
+    },
+    {
+      content: [
         {
-          title: 'Det relationelle niveau',
-          content: "Dette handler om, hvordan vi arbejder sammen med andre.\n*   Hvordan opbygger jeg tillid og samarbejder effektivt?\n*   Hvem kan jeg slå mig sammen med på min skole eller i mit samfund for at forstærke vores indflydelse?"
-        }, // 3: text
+          title: '3. Design til systemisk forandring',
+          content: 'Inspireret af den sidste øvelse med at opdage din klimahandling, lad os planlægge din handling yderligere.\n\nDette systemværktøj kan hjælpe med at give forståelsen af, hvad der er nødvendigt for at nå mine mål.'
+        },
         {
-          title: 'Det systemiske niveau',
-          content: "Dette handler om at forstå det store billede.\n*   Hvilke strukturer og politikker er på plads lige nu?\n*   Hvordan kan vores kollektive handlinger påvirke institutioner som vores skole, lokale myndigheder eller energisystemer?"
-        }, // 4: text
-        { prompt: 'Hvordan kan du anvende dit Klima Venn-diagram overlap på tværs af alle tre niveauer af Mandalaen for Systemisk Forandring (Selvet, Relationer, Systemet)?' }, // 5: reflection
+          title: 'Mandala for systemisk forandring',
+          content: '**Mandalaen for systemisk forandring** er en måde at forstå, hvordan reel, varig forandring sker i komplekse systemer—som skoler, samfund, sociale problemer eller klimasystemet.'
+        },
+        { alt: 'Mandala for systemisk forandring diagram' }, // 2: image
         {
-          title: '**Dit klimaløfte**',
-          content: "Du har lært meget i dag: om hvordan klimasystemer fungerer, hvilke løsninger der har den største betydning, og hvordan du kan tilgå dette arbejde med glæde og robusthed.\n\nNu er det tid til at forpligte dig."
-        }, // 6: text
-        {}, // 7: pledge-component
+          title: '',
+          content: 'En "mandala" er en cirkel lavet af forskellige dele, der arbejder sammen. Det er en måde at rumme helheden på.\n\nI denne model viser delene, hvad vi har brug for inde i os selv og omkring os i verden for at skabe meningsfuld forandring.\n\nTænk på det som en balanceret opskrift:'
+        },
         {
-          title: '**Det store billede**',
-          content: "Vi har alle magten til at forme de systemer, vi er en del af. Uanset om dine handlinger er store eller små, så betyder de noget.\n\nBliv ved med at lære, bliv ved med at være forbundet og bliv ved med at handle. Fremtiden skrives lige nu, og du er en af dens forfattere."
-        }, // 8: text
+          cards: [
+            {
+              frontTitle: 'Praksis',
+              frontDescription: '',
+              backTitle: 'Praksis',
+              backDescription: 'Hvad vil du gerne gøre eller opnå?'
+            },
+            {
+              frontTitle: 'Forskning',
+              frontDescription: '',
+              backTitle: 'Forskning',
+              backDescription: 'Hvordan vil du vide, at det virker? Hvordan vil du reflektere, dokumentere, måle eller spore dine fremskridt, din læring og udvikling?'
+            },
+            {
+              frontTitle: 'Samfundsopbygning',
+              frontDescription: '',
+              backTitle: 'Samfundsopbygning',
+              backDescription: 'Hvem er "vi"? Hvilke samfund eller interessenter skal involveres?'
+            },
+            {
+              frontTitle: 'Kapacitetsopbygning',
+              frontDescription: '',
+              backTitle: 'Kapacitetsopbygning',
+              backDescription: 'Hvilke færdigheder, viden eller ressourcer får vi brug for til at drive disse forandringer fremad?'
+            }
+          ]
+        },
         {
-          prompt: 'Hvad er dine afsluttende tanker eller spørgsmål, når du afslutter dette modul?'
-        } // 9: reflection
+          title: 'Tegn din egen Mandala for systemisk forandring',
+          content: ''
+        },
+        { alt: 'Tegn din egen Mandala for systemisk forandring diagram' }, // 6: image
+        {
+          content: 'Tegn nu din egen mandala for systemisk forandring – enten på et stykke papir eller ved at udfylde spørgsmålene nedenfor.\n\nVælg en klimahandling, du gerne vil prøve – en du allerede brænder for, eller endda en du er nysgerrig efter.\n\nDu kan bruge et link til Project Drawdown for at finde klimahandlinger eller tænke på handlinger, du ser i dit samfund.\n\nDu kan lave denne øvelse individuelt eller som et hold.'
+        },
+        { prompt: 'Praksis – Hvad vil du gerne gøre, prøve eller opnå?' },
+        { prompt: 'Forskning – Hvordan vil du vide, at det virker? Hvordan vil du reflektere, dokumentere, måle eller spore dine fremskridt, din læring og udvikling?' },
+        { prompt: 'Samfundsopbygning – Hvem er "vi"? Hvilke samfund eller interessenter skal involveres?' },
+        { prompt: 'Kapacitetsopbygning – Hvilke færdigheder, viden eller ressourcer får vi brug for til at drive disse handlinger fremad?' },
+        {
+          content: 'Mandalaen for systemisk forandring minder os om at rumme helheden, hvilket betyder, at vi skal være afbalancerede i vores tilgang og ikke kun fokusere på, hvad vi gør, men også hvad vi lærer undervejs. Den minder os om, at vi har brug for andre – og at vi kollektivt kan opbygge vores kapaciteter og færdigheder til at tackle komplekse udfordringer.'
+        },
+        {
+          prompt: '💭Lad os reflektere\n\nNår du ser på din Mandala, hvad er så ét lille skridt, du kan tage i morgen for at bringe denne vision et skridt videre?'
+        }
+      ]
+    },
+    {
+      content: [
+        { title: 'Den store idé', content: '' },
+        { alt: 'Systemer ændrer sig ikke af sig selv—mennesker ændrer dem.' }, // 1: image
+        {
+          prompt: '💭Lad os reflektere\n\nNår vi afslutter disse aktiviteter, så overvej, hvad du har lært og er blevet inspireret af.\n\nHvad er én klimahandling eller forandring, du føler dig motiveret til at prøve?'
+        },
+        {
+          title: '',
+          content: '*Med en klar vision, ærlige data, en global forståelse og et roligt hjerte kan du være med til at bevæge dette system mod en fremtid, der er beboelig og retfærdig.\n\n **Lad os komme i gang!**'
+        }
+      ]
+    },
+    {
+      content: [
+        {
+          title: 'Tillykke! Du har gennemført alle moduler.',
+          description: 'Inden du tager afsted – forhåbentlig for at starte din klimahandling – vil vi meget gerne have din feedback på denne læringsoplevelse.'
+        },
+        { alt: 'Når unge mennesker udvikler basale lederskabs- og samarbejdsevner...' } // 1: image
       ]
     }
   ]

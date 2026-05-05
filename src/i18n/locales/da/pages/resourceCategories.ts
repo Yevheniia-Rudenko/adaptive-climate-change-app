@@ -104,6 +104,9 @@ export const resourceCategories = {
           title: 'Trackers og udforskere',
           items: [
             { title: 'Climate Action Tracker', description: 'Sporer regeringers klimahandlinger og måler fremskridt.' },
+            { title: 'MIT Climate Explainers', description: 'Korte forklaringer om klimavidenskab og løsninger.' },
+            { title: 'Project Drawdown Explorer', description: 'Udforsk løsninger og data til klimahandling.' },
+            { title: 'Climate Walks', description: 'Interaktiv klimafortælling og læringsoplevelser for at udforske klimaløsninger.' },
           ],
         },
       ],

@@ -104,6 +104,9 @@ export const resourceCategories = {
           title: 'المتتبعات والمستكشفات',
           items: [
             { title: 'متتبع العمل المناخي (Climate Action Tracker)', description: 'يتتبع العمل المناخي الحكومي ويقيس التقدم.' },
+            { title: 'MIT Climate Explainers', description: 'شروحات قصيرة حول علوم وحلول المناخ.' },
+            { title: 'Project Drawdown Explorer', description: 'استكشف الحلول والبيانات للعمل المناخي.' },
+            { title: 'Climate Walks', description: 'تجارب تفاعلية في سرد القصص والتعلم لاستكشاف حلول المناخ.' },
           ],
         },
       ],

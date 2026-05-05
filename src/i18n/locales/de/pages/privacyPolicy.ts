@@ -51,7 +51,7 @@ export const privacyPolicy = {
     },
     contact: {
       title: '7. Kontakt',
-      p1: 'Wenn du Fragen zu dieser Datenschutzerklärung oder zur Datennutzung hast, kannst du uns per E-Mail kontaktieren.',
+      p1: 'Wenn du Fragen zu dieser Datenschutzerklärung oder zur Datennutzung hast, kannst du uns per {{email}} kontaktieren.',
     },
   },
 };
