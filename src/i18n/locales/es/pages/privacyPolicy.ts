@@ -51,7 +51,7 @@ export const privacyPolicy = {
     },
     contact: {
       title: '7. Contacto',
-      p1: 'Si tienes preguntas sobre esta Política de Privacidad o el uso de datos, puedes contactarnos por correo electrónico.',
+      p1: 'Si tienes preguntas sobre esta Política de Privacidad o el uso de datos, puedes contactarnos por {{email}}.',
     },
   },
 };

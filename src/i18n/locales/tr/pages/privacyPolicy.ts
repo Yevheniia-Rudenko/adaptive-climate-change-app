@@ -51,7 +51,7 @@ export const privacyPolicy = {
     },
     contact: {
       title: '7. İletişim',
-      p1: 'Bu Gizlilik Politikası veya veri kullanımı hakkında soruların varsa, bize e-posta yoluyla ulaşabilirsin.',
+      p1: 'Bu Gizlilik Politikası veya veri kullanımı hakkında soruların varsa, bize {{email}} yoluyla ulaşabilirsin.',
     },
   },
 };

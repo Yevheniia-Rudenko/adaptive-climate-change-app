@@ -51,7 +51,7 @@ export const privacyPolicy = {
     },
     contact: {
       title: '7. Contact',
-      p1: 'If you have any questions about this Privacy Policy or data usage, you can contact us by email.',
+      p1: 'If you have any questions about this Privacy Policy or data usage, you can contact us by {{email}}.',
     },
   },
 };
