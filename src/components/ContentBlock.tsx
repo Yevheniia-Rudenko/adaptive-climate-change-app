@@ -1535,7 +1535,7 @@ export function ContentBlock({
                 <Accordion type="single" collapsible className="w-full">
                   <AccordionItem value="details" className="border-b-0">
                     <AccordionTrigger className="text-xs font-bold uppercase tracking-wider text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 py-3">
-                      Image Details
+                      {t.pages.intro?.greatSaltLake?.detailsLabel || 'Image Details'}
                     </AccordionTrigger>
                     <AccordionContent className="text-gray-700 dark:text-gray-300 leading-relaxed pb-5 text-left text-sm sm:text-base">
                       {renderWithLinks(block.imageDetails)}

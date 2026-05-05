@@ -177,7 +177,7 @@ So, let's try this solution out! Let's plant more trees–a nature-based solutio
           question: 'How impactful do you think this solution will be?',
           options: ['Very impactful', 'Moderately impactful', 'Not very impactful']
         }, // 5: poll
-        { question: 'If we implemented this solution of planting more trees, do you think global temperature by 2100 would increase or decrease from 3.3 degrees Celsius?' }, // 6: numeric-prediction
+        { question: 'If we implemented this solution of planting more trees, what do  you think the global temperature by 2100 would be? This is in Celsius.' }, // 6: numeric-prediction
         {
           title: '**Make a Model**',
           content: 'To get started, let\’s learn how to read and use the En-ROADS tool.'
