@@ -987,6 +987,7 @@ export function ContentBlock({
           )}
           <TextWithGlossary
             text={block.content}
+            disableGlossary={block.disableGlossary}
             className="text-gray-700 dark:text-gray-300 text-sm sm:text-base md:text-lg leading-relaxed whitespace-pre-line"
           />
         </div>
@@ -1250,7 +1251,17 @@ export function ContentBlock({
       );
     }
 
-    case 'image':
+    case 'image': {
+      const imageElement = (
+        <div className="rounded-xl sm:rounded-2xl overflow-hidden shadow-lg" style={block.width ? { maxWidth: block.width, margin: '0 auto' } : undefined}>
+          <img
+            src={block.imageUrl}
+            alt={block.alt}
+            className="w-full h-auto"
+          />
+        </div>
+      );
+
       return (
         <div className="mb-6 sm:mb-8 font-sora">
           {block.title && (
@@ -1259,15 +1270,21 @@ export function ContentBlock({
               <h3 className="text-gray-900 dark:text-gray-100 text-xl sm:text-2xl font-extrabold">{formatTitle(block.title)}</h3>
             </div>
           )}
-          <div className="rounded-xl sm:rounded-2xl overflow-hidden shadow-lg" style={block.width ? { maxWidth: block.width, margin: '0 auto' } : undefined}>
-            <img
-              src={block.imageUrl}
-              alt={block.alt}
-              className="w-full h-auto"
-            />
-          </div>
+          {block.url ? (
+            <a
+              href={block.url}
+              target={block.newTab ? '_blank' : undefined}
+              rel={block.newTab ? 'noopener noreferrer' : undefined}
+              className="block hover:opacity-90 transition-opacity"
+            >
+              {imageElement}
+            </a>
+          ) : (
+            imageElement
+          )}
         </div>
       );
+    }
 
     case 'text-with-image':
       return <TextWithImageBlock block={block} />;

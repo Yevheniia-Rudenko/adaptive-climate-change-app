@@ -114,8 +114,8 @@ export const module3 = {
       content: [
         { title: '**Crea tu propio escenario de política climática en En-ROADS**', content: '' },
         {
-          title: '**✏️ ¡Ahora te toca diseñar un futuro climático!**',
-          content: 'Usarás el simulador completo de políticas climáticas de En-ROADS para crear un escenario que refleje **el tipo de mundo que quieres ayudar a construir.**\n\nMientras experimentas con los controles, intenta cumplir estas tres metas **al mismo tiempo:**'
+          hideIcon: true,
+          content: '✏️ ¡Ahora te toca diseñar un futuro climático!\n\nUsarás el simulador completo de políticas climáticas de En-ROADS para crear un escenario que refleje **el tipo de mundo que quieres ayudar a construir.**\n\nMientras experimentas con los controles, intenta cumplir estas tres metas al mismo tiempo:'
         },
         {
           title: '**Tu desafío**',

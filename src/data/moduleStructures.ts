@@ -60,12 +60,12 @@ export type FlipCardData = {
 };
 
 export type ContentBlock =
-  | { type: 'text'; title?: string; content: string; hideIcon?: boolean }
+  | { type: 'text'; title?: string; content: string; hideIcon?: boolean; disableGlossary?: boolean }
   | { type: 'stats'; title?: string; hideIcon?: boolean; accentColor?: 'blue' | 'green' | 'amber' | 'purple' | 'pink' | 'teal'; items: { value: number; label: string; description?: string }[]; footer?: string }
   | { type: 'tags'; title?: string; hideIcon?: boolean; lead?: string; items: string[]; footer?: string }
   | { type: 'video'; title?: string; videoUrl: string; description?: string }
   | { type: 'audio'; title?: string; audioUrl: string; description?: string; transcript?: string }
-  | { type: 'image'; imageUrl: string; alt: string; title?: string; width?: string }
+  | { type: 'image'; imageUrl: string; alt: string; title?: string; width?: string; url?: string; newTab?: boolean }
   | { type: 'text-with-image'; title?: string; content: string; imageUrl: string; alt: string; imageSide?: 'left' | 'right' }
   | { type: 'image-collage'; title?: string; images: { imageUrl: string; alt: string; caption?: string }[]; width?: string; columns?: 1 | 2 | 3 | 4 }
   | { type: 'button'; label: string; url: string; variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link'; size?: 'default' | 'sm' | 'lg' | 'icon'; iconName?: string; newTab?: boolean }
@@ -1355,9 +1355,9 @@ If a government wants people to support a carbon price, it has to think carefull
           },
           {
             type: 'text',
-            title: '**✏️ Now it\'s your turn to design a climate future!**',
             hideIcon: true,
-            content: 'You will use the full En‑ROADS climate policy simulator to create a scenario that reflects **the kind of world you want to help build.**\n\nAs you experiment with the sliders, try to meet these three goals **at the same time:**'
+            disableGlossary: true,
+            content: "✏️ Now it's your turn to design a climate future!\n\nYou will use the full En‑ROADS climate policy simulator to create a scenario that reflects **the kind of world you want to help build.**\n\nAs you experiment with the sliders, try to meet these three goals at the same time:"
           },
           {
             type: 'text',
@@ -1380,12 +1380,14 @@ If a government wants people to support a carbon price, it has to think carefull
             type: 'image',
             imageUrl: enroadsScreenshot,
             alt: 'En-ROADS Scenario Screenshot',
-            width: '100%'
+            width: '100%',
+            url: 'https://en-roads.climateinteractive.org/scenario.html?v=26.4.0',
+            newTab: true
           },
           {
             type: 'button',
             label: 'Now go create in En-ROADS!',
-            url: 'https://en-roads.climateinteractive.org/scenario.html?v=25.11.0',
+            url: 'https://en-roads.climateinteractive.org/scenario.html?v=26.4.0',
             variant: 'default',
             size: 'default',
             iconName: 'ExternalLink',

@@ -142,8 +142,8 @@ export const module3 = {
           content: ''
         },
         {
-          title: '**✏️ Jetzt bist du dran: Gestalte eine Klimazukunft!**',
-          content: 'Nutze den vollständigen En-ROADS-Klimapolitik-Simulator, um ein Szenario zu erstellen, das **die Welt widerspiegelt, die du mitgestalten willst.**\n\nVersuche beim Experimentieren mit den Reglern, diese drei Ziele **gleichzeitig** zu erreichen:'
+          hideIcon: true,
+          content: '✏️ Jetzt bist du dran: Gestalte eine Klimazukunft!\n\nNutze den vollständigen En-ROADS-Klimapolitik-Simulator, um ein Szenario zu erstellen, das **die Welt widerspiegelt, die du mitgestalten willst.**\n\nVersuche beim Experimentieren mit den Reglern, diese drei Ziele gleichzeitig zu erreichen:'
         },
         {
           title: '**Deine Herausforderung**',

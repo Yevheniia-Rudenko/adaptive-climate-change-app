@@ -114,8 +114,8 @@ export const module3 = {
       content: [
         { title: '**En-ROADS\'ta kendi iklim politika senaryonu oluştur**', content: '' },
         {
-          title: '**✏️ Şimdi sıra sende: bir iklim geleceği tasarla!**',
-          content: 'Kurmak istediğin **dünya türünü yansıtan** bir senaryo oluşturmak için En-ROADS\'un tam iklim politika simülatörünü kullanacaksın.\n\nKontrollerle oynarken bu üç hedefi **aynı anda** karşılamaya çalış:'
+          hideIcon: true,
+          content: "✏️ Şimdi sıra sende: bir iklim geleceği tasarla!\n\nKurmak istediğin **dünya türünü yansıtan** bir senaryo oluşturmak için En-ROADS'un tam iklim politika simülatörünü kullanacaksın.\n\nKontrollerle oynarken bu üç hedefi aynı anda karşılamaya çalış:"
         },
         {
           title: '**Görevin**',
