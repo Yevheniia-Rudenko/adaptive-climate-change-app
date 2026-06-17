@@ -148,73 +148,11 @@ export function IntroPage() {
                 {t.pages.intro.introP1_2}
               </p>
             </div>
-
-            {/* Before After Slider Section */}
-            <div className="mb-10 sm:mb-12">
-              <div className="max-w-3xl mx-auto mb-6">
-                <BeforeAfterSlider
-                  beforeImage={greatSaltLakeBefore}
-                  afterImage={greatSaltLakeAfter}
-                  beforeLabel={greatSaltLake.beforeLabel}
-                  afterLabel={greatSaltLake.afterLabel}
-                />
-
-                {/* Title and date text below the image */}
-                <div className="mt-4 text-center space-y-1">
-                  <h4 className="text-xl font-bold text-gray-900 dark:text-gray-100">
-                    {greatSaltLake.title}
-                  </h4>
-                  <p className="text-gray-600 dark:text-gray-400 font-medium text-sm">
-                    {greatSaltLake.date}
-                  </p>
-                </div>
-
-                {/* Expandable Image Details */}
-                <div className="mt-0 max-w-3xl mx-auto">
-                  <Accordion type="single" collapsible className="w-full">
-                    <AccordionItem value="details" className="border-b-0">
-                      <AccordionTrigger className="text-xs font-bold uppercase tracking-wider text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 py-3">
-                        {greatSaltLake.detailsLabel}
-                      </AccordionTrigger>
-                      <AccordionContent className="text-gray-700 dark:text-gray-300 leading-relaxed pb-5 text-left text-sm sm:text-base">
-                        {greatSaltLake.detailsTextStart}{' '}
-                        <a
-                          href="https://www.usgs.gov/programs/national-land-imaging-program#510"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 transition-colors underline underline-offset-2 font-semibold"
-                        >
-                          {greatSaltLake.detailsLinkText1}
-                        </a>
-                        {greatSaltLake.detailsTextMiddle}{' '}
-                        <a
-                          href="https://www.usgs.gov/programs/national-land-imaging-program#510"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 transition-colors underline underline-offset-2 font-semibold"
-                        >
-                          {greatSaltLake.detailsLinkText2}
-                        </a>
-                        {greatSaltLake.detailsTextEnd}
-                      </AccordionContent>
-                    </AccordionItem>
-                  </Accordion>
-                </div>
-              </div>
-              <div className="mb-8">
-                <p className="text-gray-700 dark:text-gray-300 text-base sm:text-lg leading-relaxed">
-                  {greatSaltLake.exploreText}
-                </p>
-              </div>
-
+            
+            {/* Module List */}
               <p className="text-gray-700 dark:text-gray-300 text-base sm:text-lg leading-relaxed mb-10">
                 {t.pages.intro.introP1_3}
               </p>
-
-
-            </div>
-
-            {/* Module List */}
             <div className="mb-6 sm:mb-8">
               <div className="flex items-center gap-3 mb-6">
                 <BookOpen className="text-purple-600 dark:text-purple-400 flex-shrink-0" size={32} />

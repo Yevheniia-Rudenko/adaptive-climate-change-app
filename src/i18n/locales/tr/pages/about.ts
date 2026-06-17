@@ -6,7 +6,7 @@ export const about = {
     list1: '1. benlik: kişisel, duygusal, bireysel;',
     list2: '2. ilişkisel: benlik ve diğerleri;',
     list3: '3. kolektif: daha geniş sosyal, politik, ekolojik ve ekonomik gerçeklikler.',
-    p2: 'Bu müfredat aynı zamanda gençlerin, Climate Interactive\'in En-ROADS iklim politika simülatörünü kullanarak iklim politikalarını öğrenmesini destekler. En-ROADS; ulaşımın elektrifikasyonu, karbon fiyatlandırması veya tarım uygulamalarındaki değişimler gibi farklı iklim çözümlerinin sıcaklık, hava kalitesi, deniz seviyesi yükselmesi ve enerji maliyetleri üzerindeki etkilerini keşfetmeni sağlayan küresel bir iklim simülatörüdür.',
+    p2: 'Bu müfredat aynı zamanda gençlerin, [Climate Interactive]\'in En-ROADS iklim politika simülatörünü kullanarak iklim politikalarını öğrenmesini destekler. En-ROADS; ulaşımın elektrifikasyonu, karbon fiyatlandırması veya tarım uygulamalarındaki değişimler gibi farklı iklim çözümlerinin sıcaklık, hava kalitesi, deniz seviyesi yükselmesi ve enerji maliyetleri üzerindeki etkilerini keşfetmeni sağlayan küresel bir iklim simülatörüdür.',
     p3: 'Compassionate Systems ile En-ROADS\'un bu birleşiminde öğrenciler, iklim değişikliğinin altında yatan iç ve dış sistem dinamiklerini; nedenlerini ve etkilerini — küresel enerji politikaları ve tüketici davranışından, daha olumlu bir geleceğe katkı sunma sorumluluğu ve umudumuza kadar — öğrenir.'
   },
   dayOfClimate: {

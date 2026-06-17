@@ -6,7 +6,7 @@ export const about = {
     list1: '1. self: personal, emotional, individual;',
     list2: '2. relational: self and others;',
     list3: '3. collective: larger societal, political,ecological and economic realities.',
-    p2: 'This curriculum also supports young people to learn about climate policies using Climate Interactive’s En-ROADS climate policy simulator. En‑ROADS is a global climate simulator that lets you test how different climate solutions—like electrifying transportation, putting a price on carbon, or changing farming practices—affect things like temperature, air quality, sea level rise, and energy costs. In this combination of compassionate systems and En-ROADS, students learn about the inner and outer systems dynamics that underlie climate change, its drivers, and effects–from global energy policies, consumer behavior, to our sense of agency and hope in contributing to a more positive future.',
+    p2: 'This curriculum also supports young people to learn about climate policies using [Climate Interactive]’s En-ROADS climate policy simulator. En‑ROADS is a global climate simulator that lets you test how different climate solutions—like electrifying transportation, putting a price on carbon, or changing farming practices—affect things like temperature, air quality, sea level rise, and energy costs.',
     p3: 'In this combination of compassionate systems and En-ROADS, students learn about the inner and outer systems dynamics that underlie climate change, its drivers, and effects–from global energy policies, consumer behavior, to our sense of agency and hope in contributing to a more positive future.'
   },
   dayOfClimate: {

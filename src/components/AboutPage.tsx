@@ -254,9 +254,9 @@ export function AboutPage() {
           <div className="h-6 sm:h-24 w-full block"></div>
 
             <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed mb-4">
-              {t.pages.about?.curriculumOverview?.p2?.split('En-ROADS')[0] || ''}
+              {t.pages.about?.curriculumOverview?.p2?.split('[Climate Interactive]')[0] || ''}
               <a href="https://www.climateinteractive.org" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 underline">Climate Interactive</a>
-              {t.pages.about?.curriculumOverview?.p2?.split('Climate Interactive')[1] || ''}
+              {t.pages.about?.curriculumOverview?.p2?.split('[Climate Interactive]')[1] || ''}
             </p>
 
           {/* SPACER */}

@@ -6,7 +6,7 @@ export const about = {
     list1: '1. el yo: personal, emocional, individual;',
     list2: '2. lo relacional: el yo y los demás;',
     list3: '3. lo colectivo: realidades sociales, políticas, ecológicas y económicas más amplias.',
-    p2: 'Este currículo también apoya a los jóvenes para aprender sobre políticas climáticas utilizando el simulador de políticas climáticas En-ROADS de Climate Interactive. En-ROADS es un simulador climático global que te permite explorar cómo diferentes soluciones climáticas —como la electrificación del transporte, la fijación de un precio al carbono o el cambio en las prácticas agrícolas— afectan la temperatura, la calidad del aire, el aumento del nivel del mar y los costos energéticos.',
+    p2: 'Este currículo también apoya a los jóvenes para aprender sobre políticas climáticas utilizando el simulador de políticas climáticas En-ROADS de [Climate Interactive]. En-ROADS es un simulador climático global que te permite explorar cómo diferentes soluciones climáticas —como la electrificación del transporte, la fijación de un precio al carbono o el cambio en las prácticas agrícolas— afectan la temperatura, la calidad del aire, el aumento del nivel del mar y los costos energéticos.',
     p3: 'En esta combinación de Compassionate Systems y En-ROADS, los estudiantes aprenden sobre las dinámicas de los sistemas internos y externos que subyacen al cambio climático, sus causas y efectos —desde las políticas energéticas globales y el comportamiento del consumidor hasta nuestro sentido de responsabilidad y esperanza en contribuir a un futuro más positivo.'
   },
   dayOfClimate: {

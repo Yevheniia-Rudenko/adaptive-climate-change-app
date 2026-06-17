@@ -6,7 +6,7 @@ export const about = {
     list1: '1. das Selbst: persönlich, emotional, individuell;',
     list2: '2. das Relationale: das Selbst und andere;',
     list3: '3. das Kollektive: umfassendere gesellschaftliche, politische, ökologische und wirtschaftliche Realitäten.',
-    p2: 'Dieser Lehrplan unterstützt junge Menschen auch dabei, Klimapolitik mithilfe des En-ROADS-Klimapolitiksimulators von Climate Interactive zu erlernen. En-ROADS ist ein globaler Klimasimulator, mit dem du testen kannst, wie verschiedene Klimalösungen – wie die Elektrifizierung des Verkehrs, die Einführung eines CO₂-Preises oder Änderungen in der Landwirtschaft – Dinge wie Temperatur, Luftqualität, Meeresspiegelanstieg und Energiekosten beeinflussen.',
+    p2: 'Dieser Lehrplan unterstützt junge Menschen auch dabei, Klimapolitik mithilfe des En-ROADS-Klimapolitiksimulators von [Climate Interactive] zu erlernen. En-ROADS ist ein globaler Klimasimulator, mit dem du testen kannst, wie verschiedene Klimalösungen – wie die Elektrifizierung des Verkehrs, die Einführung eines CO₂-Preises oder Änderungen in der Landwirtschaft – Dinge wie Temperatur, Luftqualität, Meeresspiegelanstieg und Energiekosten beeinflussen.',
     p3: 'In dieser Kombination aus Compassionate Systems und En-ROADS lernen Schülerinnen und Schüler über die inneren und äußeren Systemdynamiken, die dem Klimawandel zugrunde liegen, seine Treiber und Auswirkungen – von globaler Energiepolitik und Konsumverhalten bis hin zu unserem Gefühl der Handlungsfähigkeit und Hoffnung, zu einer positiveren Zukunft beizutragen.'
   },
   dayOfClimate: {
