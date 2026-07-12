@@ -402,9 +402,8 @@ export function FlexibleModulePage({
           <div className="p-4 sm:p-6 md:p-8 lg:p-10">
             {/* Block Progress Bar — shown for all multi-block modules */}
             {isMultiBlock && (() => {
-              const pct = Math.round((currentBlock / totalBlocks) * 100);
               return (
-                <div className="mb-8 select-none">
+                <div className="mb-2 select-none">
                   {/* Dots row */}
                   <div className="flex justify-center mb-2">
                     <div className="flex items-center gap-1.5">
@@ -440,25 +439,11 @@ export function FlexibleModulePage({
                     </div>
                   </div>
                   {/* Label row */}
-                  {moduleId === 2 ? (
-                    <div className="flex items-center justify-between gap-2 text-sm">
-                      <span className="inline-flex items-center rounded-full border border-green-200 bg-green-50 px-3 py-1 font-semibold text-green-700 dark:border-green-700/60 dark:bg-green-900/30 dark:text-green-300">
-                        {replaceValues(fm.progress.stepOf, { current: currentBlock, total: totalBlocks })}
-                      </span>
-                      <span className="inline-flex items-center rounded-full border border-green-200 bg-green-50 px-3 py-1 font-bold text-green-700 dark:border-green-700/60 dark:bg-green-900/30 dark:text-green-300">
-                        {replaceValues(fm.progress.percentComplete, { pct })}
-                      </span>
-                    </div>
-                  ) : (
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="font-semibold text-purple-600 dark:text-purple-400">
-                        {replaceValues(fm.progress.stepOfRocket, { current: currentBlock, total: totalBlocks })}
-                      </span>
-                      <span className="font-bold text-green-600 dark:text-green-400">
-                        {replaceValues(fm.progress.percentCompleteExclaim, { pct })}
-                      </span>
-                    </div>
-                  )}
+                  <div className="flex w-full justify-center mt-1">
+                    <span style={{ color: '#2F8237', fontWeight: 700, fontSize: '0.875rem' }}>
+                      {replaceValues(fm.progress.stepOf, { current: currentBlock, total: totalBlocks })}
+                    </span>
+                  </div>
                 </div>
               );
             })()}

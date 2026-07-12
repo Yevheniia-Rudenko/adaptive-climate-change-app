@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Search } from 'lucide-react';
 import { useState, useMemo, useRef } from 'react';
 import { glossary, GlossaryEntry } from '../data/glossary';
+import { useTheme } from '../contexts/ThemeContext';
 
 function renderFormattedDefinition(text: string) {
   return text.split(/(https?:\/\/[^\s]+)/g).map((part, i) => {
@@ -26,8 +27,10 @@ function renderFormattedDefinition(text: string) {
 
 export function GlossaryPage() {
   const { t, language } = useLanguage();
+  const { theme } = useTheme();
   const [searchTerm, setSearchTerm] = useState('');
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+  const separatorStyle = theme === 'dark' ? { borderColor: '#ffffff' } : undefined;
 
   const entries = useMemo<GlossaryEntry[]>(() => {
     const localizedEntries = glossary[language as keyof typeof glossary] || [];
@@ -149,7 +152,10 @@ export function GlossaryPage() {
                   >
                     {/* Letter Header */}
                     <div className="sticky top-0 z-10 bg-white dark:bg-gray-800 py-2 mb-4">
-                      <h2 className="text-2xl sm:text-3xl font-bold text-green-600 dark:text-green-400 border-b-2 border-green-200 dark:border-green-800 pb-2">
+                      <h2
+                        className="text-2xl sm:text-3xl font-bold text-green-600 dark:text-green-400 border-b-2 border-green-200 dark:border-white pb-2"
+                        style={separatorStyle ? { ...separatorStyle, borderBottomColor: '#ffffff' } : undefined}
+                      >
                         {letter}
                       </h2>
                     </div>
@@ -157,7 +163,11 @@ export function GlossaryPage() {
                     {/* Terms for this letter */}
                     <div className="space-y-4 sm:space-y-6">
                       {groupedTerms[letter].map((entry) => (
-                        <div key={entry.term} className="border-b border-gray-200 dark:border-gray-700 pb-4 sm:pb-6 last:border-b-0">
+                        <div
+                          key={entry.term}
+                          className="border-b border-gray-200 dark:border-white pb-4 sm:pb-6 last:border-b-0"
+                          style={separatorStyle ? { ...separatorStyle, borderBottomColor: '#ffffff' } : undefined}
+                        >
                           <h3 className="text-green-700 dark:text-green-500 mb-2 text-base sm:text-lg font-medium">{entry.term}</h3>
                           <p className="text-gray-700 dark:text-gray-300 text-sm sm:text-base">
                             {renderFormattedDefinition(entry.definition)}
@@ -175,7 +185,10 @@ export function GlossaryPage() {
             </div>
 
             {/* Stats */}
-            <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-gray-200 dark:border-gray-700">
+            <div
+              className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-gray-200 dark:border-white"
+              style={separatorStyle ? { ...separatorStyle, borderTopColor: '#ffffff' } : undefined}
+            >
               <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 text-center">
                 {filteredTerms.length} / {entries.length} {t.pages.glossary.termsDisplayed.toLowerCase()}
               </p>

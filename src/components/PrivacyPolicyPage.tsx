@@ -11,7 +11,7 @@ export function PrivacyPolicyPage() {
     const emailLink = (
         <a 
             href="mailto:systemsawareness@mit.edu"
-            className="inline-flex items-center text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-all duration-200 hover:scale-110 align-middle mx-1"
+            className="inline-flex items-center text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 transition-all duration-200 hover:scale-110 align-middle mx-1"
             title="systemsawareness@mit.edu"
         >
             <Mail size={22} />

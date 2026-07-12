@@ -33,6 +33,10 @@ export const flexibleModule = {
     stepOfRocket: '🚀 Step {current} of {total}',
     percentComplete: '{pct}% complete',
     percentCompleteExclaim: '{pct}% complete!',
+    start: '🌱 Start',
+    blocks: 'Blocks',
+    of: 'of',
+    done: '🌳 Done',
   },
   navigation: {
     exploreResources: 'Explore Resources',

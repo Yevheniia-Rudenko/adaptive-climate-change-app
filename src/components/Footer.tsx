@@ -100,11 +100,15 @@ export function Footer() {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="group flex items-center gap-3 text-white hover:opacity-80 transition-colors duration-200"
+                        aria-label={link.label}
+                        title={link.label}
                       >
                         <span className="flex-shrink-0 text-white transition-colors duration-200">
                           {link.icon}
                         </span>
-                        <span className="text-sm font-medium">{link.label}</span>
+                        {link.href.startsWith('mailto:') ? null : (
+                          <span className="text-sm font-medium">{link.label}</span>
+                        )}
                       </a>
                     </li>
                   ))}
