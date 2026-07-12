@@ -22,6 +22,7 @@ import {
   AlertTriangle,
   CheckCircle,
   Monitor,
+  Mail,
   Layers
 } from 'lucide-react';
 import { TextWithGlossary } from './TextWithGlossary';
@@ -849,7 +850,14 @@ const sections: Section[] = [
               <div className="mt-10 pt-6 border-t border-gray-200 dark:border-gray-700">
                 <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
                   {t.pages.educators.footer.text1}<br />
-                  <span className="text-green-600 dark:text-green-400">{t.pages.educators.footer.email}</span>
+                  <a
+                    href={`mailto:${t.pages.educators.footer.email}`}
+                    className="inline-flex items-center justify-center text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 transition-colors"
+                    aria-label={t.pages.educators.footer.email}
+                    title={t.pages.educators.footer.email}
+                  >
+                    <Mail size={18} />
+                  </a>
                 </p>
               </div>
           </main>

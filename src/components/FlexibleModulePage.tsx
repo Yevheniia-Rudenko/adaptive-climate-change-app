@@ -440,25 +440,7 @@ export function FlexibleModulePage({
                     </div>
                   </div>
                   {/* Label row */}
-                  {moduleId === 2 ? (
-                    <div className="flex items-center justify-between gap-2 text-sm">
-                      <span className="inline-flex items-center rounded-full border border-green-200 bg-green-50 px-3 py-1 font-semibold text-green-700 dark:border-green-700/60 dark:bg-green-900/30 dark:text-green-300">
-                        {replaceValues(fm.progress.stepOf, { current: currentBlock, total: totalBlocks })}
-                      </span>
-                      <span className="inline-flex items-center rounded-full border border-green-200 bg-green-50 px-3 py-1 font-bold text-green-700 dark:border-green-700/60 dark:bg-green-900/30 dark:text-green-300">
-                        {replaceValues(fm.progress.percentComplete, { pct })}
-                      </span>
-                    </div>
-                  ) : (
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="font-semibold text-purple-600 dark:text-purple-400">
-                        {replaceValues(fm.progress.stepOfRocket, { current: currentBlock, total: totalBlocks })}
-                      </span>
-                      <span className="font-bold text-green-600 dark:text-green-400">
-                        {replaceValues(fm.progress.percentCompleteExclaim, { pct })}
-                      </span>
-                    </div>
-                  )}
+                  <div className="h-1" aria-hidden="true" />
                 </div>
               );
             })()}
