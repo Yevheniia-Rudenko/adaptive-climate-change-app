@@ -402,9 +402,8 @@ export function FlexibleModulePage({
           <div className="p-4 sm:p-6 md:p-8 lg:p-10">
             {/* Block Progress Bar — shown for all multi-block modules */}
             {isMultiBlock && (() => {
-              const pct = Math.round((currentBlock / totalBlocks) * 100);
               return (
-                <div className="mb-8 select-none">
+                <div className="mb-2 select-none">
                   {/* Dots row */}
                   <div className="flex justify-center mb-2">
                     <div className="flex items-center gap-1.5">
@@ -440,7 +439,11 @@ export function FlexibleModulePage({
                     </div>
                   </div>
                   {/* Label row */}
-                  <div className="h-1" aria-hidden="true" />
+                  <div className="flex w-full justify-center mt-1">
+                    <span style={{ color: '#2F8237', fontWeight: 700, fontSize: '0.875rem' }}>
+                      {replaceValues(fm.progress.stepOf, { current: currentBlock, total: totalBlocks })}
+                    </span>
+                  </div>
                 </div>
               );
             })()}
