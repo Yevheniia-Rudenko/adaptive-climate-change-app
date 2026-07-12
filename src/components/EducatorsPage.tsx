@@ -25,7 +25,8 @@ import {
   Layers
 } from 'lucide-react';
 import { TextWithGlossary } from './TextWithGlossary';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { useLocation, useNavigationType } from 'react-router-dom';
 
 // Section type definition
 type Section = {
@@ -127,6 +128,8 @@ function CalloutBox({
 
 export function EducatorsPage() {
   const { t } = useLanguage();
+  const location = useLocation();
+  const navigationType = useNavigationType();
   const [activeSection, setActiveSection] = useState('overview');
   const [openTocModules, setOpenTocModules] = useState<Record<number, boolean>>({
     1: true,
@@ -241,6 +244,18 @@ const sections: Section[] = [
     }));
   };
 
+  useEffect(() => {
+    if (location.pathname !== '/educators' || navigationType !== 'POP') return;
+
+    const savedScrollY = window.sessionStorage.getItem('educators-scroll-y');
+    if (savedScrollY === null) return;
+
+    const scrollY = Number(savedScrollY);
+    window.requestAnimationFrame(() => {
+      window.scrollTo({ top: Number.isFinite(scrollY) ? scrollY : 0, behavior: 'auto' });
+    });
+  }, [location.pathname, navigationType]);
+
   return (
     <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 pt-20 font-sora">
       <div className="max-w-4xl w-full">
@@ -321,6 +336,9 @@ const sections: Section[] = [
                           <li key={index} className="text-sm">
                             <Link 
                               to={`/module/${module.id}?block=${index + 1}`}
+                              onClick={() => {
+                                window.sessionStorage.setItem('educators-scroll-y', String(window.scrollY));
+                              }}
                               className="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors flex items-start gap-2"
                             >
                               <span className="text-green-600/70 dark:text-green-500/70 font-semibold min-w-[1.4rem]">{index + 1}.</span>

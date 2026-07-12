@@ -17,6 +17,18 @@ export default function Module3CarbonPriceDashboard() {
   const [error, setError] = useState<string | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
 
+  const openFullscreen = () => {
+    window.history.pushState({ ...(window.history.state ?? {}), moduleFullscreen: true }, '', window.location.href);
+    setIsExpanded(true);
+  };
+
+  const closeFullscreen = (fromPopState = false) => {
+    setIsExpanded(false);
+    if (!fromPopState && window.history.state?.moduleFullscreen) {
+      window.history.back();
+    }
+  };
+
   const [carbonPricePos, setCarbonPricePos] = useState(0);
   const [carbonPriceValue, setCarbonPriceValue] = useState(0);
   const [carbonPriceDefaultPos, setCarbonPriceDefaultPos] = useState<number | null>(null);
@@ -36,6 +48,17 @@ export default function Module3CarbonPriceDashboard() {
   const coreConfigRef = useRef<any>(null);
 
   const carbonPriceInputRef = useRef<any>(null);
+
+  useEffect(() => {
+    if (!isExpanded) return;
+
+    const handlePopState = () => closeFullscreen(true);
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [isExpanded]);
 
   const ui = (t.data.modules as any)?.module3?.components?.carbonPriceDashboard ?? {
     title: 'Make a Model: Carbon Price',
@@ -349,7 +372,7 @@ export default function Module3CarbonPriceDashboard() {
             </h2>
             <button
               type="button"
-              onClick={() => setIsExpanded((v) => !v)}
+              onClick={closeFullscreen}
               className="absolute right-4 top-4 px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
               style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
             >
@@ -363,7 +386,7 @@ export default function Module3CarbonPriceDashboard() {
             </h2>
             <button
               type="button"
-              onClick={() => setIsExpanded((v) => !v)}
+              onClick={openFullscreen}
               className="px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
               style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
             >
