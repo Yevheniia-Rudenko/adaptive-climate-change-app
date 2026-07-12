@@ -106,9 +106,7 @@ export function Footer() {
                         <span className="flex-shrink-0 text-white transition-colors duration-200">
                           {link.icon}
                         </span>
-                        {link.href.startsWith('mailto:') ? null : (
-                          <span className="text-sm font-medium">{link.label}</span>
-                        )}
+                        <span className="text-sm font-medium">{link.label}</span>
                       </a>
                     </li>
                   ))}
