@@ -27,6 +27,18 @@ export default function Module1RenewablesDashboard() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [selectedSecondaryGraphId, setSelectedSecondaryGraphId] = useState('90');
 
+  const openFullscreen = () => {
+    window.history.pushState({ ...(window.history.state ?? {}), moduleFullscreen: true }, '', window.location.href);
+    setIsExpanded(true);
+  };
+
+  const closeFullscreen = (fromPopState = false) => {
+    setIsExpanded(false);
+    if (!fromPopState && window.history.state?.moduleFullscreen) {
+      window.history.back();
+    }
+  };
+
   const [renewablesVal, setRenewablesVal] = useState(0);
   const [renewablesText, setRenewablesText] = useState('status quo');
   const [renewablesDefaultPct, setRenewablesDefaultPct] = useState<number | null>(null);
@@ -41,6 +53,17 @@ export default function Module1RenewablesDashboard() {
   const graphViewRefs = useRef<Record<string, any>>({});
   const coreConfigRef = useRef<any>(null);
   const renewablesInputRef = useRef<any>(null);
+
+  useEffect(() => {
+    if (!isExpanded) return;
+
+    const handlePopState = () => closeFullscreen(true);
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [isExpanded]);
 
   const getEnRoadsStrings = () => {
     switch (language) {
@@ -743,7 +766,7 @@ export default function Module1RenewablesDashboard() {
             <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200 text-center">{ui.dashboardTitle}</h2>
             <button
               type="button"
-              onClick={() => setIsExpanded((v) => !v)}
+              onClick={closeFullscreen}
               className="absolute right-4 top-4 px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
               style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
             >
@@ -755,7 +778,7 @@ export default function Module1RenewablesDashboard() {
             <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200">{ui.dashboardTitle}</h2>
             <button
               type="button"
-              onClick={() => setIsExpanded((v) => !v)}
+              onClick={openFullscreen}
               className="px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
               style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
             >

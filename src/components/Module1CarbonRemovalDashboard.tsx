@@ -40,6 +40,10 @@ export default function Module1CarbonRemovalDashboard() {
   const [isSection1Expanded, setIsSection1Expanded] = useState(false);
   const [isSection2Expanded, setIsSection2Expanded] = useState(false);
 
+  const pushFullscreenHistory = () => {
+    window.history.pushState({ ...(window.history.state ?? {}), moduleFullscreen: true }, '', window.location.href);
+  };
+
   const renderModelIntro = (text?: string) => {
     if (!text) return null;
 
@@ -80,6 +84,21 @@ export default function Module1CarbonRemovalDashboard() {
       </div>
     );
   };
+
+  useEffect(() => {
+    if (!isSection1Expanded && !isSection2Expanded) return;
+
+    const handlePopState = () => {
+      setIsSection1Expanded(false);
+      setIsSection2Expanded(false);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [isSection1Expanded, isSection2Expanded]);
 
   // Section 1 states
   const [section1SliderValue, setSection1SliderValue] = useState(0);
@@ -737,6 +756,7 @@ export default function Module1CarbonRemovalDashboard() {
               <button
                 type="button"
                 onClick={() => {
+                  pushFullscreenHistory();
                   setIsSection2Expanded(false);
                   setIsSection1Expanded(true);
                 }}
@@ -896,6 +916,7 @@ export default function Module1CarbonRemovalDashboard() {
               <button
                 type="button"
                 onClick={() => {
+                  pushFullscreenHistory();
                   setIsSection1Expanded(false);
                   setIsSection2Expanded(true);
                 }}
@@ -905,7 +926,12 @@ export default function Module1CarbonRemovalDashboard() {
                 {tc.openFullscreen}
               </button>
             </div>
-
+                onClick={() => {
+                  setIsSection1Expanded(false);
+                  if (window.history.state?.moduleFullscreen) {
+                    window.history.back();
+                  }
+                }}
             {/* Temperature card (match Module 2 small view) */}
             <div className="flex justify-center mb-4">
               <div className="bg-white dark:bg-gray-800 px-6 py-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-600 text-center inline-flex flex-col items-center w-fit mx-auto">
@@ -1011,7 +1037,12 @@ export default function Module1CarbonRemovalDashboard() {
                 {tc.closeFullscreen}
               </button>
             </div>
-
+                onClick={() => {
+                  setIsSection2Expanded(false);
+                  if (window.history.state?.moduleFullscreen) {
+                    window.history.back();
+                  }
+                }}
             {model1IntroText && (
               <div className="px-4 mb-4">
                 {renderModelIntro(model1IntroText)}

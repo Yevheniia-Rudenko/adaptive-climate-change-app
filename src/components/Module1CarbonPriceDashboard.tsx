@@ -167,6 +167,18 @@ export default function Module1CarbonPriceDashboard() {
   const [error, setError] = useState<string | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
 
+  const openFullscreen = () => {
+    window.history.pushState({ ...(window.history.state ?? {}), moduleFullscreen: true }, '', window.location.href);
+    setIsExpanded(true);
+  };
+
+  const closeFullscreen = (fromPopState = false) => {
+    setIsExpanded(false);
+    if (!fromPopState && window.history.state?.moduleFullscreen) {
+      window.history.back();
+    }
+  };
+
   // Carbon Price Slider state
   const [carbonPriceVal, setCarbonPriceVal] = useState(0); // 0-100 range for slider
   const [carbonPriceText, setCarbonPriceText] = useState('$0 / ton CO2');
@@ -187,6 +199,17 @@ export default function Module1CarbonPriceDashboard() {
 
   // Input ref for Carbon Price (ID 48 usually, check if fails)
   const carbonPriceInputRef = useRef<any>(null);
+
+  useEffect(() => {
+    if (!isExpanded) return;
+
+    const handlePopState = () => closeFullscreen(true);
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [isExpanded]);
 
   const getEnRoadsStrings = () => {
     switch (language) {
@@ -576,7 +599,7 @@ export default function Module1CarbonPriceDashboard() {
           <h2 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-gray-200 text-center">{ui.title}</h2>
           <button
             type="button"
-            onClick={() => setIsExpanded((v) => !v)}
+            onClick={() => closeFullscreen()}
             className="absolute right-4 top-4 px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
             style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
           >
@@ -588,7 +611,7 @@ export default function Module1CarbonPriceDashboard() {
           <h2 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-gray-200">{ui.title}</h2>
           <button
             type="button"
-            onClick={() => setIsExpanded((v) => !v)}
+            onClick={openFullscreen}
             className="px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
             style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
           >

@@ -1,15 +1,18 @@
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation, useNavigationType } from 'react-router-dom';
 import { useEffect } from 'react';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
+  const navigationType = useNavigationType();
   useEffect(() => {
+    if (navigationType !== 'PUSH') return;
+
     // Use requestAnimationFrame to ensure this runs after React's render cycle
     // and after the browser has attempted its own scroll restoration
     window.requestAnimationFrame(() => {
       window.scrollTo(0, 0);
     });
-  }, [pathname]);
+  }, [pathname, navigationType]);
   return null;
 }
 import { IntroPage } from './components/IntroPage';

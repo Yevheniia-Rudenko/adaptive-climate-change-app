@@ -254,9 +254,32 @@ export default function Module1FossilFuelTaxesDashboard() {
   const [error,      setError]      = useState<string | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
 
+  const openFullscreen = () => {
+    window.history.pushState({ ...(window.history.state ?? {}), moduleFullscreen: true }, '', window.location.href);
+    setIsExpanded(true);
+  };
+
+  const closeFullscreen = (fromPopState = false) => {
+    setIsExpanded(false);
+    if (!fromPopState && window.history.state?.moduleFullscreen) {
+      window.history.back();
+    }
+  };
+
   // ── Slider state — default 0 = En-ROADS model baseline (no additional policy) ──
   const [coalVal,  setCoalVal]  = useState(SQ_COAL);
   const [oilVal,   setOilVal]   = useState(SQ_OIL);
+
+  useEffect(() => {
+    if (!isExpanded) return;
+
+    const handlePopState = () => closeFullscreen(true);
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [isExpanded]);
   const [gasVal,   setGasVal]   = useState(SQ_GAS);
   const [coalText, setCoalText] = useState(getCoalGasLabelLocalized(SQ_COAL));
   const [oilText,  setOilText]  = useState(getOilLabelLocalized(SQ_OIL));
@@ -494,7 +517,7 @@ export default function Module1FossilFuelTaxesDashboard() {
           <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200 text-center">
             {ui.title}
           </h2>
-          <button type="button" onClick={() => setIsExpanded(v => !v)}
+          <button type="button" onClick={closeFullscreen}
             className="absolute right-4 top-4 px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
             style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#fff' }}>
             {ui.closeFullscreen}
@@ -505,7 +528,7 @@ export default function Module1FossilFuelTaxesDashboard() {
           <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-200">
             {ui.title}
           </h2>
-          <button type="button" onClick={() => setIsExpanded(v => !v)}
+          <button type="button" onClick={openFullscreen}
             className="px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
             style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#fff' }}>
             {ui.openFullscreen}

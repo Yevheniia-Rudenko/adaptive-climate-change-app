@@ -35,6 +35,18 @@ export default function Module2RemovalsDashboard() {
   const [error, setError] = useState<string | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
 
+  const openFullscreen = () => {
+    window.history.pushState({ ...(window.history.state ?? {}), moduleFullscreen: true }, '', window.location.href);
+    setIsExpanded(true);
+  };
+
+  const closeFullscreen = (fromPopState = false) => {
+    setIsExpanded(false);
+    if (!fromPopState && window.history.state?.moduleFullscreen) {
+      window.history.back();
+    }
+  };
+
   // Slider states
   const [carbonPriceVal, setCarbonPriceVal] = useState(0);
   const [carbonPriceText, setCarbonPriceText] = useState(tc.statusQuo);
@@ -59,6 +71,17 @@ export default function Module2RemovalsDashboard() {
 
   // Input refs
   const carbonPriceInputRef = useRef<any>(null);
+
+  useEffect(() => {
+    if (!isExpanded) return;
+
+    const handlePopState = () => closeFullscreen(true);
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [isExpanded]);
   const carbonPriceFinalRef = useRef<any>(null);
   const natureInputRef = useRef<any>(null); // Afforestation / nature-based removal
   const techInputRef = useRef<any>(null); // Technological removal (DACCS, etc.)
@@ -398,7 +421,7 @@ export default function Module2RemovalsDashboard() {
             </h2>
             <button
               type="button"
-              onClick={() => setIsExpanded((v) => !v)}
+              onClick={closeFullscreen}
               className="absolute right-4 top-4 px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
               style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
             >
@@ -412,7 +435,7 @@ export default function Module2RemovalsDashboard() {
             </h2>
             <button
               type="button"
-              onClick={() => setIsExpanded((v) => !v)}
+              onClick={openFullscreen}
               className="px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border hover:opacity-90"
               style={{ backgroundColor: '#53B1E8', borderColor: '#53B1E8', color: '#ffffff' }}
             >

@@ -281,15 +281,22 @@ export function IntroPage() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
             >
-              <Button
-                onClick={onStart}
-                size="lg"
-                className="w-full hover:brightness-90"
-                style={{ backgroundColor: '#7B2CBF', borderColor: '#7B2CBF', color: '#ffffff' }}
+              <motion.div
+                whileHover={{ y: -4, scale: 1.03 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: 'spring', stiffness: 650, damping: 24, mass: 0.5 }}
+                className="will-change-transform"
               >
-                <span>{t.pages.intro.startJourney}</span>
-                <ArrowRight size={20} />
-              </Button>
+                <Button
+                  onClick={onStart}
+                  size="lg"
+                  className="w-full shadow-lg transition-shadow duration-150 ease-out hover:shadow-2xl"
+                  style={{ backgroundColor: '#7B2CBF', borderColor: '#7B2CBF', color: '#ffffff' }}
+                >
+                  <span>{t.pages.intro.startJourney}</span>
+                  <ArrowRight size={20} />
+                </Button>
+              </motion.div>
             </motion.div>
           </div>
         </motion.div>
