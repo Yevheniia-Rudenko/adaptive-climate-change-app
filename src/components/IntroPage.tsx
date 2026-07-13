@@ -154,9 +154,9 @@ export function IntroPage() {
                 {t.pages.intro.introP1_3}
               </p>
             <div className="mb-6 sm:mb-8">
-              <div className="flex items-center gap-3 mb-6">
-                <BookOpen className="text-purple-600 dark:text-purple-400 flex-shrink-0" size={32} />
-                <h2 className="text-gray-900 dark:text-gray-100 text-xl sm:text-2xl md:text-3xl font-extrabold">{t.pages.intro.whatYouLearn}</h2>
+              <div className="flex items-center gap-2 mb-6">
+                <BookOpen className="text-purple-600 dark:text-purple-400 flex-shrink-0" size={20} />
+                <h2 className="text-gray-900 dark:text-gray-100 text-sm sm:text-base font-medium">{t.pages.intro.whatYouLearn}</h2>
               </div>
               <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 auto-rows-fr max-w-3xl mx-auto">
                 {moduleCards.map(({ id, label, Icon, iconImage, gradient, gradientStyle, chips, backText }, index) => (
