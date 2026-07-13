@@ -13,7 +13,7 @@ export const about = {
     title: 'Day of Climate',
     p1: 'The pK-12 Initiative\'s Day of Climate at the Massachusetts Institute of Technology (MIT) equips learners and educators with hands-on educational materials and tools to better understand climate change, its impacts, and potential solutions.',
     p2: 'Uniting the broader MIT community toward actionable, concrete solutions, the program provides elementary, middle, and high school-age learners and educators with free, high-quality, and accessible climate curriculum that can be used in and out of the classroom, year-round.',
-    button: 'Visit Day of Climate →'
+    button: 'Visit Day of Climate'
   },
   systemsAwarenessLab: {
     title: 'MIT Systems Awareness Lab',
@@ -22,20 +22,20 @@ export const about = {
     p3: 'We believe meaningful change only occurs when we address both tangible artifacts, such as formal structures and policies, and intangible mental models, including the habits of thought, feeling, and action that shape how people engage with one another across the systems of all levels.',
     p4: 'Addressing the climate crisis requires a fundamental shift in our mental models from one of consumption and extraction toward a vision of collective responsibility action for planetary flourishing.',
     p5: 'Our work explores how cultivating compassion and systems awareness can empower youth and educational communities to lead sustainable transformation in the face of global ecological and social challenges.',
-    button: 'Visit Systems Awareness Lab →'
+    button: 'Visit Systems Awareness Lab'
   },
   climateInteractive: {
     title: 'Climate Interactive',
     p1: 'At Climate Interactive, their mission is to create and share tools that drive effective and equitable action. Developed by Climate Interactive, MIT Sloan School of Management, and Ventana Systems, the En-ROADS Climate Solutions Simulator is based on best-available science and carefully compared with other major climate and energy models. En‑ROADS is free to use online and is available in more than a dozen languages, making it accessible to people all over the world. Climate Interactive offers climate simulators, learning experiences, research insights, and programs to become an En-ROADS Climate Ambassador through their facilitator training.',
     toLearnMore: 'To learn more,',
-    button: 'Visit Climate Interactive →'
+    button: 'Visit Climate Interactive'
   },
   centerForSystemsAwareness: {
     title: 'Center for Systems Awareness',
     p1: 'The vision of the Center for Systems Awareness Youth Leadership Team is to increase the capacity for compassion, systems awareness, and self-mastery by training students worldwide and to develop compassionate leaders of the future.',
     p2: 'For a decade, this team has been designing highly efficient and meaningful learning experiences in which the pursuit of knowledge, social and emotional literacy, self-agency, collaborative skills, and personal growth may be discovered and embodied using the Compassionate Systems Framework.',
     toLearnMore: 'To learn more about upcoming programs,',
-    button: 'Visit the Center for Systems Awareness →'
+    button: 'Visit the Center for Systems Awareness'
   },
   projectTeam: {
     title: 'Project Team'

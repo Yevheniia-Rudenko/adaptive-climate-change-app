@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { Button } from './ui/button';
 import { Link } from 'react-router-dom';
-import { Linkedin } from 'lucide-react';
+import { Linkedin, ArrowRight } from 'lucide-react';
 import tibyanPhoto from '../assets/team_photos/tibyan.png';
 import yevheniaPhoto from '../assets/team_photos/yevhenia.png';
 import karimPhoto from '../assets/team_photos/karim.png';
@@ -240,10 +240,10 @@ export function AboutPage() {
             <h2 className="text-2xl sm:text-3xl md:text-3xl font-bold text-green-600 mb-3">
               {t.pages.about.curriculumOverview.title}
             </h2>
-            <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed mb-4">
+            <p className="text-gray-800 dark:text-gray-200 text-sm sm:text-base leading-relaxed mb-4">
               {t.pages.about.curriculumOverview.p1}
             </p>
-            <ol className="list-decimal list-outside pl-14 sm:pl-16 text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed space-y-2">
+            <ol className="list-decimal list-outside pl-14 sm:pl-16 text-gray-800 dark:text-gray-200 text-sm sm:text-base leading-relaxed space-y-2">
               <li className="pl-2"><em>{t.pages.about.curriculumOverview.list1}</em></li>
               <li className="pl-2"><em>{t.pages.about.curriculumOverview.list2}</em></li>
               <li className="pl-2"><em>{t.pages.about.curriculumOverview.list3}</em></li>
@@ -253,7 +253,7 @@ export function AboutPage() {
           {/* SPACER */}
           <div className="h-6 sm:h-24 w-full block"></div>
 
-            <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed mb-4">
+            <p className="text-gray-800 dark:text-gray-200 text-sm sm:text-base leading-relaxed mb-4">
               {t.pages.about?.curriculumOverview?.p2?.split('[Climate Interactive]')[0] || ''}
               <a href="https://www.climateinteractive.org" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 underline">Climate Interactive</a>
               {t.pages.about?.curriculumOverview?.p2?.split('[Climate Interactive]')[1] || ''}
@@ -262,7 +262,7 @@ export function AboutPage() {
           {/* SPACER */}
           <div className="h-1 sm:h-24 w-full block"></div>
 
-            <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed mb-4">
+            <p className="text-gray-800 dark:text-gray-200 text-sm sm:text-base leading-relaxed mb-4">
               {t.pages.about.curriculumOverview.p3}
             </p>
 
@@ -274,28 +274,25 @@ export function AboutPage() {
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-green-600 mb-3">
               {t.pages.about.dayOfClimate.title}
             </h2>
-            <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
+            <p className="text-gray-800 dark:text-gray-200 text-sm sm:text-base leading-relaxed">
               {t.pages.about.dayOfClimate.p1}
             </p>
 
           {/* SPACER */}
           <div className="h-6 sm:h-24 w-full block"></div>
 
-            <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
+            <p className="text-gray-800 dark:text-gray-200 text-sm sm:text-base leading-relaxed">
               {t.pages.about.dayOfClimate.p2}
             </p>
             <div className="flex justify-start mt-6">
-              <a 
-                href="https://dayofclimate.mit.edu" 
-                target="_blank" 
+              <a
+                href="https://dayofclimate.mit.edu"
+                target="_blank"
                 rel="noopener noreferrer"
+                className="inline-flex items-center text-green-600 dark:text-green-400 font-semibold group"
               >
-                <Button 
-                  variant="outline"
-                  className="text-gray-800 dark:text-gray-200 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 text-lg sm:text-sm font-semibold px-6 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all"
-                >
-                  {t.pages.about.dayOfClimate.button}
-                </Button>
+                <span className="underline-offset-4 group-hover:underline">{t.pages.about.dayOfClimate.button}</span>
+                <ArrowRight size={16} className="ml-2 transform transition-transform group-hover:translate-x-1" />
               </a>
             </div>
           </div>
@@ -308,50 +305,47 @@ export function AboutPage() {
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-green-600 mb-3">
               {t.pages.about.systemsAwarenessLab.title}
             </h2>
-            <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
+            <p className="text-gray-800 dark:text-gray-200 text-sm sm:text-base leading-relaxed">
               {t.pages.about.systemsAwarenessLab.p1}
             </p>
             
           {/*SPACER*/}
           <div className="h-6 sm:h-24 w-full block"></div>
 
-            <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
+            <p className="text-gray-800 dark:text-gray-200 text-sm sm:text-base leading-relaxed">
               {t.pages.about.systemsAwarenessLab.p2}
             </p>
 
           {/*SPACER*/}
           <div className="h-6 sm:h-24 w-full block"></div>
           
-            <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
+            <p className="text-gray-800 dark:text-gray-200 text-sm sm:text-base leading-relaxed">
              {t.pages.about.systemsAwarenessLab.p3}
             </p>
 
           {/*SPACER*/}
           <div className="h-6 sm:h-24 w-full block"></div>
 
-            <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
+            <p className="text-gray-800 dark:text-gray-200 text-sm sm:text-base leading-relaxed">
              {t.pages.about.systemsAwarenessLab.p4}
             </p>
 
           {/*SPACER*/}
           <div className="h-6 sm:h-24 w-full block"></div>
 
-            <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
+            <p className="text-gray-800 dark:text-gray-200 text-sm sm:text-base leading-relaxed">
              {t.pages.about.systemsAwarenessLab.p5}
             </p>
 
             <div className="flex justify-start mt-6">
-              <a 
-                href="https://systemsawareness.mit.edu" 
-                target="_blank" 
+              <a
+                href="https://systemsawareness.mit.edu"
+                target="_blank"
                 rel="noopener noreferrer"
+                className="inline-flex items-center text-green-600 dark:text-green-400 font-semibold group"
               >
-                <Button 
-                  variant="outline"
-                  className="text-gray-800 dark:text-gray-200 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 text-lg sm:text-sm font-semibold px-6 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all"
-                >
-                  {t.pages.about.systemsAwarenessLab.button}
-                </Button>
+                <span className="underline-offset-4 group-hover:underline">{t.pages.about.systemsAwarenessLab.button}</span>
+                <ArrowRight size={16} className="ml-2 transform transition-transform group-hover:translate-x-1" />
               </a>
             </div>
           </div>
@@ -364,23 +358,19 @@ export function AboutPage() {
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-green-600 mb-3">
               {t.pages.about.climateInteractive.title}
             </h2>
-            <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
+            <p className="text-gray-800 dark:text-gray-200 text-sm sm:text-base leading-relaxed">
               {t.pages.about.climateInteractive.p1}
             </p>
-            <div className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed mt-4 leading-loose flex flex-wrap items-center gap-2">
+            <div className="text-gray-800 dark:text-gray-200 text-sm sm:text-base leading-relaxed mt-4 leading-loose flex flex-wrap items-center gap-2">
               <span>{t.pages.about.climateInteractive.toLearnMore}</span>
-              <a 
-                href="https://www.climateinteractive.org" 
-                target="_blank" 
+              <a
+                href="https://www.climateinteractive.org"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block align-middle"
+                className="inline-flex items-center text-green-600 dark:text-green-400 font-semibold group"
               >
-                <Button 
-                  variant="outline"
-                  className="text-gray-800 dark:text-gray-200 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm sm:text-sm font-semibold px-4 py-2 rounded-xl shadow-md hover:shadow-lg transition-all h-auto"
-                >
-                  {t.pages.about.climateInteractive.button}
-                </Button>
+                <span className="underline-offset-4 group-hover:underline">{t.pages.about.climateInteractive.button}</span>
+                <ArrowRight size={16} className="ml-2 transform transition-transform group-hover:translate-x-1" />
               </a>
             </div>
           </div>
@@ -393,27 +383,23 @@ export function AboutPage() {
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-green-600 mb-3">
               {t.pages.about.centerForSystemsAwareness.title}
             </h2>
-            <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed mb-4">
+            <p className="text-gray-800 dark:text-gray-200 text-sm sm:text-base leading-relaxed mb-4">
               {t.pages.about.centerForSystemsAwareness.p1}
             </p>
-            <p className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
+            <p className="text-gray-800 dark:text-gray-200 text-sm sm:text-base leading-relaxed">
               {t.pages.about.centerForSystemsAwareness.p2}
             </p>
 
-            <div className="text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed mt-4 leading-loose flex flex-wrap items-center gap-2">
+            <div className="text-gray-800 dark:text-gray-200 text-sm sm:text-base leading-relaxed mt-4 leading-loose flex flex-wrap items-center gap-2">
               <span>{t.pages.about.centerForSystemsAwareness.toLearnMore}</span>
-              <a 
-                href="https://systemsawareness.org" 
-                target="_blank" 
+              <a
+                href="https://systemsawareness.org"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block align-middle"
+                className="inline-flex items-center text-green-600 dark:text-green-400 font-semibold group"
               >
-                <Button 
-                  variant="outline"
-                  className="text-gray-800 dark:text-gray-200 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm sm:text-sm font-semibold px-4 py-2 rounded-xl shadow-md hover:shadow-lg transition-all h-auto"
-                >
-                  {t.pages.about.centerForSystemsAwareness.button}
-                </Button>
+                <span className="underline-offset-4 group-hover:underline">{t.pages.about.centerForSystemsAwareness.button}</span>
+                <ArrowRight size={16} className="ml-2 transform transition-transform group-hover:translate-x-1" />
               </a>
             </div>
           </div>
