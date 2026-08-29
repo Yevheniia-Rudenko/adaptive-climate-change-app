@@ -294,7 +294,7 @@ Thank you for practicing with me.
           {
             type: 'text',
             title: '**What If?**',
-            content: "We are going to look at what’s driving climate change and explore how different policies and actions could shape the future we all share.\n\nWe will begin to explore some of these primary drivers through a powerful tool called En-ROADS, an interactive climate solutions simulator made by Climate Interactive and MIT Sloan based on real scientific research.\nThink of it like a real‑life \"what if?\" simulator for the Earth's future."
+            content: "We are going to look at what’s driving climate change and explore how different policies and actions could shape the future we all share.\n\nWe will begin to explore some of these primary drivers through a powerful tool called En-ROADS, an interactive climate solutions simulator co-developed by Climate Interactive and MIT Sloan based on real scientific research.\nThink of it like a real‑life \"what if?\" simulator for the Earth's future."
           },
           {
             type: 'image',
@@ -887,7 +887,7 @@ Thank you for practicing.`
           },
           {
             type: 'poll',
-            question: '**Scenario 2. Drop Emissions**\nIf our total CO₂ emissions drop a lot and become much lower than they are today, and our CO₂ remain the same, what do you think will happen to the CO₂ concentration in the atmosphere?',
+            question: '**Scenario 2. Drop Emissions**\nIf our total CO₂ emissions drop a lot and become much lower than they are today, and our CO₂ removals remain the same, what do you think will happen to the CO₂ concentration in the atmosphere?',
             options: ['Increase', 'Level out', 'Decrease'],
             id: 'prediction-lower-emissions',
             singleSelect: true

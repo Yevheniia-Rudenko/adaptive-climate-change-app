@@ -94,7 +94,7 @@ export const resourceCategories = {
         {
           title: 'Scenario & Systems Tools',
           items: [
-            { title: 'En-ROADS Climate Simulator', description: 'Interactive climate solutions simulator by Climate Interactive.' },
+            { title: 'En-ROADS Climate Simulator', description: 'Interactive climate solutions simulator co-developed by Climate Interactive and MIT Sloan.' },
             { title: 'Systems Thinking Tools', description: 'PDF guide to systems thinking tools for climate and beyond.' },
             { title: 'FLOWER Systems Model', description: 'Interactive systems model from the iSee systems Exchange for exploring multisolving dynamics.' },
             { title: 'Climate Venn', description: 'Ayana Elizabeth Johnson\'s framework for finding your personal climate contribution at the intersection of skills, joy, and impact.' },
