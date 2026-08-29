@@ -178,7 +178,7 @@ export const resourceCategoriesData: Record<string, ResourceCategoryData> = {
         items: [
           {
             title: 'En-ROADS Climate Simulator',
-            description: 'Interactive climate solutions simulator by Climate Interactive.',
+            description: 'Interactive climate solutions simulator co-developed by Climate Interactive and MIT Sloan.',
             type: 'Tool',
             duration: 'Interactive',
             url: 'https://www.climateinteractive.org/en-roads/',

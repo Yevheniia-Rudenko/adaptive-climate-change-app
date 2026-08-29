@@ -3,7 +3,6 @@ import { Menu, X, ChevronDown } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';
-import { LanguageSwitcher } from './LanguageSwitcher';
 import { ThemeToggle } from './ThemeToggle';
 import systemsAwarenessLabLogo from '../assets/systemsAwarenessLabLogo.png';
 import systemsAwarenessLabLogoWhite from '../assets/logos/SAL_sub-brand_lockup_two-line_rgb_white.png';
@@ -167,8 +166,6 @@ export function Header() {
               {t.nav.glossary}
             </button>
 
-            {/* <LanguageSwitcher /> */}
-            <LanguageSwitcher />
             <ThemeToggle />
           </nav>
 
@@ -260,9 +257,7 @@ export function Header() {
                 {t.nav.glossary}
               </button>
 
-              {/* Language Switcher in Mobile Menu */}
               <div className="px-4 py-2 mt-2 border-t pt-4 flex items-center gap-3" style={{ borderTopColor: mobileSeparatorColor }}>
-                <LanguageSwitcher />
                 <ThemeToggle />
               </div>
             </nav>

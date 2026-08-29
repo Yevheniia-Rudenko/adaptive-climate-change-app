@@ -1,6 +1,5 @@
 import { Home } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
-import { LanguageSwitcher } from './LanguageSwitcher';
 
 type ProgressBarProps = {
   completedCount: number;
@@ -33,9 +32,6 @@ export function ProgressBar({ completedCount, percentComplete, onNavigateHome }:
             </div>
           </div>
           
-          <div className="flex-shrink-0">
-            <LanguageSwitcher />
-          </div>
         </div>
       </div>
     </div>
