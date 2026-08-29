@@ -82,7 +82,7 @@ function CalloutBox({
 }) {
   const styles = {
     tip: {
-      bg: 'bg-green-50 dark:bg-green-900/20',
+      bg: 'bg-white dark:bg-gray-800',
       border: 'border-green-200 dark:border-green-800',
       icon: <Lightbulb size={20} className="text-green-600 dark:text-green-400" />,
       titleColor: 'text-green-800 dark:text-green-300'
@@ -94,8 +94,8 @@ function CalloutBox({
       titleColor: 'text-amber-800 dark:text-amber-300'
     },
     note: {
-      bg: 'bg-blue-50 dark:bg-blue-900/20',
-      border: 'border-blue-200 dark:border-blue-800',
+      bg: 'bg-white dark:bg-gray-800',
+      border: 'border-black dark:border-gray-700',
       icon: <CheckCircle size={20} className="text-blue-600 dark:text-blue-400" />,
       titleColor: 'text-blue-800 dark:text-blue-300'
     }
@@ -604,15 +604,15 @@ const sections: Section[] = [
 
                 <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">{t.pages.educators.sections.enroads.subtitle2}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                  <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
+                  <div className="bg-white dark:bg-gray-800 border border-black dark:border-gray-700 rounded-lg p-4">
                     <h4 className="font-medium text-green-800 dark:text-green-300 mb-2">{t.pages.educators.sections.enroads.simplified.title}</h4>
-                    <ul className="text-green-700 dark:text-green-400 text-sm space-y-1">
+                    <ul className="text-black-700 dark:text-black-400 text-sm space-y-1">
                       {t.pages.educators.sections.enroads.simplified.items.map((item, i) => <li key={i}>{item}</li>)}
                     </ul>
                   </div>
-                  <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                  <div className="bg-white dark:bg-gray-800 border border-black dark:border-gray-700 rounded-lg p-4">
                     <h4 className="font-medium text-blue-800 dark:text-blue-300 mb-2">{t.pages.educators.sections.enroads.full.title}</h4>
-                    <ul className="text-blue-700 dark:text-blue-400 text-sm space-y-1">
+                    <ul className="text-black-700 dark:text-black-400 text-sm space-y-1">
                       {t.pages.educators.sections.enroads.full.items.map((item, i) => <li key={i}>{item}</li>)}
                     </ul>
                   </div>
@@ -841,6 +841,27 @@ const sections: Section[] = [
                       </div>
                     </CollapsibleSection>
                   ))}
+                </div>
+
+                <div className="mt-6 flex justify-center sm:justify-end">
+                  <a
+                    href="mailto:systemsawareness@mit.edu"
+                    className="group inline-flex items-center gap-4 rounded-2xl border border-green-200/80 dark:border-green-800 bg-white/90 dark:bg-gray-900/80 px-4 py-3 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:border-green-300 dark:hover:border-green-700"
+                    aria-label="Report a bug and contact us by email"
+                    title="Report a bug and contact us by email"
+                  >
+                    <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-green-50 text-green-600 ring-1 ring-green-100 transition-colors duration-200 group-hover:bg-green-100 dark:bg-green-900/40 dark:text-green-300 dark:ring-green-800/60 dark:group-hover:bg-green-900/60">
+                      <Mail size={20} />
+                    </span>
+                    <span className="flex flex-col items-start leading-tight">
+                      <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                        Report a bug?
+                      </span>
+                      <span className="text-xs text-gray-500 dark:text-gray-400">
+                        Contact the team
+                      </span>
+                    </span>
+                  </a>
                 </div>
               </section>
 
