@@ -1,4 +1,4 @@
-# 🌍 Adaptive Climate Change App
+#  Adaptive Climate Change App
 
 
 
@@ -9,17 +9,16 @@ An interactive educational web application designed to help learners understand 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6.3-blue.svg)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-6.0.1-purple.svg)](https://vitejs.dev/)
 
-## ✨ Features
+##  Features
 
-- **🌐 Multi-Language Support**: Available in 6+ languages
-- **🌙 Dark/Light Theme**: Seamless theme switching with system preference detection
-- **📊 EN-ROADS Integration**: Interactive climate simulation tools
-- **📚 Smart Glossary**: Contextual definitions with hover-activated explanations
-- **📱 Responsive Design**: Optimized for all screen sizes and devices
-- **🧭 Progress Tracking**: Visual indicators for learning journey
-- **👨‍🏫 Educational Resources**: Comprehensive materials for educators
+- ** Dark/Light Theme**: Seamless theme switching with system preference detection
+- ** EN-ROADS Integration**: Interactive climate simulation tools
+- ** Smart Glossary**: Contextual definitions with hover-activated explanations
+- ** Responsive Design**: Optimized for all screen sizes and devices
+- ** Progress Tracking**: Visual indicators for learning journey
+- ** Educational Resources**: Comprehensive materials for educators
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Prerequisites
 
@@ -58,7 +57,7 @@ npm run build
 npm run preview
 ```
 
-## 🏗️ Tech Stack
+##  Tech Stack
 
 - **Frontend**: React 18, TypeScript, Tailwind CSS
 - **Build Tool**: Vite 6
@@ -84,11 +83,12 @@ packages/
 └── ...
 ```
 
-## 🌍 Supported Languages
+##  Supported Languages
 
-Arabic, Bulgarian, Chinese (Simplified), Chinese (Traditional), Czech, Dutch, English, Farsi, French, German, Hebrew, Hindi, Italian, Japanese, Norwegian, Portuguese, Russian, Slovenian, Spanish, Swahili, Turkish
+For now: English
+Coming soon: Arabic, Dutch, French, German, Russian, Spanish, Turkish
 
-## 🤝 Contributing
+##  Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -100,7 +100,7 @@ Arabic, Bulgarian, Chinese (Simplified), Chinese (Traditional), Czech, Dutch, En
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - [EN-ROADS](https://en-roads.climateinteractive.org/) for climate simulation tools
 - [Climate Interactive](https://www.climateinteractive.org/) for educational resources
