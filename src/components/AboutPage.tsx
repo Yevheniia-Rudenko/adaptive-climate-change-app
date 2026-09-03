@@ -209,6 +209,12 @@ export function AboutPage() {
   };
   const teamText = teamTextMap[language] || teamTextMap['en'];
 
+  const curriculumP2 = t.pages.about?.curriculumOverview?.p2 || '';
+  const curriculumP2Parts = curriculumP2.split('[Climate Interactive]');
+  const curriculumP2Before = curriculumP2Parts[0] || '';
+  const curriculumP2After = curriculumP2Parts[1] || '';
+  const curriculumP2NeedsSpace = curriculumP2Before && !/\s$/.test(curriculumP2Before);
+
   return (
     <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 pt-20 font-sora">
       <div className="max-w-4xl w-full">
@@ -254,9 +260,16 @@ export function AboutPage() {
           <div className="h-6 sm:h-24 w-full block"></div>
 
             <p className="text-gray-800 dark:text-gray-200 text-sm sm:text-base leading-relaxed mb-4">
-              {t.pages.about?.curriculumOverview?.p2?.split('[Climate Interactive]')[0] || ''}
-              <a href="https://www.climateinteractive.org" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 underline">Climate Interactive</a>
-              {t.pages.about?.curriculumOverview?.p2?.split('[Climate Interactive]')[1] || ''}
+              {curriculumP2.includes('[Climate Interactive]') ? (
+                <>
+                  {curriculumP2Before}
+                  {curriculumP2NeedsSpace ? ' ' : ''}
+                  <span className="text-gray-800 dark:text-gray-200">Climate Interactive</span>
+                  {curriculumP2After}
+                </>
+              ) : (
+                curriculumP2
+              )}
             </p>
 
           {/* SPACER */}
